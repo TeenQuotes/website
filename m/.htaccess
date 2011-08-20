@@ -1,0 +1,34 @@
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^teen-quotes.com [NC]
+RewriteRule (.*) http://www.teen-quotes.com/$1 [QSA,R=301,L]
+RewriteRule ^user-([0-9]+)$ /user.php?id_user=$1 [L,QSA]
+RewriteRule ^quote-([0-9]+)$ /quote.php?id_quote=$1 [L,QSA]
+RewriteRule ^([a-z]+)$ /$1.php [L,QSA]
+RewriteRule ^([a-z]+)$.php /$1.php [L,QSA]
+
+ErrorDocument 404 /error.php?erreur=404
+ErrorDocument 403 /error.php?erreur=403
+ErrorDocument 500 /error.php?erreur=500
+
+
+# BEGIN Cache-Control Headers
+<IfModule mod_headers.c>
+ <FilesMatch "\\.(ico|jpe?g|png|gif|swf|gz|ttf)$">
+ Header set Cache-Control "max-age=2592000, public"
+ </FilesMatch>
+ <FilesMatch "\\.(css)$">
+ Header set Cache-Control "max-age=2592000, public"
+ </FilesMatch>
+ <FilesMatch "\\.(js)$">
+ Header set Cache-Control "max-age=2592000, private"
+ </FilesMatch>
+<filesMatch "\\.(html|htm)$">
+Header set Cache-Control "max-age=7200, public"
+</filesMatch>
+# Disable caching for scripts and other dynamic files
+<FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
+Header unset Cache-Control
+</FilesMatch>
+</IfModule>
+# END Cache-Control Headers
+ 

@@ -1,0 +1,15 @@
+body{background:#85befc url('../images/background.jpg') fixed top repeat-x;color:#08c0ff;font-family:Helvetica;font-size:12px;line-height:20px;list-style:inside;margin:0}
+a img{border:none}
+a{color:#064b74;text-decoration:none}
+#header a{background:#FFF url('../images/top_email.png') fixed center top;background-repeat:no-repeat;border-bottom:5px solid #e9e9e9;display:block;height:130px;width:960px;margin:0 auto;}
+.texte{background:#f5f5f5;border:1px solid #e5e5e5;margin-bottom:80px;margin-top:2px;padding:15px 30px}
+#content{background:#FFF;-border:1px solid #ccc;color:#555;font-weight:400;margin:0 auto;padding:30px;width:790px;-webkit-border-bottom-right-radius: 20px;-webkit-border-bottom-left-radius: 20px;-moz-border-radius-bottomright: 20px;-moz-border-radius-bottomleft: 20px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;}
+.right{float:right}
+.icone{border:none;float:right;height:24px;margin-top:-5px;vertical-align:bottom;width:24px}
+#footer{color:#777;margin:30px auto 25px;text-align:center}
+span{color:#FFF;font-weight:700}
+span.bleu,h3{color:#046c9f;font-weight:700;padding:3px}
+h4{color:#1877d5;padding-left:20px;font-weight:700;text-decoration:italic}
+.titre{color:#5C9FC0;display:block;font-size:180%;text-transform:uppercase}
+li{list-style:square inside;margin-bottom:8px}
+a:hover{text-decoration:underline}

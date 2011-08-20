@@ -1,0 +1,37 @@
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^teen-quotes.com [NC]
+RewriteRule (.*) http://www.teen-quotes.com/$1 [QSA,R=301,L]
+RewriteRule ^user-([0-9]+)$ /include.php?page=user&id_user=$1 [L,QSA]
+RewriteRule ^quote-([0-9]+)$ /include.php?page=quote&id_quote=$1 [L,QSA]
+RewriteRule ^members-([A-Z]+)$ /include.php?page=members&letter=$1 [L,QSA]
+RewriteRule ^favorite-([0-9]+)$ /include.php?page=favorite&id_quote=$1 [L,QSA]
+RewriteRule ^unfavorite-([0-9]+)$ /include.php?page=unfavorite&id_quote=$1 [L,QSA]
+RewriteRule ^([a-z]+)$ /include.php?page=$1 [L,QSA]
+
+
+ErrorDocument 404 http://www.teen-quotes.com/error.php?erreur=404
+ErrorDocument 403 http://www.teen-quotes.com/error.php?erreur=403
+ErrorDocument 500 http://www.teen-quotes.com/error.php?erreur=500
+
+
+# BEGIN Cache-Control Headers
+<IfModule mod_headers.c>
+ <FilesMatch "\\.(ico|jpe?g|png|gif|swf|gz|ttf)$">
+ Header set Cache-Control "max-age=2592000, public"
+ </FilesMatch>
+ <FilesMatch "\\.(css)$">
+ Header set Cache-Control "max-age=2592000, public"
+ </FilesMatch>
+ <FilesMatch "\\.(js)$">
+ Header set Cache-Control "max-age=2592000, private"
+ </FilesMatch>
+<filesMatch "\\.(html|htm)$">
+Header set Cache-Control "max-age=7200, public"
+</filesMatch>
+# Disable caching for scripts and other dynamic files
+<FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
+Header unset Cache-Control
+</FilesMatch>
+</IfModule>
+# END Cache-Control Headers
+ 

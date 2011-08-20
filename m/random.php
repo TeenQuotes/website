@@ -1,0 +1,65 @@
+<?php include "header.php"; ?>
+
+<?php 
+// CALCUL DU NOMBRE DE PAGES
+
+$retour = mysql_query("SELECT COUNT(*) AS nb_messages FROM teen_quotes_quotes WHERE approved='1'");
+
+$i = '0';
+
+$donnees = mysql_fetch_array($retour);
+$totalDesMessages = $donnees['nb_messages'];
+
+$nombreDeMessagesParPage = 20; 
+$nombreDePages  = ceil($totalDesMessages / $nombreDeMessagesParPage);
+if (isset($_GET['p']))
+{
+        $page = mysql_real_escape_string($_GET['p']);
+}
+else 
+{
+        $page = 1; 
+}
+
+if ($page > $nombreDePages) {$page=$page -1;}
+
+$page2 = $page + 1;
+$page3 = $page - 1;
+if ($page > 1){echo "<span class=\"page\"><a href=\"?p=$page3\">$previous_page</a> ||  ";}
+if ($page == 1){ echo"<span class=\"page\">";}   echo " <a href=\"?p=$page2\">$next_page</a></span><br>";
+
+
+$premierMessageAafficher = ($page - 1) * $nombreDeMessagesParPage;
+
+$reponse = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved='1' ORDER BY RAND() LIMIT $premierMessageAafficher ,  $nombreDeMessagesParPage");
+while ($result = mysql_fetch_array($reponse))
+{
+?>
+<?php 
+$id_quote = $result['id'];
+$nombre_commentaires= mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='$id_quote'")); ?>
+		<div class="post">
+		<?php echo $result['texte_english']; ?><br>
+		<span class="min_info"><a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?> - <?php if($nombre_commentaires >'1'){echo "$nombre_commentaires $comments";}elseif($nombre_commentaires=='1'){echo "$nombre_commentaires $comment";}else{echo"$no_comments";} ?></a><span class="right"><?php echo $by; ?> <a href="user-<?php echo $result['auteur_id']; ?>" title="<?php echo $view_his_profile; ?>"><?php echo $result['auteur']; ?></a> <?php echo $on; ?> <?php echo $result['date']; ?></span></span>
+		</div>
+<?php 
+	if ($i=='9')
+		{
+		echo "<div class=\"pub_middle\"><script type=\"text/javascript\"><!--
+		  // XHTML should not attempt to parse these strings, declare them CDATA.
+		  /* <![CDATA[ */
+		  window.googleAfmcRequest = {
+			client: 'ca-mb-pub-8130906994953193',
+			format: '320x50_mb',
+			output: 'html',
+			slotname: '3053932429',
+		  };
+		  /* ]]> */
+		//--></script>
+		<script type=\"text/javascript\"    src=\"http://pagead2.googlesyndication.com/pagead/show_afmc_ads.js\"></script></div>";
+		}
+$i++;
+} 
+if ($page > 1){echo "<span class=\"page\" ><a href=\"?p=$page3\">$previous_page</a> ||  ";}
+if ($page == 1){ echo"<span class=\"page\">";}   echo " <a href=\"?p=$page2\">$next_page</a></span><br>";
+ include "footer.php"; ?>

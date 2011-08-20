@@ -1,0 +1,53 @@
+body{background:#a1cfff;color:#999;font-family:Helvetica Neue, Helvetica, Arial, sans-serif;}
+b{font-weight:600;}
+a img{border:none;}
+h2,#wrapper h3{font-size:100%;}
+a .fb_share{margin-right:20px;margin-top:-5px;}
+.post li{list-style:square inside;margin-bottom:5px;margin-left:25px;}
+.mini_user_avatar{border:1px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px;}
+.user_avatar{border:2px solid #5C9FC0;float:left;height:40px;margin-right:10px;margin-top:10px;width:40px;}
+.icone{border:none;height:15px;margin-right:5px;vertical-align:middle;width:15px;}
+.mini_icone{border:none;height:12px;margin-right:10px;vertical-align:top;width:12px;}
+.alerte{height:16px;margin-right:15px;vertical-align:middle;width:16px;}
+.icone_login{border:none;height:16px;margin-right:10px;vertical-align:top;width:16px;}
+.right{float:right;}
+.colonne-gauche{float:left;text-align:right;vertical-align:middle;width:250px;}
+.colonne-milieu{float:left;padding-left:10px;text-align:left;vertical-align:middle;width:250px;}
+.colonne-droite{float:left;text-align:left;vertical-align:middle;width:250px;}
+.bleu{color:#5C9FC0;font-weight:700;}
+#topbar{-moz-border-radius:8px;-webkit-border-radius:8px;background:#fff;border-radius:8px;font-size:85%;text-align:left;margin:0 auto;padding:10px;}
+#topbar .title{margin-top:-10px;}
+#topbar .title a{color:#424545;text-decoration:none;}
+#topbar .title a:hover{color:#5C9FC0;}
+#topbar .title h3,#topbar .title h6{color:#424545;font-family:"Lucida Grande","Lucida Sans Unicode",Verdana,Arial,sans-serif;margin:0;}
+#content{margin:0 auto;}
+.page{color:#FFF;float:right;font-size:60%;margin-right:10px;}
+#wrapper{margin-top:15px;}
+#wrapper h1,#wrapper h2{border-bottom:1px solid #5C9FC0;color:#246;margin-left:5px;padding-bottom:3px;font-family:Helvetica;text-shadow: 2px 2px 1px #ccc}
+#wrapper h3{color:#246;margin-bottom:8px;margin-left:20px;font-family:Helvetica;}
+h1,h2,h3 {letter-spacing:-1px}
+.min_info{font-size:75%;}
+.post{-moz-border-radius:8px;-moz-box-shadow:0 1px 2px #666;-webkit-border-radius:8px;-webkit-box-shadow:0 1px 2px #666;background:#fff;border-radius:8px;box-shadow:0 1px 2px #666;color:#666;font-size:12px;font-weight:300;line-height:20px;width:95%;margin:0 auto 15px;padding:5px 10px;}
+#wrapper a,.post a,#footer a{color:#5C9FC0;font-weight:700;text-decoration:none;}
+.post a:hover,#footer a:hover{text-decoration:underline;}
+.post a.boutton{-moz-border-radius:10px;-webkit-border-radius:10px;background:#246;border-radius:10px;color:#fff;font-size:14px;font-weight:400;padding:5px 12px;}
+.post a.boutton:hover{-webkit-box-shadow:0 0 3px #5C9FC0, 0 0 6px #5C9FC0;text-decoration:none;}
+.post .title{border-bottom:1px solid #5C9FC0;color:#424545;font-size:110%;font-weight:600;margin-bottom:15px;}
+.pub {margin-left:-8px;margin-bottom:-8px;width:100%;padding:0px}
+.pub_header {margin-left:-8px;margin-bottom:8px;width:100%;padding:0px}
+.pub_middle {margin-left:-8px;margin-bottom:18px;width:100%;padding:0px}
+.bandeau_erreur {margin:0 auto 5px;padding:10px 20px;background:#fff9d7;border:1px solid #e2c822;color:#333;font-family:Helvetica;font-size:11px}
+.clear{clear:both;}
+input,textarea{background:#FFF;border:1px solid #ccc;color:#246;font-family:Helvetica Neue, Helvetica, Arial, sans-serif;outline:none;padding:2px;}
+input .edit_user,select .edit_user{width:180px;}
+input:hover,textarea:hover,input:focus,textarea:focus{border:1px solid #5C9FC0;}
+input.submit{-moz-border-radius:8px;-webkit-border-radius:8px;background:#5C9FC0;border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:400;padding:5px;}
+input.signup{width:230px;}
+#footer{-moz-border-radius:8px;-webkit-border-radius:8px;background:#fff;border-radius:8px;font-size:70%;margin:10px auto;padding:10px;}
+#footer a{font-weight:400;}
+.error{color:#246;display:block;font-weight:700;margin:10px auto 15px auto;vertical-align:middle}
+.erreur{background:transparent url('http://www.teen-quotes.com/images/icones/alert.png') no-repeat 2% 50%;color:#5C9FC0;font-weight:600;padding-left:30px;}
+#wrapper span.page a{color:#FFF;}
+ul.menu{text-align:center;font-size:11px;line-height:1.3em;margin-top:-10px;padding:2px 6px 0;}
+ul.menu li{float:left;list-style:none;margin:4px;}
+ul.menu li a{color:#FFF !important;-webkit-box-shadow:0 1px 2px #666;-moz-box-shadow:0 1px 2px #666;box-shadow:0 1px 2px #666;background:#4e94f4;-moz-border-radius:3px;-webkit-border-radius:3px;font-weight:400 !important;padding:2px 4px;}
