@@ -4,6 +4,8 @@ RewriteRule (.*) http://www.teen-quotes.com/$1 [QSA,R=301,L]
 RewriteRule ^user-([0-9]+)$ /user.php?id_user=$1 [L,QSA]
 RewriteRule ^quote-([0-9]+)$ /quote.php?id_quote=$1 [L,QSA]
 RewriteRule ^([a-z]+)$ /$1.php [L,QSA]
+RewriteRule ^favorite-([0-9]+)$ /favorite.php?id_quote=$1 [L,QSA]
+RewriteRule ^unfavorite-([0-9]+)$ /unfavorite.php?id_quote=$1 [L,QSA]
 RewriteRule ^([a-z]+)$.php /$1.php [L,QSA]
 
 ErrorDocument 404 /error.php?erreur=404

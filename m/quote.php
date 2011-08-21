@@ -50,8 +50,8 @@ $result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_quotes where 
 			}
 			// NO COMMENTS
 			else {?>
-		<div class="post">
-		<span class="right"><?php echo $no_comments; ?></span><br>
+		<div class="bandeau_erreur">
+		<?php echo $no_comments; ?>
 		</div>
 		<?php } ?>
 		

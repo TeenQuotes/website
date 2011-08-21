@@ -89,15 +89,20 @@ echo"<meta name=\"description\" content=\"Teen Quotes : because our lives are fi
 		<meta name="Distribution" content="Global"/> 
 		<meta name="Audience" content="General"/> 
 		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;"/> 
-	<meta http-equiv="cache-control" content="no-cache"/> 
-	<meta name="format-detection" content="telephone=no" /> 
-	<meta name="robots" content="noindex" /> 
-<meta http-equiv="Content-Language" content="fr,en" /> 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-<link type="text/css" rel="stylesheet" media="screen" href="style.css" /> 
-<link rel="shortcut icon" type="image/x-icon" href="http://www.teen-quotes.com/images/favicon.gif" /> 
-<link rel="image_src" href="http://www.teen-quotes.com/images/icon50.png" /> 
-<meta property="og:image" content="http://www.teen-quotes.com/images/icon50.png" /> 
+		<meta http-equiv="cache-control" content="no-cache"/> 
+		<meta name="format-detection" content="telephone=no" /> 
+		<meta name="robots" content="noindex" /> 
+		<meta http-equiv="Content-Language" content="fr,en" /> 
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+		<link type="text/css" rel="stylesheet" media="screen" href="style.css" />
+		
+		<link rel="shortcut icon" type="image/x-icon" href="http://www.teen-quotes.com/images/favicon.gif" /> 
+		<link rel="image_src" href="http://www.teen-quotes.com/images/icon50.png" /> 
+		<meta property="og:image" content="http://www.teen-quotes.com/images/icon50.png" />
+		
+		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+		<script type="text/javascript" src="http://teen-quotes.com/ajax.js"></script>
+		
 		<script type="text/javascript">
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', 'UA-12045924-10']);

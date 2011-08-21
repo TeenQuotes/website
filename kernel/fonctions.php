@@ -188,6 +188,17 @@ if ($logged==true && $is_favorite=='0')
 	}
 }
 
+function afficher_favori_m ($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite) {
+if ($logged==true && $is_favorite=='0') 
+	{
+	echo '<span class="favorite"><a href="favorite-'.$id_quote.'" title="'.$add_favorite.'"><img src="http://www.teen-quotes.com/images/icones/heart.png" /></a></span>';
+	}
+	elseif($logged==true && $is_favorite=='1')
+	{
+	echo '<span class="favorite"><a href="unfavorite-'.$id_quote.'" title="'.$unfavorite.'"><img src="http://www.teen-quotes.com/images/icones/broken_heart.gif" /></a></span>';
+	}
+}
+
 function share_fb_twitter ($id_quote,$txt_quote,$share) {
 $txt_tweet=cut_tweet($txt_quote);
 echo '<div class="share_fb_twitter"><a name="fb_share" type="button" href="http://www.facebook.com/sharer.php" share_url="http://www.teen-quotes.com/quote-'.$id_quote.'">'.$share.'</a><span class="right"><a href="http://twitter.com/share?url=http://www.teen-quotes.com/quote-'.$id_quote.'&text='.$txt_tweet.'" class="twitter-share-button" data-count="none">Tweet</a></span><br></div>';
@@ -195,6 +206,10 @@ echo '<div class="share_fb_twitter"><a name="fb_share" type="button" href="http:
 
 function date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile) {
 echo '<span class="right">'.$by.'<a href="user-'.$auteur_id.'" title="'.$view_his_profile.'"> '.$auteur.' </a>'.$on.' '.$date_quote.'</span><br><br />';
+}
+
+function date_et_auteur_m ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile) {
+echo '<span class="right">'.$by.'<a href="user-'.$auteur_id.'" title="'.$view_his_profile.'"> '.$auteur.' </a>'.$on.' '.$date_quote.'</span><br>';
 }
 
 function is_quote_exist ($txt_quote) {
