@@ -100,9 +100,6 @@ echo"<meta name=\"description\" content=\"Teen Quotes : because our lives are fi
 		<link rel="image_src" href="http://www.teen-quotes.com/images/icon50.png" /> 
 		<meta property="og:image" content="http://www.teen-quotes.com/images/icon50.png" />
 		
-		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
-		<script type="text/javascript" src="http://teen-quotes.com/ajax.js"></script>
-		
 		<script type="text/javascript">
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', 'UA-12045924-10']);
