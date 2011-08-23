@@ -139,7 +139,7 @@ $time_start = microtime_float();
 
 
 function MailRandomQuote($nombre) {
-$query=mysql_query('SELECT id, texte_english,date,auteur,auteur_id FROM teen_quotes_quotes ORDER BY RAND() LIMIT '.$nombre.'');
+$query=mysql_query('SELECT id, texte_english,date,auteur,auteur_id FROM teen_quotes_quotes WHERE approved=1 ORDER BY RAND() LIMIT '.$nombre.'');
 	
 	while($donnees=mysql_fetch_array($query)) {
 	$txt_quote=$donnees['texte_english'];
