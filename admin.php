@@ -16,6 +16,15 @@ elseif (empty($action) && $_SESSION['security_level'] >='2')
 			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
 		</form>
 	</div>
+	
+	<div class="post">
+		<h1><img src="http://teen-quotes.com/images/icones/profil.png" class="icone" />Edit an existing quote</h1>
+		<form action="?action=edit_existing_quote" method="post">
+			<div class="colonne-gauche">Enter the ID of the quote</div><div class="colonne-milieu"><input name="id_quote" type="text" /></div>
+			<br />
+			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+		</form>
+	</div>
 
 	<div class="post">
 		<h1><img src="http://www.teen-quotes.com/images/icones/test.png" class="icone" />Approve Quotes</h1>
@@ -168,10 +177,10 @@ elseif ($action=="edit")
 		
 	}
 elseif ($action=="edit_quote") 
-	{ ?>
+	{
+	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit a quote</h1>
-<?php
+	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit a quote</h1>';
 	$id_quote=$_POST['id_quote'];
 	$texte_quote=$_POST['texte_quote'];
 
@@ -184,7 +193,65 @@ elseif ($action=="edit_quote")
 		echo '<meta http-equiv="refresh" content="1;url=admin.php?action=rate&id='.$id_quote.'&approve=yes&auteur='.$id_auteur.'&edit=yes" />';
 		}
 		
-	} 
+	}
+elseif ($action=="edit_existing_quote")
+	{
+	echo '
+	<div class="post">
+	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit an existing quote</h1>';
+	$id_quote=$_POST['id_quote'];
+	$exist = mysql_num_rows(mysql_query("SELECT texte_english FROM teen_quotes_quotes WHERE id='$id_quote'"));
+	if ($exist == '1')
+		{
+		$result = mysql_fetch_array(mysql_query("SELECT texte_english, auteur, auteur_id, date FROM teen_quotes_quotes WHERE id = '$id_quote' AND approved = '1'"));
+		
+		$txt_quote = $result['texte_english'];
+		$auteur_id = $result['auteur_id'];
+		$auteur = $result['auteur']; 
+		$date = $result['date'];
+		
+		echo 'The original one :';
+		echo '<div class="grey_post">';
+		echo ''.$txt_quote.'<br><br /><a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span>';
+		echo '</div>';
+		
+		echo '
+		Enter the new quote :<br>
+		<br />
+		<form action="?action=edit_existing_quote_valide" method="post">
+		<input type="hidden" name="id_quote" value="'.$id_quote.'" />
+		<textarea name="texte_quote" style="height:50px;width:680px;">'.$txt_quote.'</textarea>
+			<br /><br />
+			<div class="clear"></div>
+			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+		</form>';
+		}
+	else
+		{
+		echo '<h2>'.$error.'</h2> That quote doesn\'t exist ! '.$lien_retour.'';
+		}
+	}
+elseif ($action=="edit_existing_quote_valide")
+	{
+	echo '
+	<div class="post">
+	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit an existing quote</h1>';
+	$id_quote=$_POST['id_quote'];
+	$texte_quote= htmlspecialchars(mysql_escape_string($_POST['texte_quote']));
+	$texte_quote=stripslashes($texte_quote);
+	
+	$query = mysql_query("UPDATE teen_quotes_quotes SET texte_english='$texte_quote' WHERE id='$id_quote'");
+	
+	if ($query)
+		{
+		echo ''.$succes.' Your quote has been edited !';
+		echo '<meta http-equiv="refresh" content="2;url=admin" />';
+		}
+	else 
+		{
+		echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+		}
+	}
 
 echo '</div>';
 include "footer.php"; ?>
