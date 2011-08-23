@@ -210,7 +210,7 @@ elseif ($action=="edit_existing_quote")
 	<div class="post">
 	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit an existing quote</h1>';
 	$id_quote=$_POST['id_quote'];
-	$exist = mysql_num_rows(mysql_query("SELECT texte_english FROM teen_quotes_quotes WHERE id='$id_quote' AND approved='0'"));
+	$exist = mysql_num_rows(mysql_query("SELECT texte_english FROM teen_quotes_quotes WHERE id='$id_quote' AND approved='1'"));
 	if ($exist == '1')
 		{
 		$result = mysql_fetch_array(mysql_query("SELECT texte_english, auteur, auteur_id, date FROM teen_quotes_quotes WHERE id = '$id_quote' AND approved = '1'"));
