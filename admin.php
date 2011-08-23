@@ -32,21 +32,28 @@ elseif (empty($action) && $_SESSION['security_level'] >='2')
 	<?php 
 	$query = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved='0' ORDER BY id ASC");
 	while ($result=mysql_fetch_array($query)) 
-		{ ?>
-		<div class="post">
-			<?php echo $result['texte_english']; ?><br><br />
-			<a href="admin.php?action=rate&id=<?php echo $result['id'];?>&approve=yes&auteur=<?php echo $result['auteur_id']; ?>"><img src="http://www.teen-quotes.com/images/icones/succes.png" class="mini_icone" /></a>
-			<a href="admin.php?action=edit&id=<?php echo $result['id'];?>"><img src="http://www.teen-quotes.com/images/icones/profil.png" class="mini_icone" /></a>
-			<a href="admin.php?action=rate&id=<?php echo $result['id'];?>&approve=no&auteur=<?php echo $result['auteur_id']; ?>"><img src="http://www.teen-quotes.com/images/icones/delete.png" class="mini_icone" /></a><span class="right"><?php echo $by; ?> <a href="user-<?php echo $result['auteur_id']; ?>" title="View his profile"><?php echo $result['auteur']; ?></a> <?php echo $on; ?> <?php echo $result['date']; ?></span><br><br />
-		</div>
-<?php
+		{
+		$txt_quote = $result['texte_english'];
+		$auteur_id = $result['auteur_id'];
+		$auteur = $result['auteur']; 
+		$date = $result['date'];
+		$id_quote = $result ['id'];
+		
+		echo '
+		<div class="grey_post">
+			'.$txt_quote.'<br><br />
+			<a href="admin.php?action=rate&id='.$id_quote.'&approve=yes&auteur='.$auteur_id.'"><img src="http://www.teen-quotes.com/images/icones/succes.png" class="mini_icone" /></a>
+			<a href="admin.php?action=edit&id='.$id_quote.'"><img src="http://www.teen-quotes.com/images/icones/profil.png" class="mini_icone" /></a>
+			<a href="admin.php?action=rate&id='.$id_quote.'&approve=no&auteur='.$auteur_id.'"><img src="http://www.teen-quotes.com/images/icones/delete.png" class="mini_icone" /></a><span class="right">'.$by.' <a href="user-'.$auteur_id.'" title="View his profile">'.$auteur.'</a> '.$on.' '.$date.'</span><br><br />
+		</div>';
 		} 
 	}
 elseif ($action=="add_quote") 
-	{ ?>
+	{
+	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/add.png" class="icone" />Add a quote</h1>
-<?php
+	<h1><img src="http://www.teen-quotes.com/images/icones/add.png" class="icone" />Add a quote</h1>';
+	
 	$texte_quote= htmlspecialchars(mysql_escape_string($_POST['texte_quote']));
 	$date = date("d/m/Y");
 	$texte_quote=stripslashes($texte_quote);
@@ -71,10 +78,11 @@ elseif ($action=="add_quote")
 									
 	}
 elseif ($action=="rate") 
-	{ ?>
+	{
+	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/test.png" class="icone" />Approve Quotes</h1>
-<?php
+	<h1><img src="http://www.teen-quotes.com/images/icones/test.png" class="icone" />Approve Quotes</h1>';
+
 	$id_quote=$_GET['id'];
 	$approve=$_GET['approve'];
 	$auteur_id=$_GET['auteur'];
@@ -131,10 +139,11 @@ elseif ($action=="rate")
 						
 	}
 elseif ($action=="delete_comment") 
-	{ ?>
+	{ 
+	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/delete.png" class="icone" />Delete a comment</h1>
-<?php
+	<h1><img src="http://www.teen-quotes.com/images/icones/delete.png" class="icone" />Delete a comment</h1>';
+	
 	$id_comment=$_GET['id'];
 
 	$donnees=mysql_fetch_array(mysql_query("SELECT auteur, auteur_id, texte FROM teen_quotes_comments WHERE id='$id_comment'"));
@@ -157,10 +166,11 @@ elseif ($action=="delete_comment")
 		}			
 	}
 elseif ($action=="edit") 
-	{ ?>
+	{
+	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit a quote</h1>
-<?php
+	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit a quote</h1>';
+	
 	$id_quote=$_GET['id'];
 
 	$query_texte_quote=mysql_fetch_array(mysql_query("SELECT texte_english FROM teen_quotes_quotes WHERE id='$id_quote'"));
@@ -200,7 +210,7 @@ elseif ($action=="edit_existing_quote")
 	<div class="post">
 	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit an existing quote</h1>';
 	$id_quote=$_POST['id_quote'];
-	$exist = mysql_num_rows(mysql_query("SELECT texte_english FROM teen_quotes_quotes WHERE id='$id_quote'"));
+	$exist = mysql_num_rows(mysql_query("SELECT texte_english FROM teen_quotes_quotes WHERE id='$id_quote' AND approved='1'"));
 	if ($exist == '1')
 		{
 		$result = mysql_fetch_array(mysql_query("SELECT texte_english, auteur, auteur_id, date FROM teen_quotes_quotes WHERE id = '$id_quote' AND approved = '1'"));
