@@ -72,8 +72,10 @@ if (empty($id_quote))
 		  { ?>
 		  <span class="erreur"><?php echo $must_be_log; ?></span><br>
 	<?php }
-	
-	echo '</div>';
+	if ($nombre_commentaires =='0')
+		{
+		echo '</div>';
+		}
 		
 		
 	if ($nombre_commentaires >='1')
@@ -84,11 +86,12 @@ if (empty($id_quote))
 		$query_avatar= mysql_fetch_array(mysql_query("SELECT avatar FROM teen_quotes_account where id='$id_auteur'"));
 		$avatar=$query_avatar['avatar'];?>
 		
-		<div class="post">
+		<div class="grey_post">
 		<?php echo stripslashes($donnees['texte']); ?><br><br />
 		<a href="user-<?php echo $donnees['auteur_id']; ?>" title="<?php echo $view_his_profile; ?>"><img src="http://www.teen-quotes.com/images/avatar/<?php echo $avatar; ?>" class="mini_user_avatar" /></a><?php if ($_SESSION['security_level'] >='2'){?> <a href="admin.php?action=delete_comment&id=<?php echo $donnees['id']; ?>"> <img src="http://www.teen-quotes.com/images/icones/delete.png" class="mini_icone" /></a><?php } ?><span class="right"><?php echo $by; ?> <a href="user-<?php echo $donnees['auteur_id']; ?>" title="<?php echo $view_his_profile; ?>"><?php echo $donnees['auteur']; ?></a> <?php echo $on; ?> <?php echo $donnees['date']; ?></span><br>
 		</div>
 		<?php }
+		echo '</div>';
 		}
 		// NO COMMENTS
 		else 
