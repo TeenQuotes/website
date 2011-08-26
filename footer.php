@@ -44,17 +44,24 @@
 					<?php if($language=='french'){?>&raquo; <a href="http://www.teen-quotes.com/project/">Présentation du projet</a><?php } ?></p>
 				</div>
 				
-				<div class="pub_footer">
-				<script type="text/javascript"><!--
-				google_ad_client = "ca-pub-8130906994953193";
-				/* Annonce menu */
-				google_ad_slot = "3852684135";
-				google_ad_width = 120;
-				google_ad_height = 600;
-				//-->
-				</script>
-				<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-				</div>
+				<?php 
+				if ($show_pub == '1')
+					{
+					echo
+					'
+					<div class="pub_footer">
+					<script type="text/javascript"><!--
+					google_ad_client = "ca-pub-8130906994953193";
+					/* Annonce menu */
+					google_ad_slot = "3852684135";
+					google_ad_width = 120;
+					google_ad_height = 600;
+					//-->
+					</script>
+					<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+					</div>';
+					}
+				?>
 				
 			</div><!-- END RIGHT -->
 			

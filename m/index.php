@@ -50,7 +50,7 @@ $is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WH
 		</div>
 		</div>
 <?php 
-	if ($i=='9')
+	if ($i=='9' && $show_pub == '1')
 		{
 		echo "<div class=\"pub_middle\"><script type=\"text/javascript\"><!--
 		  // XHTML should not attempt to parse these strings, declare them CDATA.

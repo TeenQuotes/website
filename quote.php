@@ -36,26 +36,32 @@ if (empty($id_quote))
 	<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
 	</div>
 	
-	<div class="pub">
-	<script type="text/javascript"><!--
-	google_ad_client = "ca-pub-8130906994953193";
-	/* Page quote */
-	google_ad_slot = "8219438641";
-	google_ad_width = 468;
-	google_ad_height = 60;
-	//-->
-	</script>
-	<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-	<script type="text/javascript"><!--
-	google_ad_client = "ca-pub-8130906994953193";
-	/* Page quote 2 */
-	google_ad_slot = "4669557053";
-	google_ad_width = 234;
-	google_ad_height = 60;
-	//-->
-	</script>
-	<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-	</div>
+	<?php
+	if ($show_pub == '1')
+		{
+		echo '
+		<div class="pub">
+		<script type="text/javascript"><!--
+		google_ad_client = "ca-pub-8130906994953193";
+		/* Page quote */
+		google_ad_slot = "8219438641";
+		google_ad_width = 468;
+		google_ad_height = 60;
+		//-->
+		</script>
+		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+		<script type="text/javascript"><!--
+		google_ad_client = "ca-pub-8130906994953193";
+		/* Page quote 2 */
+		google_ad_slot = "4669557053";
+		google_ad_width = 234;
+		google_ad_height = 60;
+		//-->
+		</script>
+		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+		</div>';
+		}
+	?>
 		
 	<div class="post">
 	<h2><img src="http://www.teen-quotes.com/images/icones/about.png" class="icone" /><?php echo ucfirst($comments); ?><?php if ($nombre_commentaires >'1'){ echo"<span class=\"right\">$nombre_commentaires $comments</span>";}else{echo"<span class=\"right\">$nombre_commentaires $comment</span>";} ?></h2>

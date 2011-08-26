@@ -23,27 +23,32 @@ if (empty($id)) {
 		<?php echo $lien_retour; ?>
 		</div>
 		
-		<div class="pub">
-		<script type="text/javascript"><!--
-		google_ad_client = "ca-pub-8130906994953193";
-		/* Page quote */
-		google_ad_slot = "8219438641";
-		google_ad_width = 468;
-		google_ad_height = 60;
-		//-->
-		</script>
-		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-		<script type="text/javascript"><!--
-		google_ad_client = "ca-pub-8130906994953193";
-		/* Page quote 2 */
-		google_ad_slot = "4669557053";
-		google_ad_width = 234;
-		google_ad_height = 60;
-		//-->
-		</script>
-		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-		</div>
-		<?php 
+		<?php
+		if ($show_pub =='1')
+			{
+			echo '
+			<div class="pub">
+			<script type="text/javascript"><!--
+			google_ad_client = "ca-pub-8130906994953193";
+			/* Page quote */
+			google_ad_slot = "8219438641";
+			google_ad_width = 468;
+			google_ad_height = 60;
+			//-->
+			</script>
+			<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+			<script type="text/javascript"><!--
+			google_ad_client = "ca-pub-8130906994953193";
+			/* Page quote 2 */
+			google_ad_slot = "4669557053";
+			google_ad_width = 234;
+			google_ad_height = 60;
+			//-->
+			</script>
+			<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+			</div>
+			';
+			}
 		}
 		else {
 		// AFFICHAGE DU PROFIL
@@ -81,31 +86,38 @@ if (empty($id)) {
 			<?php echo $result['about_me']; ?>
 			</div>
 			
-			<div class="pub">
-			<script type="text/javascript"><!--
-			google_ad_client = "ca-pub-8130906994953193";
-			/* Page quote */
-			google_ad_slot = "8219438641";
-			google_ad_width = 468;
-			google_ad_height = 60;
-			//-->
-			</script>
-			<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-			<script type="text/javascript"><!--
-			google_ad_client = "ca-pub-8130906994953193";
-			/* Page quote 2 */
-			google_ad_slot = "4669557053";
-			google_ad_width = 234;
-			google_ad_height = 60;
-			//-->
-			</script>
-			<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-			</div>
+			<?php
+			if ($show_pub == '1')
+				{
+				echo
+				'
+				<div class="pub">
+				<script type="text/javascript"><!--
+				google_ad_client = "ca-pub-8130906994953193";
+				/* Page quote */
+				google_ad_slot = "8219438641";
+				google_ad_width = 468;
+				google_ad_height = 60;
+				//-->
+				</script>
+				<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+				<script type="text/javascript"><!--
+				google_ad_client = "ca-pub-8130906994953193";
+				/* Page quote 2 */
+				google_ad_slot = "4669557053";
+				google_ad_width = 234;
+				google_ad_height = 60;
+				//-->
+				</script>
+				<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+				</div>
+				
+				<div class="post" id="fav_quotes">
+				<h2><img src="http://www.teen-quotes.com/images/icones/heart_big.png" class="icone"><?php echo $favorite_quotes; ?></h2>
+				</div>';
+				}
 			
-			<div class="post" id="fav_quotes">
-			<h2><img src="http://www.teen-quotes.com/images/icones/heart_big.png" class="icone"><?php echo $favorite_quotes; ?></h2>
-			</div>
-						<?php if($nb_favorite_quotes >=1){
+		if($nb_favorite_quotes >=1){
 	
 		// CALCUL DU NOMBRE DE PAGES QUOTES FAVORITES
 
