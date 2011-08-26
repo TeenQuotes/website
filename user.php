@@ -111,12 +111,14 @@ if (empty($id)) {
 				</script>
 				<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 				</div>
-				
-				<div class="post" id="fav_quotes">
-				<h2><img src="http://www.teen-quotes.com/images/icones/heart_big.png" class="icone"><?php echo $favorite_quotes; ?></h2>
-				</div>';
-				}
-			
+				';
+				} 
+			?>
+		<div class="post" id="fav_quotes">
+		<h2><img src="http://www.teen-quotes.com/images/icones/heart_big.png" class="icone"><?php echo $favorite_quotes; ?></h2>
+		</div>
+		
+		<?php
 		if($nb_favorite_quotes >=1){
 	
 		// CALCUL DU NOMBRE DE PAGES QUOTES FAVORITES
