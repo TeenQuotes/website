@@ -6,7 +6,7 @@ $exist_quote = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHE
 
 if ($exist_quote=='0') 
 	{
-	header("Location: error.php?erreur=404"); 
+	echo '<meta http-equiv="refresh" content="0; url=error.php?erreur=404">';
 	}
 
 $nombre_commentaires= mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='$id_quote'"));
