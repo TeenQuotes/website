@@ -26,7 +26,7 @@ $hide_profile = "<span class=\"bleu\">Hide my profile : </span>
 			
 			
 			
-$edit_succes = "$succes Your profile has been changed successfully !<br><br /><br />&raquo; <a href=\"index.php\">Back to home</a><br><br />";
+$edit_succes = "$succes Your profile has been changed successfully !<br><br /><br />&raquo; <a href=\"../\">Back to home</a><br><br />";
 $description_long = "<span class=\"erreur\">Your description of yourself is too long !</span>$lien_retour";
 $not_completed ="<span class=\"erreur\">You have not completed all the form !</span>$lien_retour";
 $wrong_birth_date = "<span class=\"erreur\">Please enter a valid birth date (DD/MM/YYYY) !</span>";

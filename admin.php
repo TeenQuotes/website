@@ -28,7 +28,6 @@ elseif (empty($action) && $_SESSION['security_level'] >='2')
 
 	<div class="post">
 		<h1><img src="http://www.teen-quotes.com/images/icones/test.png" class="icone" />Approve Quotes</h1>
-	</div>
 	<?php 
 	$query = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved='0' ORDER BY id ASC");
 	while ($result=mysql_fetch_array($query)) 
@@ -46,7 +45,8 @@ elseif (empty($action) && $_SESSION['security_level'] >='2')
 			<a href="admin.php?action=edit&id='.$id_quote.'"><img src="http://www.teen-quotes.com/images/icones/profil.png" class="mini_icone" /></a>
 			<a href="admin.php?action=rate&id='.$id_quote.'&approve=no&auteur='.$auteur_id.'"><img src="http://www.teen-quotes.com/images/icones/delete.png" class="mini_icone" /></a><span class="right">'.$by.' <a href="user-'.$auteur_id.'" title="View his profile">'.$auteur.'</a> '.$on.' '.$date.'</span><br><br />
 		</div>';
-		} 
+		}
+	echo '</div>';
 	}
 elseif ($action=="add_quote") 
 	{
