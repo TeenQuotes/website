@@ -64,7 +64,7 @@ if (empty($id)) {
 		if(empty($result['about_me'])) {$result['about_me']="$no_description";}
 		if(empty($result['country'])) {$result['country']="$not_specified";}
 		if(empty($result['city'])) {$result['city']="$not_specified";}
-		if(empty($result['number_comments'])) {$result['number_comments']="$no_comments";}
+		if(empty($result['number_comments'])) {$result['number_comments']="$no_posted_comments";}
 		if(empty($result['avatar'])) {$result['avatar']="images/icon50.png";}
 		if($result['avatar']=="http://www.teen-quotes.com/images/icon50.png") {$result['avatar']="images/icon50.png";}
 		
@@ -116,7 +116,6 @@ if (empty($id)) {
 			?>
 		<div class="post" id="fav_quotes">
 		<h2><img src="http://www.teen-quotes.com/images/icones/heart_big.png" class="icone"><?php echo $favorite_quotes; ?></h2>
-		</div>
 		
 		<?php
 		if($nb_favorite_quotes >=1){
@@ -164,7 +163,7 @@ if (empty($id)) {
 		$auteur = $donnees['auteur']; 
 		$date_quote = $donnees['date'];		?>
 		
-		<div class="post<?php if($i=='0' && $page_fav < $nombreDePages_fav){echo ' no_rounded_borders_right_top';} ?>">
+		<div class="grey_post">
 		<?php echo $donnees['texte_english']; ?><br><br />
 		<a href="quote-<?php echo $donnees['id']; ?>">#<?php echo $donnees['id']; ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['account']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 		<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
@@ -172,8 +171,12 @@ if (empty($id)) {
 		<?php 
 		$i++;
 		}
+		if ($page_fav > 1){echo "<span class=\"page\"><a href=\"?page_fav=$page_fav3#fav_quotes\">$previous_page</a> ||  ";}
+		if ($page_fav == 1){ echo"<span class=\"page\">";}  if($page_fav < $nombreDePages_fav) {echo " <a href=\"?page_fav=$page_fav2#fav_quotes\">$next_page</a>";}echo"</span><br>";
+		echo '</div>';
 			}
 			else { ?>
+			</div>
 			<div class="bandeau_erreur">
 			<?php echo $no_fav_quotes; ?>
 			</div>
@@ -183,7 +186,6 @@ if (empty($id)) {
 			<br />
 			<div class="post" id="user_quotes">
 			<h2><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone"><?php echo $user_quotes; ?></h2>
-			</div>
 			
 			<?php if($nb_quotes_approved >=1){
 	
@@ -229,7 +231,7 @@ if (empty($id)) {
 		
 		$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='$id_quote' AND id_user='$id_user_co'"))
 		?>
-		<div class="post<?php if($j=='0' && $page_user < $nombreDePages){echo ' no_rounded_borders_right_top';} ?>">
+		<div class="grey_post">
 		<?php echo $result['texte_english']; ?><br><br />
 		<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['account']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 		<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
@@ -237,8 +239,12 @@ if (empty($id)) {
 		<?php
 		$j++;
 		}
+		if ($page_user > 1){echo "<span class=\"page\"><a href=\"?page_user=$page_user3#user_quotes\">$previous_page</a> ||  ";}
+		if ($page_user == 1){ echo"<span class=\"page\">";}   if($page_user < $nombreDePages) {echo " <a href=\"?page_user=$page_user2#user_quotes\">$next_page</a>";}echo"</span><br>";
+		echo '</div>';
 			}
-			else {?>
+			else { ?>
+			</div>
 			<div class="bandeau_erreur">
 			<?php echo $no_quotes; ?>
 			</div>

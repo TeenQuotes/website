@@ -14,4 +14,4 @@ $no_result_fun = "<h2> You can : </h2>
 <li>Click on the button \"previous page \" in your browser. </li>
 <li>Click <a href=\"index.php\"> here </a> to return to home. </li>
 <br />";
-$max_result = "15 results displayed";
+$max_result = "- 15 results displayed";

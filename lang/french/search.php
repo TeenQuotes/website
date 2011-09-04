@@ -15,4 +15,4 @@ $no_result_fun ="<h2>Vous pouvez :</h2>
 				<li>Cliquer <a href=\"index.php\">ici</a> pour revenir à l'accueil.</li> 
 
 <br />";
-$max_result = "15 résultats affichés";
+$max_result = "- 15 résultats affichés";

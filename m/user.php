@@ -33,7 +33,7 @@ if (empty($id)) {
 		if(empty($result['about_me'])) {$result['about_me']="$no_description";}
 		if(empty($result['country'])) {$result['country']="$not_specified";}
 		if(empty($result['city'])) {$result['city']="$not_specified";}
-		if(empty($result['number_comments'])) {$result['number_comments']="$no_comments";}
+		if(empty($result['number_comments'])) {$result['number_comments']="$no_posted_comments";}
 		if(empty($result['avatar'])) {$result['avatar']="images/icon50.png";}
 		if($result['avatar']=="http://www.teen-quotes.com/images/icon50.png") {$result['avatar']="images/icon50.png";}
 		

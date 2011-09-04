@@ -34,6 +34,7 @@ $unfavorite="Supprimer cette citation de vos favoris";
 $mobile_website="Site mobile";
 $full_website="Site normal";
 $members="Membres";
+$quotes= "Citations";
 $follow_twitter = "Suivez nous sur Twitter !";
 $follow_facebook = "Devenez fan sur Facebook !";
 
