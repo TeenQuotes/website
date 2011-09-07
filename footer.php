@@ -85,7 +85,12 @@
 		
 			<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 			<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
-			<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+			<?php 
+			if ($php_self=="search")
+				{
+				echo '<script type="text/javascript" src="http://static.augusti.fr/js/scroll.js"></script>';
+				}
+			?>
 			<script> 
 			$(".hide").click(function () {
 			$(".profile_not_fullfilled").slideUp("fast");
