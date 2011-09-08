@@ -78,7 +78,7 @@ if ($totalDesMembres > 0)
 			{
 			echo ' - ';
 			}
-		echo ''.$country.'';
+		echo ''.$country.'</span>';
 		}
 	echo '</h2></a>';
 	if (!empty($about_me)) 
