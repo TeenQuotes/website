@@ -8,6 +8,7 @@ if (empty($id_quote))
 	}
 
 $query=mysql_query("DELETE FROM teen_quotes_favorite WHERE id_quote='$id_quote' AND id_user='$id'");
+$update_fav= mysql_query("UPDATE teen_quotes_quotes SET nb_fav=nb_fav-1 WHERE id='$id_quote'");
 ?>
 <div class="post">
 <h1><img src="http://www.teen-quotes.com/images/icones/broken_heart.png" class="icone"><?php echo $unfavorite; ?></h1>
