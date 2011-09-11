@@ -38,11 +38,32 @@ if ($totalDesMembres > 0)
 
 	$page2 = $page + 1;
 	$page3 = $page - 1;
-	if ($page > 1){echo "<span class=\"page\"><a href=\"?p=$page3\">$previous_page</a> ||  ";}
-	if ($page == 1){ echo"<span class=\"page\">";}   if($page < $nombreDePages) {echo "<a href=\"?p=$page2\">$next_page</a>";} echo "</span><br>";
+	
+	if ($page > 1)
+		{
+		echo '<span class="page"><a href="?p='.$page3.'">'.$previous_page.'</a> ||  ';
+		}
+	if ($page == 1)
+		{
+		echo '<span class="page">';
+		}   
+	if($page < $nombreDePages) 
+		{
+		echo '<a href="?p='.$page2.'">'.$next_page.'</a>';
+		}
+	echo "</span><br>";
 
 
 	$premierMessageAafficher = ($page - 1) * $nombreDeMembresParPage;
+	
+	if ($totalDesMembres > '10') 
+		{
+		echo '<div class="post no_rounded_borders_right_top">';
+		}
+	else
+		{
+		echo '<div class="post">';
+		}
 
 	$reponse = mysql_query("SELECT * FROM teen_quotes_account WHERE username like '$lettre%' AND hide_profile = '0' ORDER BY username ASC LIMIT $premierMessageAafficher ,  $nombreDeMembresParPage");
 	while ($result = mysql_fetch_array($reponse))
@@ -59,14 +80,7 @@ if ($totalDesMembres > 0)
 	$nb_favorite_quotes=mysql_num_rows(mysql_query("SELECT DISTINCT id_quote FROM teen_quotes_favorite where id_user='$id_user'"));
 	$nb_comments=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_comments where auteur_id='$id_user'"));
 	
-	if ($j=='0' && $page < $nombreDePages) 
-		{ 
-		echo '<div class="post no_rounded_borders_right_top">';
-		}
-		else
-		{
-		echo '<div class="post">';
-		}
+	echo '<div class="grey_post">';
 	echo '<img src="http://www.teen-quotes.com/images/avatar/'.$avatar.'" class="user_avatar_members" /><a href="user-'.$id_user.'"><h2>'.$username_member.'';
 	if (!empty($city)) 
 		{
@@ -94,8 +108,21 @@ if ($totalDesMembres > 0)
 	
 	$j++;
 	}  // END WHILE
-	if ($page > 1){echo "<span class=\"page_bottom\" ><a href=\"?p=$page3\">$previous_page</a> ||  ";}
-	if ($page == 1){ echo"<span class=\"page_bottom\">";}   if($page < $nombreDePages) {echo "<a href=\"?p=$page2\">$next_page</a>";} echo "</span><br>";
+	echo '</div>';
+	
+	if ($page > 1)
+		{
+		echo '<span class="page_bottom"><a href="?p='.$page3.'">'.$previous_page.'</a> ||  ';
+		}
+	if ($page == 1)
+		{
+		echo '<span class="page_bottom">';
+		}   
+	if($page < $nombreDePages) 
+		{
+		echo '<a href="?p='.$page2.'">'.$next_page.'</a>';
+		}
+	echo "</span><br>";
  
 	}
 	else
