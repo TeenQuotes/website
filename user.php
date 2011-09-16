@@ -7,6 +7,13 @@ $j = '0';
 $id=mysql_real_escape_string($_GET['id_user']);
 $exist_user = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE id='$id'"));
 if ($exist_user=='0') {header("Location: error.php?erreur=404"); }
+
+if($id != $_SESSION['account'] AND !empty($id) AND !empty($_SESSION['account']))
+	{
+	$id_visitor = $_SESSION['account'];
+	$insert_visitor = mysql_query("INSERT INTO teen_quotes_visitors (id_user,id_visitor) VALUES ('$id','$id_visitor')");
+	}
+
 // FORMULAIRE
 if (empty($id)) {
 ?>
@@ -56,9 +63,10 @@ if (empty($id)) {
 		$nb_quotes_submited=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes where auteur_id='$id'"));
 		$nb_favorite_quotes=mysql_num_rows(mysql_query("SELECT DISTINCT id_quote FROM teen_quotes_favorite where id_user='$id'"));
 		$nb_comments=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_comments where auteur_id='$id'"));
-		if ($nb_quotes_approved >= 1) {
-							$quotes = mysql_query("SELECT id, texte, date FROM teen_quotes_quotes where auteur_id='$id' AND approved='1'");
-							}
+		if ($nb_quotes_approved >= 1) 
+			{
+			$quotes = mysql_query("SELECT id, texte, date FROM teen_quotes_quotes where auteur_id='$id' AND approved='1'");
+			}
 		if(empty($result['birth_date'])) {$result['birth_date']="$not_specified";}
 		if(empty($result['title'])) {$result['title']="$not_specified";}
 		if(empty($result['about_me'])) {$result['about_me']="$no_description";}
@@ -84,8 +92,33 @@ if (empty($id)) {
 			<div class="clear"></div>
 			<h3><?php echo $about_user; ?> <?php echo $result['username']; ?></h3>
 			<?php echo $result['about_me']; ?>
-			</div>
 			
+			
+			
+			
+		<?php 
+		$query_visiteur = mysql_query("SELECT DISTINCT V.id_visitor id_visitor, A.username username_visitor, A.avatar avatar FROM teen_quotes_visitors V, teen_quotes_account A WHERE V.id_visitor=A.id AND V.id_user='$id' ORDER BY V.id DESC LIMIT 0,10"); 
+		$num_rows_visitors = mysql_num_rows($query_visiteur);
+		if ($num_rows_visitors > '0')
+			{
+			echo '
+			<h3>'.$last_visitor.'</h3>
+			<div class="right">';
+			while ($reponse_visiteur = mysql_fetch_array($query_visiteur))
+				{
+				$avatar = $reponse_visiteur['avatar'];
+				$id_visitor = $reponse_visiteur['id_visitor'];
+				$username_visitor = $reponse_visiteur['username_visitor'];
+				
+				echo '<a href="user-'.$id_visitor.'" title="'.$username_visitor.'"><img src="http://www.teen-quotes.com/images/avatar/'.$avatar.'" class="user_avatar_last_visitors" /></a>';
+				}
+			echo '
+			</div>
+			<div class="clear"></div>';
+			}
+		?>
+			
+			</div>
 			<?php
 			if ($show_pub == '1')
 				{

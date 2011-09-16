@@ -2,6 +2,15 @@
 include 'header.php';
 include "../lang/$language/user.php";
 $id=mysql_real_escape_string($_GET['id_user']);
+$exist_user = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE id='$id'"));
+if ($exist_user=='0') {header("Location: error.php?erreur=404"); }
+
+if($id != $_SESSION['account'] AND !empty($id) AND !empty($_SESSION['account']))
+	{
+	$id_visitor = $_SESSION['account'];
+	$insert_visitor = mysql_query("INSERT INTO teen_quotes_visitors (id_user,id_visitor) VALUES ('$id','$id_visitor')");
+	}
+	
 // FORMULAIRE
 if (empty($id)) {
 ?>

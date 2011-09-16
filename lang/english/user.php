@@ -9,6 +9,7 @@ $number_comments = "Number of comments";
 $validees = "confirmed out of";
 $soumises = "posted";
 $about_user = "About";
+$last_visitor = "Last visitors";
 $not_specified = "Not specified";
 $no_posted_comments = "This user has not posted comments yet.";
 $no_description = "This user has not yet fulfilled its description.";

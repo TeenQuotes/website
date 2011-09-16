@@ -3,7 +3,7 @@ include 'header.php';
 $action=$_GET['action'];
 if ($_SESSION['security_level'] <'2') 
 	{
-	header("Location: error.php?erreur=403"); 
+	echo '<meta http-equiv="refresh" content="0; url=error.php?erreur=403">';
 	} 
 elseif (empty($action) && $_SESSION['security_level'] >='2') 
 	{?>

@@ -142,7 +142,16 @@ echo"<meta name=\"description\" content=\"Teen Quotes : because our lives are fi
 		_gaq.push(['_setDomainName', 'teen-quotes.com']);
 		_gaq.push(['_setAllowHash', 'false']);
 		_gaq.push(['_trackPageview']);
-
+		<?php
+		if ($_SESSION['logged'] == false)
+			{
+			echo "_gaq.push(['_setCustomVar', 1, 'user-type', 'visitor', 2]);";
+			}
+		else
+			{
+			echo "_gaq.push(['_setCustomVar', 1, 'user-type', 'member', 2]);";
+			}
+		?>
 		(function() {
 			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
 			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';

@@ -9,6 +9,7 @@ $validees = "validée(s) sur";
 $soumises = "soumise(s)";
 $number_comments = "Nombre de commentaires";
 $about_user = "À propos de";
+$last_visitor = "Derniers visiteurs";
 $not_specified = "Non renseigné";
 $no_posted_comments = "Cet utilisateur n'a pas encore posté de commentaires.";
 $no_description = "Cet utilisateur n'a pas encore rempli sa description.";
