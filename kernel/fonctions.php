@@ -233,6 +233,82 @@ function nl2br_to_textarea ($texte) {
     return $string;
 }
 
+function RelativeTime_fr($time) {
+        $timeDiff = time() - $time;
+
+        if($timeDiff <= 0)
+                return "moins d'une seconde";
+
+        $timeDiff = abs($timeDiff);
+
+        $times = array(
+                31104000 => 'an{s}',       // 12 * 30 * 24 * 60 * 60 secondes
+                2592000  => 'mois',        // 30 * 24 * 60 * 60 secondes
+                604800   => 'semaine{s}',  // 7 * 24 * 60 * 60 secondes
+                86400    => 'jour{s}',     // 24 * 60 * 60 secondes
+                3600     => 'heure{s}',    // 60 * 60 secondes
+                60       => 'minute{s}');
+
+        $strTime = NULL;
+
+        // Until that the rest can't being converted
+        while($timeDiff >= 60) {
+                foreach($times AS $seconds => $unit) {
+                        $delta = floor($timeDiff / $seconds);
+
+                        if($delta >= 1) {
+                                $unit = str_replace('{s}', ($delta == 1 ? NULL : 's'), $unit);
+                                $strTime .= "$delta $unit ";
+                                $timeDiff -= $delta * $seconds;
+                        }
+                }
+        }
+
+        // If there is still seconds
+        ($timeDiff > 0)
+                && $strTime .= "et $timeDiff secondes";
+
+        return trim($strTime);
+}
+
+function RelativeTime_en($time) {
+        $timeDiff = time() - $time;
+
+        if($timeDiff <= 0)
+                return "moins d'une seconde";
+
+        $timeDiff = abs($timeDiff);
+
+        $times = array(
+                31104000 => 'year{s}',       // 12 * 30 * 24 * 60 * 60 secondes
+                2592000  => 'month{s}',        // 30 * 24 * 60 * 60 secondes
+                604800   => 'week{s}',  // 7 * 24 * 60 * 60 secondes
+                86400    => 'day{s}',     // 24 * 60 * 60 secondes
+                3600     => 'hour{s}',    // 60 * 60 secondes
+                60       => 'minute{s}');
+
+        $strTime = NULL;
+
+        // Until that the rest can't being converted
+        while($timeDiff >= 60) {
+                foreach($times AS $seconds => $unit) {
+                        $delta = floor($timeDiff / $seconds);
+
+                        if($delta >= 1) {
+                                $unit = str_replace('{s}', ($delta == 1 ? NULL : 's'), $unit);
+                                $strTime .= "$delta $unit ";
+                                $timeDiff -= $delta * $seconds;
+                        }
+                }
+        }
+
+        // If there is still seconds
+        ($timeDiff > 0)
+                && $strTime .= "et $timeDiff secondes";
+
+        return trim($strTime);
+}
+
 // MOBILE
 if (isset($_GET['mobile'])) {
 setcookie("mobile", 1 , time() + (((3600*24)*30)*12));
