@@ -96,6 +96,11 @@
 			$(".profile_not_fullfilled").slideUp("fast");
 			});    
 			</script> 
+			<script type="text/javascript">
+			$(function(){
+			$('.slidedown').slideDown(1500);
+			});
+			</script>
 	</body>
 </html>
 <!-- 

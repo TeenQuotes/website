@@ -13,6 +13,13 @@ $result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account where
 		case "Miss" : $selected_miss='selected="selected"';
 		break;
 		}
+		
+		switch ($result['hide_profile']) {
+		case "0" : $selected_profile_no = 'selected="selected"';
+		break;
+		case "1" : $selected_profile_yes = 'selected="selected"';
+		break;
+		}
 include "lang/$language/edit_profile.php";
 
 

@@ -30,7 +30,7 @@ if (empty($id_quote))
 	$auteur = $result['auteur']; 
 	$date_quote = $result['date'];   ?>
 
-	<div class="post">
+	<div class="post slidedown">
 	<?php echo $txt_quote; ?><br><br />
 	<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['account']);date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 	<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
@@ -63,7 +63,7 @@ if (empty($id_quote))
 		}
 	?>
 		
-	<div class="post">
+	<div class="post slidedown">
 	<h2><img src="http://www.teen-quotes.com/images/icones/about.png" class="icone" /><?php echo ucfirst($comments); ?><?php if ($nombre_commentaires >'1'){ echo"<span class=\"right\">$nombre_commentaires $comments</span>";}else{echo"<span class=\"right\">$nombre_commentaires $comment</span>";} ?></h2>
 	<?php // AFFICHAGE FORMULAIRE AJOUT SI CONNECTE
 	if ($_SESSION['logged']) 

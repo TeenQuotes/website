@@ -102,6 +102,7 @@ if (empty($id)) {
 		if ($num_rows_visitors > '0')
 			{
 			echo '
+			<div class="slidedown">
 			<h3>'.$last_visitor.'</h3>
 			<div class="right">';
 			while ($reponse_visiteur = mysql_fetch_array($query_visiteur))
@@ -114,7 +115,8 @@ if (empty($id)) {
 				}
 			echo '
 			</div>
-			<div class="clear"></div>';
+			<div class="clear"></div>
+			</div>';
 			}
 		?>
 			

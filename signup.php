@@ -5,7 +5,7 @@ $action=$_GET['action'];
 // FORMULAIRE
 if (empty($action)) {
 ?>
-<div class="post">
+<div class="post slidedown">
 <h1><img src="http://www.teen-quotes.com/images/icones/signin.png" class="icone"/><?php echo $sign_up; ?></h1>
 <?php if (isset($_GET['addquote'])) { echo ''.$must_be_registered_for_quote.'';} ?>
 <?php echo $account_create; ?><br>

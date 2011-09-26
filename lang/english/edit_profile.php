@@ -20,8 +20,8 @@ $choose_city= "<span class=\"bleu\">City : </span>";
 $about_you = "<span class=\"bleu\">About you : </span>";
 $hide_profile = "<span class=\"bleu\">Hide my profile : </span>
 			</div><div class=\"colonne-milieu\"><select name=\"hide_profile\" style=\"width:197px\"> 
-				<option value=\"No\" >No</option> 
-				<option value=\"1\" >Yes</option> 
+				<option $selected_profile_no value=\"No\" >No</option> 
+				<option $selected_profile_yes value=\"1\" >Yes</option> 
 			</select></div>";
 			
 			
