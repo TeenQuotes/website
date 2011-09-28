@@ -32,6 +32,24 @@ function unfavorite(id_quote,id_user) {
 	return false;
 }
 
+function admin_quote(approve,id_quote,id_user) {
+	$(".admin_quote[data-id="+id_quote+"]").html("<em>Wait...</em>");
+	$.ajax({
+		type: 'post',
+		url: 'http://teen-quotes.com/ajax/admin_quote.php',
+		data: {
+			id_quote: id_quote,
+			id_user: id_user,
+			approve: approve
+		},
+		success: function(data) {
+			$(".admin_quote[data-id="+id_quote+"]").html(data);
+		}
+	});
+	
+	return false;
+}
+
 $(document).ready(function(){
 	$(".follow").fadeIn(1500);
 });
