@@ -39,7 +39,7 @@ elseif (empty($action) && $_SESSION['security_level'] >='2')
 		$id_quote = $result ['id'];
 		
 		echo '
-		<div class="grey_post">
+		<div class="grey_post" data-id="'.$id_quote.'">
 			'.$txt_quote.'<br><br />
 			
 			<span class="admin_quote" data-id="'.$id_quote.'">

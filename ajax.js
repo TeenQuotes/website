@@ -44,6 +44,7 @@ function admin_quote(approve,id_quote,id_user) {
 		},
 		success: function(data) {
 			$(".admin_quote[data-id="+id_quote+"]").html(data);
+			$(".grey_post[data-id="+id_quote+"]").delay(500).slideUp(500);
 		}
 	});
 	
