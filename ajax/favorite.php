@@ -8,23 +8,30 @@ include '../lang/'.$language.'/favorite.php';
 
 $id_quote=mysql_real_escape_string($_POST['id_quote']);
 $id = mysql_real_escape_string($_POST['id_user']);
-
-if (empty($id_quote))
+if (preg_match('/teen-quotes.com/', $_SERVER['SERVER_NAME'])) 
 	{
-	echo 'Erreur id !';
-	}
-else
-	{
-	$query=mysql_query('INSERT INTO teen_quotes_favorite (id_quote, id_user) VALUES ('.$id_quote.','.$id.')');
-	$update_fav= mysql_query('UPDATE teen_quotes_quotes SET nb_fav=nb_fav+1 WHERE id='.$id_quote.'');
-	 
-	if($query) 
+	if (empty($id_quote))
 		{
-		echo ''.$add_succes.'';
+		echo 'Erreur id !';
 		}
 	else
 		{
-		echo '<h2>'.$error.'</h2>';
+		$query=mysql_query('INSERT INTO teen_quotes_favorite (id_quote, id_user) VALUES ('.$id_quote.','.$id.')');
+		$update_fav= mysql_query('UPDATE teen_quotes_quotes SET nb_fav=nb_fav+1 WHERE id='.$id_quote.'');
+		 
+		if($query) 
+			{
+			echo ''.$add_succes.'';
+			}
+		else
+			{
+			echo '<h2>'.$error.'</h2>';
+			}
 		}
 	}
+else
+	{
+	echo ''.$_SERVER['SERVER_NAME'].'';
+	}
+	
 ?>
