@@ -137,6 +137,11 @@ return ((float)$usec + (float)$sec);
 } 
 $time_start = microtime_float(); 
 
+function number_space($number) {
+$number_space = number_format($number, 0, ',', ' '); // Arrondi et espaces sur les milliers
+return $number_space;
+}
+
 
 function MailRandomQuote($nombre) {
 $query=mysql_query('SELECT id, texte_english,date,auteur,auteur_id FROM teen_quotes_quotes WHERE approved=1 ORDER BY RAND() LIMIT '.$nombre.'');

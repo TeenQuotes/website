@@ -3,6 +3,8 @@ include 'header.php';
 include "lang/$language/search.php";
 include "lang/$language/user.php";
 $value_search = htmlspecialchars(mysql_escape_string($_GET['q']));
+echo '<script type="text/javascript" src="http://static.augusti.fr/js/highlight.js"></script>';
+echo '<script type="text/javascript">$(\'#wrapper\').highlight(\''.$value_search.'\');</script>';
 
 if (empty($value_search)) 
 	{
