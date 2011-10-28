@@ -11,5 +11,8 @@ $comment_too_long = "Your comment is too long ! It should be a maximum of 450 ch
 $comment_add_succes ="$succes Your comment has been added successfully !<br><br />You will be redirected in a moment ...";
 $not_complete = "All fields are required !";
 
+
+$comment_added_on_quote = "Comment added on your quote";
+
 $refresh = "View another Quote";
 
