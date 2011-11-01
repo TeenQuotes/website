@@ -132,6 +132,7 @@ echo"<meta name=\"description\" content=\"Teen Quotes : because our lives are fi
 		<li><a href="signin">Login</a></li>
 		<li><a href="signup">Sign up</a></li>
 		<?php }else { ?>
+		<li><a href="user-<?php echo $_SESSION['account'] ?>"><?php echo $my_profile; ?></a></li>
 		<li><a href="?deconnexion">Log out</a></li>
 		<?php } ?>
 	</ul>

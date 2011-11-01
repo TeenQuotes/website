@@ -29,7 +29,7 @@ if (empty($action)) {
 ?>
 <div class="post">
 <h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" /><?php echo $edit_profile; ?></h1>
-<span class="right"><img src="<?php echo $result['avatar']; ?>" height="50px" /></span>
+<span class="right"><img src="http://www.teen-quotes.com/images/avatar/<?php echo $result['avatar']; ?>" height="50px" /></span>
 <br />
 <form action="editprofile.php?action=send" method="post">
 <div class="colonne-gauche"><?php echo $choose_title; ?>
