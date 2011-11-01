@@ -93,22 +93,28 @@ if (empty($action)) {
 </div>
 
 <?php }
-elseif ($action=="send") {
-// LE FORMULAIRE A ETE ENVOYE ON LE TRAITE ?>
-<div class="post">
-<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" /><?php echo $edit_profile; ?></h1>
-<?php 
-				$title = htmlspecialchars(mysql_escape_string($_POST['title']));
-				$birth_date = htmlspecialchars(mysql_escape_string($_POST['birth_date']));
-				$country = ucfirst(htmlspecialchars(mysql_escape_string($_POST['country'])));
-				$city = ucfirst(htmlspecialchars(mysql_escape_string($_POST['city'])));
-				$about_me = nl2br(htmlspecialchars($_POST['about_me']));
-				$hide_profile = htmlspecialchars(mysql_escape_string($_POST['hide_profile']));
-				
-				
-if(!empty($title) && !empty($birth_date) && !empty($country) && !empty($city) && !empty($about_me) && !empty($hide_profile)) 
+elseif ($action=="send") 
 	{
-	if ($hide_profile=="No") {$hide_profile='0';}
+// LE FORMULAIRE A ETE ENVOYE ON LE TRAITE
+	echo '
+	<div class="post">
+	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />'.$edit_profile.'</h1>
+	';
+
+	$title = htmlspecialchars(mysql_escape_string($_POST['title']));
+	$birth_date = htmlspecialchars(mysql_escape_string($_POST['birth_date']));
+	$country = ucfirst(htmlspecialchars(mysql_escape_string($_POST['country'])));
+	$city = ucfirst(htmlspecialchars(mysql_escape_string($_POST['city'])));
+	$about_me = nl2br(htmlspecialchars($_POST['about_me']));
+	$hide_profile = htmlspecialchars(mysql_escape_string($_POST['hide_profile']));
+				
+				
+	if(!empty($title) && !empty($birth_date) && !empty($country) && !empty($city) && !empty($about_me) && !empty($hide_profile)) 
+	{
+	if ($hide_profile=="No") 
+		{
+		$hide_profile='0';
+		}
 	if (strlen($about_me) <= '1000') 
 		{
 		if(preg_match("#[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}#", $birth_date)) 
@@ -141,66 +147,72 @@ if(!empty($title) && !empty($birth_date) && !empty($country) && !empty($city) &&
 echo '</div>';
 
 }
-elseif ($action=="avatar") { ?>
-<div class="post">
-<h1><img src="http://www.teen-quotes.com/images/icones/avatar.png" class="icone" /><?php echo $change_avatar; ?></h1>
-<?php
-$photo= $_FILES['photo']['name'];
-$point=".";
-// Testons si le fichier a bien été envoyé et s'il n'y a pas d'erreur
-if (isset($_FILES['photo']) AND $_FILES['photo']['error'] == 0)
-{
-        // Testons si le fichier n'est pas trop gros
-        if ($_FILES['photo']['size'] <= 550000)
-        {
-                // Testons si l'extension est autorisée
-                $infosfichier = pathinfo($_FILES['photo']['name']);
-                $extension_upload = strtolower($infosfichier['extension']);
-                $extensions_autorisees = array('jpg', 'gif', 'png','JPG');
-                if (in_array($extension_upload, $extensions_autorisees))
-                {		unlink("./images/avatar/$id.$extension_upload"); // delete de l'image si celle ci existe
-                        // On peut valider le fichier et le stocker définitivement
-                        move_uploaded_file($_FILES['photo']['tmp_name'], './images/avatar/' . $id.$point.$extension_upload);
-						// on écrit la requête sql 
-						$nom_fichier=$id.$point.$extension_upload;
-						$sql = "UPDATE teen_quotes_account SET avatar='$nom_fichier' WHERE id='$id'"; 
-						mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error()); 
-                        echo ''.$change_avatar_succes.'';
-						echo '<meta http-equiv="refresh" content="3;url=user-'.$id.'" />';
-                }
-				else
+elseif ($action=="avatar") 
+	{
+	echo '
+	<div class="post">
+	<h1><img src="http://www.teen-quotes.com/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h1>
+	';
+	$photo= $_FILES['photo']['name'];
+	$point=".";
+	// Testons si le fichier a bien été envoyé et s'il n'y a pas d'erreur
+	if (isset($_FILES['photo']) AND $_FILES['photo']['error'] == 0)
+		{
+		// Testons si le fichier n'est pas trop gros
+		if ($_FILES['photo']['size'] <= 550000)
+			{
+			// Testons si l'extension est autorisée
+			$infosfichier = pathinfo($_FILES['photo']['name']);
+			$extension_upload = strtolower($infosfichier['extension']);
+			$extensions_autorisees = array('jpg', 'gif', 'png','JPG');
+			if (in_array($extension_upload, $extensions_autorisees))
+				{		
+				unlink("./images/avatar/$id.$extension_upload"); // delete de l'image si celle ci existe
+				// On peut valider le fichier et le stocker définitivement
+				move_uploaded_file($_FILES['photo']['tmp_name'], './images/avatar/' . $id.$point.$extension_upload);
+				// on écrit la requête sql 
+				$nom_fichier=$id.$point.$extension_upload;
+				$sql = "UPDATE teen_quotes_account SET avatar='$nom_fichier' WHERE id='$id'"; 
+				mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error()); 
+				echo ''.$change_avatar_succes.'';
+				echo '<meta http-equiv="refresh" content="3;url=user-'.$id.'" />';
+				}
+			else
 				{
 				echo '<span class="erreur">'.$bad_extension.'</span>'.$lien_retour.'';
 				}
-        }
+			}
 		else
-		{
-		echo '<span class="erreur">'.$photo_extra_size.'</span>'.$lien_retour.'';
+			{
+			echo '<span class="erreur">'.$photo_extra_size.'</span>'.$lien_retour.'';
+			}
 		}
-}
-else
-{
-echo '<span class="erreur">'.$select_a_file.'</span>'.$lien_retour.'';
-}
-
-	 ?>
-</div>
-<?php }
-elseif ($action=="reset_avatar") {
-// RESET DE L'AVATAR ?>
-<div class="post">
-<h1><img src="http://www.teen-quotes.com/images/icones/avatar.png" class="icone" /><?php echo $change_avatar; ?></h1>
-<?php
-$sql = "UPDATE teen_quotes_account SET avatar='icon50.png' WHERE id='$id'"; 
-mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error()); 
-echo ''.$change_avatar_succes.'';
-echo '<meta http-equiv="refresh" content="3;url=user-'.$id.'" />';
-	 ?>
-</div>
-<?php }
-//CHANGEMENT DE MOT DE PASSE
+	else
+		{
+		echo '<span class="erreur">'.$select_a_file.'</span>'.$lien_retour.'';
+		}
+	
+	echo '</div>';
+	
+	}
+elseif ($action=="reset_avatar") 
+	{
+	// RESET DE L'AVATAR 
+	echo '
+	<div class="post">
+	<h1><img src="http://www.teen-quotes.com/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h1>
+	';
+	$sql = "UPDATE teen_quotes_account SET avatar='icon50.png' WHERE id='$id'"; 
+	mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error()); 
+	echo ''.$change_avatar_succes.'';
+	echo '<meta http-equiv="refresh" content="3;url=user-'.$id.'" />';
+	
+	echo '</div>';
+	
+	}
 elseif ($action=="change") 
 	{
+	//CHANGEMENT DE MOT DE PASSE
 	echo '
 	<div class="post">
 	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />'.$change_password.'</h1>
