@@ -23,6 +23,10 @@ $hide_profile = "<span class=\"bleu\">Cacher mon profil : </span>
 				<option $selected_profile_no value=\"No\" >Non</option> 
 				<option $selected_profile_yes value=\"1\" >Oui</option> 
 			</select></div>";
+
+$settings = "Options";			
+$i_want_newsletter = "Je veux recevoir la newsletter hebdomadaire";
+$i_want_comment_quotes = "Je veux recevoir un email quand un commentaire sera posté sur une de mes citations";
 			
 			
 			
@@ -48,3 +52,5 @@ $change_avatar_succes ="$succes Votre avatar a été mis à jour avec succès !<
 $photo_extra_size = "La taille de votre photo est trop grande ! Le maximum est de 500 ko !";
 $bad_extension="Votre photo doit être au format JPG, GIF ou PNG !";
 $select_a_file = "Merci de sélectionner une image !";
+
+$settings_updated = "$succes Vos options ont été mises à jour avec succès !";

@@ -23,6 +23,10 @@ $hide_profile = "<span class=\"bleu\">Hide my profile : </span>
 				<option $selected_profile_no value=\"No\" >No</option> 
 				<option $selected_profile_yes value=\"1\" >Yes</option> 
 			</select></div>";
+
+$settings = "Settings";
+$i_want_newsletter = "I want to receive the weekly newsletter";
+$i_want_comment_quotes = "I want to receive an email when a comment will be posted on one of my quotes";
 			
 			
 			
@@ -51,9 +55,4 @@ $bad_extension="Your photo must be in JPG, PNG or GIF !";
 $select_a_file = "Please select a file !";
 			
 			
-			
-			
-			
-			
-			
-		?>
+$settings_updated = "$succes Your options have been updated successfully !";

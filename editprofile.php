@@ -21,6 +21,8 @@ $result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account where
 		break;
 		}
 include "lang/$language/edit_profile.php";
+include "lang/$language/newsletter.php";
+include "lang/$language/signup.php";
 
 
 		if(empty($result['birth_date'])) {$result['birth_date']="";}
@@ -52,6 +54,16 @@ if (empty($action)) {
 	<div class="clear"></div>
 	<div class="colonne-gauche"><?php echo $hide_profile; ?>
 	<br /><br />
+	<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+	</form>
+</div>
+
+<div class="post">
+	<h1><img src="http://www.teen-quotes.com/images/icones/outils.png" class="icone" /><?php echo $settings; ?></h1>
+	<form action="?action=settings" method="post">
+	<input type="checkbox" name="newsletter" value="1" <?php if ($is_newsletter == '1') echo 'checked="checked"';?> /><?php echo $i_want_newsletter; ?><br>
+	<input type="checkbox" name="comments_quote" value="1" <?php if($notification_comment_quote == '1')echo 'checked="checked"'; ?> /><?php echo $i_want_comment_quotes; ?><br>
+	<br />
 	<center><p><input type="submit" value="Okey" class="submit" /></p></center>
 	</form>
 </div>
@@ -186,49 +198,143 @@ echo '<meta http-equiv="refresh" content="3;url=user-'.$id.'" />';
 	 ?>
 </div>
 <?php }
-elseif ($action=="change") { ?>
-<div class="post">
-<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" /><?php echo $change_password; ?></h1>
-<?php 		//CHANGEMENT DE MOT DE PASSE
-			$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
-			$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
+//CHANGEMENT DE MOT DE PASSE
+elseif ($action=="change") 
+	{
+	echo '
+	<div class="post">
+	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />'.$change_password.'</h1>
+	';
+	$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
+	$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
 			
-			if ($pass1==$pass2) {
-				if(strlen($pass1) >= '5')
-										{
-										$pass = sha1(strtoupper($username).':'.strtoupper($pass1));
-										$query = mysql_query ("UPDATE teen_quotes_account SET pass='$pass' WHERE id='$id'") or die ('Erreur : '.mysql_error());
-										$message = "$email_message";
-										$mail = mail($email, "$email_subject", $message, $headers); 
-										if($query && $mail){
-														echo "$change_pass_succes";
-														echo '<meta http-equiv="refresh" content="3;url=connexion.php?method=get&pseudo='.$username.'&password='.$pass2.'" />';
-														}
-														else 
-														{
-														echo "<h2>$error</h2>$lien_retour";
-														} 
-										/*if ($query) {
-														echo "$change_pass_succes";
-														echo "<meta http-equiv=\"refresh\" content=\"3;url=index.php?deconnexion\" />";
-													}
-													else 
-													{
-														echo "<h2>$error</h2>$lien_retour";
-													} */
-										
-										}
-										else 
-										{
-										echo '<span class="erreur">'.$password_short.'</span>'.$lien_retour.'';
-										}
-								}		
-								else 
-								{
-								echo '<span class="erreur">'.$password_not_same.'</span>'.$lien_retour.'';
-								} ?>
-</div>
-								
-								
-<?php	}
+	if ($pass1==$pass2) 
+		{
+		if(strlen($pass1) >= '5')
+			{
+			$pass = sha1(strtoupper($username).':'.strtoupper($pass1));
+			$query = mysql_query ("UPDATE teen_quotes_account SET pass='$pass' WHERE id='$id'") or die ('Erreur : '.mysql_error());
+			$message = "$email_message";
+			$mail = mail($email, "$email_subject", $message, $headers); 
+			if($query && $mail)
+				{
+				echo "$change_pass_succes";
+				echo '<meta http-equiv="refresh" content="3;url=connexion.php?method=get&pseudo='.$username.'&password='.$pass2.'" />';
+				}
+			else 
+				{
+				echo "<h2>$error</h2>$lien_retour";
+				}
+	
+
+			}
+		else 
+			{
+			echo '<span class="erreur">'.$password_short.'</span>'.$lien_retour.'';
+			}
+		}		
+	else 
+		{
+		echo '<span class="erreur">'.$password_not_same.'</span>'.$lien_retour.'';
+		} 
+		
+	echo '</div>';
+	
+	}
+elseif ($action == "settings")
+	{
+	echo '
+	<div class="post">
+	<h1><img src="http://www.teen-quotes.com/images/icones/outils.png" class="icone" />'.$settings.'</h1>
+	';
+	$comments_quote = htmlspecialchars($_POST['comments_quote']);
+	$newsletter = htmlspecialchars($_POST['newsletter']);
+	$email = $compte['email'];
+	
+	// NEWSLETTER
+	if ($newsletter == '1')
+		{
+		if (!empty($email) && preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
+			{
+			$num_rows=mysql_num_rows(mysql_query("SELECT id FROM newsletter where email='$email'")); 
+			if ($num_rows=="0") 
+				{
+				$code = caracteresAleatoires(5);
+				$query=mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");
+				if ($query) 
+					{
+					echo ''.$settings_updated.'<br /><br />';
+					}
+					else 
+					{
+					echo ''.$error.' '.$lien_retour.'';
+					}
+				}
+				else
+				{
+				echo ''.$settings_updated.'<br /><br />';
+				}
+			}
+			else 
+			{
+			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
+			}
+		}
+	else 
+		{
+		if (!empty($email) && preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
+			{
+			$num_rows=mysql_num_rows(mysql_query("SELECT id FROM newsletter WHERE email='$email'")); 
+			if ($num_rows=="1") 
+				{
+				$query=mysql_query("DELETE FROM newsletter WHERE email='$email'");
+				if ($query) 
+					{
+					echo ''.$settings_updated.'<br /><br />';
+					}
+					else 
+					{
+					echo ''.$error.' '.$lien_retour.'';
+					}
+				}
+				else
+				{
+				echo ''.$settings_updated.'<br /><br />';
+				}
+			}
+			else 
+			{
+			echo ''.$error.' '.$lien_retour.'';
+			}
+		}
+		
+	// COMMENTAIRE SUR LES QUOTES DE L'AUTEUR
+	if ($comments_quote == '1')
+		{
+		$query = mysql_query("UPDATE teen_quotes_account SET notification_comment_quote='1' WHERE id = '$id_user'");
+		if ($query)
+			{
+			echo ''.$settings_updated.'<br /><br />';
+			}
+		else 
+			{
+			echo ''.$error.' '.$lien_retour.'';
+			}
+		}
+	else
+		{
+		$query = mysql_query("UPDATE teen_quotes_account SET notification_comment_quote='0' WHERE id = '$id_user'");
+		if ($query)
+			{
+			echo ''.$settings_updated.'<br /><br />';
+			}
+		else 
+			{
+			echo ''.$error.' '.$lien_retour.'';
+			}
+		}
+	echo '</div>';
+	}
+	
+	
 include "footer.php"; ?>

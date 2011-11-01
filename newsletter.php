@@ -41,7 +41,8 @@ elseif ($action=="send") // INSCRIPTION
 				{
 				echo ''.$succes_newsletter.'';
 				}
-				else {
+				else 
+				{
 				echo ''.$error.' '.$lien_retour.'';
 				}
 			}

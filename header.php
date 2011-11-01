@@ -38,7 +38,8 @@ $pass = mysql_escape_string($_COOKIE['Pass']);
 					
 					$username = $_SESSION['username'];
 					$id = $_SESSION['account'];
-					$email=$compte['email'];
+					$email = $compte['email'];
+					$notification_comment_quote = $compte['notification_comment_quote'];
 					$is_newsletter=mysql_num_rows(mysql_query("SELECT id FROM newsletter where email='$email'")); 
 					
 					if (empty($compte['birth_date']) && empty($compte['title']) && empty($compte['country']) && empty($compte['about_me']) && $compte['avatar']=="icon50.png" && empty($compte['city']))
