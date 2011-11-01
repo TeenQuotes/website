@@ -58,7 +58,8 @@ else
 $_SESSION['logged'] = false;
 }
 
-if ($_SESSION['security_level'] >= '2') 
+$minute = date("i");
+if ($minute % '10' == '0') 
 	{
 	$citations_awaiting_approval = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='0'"));
 	$alerte_admin_query = mysql_fetch_array(mysql_query("SELECT alerte_admin FROM config WHERE id='1'"));
@@ -77,7 +78,7 @@ if ($_SESSION['security_level'] >= '2')
 		$update_alerte = mysql_query("UPDATE config SET alerte_admin='0' WHERE id='1'");
 		}
 	}
- ?>
+?>
  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
