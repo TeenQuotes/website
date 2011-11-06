@@ -59,7 +59,7 @@ $_SESSION['logged'] = false;
 }
 
 $minute = date("i");
-if ($minute % '10' == '0') 
+if ($minute % '10' == '0' OR $_SESSION['security_level'] > '0') 
 	{
 	$citations_awaiting_approval = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='0'"));
 	$alerte_admin_query = mysql_fetch_array(mysql_query("SELECT alerte_admin FROM config WHERE id='1'"));
