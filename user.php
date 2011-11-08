@@ -211,9 +211,9 @@ if (empty($id)) {
 		echo '</div>';
 			}
 			else { ?>
-			</div>
 			<div class="bandeau_erreur">
 			<?php echo $no_fav_quotes; ?>
+			</div>
 			</div>
 			<?php
 			 } ?>
@@ -279,9 +279,9 @@ if (empty($id)) {
 		echo '</div>';
 			}
 			else { ?>
-			</div>
 			<div class="bandeau_erreur">
 			<?php echo $no_quotes; ?>
+			</div>
 			</div>
 			<?php
 			 }

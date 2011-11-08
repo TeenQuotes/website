@@ -30,7 +30,7 @@ if (empty($id_quote))
 	$auteur = $result['auteur']; 
 	$date_quote = $result['date'];   ?>
 
-	<div class="post slidedown">
+	<div class="post">
 	<?php echo $txt_quote; ?><br><br />
 	<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['account']);date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 	<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
@@ -78,10 +78,6 @@ if (empty($id_quote))
 		  { ?>
 		  <span class="erreur"><?php echo $must_be_log; ?></span><br>
 	<?php }
-	if ($nombre_commentaires =='0')
-		{
-		echo '</div>';
-		}
 		
 		
 	if ($nombre_commentaires >='1')
@@ -108,6 +104,7 @@ if (empty($id_quote))
 		</div>
 		<?php
 		}
+	echo '</div>';
 	}
 
 include 'footer.php'; ?>
