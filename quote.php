@@ -77,6 +77,7 @@ if (empty($id_quote))
 		  else
 		  { ?>
 		  <span class="erreur"><?php echo $must_be_log; ?></span><br>
+		  <br />
 	<?php }
 		
 		

@@ -174,24 +174,24 @@ echo"<meta name=\"description\" content=\"Teen Quotes : because our lives are fi
 
 <div id="menu">	
 	<?php if (!$_SESSION['logged']) { ?>
-	<a href="/" class="menu"><img src="http://www.teen-quotes.com/images/icones/menu/home.png" class="icone_menu" /><?php echo $home; ?></a>
-	<a href="signup" class="menu"><img src="http://www.teen-quotes.com/images/icones/signin.png" class="icone_menu" /><?php echo $sign_up; ?></a>
-	<a href="members" class="menu"><img src="http://www.teen-quotes.com/images/icones/menu/members.png" class="icone_menu" /><?php echo $members; ?></a>
-	<a href="random" class="menu"><img src="http://www.teen-quotes.com/images/icones/menu/random.png" class="icone_menu" /><?php echo $random_quote; ?></a>
-	<a href="newsletter" class="menu"><img src="http://www.teen-quotes.com/images/icones/menu/newsletter.png" class="icone_menu" />Newsletter</a>
-	<a href="signup?addquote" class="menu"><img src="http://www.teen-quotes.com/images/icones/menu/add.png" class="icone_menu" /><?php echo $add_a_quote; ?></a>
+	<a href="/" class="menu"><span class="icone_menu home"></span><?php echo $home; ?></a>
+	<a href="signup" class="menu"><span class="icone_menu signin"></span><?php echo $sign_up; ?></a>
+	<a href="members" class="menu"><span class="icone_menu members"></span><?php echo $members; ?></a>
+	<a href="random" class="menu"><span class="icone_menu random"></span><?php echo $random_quote; ?></a>
+	<a href="newsletter" class="menu"><span class="icone_menu newsletter"></span>Newsletter</a>
+	<a href="signup?addquote" class="menu"><span class="icone_menu add"></span><?php echo $add_a_quote; ?></a>
 	<span class="right">
 		<a href="http://teen-quotes.com/<?php echo $php_self; ?>" title="View the website in English"><img src="http://www.teen-quotes.com/images/icones/english.png" class="icone_login_left" /></a>
 		<a href="http://fr.teen-quotes.com/<?php echo $php_self; ?>" title="Voir le site en Français"><img src="http://www.teen-quotes.com/images/icones/french.png" class="icone_login_right" /></a>
 	</span> 
 		<?php } else { ?>
-	<a href="/" class="menu"><img src="http://www.teen-quotes.com/images/icones/menu/home.png" class="icone_menu" /><?php echo $home; ?></a>
-	<a href="user-<?php echo $id; ?>" class="menu"><img src="http://www.teen-quotes.com/images/icones/menu/profile.png" class="icone_menu" /><?php echo $my_profile; ?></a>
-	<a href="members" class="menu"><img src="http://www.teen-quotes.com/images/icones/menu/members.png" class="icone_menu" /><?php echo $members; ?></a>
-	<a href="random" class="menu"><img src="http://www.teen-quotes.com/images/icones/menu/random.png" class="icone_menu" /><?php echo $random_quote; ?></a>
-	<?php if($is_newsletter=="0") { ?><a href="newsletter" class="menu"><img src="http://www.teen-quotes.com/images/icones/menu/newsletter.png" class="icone_menu" />Newsletter</a><?php } ?>
-	<a href="addquote" class="menu"><img src="http://www.teen-quotes.com/images/icones/menu/add.png" class="icone_menu" /><?php echo $add_a_quote; ?></a>
-	<?php if($_SESSION['security_level'] >='2') { ?><a href="admin" class="menu"><img src="http://www.teen-quotes.com/images/icones/menu/admin.png" class="icone_menu" />Admin <?php if ($citations_awaiting_approval > '0'){echo '- '.$citations_awaiting_approval.'';} ?></a><?php } ?>	
+	<a href="/" class="menu"><span class="icone_menu home"></span><?php echo $home; ?></a>
+	<a href="user-<?php echo $id; ?>" class="menu"><span class="icone_menu profile"></span><?php echo $my_profile; ?></a>
+	<a href="members" class="menu"><span class="icone_menu members"></span><?php echo $members; ?></a>
+	<a href="random" class="menu"><span class="icone_menu random"></span><?php echo $random_quote; ?></a>
+	<?php if($is_newsletter=="0") { ?><a href="newsletter" class="menu"><span class="icone_menu newsletter"></span>Newsletter</a><?php } ?>
+	<a href="addquote" class="menu"><span class="icone_menu add"></span><?php echo $add_a_quote; ?></a>
+	<?php if($_SESSION['security_level'] >='2') { ?><a href="admin" class="menu"><span class="icone_menu admin"></span>Admin <?php if ($citations_awaiting_approval > '0'){echo '- '.$citations_awaiting_approval.'';} ?></a><?php } ?>	
 	<span class="right">
 		<a href="http://teen-quotes.com/<?php echo $php_self; ?>" title="View the website in English"><img src="http://www.teen-quotes.com/images/icones/english.png" class="icone_login_left" /></a>
 		<a href="http://fr.teen-quotes.com/<?php echo $php_self; ?>" title="Voir le site en Français"><img src="http://www.teen-quotes.com/images/icones/french.png" class="icone_login_right" /></a>
