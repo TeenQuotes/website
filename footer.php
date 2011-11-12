@@ -2,7 +2,7 @@
 
 			<div id="right" <?php if ($_SERVER['PHP_SELF']=='/index.php') {echo "style=\"margin-top:35px\"";} ?>>
 				<div class="post">
-					<div class="title"><img src="http://www.teen-quotes.com/images/icones/search.png" class="icone_login" /><?php echo $search; ?></div>
+					<div class="title"><span class="icone_login search"></span><?php echo $search; ?></div>
 					<form action="search" method="get">
 					<input type="text" name="q" style="width:115px;margin-bottom:10px;" <?php echo $search_value_form; ?>/><br>
 					<input type="submit" class="submit" value="<?php echo $search; ?>"/>
@@ -12,18 +12,18 @@
 				<?php if (!$_SESSION['logged']) { ?>
 				
 				<div class="post">
-					<div class="title"><img src="http://www.teen-quotes.com/images/icones/signin.png" class="icone_login" /><?php echo $sign_in; ?></div>
+					<div class="title"><span class="icone_login signin"></span><?php echo $sign_in; ?></div>
 					<?php require "connexion.php"; ?>
 					<form action="?action=connexion" method="post">
-					<img src="http://www.teen-quotes.com/images/icones/membre.png" class="icone_login" /><input type="text" name="pseudo" style="width:115px;margin-bottom:10px;"/>
-					<img src="http://www.teen-quotes.com/images/icones/password.png" class="icone_login" /><input type="password" name="pass" style="width:115px"/>
+					<span class="icone_login member"></span><input type="text" name="pseudo" style="width:115px;margin-bottom:10px;"/>
+					<span class="icone_login password"></span><input type="password" name="pass" style="width:115px"/>
 					<p align="right"><input type="submit" name="connexion" class="submit" value="<?php echo $log_me; ?>"/></p>
 					</form>
 					<span class="right"><a href="signup" title="<?php echo $sign_up; ?>"><?php echo $sign_up; ?></a> | <a href="forgot" title="<?php echo $forget; ?>"> <?php echo $forget; ?></a></span><br>
 				</div>
 				<?php } else { ?>
 				<div class="post">
-					<div class="title"><img src="http://www.teen-quotes.com/images/icones/membre.png" class="icone_login" /><?php echo $my_account; ?></div>
+					<div class="title"><span class="icone_login member"></span><?php echo $my_account; ?></div>
 					<?php echo $connected_as; ?> <span class="bleu"><?php echo ucfirst($username); ?></span><br>
 					<br />
 					<a href="user-<?php echo $_SESSION['account'] ?>">&raquo; <?php echo $my_profile; ?></a><span class="right"><a href="editprofile" class="submit" style="text-decoration:none"><?php echo $edit; ?></a></span><br>
@@ -34,7 +34,7 @@
 				
 				
 				<div class="post">
-					<div class="title"><img src="http://www.teen-quotes.com/images/icones/about.png" class="icone_login" /><?php echo $about; ?></div>
+					<div class="title"><span class="icone_login about"></span><?php echo $about; ?></div>
 					<p style="font-size:85%">
 					&copy; <?php echo date("Y"); ?> teen-quotes.com<br>
 					<?php echo $created_by; ?> <a href="http://www.antoine-augusti.fr" target="_blank"> Antoine Augusti</a>
@@ -101,6 +101,7 @@
 			$('.slidedown').slideDown(1500);
 			});
 			</script>
+			<!-- <script type="text/javascript" src="feed_adri.js"></script>-->
 	</body>
 </html>
 <!-- 

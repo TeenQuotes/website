@@ -181,8 +181,8 @@ echo"<meta name=\"description\" content=\"Teen Quotes : because our lives are fi
 	<a href="newsletter" class="menu"><span class="icone_menu newsletter"></span>Newsletter</a>
 	<a href="signup?addquote" class="menu"><span class="icone_menu add"></span><?php echo $add_a_quote; ?></a>
 	<span class="right">
-		<a href="http://teen-quotes.com/<?php echo $php_self; ?>" title="View the website in English"><img src="http://www.teen-quotes.com/images/icones/english.png" class="icone_login_left" /></a>
-		<a href="http://fr.teen-quotes.com/<?php echo $php_self; ?>" title="Voir le site en Français"><img src="http://www.teen-quotes.com/images/icones/french.png" class="icone_login_right" /></a>
+		<a href="http://teen-quotes.com/<?php echo $php_self; ?>" title="View the website in English"><span class="icone_flags english"></span></a>
+		<a href="http://fr.teen-quotes.com/<?php echo $php_self; ?>" title="Voir le site en Français"><span class="icone_flags french"></span></a>
 	</span> 
 		<?php } else { ?>
 	<a href="/" class="menu"><span class="icone_menu home"></span><?php echo $home; ?></a>
@@ -193,9 +193,9 @@ echo"<meta name=\"description\" content=\"Teen Quotes : because our lives are fi
 	<a href="addquote" class="menu"><span class="icone_menu add"></span><?php echo $add_a_quote; ?></a>
 	<?php if($_SESSION['security_level'] >='2') { ?><a href="admin" class="menu"><span class="icone_menu admin"></span>Admin <?php if ($citations_awaiting_approval > '0'){echo '- '.$citations_awaiting_approval.'';} ?></a><?php } ?>	
 	<span class="right">
-		<a href="http://teen-quotes.com/<?php echo $php_self; ?>" title="View the website in English"><img src="http://www.teen-quotes.com/images/icones/english.png" class="icone_login_left" /></a>
-		<a href="http://fr.teen-quotes.com/<?php echo $php_self; ?>" title="Voir le site en Français"><img src="http://www.teen-quotes.com/images/icones/french.png" class="icone_login_right" /></a>
-	</span>
+		<a href="http://teen-quotes.com/<?php echo $php_self; ?>" title="View the website in English"><span class="icone_flags english"></span></a>
+		<a href="http://fr.teen-quotes.com/<?php echo $php_self; ?>" title="Voir le site en Français"><span class="icone_flags french"></span></a>
+	</span> 
 		<?php }	?>
 </div><!-- END MENU -->
 

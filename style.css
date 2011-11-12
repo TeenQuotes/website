@@ -12,9 +12,17 @@ a .fb_share{margin-right:20px;margin-top:-5px}
 .mini_icone{border:none;height:12px;margin-right:10px;vertical-align:top;width:12px}
 .mini_icone_middle{border:none;height:10px;margin-right:10px;vertical-align:middle;width:10px}
 .alerte{height:16px;margin-right:5px;vertical-align:middle;width:16px}
-.icone_login{border:none;height:14px;margin-right:10px;vertical-align:top;width:14px}
-.icone_login_left{border:none;height:16px;margin-right:20px;vertical-align:top;width:16px}
-.icone_login_right{border:none;height:16px;vertical-align:top;width:16px}
+span.icone_login{background:url('images/icones/sprite_menu.png');border:none;display:inline-block;margin-right:10px;vertical-align:top;}
+span.icone_login.about{background-position:0 0;height:14px;width:14px;}
+span.icone_login.member{background-position:-45px 0;height:14px;width:14px;}
+span.icone_login.search{background-position:-60px 0;height:14px;width:14px;}
+span.icone_login.signin{background-position:-77px 0;height:14px;width:14px;}
+span.icone_login.password{background-position:-92px 0;height:14px;width:14px;}
+span.icone_flags{background:url('images/icones/sprite_menu.png');display:inline-block;vertical-align:top;}
+span.icone_flags.english{background-position:-15px 0;height:14px;margin-right:20px;width:14px;}
+span.icone_flags.french{background-position:-30px 0;height:14px;width:14px;}
+.icone_login_left{border:none;height:16px;margin-right:20px;vertical-align:top;width:16px;}
+.icone_login_right{border:none;height:16px;vertical-align:top;width:16px;}
 .right{float:right}
 .bleu{color:#5C9FC0;font-weight:700}
 #topbar{-moz-border-radius:8px;-webkit-border-radius:8px;background:#fff;border-radius:8px;font-size:85%;margin:0 auto 5px;padding:10px 20px;text-align:left;width:860px}
