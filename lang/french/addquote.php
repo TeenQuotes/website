@@ -10,3 +10,4 @@ $enter_quote = "Entrez votre citation";
 $add_ok = "Votre citation a été ajoutée avec succès, elle sera ensuite validée ou rejetée par notre équipe.<br><br /><br /><br /><img src=\"http://teen-quotes.com/images/icones/infos.png\" class=\"mini_icone\"/>Vous serez averti par email si celle ci a été approuvée ou non.";
 $too_short = "Votre citation est trop courte";
 $quote_already_exist = "Cette citation existe déjà sur le site !";
+$submitted_too_much = "Vous avez déjà soumis 5 citations aujourd'hui. Tentez à nouveau demain !";

@@ -27,22 +27,30 @@ elseif ($action=="add_quote")
 
 	if (strlen($texte_quote) >= '30') 
 		{
-		if (is_quote_exist($texte_quote)==FALSE) 
+		$submitted_today = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id='$id' AND date='$date'"));
+		if ($submitted_today < '5')
 			{
-			$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english,auteur,date,auteur_id,approved) VALUES ('$texte_quote', '$username', '$date', '$id','0')");
-			
-			if ($query) 
+			if (is_quote_exist($texte_quote) == FALSE) 
 				{
-				echo ''.$succes.' '.$add_ok.'';
+				$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english,auteur,date,auteur_id,approved) VALUES ('$texte_quote', '$username', '$date', '$id','0')");
+				
+				if ($query) 
+					{
+					echo ''.$succes.' '.$add_ok.'';
+					}
+					else 
+					{
+					echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+					}
 				}
-				else 
+				else
 				{
-				echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+				echo '<span class="erreur">'.$quote_already_exist.'</span> '.$lien_retour.'';
 				}
 			}
-			else
+		else
 			{
-			echo '<span class="erreur">'.$quote_already_exist.'</span> '.$lien_retour.'';
+			echo '<span class="erreur">'.$submitted_too_much.'</span> '.$lien_retour.'';
 			}
 		}
 		else 
