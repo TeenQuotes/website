@@ -57,27 +57,6 @@ else
 {
 $_SESSION['logged'] = false;
 }
-
-$minute = date("i");
-if ($minute % '10' == '0' OR $_SESSION['security_level'] > '0') 
-	{
-	$citations_awaiting_approval = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='0'"));
-	$alerte_admin_query = mysql_fetch_array(mysql_query("SELECT alerte_admin FROM config WHERE id='1'"));
-	$alerte_admin = $alerte_admin_query['alerte_admin'];
-	if ($citations_awaiting_approval >= '10' AND $alerte_admin=='0')
-		{
-		$email_subject = "Quotes awaiting approval";
-		$message = 'Hey,<br><br />There are more than 10 quotes awaiting approval ! It\'s time to check the admin panel, you can access it by clicking <a href="http://www.teen-quotes.com/admin" target="_blank">here</a>';
-		$mail = mail("antoine.augusti@gmail.com", $email_subject, $top_mail.$message.$end_mail, $headers); 
-		$mail_2 = mail("southernstarzz@facebook.com", $email_subject, $top_mail.$message.$end_mail, $headers);
-		$update_alerte = mysql_query("UPDATE config SET alerte_admin='1' WHERE id='1'");	
-		}
-		
-	if ($citations_awaiting_approval < '10' AND $alerte_admin=='1')
-		{
-		$update_alerte = mysql_query("UPDATE config SET alerte_admin='0' WHERE id='1'");
-		}
-	}
 ?>
  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">

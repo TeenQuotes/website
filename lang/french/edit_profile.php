@@ -16,6 +16,8 @@ $choose_title = "<span class=\"bleu\">Titre : </span>
 			</select></div>";
 $choose_birth = "<span class=\"bleu\">Date de naissance (JJ/MM/AAAA) : </span>";
 $choose_country= "<span class=\"bleu\">Pays : </span>";
+$other_countries = "Autres pays";
+$common_choices = "Choix habituels";
 $choose_city= "<span class=\"bleu\">Ville : </span>";
 $about_you = "<span class=\"bleu\">A propos de vous : </span>";
 $hide_profile = "<span class=\"bleu\">Cacher mon profil : </span>

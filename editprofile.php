@@ -30,7 +30,6 @@ include "lang/$language/signup.php";
 		if(empty($result['about_me'])) {$result['about_me']="";}else{$result['about_me'] = nl2br_to_textarea($result['about_me']);}
 		if(empty($result['country'])) {$result['country']="";}
 		if(empty($result['city'])) {$result['city']="";}
-		
 
 
 // FORMULAIRE
@@ -45,7 +44,7 @@ if (empty($action)) {
 	<br /><br />
 	<div class="colonne-gauche"><?php echo $choose_birth; ?></div><div class="colonne-milieu"><input type="text" class="signup" name="birth_date" value="<?php echo $result['birth_date']; ?>" /></div>
 	<br /><br />
-	<div class="colonne-gauche"><?php echo $choose_country; ?></div><div class="colonne-milieu"><input type="text" class="signup" name="country" value="<?php echo $result['country']; ?>" /></div>
+	<div class="colonne-gauche"><?php echo $choose_country; ?></div><div class="colonne-milieu"><?php select_country($result['country'],$other_countries,$common_choices); ?></div>
 	<br /><br />
 	<div class="colonne-gauche"><?php echo $choose_city; ?></div><div class="colonne-milieu"><input type="text" class="signup" name="city" value="<?php echo $result['city']; ?>" /></div>
 	<br /><br />
