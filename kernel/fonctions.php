@@ -553,6 +553,11 @@ function cut_tweet($chaine)
 	  
 	  return $chaine1;
    }
+   elseif (strlen($chaine) <= '105')
+   {
+   $chaine .= ' #ohteenquotes';
+   return $chaine;
+   }
    else
    {
    return $chaine;
