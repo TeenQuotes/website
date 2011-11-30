@@ -164,6 +164,40 @@ if ($minute % '10' == '0' OR $_SESSION['security_level'] > '0')
 		}
 	}
 
+function last_visit($session_last_visit,$last_visit)
+	{
+	if ($session_last_visit != '1')
+		{
+		$today = date("d/m/Y");
+		if ($last_visit != $today)
+			{
+			$update_last_visit = mysql_query("UPDATE teen_quotes_account SET last_visit='$today'");
+			$_SESSION['last_visit_user'] = '1';
+			}
+		}
+	}
+	
+function is_quote_new($date_quote,$last_visit)
+	{
+	$yesterday_timestamp = mktime(0, 0, 0, date("m")  , date("d")-1, date("Y"));
+	$yesterday= date("d/m/Y", $yesterday_timestamp);
+	
+	$jour = substr($date_quote, 0, 2);
+	$mois = substr($date_quote, 3, 2);
+	$annee = substr($date_quote, 6, 4);
+	$timestamp_date_quote = mktime(0, 0, 0, $mois, $jour, $annee); 
+	
+	$jour_last_visit = substr($last_visit, 0, 2);
+	$mois_last_visit = substr($last_visit, 3, 2);
+	$annee_last_visit = substr($last_visit, 6, 4);
+	$timestamp_last_visit = mktime(0, 0, 0, $mois_last_visit, $jour_last_visit, $annee_last_visit); 
+	
+	
+	if ($date_quote == $yesterday OR ($timestamp_last_visit != '943916400' AND $timestamp_date_quote >$timestamp_last_visit))
+		{
+		echo '<span class="icone_new_quote"></span>';
+		}
+	}
 
 
 $heure = date("H");
