@@ -44,7 +44,7 @@ $pass = mysql_escape_string($_COOKIE['Pass']);
 					$notification_comment_quote = $compte['notification_comment_quote'];
 					$is_newsletter=mysql_num_rows(mysql_query("SELECT id FROM newsletter where email='$email'"));
 					
-					last_visit($session_last_visit,$last_visit);
+					last_visit($session_last_visit,$last_visit,$id);
 					
 					if (empty($compte['birth_date']) && empty($compte['title']) && empty($compte['country']) && empty($compte['about_me']) && $compte['avatar']=="icon50.png" && empty($compte['city']))
 						{
@@ -86,9 +86,9 @@ $texte = $result['texte_english'];
 echo '<title>Teen Quotes | Quote #'.$id_quote.'</title>';
 echo '<meta name="description" content="'.$texte.'"/>';
 }
-elseif (isset($_GET['letter'])) {
+elseif (isset($_GET['letter']) OR $php_self == "members") {
 $lettre = htmlspecialchars($_GET['letter']);
-if (empty($lettre)) { $lettre = "a"; }
+if (empty($lettre)) { $lettre = "A"; }
 $php_self = 'members-'.$lettre.'';
 echo '<title>Teen Quotes | Members - '.$lettre.'</title>';
 echo"<meta name=\"description\" content=\"Teen Quotes : because our lives are filled full of beautiful sentences, and because some quotes are simply true\"/>";

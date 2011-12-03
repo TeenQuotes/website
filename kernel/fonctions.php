@@ -164,14 +164,14 @@ if ($minute % '10' == '0' OR $_SESSION['security_level'] > '0')
 		}
 	}
 
-function last_visit($session_last_visit,$last_visit)
+function last_visit($session_last_visit,$last_visit,$id_account)
 	{
 	if ($session_last_visit != '1')
 		{
 		$today = date("d/m/Y");
 		if ($last_visit != $today)
 			{
-			$update_last_visit = mysql_query("UPDATE teen_quotes_account SET last_visit='$today'");
+			$update_last_visit = mysql_query("UPDATE teen_quotes_account SET last_visit='$today' WHERE id='$id_account'");
 			$_SESSION['last_visit_user'] = '1';
 			}
 		}

@@ -6,7 +6,14 @@ if ($_SESSION['security_level'] <'2')
 	echo '<meta http-equiv="refresh" content="0; url=error.php?erreur=403">';
 	} 
 elseif (empty($action) && $_SESSION['security_level'] >='2') 
-	{?>
+	{
+	$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='2'"));
+	$jours_posted = round($nb_quote_awaiting_post / 5);
+	if ($nb_quote_awaiting_post % '5' != '0')
+		{
+		$jours_posted = $jours_posted + 1;
+		}
+	?>
 	<div class="post">
 		<h1><img src="http://www.teen-quotes.com/images/icones/add.png" class="icone" />Add a quote</h1>
 		<form action="?action=add_quote" method="post">
@@ -29,6 +36,11 @@ elseif (empty($action) && $_SESSION['security_level'] >='2')
 	<div class="post">
 		<h1><img src="http://www.teen-quotes.com/images/icones/test.png" class="icone" />Approve Quotes</h1>
 	<?php 
+		echo '
+		<div class="grey_post">
+		Number of citations waiting to be posted : '.$nb_quote_awaiting_post.' ('.$jours_posted.' days)
+		</div>
+		';
 	$query = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved='0' ORDER BY id ASC");
 	while ($result=mysql_fetch_array($query)) 
 		{
