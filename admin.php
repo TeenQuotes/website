@@ -8,7 +8,7 @@ if ($_SESSION['security_level'] <'2')
 elseif (empty($action) && $_SESSION['security_level'] >='2') 
 	{
 	$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='2'"));
-	$jours_posted = round($nb_quote_awaiting_post / 5);
+	$jours_posted = floor($nb_quote_awaiting_post / 5);
 	if ($nb_quote_awaiting_post % '5' != '0')
 		{
 		$jours_posted = $jours_posted + 1;
