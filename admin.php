@@ -78,7 +78,7 @@ elseif ($action=="add_quote")
 
 	if (strlen($texte_quote) >= '30') 
 	{
-	$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english,auteur,date,auteur_id) VALUES ('$texte_quote', '$username', '$date', '$id')");
+	$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english,auteur,date,auteur_id,approved) VALUES ('$texte_quote', '$username', '$date', '$id','2')");
 	if ($query) 
 		{
 		echo ''.$succes.' <a href="../admin">Add anoter one</a>';
