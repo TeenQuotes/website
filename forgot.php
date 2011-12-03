@@ -3,7 +3,7 @@ include 'header.php';
 include "lang/$language/forgot.php";
 $action=$_GET['action'];
 
-if (empty($action) && !$_SESSION['logged']) 
+if (empty($action) AND !$_SESSION['logged']) 
 	{ ?>
 	<div class="post">
 		<h1><img src="http://www.teen-quotes.com/images/icones/faq.png" class="icone" /><?php echo $pass_forget; ?></h1>
@@ -38,7 +38,7 @@ elseif ($action=="send")
 			
 			$message="$top_mail $change_succes1 <font color=\"#5C9FC0\"><b>$username</b></font> $change_succes2 <font color=\"#5C9FC0\"><b>$newpass</b></font> $change_succes3 <a href=\"http://www.teen-quotes.com/connexion.php?method=get&pseudo=$username&password=$newpass\" target=\"_blank\">$this_link</a>. $end_mail";
 			$mail = mail($email, "$email_subject", $message, $headers); 
-			if($update_pass && $mail) 
+			if($update_pass AND $mail) 
 				{
 				echo ''.$its_ok.'';
 				}

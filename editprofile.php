@@ -108,7 +108,7 @@ elseif ($action=="send")
 	$hide_profile = htmlspecialchars(mysql_escape_string($_POST['hide_profile']));
 				
 				
-	if(!empty($title) && !empty($birth_date) && !empty($country) && !empty($city) && !empty($about_me) && !empty($hide_profile)) 
+	if(!empty($title) AND !empty($birth_date) AND !empty($country) AND !empty($city) AND !empty($about_me) AND !empty($hide_profile)) 
 	{
 	if ($hide_profile=="No") 
 		{
@@ -225,9 +225,9 @@ elseif ($action=="change")
 			{
 			$pass = sha1(strtoupper($username).':'.strtoupper($pass1));
 			$query = mysql_query ("UPDATE teen_quotes_account SET pass='$pass' WHERE id='$id'") or die ('Erreur : '.mysql_error());
-			$message = "$email_message";
-			$mail = mail($email, "$email_subject", $message, $headers); 
-			if($query && $mail)
+			$message = $email_message_change_pass;
+			$mail = mail($email, $email_subject_change_pass, $message, $headers); 
+			if($query AND $mail)
 				{
 				echo "$change_pass_succes";
 				echo '<meta http-equiv="refresh" content="3;url=connexion.php?method=get&pseudo='.$username.'&password='.$pass2.'" />';
@@ -265,7 +265,7 @@ elseif ($action == "settings")
 	// NEWSLETTER
 	if ($newsletter == '1')
 		{
-		if (!empty($email) && preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
+		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 			{
 			$num_rows=mysql_num_rows(mysql_query("SELECT id FROM newsletter where email='$email'")); 
 			if ($num_rows=="0") 
@@ -293,7 +293,7 @@ elseif ($action == "settings")
 		}
 	else 
 		{
-		if (!empty($email) && preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
+		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 			{
 			$num_rows=mysql_num_rows(mysql_query("SELECT id FROM newsletter WHERE email='$email'")); 
 			if ($num_rows=="1") 

@@ -44,8 +44,8 @@ $new_password_repeat = "Repeat your new password";
 $characters = "letters";
 
 
-$email_subject = "New password";
-$email_message = "$top_mail Hello $username !<br><br />You have recently change your password on Teen Quotes.<br><br />Your new credentials are :<br /><br /><li>Username : <font color=\"#5C9FC0\"><b>$username</b></font></li><li>Password : <font color=\"#5C9FC0\"><b>$pass2</b></font></li><br /><br />Keep precisely ! You can login now by clicking on <a href=\"http://www.teen-quotes.com/connexion.php?method=get&pseudo=$username&password=$pass2\" target=\"_blank\">this link</a>. <br><br />Sincerely,<br><b>The Teen Quotes Team</b> $end_mail";
+$email_subject_change_pass = "New password";
+$email_message_change_pass = "$top_mail Hello $username !<br><br />You have recently change your password on Teen Quotes.<br><br />Your new credentials are :<br /><br /><li>Username : <font color=\"#5C9FC0\"><b>$username</b></font></li><li>Password : <font color=\"#5C9FC0\"><b>$pass2</b></font></li><br /><br />Keep precisely ! You can login now by clicking on <a href=\"http://www.teen-quotes.com/connexion.php?method=get&pseudo=$username&password=$pass2\" target=\"_blank\">this link</a>. <br><br />Sincerely,<br><b>The Teen Quotes Team</b> $end_mail";
 $change_pass_succes = "$succes Your password was changed successfully !<br><br /><br />Your login will be sent to your email address.";
 $password_short = "Your password is too short.";
 $password_not_same = "Passwords are not the same.";

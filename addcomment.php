@@ -9,7 +9,7 @@ $date = date("d/m/Y"); ?>
 <div class="post">
 <h1><img src="http://www.teen-quotes.com/images/icones/about.png" class="icone" /><?php echo ucfirst($comments); ?></h1>
 <?php
-if (!empty($id_quote) && !empty($texte)) 
+if (!empty($id_quote) AND !empty($texte)) 
 	{
 	if (strlen($texte) <= '450') 
 		{
@@ -48,14 +48,15 @@ if (!empty($id_quote) && !empty($texte))
 			$mail = mail($email_auteur, $comment_added_on_quote, $comment_added_mail, $headers);
 			}
 		
-		if ($query) {
-					echo ''.$comment_add_succes.'';
-					echo '<meta http-equiv="refresh" content="3;url=quote-'.$id_quote.'" />';
-					}
-					else
-					{
-					echo '<h2>'.$error.'</h2>'.$lien_retour.'';
-					}
+		if ($query) 
+			{
+			echo ''.$comment_add_succes.'';
+			echo '<meta http-equiv="refresh" content="3;url=quote-'.$id_quote.'" />';
+			}
+		else
+			{
+			echo '<h2>'.$error.'</h2>'.$lien_retour.'';
+			}
 		}
 		else
 		{

@@ -1,7 +1,7 @@
 <?php 
 header("Access-Control-Allow-Origin: *");
 require "../kernel/config.php";
-$db = mysql_connect("$host", "$user", "$pass")  or die('Erreur de connexion '.mysql_error());
+$db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
 mysql_select_db('teenq208598',$db)  or die('Erreur de selection '.mysql_error()); 
 require "../kernel/fonctions.php";
 include '../lang/'.$language.'/favorite.php'; 

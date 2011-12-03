@@ -94,14 +94,16 @@
 			<script> 
 			$(".hide").click(function () {
 			$(".profile_not_fullfilled").slideUp("fast");
-			});    
+			});
+			$(".hide_this").click(function () {
+			$(this).slideUp("fast");
+			});			
 			</script> 
 			<script type="text/javascript">
 			$(function(){
 			$('.slidedown').slideDown(1500);
 			});
 			</script>
-			<!-- <script type="text/javascript" src="feed_adri.js"></script>-->
 	</body>
 </html>
 <!-- 

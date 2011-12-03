@@ -46,7 +46,7 @@ $pass = mysql_escape_string($_COOKIE['Pass']);
 					
 					last_visit($session_last_visit,$last_visit,$id);
 					
-					if (empty($compte['birth_date']) && empty($compte['title']) && empty($compte['country']) && empty($compte['about_me']) && $compte['avatar']=="icon50.png" && empty($compte['city']))
+					if (empty($compte['birth_date']) AND empty($compte['title']) AND empty($compte['country']) AND empty($compte['about_me']) AND $compte['avatar']=="icon50.png" AND empty($compte['city']))
 						{
 						$profile_not_fullfilled = TRUE;
 						}
@@ -62,7 +62,7 @@ else
 $_SESSION['logged'] = false;
 }
 ?>
- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -119,7 +119,7 @@ echo"<meta name=\"description\" content=\"Teen Quotes : because our lives are fi
 		
 
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
-		<script type="text/javascript" src="http://teen-quotes.com/ajax.js"></script>
+		<script type="text/javascript" src="http://teen-quotes.com/scrypt.js"></script>
 		
 		<script type="text/javascript">
 		var _gaq = _gaq || [];
@@ -183,7 +183,7 @@ echo"<meta name=\"description\" content=\"Teen Quotes : because our lives are fi
 </div><!-- END MENU -->
 
 <?php 
-if($profile_not_fullfilled == TRUE && $_SERVER['PHP_SELF']=='/index.php')
+if($profile_not_fullfilled == TRUE AND $_SERVER['PHP_SELF']=='/index.php')
 	{
 	echo ''.$profite_not_yet_fulffiled.'';
 	}
@@ -191,4 +191,4 @@ if($profile_not_fullfilled == TRUE && $_SERVER['PHP_SELF']=='/index.php')
 
 <div id="content">
 
-	<div id="wrapper" <?php if ($_SERVER['PHP_SELF']!='/index.php' && $_SERVER['PHP_SELF']!='/random.php') {echo "style=\"margin-top:33px\"";} ?>><!-- START WRAPPER -->
+	<div id="wrapper" <?php if ($_SERVER['PHP_SELF']!='/index.php' AND $_SERVER['PHP_SELF']!='/random.php') {echo "style=\"margin-top:33px\"";} ?>><!-- START WRAPPER -->

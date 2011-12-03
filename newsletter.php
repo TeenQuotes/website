@@ -30,7 +30,7 @@ if (empty($action))
 elseif ($action=="send") // INSCRIPTION
 	{ 
 	$email=htmlspecialchars($_POST['email']);
-	if (!empty($email) && preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
+	if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 		{
 		$num_rows=mysql_num_rows(mysql_query("SELECT id FROM newsletter where email='$email'")); 
 		if ($num_rows=="0") 
@@ -62,7 +62,7 @@ elseif ($action=="unsuscribe")  // DESINSCRIPTION
 	$email=htmlspecialchars($_GET['email']);
 	$code=htmlspecialchars($_GET['code']);
 
-	if (!empty($email) && preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
+	if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 		{
 		$num_rows=mysql_num_rows(mysql_query("SELECT id FROM newsletter WHERE email='$email' AND code='$code'")); 
 		if ($num_rows=="1") 

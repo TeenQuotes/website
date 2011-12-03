@@ -11,7 +11,7 @@ a .fb_share{margin-right:20px;margin-top:-5px}
 .icone{border:none;height:24px;margin-right:20px;vertical-align:bottom;width:24px}
 .mini_icone{border:none;height:12px;margin-right:10px;vertical-align:top;width:12px}
 .mini_icone_middle{border:none;height:10px;margin-right:10px;vertical-align:middle;width:10px}
-span.icone_new_quote {background:url('images/icones/new.png');border:none;display:inline-block;margin-right:5px;vertical-align:middle;height:16px;width:16px}
+span.icone_new_quote {background:url('images/icones/new.png');border:none;cursor:pointer;display:inline-block;margin-right:5px;vertical-align:middle;height:16px;width:16px}
 .alerte{height:16px;margin-right:5px;vertical-align:middle;width:16px}
 span.icone_login{background:url('images/icones/sprite_menu.png');border:none;display:inline-block;margin-right:10px;vertical-align:top;}
 span.icone_login.about{background-position:0 0;height:14px;width:14px;}

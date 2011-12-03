@@ -5,11 +5,11 @@ if ($_SESSION['security_level'] <'2')
 	{
 	echo '<meta http-equiv="refresh" content="0; url=error.php?erreur=403">';
 	} 
-elseif (empty($action) && $_SESSION['security_level'] >='2') 
+elseif (empty($action) AND $_SESSION['security_level'] >='2') 
 	{
 	$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='2'"));
-	$jours_posted = floor($nb_quote_awaiting_post / 5);
-	if ($nb_quote_awaiting_post % '5' != '0')
+	$jours_posted = floor($nb_quote_awaiting_post / $nb_quote_released_per_day);
+	if ($nb_quote_awaiting_post % $nb_quote_released_per_day != '0')
 		{
 		$jours_posted = $jours_posted + 1;
 		}
@@ -127,7 +127,7 @@ elseif ($action=="rate")
 		$name_auteur=ucfirst($query_email_auteur['username']);
 	
 						
-		if ($delete_quote && !empty($email_auteur)) 
+		if ($delete_quote AND !empty($email_auteur)) 
 			{
 			$message = ''.$top_mail.' Hello <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Your quote has been <font color="#5C9FC0"><b>rejected</b></font> recently by a member of our team...<br><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://www.teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Sincerely,<br><b>The Teen Quotes Team</b><br /><br /><br /><div style="border-top:1px dashed #CCCCCC"></div><br /><br />VERSION FRANCAISE :<br /><br />Bonjour <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Votre citation a été <font color="#5C9FC0"><b>rejetée</b></font> récemment par un membre de notre équipe...<br><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://www.teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Cordialement,<br><b>The Teen Quotes Team</b> '.$end_mail.'';
 			$mail = mail($email_auteur, "Quote rejected", $message, $headers); 
@@ -160,7 +160,7 @@ elseif ($action=="delete_comment")
 
 	$delete=mysql_query("DELETE FROM teen_quotes_comments where id='$id_comment'");
 
-	if ($delete && $mail) 
+	if ($delete AND $mail) 
 		{
 		echo ''.$succes.' The author has been notified successfully !';
 		echo '<meta http-equiv="refresh" content="1;url=admin" />';
