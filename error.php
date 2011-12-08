@@ -1,9 +1,10 @@
-<?php 
+<?php
 include "header.php";
-include "lang/$language/error.php"; 
-$error = mysql_real_escape_string($_GET['erreur']);
-// 404
-if ($error=="404") {
+include 'lang/'.$language.'/error.php'; 
+$error_code = mysql_real_escape_string($_GET['erreur']);
+
+if ($error_code == "404" OR empty($error_code)) 
+	{
 /*
 $domaine = $_SERVER['HTTP_HOST'];
 $HTTP_REFERER = $_SERVER['HTTP_REFERER'];
@@ -33,32 +34,29 @@ Username : ".$username." - ".$id."";
 $message = $top_mail.$message.$end_mail;
 mail($destinataire,$sujet,$message,$headers);*/
 
- ?>
-<div class="post">
-<h1><img src="http://www.teen-quotes.com/images/icones/erreur.png" class="icone" /><?php echo $error; ?></h1>
-<br />
-<br />
-<?php echo $texte_error_404; ?>
-</div>
-<?php }
-// 403 
-elseif ($error=="403") { ?>
-<div class="post">
-<h1><img src="http://www.teen-quotes.com/images/icones/erreur.png" class="icone" /><?php echo $error; ?></h1>
-<?php echo $texte_error_403; ?>
-</div>
-<?php }
-// 500
-elseif ($error=="500") { ?>
-<div class="post">
-<h1><img src="http://www.teen-quotes.com/images/icones/erreur.png" class="icone" /><?php echo $error; ?></h1>
-<?php echo $texte_error_500; ?>
-</div>
-<?php }
-else { ?>
-<div class="post">
-<h1>Oops ! Error !</h1>
-Something is technically wrong, please refresh and if it often happens, contact us !
-</div>
-<?php }
-include'footer.php'; ?>
+	echo '
+	<div class="post">
+	<h1><img src="http://www.teen-quotes.com/images/icones/erreur.png" class="icone" />'.$error.'</h1>
+	<br />
+	<br />
+	'.$texte_error_404.'
+	</div>';
+	}
+elseif ($error_code == "403") 
+	{
+	echo '
+	<div class="post">
+	<h1><img src="http://www.teen-quotes.com/images/icones/erreur.png" class="icone" />'.$error.'</h1>
+	'.$texte_error_403.'
+	</div>';
+	}
+elseif ($error_code == "500") 
+	{
+	echo '
+	<div class="post">
+	<h1><img src="http://www.teen-quotes.com/images/icones/erreur.png" class="icone" />'.$error.'</h1>
+	'.$texte_error_500.'
+	</div>';
+	}
+include'footer.php';
+?>
