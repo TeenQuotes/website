@@ -13,6 +13,14 @@ elseif (empty($action) AND $_SESSION['security_level'] >='2')
 		{
 		$jours_posted = $jours_posted + 1;
 		}
+	if ($jours_posted > '1')
+		{
+		$days_quote_posted = "days";
+		}
+	else
+		{
+		$days_quote_posted = "day";
+		}
 	?>
 	<div class="post">
 		<h1><img src="http://www.teen-quotes.com/images/icones/add.png" class="icone" />Add a quote</h1>
@@ -38,7 +46,7 @@ elseif (empty($action) AND $_SESSION['security_level'] >='2')
 	<?php 
 		echo '
 		<div class="grey_post">
-		Number of citations waiting to be posted : '.$nb_quote_awaiting_post.' ('.$jours_posted.' days)
+		Number of citations waiting to be posted : '.$nb_quote_awaiting_post.' ('.$jours_posted.' '.$days_quote_posted .')
 		</div>
 		';
 	$query = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved='0' ORDER BY id ASC");

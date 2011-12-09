@@ -54,7 +54,7 @@ while ($result = mysql_fetch_array($reponse))
 	$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='$id_quote' AND id_user='$id'"));
 ?>
 	<div class="post<?php if($i=='0'){echo ' no_rounded_borders_right_top';} ?>">
-	<?php is_quote_new($date_quote,$last_visit); ?><?php echo $txt_quote; ?><br><br />
+	<?php echo $txt_quote; ?><br><br />
 	<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?> - <?php if($nombre_commentaires >'1'){echo "$nombre_commentaires $comments";}elseif($nombre_commentaires=='1'){echo "$nombre_commentaires $comment";}else{echo"$no_comments";} ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['account']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 	<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
 	</div>
