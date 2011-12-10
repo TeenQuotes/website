@@ -5,7 +5,7 @@ if(empty($page_include))
 	$page_include="index";
 	}
 	
-if (!file_exists($page_include))
+if (!file_exists('../'.$page_include.'.php'))
 	{
 	$page_include = "error";
 	}
