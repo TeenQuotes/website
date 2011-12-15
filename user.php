@@ -80,8 +80,8 @@ else
 		if(empty($result['country'])) {$result['country']="$not_specified";}
 		if(empty($result['city'])) {$result['city']="$not_specified";}
 		if(empty($result['number_comments'])) {$result['number_comments']="$no_posted_comments";}
-		if(empty($result['avatar'])) {$result['avatar']="images/icon50.png";}
-		if($result['avatar']=="http://www.teen-quotes.com/images/icon50.png") {$result['avatar']="images/icon50.png";}
+		if(empty($result['avatar'])) {$result['avatar']="icon50.png";}
+		if($result['avatar']=="http://www.teen-quotes.com/images/icon50.png") {$result['avatar']="icon50.png";}
 		
 		echo '
 			<div class="post">

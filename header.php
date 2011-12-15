@@ -4,10 +4,10 @@ header("Cache-Control: public");
 
 // INCLUSION DES FICHIERS
 require "kernel/config.php";
-$db = mysql_connect("$host", "$user", "$pass")  or die('Erreur de connexion '.mysql_error());
+$db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
 mysql_select_db('teenq208598',$db)  or die('Erreur de selection '.mysql_error()); 
 require "kernel/fonctions.php";
-require "lang/$language/general.php"; 
+require 'lang/'.$language.'/general.php'; 
 
 
 

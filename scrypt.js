@@ -8,7 +8,7 @@ function favorite(id_quote,id_user) {
 			id_user: id_user
 		},
 		success: function(data) {
-			$(".favorite[data-id="+id_quote+"]").html(data);
+			$(".favorite[data-id="+id_quote+"]").hide().html(data).fadeIn("slow");
 		}
 	});
 	
@@ -25,7 +25,7 @@ function unfavorite(id_quote,id_user) {
 			id_user: id_user
 		},
 		success: function(data) {
-			$(".favorite[data-id="+id_quote+"]").html(data);
+			$(".favorite[data-id="+id_quote+"]").hide().html(data).fadeIn("slow");
 		}
 	});
 	
