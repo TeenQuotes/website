@@ -8,6 +8,7 @@ $number_quotes = "Number of quotes";
 $number_comments = "Number of comments";
 $validees = "confirmed out of";
 $soumises = "posted";
+$added_on_favorites = "Number of my quotes added to favorites";
 $about_user = "About";
 $last_visitor = "Last visitors";
 $not_specified = "Not specified";

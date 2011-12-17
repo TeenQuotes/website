@@ -7,6 +7,7 @@ $birth_date = "Date de naissance";
 $number_quotes = "Nombre de citations";
 $validees = "validée(s) sur";
 $soumises = "soumise(s)";
+$added_on_favorites = "Nombre de mes citations ajoutées dans les favoris";
 $number_comments = "Nombre de commentaires";
 $about_user = "À propos de";
 $last_visitor = "Derniers visiteurs";

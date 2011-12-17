@@ -70,6 +70,7 @@ else
 		$nb_quotes_submited=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes where auteur_id='$id'"));
 		$nb_favorite_quotes=mysql_num_rows(mysql_query("SELECT DISTINCT id_quote FROM teen_quotes_favorite where id_user='$id'"));
 		$nb_comments=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_comments where auteur_id='$id'"));
+		$nb_quotes_added_to_favorite = mysql_num_rows(mysql_query("SELECT F.id FROM teen_quotes_favorite F, teen_quotes_quotes Q WHERE F.id_quote=Q.id AND Q.auteur_id='$id'"));
 		if ($nb_quotes_approved >= '1') 
 			{
 			$quotes = mysql_query("SELECT id, texte, date FROM teen_quotes_quotes where auteur_id='$id' AND approved='1'");
@@ -101,7 +102,14 @@ else
 			<span class="bleu">'.$city.' :</span> '. $result['city'].'<br>
 			<span class="bleu">'.$fav_quote.' :</span> '. $nb_favorite_quotes.'<br>
 			<span class="bleu">'.$number_comments.' :</span> '. $nb_comments.'<br>
-			<span class="bleu">'.$number_quotes.' :</span> '. ''.$nb_quotes_approved.' '.$validees.' '.$nb_quotes_submited.' '.$soumises.'<br>
+			<span class="bleu">'.$number_quotes.' :</span> '.$nb_quotes_approved.' '.$validees.' '.$nb_quotes_submited.' '.$soumises.'<br>';
+			if ($nb_quotes_approved > '0')
+				{
+				echo '
+				<span class="bleu">'.$added_on_favorites.' :</span> '.$nb_quotes_added_to_favorite.'<br>
+				';
+				}
+			echo '
 			</div>
 			<div class="clear"></div>
 			<h3>'.$about_user.' '.$result['username'].'</h3>
