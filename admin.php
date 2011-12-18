@@ -153,17 +153,57 @@ elseif ($action=="delete_comment")
 	<div class="post">
 	<h1><img src="http://www.teen-quotes.com/images/icones/delete.png" class="icone" />Delete a comment</h1>';
 	
-	$id_comment=$_GET['id'];
+	$id_comment = htmlspecialchars($_GET['id']);
 
-	$donnees=mysql_fetch_array(mysql_query("SELECT auteur, auteur_id, texte FROM teen_quotes_comments WHERE id='$id_comment'"));
-	$auteur_id=$donnees['auteur_id'];
-	$name_auteur=ucfirst($donnees['auteur']);
-	$texte_comment=stripslashes($donnees['texte']);
+	$donnees = mysql_fetch_array(mysql_query("SELECT auteur, auteur_id, texte,id_quote,date FROM teen_quotes_comments WHERE id='$id_comment'"));
+	$auteur_id = $donnees['auteur_id'];
+	$id_quote = $donnees['id_quote'];
+	$name_auteur = ucfirst($donnees['auteur']);
+	$texte_comment = stripslashes($donnees['texte']);
+	$date_comment = $donnees['date'];
 
-	$donnees2=mysql_fetch_array(mysql_query("SELECT email FROM teen_quotes_account WHERE id='$auteur_id'"));
-	$email_auteur=$donnees2['email'];
+	$donnees2 = mysql_fetch_array(mysql_query("SELECT email,avatar,username FROM teen_quotes_account WHERE id='$auteur_id'"));
+	$email_auteur = $donnees2['email'];
+	$avatar = $donnees2['avatar'];
+	$username_comment = $donnees2['username'];
+	
+	$select_quote = mysql_fetch_array(mysql_query("SELECT auteur_id, auteur, texte_english, date FROM teen_quotes_quotes WHERE id='$id_quote'"));
+	$txt_quote = $select_quote['texte_english'];
+	$auteur_id = $select_quote['auteur_id'];
+	$auteur = $select_quote['auteur']; 
+	$date_posted = $select_quote['date'];
 
-	$message = "$top_mail Hello <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Your comment has been <b>deleted</b> recently by a member of our team...<br><div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_comment</div>Sincerely,<br><b>The Teen Quotes Team</b><br /><br /><div style=\"border-top:1px dashed #CCC\"></div><br />VERSION FRANCAISE :<br /><br />Bonjour <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Votre commentaire a été <b>supprimé</b> récemment par un membre de notre équipe...<br><div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_comment</div>Cordialement,<br><b>The Teen Quotes Team</b> $end_mail";
+	$message = '
+	'.$top_mail.' Hello <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />
+	Your comment has been <b>deleted</b> recently by a member of our team on this quote :<br>
+	<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
+		'.$txt_quote.'<br><br />
+		<a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">'.$by.' <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_posted.'</span>
+	</div>
+	Here is your comment :
+	<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
+	'.$texte_comment.'<br><br />
+	<a href="http://www.teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://www.teen-quotes.com/images/avatar/'.$avatar.'" style="border:2px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username_comment.'</a> '.$on.' '.$date_comment.'</span><br>
+	</div>
+	Sincerely,<br>
+	<b>The Teen Quotes Team</b><br /><br />
+	<div style="border-top:1px dashed #CCC"></div><br />
+	VERSION FRANCAISE :<br /><br />
+	Bonjour <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />
+	Votre commentaire a été <b>supprimé</b> récemment par un membre de notre équipe sur cette citation :<br>
+	<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
+		'.$txt_quote.'<br><br />
+		<a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">'.$by.' <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_posted.'</span>
+	</div>
+	Voici votre commentaire :
+	<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
+	'.$texte_comment.'<br><br />
+	<a href="http://www.teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://www.teen-quotes.com/images/avatar/'.$avatar.'" style="border:2px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username_comment.'</a> '.$on.' '.$date_comment.'</span><br>
+	</div>
+	Cordialement,<br>
+	<b>The Teen Quotes Team</b> 
+	'.$end_mail.'
+	';
 	$mail = mail($email_auteur, "Comment deleted", $message, $headers); 
 
 	$delete=mysql_query("DELETE FROM teen_quotes_comments where id='$id_comment'");
