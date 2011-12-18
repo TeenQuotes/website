@@ -13,7 +13,7 @@ redirect 301 /favicon.ico http://teen-quotes.com/images/favicon.gif
 
 ErrorDocument 404 /error.php?erreur=404
 ErrorDocument 403 /error.php?erreur=403
-ErrorDocument 500 /error.php?erreur=500
+ErrorDocument 500 /down
 
 
 # BEGIN Cache-Control Headers
