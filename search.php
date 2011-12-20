@@ -83,6 +83,7 @@ elseif (isset($value_search))
 				$nb_quotes_submited=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes where auteur_id='$id_user'"));
 				$nb_favorite_quotes=mysql_num_rows(mysql_query("SELECT DISTINCT id_quote FROM teen_quotes_favorite where id_user='$id_user'"));
 				$nb_comments=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_comments where auteur_id='$id_user'"));
+				$nb_quotes_added_to_favorite = mysql_num_rows(mysql_query("SELECT F.id FROM teen_quotes_favorite F, teen_quotes_quotes Q WHERE F.id_quote=Q.id AND Q.auteur_id='$id_user'"));
 				
 			
 				echo '<div class="grey_post">';
@@ -109,6 +110,12 @@ elseif (isset($value_search))
 				<span class="bleu">'.$fav_quote.' :</span> '.$nb_favorite_quotes.'<br>
 				<span class="bleu">'.$number_comments.' :</span> '.$nb_comments.'<br>
 				<span class="bleu">'.$number_quotes.' :</span> '.$nb_quotes_approved.' '.$validees.' '.$nb_quotes_submited.' '.$soumises.'<br>';
+				if ($nb_quotes_approved > '0')
+				{
+				echo '
+				<span class="bleu">'.$added_on_favorites.' :</span> '.$nb_quotes_added_to_favorite.'<br>
+				';
+				}
 				echo '</div>';
 				
 				$j++;
