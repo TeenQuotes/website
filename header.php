@@ -68,37 +68,41 @@ $_SESSION['logged'] = false;
 <head>
 <?php 
 // PERMET DE GERER LE TITRE DES PAGES DYNAMIQUES ET LES DESCRIPTION POUR LE SHARE SUR FB
-if (isset($_GET['id_user'])) {
-$id_user=mysql_real_escape_string($_GET['id_user']);
-$php_self="user-$id_user";
-$result = mysql_fetch_array(mysql_query("SELECT username FROM teen_quotes_account where id='$id_user'"));
-$username_title = ucfirst($result['username']);
-echo "<title>Teen Quotes | $username_title</title>";
-echo"\r\n";
-echo '<meta name="description" content="'.$username_title.'\'s profile on Teen Quotes" />';
-}
-
-elseif (isset($_GET['id_quote'])) {
-$id_quote=mysql_real_escape_string($_GET['id_quote']);
-$php_self="quote-$id_quote";
-$result = mysql_fetch_array(mysql_query("SELECT texte_english FROM teen_quotes_quotes where id='$id_quote' AND approved='1'"));
-$texte = $result['texte_english'];
-echo '<title>Teen Quotes | Quote #'.$id_quote.'</title>';
-echo '<meta name="description" content="'.$texte.'"/>';
-}
-elseif (isset($_GET['letter']) OR $php_self == "members") {
-$lettre = htmlspecialchars($_GET['letter']);
-if (empty($lettre)) { $lettre = "A"; }
-$php_self = 'members-'.$lettre.'';
-echo '<title>Teen Quotes | Members - '.$lettre.'</title>';
-echo"<meta name=\"description\" content=\"Teen Quotes : because our lives are filled full of beautiful sentences, and because some quotes are simply true\"/>";
-}
-else {
-echo"<title>Teen Quotes | Because some quotes are simply true</title>";
-echo"\r\n";
-echo"<meta name=\"description\" content=\"Teen Quotes : because our lives are filled full of beautiful sentences, and because some quotes are simply true\"/>";
-}?>	
-		<meta name="keywords" content="'Teen Quotes', 'quotes', 'teen', 'citations', 'sentences', 'Augusti', 'Twitter', 'Facebook'"/> 
+if (isset($_GET['id_user'])) 
+	{
+	$id_user=mysql_real_escape_string($_GET['id_user']);
+	$php_self="user-$id_user";
+	$result = mysql_fetch_array(mysql_query("SELECT username FROM teen_quotes_account where id='$id_user'"));
+	$username_title = ucfirst($result['username']);
+	echo '<title>Teen Quotes | '.$username_title.'</title>';
+	echo '\r\n';
+	echo '<meta name="description" content="'.$username_title.'\'s profile on Teen Quotes" />';
+	}
+elseif (isset($_GET['id_quote'])) 
+	{
+	$id_quote=mysql_real_escape_string($_GET['id_quote']);
+	$php_self ='quote-.'$id_quote.'';
+	$result = mysql_fetch_array(mysql_query("SELECT texte_english FROM teen_quotes_quotes where id='$id_quote' AND approved='1'"));
+	$texte = $result['texte_english'];
+	echo '<title>Teen Quotes | Quote #'.$id_quote.'</title>';
+	echo '<meta name="description" content="'.$texte.'"/>';
+	}
+elseif (isset($_GET['letter']) OR $php_self == "members") 
+	{
+	$lettre = mysql_real_escape_string($_GET['letter']);
+	if (empty($lettre)) { $lettre = "A"; }
+	$php_self = 'members-'.$lettre.'';
+	echo '<title>Teen Quotes | Members - '.$lettre.'</title>';
+	echo '<meta name="description" content="Teen Quotes : because our lives are filled full of beautiful sentences, and because some quotes are simply true"/>';
+	}
+else 
+	{
+	echo '<title>Teen Quotes | Because some quotes are simply true</title>';
+	echo '\r\n';
+	echo '<meta name="description" content="Teen Quotes : because our lives are filled full of beautiful sentences, and because some quotes are simply true"/>';
+	}
+?>	
+		<meta name="keywords" content="'Teen Quotes', 'teenage quotes', 'teenager quotes', 'quotes for teenagers', 'teen qoutes', 'quotes', 'teen', 'citations', 'sentences', 'Augusti', 'Twitter', 'Facebook'"/> 
 		<meta name="author" content="Antoine Augusti"/> 
 		<meta name="revisit-after" content="2 days"/> 
 		<meta name="date-creation-ddmmyyyy" content="2609010"/> 
@@ -191,4 +195,8 @@ if($profile_not_fullfilled == TRUE AND $_SERVER['PHP_SELF']=='/index.php')
 
 <div id="content">
 
-	<div id="wrapper" <?php if ($_SERVER['PHP_SELF']!='/index.php' AND $_SERVER['PHP_SELF']!='/random.php') {echo "style=\"margin-top:33px\"";} ?>><!-- START WRAPPER -->
+	<div id="wrapper" <?php if ($_SERVER['PHP_SELF']!='/index.php' AND $_SERVER['PHP_SELF']!='/random.php')
+		{
+		echo 'style="margin-top:33px"';
+		} 
+	?>><!-- START WRAPPER -->
