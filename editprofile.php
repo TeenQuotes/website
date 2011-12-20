@@ -274,7 +274,8 @@ elseif ($action == "settings")
 				$query=mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");
 				if ($query) 
 					{
-					echo ''.$settings_updated.'<br /><br />';
+					echo ''.$settings_updated.'';
+					$notifications_succes = TRUE;
 					}
 					else 
 					{
@@ -283,7 +284,8 @@ elseif ($action == "settings")
 				}
 				else
 				{
-				echo ''.$settings_updated.'<br /><br />';
+				echo ''.$settings_updated.'';
+				$notifications_succes = TRUE;
 				}
 			}
 			else 
@@ -301,7 +303,8 @@ elseif ($action == "settings")
 				$query=mysql_query("DELETE FROM newsletter WHERE email='$email'");
 				if ($query) 
 					{
-					echo ''.$settings_updated.'<br /><br />';
+					echo ''.$settings_updated.'';
+					$notifications_succes = TRUE;
 					}
 					else 
 					{
@@ -310,7 +313,8 @@ elseif ($action == "settings")
 				}
 				else
 				{
-				echo ''.$settings_updated.'<br /><br />';
+				echo ''.$settings_updated.'';
+				$notifications_succes = TRUE;
 				}
 			}
 			else 
@@ -325,7 +329,10 @@ elseif ($action == "settings")
 		$query = mysql_query("UPDATE teen_quotes_account SET notification_comment_quote='1' WHERE id = '$id_user'");
 		if ($query)
 			{
-			echo ''.$settings_updated.'<br /><br />';
+			if ($notifications_succes != TRUE)
+				{
+				echo ''.$settings_updated.'';
+				}
 			}
 		else 
 			{
@@ -337,7 +344,10 @@ elseif ($action == "settings")
 		$query = mysql_query("UPDATE teen_quotes_account SET notification_comment_quote='0' WHERE id = '$id_user'");
 		if ($query)
 			{
-			echo ''.$settings_updated.'<br /><br />';
+			if ($notifications_succes != TRUE)
+				{
+				echo ''.$settings_updated.'';
+				}
 			}
 		else 
 			{
