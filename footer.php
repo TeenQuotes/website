@@ -93,10 +93,10 @@
 			?>
 			<script> 
 			$(".hide").click(function () {
-			$(".profile_not_fullfilled").slideUp("fast");
+			$(".profile_not_fullfilled").slideUp("slow");
 			});
 			$(".hide_this").click(function () {
-			$(this).slideUp("fast");
+			$(this).slideUp("slow");
 			});			
 			</script> 
 			<script type="text/javascript">
