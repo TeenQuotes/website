@@ -75,13 +75,13 @@ if (isset($_GET['id_user']))
 	$result = mysql_fetch_array(mysql_query("SELECT username FROM teen_quotes_account where id='$id_user'"));
 	$username_title = ucfirst($result['username']);
 	echo '<title>Teen Quotes | '.$username_title.'</title>';
-	echo '\r\n';
+	echo "\r\n";
 	echo '<meta name="description" content="'.$username_title.'\'s profile on Teen Quotes" />';
 	}
 elseif (isset($_GET['id_quote'])) 
 	{
 	$id_quote=mysql_real_escape_string($_GET['id_quote']);
-	$php_self ='quote-.'$id_quote.'';
+	$php_self = 'quote-'.$id_quote.'';
 	$result = mysql_fetch_array(mysql_query("SELECT texte_english FROM teen_quotes_quotes where id='$id_quote' AND approved='1'"));
 	$texte = $result['texte_english'];
 	echo '<title>Teen Quotes | Quote #'.$id_quote.'</title>';
@@ -98,7 +98,7 @@ elseif (isset($_GET['letter']) OR $php_self == "members")
 else 
 	{
 	echo '<title>Teen Quotes | Because some quotes are simply true</title>';
-	echo '\r\n';
+	echo "\r\n";
 	echo '<meta name="description" content="Teen Quotes : because our lives are filled full of beautiful sentences, and because some quotes are simply true"/>';
 	}
 ?>	
