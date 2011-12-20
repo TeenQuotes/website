@@ -21,5 +21,6 @@ $no_fav_quotes="Cet utilisateur n'a pas encore de citations favorites";
 
 
 $hide_profile = "Désolé mais cet utilisateur a choisi de cacher son profil";
+$profile_hidden_self = "Votre profil est actuellement caché. Seul vous pouvez voir votre profil.";
 $no_quotes = "Cet utilisateur n'a pas encore posté de citations";
 ?>

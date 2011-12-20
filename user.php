@@ -1,10 +1,10 @@
 <?php 
 include 'header.php';
-include "lang/$language/user.php";
+include 'lang/'.$language.'/user.php';
 $i = '0';
 $j = '0';
 
-$id=mysql_real_escape_string($_GET['id_user']);
+$id = mysql_real_escape_string($_GET['id_user']);
 $exist_user = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE id='$id'"));
 if ($exist_user=='0') {header("Location: error.php?erreur=404"); }
 
@@ -28,7 +28,7 @@ else
 	$result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account where id='$id'"));
 	
 	// SI LE PROFIL DOIT ETRE CACHE
-	if ($result['hide_profile'] == '1')
+	if ($result['hide_profile'] == '1' AND $id != $_SESSION['account'])
 		{
 		echo '
 		<div class="bandeau_erreur">
@@ -63,7 +63,7 @@ else
 			';
 			}
 		}
-	else 
+	elseif ($result['hide_profile'] == '0' OR ($result['hide_profile'] == '1' AND $id = $_SESSION['account']))
 		{
 		// AFFICHAGE DES INFOS DU PROFIL
 		$nb_quotes_approved=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes where auteur_id='$id' AND approved='1'"));
@@ -84,8 +84,17 @@ else
 		if(empty($result['avatar'])) {$result['avatar']="icon50.png";}
 		if($result['avatar']=="http://www.teen-quotes.com/images/icon50.png") {$result['avatar']="icon50.png";}
 		
+		echo '<div class="post">';
+		
+		if ($result['hide_profile'] == '1' AND $id = $_SESSION['account'])
+			{
+			echo '
+			<div class="bandeau_erreur hide_this">
+			<img src="http://www.teen-quotes.com/images/icones/infos.png" class="mini_plus_icone">'.$profile_hidden_self.'
+			</div>';
+			}
+			
 		echo '
-			<div class="post">
 			<img src="http://www.teen-quotes.com/images/avatar/'.$result['avatar'].'" class="user_avatar" />
 			<h2>'.$result['username'].'<span class="right">'. $user_informations.'
 			';

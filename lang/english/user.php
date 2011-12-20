@@ -20,6 +20,7 @@ $favorite_quotes = "&raquo; Favorite Quotes";
 $no_fav_quotes="This user has no favorite quotes yet";
 
 $hide_profile = "Sorry but this member has decided to hide his profile";
+$profile_hidden_self = "Your profile is currently hidden. Only you can see your profile.";
 $no_quotes = "This user has not posted quotes yet";
 
 ?>
