@@ -20,6 +20,6 @@ $favorite_quotes = "&raquo; Citations Favorites";
 $no_fav_quotes="Cet utilisateur n'a pas encore de citations favorites";
 
 
-$hide_profile = "Désolé mais cet utilisateur à choisi de cacher son profil";
+$hide_profile = "Désolé mais cet utilisateur a choisi de cacher son profil";
 $no_quotes = "Cet utilisateur n'a pas encore posté de citations";
 ?>
