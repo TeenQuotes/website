@@ -108,6 +108,8 @@ function deconnexion()
 	session_destroy(); //Destruction de la session.
 	setcookie("Pseudo", Yo, time()-4200, null, '.teen-quotes.com', false, true);
 	setcookie("Pass", Yo, time()-4200, null, '.teen-quotes.com', false, true);
+	setcookie("Pass", Yo, time()-4200);
+	setcookie("Pseudo", Yo, time()-4200);
 	$pseudo="";
 	$id="";
 	$email="";
