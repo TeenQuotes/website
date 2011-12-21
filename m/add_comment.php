@@ -1,6 +1,6 @@
 <?php 
 include 'header.php'; 
-include "../lang/$language/quote.php"; 
+include "lang/$language/quote.php"; 
 
 $id_quote = nl2br(htmlspecialchars(mysql_escape_string($_POST['id_quote'])));
 $texte = htmlspecialchars(mysql_escape_string($_POST['texte']));
@@ -9,7 +9,7 @@ $date = date("d/m/Y"); ?>
 <div class="post">
 <h1><img src="http://www.teen-quotes.com/images/icones/about.png" class="icone" /><?php echo ucfirst($comments); ?></h1>
 <?php
-if (!empty($id_quote) && !empty($texte)) 
+if (!empty($id_quote) AND !empty($texte)) 
 	{
 	if (strlen($texte) <= '450') 
 		{
@@ -20,6 +20,7 @@ if (!empty($id_quote) && !empty($texte))
 		$auteur_id = $select_quote['auteur_id'];
 		$auteur = $select_quote['auteur']; 
 		$date_posted = $select_quote['date'];
+		$texte_comment = stripslashes(stripslashes($texte));
 		
 		$query_author_quote = mysql_fetch_array(mysql_query("SELECT email,notification_comment_quote FROM teen_quotes_account WHERE id='$auteur_id'"));
 		$email_auteur = $query_author_quote['email'];
@@ -40,14 +41,14 @@ if (!empty($id_quote) && !empty($texte))
 			</div>
 			Here is the comment :
 			<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
-			'.$texte.'<br><br />
+			'.$texte_comment.'<br><br />
 			<a href="http://www.teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://www.teen-quotes.com/images/avatar/'.$avatar.'" style="border:2px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br>
 			</div>
 			'.$end_mail.'';
 			
 			$mail = mail($email_auteur, $comment_added_on_quote, $comment_added_mail, $headers);
 			}
-			
+		
 		if ($query) 
 			{
 			echo ''.$comment_add_succes.'';
@@ -67,7 +68,5 @@ if (!empty($id_quote) && !empty($texte))
 	{
 	echo '<span class="erreur">'.$not_complete.'</span>';
 	}
-	
 echo '</div>';
-include "footer.php"; 
-?>		
+include "footer.php"; ?>

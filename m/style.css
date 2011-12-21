@@ -6,6 +6,7 @@ a .fb_share{margin-right:20px;margin-top:-5px;}
 .post li{list-style:square inside;margin-bottom:5px;margin-left:25px;}
 .mini_user_avatar{border:1px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px;}
 .user_avatar{border:2px solid #5C9FC0;float:left;height:40px;margin-right:10px;margin-top:10px;width:40px;}
+.user_avatar_members{border:1px solid #5C9FC0;float:left;height:40px;margin-right:10px;width:40px}
 .icone{border:none;height:15px;margin-right:5px;vertical-align:middle;width:15px;}
 .mini_icone{border:none;height:12px;margin-right:10px;vertical-align:top;width:12px;}
 .mini_icone_middle{border:none;height:10px;margin-right:10px;vertical-align:middle;width:10px}
@@ -22,7 +23,7 @@ a .fb_share{margin-right:20px;margin-top:-5px;}
 #topbar .title a:hover{color:#5C9FC0;}
 #topbar .title h3,#topbar .title h6{color:#424545;font-family:"Lucida Grande","Lucida Sans Unicode",Verdana,Arial,sans-serif;margin:0;}
 #content{margin:0 auto;}
-.page{color:#FFF;float:right;font-size:60%;margin-right:10px;}
+.page, .page_bottom{color:#FFF;float:right;font-size:60%;margin-right:10px;}
 #wrapper{margin-top:15px;}
 #wrapper h1,#wrapper h2{border-bottom:1px solid #5C9FC0;color:#246;margin-left:5px;padding-bottom:3px;font-family:Helvetica;text-shadow: 2px 2px 1px #ccc}
 #wrapper h3{color:#246;margin-bottom:8px;margin-left:20px;font-family:Helvetica;}
@@ -48,9 +49,12 @@ input.signup{width:230px;}
 #footer a{font-weight:400;}
 .error{color:#246;display:block;font-weight:700;margin:10px auto 15px auto;vertical-align:middle}
 .erreur{background:transparent url('http://www.teen-quotes.com/images/icones/alert.png') no-repeat 2% 50%;color:#5C9FC0;font-weight:600;padding-left:30px;}
+.grey_post {background:#f5f5f5;border:1px solid #e5e5e5;padding:5px 10px;margin:0 auto 15px;color:#666;font-size:12px;font-weight:300;}
+.grey_line{border-bottom:2px solid #F0F0F0;margin:5px 10px}
 .favorite {opacity:0.5;margin-left:10px}
 .favorite:hover {opacity:1}
-#wrapper span.page a{color:#FFF;}
+#wrapper span.page a,#wrapper span.page_bottom a{color:#FFF;}
+#wrapper span.page_grey, #wrapper span.page_grey a{color:#666666}
 ul.menu{text-align:center;font-size:11px;line-height:1.3em;margin-top:-10px;padding:2px 6px 0;}
 ul.menu li{float:left;list-style:none;margin:4px;}
 ul.menu li a{color:#FFF !important;-webkit-box-shadow:0 1px 2px #666;-moz-box-shadow:0 1px 2px #666;box-shadow:0 1px 2px #666;background:#4e94f4;-moz-border-radius:3px;-webkit-border-radius:3px;font-weight:400 !important;padding:2px 4px;}
