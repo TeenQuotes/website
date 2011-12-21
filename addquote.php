@@ -1,6 +1,6 @@
 <?php 
 include "header.php";
-$action=$_GET['action'];
+$action = mysql_real_escape_string($_GET['action']);
 include"lang/$language/addquote.php";
 if (empty($action)) { ?>
 <div class="post">
@@ -14,7 +14,7 @@ if (empty($action)) { ?>
 		<center><p><input type="submit" value="Okey" class="submit" /></p></center>
 	</form>
 <?php }
-elseif ($action=="add_quote") 
+elseif ($action == "add_quote") 
 	{ ?>
 	<div class="post">
 	<h1><img src="http://www.teen-quotes.com/images/icones/add.png" class="icone" /><?php echo $add_quote; ?></h1>
