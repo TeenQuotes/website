@@ -1,6 +1,6 @@
 <?php 
 include 'header.php'; 
-include "lang/$language/quote.php"; 
+include "../lang/$language/quote.php"; 
 
 $id_quote = nl2br(htmlspecialchars(mysql_escape_string($_POST['id_quote'])));
 $texte = htmlspecialchars(mysql_escape_string($_POST['texte']));
