@@ -36,7 +36,8 @@ elseif (empty($action) AND $_SESSION['security_level'] >='2')
 	<div class="post">
 		<h1><img src="http://teen-quotes.com/images/icones/profil.png" class="icone" />Edit an existing quote</h1>
 		<form action="?action=edit_existing_quote" method="post">
-			<div class="colonne-gauche">Enter the ID of the quote</div><div class="colonne-milieu"><input name="id_quote" type="text" /></div>
+			Enter the ID of the quote<br>
+			<input name="id_quote" type="text" />
 			<br />
 			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
 		</form>
