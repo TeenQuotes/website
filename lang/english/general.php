@@ -40,7 +40,7 @@ $follow_facebook = "Became a fan on Facebook !";
 
 $search_value_form = 'value="An user, a quote..." onblur="javascript:if(this.value==\'\'){this.value=\'An user, a quote...\'}" onFocus="javascript:if(this.value==\'An user, a quote...\'){this.value=\'\'}"';
 
-$must_be_log = "You must be logged in ! <a href=\"signup\">Click here</a> to signup";
+$must_be_log = "You must be logged in ! <a href=\"signup?addcomment\">Click here</a> to signup";
 
 $profite_not_yet_fulffiled = '<div class="profile_not_fullfilled">You have not filled out your profile, <a href="../editprofile">click here</a><a onclick="return false;" class="hide right">Close</a></div>';
 

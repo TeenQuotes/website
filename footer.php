@@ -19,7 +19,7 @@
 					<span class="icone_login password"></span><input type="password" name="pass" style="width:115px"/>
 					<p align="right"><input type="submit" name="connexion" class="submit" value="<?php echo $log_me; ?>"/></p>
 					</form>
-					<span class="right"><a href="signup" title="<?php echo $sign_up; ?>"><?php echo $sign_up; ?></a> | <a href="forgot" title="<?php echo $forget; ?>"> <?php echo $forget; ?></a></span><br>
+					<span class="right"><a href="signup?menuright" title="<?php echo $sign_up; ?>"><?php echo $sign_up; ?></a> | <a href="forgot" title="<?php echo $forget; ?>"> <?php echo $forget; ?></a></span><br>
 				</div>
 				<?php } else { ?>
 				<div class="post">

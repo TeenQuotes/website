@@ -162,7 +162,7 @@ else
 <div id="menu">	
 	<?php if (!$_SESSION['logged']) { ?>
 	<a href="/" class="menu"><span class="icone_menu home"></span><?php echo $home; ?></a>
-	<a href="signup" class="menu"><span class="icone_menu signin"></span><?php echo $sign_up; ?></a>
+	<a href="signup?topbar" class="menu"><span class="icone_menu signin"></span><?php echo $sign_up; ?></a>
 	<a href="members" class="menu"><span class="icone_menu members"></span><?php echo $members; ?></a>
 	<a href="random" class="menu"><span class="icone_menu random"></span><?php echo $random_quote; ?></a>
 	<a href="newsletter" class="menu"><span class="icone_menu newsletter"></span>Newsletter</a>

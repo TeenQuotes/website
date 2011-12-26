@@ -6,14 +6,36 @@ $action=$_GET['action'];
 if (empty($action)) {
 ?>
 <div class="post slidedown">
-<h1><img src="http://www.teen-quotes.com/images/icones/signin.png" class="icone"/><?php echo $sign_up; ?></h1>
-<?php if (isset($_GET['addquote'])) { echo ''.$must_be_registered_for_quote.'';} ?>
-<?php echo $account_create; ?><br>
-<br />
-<?php echo $require_age; ?><br>
-<br />
-<form method="post" action="?action=send"> 
-
+	<h1><img src="http://www.teen-quotes.com/images/icones/signin.png" class="icone"/><?php echo $sign_up; ?></h1>
+	<?php
+	if (isset($_GET['addquote'])) 
+		{
+		echo ''.$must_be_registered_for_quote.'';
+		$query = mysql_query("UPDATE teen_quotes_settings SET value=value+1 WHERE param = 'signup_addquote'");
+		} 
+	elseif (isset($_GET['addcomment'])) 
+		{
+		echo ''.$must_be_registered_to_comment.'';
+		$query = mysql_query("UPDATE teen_quotes_settings SET value=value+1 WHERE param = 'signup_addcomment'");
+		}
+	elseif (isset($_GET['topbar'])) 
+		{
+		$query = mysql_query("UPDATE teen_quotes_settings SET value=value+1 WHERE param = 'signup_topbar'");
+		}
+	elseif (isset($_GET['menuright'])) 
+		{
+		$query = mysql_query("UPDATE teen_quotes_settings SET value=value+1 WHERE param = 'signup_menuright'");
+		}
+	else
+		{
+		$query = mysql_query("UPDATE teen_quotes_settings SET value=value+1 WHERE param = 'signup_empty'");
+		}
+	
+	echo $account_create; ?><br>
+	<br />
+	<?php echo $require_age; ?><br>
+	<br />
+	<form method="post" action="?action=send"> 
 		<div class="colonne-gauche"><?php echo $username_enter; ?> </div><div class="colonne-milieu"><input type="text" name="username" class="signup"/></div><div class="colonne-droite"><span class="min_info">Minimum 5 <?php echo $characters; ?></span></div>
 		<br /><br />
 		<div class="colonne-gauche"><?php echo $password; ?> </div><div class="colonne-milieu"><input type="password" name="pass1" class="signup"/></div><div class="colonne-droite"><span class="min_info">Minimum 6 <?php echo $characters; ?></span></div>
@@ -23,8 +45,7 @@ if (empty($action)) {
 		<div class="colonne-gauche">Email </div><div class="colonne-milieu"><input type="text" name="email" class="signup"/></div><div class="colonne-droite"><span class="min_info"><?php echo $valid_email; ?></span></div>
 		<br /><br />
 		<center><p><input type="submit" value="<?php echo $create_account; ?>" class="submit" /></p></center>
-
-</form>
+	</form>
 </div>
 <?php include "footer.php"; 
 }

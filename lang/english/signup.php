@@ -29,4 +29,5 @@ $username_not_valid = "Your username does not meet the required shape :</span><b
 <li> No spaces or special characters </li> ";
 
 $must_be_registered_for_quote = '<div class="erreur_addquote"> You must be registered if you want to add your quote !</div>';
+$must_be_registered_to_comment = '<div class="erreur_addquote"> You must be registered if you want to add a comment !</div>';
 ?>

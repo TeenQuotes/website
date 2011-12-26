@@ -28,5 +28,5 @@ $username_not_valid = "Votre nom d'utilisateur ne respecte pas la forme demandé
 <li> Aucun espaces ni caractères spéciaux</li>";
 
 $must_be_registered_for_quote = '<div class="erreur_addquote"> Vous devez vous inscrire pour soumettre une citation !</div>';
-
+$must_be_registered_to_comment = '<div class="erreur_addquote"> Vous devez vous inscrire pour écrire un commentaire !</div>';
 ?>
