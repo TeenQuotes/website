@@ -86,6 +86,7 @@ select {outline:none}
 .slidedown {display:none}
 .hide_this {cursor:pointer}
 .highlight {background:yellow}
+.graph_stats {width:600px;height:400px}
 
 /* UI Button */
 .submit {position: relative;z-index: 1;overflow: visible; padding:3px 7px; border: 1px solid #AAA; text-decoration: none; text-align: center;font: 12px Helvetica, verdana, arial, sans-serif; white-space: nowrap; cursor: pointer; outline: none;color: #444; text-shadow: white 0 1px 2px;background: #e5e5e5; background: -moz-linear-gradient(top, #e5e5e5 0%, #f4f4f4 49%, #e5e5e5 50%, #f4f4f4 100%); 

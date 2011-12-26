@@ -144,6 +144,160 @@ $number_space = number_format($number, 0, ',', ' '); // Arrondi et espaces sur l
 return $number_space;
 }
 
+function create_stats () {
+$total_quotes = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes"));
+$quotes_approved = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='1'"));
+$quotes_rejected = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='-1'"));
+$quotes_pending = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='0'"));
+$quotes_queued = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='2'"));
+
+$total_members = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account"));
+$nb_empty_avatar = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE avatar='icon50.png'"));
+$nb_members_empty_profile = $total_members - $nb_empty_avatar;
+
+$nb_favorite = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_favorite"));
+$nb_members_has_favorite_quotes = mysql_num_rows(mysql_query("SELECT DISTINCT A.id FROM teen_quotes_account A, teen_quotes_favorite F WHERE A.id IN (F.id_user)"));
+$nb_members_no_favorite_quotes = $total_members - $nb_members_has_favorite_quotes;
+$nb_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletter"));
+$nb_members_newsletter = mysql_num_rows(mysql_query("SELECT a.id FROM teen_quotes_account a, newsletter n WHERE a.email = n.email"));
+$nb_no_members_newsletter = $nb_newsletter - $nb_members_newsletter;
+
+$query_top_user_favorite = mysql_query("SELECT COUNT( F.id ) AS nb_fav , A.id, A.username AS username FROM teen_quotes_favorite F, teen_quotes_quotes Q, teen_quotes_account A WHERE F.id_quote = Q.id AND Q.auteur_id = A.id GROUP BY A.id ORDER BY COUNT( F.id ) DESC LIMIT 0,20");
+$query_search = mysql_query ("SELECT * FROM teen_quotes_search ORDER BY value DESC LIMIT 0,20");
+$nb_search_query = mysql_fetch_array(mysql_query("SELECT SUM(value) AS nb_search FROM teen_quotes_search"));
+$nb_search = $nb_search_query['nb_search'];
+$graph_stats_js = "
+<script type=\"text/javascript\" src=\"http://www.google.com/jsapi\"></script>
+<script type=\"text/javascript\">
+  google.load('visualization', '1', {packages: ['corechart']});
+</script>
+<script type=\"text/javascript\">
+function graph_quotes() {
+// Create and populate the data table.
+var data = new google.visualization.DataTable();
+data.addColumn('string', 'Quote');
+data.addColumn('number', 'Status');
+data.addRows(4);
+data.setValue(0, 0, 'Approved : ".$quotes_approved."');
+data.setValue(0, 1, ".$quotes_approved.");
+data.setValue(1, 0, 'Rejected : ".$quotes_rejected."');
+data.setValue(1, 1, ".$quotes_rejected.");
+data.setValue(2, 0, 'Pending moderation: ".$quotes_pending."');
+data.setValue(2, 1, ".$quotes_pending.");
+data.setValue(3, 0, 'Waiting to be posted : ".$quotes_queued."');
+data.setValue(3, 1, ".$quotes_queued.");
+
+// Create and draw the visualization.
+new google.visualization.PieChart(document.getElementById('graph_quotes')).
+	draw(data, {title:'Total number of quotes : ".$total_quotes."'});
+}
+function graph_empty_profile() {
+// Create and populate the data table.
+var data = new google.visualization.DataTable();
+data.addColumn('string', 'Profile');
+data.addColumn('number', 'Status');
+data.addRows(2);
+data.setValue(0, 0, 'Profile not fullfilled : ".$nb_empty_avatar."');
+data.setValue(0, 1, ".$nb_empty_avatar.");
+data.setValue(1, 0, 'Profile fullfilled : ".$nb_members_empty_profile."');
+data.setValue(1, 1, ".$nb_members_empty_profile.");
+
+// Create and draw the visualization.
+new google.visualization.PieChart(document.getElementById('graph_empty_profile')).
+	draw(data, {title:'Total number of members : ".$total_members."'});
+}
+function graph_newsletter() {
+// Create and populate the data table.
+var data = new google.visualization.DataTable();
+data.addColumn('string', 'Profile');
+data.addColumn('number', 'Status');
+data.addRows(2);
+data.setValue(0, 0, 'Visitors : ".$nb_no_members_newsletter."');
+data.setValue(0, 1, ".$nb_no_members_newsletter.");
+data.setValue(1, 0, 'Members : ".$nb_members_newsletter."');
+data.setValue(1, 1, ".$nb_members_newsletter.");
+
+// Create and draw the visualization.
+new google.visualization.PieChart(document.getElementById('graph_newsletter')).
+	draw(data, {title:'People subscribed to the newsletter : ".$nb_newsletter."'});
+}
+function members_favorite_quote() {
+// Create and populate the data table.
+var data = new google.visualization.DataTable();
+data.addColumn('string', 'Profile');
+data.addColumn('number', 'Status');
+data.addRows(2);
+data.setValue(0, 0, 'Members with favorite quotes : ".$nb_members_has_favorite_quotes."');
+data.setValue(0, 1, ".$nb_members_has_favorite_quotes.");
+data.setValue(1, 0, 'Members without favorite quote : ".$nb_members_no_favorite_quotes."');
+data.setValue(1, 1, ".$nb_members_no_favorite_quotes.");
+
+// Create and draw the visualization.
+new google.visualization.PieChart(document.getElementById('members_favorite_quote')).
+	draw(data, {title:'Members and favorite quotes'});
+}
+function top_user_favorite_quote() {
+// Create and populate the data table.
+var data = new google.visualization.DataTable();
+data.addColumn('string', 'Profile');
+data.addColumn('number', 'Status');
+data.addRows(21);";
+$i = '0';
+$sum_fav_top_user = '0';
+while ($donnees = mysql_fetch_array($query_top_user_favorite))
+	{
+	$nb_fav = $donnees['nb_fav'];
+	$username = $donnees['username'];
+	
+	$sum_fav_top_user = $sum_fav_top_user + $nb_fav;
+	$graph_stats_js .="
+	data.setValue(".$i.", 0, '".$username." : ".$nb_fav."');
+	data.setValue(".$i.", 1, ".$nb_fav.");
+	";
+	$i++;
+	}
+$reste_nb_favorite = $nb_favorite -  $sum_fav_top_user;
+$graph_stats_js .="
+data.setValue(".$i.", 0, 'Others : ".$reste_nb_favorite."');
+data.setValue(".$i.", 1, ".$reste_nb_favorite.");
+// Create and draw the visualization.
+new google.visualization.PieChart(document.getElementById('top_user_favorite_quote')).
+	draw(data, {title:'Top members ordered by number of quotes added to favorite (".$nb_favorite." quotes in favorite)'});
+}
+function graph_search() {
+// Create and populate the data table.
+var data = new google.visualization.DataTable();
+data.addColumn('string', 'Profile');
+data.addColumn('number', 'Status');
+data.addRows(21);";
+$j = '0';
+while ($donnees = mysql_fetch_array($query_search))
+	{
+	$value = $donnees['value'];
+	$text = ucfirst($donnees['text']);
+	
+	$graph_stats_js .="
+	data.setValue(".$j.", 0, '".$text." : ".$value."');
+	data.setValue(".$j.", 1, ".$value.");
+	";
+	$j++;
+	}
+$graph_stats_js .="
+// Create and draw the visualization.
+new google.visualization.PieChart(document.getElementById('graph_search')).
+	draw(data, {title:'Total number of searchs : ".$nb_search."'});
+}
+google.setOnLoadCallback(graph_quotes);
+google.setOnLoadCallback(graph_empty_profile); 
+google.setOnLoadCallback(graph_newsletter); 
+google.setOnLoadCallback(members_favorite_quote); 
+google.setOnLoadCallback(top_user_favorite_quote);
+google.setOnLoadCallback(graph_search);
+</script>
+";
+echo $graph_stats_js;
+}
+
 
 $minute = date("i");
 if ($minute % '10' == '0' OR $_SESSION['security_level'] > '0') 

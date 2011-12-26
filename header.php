@@ -125,6 +125,13 @@ else
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 		<script type="text/javascript" src="http://teen-quotes.com/scrypt.js"></script>
 		
+		<?php
+		if ($php_self == "stats")
+			{
+			create_stats();
+			}
+		?>
+		
 		<script type="text/javascript">
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', 'UA-12045924-10']);
