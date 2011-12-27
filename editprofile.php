@@ -1,100 +1,120 @@
 <?php
 include 'header.php';
-$action=$_GET['action'];
-$id_user =$_SESSION['account'];
+$action = $_GET['action'];
+$id_user = $_SESSION['account'];
 $result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account where id='$id_user'"));
 		
-		// SELECTED POUR LE TITRE USER
-		switch ($result['title']) {
-		case "Mr" : $selected_mr='selected="selected"';
-		break;
-		case "Mrs" : $selected_mrs='selected="selected"';
-		break;
-		case "Miss" : $selected_miss='selected="selected"';
-		break;
-		}
+// SELECTED POUR LE TITRE USER
+switch ($result['title']) {
+case "Mr" : $selected_mr='selected="selected"';
+break;
+case "Mrs" : $selected_mrs='selected="selected"';
+break;
+case "Miss" : $selected_miss='selected="selected"';
+break;
+}
 		
-		switch ($result['hide_profile']) {
-		case "0" : $selected_profile_no = 'selected="selected"';
-		break;
-		case "1" : $selected_profile_yes = 'selected="selected"';
-		break;
-		}
-include "lang/$language/edit_profile.php";
-include "lang/$language/newsletter.php";
-include "lang/$language/signup.php";
+switch ($result['hide_profile']) {
+case "0" : $selected_profile_no = 'selected="selected"';
+break;
+case "1" : $selected_profile_yes = 'selected="selected"';
+break;
+}
+
+include 'lang/'.$language.'/edit_profile.php';
+include 'lang/'.$language.'/newsletter.php';
+include 'lang/'.$language.'/signup.php';
 
 
-		if(empty($result['birth_date'])) {$result['birth_date']="";}
-		if(empty($result['title'])) {$result['title']="";}
-		if(empty($result['about_me'])) {$result['about_me']="";}else{$result['about_me'] = nl2br_to_textarea($result['about_me']);}
-		if(empty($result['country'])) {$result['country']="";}
-		if(empty($result['city'])) {$result['city']="";}
+if(empty($result['birth_date'])) 
+	{
+	$result['birth_date']="";
+	}
+if(empty($result['title']))
+	{
+	$result['title']="";
+	}
+if(empty($result['about_me']))
+	{
+	$result['about_me']="";
+	}
+else
+	{
+	$result['about_me'] = nl2br_to_textarea($result['about_me']);
+	}
+if(empty($result['country']))
+	{
+	$result['country']="";
+	}
+if(empty($result['city']))
+	{
+	$result['city']="";
+	}
 
 
 // FORMULAIRE
-if (empty($action)) {
-?>
-<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" /><?php echo $edit_profile; ?></h1>
-	<img src="http://www.teen-quotes.com/images/avatar/<?php echo $result['avatar']; ?>" class="user_avatar_editprofile" /></span>
-	<br />
-	<form action="?action=send" method="post">
-	<div class="colonne-gauche"><?php echo $choose_title; ?>
-	<br /><br />
-	<div class="colonne-gauche"><?php echo $choose_birth; ?></div><div class="colonne-milieu"><input type="text" class="signup" name="birth_date" value="<?php echo $result['birth_date']; ?>" /></div>
-	<br /><br />
-	<div class="colonne-gauche"><?php echo $choose_country; ?></div><div class="colonne-milieu"><?php select_country($result['country'],$other_countries,$common_choices); ?></div>
-	<br /><br />
-	<div class="colonne-gauche"><?php echo $choose_city; ?></div><div class="colonne-milieu"><input type="text" class="signup" name="city" value="<?php echo $result['city']; ?>" /></div>
-	<br /><br />
-	<div class="colonne-gauche"><?php echo $about_you; ?></div><div class="colonne-milieu"><textarea name="about_me" value="<?php echo $result['about_me']; ?>" style="height:60px;width:190px;"><?php echo $result['about_me']; ?></textarea></div> 
-	<br /><br />
-	<div class="clear"></div>
-	<div class="colonne-gauche"><?php echo $hide_profile; ?>
-	<br /><br />
-	<center><p><input type="submit" value="Okey" class="submit" /></p></center>
-	</form>
-</div>
+if (empty($action)) 
+	{
+	echo '
+	<div class="post">
+		<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />'.$edit_profile.'</h1>
+		<img src="http://www.teen-quotes.com/images/avatar/'.$result['avatar'].'" class="user_avatar_editprofile" /></span>
+		<br />
+		<form action="?action=send" method="post">
+		<div class="colonne-gauche">'.$choose_title.'
+		<br /><br />
+		<div class="colonne-gauche">'.$choose_birth.'</div><div class="colonne-milieu"><input type="text" class="signup" name="birth_date" value="'.$result['birth_date'].'" /></div>
+		<br /><br />
+		<div class="colonne-gauche">'.$choose_country.'</div><div class="colonne-milieu">'; select_country($result['country'],$other_countries,$common_choices); echo '</div>
+		<br /><br />
+		<div class="colonne-gauche">'.$choose_city.'</div><div class="colonne-milieu"><input type="text" class="signup" name="city" value="'.$result['city'].'" /></div>
+		<br /><br />
+		<div class="colonne-gauche">'.$about_you.'</div><div class="colonne-milieu"><textarea name="about_me" value="'.$result['about_me'].'" style="height:60px;width:190px;">'.$result['about_me'].'</textarea></div> 
+		<br /><br />
+		<div class="clear"></div>
+		<div class="colonne-gauche">'.$hide_profile.'
+		<br /><br />
+		<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+		</form>
+	</div>
 
-<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/outils.png" class="icone" /><?php echo $settings; ?></h1>
-	<form action="?action=settings" method="post">
-	<input type="checkbox" name="newsletter" value="1" <?php if ($is_newsletter == '1') echo 'checked="checked"';?> /><?php echo $i_want_newsletter; ?><br>
-	<input type="checkbox" name="comments_quote" value="1" <?php if($notification_comment_quote == '1')echo 'checked="checked"'; ?> /><?php echo $i_want_comment_quotes; ?><br>
-	<br />
-	<center><p><input type="submit" value="Okey" class="submit" /></p></center>
-	</form>
-</div>
+	<div class="post">
+		<h1><img src="http://www.teen-quotes.com/images/icones/outils.png" class="icone" />'.$settings.'</h1>
+		<form action="?action=settings" method="post">
+		<input type="checkbox" name="newsletter" value="1"'; if ($is_newsletter == '1') echo 'checked="checked"'; echo ' />'.$i_want_newsletter.'<br>
+		<input type="checkbox" name="comments_quote" value="1"'; if($notification_comment_quote == '1') echo 'checked="checked"'; echo ' />'.$i_want_comment_quotes.'<br>
+		<br />
+		<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+		</form>
+	</div>
 
-<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/avatar.png" class="icone" /><?php echo $change_avatar; ?></h1>
-	<?php echo $change_avatar_rules; ?>
-	<br />
-	<form method="post" action="?action=avatar" enctype="multipart/form-data">
-	<div class="colonne-gauche"><?php echo $select_photo; ?></div><div class="colonne-milieu"><input type="file" name="photo" class="signup" /></div>
-	<br /><br />
-	<a href="?action=reset_avatar"><?php echo $reset_avatar; ?></a><br>
-	<center><p><input type="submit" value="Okey" class="submit" /></p></center>
-	</form>
-</div>
+	<div class="post">
+		<h1><img src="http://www.teen-quotes.com/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h1>
+		'.$change_avatar_rules.'
+		<br />
+		<form method="post" action="?action=avatar" enctype="multipart/form-data">
+		<div class="colonne-gauche">'.$select_photo.'</div><div class="colonne-milieu"><input type="file" name="photo" class="signup" /></div>
+		<br /><br />
+		<a href="?action=reset_avatar">'.$reset_avatar.'</a><br>
+		<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+		</form>
+	</div>
 
-
-<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/password.png" class="icone" /><?php echo $change_password; ?></h1>
-	<form action="?action=change" method="post">
-	<div class="colonne-gauche"><?php echo $new_password; ?></div><div class="colonne-milieu"><input type="password" class="signup" name="pass1" /></div><div class="colonne-droite"><span class="min_info">Minimum 5 <?php echo $characters; ?></span></div>
-	<br /><br />
-	<div class="colonne-gauche"><?php echo $new_password_repeat; ?></div><div class="colonne-milieu"><input type="password" class="signup" name="pass2" /></div>
-	<br /><br />
-	<center><p><input type="submit" value="Okey" class="submit" /></p></center>
-	</form>
-</div>
-
-<?php }
+	<div class="post">
+		<h1><img src="http://www.teen-quotes.com/images/icones/password.png" class="icone" />'.$change_password.'</h1>
+		<form action="?action=change" method="post">
+		<div class="colonne-gauche">'.$new_password.'</div><div class="colonne-milieu"><input type="password" class="signup" name="pass1" /></div><div class="colonne-droite"><span class="min_info">Minimum 5 '.$characters.'</span></div>
+		<br /><br />
+		<div class="colonne-gauche">'.$new_password_repeat.'</div><div class="colonne-milieu"><input type="password" class="signup" name="pass2" /></div>
+		<br /><br />
+		<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+		</form>
+	</div>
+	';
+	}
 elseif ($action=="send") 
 	{
-// LE FORMULAIRE A ETE ENVOYE ON LE TRAITE
+	// LE FORMULAIRE A ETE ENVOYE ON LE TRAITE
 	echo '
 	<div class="post">
 	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />'.$edit_profile.'</h1>
@@ -109,43 +129,41 @@ elseif ($action=="send")
 				
 				
 	if(!empty($title) AND !empty($birth_date) AND !empty($country) AND !empty($city) AND !empty($about_me) AND !empty($hide_profile)) 
-	{
-	if ($hide_profile=="No") 
 		{
-		$hide_profile='0';
-		}
-	if (strlen($about_me) <= '1000') 
-		{
-		if(preg_match("#[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}#", $birth_date)) 
+		if ($hide_profile == "No") 
 			{
-			$query = mysql_query("UPDATE teen_quotes_account set title='$title', birth_date='$birth_date', country='$country', city='$city', about_me='$about_me', hide_profile='$hide_profile' WHERE id='$id'");
-			if ($query) 
+			$hide_profile = '0';
+			}
+		if (strlen($about_me) <= '1000') 
+			{
+			if(preg_match("#[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}#", $birth_date)) 
 				{
-				echo ''.$edit_succes.'';
-				}
+				$query = mysql_query("UPDATE teen_quotes_account set title='$title', birth_date='$birth_date', country='$country', city='$city', about_me='$about_me', hide_profile='$hide_profile' WHERE id='$id'");
+				if ($query) 
+					{
+					echo ''.$edit_succes.'';
+					}
 				else 
-				{
-				echo '<h2>'.$error.'</h2>'.$lien_retour.'';
+					{
+					echo '<h2>'.$error.'</h2>'.$lien_retour.'';
+					}
 				}
-		
+				else
+				{
+				echo ''.$wrong_birth_date.' '.$lien_retour.'';
+				}
 			}
-			else
-			{
-			echo ''.$wrong_birth_date.' '.$lien_retour.'';
-			}
-		}
 		else
-		{
-		echo ''.$description_long.'';
+			{
+			echo ''.$description_long.'';
+			}
 		}
-	}
 	else 
-	{
-	echo ''.$not_completed.'';
-	}				
-echo '</div>';
-
-}
+		{
+		echo ''.$not_completed.'';
+		}				
+	echo '</div>';
+	}
 elseif ($action=="avatar") 
 	{
 	echo '
@@ -221,23 +239,21 @@ elseif ($action=="change")
 			
 	if ($pass1==$pass2) 
 		{
-		if(strlen($pass1) >= '5')
+		if (strlen($pass1) >= '5')
 			{
 			$pass = sha1(strtoupper($username).':'.strtoupper($pass1));
 			$query = mysql_query ("UPDATE teen_quotes_account SET pass='$pass' WHERE id='$id'") or die ('Erreur : '.mysql_error());
 			$message = $email_message_change_pass;
 			$mail = mail($email, $email_subject_change_pass, $message, $headers); 
-			if($query AND $mail)
+			if ($query AND $mail)
 				{
-				echo "$change_pass_succes";
-				echo '<meta http-equiv="refresh" content="3;url=connexion.php?method=get&pseudo='.$username.'&password='.$pass2.'" />';
+				echo ''.$change_pass_succes.'';
+				echo '<meta http-equiv="refresh" content="3;url=connexion.php?method=get&pseudo='.$username.'&password='.$pass.'" />';
 				}
 			else 
 				{
-				echo "<h2>$error</h2>$lien_retour";
+				echo '<h2>'.$error.'</h2>'.$lien_retour.'';
 				}
-	
-
 			}
 		else 
 			{
@@ -250,7 +266,6 @@ elseif ($action=="change")
 		} 
 		
 	echo '</div>';
-	
 	}
 elseif ($action == "settings")
 	{
@@ -277,18 +292,18 @@ elseif ($action == "settings")
 					echo ''.$settings_updated.'';
 					$notifications_succes = TRUE;
 					}
-					else 
+				else 
 					{
 					echo ''.$error.' '.$lien_retour.'';
 					}
 				}
-				else
+			else
 				{
 				echo ''.$settings_updated.'';
 				$notifications_succes = TRUE;
 				}
 			}
-			else 
+		else 
 			{
 			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
 			}
@@ -297,7 +312,7 @@ elseif ($action == "settings")
 		{
 		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 			{
-			$num_rows=mysql_num_rows(mysql_query("SELECT id FROM newsletter WHERE email='$email'")); 
+			$num_rows = mysql_num_rows(mysql_query("SELECT id FROM newsletter WHERE email='$email'")); 
 			if ($num_rows=="1") 
 				{
 				$query=mysql_query("DELETE FROM newsletter WHERE email='$email'");
@@ -306,18 +321,18 @@ elseif ($action == "settings")
 					echo ''.$settings_updated.'';
 					$notifications_succes = TRUE;
 					}
-					else 
+				else 
 					{
 					echo ''.$error.' '.$lien_retour.'';
 					}
 				}
-				else
+			else
 				{
 				echo ''.$settings_updated.'';
 				$notifications_succes = TRUE;
 				}
 			}
-			else 
+		else 
 			{
 			echo ''.$error.' '.$lien_retour.'';
 			}
@@ -356,6 +371,6 @@ elseif ($action == "settings")
 		}
 	echo '</div>';
 	}
-	
-	
-include "footer.php"; ?>
+
+include "footer.php";
+?>

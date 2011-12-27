@@ -79,28 +79,28 @@ if (isset($_GET['deco_succes']))
 
 
 if (isset($_GET['co'])) 
-{
-$pseudo=$_SESSION['pseudo'];		
-$passwd=$_SESSION['passwd'];
+	{
+	$pseudo=$_SESSION['pseudo'];		
+	$passwd=$_SESSION['passwd'];
 
-setcookie("Pseudo", $pseudo, time() + (((3600*24)*30)*12), null, '.teen-quotes.com', false, true);
-setcookie("Pass", $passwd, time() + (((3600*24)*30)*12), null, '.teen-quotes.com', false, true);
+	setcookie("Pseudo", $pseudo, time() + (((3600*24)*30)*12), null, '.teen-quotes.com', false, true);
+	setcookie("Pass", $passwd, time() + (((3600*24)*30)*12), null, '.teen-quotes.com', false, true);
 
-$_SESSION['passwd']=NULL;
-// redirection
-						?>
-						<script language="JavaScript">
-							<!--
-							window.location.href="../"
-							//-->
-						</script>
-						<?php
-}
+	$_SESSION['passwd']=NULL;
+	// redirection
+	?>
+	<script language="JavaScript">
+	<!--
+	window.location.href="../"
+	//-->
+	</script>
+	<?php
+	}
 
 if (isset($_GET['deconnexion']))
-{
+	{
 	deconnexion();
-}
+	}
 
 function deconnexion()
 {
