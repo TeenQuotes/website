@@ -2,7 +2,7 @@
 
 $next_page = "Page suivante";
 $previous_page = "Page précédente";
-$search = "Rechercher";
+$search = "Recherche";
 $sign_in = "Connexion";
 $log_me = "Connexion";
 $sign_up = "S'inscrire";

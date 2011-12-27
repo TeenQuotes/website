@@ -144,7 +144,15 @@ $number_space = number_format($number, 0, ',', ' '); // Arrondi et espaces sur l
 return $number_space;
 }
 
-function create_stats () {
+function create_stats ($language) {
+if ($language == "english")
+	{
+	require 'lang/'.$language.'/stats.php';
+	}
+else
+	{
+	require '../lang/'.$language.'/stats.php';
+	}
 $total_quotes = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes"));
 $quotes_approved = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='1'"));
 $quotes_rejected = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='-1'"));
@@ -173,71 +181,66 @@ $graph_stats_js = "
 </script>
 <script type=\"text/javascript\">
 function graph_quotes() {
-// Create and populate the data table.
 var data = new google.visualization.DataTable();
 data.addColumn('string', 'Quote');
 data.addColumn('number', 'Status');
 data.addRows(4);
-data.setValue(0, 0, 'Approved : ".$quotes_approved."');
+data.setValue(0, 0, '".$approved." : ".$quotes_approved."');
 data.setValue(0, 1, ".$quotes_approved.");
-data.setValue(1, 0, 'Rejected : ".$quotes_rejected."');
+data.setValue(1, 0, '".$rejected." : ".$quotes_rejected."');
 data.setValue(1, 1, ".$quotes_rejected.");
-data.setValue(2, 0, 'Pending moderation: ".$quotes_pending."');
+data.setValue(2, 0, '".$pending." : ".$quotes_pending."');
 data.setValue(2, 1, ".$quotes_pending.");
-data.setValue(3, 0, 'Waiting to be posted : ".$quotes_queued."');
+data.setValue(3, 0, '".$waiting_to_be_posted." : ".$quotes_queued."');
 data.setValue(3, 1, ".$quotes_queued.");
 
 // Create and draw the visualization.
 new google.visualization.PieChart(document.getElementById('graph_quotes')).
-	draw(data, {title:'Total number of quotes : ".$total_quotes."'});
+	draw(data, {title:'".$total_nb_quotes." : ".$total_quotes."'});
 }
 function graph_empty_profile() {
-// Create and populate the data table.
 var data = new google.visualization.DataTable();
 data.addColumn('string', 'Profile');
 data.addColumn('number', 'Status');
 data.addRows(2);
-data.setValue(0, 0, 'Profile not fullfilled : ".$nb_empty_avatar."');
+data.setValue(0, 0, '".$profile_not_fullfilled." : ".$nb_empty_avatar."');
 data.setValue(0, 1, ".$nb_empty_avatar.");
-data.setValue(1, 0, 'Profile fullfilled : ".$nb_members_empty_profile."');
+data.setValue(1, 0, '".$profile_fullfilled." : ".$nb_members_empty_profile."');
 data.setValue(1, 1, ".$nb_members_empty_profile.");
 
 // Create and draw the visualization.
 new google.visualization.PieChart(document.getElementById('graph_empty_profile')).
-	draw(data, {title:'Total number of members : ".$total_members."'});
+	draw(data, {title:'".$total_nb_members." : ".$total_members."'});
 }
 function graph_newsletter() {
-// Create and populate the data table.
 var data = new google.visualization.DataTable();
 data.addColumn('string', 'Profile');
 data.addColumn('number', 'Status');
 data.addRows(2);
-data.setValue(0, 0, 'Visitors : ".$nb_no_members_newsletter."');
+data.setValue(0, 0, '".$visitors." : ".$nb_no_members_newsletter."');
 data.setValue(0, 1, ".$nb_no_members_newsletter.");
-data.setValue(1, 0, 'Members : ".$nb_members_newsletter."');
+data.setValue(1, 0, '".$members." : ".$nb_members_newsletter."');
 data.setValue(1, 1, ".$nb_members_newsletter.");
 
 // Create and draw the visualization.
 new google.visualization.PieChart(document.getElementById('graph_newsletter')).
-	draw(data, {title:'People subscribed to the newsletter : ".$nb_newsletter."'});
+	draw(data, {title:'".$people_subscribed_newsletter." : ".$nb_newsletter."'});
 }
 function members_favorite_quote() {
-// Create and populate the data table.
 var data = new google.visualization.DataTable();
 data.addColumn('string', 'Profile');
 data.addColumn('number', 'Status');
 data.addRows(2);
-data.setValue(0, 0, 'Members with favorite quotes : ".$nb_members_has_favorite_quotes."');
+data.setValue(0, 0, '".$members_with_fav_quotes." : ".$nb_members_has_favorite_quotes."');
 data.setValue(0, 1, ".$nb_members_has_favorite_quotes.");
-data.setValue(1, 0, 'Members without favorite quote : ".$nb_members_no_favorite_quotes."');
+data.setValue(1, 0, '".$members_without_fav_quotes." : ".$nb_members_no_favorite_quotes."');
 data.setValue(1, 1, ".$nb_members_no_favorite_quotes.");
 
 // Create and draw the visualization.
 new google.visualization.PieChart(document.getElementById('members_favorite_quote')).
-	draw(data, {title:'Members and favorite quotes'});
+	draw(data, {title:'".$members_and_fav_quotes."'});
 }
 function top_user_favorite_quote() {
-// Create and populate the data table.
 var data = new google.visualization.DataTable();
 data.addColumn('string', 'Profile');
 data.addColumn('number', 'Status');
@@ -258,14 +261,13 @@ while ($donnees = mysql_fetch_array($query_top_user_favorite))
 	}
 $reste_nb_favorite = $nb_favorite -  $sum_fav_top_user;
 $graph_stats_js .="
-data.setValue(".$i.", 0, 'Others : ".$reste_nb_favorite."');
+data.setValue(".$i.", 0, '".$others." : ".$reste_nb_favorite."');
 data.setValue(".$i.", 1, ".$reste_nb_favorite.");
 // Create and draw the visualization.
 new google.visualization.PieChart(document.getElementById('top_user_favorite_quote')).
-	draw(data, {title:'Top members ordered by number of quotes added to favorite (".$nb_favorite." quotes in favorite)'});
+	draw(data, {title:'".$top_members_ordered_by_nb_quotes_in_fav." (".$nb_favorite." ".$quotes_in_fav.")'});
 }
 function graph_search() {
-// Create and populate the data table.
 var data = new google.visualization.DataTable();
 data.addColumn('string', 'Profile');
 data.addColumn('number', 'Status');
@@ -285,7 +287,7 @@ while ($donnees = mysql_fetch_array($query_search))
 $graph_stats_js .="
 // Create and draw the visualization.
 new google.visualization.PieChart(document.getElementById('graph_search')).
-	draw(data, {title:'Total number of searchs : ".$nb_search."'});
+	draw(data, {title:'".$total_nb_search." : ".$nb_search."'});
 }
 google.setOnLoadCallback(graph_quotes);
 google.setOnLoadCallback(graph_empty_profile); 

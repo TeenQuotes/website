@@ -128,7 +128,7 @@ else
 		<?php
 		if ($php_self == "stats")
 			{
-			create_stats();
+			create_stats($language);
 			}
 		?>
 		
