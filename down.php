@@ -49,6 +49,7 @@
 </div>
 <div id="content">
 	<h1>An error occured</h1>
+	<h1>We will be back in a few minutes</h1>
 	<img src="images/error_down.jpg"/>
 </div>
 <div id="footer">
