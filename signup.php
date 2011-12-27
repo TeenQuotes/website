@@ -34,7 +34,7 @@ if (empty($action)) {
 	echo $account_create; ?><br>
 	<br />
 	<?php echo $require_age; ?><br>
-	<br />
+	<div class="grey_post">
 	<form method="post" action="?action=send"> 
 		<div class="colonne-gauche"><?php echo $username_enter; ?> </div><div class="colonne-milieu"><input type="text" name="username" class="signup"/></div><div class="colonne-droite"><span class="min_info">Minimum 5 <?php echo $characters; ?></span></div>
 		<br /><br />
@@ -46,6 +46,7 @@ if (empty($action)) {
 		<br /><br />
 		<center><p><input type="submit" value="<?php echo $create_account; ?>" class="submit" /></p></center>
 	</form>
+	</div>
 </div>
 <?php include "footer.php"; 
 }

@@ -1,7 +1,7 @@
 <?php
 
-$account_create = "Pour créer un compte sur Teen Quotes et être en mesure d'accéder à tous les avantages qui vont avec, remplissez le formulaire ci-dessous, votre compte sera créé dans un instant!";
-$require_age = "Vous devez avoir 13 ans ou plus pour créer un compte membre sur Teen Quotes";
+$account_create = "Pour créer un compte sur Teen Quotes et être en mesure d'accéder à tous les avantages qui vont avec, remplissez le formulaire ci-dessous, votre compte sera créé dans un instant !";
+$require_age = "Vous devez avoir 13 ans ou plus pour créer un compte sur Teen Quotes.";
 $username_enter = "Nom d'utilisateur";
 $password = "Mot de passe";
 $confirm_password = "Confirmation du mot de passe";
