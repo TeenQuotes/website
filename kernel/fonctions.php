@@ -273,10 +273,13 @@ data.addColumn('string', 'Profile');
 data.addColumn('number', 'Status');
 data.addRows(21);";
 $j = '0';
+$sum_nb_search = '0';
 while ($donnees = mysql_fetch_array($query_search))
 	{
 	$value = $donnees['value'];
 	$text = ucfirst($donnees['text']);
+	
+	$sum_nb_search = $sum_nb_search + $value;
 	
 	$graph_stats_js .="
 	data.setValue(".$j.", 0, '".$text." : ".$value."');
@@ -284,7 +287,10 @@ while ($donnees = mysql_fetch_array($query_search))
 	";
 	$j++;
 	}
+$reste_nb_search = $nb_search - $sum_nb_search;
 $graph_stats_js .="
+data.setValue(".$i.", 0, '".$others." : ".$reste_nb_search."');
+data.setValue(".$i.", 1, ".$reste_nb_search.");
 // Create and draw the visualization.
 new google.visualization.PieChart(document.getElementById('graph_search')).
 	draw(data, {title:'".$total_nb_search." : ".$nb_search."'});
