@@ -1,7 +1,7 @@
 <?php 
 include 'header.php';
-include "lang/$language/newsletter.php";
-include "lang/$language/signup.php";
+include 'lang/'.$language.'/newsletter.php';
+include 'lang/'.$language.'/signup.php';
 $action=htmlspecialchars($_GET['action']);
 
 echo '

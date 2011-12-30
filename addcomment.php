@@ -1,14 +1,17 @@
 <?php 
 include 'header.php'; 
-include "lang/$language/quote.php"; 
+include 'lang/'.$language.'/quote.php'; 
 
 $id_quote = nl2br(htmlspecialchars(mysql_escape_string($_POST['id_quote'])));
 $texte = htmlspecialchars(mysql_escape_string($_POST['texte']));
 $username=ucfirst($username);
-$date = date("d/m/Y"); ?>
+$date = date("d/m/Y"); 
+$comments_ucfirst = ucfirst($comments);
+echo '
 <div class="post">
-<h1><img src="http://www.teen-quotes.com/images/icones/about.png" class="icone" /><?php echo ucfirst($comments); ?></h1>
-<?php
+<h1><img src="http://www.teen-quotes.com/images/icones/about.png" class="icone" />'.$comments_ucfirst.'</h1>
+';
+
 if (!empty($id_quote) AND !empty($texte)) 
 	{
 	if (strlen($texte) <= '450') 
@@ -68,5 +71,7 @@ if (!empty($id_quote) AND !empty($texte))
 	{
 	echo '<span class="erreur">'.$not_complete.'</span>';
 	}
+	
 echo '</div>';
-include "footer.php"; ?>
+include "footer.php";
+?>

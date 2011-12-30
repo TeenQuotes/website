@@ -21,7 +21,8 @@ elseif (empty($action) AND $_SESSION['security_level'] >='2')
 		{
 		$days_quote_posted = "day";
 		}
-	?>
+		
+	echo '
 	<div class="post">
 		<h1><img src="http://www.teen-quotes.com/images/icones/add.png" class="icone" />Add a quote</h1>
 		<form action="?action=add_quote" method="post">
@@ -43,12 +44,10 @@ elseif (empty($action) AND $_SESSION['security_level'] >='2')
 
 	<div class="post">
 		<h1><img src="http://www.teen-quotes.com/images/icones/test.png" class="icone" />Approve Quotes</h1>
-	<?php 
-		echo '
 		<div class="grey_post">
 		Number of citations waiting to be posted : '.$nb_quote_awaiting_post.' ('.$jours_posted.' '.$days_quote_posted .')
 		</div>
-		';
+	';
 	$query = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved='0' ORDER BY id ASC");
 	while ($result=mysql_fetch_array($query)) 
 		{
@@ -313,4 +312,5 @@ elseif ($action=="edit_existing_quote_valide")
 	}
 
 echo '</div>';
-include "footer.php"; ?>
+include "footer.php";
+?>

@@ -63,6 +63,5 @@ elseif ($action=="send")
 	}
 	
 echo '</div>';
-
 include "footer.php";
 ?>

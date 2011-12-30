@@ -1,8 +1,8 @@
 <?php 
 
 include "header.php";
-include "lang/$language/members.php"; 
-include "lang/$language/user.php";
+include 'lang/'.$language.'/members.php'; 
+include 'lang/'.$language.'/user.php';
 
 $abcd = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 $j = '0';
@@ -138,8 +138,6 @@ if ($totalDesMembres > 0)
 	echo '<span class="erreur">'.$no_members.' ('.$lettre.')</span>';
 	echo '</div>';
 	}
- 
 
- 
 include "footer.php";
  
