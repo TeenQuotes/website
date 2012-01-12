@@ -82,7 +82,7 @@ select {outline:none}
 .bandeau_erreur {margin:0 auto 20px;padding:10px 20px;background:#fff9d7;border:1px solid #e2c822;color:#333;font-family:Helvetica;font-size:11px}
 .profile_not_fullfilled {margin:20px auto 0px auto;width:860px;background:#fff9d7;border: 1px solid #e2c822;padding:10px 20px;color:#333;font-family:Helvetica;font-size:11px}
 .pub {margin:0 auto 20px;}
-.pub_footer {margin:0 auto;padding-left:27px}
+.pub_footer {margin:0 auto;padding-left:5px}
 .slidedown {display:none}
 .hide_this {cursor:pointer}
 .highlight {background:yellow}

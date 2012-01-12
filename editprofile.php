@@ -57,8 +57,8 @@ if (empty($action))
 	{
 	echo '
 	<div class="post">
-		<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />'.$edit_profile.'</h1>
-		<img src="http://www.teen-quotes.com/images/avatar/'.$result['avatar'].'" class="user_avatar_editprofile" /></span>
+		<h1><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />'.$edit_profile.'</h1>
+		<img src="http://'.$domaine.'/images/avatar/'.$result['avatar'].'" class="user_avatar_editprofile" /></span>
 		<br />
 		<form action="?action=send" method="post">
 		<div class="colonne-gauche">'.$choose_title.'
@@ -79,7 +79,7 @@ if (empty($action))
 	</div>
 
 	<div class="post">
-		<h1><img src="http://www.teen-quotes.com/images/icones/outils.png" class="icone" />'.$settings.'</h1>
+		<h1><img src="http://'.$domaine.'/images/icones/outils.png" class="icone" />'.$settings.'</h1>
 		<form action="?action=settings" method="post">
 		<input type="checkbox" name="newsletter" value="1"'; if ($is_newsletter == '1') echo 'checked="checked"'; echo ' />'.$i_want_newsletter.'<br>
 		<input type="checkbox" name="comments_quote" value="1"'; if($notification_comment_quote == '1') echo 'checked="checked"'; echo ' />'.$i_want_comment_quotes.'<br>
@@ -89,7 +89,7 @@ if (empty($action))
 	</div>
 
 	<div class="post">
-		<h1><img src="http://www.teen-quotes.com/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h1>
+		<h1><img src="http://'.$domaine.'/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h1>
 		'.$change_avatar_rules.'
 		<br />
 		<form method="post" action="?action=avatar" enctype="multipart/form-data">
@@ -101,7 +101,7 @@ if (empty($action))
 	</div>
 
 	<div class="post">
-		<h1><img src="http://www.teen-quotes.com/images/icones/password.png" class="icone" />'.$change_password.'</h1>
+		<h1><img src="http://'.$domaine.'/images/icones/password.png" class="icone" />'.$change_password.'</h1>
 		<form action="?action=change" method="post">
 		<div class="colonne-gauche">'.$new_password.'</div><div class="colonne-milieu"><input type="password" class="signup" name="pass1" /></div><div class="colonne-droite"><span class="min_info">Minimum 5 '.$characters.'</span></div>
 		<br /><br />
@@ -117,7 +117,7 @@ elseif ($action=="send")
 	// LE FORMULAIRE A ETE ENVOYE ON LE TRAITE
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />'.$edit_profile.'</h1>
+	<h1><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />'.$edit_profile.'</h1>
 	';
 
 	$title = htmlspecialchars(mysql_escape_string($_POST['title']));
@@ -168,7 +168,7 @@ elseif ($action=="avatar")
 	{
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h1>
+	<h1><img src="http://'.$domaine.'/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h1>
 	';
 	$photo= $_FILES['photo']['name'];
 	$point=".";
@@ -183,8 +183,11 @@ elseif ($action=="avatar")
 			$extension_upload = strtolower($infosfichier['extension']);
 			$extensions_autorisees = array('jpg', 'gif', 'png','JPG');
 			if (in_array($extension_upload, $extensions_autorisees))
-				{		
-				unlink("./images/avatar/$id.$extension_upload"); // delete de l'image si celle ci existe
+				{
+				if (file_exists("./images/avatar/$id.$extension_upload"))
+					{
+					unlink("./images/avatar/$id.$extension_upload"); // delete de l'image si celle ci existe
+					}
 				// On peut valider le fichier et le stocker définitivement
 				move_uploaded_file($_FILES['photo']['tmp_name'], './images/avatar/' . $id.$point.$extension_upload);
 				// on écrit la requête sql 
@@ -217,7 +220,7 @@ elseif ($action=="reset_avatar")
 	// RESET DE L'AVATAR 
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h1>
+	<h1><img src="http://'.$domaine.'/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h1>
 	';
 	$sql = "UPDATE teen_quotes_account SET avatar='icon50.png' WHERE id='$id'"; 
 	mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error()); 
@@ -232,7 +235,7 @@ elseif ($action=="change")
 	//CHANGEMENT DE MOT DE PASSE
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />'.$change_password.'</h1>
+	<h1><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />'.$change_password.'</h1>
 	';
 	$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
 	$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
@@ -271,7 +274,7 @@ elseif ($action == "settings")
 	{
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/outils.png" class="icone" />'.$settings.'</h1>
+	<h1><img src="http://'.$domaine.'/images/icones/outils.png" class="icone" />'.$settings.'</h1>
 	';
 	$comments_quote = htmlspecialchars($_POST['comments_quote']);
 	$newsletter = htmlspecialchars($_POST['newsletter']);

@@ -1,5 +1,24 @@
 <?php 
 
+$domaine = $_SERVER['HTTP_HOST'];
+switch ($domaine)
+	{
+	case "fr.teen-quotes.com" :
+	$domaine = "teen-quotes.com";
+	break;
+	case "m.teen-quotes.com" :
+	$domaine = "teen-quotes.com";
+	break;
+	case "en.kotado.fr" :
+	$domaine = "kotado.fr";
+	break;
+	case "m.kotado.fr" :
+	$domaine = "kotado.fr";
+	break;
+	}
+$domaine_en = "teen-quotes.com";
+$domaine_fr = "kotado.fr";
+
 // NOMS DES PAGES
 $url_page=$_SERVER["SCRIPT_URI"];
 $m_url=substr($url_page, 0, 25);
@@ -10,30 +29,64 @@ $taille= strlen($name_page);
 $taille2=$taille-4;
 $php_self = substr("$page",1,$taille2);
 
-
-if($php_self=="index" OR $php_self=="error") 
+if ($domaine == "teen-quotes.com")
 	{
-	$php_self=NULL;
-	}
-	
-if($fr_url=="http://fr")
-	{
-	$language="french";
-	$php_self=$page_include; // FIX NOM DE LA PAGE  VOIR /fr/.htaccess
-	}
-else
-	{
-	$language="english";
-	}
-
-if (isset($_GET['p']))
-	{
-	$page_index = htmlspecialchars($_GET['p']);
-	$php_self = '?p='.$page_index.'';
-	
+	if($php_self=="index" OR $php_self=="error") 
+		{
+		$php_self=NULL;
+		}
+		
 	if($fr_url=="http://fr")
 		{
-		$php_self=$page_include.'?p='.$page_index.'';
+		$language="french";
+		$second_language = "english";
+		$php_self=$page_include; // FIX NOM DE LA PAGE  VOIR /fr/.htaccess
+		}
+	else
+		{
+		$language="english";
+		$second_language = "french";
+		}
+
+	if (isset($_GET['p']))
+		{
+		$page_index = htmlspecialchars($_GET['p']);
+		$php_self = '?p='.$page_index.'';
+		
+		if($fr_url=="http://fr")
+			{
+			$php_self=$page_include.'?p='.$page_index.'';
+			}
+		}
+	}
+elseif ($domaine == $domaine_fr)
+	{
+	if($php_self=="index" OR $php_self=="error") 
+		{
+		$php_self=NULL;
+		}
+		
+	if($fr_url=="http://en")
+		{
+		$language="english";
+		$second_language = "french";
+		$php_self=$page_include; // FIX NOM DE LA PAGE  VOIR /fr/.htaccess
+		}
+	else
+		{
+		$language="french";
+		$second_language = "english";
+		}
+
+	if (isset($_GET['p']))
+		{
+		$page_index = htmlspecialchars($_GET['p']);
+		$php_self = '?p='.$page_index.'';
+		
+		if($fr_url=="http://en")
+			{
+			$php_self=$page_include.'?p='.$page_index.'';
+			}
 		}
 	}
 
@@ -67,13 +120,13 @@ $language="french";
 
 if (isset($_GET['succes']))
 {
-	echo "<span class=\"error\"><img src=\"http://www.teen-quotes.com/images/icones/succes.png\" class=\"alerte\" />$co_succes</span>";
+	echo "<span class=\"error\"><img src=\"http://<?php echo $domaine; ?>/images/icones/succes.png\" class=\"alerte\" />$co_succes</span>";
 	echo "<meta http-equiv=\"refresh\" content=\"2;url=../\" />";
 }
 
 if (isset($_GET['deco_succes']))
 {
-	echo "<span class=\"error\"><img src=\"http://www.teen-quotes.com/images/icones/succes.png\" class=\"alerte\" />$deco_succes</span>";
+	echo "<span class=\"error\"><img src=\"http://<?php echo $domaine; ?>/images/icones/succes.png\" class=\"alerte\" />$deco_succes</span>";
 	echo "<meta http-equiv=\"refresh\" content=\"2;url=../\" />";
 } */
 
@@ -767,22 +820,22 @@ function cut_tweet($chaine)
 function afficher_favori ($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$id_user) {
 if ($logged==true AND $is_favorite=='0') 
 	{
-	echo '<span class="favorite" data-id="'.$id_quote.'"><a href="" onclick="favorite('.$id_quote.','.$id_user.'); return false;" title="'.$add_favorite.'"><img src="http://www.teen-quotes.com/images/icones/heart.png" /></a></span>';
+	echo '<span class="favorite" data-id="'.$id_quote.'"><a href="" onclick="favorite('.$id_quote.','.$id_user.'); return false;" title="'.$add_favorite.'"><img src="http://teen-quotes.com/images/icones/heart.png" /></a></span>';
 	}
 	elseif($logged==true AND $is_favorite=='1')
 	{
-	echo '<span class="favorite" data-id="'.$id_quote.'"><a href=""  onclick="unfavorite('.$id_quote.','.$id_user.'); return false;" title="'.$unfavorite.'"><img src="http://www.teen-quotes.com/images/icones/broken_heart.gif" /></a></span>';
+	echo '<span class="favorite" data-id="'.$id_quote.'"><a href=""  onclick="unfavorite('.$id_quote.','.$id_user.'); return false;" title="'.$unfavorite.'"><img src="http://teen-quotes.com/images/icones/broken_heart.gif" /></a></span>';
 	}
 }
 
 function afficher_favori_m ($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite) {
 if ($logged==true AND $is_favorite=='0') 
 	{
-	echo '<span class="favorite"><a href="favorite-'.$id_quote.'" title="'.$add_favorite.'"><img src="http://www.teen-quotes.com/images/icones/heart.png" /></a></span>';
+	echo '<span class="favorite"><a href="favorite-'.$id_quote.'" title="'.$add_favorite.'"><img src="http://teen-quotes.com/images/icones/heart.png" /></a></span>';
 	}
 	elseif($logged==true AND $is_favorite=='1')
 	{
-	echo '<span class="favorite"><a href="unfavorite-'.$id_quote.'" title="'.$unfavorite.'"><img src="http://www.teen-quotes.com/images/icones/broken_heart.gif" /></a></span>';
+	echo '<span class="favorite"><a href="unfavorite-'.$id_quote.'" title="'.$unfavorite.'"><img src="http://teen-quotes.com/images/icones/broken_heart.gif" /></a></span>';
 	}
 }
 

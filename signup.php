@@ -7,7 +7,7 @@ if (empty($action))
 	{
 	echo '
 	<div class="post slidedown">
-		<h1><img src="http://www.teen-quotes.com/images/icones/signin.png" class="icone"/>'.$sign_up.'</h1>
+		<h1><img src="http://'.$domaine.'/images/icones/signin.png" class="icone"/>'.$sign_up.'</h1>
 	';
 	if (isset($_GET['addquote'])) 
 		{
@@ -55,7 +55,7 @@ elseif ($action == "send")
 	{
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/signin.png" class="icone"/>'.$sign_up.'</h1>
+	<h1><img src="http://'.$domaine.'/images/icones/signin.png" class="icone"/>'.$sign_up.'</h1>
 	';
  
 	$username = ucfirst(trim(htmlspecialchars(mysql_escape_string($_POST['username']))));

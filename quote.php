@@ -64,7 +64,7 @@ if (empty($id_quote))
 	$comments_ucfirst = ucfirst($comments);
 	echo '
 	<div class="post slidedown">
-	<h2><img src="http://www.teen-quotes.com/images/icones/about.png" class="icone" />'.$comments_ucfirst.''; if ($nombre_commentaires >'1'){echo '<span class="right">'.$nombre_commentaires.' '.$comments.'</span>';}else{echo'<span class="right">'.$nombre_commentaires.' '.$comments.'</span>';}echo '</h2>';
+	<h2><img src="http://'.$domaine.'/images/icones/about.png" class="icone" />'.$comments_ucfirst.''; if ($nombre_commentaires >'1'){echo '<span class="right">'.$nombre_commentaires.' '.$comments.'</span>';}else{echo'<span class="right">'.$nombre_commentaires.' '.$comments.'</span>';}echo '</h2>';
 	if ($_SESSION['logged']) 
 		{
 		echo '
@@ -96,7 +96,7 @@ if (empty($id_quote))
 			echo '
 			<div class="grey_post">
 			'.$texte_stripslashes.'<br><br />
-			<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://www.teen-quotes.com/images/avatar/'.$avatar.'" class="mini_user_avatar" /></a>'; if ($_SESSION['security_level'] >= '2'){echo '<span class="favorite"><a href="admin.php?action=delete_comment&id='.$donnees['id'].'"> <img src="http://www.teen-quotes.com/images/icones/delete.png" class="mini_icone" /></a></span>';} echo '<span class="right">'.$by.' <a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'">'.$donnees['auteur'].'</a> '.$on.' '.$donnees['date'].'</span><br>
+			<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" /></a>'; if ($_SESSION['security_level'] >= '2'){echo '<span class="favorite"><a href="admin.php?action=delete_comment&id='.$donnees['id'].'"> <img src="http://'.$domaine.'/images/icones/delete.png" class="mini_icone" /></a></span>';} echo '<span class="right">'.$by.' <a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'">'.$donnees['auteur'].'</a> '.$on.' '.$donnees['date'].'</span><br>
 			</div>';
 			}
 		echo '</div>';

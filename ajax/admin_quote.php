@@ -2,14 +2,14 @@
 header("Access-Control-Allow-Origin: *");
 require "../kernel/config.php";
 $db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
-mysql_select_db('teenq208598',$db)  or die('Erreur de selection '.mysql_error()); 
+mysql_select_db($user,$db)  or die('Erreur de selection '.mysql_error()); 
 require "../kernel/fonctions.php";
 
 $approve = mysql_real_escape_string($_POST['approve']);
 $id_quote=mysql_real_escape_string($_POST['id_quote']);
 $auteur_id = mysql_real_escape_string($_POST['id_user']);
 
-if (preg_match('/teen-quotes.com/', $_SERVER['SERVER_NAME'])) 
+if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$domaine_en.'/', $_SERVER['SERVER_NAME'])) 
 	{
 	if ($approve=="yes") 
 		{

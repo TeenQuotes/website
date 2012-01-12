@@ -53,13 +53,15 @@
 					<div class="pub_footer">
 					<script type="text/javascript"><!--
 					google_ad_client = "ca-pub-8130906994953193";
-					/* Annonce menu */
-					google_ad_slot = "3852684135";
-					google_ad_width = 120;
+					/* Annonce menu 2 */
+					google_ad_slot = "3004031257";
+					google_ad_width = 160;
 					google_ad_height = 600;
 					//-->
 					</script>
-					<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+					<script type="text/javascript"
+					src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+					</script>
 					</div>';
 					}
 				?>
@@ -71,7 +73,7 @@
 		<div class="clear"></div>
 
 		<div id="footer">
-			Teen Quotes &copy; <?php echo date("Y"); ?> 
+			Teen Quotes &copy; <?php echo date("Y"); ?> | Kotado : <a href="http://kotado.fr/" title="Kotado" target="_blank">kotado.fr</a>
 			<span class="right">
 				<?php if($language=='french') {?>
 				<a href="http://www.teen-quotes.com/project/">Présentation du projet</a> |

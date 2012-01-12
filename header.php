@@ -2,6 +2,25 @@
 error_reporting(E_ALL ^ E_NOTICE);
 header("Cache-Control: public");
 
+$domaine = $_SERVER['HTTP_HOST'];
+switch ($domaine)
+	{
+	case "fr.teen-quotes.com" :
+	$domaine = "teen-quotes.com";
+	break;
+	case "m.teen-quotes.com" :
+	$domaine = "teen-quotes.com";
+	break;
+	case "en.kotado.fr" :
+	$domaine = "kotado.fr";
+	break;
+	case "m.kotado.fr" :
+	$domaine = "kotado.fr";
+	break;
+	}
+$domaine_en = "teen-quotes.com";
+$domaine_fr = "kotado.fr";
+
 // INCLUSION DES FICHIERS
 require "kernel/config.php";
 $db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
@@ -115,11 +134,11 @@ else
 		<meta http-equiv="Content-Language" content="en,fr" /> 
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		
-		<link type="text/css" rel="stylesheet" media="screen" href="http://www.teen-quotes.com/style.css" /> 
+		<link type="text/css" rel="stylesheet" media="screen" href="http://<?php echo $domaine; ?>/style.css" /> 
 		<!--[if IE]><style>.submit:hover{color:#000!important}</style><![endif]--> 
-		<link rel="shortcut icon" type="image/x-icon" href="http://www.teen-quotes.com/images/favicon.gif" /> 
-		<link rel="image_src" href="http://www.teen-quotes.com/images/icon50.png" /> 
-		<meta property="og:image" content="http://www.teen-quotes.com/images/icon50.png" /> 
+		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domaine; ?>/images/favicon.gif" /> 
+		<link rel="image_src" href="http://<?php echo $domaine; ?>/images/icon50.png" /> 
+		<meta property="og:image" content="http://<?php echo $domaine; ?>/images/icon50.png" /> 
 		
 
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
@@ -158,7 +177,7 @@ else
 </head>
 <body>
 <div id="topbar">
-	<a href="../" class="menu"><img src="http://www.teen-quotes.com/images/logo.png" alt="logo" /></a>
+	<a href="../" class="menu"><img src="http://<?php echo $domaine; ?>/images/logo.png" alt="logo" /></a>
 		<div class="follow">
 		<a href="http://twitter.com/ohteenquotes" class="twitter-follow-button" data-show-count="false" data-lang="fr">Follow @ohteenquotes</a>
 		<div class="clear"></div>
@@ -175,8 +194,8 @@ else
 	<a href="newsletter" class="menu"><span class="icone_menu newsletter"></span>Newsletter</a>
 	<a href="signup?addquote" class="menu"><span class="icone_menu add"></span><?php echo $add_a_quote; ?></a>
 	<span class="right">
-		<a href="http://teen-quotes.com/<?php echo $php_self; ?>" title="View the website in English"><span class="icone_flags english"></span></a>
-		<a href="http://fr.teen-quotes.com/<?php echo $php_self; ?>" title="Voir le site en Français"><span class="icone_flags french"></span></a>
+		<a href="http://teen-quotes.com" title="View the english version"><span class="icone_flags english"></span></a>
+		<a href="http://kotado.fr" title="Voir la version française"><span class="icone_flags french"></span></a>
 	</span> 
 		<?php } else { ?>
 	<a href="/" class="menu"><span class="icone_menu home"></span><?php echo $home; ?></a>
@@ -187,8 +206,8 @@ else
 	<a href="addquote" class="menu"><span class="icone_menu add"></span><?php echo $add_a_quote; ?></a>
 	<?php if($_SESSION['security_level'] >='2') { ?><a href="admin" class="menu"><span class="icone_menu admin"></span>Admin <?php if ($citations_awaiting_approval > '0'){echo '- '.$citations_awaiting_approval.'';} ?></a><?php } ?>	
 	<span class="right">
-		<a href="http://teen-quotes.com/<?php echo $php_self; ?>" title="View the website in English"><span class="icone_flags english"></span></a>
-		<a href="http://fr.teen-quotes.com/<?php echo $php_self; ?>" title="Voir le site en Français"><span class="icone_flags french"></span></a>
+		<a href="http://teen-quotes.com" title="View the english version"><span class="icone_flags english"></span></a>
+		<a href="http://kotado.fr" title="Voir la version française"><span class="icone_flags french"></span></a>
 	</span> 
 		<?php }	?>
 </div><!-- END MENU -->

@@ -9,7 +9,7 @@ $query=mysql_query("INSERT INTO teen_quotes_favorite (id_quote, id_user) VALUES 
 $update_fav= mysql_query("UPDATE teen_quotes_quotes SET nb_fav=nb_fav+1 WHERE id='$id_quote'");
 ?>
 <div class="post">
-<h1><img src="http://www.teen-quotes.com/images/icones/heart_big.png" class="icone"><?php echo $add_favorite; ?></h1>
+<h1><img src="http://<?php echo $domaine; ?>/images/icones/heart_big.png" class="icone"><?php echo $add_favorite; ?></h1>
 <?php if($query) {
 				 echo"$succes $add_succes";
 				 echo "<meta http-equiv=\"refresh\" content=\"3;url=quote-$id_quote\" />";

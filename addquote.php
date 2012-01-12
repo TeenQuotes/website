@@ -7,7 +7,7 @@ if (empty($action))
 	{
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/add.png" class="icone" />'.$add_quote.'</h1>
+	<h1><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />'.$add_quote.'</h1>
 	'.$add_consignes.'
 	<form action="?action=add_quote" method="post">
 		'.$enter_quote.'<br>
@@ -22,7 +22,7 @@ elseif ($action == "add_quote")
 	{
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/add.png" class="icone" />'.$add_quote.'</h1>
+	<h1><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />'.$add_quote.'</h1>
 	';
 	
 	$texte_quote= ucfirst(htmlspecialchars(mysql_escape_string($_POST['texte_quote'])));
@@ -37,15 +37,22 @@ elseif ($action == "add_quote")
 			{
 			if (is_quote_exist($texte_quote) == FALSE) 
 				{
-				$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english,auteur,date,auteur_id,approved) VALUES ('$texte_quote', '$username', '$date', '$id','0')");
-				
-				if ($query) 
+				if (!empty($username) AND !empty($id))
 					{
-					echo ''.$succes.' '.$add_ok.'';
+					$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english,auteur,date,auteur_id,approved) VALUES ('$texte_quote', '$username', '$date', '$id','0')");
+					
+					if ($query) 
+						{
+						echo ''.$succes.' '.$add_ok.'';
+						}
+						else 
+						{
+						echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+						}
 					}
-					else 
+				else
 					{
-					echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+					echo '<h2>'.$error.'</h2> Please contact us at contact@pretty-web.com with your username. '.$lien_retour.'';
 					}
 				}
 				else

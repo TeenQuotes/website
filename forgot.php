@@ -7,7 +7,7 @@ if (empty($action) AND !$_SESSION['logged'])
 	{ 
 	echo '
 	<div class="post">
-		<h1><img src="http://www.teen-quotes.com/images/icones/faq.png" class="icone" />'.$pass_forget.'</h1>
+		<h1><img src="http://'.$domaine.'/images/icones/faq.png" class="icone" />'.$pass_forget.'</h1>
 		'.$texte_forget.'
 		<form action="?action=send" method="post">
 			<div class="colonne-gauche">'.$email_adress.'</div><div class="colonne-milieu"><input type="text" name="email" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$email_use_signup.'</span></div>
@@ -21,7 +21,7 @@ elseif ($action=="send")
 	{
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/faq.png" class="icone" />'.$pass_forget.'</h1>
+	<h1><img src="http://'.$domaine.'/images/icones/faq.png" class="icone" />'.$pass_forget.'</h1>
 	';
 	
 	$email = mysql_escape_string($_POST['email']);

@@ -30,7 +30,7 @@ if (isset($_POST['connexion']) OR $method == 'get')
 					{
 					$passwd = sha1(strtoupper($pseudo).':'.strtoupper($password));
 					}
-				$sha = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE `pass` = '$passwd'"));
+				$sha = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE `pass` = '$passwd' AND `username` = '$pseudo'"));
 				if ($sha == '1') // Sha1 puis vérification du pass
 					{					
 					$_SESSION['logged'] = true;
@@ -51,18 +51,18 @@ if (isset($_POST['connexion']) OR $method == 'get')
 					}
 				else
 					{
-					echo '<span class="error"><img src="http://www.teen-quotes.com/images/icones/alert.png" class="alerte" />'.$wrong_pass.'</span>';
+					echo '<span class="error"><img src="http://'.$domaine.'/images/icones/alert.png" class="alerte" />'.$wrong_pass.'</span>';
 					}
 				}
 			}
 		else
 			{
-			echo '<span class="error"><img src="http://www.teen-quotes.com/images/icones/alert.png" class="alerte" />'.$no_username.'</span>';
+			echo '<span class="error"><img src="http://'.$domaine.'/images/icones/alert.png" class="alerte" />'.$no_username.'</span>';
 			}
 		}
 	else
 		{
-		echo '<span class="error"><img src="http://www.teen-quotes.com/images/icones/alert.png" class="alerte" />'.$not_filled.'</span>';
+		echo '<span class="error"><img src="http://'.$domaine.'/images/icones/alert.png" class="alerte" />'.$not_filled.'</span>';
 		}
 	}
 ?>

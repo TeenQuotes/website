@@ -11,7 +11,7 @@ $query=mysql_query("DELETE FROM teen_quotes_favorite WHERE id_quote='$id_quote' 
 $update_fav= mysql_query("UPDATE teen_quotes_quotes SET nb_fav=nb_fav-1 WHERE id='$id_quote'");
 ?>
 <div class="post">
-<h1><img src="http://www.teen-quotes.com/images/icones/broken_heart.png" class="icone"><?php echo $unfavorite; ?></h1>
+<h1><img src="http://<?php echo $domaine; ?>/images/icones/broken_heart.png" class="icone"><?php echo $unfavorite; ?></h1>
 <?php
 if($query) 
 	{

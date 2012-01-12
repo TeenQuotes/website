@@ -6,7 +6,7 @@ $action=htmlspecialchars($_GET['action']);
 
 echo '
 <div class="post">
-<h1><img src="http://www.teen-quotes.com/images/icones/mail.png" class="icone" />Newsletter</h1>
+<h1><img src="http://'.$domaine.'/images/icones/mail.png" class="icone" />Newsletter</h1>
 ';
 if (empty($action)) 
 	{ 

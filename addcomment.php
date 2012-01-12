@@ -9,7 +9,7 @@ $date = date("d/m/Y");
 $comments_ucfirst = ucfirst($comments);
 echo '
 <div class="post">
-<h1><img src="http://www.teen-quotes.com/images/icones/about.png" class="icone" />'.$comments_ucfirst.'</h1>
+<h1><img src="http://'.$domaine.'/images/icones/about.png" class="icone" />'.$comments_ucfirst.'</h1>
 ';
 
 if (!empty($id_quote) AND !empty($texte)) 
@@ -45,7 +45,7 @@ if (!empty($id_quote) AND !empty($texte))
 			Here is the comment :
 			<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
 			'.$texte_comment.'<br><br />
-			<a href="http://www.teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://www.teen-quotes.com/images/avatar/'.$avatar.'" style="border:2px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br>
+			<a href="http://www.teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br>
 			</div>
 			'.$end_mail.'';
 			
