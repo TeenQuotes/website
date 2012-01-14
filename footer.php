@@ -63,6 +63,25 @@
 					src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 					</script>
 					</div>';
+					if ($php_self == NULL OR $php_self == "random" OR preg_match('/user/',$php_self))
+						{
+						echo 
+						'
+						<div class="pub_footer">
+						<script type="text/javascript"><!--
+						google_ad_client = "ca-pub-8130906994953193";
+						/* Deuxième annonce menu */
+						google_ad_slot = "5306439142";
+						google_ad_width = 160;
+						google_ad_height = 600;
+						//-->
+						</script>
+						<script type="text/javascript"
+						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+						</script>
+						</div>
+						';
+						}
 					}
 				?>
 				
