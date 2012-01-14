@@ -208,3 +208,13 @@ $(function() {
 $(document).ready(function(){
 	$(".follow").fadeIn(4000);
 });
+
+$(document).ready(function(){
+$(".fade_jquery").hover(
+function() {
+$(this).stop().animate({"opacity": "1"}, "slow");
+},
+function() {
+$(this).stop().animate({"opacity": "0.5"}, "slow");
+});
+});
