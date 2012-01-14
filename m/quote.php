@@ -63,7 +63,7 @@ if (empty($id_quote))
 		
 		<div class="grey_post">
 		<?php echo stripslashes($donnees['texte']); ?><br><br />
-		<a href="user-<?php echo $donnees['auteur_id']; ?>" title="<?php echo $view_his_profile; ?>"><img src="http://www.teen-quotes.com/images/avatar/<?php echo $avatar; ?>" class="mini_user_avatar" /></a><?php if ($_SESSION['security_level'] >='2'){?> <a href="admin.php?action=delete_comment&id=<?php echo $donnees['id']; ?>"> <img src="http://www.teen-quotes.com/images/icones/delete.png" class="mini_icone" /></a><?php } ?><span class="right"><?php echo $by; ?> <a href="user-<?php echo $donnees['auteur_id']; ?>" title="<?php echo $view_his_profile; ?>"><?php echo $donnees['auteur']; ?></a> <?php echo $on; ?> <?php echo $donnees['date']; ?></span><br>
+		<a href="user-<?php echo $donnees['auteur_id']; ?>" title="<?php echo $view_his_profile; ?>"><img src="http://<?php echo $domaine; ?>/images/avatar/<?php echo $avatar; ?>" class="mini_user_avatar" /></a><?php if ($_SESSION['security_level'] >='2'){?> <a href="admin.php?action=delete_comment&id=<?php echo $donnees['id']; ?>"> <img src="http://<?php echo $domaine; ?>/images/icones/delete.png" class="mini_icone" /></a><?php } ?><span class="right"><?php echo $by; ?> <a href="user-<?php echo $donnees['auteur_id']; ?>" title="<?php echo $view_his_profile; ?>"><?php echo $donnees['auteur']; ?></a> <?php echo $on; ?> <?php echo $donnees['date']; ?></span><br>
 		</div>
 		<?php }
 		echo '</div>';

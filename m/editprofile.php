@@ -29,7 +29,7 @@ if (empty($action)) {
 ?>
 <div class="post">
 <h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" /><?php echo $edit_profile; ?></h1>
-<span class="right"><img src="http://www.teen-quotes.com/images/avatar/<?php echo $result['avatar']; ?>" height="50px" /></span>
+<span class="right"><img src="http://<?php echo $domaine; ?>/images/avatar/<?php echo $result['avatar']; ?>" height="50px" /></span>
 <br />
 <form action="editprofile.php?action=send" method="post">
 <div class="colonne-gauche"><?php echo $choose_title; ?>
@@ -123,21 +123,21 @@ elseif ($action=="avatar") { ?>
 <?php
 $photo= $_FILES['photo']['name'];
 $point=".";
-// Testons si le fichier a bien été envoyé et s'il n'y a pas d'erreur
+// Testons si le fichier a bien Ã©tÃ© envoyÃ© et s'il n'y a pas d'erreur
 if (isset($_FILES['photo']) AND $_FILES['photo']['error'] == 0)
 {
         // Testons si le fichier n'est pas trop gros
         if ($_FILES['photo']['size'] <= 120000)
         {
-                // Testons si l'extension est autorisée
+                // Testons si l'extension est autorisÃ©e
                 $infosfichier = pathinfo($_FILES['photo']['name']);
                 $extension_upload = $infosfichier['extension'];
                 $extensions_autorisees = array('jpg', 'gif', 'png','JPG');
                 if (in_array($extension_upload, $extensions_autorisees))
                 {		unlink("./images/avatar/$id.$extension_upload"); // delete de l'image si celle ci existe
-                        // On peut valider le fichier et le stocker définitivement
+                        // On peut valider le fichier et le stocker dÃ©finitivement
                         move_uploaded_file($_FILES['photo']['tmp_name'], './images/avatar/' . $id.$point.$extension_upload);
-						// on écrit la requête sql 
+						// on Ã©crit la requÃªte sql 
 						$nom_fichier=$id.$point.$extension_upload;
 						$sql = "UPDATE teen_quotes_account SET avatar='images/avatar/$nom_fichier' WHERE id='$id'"; 
 						mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error()); 

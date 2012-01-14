@@ -69,7 +69,7 @@ else
 			}
 			
 		echo '
-			<img src="http://www.teen-quotes.com/images/avatar/'.$result['avatar'].'" class="user_avatar" />
+			<img src="http://'.$domaine.'/images/avatar/'.$result['avatar'].'" class="user_avatar" />
 			<h2>'.$result['username'].'<span class="right">'. $user_informations.'
 			';
 			if($id == $_SESSION['account']) 
