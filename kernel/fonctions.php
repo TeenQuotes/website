@@ -969,7 +969,7 @@ function mobile_device_detect($iphone=true,$android=true,$opera=true,$blackberry
 
   switch(true){ // using a switch against the following statements which could return true is more efficient than the previous method of using if statements
 
-    case (eregi('ipod',$user_agent)||eregi('iphone',$user_agent)); // we find the words iphone or ipod in the user agent
+    case (mb_eregi('ipod',$user_agent)||mb_eregi('iphone',$user_agent)); // we find the words iphone or ipod in the user agent
       $mobile_browser = $iphone; // mobile browser is either true or false depending on the setting of iphone when calling the function
       $status = 'Apple';
       if(substr($iphone,0,4)=='http'){ // does the value of iphone resemble a url
@@ -977,7 +977,7 @@ function mobile_device_detect($iphone=true,$android=true,$opera=true,$blackberry
       } // ends the if for iphone being a url
     break; // break out and skip the rest if we've had a match on the iphone or ipod
 
-    case (eregi('android',$user_agent));  // we find android in the user agent
+    case (mb_eregi('android',$user_agent));  // we find android in the user agent
       $mobile_browser = $android; // mobile browser is either true or false depending on the setting of android when calling the function
       $status = 'Android';
       if(substr($android,0,4)=='http'){ // does the value of android resemble a url
@@ -985,7 +985,7 @@ function mobile_device_detect($iphone=true,$android=true,$opera=true,$blackberry
       } // ends the if for android being a url
     break; // break out and skip the rest if we've had a match on android
 
-    case (eregi('opera mini',$user_agent)); // we find opera mini in the user agent
+    case (mb_eregi('opera mini',$user_agent)); // we find opera mini in the user agent
       $mobile_browser = $opera; // mobile browser is either true or false depending on the setting of opera when calling the function
       $status = 'Opera';
       if(substr($opera,0,4)=='http'){ // does the value of opera resemble a rul
@@ -993,7 +993,7 @@ function mobile_device_detect($iphone=true,$android=true,$opera=true,$blackberry
       } // ends the if for opera being a url 
     break; // break out and skip the rest if we've had a match on opera
 
-    case (eregi('blackberry',$user_agent)); // we find blackberry in the user agent
+    case (mb_eregi('blackberry',$user_agent)); // we find blackberry in the user agent
       $mobile_browser = $blackberry; // mobile browser is either true or false depending on the setting of blackberry when calling the function
       $status = 'Blackberry';
       if(substr($blackberry,0,4)=='http'){ // does the value of blackberry resemble a rul
