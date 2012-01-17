@@ -1,4 +1,4 @@
-body{background:url('http://kotado.fr/images/bg.png') fixed;color:#999;font-family:Helvetica Neue, Helvetica, Arial, sans-serif;}
+body{background:#F2F2F2;color:#999;font-family:Helvetica Neue, Helvetica, Arial, sans-serif;}
 b{font-weight:600;}
 a img{border:none;}
 h2,#wrapper h3{font-size:100%;}
@@ -23,7 +23,7 @@ a .fb_share{margin-right:20px;margin-top:-5px;}
 #topbar .title a:hover{color:#5C9FC0;}
 #topbar .title h3,#topbar .title h6{color:#424545;font-family:"Lucida Grande","Lucida Sans Unicode",Verdana,Arial,sans-serif;margin:0;}
 #content{margin:0 auto;}
-.page, .page_bottom{color:#FFF;float:right;font-size:60%;margin-right:10px;}
+.page, .page_bottom{color:#999;float:right;font-size:60%;margin-right:10px;}
 #wrapper{margin-top:15px;}
 #wrapper h1,#wrapper h2{border-bottom:1px solid #5C9FC0;color:#246;margin-left:5px;padding-bottom:3px;font-family:Helvetica;text-shadow: 2px 2px 1px #ccc}
 #wrapper h3{color:#246;margin-bottom:8px;margin-left:20px;font-family:Helvetica;}
@@ -45,7 +45,7 @@ input .edit_user,select .edit_user{width:180px;}
 input:hover,textarea:hover,input:focus,textarea:focus{border:1px solid #5C9FC0;}
 input.submit{-moz-border-radius:8px;-webkit-border-radius:8px;background:#5C9FC0;border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:400;padding:5px;}
 input.signup{width:230px;}
-#footer{-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.3);-moz-border-radius:8px;-webkit-border-radius:8px;background:#fff;border-radius:8px;font-size:70%;margin:10px auto;padding:10px;}
+#footer{-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.3);-moz-border-radius:8px;-webkit-border-radius:8px;background:#fff;border-radius:8px;font-size:50%;margin:10px auto;padding:10px;}
 #footer a{font-weight:400;}
 .error{color:#246;display:block;font-weight:700;margin:10px auto 15px auto;vertical-align:middle}
 .erreur{background:transparent url('http://www.teen-quotes.com/images/icones/alert.png') no-repeat 2% 50%;color:#5C9FC0;font-weight:600;padding-left:30px;}
@@ -53,7 +53,7 @@ input.signup{width:230px;}
 .grey_line{border-bottom:2px solid #F0F0F0;margin:5px 10px}
 .favorite {opacity:0.5;margin-left:10px}
 .favorite:hover {opacity:1}
-#wrapper span.page a,#wrapper span.page_bottom a{color:#FFF;}
+#wrapper span.page a,#wrapper span.page_bottom a{color:#999;}
 #wrapper span.page_grey, #wrapper span.page_grey a{color:#666666}
 ul.menu{text-align:center;font-size:11px;line-height:1.3em;margin-top:-10px;padding:2px 6px 0;}
 ul.menu li{float:left;list-style:none;margin:4px;}

@@ -161,8 +161,10 @@ else
 				?>
 		
 				<div class="grey_post">
-				<?php echo $donnees['texte_english']; ?><br><br />
+				<?php echo $donnees['texte_english']; ?><br>
+				<div style="font-size:65%">
 				<a href="quote-<?php echo $donnees['id']; ?>">#<?php echo $donnees['id']; ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['account']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+				</div>
 				</div>
 				<?php 
 				$i++;
@@ -255,8 +257,10 @@ else
 				$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='$id_quote' AND id_user='$id_user_co'"))
 				?>
 				<div class="grey_post">
-				<?php echo $result['texte_english']; ?><br><br />
+				<?php echo $result['texte_english']; ?><br>
+				<div style="font-size:65%">
 				<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['account']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+				</div>
 				</div>
 				<?php
 				$j++;
