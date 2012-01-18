@@ -9,7 +9,7 @@ echo '<script type="text/javascript">$(\'#wrapper\').highlight(\''.$value_search
 if (empty($value_search)) 
 	{
 	echo '<div class="post">
-	<h1>'.$error.'</h1>
+	<h2>'.$error.'</h2>
 	'.$not_completed.'
 	</div>';
 	}
@@ -24,9 +24,9 @@ elseif (isset($value_search))
 		{
 		echo '
 		<div class="post">
-		<h1><img src="http://www.teen-quotes.com/images/icones/search_result.png" class="icone" />'.$search_results.'<span class="right" style="font-size:70%;padding-top:5px">'.$num_rows_result.''; ?> <?php echo $results; ?><?php if($num_rows_result >'1'){echo"s";}
+		<h2><img src="http://www.teen-quotes.com/images/icones/search_result.png" class="icone" />'.$search_results.'<span class="right">'.$num_rows_result.''; ?> <?php echo $results; ?><?php if($num_rows_result >'1'){echo"s";}
 		echo
-		'</span></h1>';
+		'</span></h2>';
 		if ($num_rows_quote >='1' AND $num_rows_members >= '1')
 			{
 			echo '<h3><a href="#quotes"><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone">'.$quotes.'</a><span class="right"><a href="#members"><img src="http://www.teen-quotes.com/images/icones/staff.png" class="icone">'.$members.'</span></a></h3>';
@@ -54,8 +54,10 @@ elseif (isset($value_search))
 				$nombre_commentaires= mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='$id_quote'")); 
 				$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='$id_quote' AND id_user='$id'"));?>
 						<div class="grey_post">
-						<?php echo $txt_quote; ?><br><br />
+						<?php echo $txt_quote; ?><br>
+						<div style="font-size:65%">
 						<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?> - <?php if($nombre_commentaires >'1'){echo "$nombre_commentaires $comments";}elseif($nombre_commentaires=='1'){echo "$nombre_commentaires $comment";}else{echo"$no_comments";} ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['account']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+						</div>
 						</div>
 				<?php 
 				}
@@ -127,7 +129,7 @@ elseif (isset($value_search))
 		{ 
 		echo '
 		<div class="post">
-		<h1><img src="http://www.teen-quotes.com/images/icones/search_result.png" class="icone" />'.$no_result.'</h1>
+		<h2><img src="http://www.teen-quotes.com/images/icones/search_result.png" class="icone" />'.$no_result.'</h2>
 		'.$no_result_fun.'
 		</div>';
 		}

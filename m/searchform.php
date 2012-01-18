@@ -1,11 +1,11 @@
 <?php 
-include 'header.php'; ?>
+include 'header.php';
+echo '
 <div class="post">
-	<div class="title"><img src="http://www.teen-quotes.com/images/icones/search.png" class="icone_login" /><?php echo $search; ?></div>
+	<h2><img src="http://www.teen-quotes.com/images/icones/search.png" class="icone_login" />'.$search.'</h2>
 	<form action="search" method="get">
-	<input type="text" name="q" style="width:115px;margin-bottom:10px;" <?php echo $search_value_form; ?>/><br>
-	<input type="submit" class="submit" value="<?php echo $search; ?>"/>
+	<input type="text" name="q" style="width:115px;margin-bottom:10px;" '.$search_value_form.'/><br>
+	<input type="submit" class="submit" value="'.$search.'"/>
 	</form>
-</div>
-<?php
-include "footer.php"; ?>
+</div>';
+include "footer.php";

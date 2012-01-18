@@ -9,11 +9,13 @@ if (empty($action) AND !$_SESSION['logged'])
 	<div class="post">
 		<h1><img src="http://'.$domaine.'/images/icones/faq.png" class="icone" />'.$pass_forget.'</h1>
 		'.$texte_forget.'
+		<div class="grey_post">
 		<form action="?action=send" method="post">
 			<div class="colonne-gauche">'.$email_adress.'</div><div class="colonne-milieu"><input type="text" name="email" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$email_use_signup.'</span></div>
 			<br /><br />
 			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
 		</form>
+		</div>
 	</div>
 	';
 	}

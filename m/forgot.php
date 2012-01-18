@@ -4,25 +4,29 @@ include "../lang/$language/forgot.php";
 $action=$_GET['action'];
 
 if (empty($action) AND !$_SESSION['logged']) 
-	{ ?>
+	{
+	echo '
 	<div class="post">
-		<h1><img src="http://www.teen-quotes.com/images/icones/faq.png" class="icone" /><?php echo $pass_forget; ?></h1>
-		<?php echo $texte_forget; ?>
+		<h2><img src="http://www.teen-quotes.com/images/icones/faq.png" class="icone" />'.$pass_forget.'</h2>
+		'.$texte_forget.'
+		<div class="grey_post">
 		<form action="?action=send" method="post">
-			<?php echo $email_adress; ?><br>
+			'.$email_adress.'<br>
 			<input type="text" name="email" class="signup"/><br>
-			<span class="min_info"><?php echo $email_use_signup; ?></span>
+			<span class="min_info">'.$email_use_signup.'</span>
 			<br /><br />
 			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
 		</form>
+		</div>
 	</div>
-<?php 
+	';
 	}
 elseif ($action=="send") 
-	{ ?>
+	{
+	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/faq.png" class="icone" /><?php echo $pass_forget; ?></h1>
-<?php 
+	<h2><img src="http://www.teen-quotes.com/images/icones/faq.png" class="icone" />'.$pass_forget.'</h2>
+	';
 
 	$email = mysql_escape_string($_POST['email']);
 
@@ -44,22 +48,21 @@ elseif ($action=="send")
 				{
 				echo ''.$its_ok.'';
 				}
-				else
+			else
 				{
 				echo '<h2>'.$error.'</h2>';
 				}
 			}
-			else
+		else
 			{
 			echo '<span class="erreur">'.$no_account.'</span>'.$lien_retour.'';
 			}
 		}
-		else
+	else
 		{
 		echo '<span class="erreur">'.$email_not_valid.'</span>'.$lien_retour.'';
-		}
-																	
-	} ?>
-</div>																
-<?php 
-include "footer.php"; ?>
+		}	
+	}
+echo '</div>';																
+include "footer.php";
+?>

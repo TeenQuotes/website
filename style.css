@@ -56,6 +56,7 @@ h1,h2,h3 {letter-spacing:-1px}
 .post a.boutton{-moz-border-radius:10px;-webkit-border-radius:10px;background:#246;border-radius:10px;color:#fff;font-size:14px;font-weight:400;padding:5px 12px}
 .post a.boutton:hover{-webkit-box-shadow:0 0 3px #5C9FC0, 0 0 6px #5C9FC0;text-decoration:none}
 .post .title{border-bottom:1px solid #5C9FC0;letter-spacing:-1px;text-shadow: 2px 2px 1px #d7d7d7;color: #323930;font-size:110%;font-weight:600;margin-bottom:15px}
+.footer_quote {font-size:90%;margin-top:5px}
 #right{float:left;margin:35px 0 0 20px;width:170px}
 .clear{clear:both}
 input,textarea{background:#FFF;border:1px solid #CCC;color:#246;font-size:12px;font-family:Helvetica Neue, Helvetica, Arial, sans-serif;outline:none;padding:2px}
@@ -89,6 +90,7 @@ select {outline:none}
 .highlight {background:yellow}
 .graph_stats {width:600px;height:400px}
 .no_shadow {-moz-box-shadow: 0 0 0 0 #FFF;-webkit-box-shadow: 0 0 0 0 #FFF;box-shadow: 0 0 0 0 #FFF;}
+
 
 /* UI Button */
 .submit {position: relative;z-index: 1;overflow: visible; padding:3px 7px; border: 1px solid #AAA; text-decoration: none; text-align: center;font: 12px Helvetica, verdana, arial, sans-serif; white-space: nowrap; cursor: pointer; outline: none;color: #444; text-shadow: white 0 1px 2px;background: #e5e5e5; background: -moz-linear-gradient(top, #e5e5e5 0%, #f4f4f4 49%, #e5e5e5 50%, #f4f4f4 100%); 

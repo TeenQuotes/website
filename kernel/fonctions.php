@@ -749,7 +749,7 @@ $query=mysql_query('SELECT id, texte_english,date,auteur,auteur_id FROM teen_quo
 	$date=$donnees['date'];
 	
 	$email_txt.= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">';
-	$email_txt.= ''.$txt_quote.'<br><br /><a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span>';
+	$email_txt.= ''.$txt_quote.'<br><div style="font-size:90%;margin-top:5px"><a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';
 	$email_txt.= '</div>';
 	}
 	

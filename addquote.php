@@ -9,13 +9,15 @@ if (empty($action))
 	<div class="post">
 	<h1><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />'.$add_quote.'</h1>
 	'.$add_consignes.'
+	<div class="grey_post">
 	<form action="?action=add_quote" method="post">
 		'.$enter_quote.'<br>
-		<textarea name="texte_quote" style="height:50px;width:680px;"></textarea>
+		<textarea name="texte_quote" style="height:50px;width:650px;"></textarea>
 		<br /><br />
 		<div class="clear"></div>
 		<center><p><input type="submit" value="Okey" class="submit" /></p></center>
 	</form>
+	</div>
 	';
 	}
 elseif ($action == "add_quote") 
