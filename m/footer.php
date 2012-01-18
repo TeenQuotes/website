@@ -4,14 +4,6 @@
 		</div><!-- END CONTENT -->
 
 		<div class="clear"></div>
-
-
-		<div id="footer">
-			Teen Quotes &copy; <?php echo date("Y"); ?> 
-			<span class="right"><a href="http://www.teen-quotes.com/<?php echo $php_self; ?>?mobile"><?php echo $full_website; ?></a> |
-			<a href="contact">Contact</a> |
-			<a href="legalterms"><?php echo $legal_terms; ?></a></span>
-		</div>
 		
 		<?php 
 		if ($show_pub == '1')
@@ -33,6 +25,13 @@
 			</div>';
 			}
 		?>
+
+		<div id="footer">
+			Teen Quotes &copy; <?php echo date("Y"); ?> 
+			<span class="right"><a href="http://www.teen-quotes.com/<?php echo $php_self; ?>?mobile"><?php echo $full_website; ?></a> |
+			<a href="contact">Contact</a> |
+			<a href="legalterms"><?php echo $legal_terms; ?></a></span>
+		</div>
 
 		<?php mysql_close(); ?>
 	</body>

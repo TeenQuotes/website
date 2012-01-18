@@ -184,6 +184,21 @@ else
 			echo '</span><br>';
 				
 			echo '</div>';
+			if ($show_pub == '1')
+				{
+				echo "<div class=\"pub_middle\"><script type=\"text/javascript\"><!--
+				// XHTML should not attempt to parse these strings, declare them CDATA.
+				/* <![CDATA[ */
+				window.googleAfmcRequest = {
+				client: 'ca-mb-pub-8130906994953193',
+				format: '320x50_mb',
+				output: 'html',
+				slotname: '3053932429',
+				};
+				/* ]]> */
+				//--></script>
+				<script type=\"text/javascript\" src=\"http://pagead2.googlesyndication.com/pagead/show_afmc_ads.js\"></script></div>";
+				}
 			}
 		// PAS DE QUOTES FAVORITES
 		else 
