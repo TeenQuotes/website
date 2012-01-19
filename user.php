@@ -208,11 +208,11 @@ else
 			$page_fav3 = $page_fav - 1;
 			if ($page_fav > 1)
 				{
-				echo '<span class="page"><a href="?page_fav='.$page_fav3.'#fav_quotes">'.$previous_page.'</a> ||  ';
+				echo '<span class="page page_user_margin"><a href="?page_fav='.$page_fav3.'#fav_quotes">'.$previous_page.'</a> ||  ';
 				}
 			if ($page_fav == 1)
 				{
-				echo '<span class="page">';
+				echo '<span class="page page_user_margin">';
 				} 
 			if($page_fav < $nombreDePages_fav)
 				{
@@ -249,11 +249,11 @@ else
 				}
 				if ($page_fav > 1)
 					{
-					echo '<span class="page_bottom no_shadow"><a href="?page_fav='.$page_fav3.'#fav_quotes">'.$previous_page.'</a> ||  ';
+					echo '<span class="page_bottom page_user_margin"><a href="?page_fav='.$page_fav3.'#fav_quotes">'.$previous_page.'</a> ||  ';
 					}
 				if ($page_fav == 1)
 					{
-					echo '<span class="page_bottom no_shadow">';
+					echo '<span class="page_bottom page_user_margin">';
 					} 
 				if($page_fav < $nombreDePages_fav)
 					{
@@ -304,11 +304,11 @@ else
 			$page_user3 = $page_user - 1;
 			if ($page_user > 1)
 				{
-				echo '<span class="page"><a href="?page_user='.$page_user3.'#user_quotes">'.$previous_page.'</a> || ';
+				echo '<span class="page page_user_margin"><a href="?page_user='.$page_user3.'#user_quotes">'.$previous_page.'</a> || ';
 				}
-			if ($page_user == 1)
+			if ($page_user == 1 AND $page_user < $nombreDePages)
 				{
-				echo '<span class="page">';
+				echo '<span class="page page_user_margin">';
 				}  
 			if($page_user < $nombreDePages) 
 				{
@@ -346,11 +346,11 @@ else
 				}
 			if ($page_user > 1)
 				{
-				echo '<span class="page_bottom no_shadow"><a href="?page_user='.$page_user3.'#user_quotes">'.$previous_page.'</a> || ';
+				echo '<span class="page_bottom page_user_margin"><a href="?page_user='.$page_user3.'#user_quotes">'.$previous_page.'</a> || ';
 				}
-			if ($page_user == 1)
+			if ($page_user == 1 AND $page_user < $nombreDePages)
 				{
-				echo '<span class="page_bottom no_shadow">';
+				echo '<span class="page_bottom page_user_margin">';
 				}  
 			if($page_user < $nombreDePages) 
 				{
