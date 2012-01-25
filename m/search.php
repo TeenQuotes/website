@@ -6,6 +6,11 @@ $value_search = htmlspecialchars(mysql_escape_string($_GET['q']));
 echo '<script type="text/javascript" src="http://static.augusti.fr/js/highlight.js"></script>';
 echo '<script type="text/javascript">$(\'#wrapper\').highlight(\''.$value_search.'\');</script>';
 
+if (strlen($value_search) < '50')
+	{
+	$query = mysql_query("INSERT INTO teen_quotes_search (text) VALUES ('$value_search') ON DUPLICATE KEY UPDATE value = value+1");
+	}
+
 if (empty($value_search)) 
 	{
 	echo '<div class="post">
