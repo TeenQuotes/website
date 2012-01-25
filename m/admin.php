@@ -65,9 +65,9 @@ elseif (empty($action) AND $_SESSION['security_level'] >='2')
 			'.$txt_quote.'<br><br />
 			
 			<span class="admin_quote" data-id="'.$id_quote.'">
-			<a href=""  onclick="admin_quote(\'yes\','.$id_quote.','.$auteur_id.'); return false;"><img src="http://www.teen-quotes.com/images/icones/succes.png" class="mini_icone" /></a>
+			<a href="admin.php?action=rate&approve=yes&id='.$id_quote.'&auteur='.$auteur_id.'"><img src="http://www.teen-quotes.com/images/icones/succes.png" class="mini_icone" /></a>
 			<a href="admin.php?action=edit&id='.$id_quote.'"><img src="http://www.teen-quotes.com/images/icones/profil.png" class="mini_icone" /></a>
-			<a href=""  onclick="admin_quote(\'no\','.$id_quote.','.$auteur_id.'); return false;"><img src="http://www.teen-quotes.com/images/icones/delete.png" class="mini_icone" /></a>
+			<a href="admin.php?action=rate&approve=no&id='.$id_quote.'&auteur='.$auteur_id.'"><img src="http://www.teen-quotes.com/images/icones/delete.png" class="mini_icone" /></a>
 			</span>
 			
 			<span class="right">'.$by.' <a href="user-'.$auteur_id.'" title="View his profile">'.$auteur.'</a> '.$on.' '.$date.'</span><br><br />
