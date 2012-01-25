@@ -47,7 +47,7 @@ elseif ($action == "add_quote")
 						{
 						echo ''.$succes.' '.$add_ok.'';
 						}
-						else 
+					else 
 						{
 						echo '<h2>'.$error.'</h2> '.$lien_retour.'';
 						}
@@ -57,7 +57,7 @@ elseif ($action == "add_quote")
 					echo '<h2>'.$error.'</h2> Please contact us at contact@pretty-web.com with your username. '.$lien_retour.'';
 					}
 				}
-				else
+			else
 				{
 				echo '<span class="erreur">'.$quote_already_exist.'</span> '.$lien_retour.'';
 				}
