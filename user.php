@@ -210,7 +210,7 @@ else
 				{
 				echo '<span class="page page_user_margin"><a href="?page_fav='.$page_fav3.'#fav_quotes">'.$previous_page.'</a> ||  ';
 				}
-			if ($page_fav == 1)
+			if ($page_fav == 1 AND $page_fav < $nombreDePages_fav)
 				{
 				echo '<span class="page page_user_margin">';
 				} 
@@ -251,7 +251,7 @@ else
 					{
 					echo '<span class="page_bottom page_user_margin"><a href="?page_fav='.$page_fav3.'#fav_quotes">'.$previous_page.'</a> ||  ';
 					}
-				if ($page_fav == 1)
+				if ($page_fav == 1 AND $page_fav < $nombreDePages_fav)
 					{
 					echo '<span class="page_bottom page_user_margin">';
 					} 

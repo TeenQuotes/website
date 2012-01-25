@@ -43,7 +43,7 @@ if ($totalDesMembres > 0)
 		{
 		echo '<span class="page"><a href="?p='.$page3.'">'.$previous_page.'</a> ||  ';
 		}
-	if ($page == 1)
+	if ($page == 1 AND $page < $nombreDePages)
 		{
 		echo '<span class="page">';
 		}   
@@ -121,7 +121,7 @@ if ($totalDesMembres > 0)
 		{
 		echo '<span class="page_bottom"><a href="?p='.$page3.'">'.$previous_page.'</a> ||  ';
 		}
-	if ($page == 1)
+	if ($page == 1 AND $page < $nombreDePages)
 		{
 		echo '<span class="page_bottom">';
 		}   
