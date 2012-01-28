@@ -28,6 +28,7 @@ $hide_profile = "<span class=\"bleu\">Cacher mon profil : </span>
 
 $settings = "Options";			
 $i_want_newsletter = "Je veux recevoir la newsletter hebdomadaire";
+$i_want_email_quote_today = "Je veux recevoir les nouvelles citations tous les jours";
 $i_want_comment_quotes = "Je veux recevoir un email quand un commentaire sera posté sur une de mes citations";
 			
 			

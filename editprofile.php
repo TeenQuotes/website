@@ -3,6 +3,8 @@ include 'header.php';
 $action = $_GET['action'];
 $id_user = $_SESSION['account'];
 $result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account where id='$id_user'"));
+
+$email_quote_today_num_rows = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'"));
 		
 // SELECTED POUR LE TITRE USER
 switch ($result['title']) {
@@ -82,6 +84,7 @@ if (empty($action))
 		<h1><img src="http://'.$domaine.'/images/icones/outils.png" class="icone" />'.$settings.'</h1>
 		<form action="?action=settings" method="post">
 		<input type="checkbox" name="newsletter" value="1"'; if ($is_newsletter == '1') echo 'checked="checked"'; echo ' />'.$i_want_newsletter.'<br>
+		<input type="checkbox" name="email_quote_today" value="1"'; if ($email_quote_today_num_rows == '1') echo 'checked="checked"'; echo ' />'.$i_want_email_quote_today.'<br>
 		<input type="checkbox" name="comments_quote" value="1"'; if($notification_comment_quote == '1') echo 'checked="checked"'; echo ' />'.$i_want_comment_quotes.'<br>
 		<br />
 		<center><p><input type="submit" value="Okey" class="submit" /></p></center>
@@ -183,7 +186,7 @@ elseif ($action=="avatar")
 			$extension_upload = strtolower($infosfichier['extension']);
 			$extensions_autorisees = array('jpg', 'gif', 'png','JPG');
 			if (in_array($extension_upload, $extensions_autorisees))
-				{
+				{		
 				if (file_exists("./images/avatar/$id.$extension_upload"))
 					{
 					unlink("./images/avatar/$id.$extension_upload"); // delete de l'image si celle ci existe
@@ -278,6 +281,7 @@ elseif ($action == "settings")
 	';
 	$comments_quote = htmlspecialchars($_POST['comments_quote']);
 	$newsletter = htmlspecialchars($_POST['newsletter']);
+	$email_quote_today = htmlspecialchars($_POST['email_quote_today']);
 	$email = $compte['email'];
 	
 	// NEWSLETTER
@@ -334,6 +338,54 @@ elseif ($action == "settings")
 				echo ''.$settings_updated.'';
 				$notifications_succes = TRUE;
 				}
+			}
+		else 
+			{
+			echo ''.$error.' '.$lien_retour.'';
+			}
+		}
+		
+	// INSCRIPTION CITATIONS TOUS LES JOURS PAR MAIL
+	if ($email_quote_today == '1' AND $email_quote_today_num_rows == '0')
+		{
+		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
+			{
+			$query = mysql_query("INSERT INTO teen_quotes_settings (param,value) VALUES ('email_quote_today','$email')");
+			if ($query) 
+					{
+					if ($notifications_succes != TRUE)
+						{
+						echo ''.$settings_updated.'';
+						$notifications_succes = TRUE;
+						}
+					}
+				else 
+					{
+					echo ''.$error.' '.$lien_retour.'';
+					}
+			}
+		else 
+			{
+			echo ''.$error.' '.$lien_retour.'';
+			}
+		}
+	else
+		{
+		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
+			{
+			$query = mysql_query("DELETE FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'");
+			if ($query) 
+					{
+					if ($notifications_succes != TRUE)
+						{
+						echo ''.$settings_updated.'';
+						$notifications_succes = TRUE;
+						}
+					}
+				else 
+					{
+					echo ''.$error.' '.$lien_retour.'';
+					}
 			}
 		else 
 			{

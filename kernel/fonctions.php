@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 $domaine = $_SERVER['HTTP_HOST'];
 switch ($domaine)
 	{
@@ -14,6 +13,15 @@ switch ($domaine)
 	break;
 	case "m.kotado.fr" :
 	$domaine = "kotado.fr";
+	break;
+	}
+switch ($domaine)
+	{
+	case "teen-quotes.com" :
+	$name_website = "Teen Quotes";
+	break;
+	case "kotado.fr" :
+	$name_website = "Kotado";
 	break;
 	}
 $domaine_en = "teen-quotes.com";
@@ -133,11 +141,12 @@ if (isset($_GET['deco_succes']))
 
 if (isset($_GET['co'])) 
 	{
+	$domaine = "teen-quotes.com";
 	$pseudo=$_SESSION['pseudo'];		
 	$passwd=$_SESSION['passwd'];
 
-	setcookie("Pseudo", $pseudo, time() + (((3600*24)*30)*12), null, '.teen-quotes.com', false, true);
-	setcookie("Pass", $passwd, time() + (((3600*24)*30)*12), null, '.teen-quotes.com', false, true);
+	setcookie("Pseudo", $pseudo, time() + (((3600*24)*30)*12), null, '.'.$domaine.'', false, true);
+	setcookie("Pass", $passwd, time() + (((3600*24)*30)*12), null, '.'.$domaine.'', false, true);
 
 	$_SESSION['passwd']=NULL;
 	// redirection
@@ -157,10 +166,11 @@ if (isset($_GET['deconnexion']))
 
 function deconnexion()
 	{
+	$domaine = "teen-quotes.com";
 	$_SESSION = array(); //Destruction des variables.
 	session_destroy(); //Destruction de la session.
-	setcookie("Pseudo", Yo, time()-4200, null, '.teen-quotes.com', false, true);
-	setcookie("Pass", Yo, time()-4200, null, '.teen-quotes.com', false, true);
+	setcookie("Pseudo", Yo, time()-4200, null, '.'.$domaine.'', false, true);
+	setcookie("Pass", Yo, time()-4200, null, '.'.$domaine.'', false, true);
 	setcookie("Pass", Yo, time()-4200);
 	setcookie("Pseudo", Yo, time()-4200);
 	$pseudo="";
@@ -375,10 +385,12 @@ if ($minute % '10' == '0' OR $_SESSION['security_level'] > '0')
 	if ($citations_awaiting_approval >= '10' AND $alerte_admin=='0')
 		{
 		$email_subject = "Quotes awaiting approval";
-		$message = 'Hey,<br><br />There are more than 10 quotes awaiting approval ! It\'s time to check the admin panel, you can access it by clicking <a href="http://www.teen-quotes.com/admin" target="_blank">here</a>';
+		$domaine = "teen-quotes.com";
+		
+		$message = 'Hey,<br><br />There are more than 10 quotes awaiting approval ! It\'s time to check the admin panel, you can access it by clicking <a href="http://'.$domaine.'/admin" target="_blank">here</a>';
 		$mail = mail("antoine.augusti@gmail.com", $email_subject, $top_mail.$message.$end_mail, $headers); 
-		$mail_2 = mail("southernstarzz@facebook.com", $email_subject, $top_mail.$message.$end_mail, $headers);
-		$update_alerte = mysql_query("UPDATE config SET alerte_admin='1' WHERE id='1'");	
+ 		$mail_2 = mail("southernstarzz@facebook.com", $email_subject, $top_mail.$message.$end_mail, $headers);
+ 		$update_alerte = mysql_query("UPDATE config SET alerte_admin='1' WHERE id='1'");
 		}
 		
 	if ($citations_awaiting_approval < '10' AND $alerte_admin=='1')
@@ -771,9 +783,12 @@ function MailRandomQuote($nombre)
 
 function MailPostedToday($id_quote) 
 	{
+	include "config.php";
+	
+	$id_quote = str_replace(',', '\',\'', $id_quote);
 	$query = mysql_query("SELECT id, texte_english,date,auteur,auteur_id FROM teen_quotes_quotes WHERE approved = '1' AND id IN ('$id_quote')");
 		
-	while($donnees=mysql_fetch_array($query)) 
+	while($donnees = mysql_fetch_array($query)) 
 		{
 		$txt_quote=$donnees['texte_english'];
 		$id_quote=$donnees['id'];
@@ -782,13 +797,20 @@ function MailPostedToday($id_quote)
 		$date=$donnees['date'];
 		
 		$email_txt.= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">';
-		$email_txt.= ''.$txt_quote.'<br><div style="font-size:90%;margin-top:5px"><a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';
+		$email_txt.= ''.$txt_quote.'<br><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';
 		$email_txt.= '</div>';
 		}
 		
 	$today = date("d/m/Y"); 
-	$message = ''.$top_mail.'Here are the quotes posted today - '.$today.' :<br><br />'.$email_txt.$end_mail.'';
-	$mail = mail ("antoine.augusti@gmail.com", 'Quotes posted today - '.$today.'', $message, $headers);
+	$message = ''.$top_mail.$query_txt.'Here are the quotes posted today ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
+	
+	$search_email = mysql_query("SELECT value FROM teen_quotes_settings WHERE param = 'email_quote_today'");
+	
+	while ($donnees = mysql_fetch_array($search_email))
+		{
+		$email = $donnees['value'];
+		$mail = mail($email, 'Quotes posted today - '.$today.'', $message, $headers);
+		}
 	}
 
 function geoloca_ip($ip){
@@ -842,7 +864,7 @@ function cut_tweet($chaine)
 	   }
 	elseif (strlen($chaine) <= '105')
 	   {
-	   $chaine .= ' #ohteenquotes';
+	   $chaine .= ' @ohteenquotes';
 	   return $chaine;
 	   }
 	else
@@ -877,9 +899,10 @@ function afficher_favori_m ($id_quote,$is_favorite,$logged,$add_favorite,$unfavo
 
 function share_fb_twitter ($id_quote,$txt_quote,$share) 
 	{
+	$domaine = "teen-quotes.com";
 	$txt_tweet=cut_tweet($txt_quote);
-	$url_encode = urlencode('http://teen-quotes.com/quote-'.$id_quote.'');
-	echo '<div class="share_fb_twitter"><span class="fade_jquery"><iframe src="//www.facebook.com/plugins/like.php?href='.$url_encode.'&amp;send=false&amp;layout=button_count&amp;width=110&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="true"></iframe></span><span class="right fade_jquery"><a href="http://twitter.com/share?url=http://teen-quotes.com/quote-'.$id_quote.'&text='.$txt_tweet.'" class="twitter-share-button" data-count="none">Tweet</a></span></div>';
+	$url_encode = urlencode('http://'.$domaine.'/quote-'.$id_quote.'');
+	echo '<div class="share_fb_twitter"><span class="fade_jquery"><iframe src="//www.facebook.com/plugins/like.php?href='.$url_encode.'&amp;send=false&amp;layout=button_count&amp;width=110&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="true"></iframe></span><span class="right fade_jquery"><a href="http://twitter.com/share?url=http://'.$domaine.'/quote-'.$id_quote.'&text='.$txt_tweet.'" class="twitter-share-button" data-count="none">Tweet</a></span></div>';
 	}
 
 function date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile) 
@@ -1001,7 +1024,8 @@ function mobile_device_detect($iphone=true,$android=true,$opera=true,$blackberry
   $mobile_browser   = false; // set mobile browser as false till we can prove otherwise
   $user_agent       = $_SERVER['HTTP_USER_AGENT']; // get the user agent value - this should be cleaned to ensure no nefarious input gets executed
   $accept           = $_SERVER['HTTP_ACCEPT']; // get the content accept value - this should be cleaned to ensure no nefarious input gets executed
-  $iphone="http://m.teen-quotes.com";
+  $domaine = "teen-quotes.com";
+  $iphone='http://m.'.$domaine.'';
   $android=$iphone;
   $opera=$iphone;
   $blackberry=$iphone;
@@ -1101,7 +1125,7 @@ function mobile_device_detect($iphone=true,$android=true,$opera=true,$blackberry
 
 
 
-if (empty($_COOKIE['mobile']) AND $m_url!="http://m.teen-quotes.com/" AND !isset($_GET['mobile']))
+if (empty($_COOKIE['mobile']) AND $m_url != 'http://m.'.$domaine.'' AND !isset($_GET['mobile']))
 	{
 	mobile_device_detect();
 	}
