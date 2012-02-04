@@ -63,7 +63,7 @@
 					src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 					</script>
 					</div>';
-					if ($php_self == NULL OR $php_self == "random" OR preg_match('/user/',$php_self))
+					if ($php_self == NULL OR $php_self == "random" OR $php_self == "stats" OR preg_match('/user/',$php_self))
 						{
 						echo 
 						'
