@@ -467,6 +467,7 @@ function flush_quotes ()
 	include "config.php";
 	
 	$query = mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='2' ORDER BY id ASC LIMIT 0,$nb_quote_released_per_day");
+	$affected_rows = mysql_affected_rows();
 	
 	while ($result = mysql_fetch_array($query))
 		{
@@ -488,12 +489,18 @@ function flush_quotes ()
 			$message = "$top_mail Hello <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Your quote has been <font color=\"#5C9FC0\"><b>approved</b></font> recently by a member of our team ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br><br /><a href=\"http://www.teen-quotes.com/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">by <a href=\"http://www.teen-quotes.com/user-$auteur_id\" target=\"_blank\">$name_auteur</a> on $date_quote</span></div>Congratulations !<br><br />Your Quote is now visible on our website. You can share it or comment it if you want !<br><br /><br />If you want to see your quote, <a href=\"http://www.teen-quotes.com/quote-$id_quote\" target=\"_blank\">click here</a>.<br><br /><br />Sincerely,<br><b>The Teen Quotes Team</b><br /><br /><br /><div style=\"border-top:1px dashed #CCCCCC\"></div><br /><br />VERSION FRANCAISE :<br /><br />Bonjour <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Votre citation a été récemment <font color=\"#5C9FC0\"><b>approuvée</b></font> par un membre de notre équipe ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br><br /><a href=\"http://www.teen-quotes.com/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">par <a href=\"http://www.teen-quotes.com/user-$auteur_id\" target=\"_blank\">$name_auteur</a> le $date_quote</span></div>Congratulations !<br><br />Votre citation est maintenant visible sur Teen Quotes. Vous pouvez dès à présent la partager ou la commenter si vous le souhaitez !<br><br /><br />Si vous voulez voir votre citation, <a href=\"http://www.teen-quotes.com/quote-$id_quote\" target=\"_blank\">cliquez ici</a>.<br><br /><br />Cordialement,<br><b>The Teen Quotes Team</b> $end_mail";
 			$mail = mail($email_auteur, "Quote approved", $message, $headers); 
 			}
-		$ids_quotes_posted_today .= '\''.$id_quote.'\',';
+		$ids_quotes_posted_today .= ''.$id_quote.'';
+		$ids_quotes_posted_today .= ",";
 		}
 	$update = mysql_query ("UPDATE config SET compteur_quote_posted_today='1' WHERE id='1'");
 	
 	$ids_quotes_posted_today = substr($ids_quotes_posted_today,0,strlen($ids_quotes_posted_today)-1);
-	MailPostedToday($ids_quotes_posted_today);
+	if ($affected_rows >= '1')
+		{
+		MailPostedToday($ids_quotes_posted_today);
+		$message = ''.$affected_rows.' affected rows - '.$ids_quotes_posted_today.' ids_quotes_posted_today';
+		$mail = mail('antoine.augusti@gmail.com', 'Flush quote', $message, $headers);
+		}
 	}
 
 function select_country($country,$other_countries,$common_choices)
@@ -785,31 +792,34 @@ function MailPostedToday($id_quote)
 	{
 	include "config.php";
 	
-	$id_quote = str_replace(',', '\',\'', $id_quote);
-	$query = mysql_query("SELECT id, texte_english,date,auteur,auteur_id FROM teen_quotes_quotes WHERE approved = '1' AND id IN ('$id_quote')");
-		
-	while($donnees = mysql_fetch_array($query)) 
+	if (!empty($id_quote)
 		{
-		$txt_quote=$donnees['texte_english'];
-		$id_quote=$donnees['id'];
-		$auteur=$donnees['auteur'];
-		$auteur_id=$donnees['auteur_id'];
-		$date=$donnees['date'];
+		$id_quote = str_replace(',', '\',\'', $id_quote);
+		$query = mysql_query("SELECT id, texte_english,date,auteur,auteur_id FROM teen_quotes_quotes WHERE approved = '1' AND id IN ('$id_quote')");
+			
+		while($donnees = mysql_fetch_array($query)) 
+			{
+			$txt_quote=$donnees['texte_english'];
+			$id_quote=$donnees['id'];
+			$auteur=$donnees['auteur'];
+			$auteur_id=$donnees['auteur_id'];
+			$date=$donnees['date'];
+			
+			$email_txt.= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">';
+			$email_txt.= ''.$txt_quote.'<br><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';
+			$email_txt.= '</div>';
+			}
+			
+		$today = date("d/m/Y"); 
+		$message = ''.$top_mail.$query_txt.'Here are the quotes posted today ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
 		
-		$email_txt.= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">';
-		$email_txt.= ''.$txt_quote.'<br><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';
-		$email_txt.= '</div>';
-		}
+		$search_email = mysql_query("SELECT value FROM teen_quotes_settings WHERE param = 'email_quote_today'");
 		
-	$today = date("d/m/Y"); 
-	$message = ''.$top_mail.$query_txt.'Here are the quotes posted today ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
-	
-	$search_email = mysql_query("SELECT value FROM teen_quotes_settings WHERE param = 'email_quote_today'");
-	
-	while ($donnees = mysql_fetch_array($search_email))
-		{
-		$email = $donnees['value'];
-		$mail = mail($email, 'Quotes posted today - '.$today.'', $message, $headers);
+		while ($donnees = mysql_fetch_array($search_email))
+			{
+			$email = $donnees['value'];
+			$mail = mail($email, 'Quotes posted today - '.$today.'', $message, $headers);
+			}
 		}
 	}
 
@@ -1125,7 +1135,7 @@ function mobile_device_detect($iphone=true,$android=true,$opera=true,$blackberry
 
 
 
-if (empty($_COOKIE['mobile']) AND $m_url != 'http://m.'.$domaine.'' AND !isset($_GET['mobile']))
+if (empty($_COOKIE['mobile']) AND $m_url != 'http://m.teen-quotes.com/' AND !isset($_GET['mobile']))
 	{
 	mobile_device_detect();
 	}
