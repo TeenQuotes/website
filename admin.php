@@ -1,6 +1,6 @@
 <?php 
 include 'header.php';
-$action=$_GET['action'];
+$action = $_GET['action'];
 if ($_SESSION['security_level'] <'2') 
 	{
 	echo '<meta http-equiv="refresh" content="0; url=error.php?erreur=403">';
@@ -40,8 +40,10 @@ elseif (empty($action) AND $_SESSION['security_level'] >='2')
 			<br />
 			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
 		</form>
-	</div>
+	</div>';
 	
+	/*
+	echo '
 	<div class="post">
 		<h1><img src="http://teen-quotes.com/images/icones/translate.png" class="icone" />Translate quote</h1>';
 	$nb_quotes_translate = mysql_num_rows(mysql_query("SELECT id, texte_".$second_language." FROM teen_quotes_quotes WHERE texte_".$second_language."= '' AND approved = '1'"));
@@ -69,6 +71,19 @@ elseif (empty($action) AND $_SESSION['security_level'] >='2')
 		</div>
 	</div>
 	';
+	*/
+	
+	echo '
+	<div class="post">
+		<h1><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />Delete existing quotes</h1>
+		If you want to delete only one quote, just enter the ID.<br>
+		If you want to delete quotes, you have to enter data like this : 100,200,300<br>
+		<form action="?action=delete_existing_quote" method="post">
+			<div class="colonne-gauche">Enter the ID(s)</div><div class="colonne-milieu"><input name="id_quote" type="text" /></div>
+			<br />
+			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+		</form>
+	</div>';
 	
 	echo '
 	<div class="post">
@@ -101,7 +116,7 @@ elseif (empty($action) AND $_SESSION['security_level'] >='2')
 		}
 	echo '</div>';
 	}
-elseif ($action=="add_quote") 
+elseif ($action == "add_quote") 
 	{
 	echo '
 	<div class="post">
@@ -113,24 +128,23 @@ elseif ($action=="add_quote")
 
 
 	if (strlen($texte_quote) >= '30') 
-	{
-	$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english,auteur,date,auteur_id,approved) VALUES ('$texte_quote', '$username', '$date', '$id','2')");
-	if ($query) 
 		{
-		echo ''.$succes.' <a href="../admin">Add anoter one</a>';
-		}
+		$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english,auteur,date,auteur_id,approved) VALUES ('$texte_quote', '$username', '$date', '$id','2')");
+		if ($query) 
+			{
+			echo ''.$succes.' <a href="../admin">Add anoter one</a>';
+			}
 		else 
-		{
-		echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+			{
+			echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+			}
 		}
-	}
 	else 
-	{
-	echo '<h2>'.$error.' : too short</h2> '.$lien_retour.'';
+		{
+		echo '<h2>'.$error.' : too short</h2> '.$lien_retour.'';
+		}	
 	}
-									
-	}
-elseif ($action=="rate") 
+elseif ($action == "rate") 
 	{
 	echo '
 	<div class="post">
@@ -169,13 +183,10 @@ elseif ($action=="rate")
 			$mail = mail($email_auteur, "Quote rejected", $message, $headers); 
 			echo ''.$succes.' The author has been notified successfully !';
 			echo '<meta http-equiv="refresh" content="1;url=admin" />';
-			}
-													
-		}
-						
-						
+			}									
+		}	
 	}
-elseif ($action=="delete_comment") 
+elseif ($action == "delete_comment") 
 	{ 
 	echo '
 	<div class="post">
@@ -242,7 +253,7 @@ elseif ($action=="delete_comment")
 		echo '<meta http-equiv="refresh" content="1;url=admin" />';
 		}			
 	}
-elseif ($action=="edit") 
+elseif ($action == "edit") 
 	{
 	echo '
 	<div class="post">
@@ -263,7 +274,7 @@ elseif ($action=="edit")
 	</form>';
 		
 	}
-elseif ($action=="edit_quote") 
+elseif ($action == "edit_quote") 
 	{
 	echo '
 	<div class="post">
@@ -281,7 +292,7 @@ elseif ($action=="edit_quote")
 		}
 		
 	}
-elseif ($action=="edit_existing_quote")
+elseif ($action == "edit_existing_quote")
 	{
 	echo '
 	<div class="post">
@@ -318,7 +329,7 @@ elseif ($action=="edit_existing_quote")
 		echo '<h2>'.$error.'</h2> That quote doesn\'t exist ! '.$lien_retour.'';
 		}
 	}
-elseif ($action=="edit_existing_quote_valide")
+elseif ($action == "edit_existing_quote_valide")
 	{
 	echo '
 	<div class="post">
@@ -339,7 +350,56 @@ elseif ($action=="edit_existing_quote_valide")
 		echo '<h2>'.$error.'</h2> '.$lien_retour.'';
 		}
 	}
-
+elseif ($action == "delete_existing_quote")
+	{
+	$id_quote = mysql_real_escape_string($_GET['id_quote']);
+	$date = date("d/m/Y");
+	$ip = $_SERVER["REMOTE_ADDR"];
+	$username = ucfirst($compte['username'];
+	
+	if (is_numeric($id_quote) AND !empty($username) AND !empty($ip) AND !empty($id_quote))
+		{
+		// Il n'y a qu'une seule quote à supprimer
+		$delete_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '-1' WHERE id_quote = ".$id_quote."");
+		if ($delete_quote)
+			{
+			$log_result = mysql_query("INSERT INTO delete_quotes (date, username, ip, id_quote) VALUES (".$date.",".$username.",".$ip.", ".$id_quote.")");
+			if ($log_result)
+				{
+				echo ''.$success.' Your quote has been successfully unapproved.';
+				}
+			else
+				{
+				echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+				}
+			}
+		else
+			{
+			echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+			}
+		}
+	elseif (preg_match('/,/',$id_quote) AND !empty($username) AND !empty($ip) AND !empty($id_quote)) // REGEX à vérifier
+		{
+		// Il y a plusieurs quotes à supprimer
+		$delete_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '-1' WHERE id_quote IN (".$id_quote.")");
+		if ($delete_quote)
+			{
+			$log_result = mysql_query("INSERT INTO delete_quotes (date, username, ip, id_quote) VALUES (".$date.",".$username.",".$ip.", ".$id_quote.")");
+			if ($log_result)
+				{
+				echo ''.$success.' Your quotes has been deleted successfully.';
+				}
+			else
+				{
+				echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+				}
+			}
+		else
+			{
+			echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+			}
+		}
+	}
 echo '</div>';
 include "footer.php";
 ?>
