@@ -191,13 +191,13 @@ else
 			$nombreDeMessagesParPage = 5; 
 			$nombreDePages_fav  = ceil($totalDesMessages / $nombreDeMessagesParPage);
 			if (isset($_GET['page_fav']))
-			{
-					$page_fav = mysql_real_escape_string($_GET['page_fav']);
-			}
+				{
+				$page_fav = mysql_real_escape_string($_GET['page_fav']);
+				}
 			else 
-			{
-					$page_fav = 1; 
-			}
+				{
+				$page_fav = 1; 
+				}
 
 			if ($page_fav > $nombreDePages_fav) 
 			{
@@ -290,15 +290,18 @@ else
 			$nombreDeMessagesParPage = 5; 
 			$nombreDePages  = ceil($totalDesMessages / $nombreDeMessagesParPage);
 			if (isset($_GET['page_user']))
-			{
-					$page_user = mysql_real_escape_string($_GET['page_user']);
-			}
+				{
+				$page_user = mysql_real_escape_string($_GET['page_user']);
+				}
 			else 
-			{
-					$page_user = 1; 
-			}
+				{
+				$page_user = 1; 
+				}
 
-			if ($page_user > $nombreDePages) {$page_user=$nombreDePages;}
+			if ($page_user > $nombreDePages) 
+				{
+				$page_user = $nombreDePages;
+				}
 
 			$page_user2 = $page_user + 1;
 			$page_user3 = $page_user - 1;

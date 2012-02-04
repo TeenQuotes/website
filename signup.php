@@ -63,7 +63,7 @@ elseif ($action == "send")
 	$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
 	$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
 	$email = htmlspecialchars(mysql_escape_string($_POST['email']));
-	$ip=$_SERVER["REMOTE_ADDR"];
+	$ip = $_SERVER["REMOTE_ADDR"];
 	$confmail="0";
 	$timestamp_expire = time() + 3600;
 	$code = caracteresAleatoires(5);
