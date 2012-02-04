@@ -352,42 +352,53 @@ elseif ($action == "edit_existing_quote_valide")
 	}
 elseif ($action == "delete_existing_quote")
 	{
-	$id_quote = mysql_real_escape_string($_GET['id_quote']);
+	$id_quote = mysql_real_escape_string($_POST['id_quote']);
 	$date = date("d/m/Y");
 	$ip = $_SERVER["REMOTE_ADDR"];
-	$username = ucfirst($compte['username'];
+	$username = ucfirst($compte['username']);
+	
+	echo '
+	<div class="post">
+	<h1><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />Delete an existing quote</h1>';
 	
 	if (is_numeric($id_quote) AND !empty($username) AND !empty($ip) AND !empty($id_quote))
 		{
 		// Il n'y a qu'une seule quote à supprimer
-		$delete_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '-1' WHERE id_quote = ".$id_quote."");
-		if ($delete_quote)
+		$delete_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '-1' WHERE id = '$id_quote'");
+		$delete_fav_quote = mysql_query("DELETE FROM teen_quotes_favorite WHERE id_quote = '$id_quote'");
+		
+		if ($delete_quote AND $delete_fav_quote)
 			{
-			$log_result = mysql_query("INSERT INTO delete_quotes (date, username, ip, id_quote) VALUES (".$date.",".$username.",".$ip.", ".$id_quote.")");
+			$log_result = mysql_query("INSERT INTO delete_quotes (date, username, ip, id_quote) VALUES ('$date','$username','$ip', '$id_quote')");
 			if ($log_result)
 				{
-				echo ''.$success.' Your quote has been successfully unapproved.';
+				echo ''.$succes.' Your quote has been successfully unapproved.';
+				echo '<meta http-equiv="refresh" content="1;url=admin" />';
 				}
 			else
 				{
-				echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+				echo "INSERT INTO delete_quotes (date, username, ip, id_quote) VALUES ('$date','$username','$ip', '$id_quote')";
+				echo '<h2>'.$error.'</h2> 1'.$lien_retour.'';
 				}
 			}
 		else
 			{
-			echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+			echo '<h2>'.$error.'</h2> 2'.$lien_retour.'';
 			}
 		}
-	elseif (preg_match('/,/',$id_quote) AND !empty($username) AND !empty($ip) AND !empty($id_quote)) // REGEX à vérifier
+	elseif (preg_match('/,/',$id_quote) AND !preg_match('/%/',$id_quote) AND !empty($username) AND !empty($ip) AND !empty($id_quote)) // REGEX à vérifier
 		{
 		// Il y a plusieurs quotes à supprimer
-		$delete_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '-1' WHERE id_quote IN (".$id_quote.")");
-		if ($delete_quote)
+		$delete_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '-1' WHERE id IN ('$id_quote')");
+		$delete_fav_quote = mysql_query("DELETE FROM teen_quotes_favorite WHERE id_quote IN ('$id_quote')");
+		
+		if ($delete_quote AND $delete_fav_quote)
 			{
-			$log_result = mysql_query("INSERT INTO delete_quotes (date, username, ip, id_quote) VALUES (".$date.",".$username.",".$ip.", ".$id_quote.")");
+			$log_result = mysql_query("INSERT INTO delete_quotes (date, username, ip, id_quote) VALUES ('$date','$username','$ip', '$id_quote')");
 			if ($log_result)
 				{
-				echo ''.$success.' Your quotes has been deleted successfully.';
+				echo ''.$succes.' Your quotes has been deleted successfully.';
+				echo '<meta http-equiv="refresh" content="1;url=admin" />';
 				}
 			else
 				{

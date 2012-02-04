@@ -792,7 +792,7 @@ function MailPostedToday($id_quote)
 	{
 	include "config.php";
 	
-	if (!empty($id_quote)
+	if (!empty($id_quote))
 		{
 		$id_quote = str_replace(',', '\',\'', $id_quote);
 		$query = mysql_query("SELECT id, texte_english,date,auteur,auteur_id FROM teen_quotes_quotes WHERE approved = '1' AND id IN ('$id_quote')");
