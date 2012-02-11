@@ -133,6 +133,7 @@ elseif ($action == "add_quote")
 		if ($query) 
 			{
 			echo ''.$succes.' <a href="../admin">Add anoter one</a>';
+			echo '<meta http-equiv="refresh" content="0;url=admin" />';
 			}
 		else 
 			{
