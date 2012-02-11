@@ -38,7 +38,7 @@ h1,h2,h3 {letter-spacing:-1px}
 .pub {margin-left:-8px;margin-bottom:-8px;width:100%;padding:0px}
 .pub_header {margin-left:-8px;margin-bottom:8px;width:100%;padding:0px}
 .pub_middle {margin-left:-8px;margin-bottom:18px;width:100%;padding:0px}
-.bandeau_erreur {margin:0 auto 5px;padding:10px 20px;background:#fff9d7;border:1px solid #e2c822;color:#333;font-family:Helvetica;font-size:11px}
+.bandeau_erreur {margin:0 auto 5px;padding:5px;background:#fff9d7;border:1px solid #e2c822;color:#333;font-family:Helvetica;font-size:11px}
 .clear{clear:both;}
 input,textarea{background:#FFF;border:1px solid #ccc;color:#246;font-family:Helvetica Neue, Helvetica, Arial, sans-serif;outline:none;padding:2px;}
 input .edit_user,select .edit_user{width:180px;}
