@@ -498,8 +498,6 @@ function flush_quotes ()
 	if ($affected_rows >= '1')
 		{
 		MailPostedToday($ids_quotes_posted_today);
-		$message = ''.$affected_rows.' affected rows - '.$ids_quotes_posted_today.' ids_quotes_posted_today';
-		$mail = mail('antoine.augusti@gmail.com', 'Flush quote', $message, $headers);
 		}
 	}
 
