@@ -27,10 +27,10 @@ elseif ($action == "add_quote")
 	<h1><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />'.$add_quote.'</h1>
 	';
 	
-	$texte_quote= ucfirst(htmlspecialchars(mysql_escape_string($_POST['texte_quote'])));
-	$texte_quote=str_replace(array("\r", "\n"), array('',''), $texte_quote);
+	$texte_quote = ucfirst(htmlspecialchars(mysql_escape_string($_POST['texte_quote'])));
+	$texte_quote = str_replace(array("\r", "\n"), array('',''), $texte_quote);
 	$date = date("d/m/Y");
-	$texte_quote=stripslashes($texte_quote);
+	$texte_quote = stripslashes($texte_quote);
 
 	if (strlen($texte_quote) >= '30') 
 		{

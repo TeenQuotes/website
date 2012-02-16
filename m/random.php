@@ -62,18 +62,20 @@ while ($result = mysql_fetch_array($reponse))
 <?php
 	if ($i=='9' && $show_pub == '1')
 		{
-		echo "<div class=\"pub_middle\"><script type=\"text/javascript\"><!--
-		// XHTML should not attempt to parse these strings, declare them CDATA.
-		/* <![CDATA[ */
-		window.googleAfmcRequest = {
-		client: 'ca-mb-pub-8130906994953193',
-		format: '320x50_mb',
-		output: 'html',
-		slotname: '3053932429',
-		};
-		/* ]]> */
-		//--></script>
-		<script type=\"text/javascript\" src=\"http://pagead2.googlesyndication.com/pagead/show_afmc_ads.js\"></script></div>";
+		echo 
+		'<div class="pub_middle">
+		<script type="text/javascript"><!--
+		google_ad_client = "ca-pub-8130906994953193";
+		/* Pub milieu quotes - mobile */
+		google_ad_slot = "9272061144";
+		google_ad_width = 320;
+		google_ad_height = 50;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+		</div>';
 		}
 	$i++;
 	} 

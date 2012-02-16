@@ -14,17 +14,29 @@ $choose_title = "<span class=\"bleu\">Titre : </span>
 				<option $selected_mrs value=\"Mrs\" >Madame</option> 
 				<option $selected_miss value=\"Miss\" >Mademoiselle</option> 
 			</select></div>";
+$choose_title_m = "<span class=\"bleu\">Titre : </span><br>		
+				<select name=\"title\" style=\"width:197px\"> 
+				<option value=\"\">Choisissez</option> 
+				<option $selected_mr value=\"Mr\" >Monsieur</option> 
+				<option $selected_mrs value=\"Mrs\" >Madame</option> 
+				<option $selected_miss value=\"Miss\" >Mademoiselle</option> 
+			</select>";
 $choose_birth = "<span class=\"bleu\">Date de naissance (JJ/MM/AAAA) : </span>";
 $choose_country= "<span class=\"bleu\">Pays : </span>";
 $other_countries = "Autres pays";
 $common_choices = "Choix habituels";
 $choose_city= "<span class=\"bleu\">Ville : </span>";
-$about_you = "<span class=\"bleu\">A propos de vous : </span>";
+$about_you = "<span class=\"bleu\">À propos de vous : </span>";
 $hide_profile = "<span class=\"bleu\">Cacher mon profil : </span>
 			</div><div class=\"colonne-milieu\"><select name=\"hide_profile\" style=\"width:197px\"> 
 				<option $selected_profile_no value=\"No\" >Non</option> 
 				<option $selected_profile_yes value=\"1\" >Oui</option> 
 			</select></div>";
+$hide_profile_m = "<span class=\"bleu\">Cacher mon profil : </span><br>
+			<select name=\"hide_profile\" style=\"width:197px\"> 
+				<option $selected_profile_no value=\"No\" >Non</option> 
+				<option $selected_profile_yes value=\"1\" >Oui</option> 
+			</select>";
 
 $settings = "Options";			
 $i_want_newsletter = "Je veux recevoir la newsletter hebdomadaire";
@@ -42,7 +54,7 @@ $wrong_birth_date = "<span class=\"erreur\"> Merci d'entrer une date de naissanc
 $change_password = "Changer mon mot de passe";
 $new_password = "Nouveau mot de passe";
 $new_password_repeat = "Répétez votre nouveau mot de passe";
-$characters = "charactères";
+$characters = "caractères";
 
 $email_subject_change_pass = "Nouveau mot de passe";
 $email_message_change_pass = "$top_mail Bonjour $username !<br><br />Vous venez de changer votre mot de passe sur Teen Quotes.<br><br />Vos nouveaux identifiants sont :<br /><br /><li>Pseudo : <font color=\"#5C9FC0\"><b>$username</b></font></li><li>Mot de passe : <font color=\"#5C9FC0\"><b>$pass2</b></font></li><br /><br />Gardez les précieusement ! Vous pouvez vous connecter dès maintenant en cliquant <a href=\"http://www.teen-quotes.com/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">sur ce lien</a>.<br><br />Cordialement,<br><b>The Teen Quotes Team</b> $end_mail";

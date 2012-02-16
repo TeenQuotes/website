@@ -1,11 +1,11 @@
-<?php session_start();
+<?php
+session_start();
 error_reporting(E_ALL ^ E_NOTICE);
-header("Cache-Control: public");
 
 // INCLUSION DES FICHIERS
 require "../kernel/config.php";
 $db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
-mysql_select_db('teenq208598',$db)  or die('Erreur de selection '.mysql_error()); 
+mysql_select_db($user,$db)  or die('Erreur de selection '.mysql_error()); 
 require "../kernel/fonctions.php";
 require '../lang/'.$language.'/general.php'; 
 
@@ -155,7 +155,11 @@ else
 </head>
 <body>
 <div id="topbar">
-<a href="../"><img src="http://www.teen-quotes.com/images/logo.png" style="height:50px" /></a>
+	<a href="../"><img src="http://www.teen-quotes.com/images/logo.png" style="height:50px" /></a>
+	<span class="right" style="margin-top:20px">
+		<a href="http://teen-quotes.com" title="View the english version"><span class="icone_flags english"></span></a>
+		<a href="http://kotado.fr" title="Voir la version française"><span class="icone_flags french"></span></a>
+	</span> 
 </div>
 </div><!-- END TOPBAR -->
 
@@ -167,12 +171,12 @@ else
 	<li><a href="../">Home</a></li>
 	<li><a href="random">Random</a></li>
 	<li><a href="searchform">Search</a></li>
-	<li><a href="addquote">Add a quote</a></li>
 	<?php if (!$_SESSION['logged']) { ?>
 	<li><a href="signin">Login</a></li>
 	<li><a href="signup">Sign up</a></li>
 	<?php }else { ?>
 	<li><a href="user-<?php echo $_SESSION['account'] ?>"><?php echo $my_profile; ?></a></li>
+	<li><a href="addquote">Add a quote</a></li>
 	<li><a href="?deconnexion">Log out</a></li>
 	<?php } ?>
 	</ul>

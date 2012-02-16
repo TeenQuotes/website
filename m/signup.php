@@ -1,7 +1,9 @@
 <?php 
 include 'header.php';
-include "../lang/$language/signup.php";
-$action=$_GET['action'];
+include '../lang/'.$language.'/signup.php';
+include '../lang/'.$language.'/edit_profile.php';
+include '../lang/'.$language.'/newsletter.php';
+$action = $_GET['action'];
 // FORMULAIRE
 if (empty($action)) 
 	{
@@ -30,6 +32,9 @@ if (empty($action))
 				<input type="text" name="email" class="signup"/><br>
 				<span class="min_info">'.$valid_email.'</span>
 				<br /><br />
+				<input type="checkbox" name="newsletter" value="1" checked="checked" /> '.$i_want_newsletter.'<br>
+				<input type="checkbox" name="email_quote_today" value="1" /> '.$i_want_email_quote_today.'<br>
+				<br />
 				<center><p><input type="submit" value="'.$create_account.'" class="submit" /></p></center>
 			</form>
 		</div>

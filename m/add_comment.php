@@ -7,7 +7,7 @@ $texte = htmlspecialchars(mysql_escape_string($_POST['texte']));
 $username=ucfirst($username);
 $date = date("d/m/Y"); ?>
 <div class="post">
-<h1><img src="http://www.teen-quotes.com/images/icones/about.png" class="icone" /><?php echo ucfirst($comments); ?></h1>
+<h2><img src="http://www.teen-quotes.com/images/icones/about.png" class="icone" /><?php echo ucfirst($comments); ?></h2>
 <?php
 if (!empty($id_quote) AND !empty($texte)) 
 	{

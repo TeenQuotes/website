@@ -6,7 +6,7 @@ $username_enter = "Nom d'utilisateur";
 $password = "Mot de passe";
 $confirm_password = "Confirmation du mot de passe";
 $create_account = "Créer mon compte !";
-$characters = "charactères";
+$characters = "caractères";
 $reenter_pass = "Entrez à nouveau votre mot de passe";
 $valid_email = "Merci d'entrer une adresse valide, elle sera nécessaire plus tard.";
 

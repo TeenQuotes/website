@@ -1,6 +1,8 @@
 <?php 
 include 'header.php';
 include 'lang/'.$language.'/signup.php';
+include 'lang/'.$language.'/edit_profile.php';
+include 'lang/'.$language.'/newsletter.php';
 $action = $_GET['action'];
 
 if (empty($action)) 
@@ -45,6 +47,9 @@ if (empty($action))
 			<div class="colonne-gauche">'.$confirm_password.' </div><div class="colonne-milieu"><input type="password" name="pass2" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$reenter_pass.'</span></div>
 			<br /><br />
 			<div class="colonne-gauche">Email </div><div class="colonne-milieu"><input type="text" name="email" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$valid_email.'</span></div>
+			<br /><br /><br />
+			<input type="checkbox" name="newsletter" value="1" checked="checked" /> '.$i_want_newsletter.'<br>
+			<input type="checkbox" name="email_quote_today" value="1" /> '.$i_want_email_quote_today.'<br>
 			<br /><br />
 			<center><p><input type="submit" value="'.$create_account.'" class="submit" /></p></center>
 		</form>
@@ -63,6 +68,8 @@ elseif ($action == "send")
 	$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
 	$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
 	$email = htmlspecialchars(mysql_escape_string($_POST['email']));
+	$email_quote_today = htmlspecialchars(mysql_escape_string($_POST['email_quote_today']));
+	$newsletter_checkbox = htmlspecialchars(mysql_escape_string($_POST['newsletter']));
 	$ip = $_SERVER["REMOTE_ADDR"];
 	$confmail="0";
 	$timestamp_expire = time() + 3600;
@@ -88,7 +95,14 @@ elseif ($action == "send")
 							if($test == '0')
 								{
 								$add = mysql_query("INSERT INTO teen_quotes_account (username,pass,email,ip,security_level) values('$username','$pass', '$email', '$ip','0')");
-								$query_newsletter =mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");
+								if ($newsletter_checkbox == '1')
+									{
+									$query_newsletter =mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");
+									}
+								if ($email_quote_today == '1')
+									{
+									$query = mysql_query("INSERT INTO teen_quotes_settings (param,value) VALUES ('email_quote_today','$email')");
+									}
 								$message = ''.$email_message.'';
 								$mail = mail($email, $email_subject, $message, $headers);
 								if($add)

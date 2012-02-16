@@ -13,7 +13,14 @@ $choose_title = "<span class=\"bleu\">Title : </span>
 				<option $selected_mr value=\"Mr\" >Mr</option> 
 				<option $selected_mrs value=\"Mrs\" >Mrs</option> 
 				<option $selected_miss value=\"Miss\" >Miss</option> 
-			</select></div>"; 
+			</select></div>";
+$choose_title_m = "<span class=\"bleu\">Title : </span><br> 
+			<select name=\"title\" style=\"width:197px\"> 
+				<option value=\"\">Choose...</option> 
+				<option $selected_mr value=\"Mr\" >Mr</option> 
+				<option $selected_mrs value=\"Mrs\" >Mrs</option> 
+				<option $selected_miss value=\"Miss\" >Miss</option> 
+			</select>";
 $choose_birth = "<span class=\"bleu\">Date of birth (DD/MM/YYYY) : </span>";
 $choose_country= "<span class=\"bleu\">Country : </span>";
 $other_countries = "Other countries";
@@ -25,6 +32,11 @@ $hide_profile = "<span class=\"bleu\">Hide my profile : </span>
 				<option $selected_profile_no value=\"No\" >No</option> 
 				<option $selected_profile_yes value=\"1\" >Yes</option> 
 			</select></div>";
+$hide_profile_m = "<span class=\"bleu\">Hide my profile : </span><br>
+			<select name=\"hide_profile\" style=\"width:197px\"> 
+				<option $selected_profile_no value=\"No\" >No</option> 
+				<option $selected_profile_yes value=\"1\" >Yes</option> 
+			</select>";
 
 $settings = "Settings";
 $i_want_newsletter = "I want to receive the weekly newsletter";
@@ -46,7 +58,7 @@ $characters = "letters";
 
 
 $email_subject_change_pass = "New password";
-$email_message_change_pass = "$top_mail Hello $username !<br><br />You have recently change your password on Teen Quotes.<br><br />Your new credentials are :<br /><br /><li>Username : <font color=\"#5C9FC0\"><b>$username</b></font></li><li>Password : <font color=\"#5C9FC0\"><b>$pass2</b></font></li><br /><br />Keep precisely ! You can login now by clicking on <a href=\"http://www.teen-quotes.com/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">this link</a>. <br><br />Sincerely,<br><b>The Teen Quotes Team</b> $end_mail";
+$email_message_change_pass = "$top_mail Hello $username !<br><br />You have recently change your password on Teen Quotes.<br><br />Your new credentials are :<br /><br /><li>Username : <font color=\"#5C9FC0\"><b>$username</b></font></li><li>Password : <font color=\"#5C9FC0\"><b>$pass1</b></font></li><br /><br />Keep precisely ! You can login now by clicking on <a href=\"http://www.teen-quotes.com/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">this link</a>. <br><br />Sincerely,<br><b>The Teen Quotes Team</b> $end_mail";
 $change_pass_succes = "$succes Your password was changed successfully !<br><br /><br />Your login will be sent to your email address.";
 $password_short = "Your password is too short.";
 $password_not_same = "Passwords are not the same.";

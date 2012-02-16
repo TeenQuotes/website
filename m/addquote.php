@@ -20,16 +20,16 @@ if (empty($action))
 	';
 	}
 elseif ($action == "add_quote") 
-	{ 
+	{
 	echo '
 	<div class="post">
-	<h2><img src="http://www.teen-quotes.com/images/icones/add.png" class="icone" />'.$add_quote.'</h2>
+	<h1><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />'.$add_quote.'</h1>
 	';
+	
 	$texte_quote= ucfirst(htmlspecialchars(mysql_escape_string($_POST['texte_quote'])));
 	$texte_quote=str_replace(array("\r", "\n"), array('',''), $texte_quote);
 	$date = date("d/m/Y");
 	$texte_quote=stripslashes($texte_quote);
-
 
 	if (strlen($texte_quote) >= '30') 
 		{
@@ -38,18 +38,25 @@ elseif ($action == "add_quote")
 			{
 			if (is_quote_exist($texte_quote) == FALSE) 
 				{
-				$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english,auteur,date,auteur_id,approved) VALUES ('$texte_quote', '$username', '$date', '$id','0')");
-				
-				if ($query) 
+				if (!empty($username) AND !empty($id))
 					{
-					echo ''.$succes.' '.$add_ok.'';
+					$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english,auteur,date,auteur_id,approved) VALUES ('$texte_quote', '$username', '$date', '$id','0')");
+					
+					if ($query) 
+						{
+						echo ''.$succes.' '.$add_ok.'';
+						}
+						else 
+						{
+						echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+						}
 					}
-				else 
+				else
 					{
-					echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+					echo '<h2>'.$error.'</h2> Please contact us at contact@pretty-web.com with your username. '.$lien_retour.'';
 					}
 				}
-			else
+				else
 				{
 				echo '<span class="erreur">'.$quote_already_exist.'</span> '.$lien_retour.'';
 				}
@@ -62,9 +69,8 @@ elseif ($action == "add_quote")
 	else 
 		{
 		echo '<span class="erreur">'.$too_short.'</span> '.$lien_retour.'';
-		}
-										
-	} 
+		}								
+	}
 echo '</div>';
 include "footer.php";
 ?>

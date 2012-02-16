@@ -3,6 +3,8 @@ include 'header.php';
 $action = $_GET['action'];
 $id_user = $_SESSION['account'];
 $result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account where id='$id_user'"));
+$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
+$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
 
 $email_quote_today_num_rows = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'"));
 		
@@ -60,58 +62,66 @@ if (empty($action))
 	echo '
 	<div class="post">
 		<h1><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />'.$edit_profile.'</h1>
-		<img src="http://'.$domaine.'/images/avatar/'.$result['avatar'].'" class="user_avatar_editprofile" /></span>
-		<br />
-		<form action="?action=send" method="post">
-		<div class="colonne-gauche">'.$choose_title.'
-		<br /><br />
-		<div class="colonne-gauche">'.$choose_birth.'</div><div class="colonne-milieu"><input type="text" class="signup" name="birth_date" value="'.$result['birth_date'].'" /></div>
-		<br /><br />
-		<div class="colonne-gauche">'.$choose_country.'</div><div class="colonne-milieu">'; select_country($result['country'],$other_countries,$common_choices); echo '</div>
-		<br /><br />
-		<div class="colonne-gauche">'.$choose_city.'</div><div class="colonne-milieu"><input type="text" class="signup" name="city" value="'.$result['city'].'" /></div>
-		<br /><br />
-		<div class="colonne-gauche">'.$about_you.'</div><div class="colonne-milieu"><textarea name="about_me" value="'.$result['about_me'].'" style="height:60px;width:190px;">'.$result['about_me'].'</textarea></div> 
-		<br /><br />
-		<div class="clear"></div>
-		<div class="colonne-gauche">'.$hide_profile.'
-		<br /><br />
-		<center><p><input type="submit" value="Okey" class="submit" /></p></center>
-		</form>
+		<div class="grey_post">
+			<img src="http://'.$domaine.'/images/avatar/'.$result['avatar'].'" class="user_avatar_editprofile" /></span>
+			<br />
+			<form action="?action=send" method="post">
+			<div class="colonne-gauche">'.$choose_title.'
+			<br /><br />
+			<div class="colonne-gauche">'.$choose_birth.'</div><div class="colonne-milieu"><input type="text" class="signup" name="birth_date" value="'.$result['birth_date'].'" /></div>
+			<br /><br />
+			<div class="colonne-gauche">'.$choose_country.'</div><div class="colonne-milieu">'; select_country($result['country'],$other_countries,$common_choices); echo '</div>
+			<br /><br />
+			<div class="colonne-gauche">'.$choose_city.'</div><div class="colonne-milieu"><input type="text" class="signup" name="city" value="'.$result['city'].'" /></div>
+			<br /><br />
+			<div class="colonne-gauche">'.$about_you.'</div><div class="colonne-milieu"><textarea name="about_me" value="'.$result['about_me'].'" style="height:60px;width:190px;">'.$result['about_me'].'</textarea></div> 
+			<br /><br />
+			<div class="clear"></div>
+			<div class="colonne-gauche">'.$hide_profile.'
+			<br /><br />
+			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+			</form>
+		</div>
 	</div>
 
 	<div class="post">
 		<h1><img src="http://'.$domaine.'/images/icones/outils.png" class="icone" />'.$settings.'</h1>
-		<form action="?action=settings" method="post">
-		<input type="checkbox" name="newsletter" value="1"'; if ($is_newsletter == '1') echo 'checked="checked"'; echo ' />'.$i_want_newsletter.'<br>
-		<input type="checkbox" name="email_quote_today" value="1"'; if ($email_quote_today_num_rows == '1') echo 'checked="checked"'; echo ' />'.$i_want_email_quote_today.'<br>
-		<input type="checkbox" name="comments_quote" value="1"'; if($notification_comment_quote == '1') echo 'checked="checked"'; echo ' />'.$i_want_comment_quotes.'<br>
-		<br />
-		<center><p><input type="submit" value="Okey" class="submit" /></p></center>
-		</form>
+		<div class="grey_post">
+			<form action="?action=settings" method="post">
+			<input type="checkbox" name="newsletter" value="1"'; if ($is_newsletter == '1') echo 'checked="checked"'; echo ' />'.$i_want_newsletter.'<br>
+			<input type="checkbox" name="email_quote_today" value="1"'; if ($email_quote_today_num_rows == '1') echo 'checked="checked"'; echo ' />'.$i_want_email_quote_today.'<br>
+			<input type="checkbox" name="comments_quote" value="1"'; if($notification_comment_quote == '1') echo 'checked="checked"'; echo ' />'.$i_want_comment_quotes.'<br>
+			<br />
+			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+			</form>
+		</div>
 	</div>
 
 	<div class="post">
 		<h1><img src="http://'.$domaine.'/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h1>
-		'.$change_avatar_rules.'
-		<br />
-		<form method="post" action="?action=avatar" enctype="multipart/form-data">
-		<div class="colonne-gauche">'.$select_photo.'</div><div class="colonne-milieu"><input type="file" name="photo" class="signup" /></div>
-		<br /><br />
-		<a href="?action=reset_avatar">'.$reset_avatar.'</a><br>
-		<center><p><input type="submit" value="Okey" class="submit" /></p></center>
-		</form>
+		<div class="grey_post">
+			'.$change_avatar_rules.'
+			<br />
+			<form method="post" action="?action=avatar" enctype="multipart/form-data">
+			<div class="colonne-gauche">'.$select_photo.'</div><div class="colonne-milieu"><input type="file" name="photo" class="signup" /></div>
+			<br /><br />
+			<a href="?action=reset_avatar">'.$reset_avatar.'</a><br>
+			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+			</form>
+		</div>
 	</div>
 
 	<div class="post">
 		<h1><img src="http://'.$domaine.'/images/icones/password.png" class="icone" />'.$change_password.'</h1>
-		<form action="?action=change" method="post">
-		<div class="colonne-gauche">'.$new_password.'</div><div class="colonne-milieu"><input type="password" class="signup" name="pass1" /></div><div class="colonne-droite"><span class="min_info">Minimum 5 '.$characters.'</span></div>
-		<br /><br />
-		<div class="colonne-gauche">'.$new_password_repeat.'</div><div class="colonne-milieu"><input type="password" class="signup" name="pass2" /></div>
-		<br /><br />
-		<center><p><input type="submit" value="Okey" class="submit" /></p></center>
-		</form>
+		<div class="grey_post">
+			<form action="?action=change" method="post">
+			<div class="colonne-gauche">'.$new_password.'</div><div class="colonne-milieu"><input type="password" class="signup" name="pass1" /></div><div class="colonne-droite"><span class="min_info">Minimum 5 '.$characters.'</span></div>
+			<br /><br />
+			<div class="colonne-gauche">'.$new_password_repeat.'</div><div class="colonne-milieu"><input type="password" class="signup" name="pass2" /></div>
+			<br /><br />
+			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+			</form>
+		</div>
 	</div>
 	';
 	}
@@ -240,8 +250,6 @@ elseif ($action=="change")
 	<div class="post">
 	<h1><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />'.$change_password.'</h1>
 	';
-	$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
-	$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
 			
 	if ($pass1==$pass2) 
 		{
@@ -249,8 +257,7 @@ elseif ($action=="change")
 			{
 			$pass = sha1(strtoupper($username).':'.strtoupper($pass1));
 			$query = mysql_query ("UPDATE teen_quotes_account SET pass='$pass' WHERE id='$id'") or die ('Erreur : '.mysql_error());
-			$message = $email_message_change_pass;
-			$mail = mail($email, $email_subject_change_pass, $message, $headers); 
+			$mail = mail($email, $email_subject_change_pass, $email_message_change_pass, $headers); 
 			if ($query AND $mail)
 				{
 				echo ''.$change_pass_succes.'';

@@ -32,10 +32,10 @@ $url_page=$_SERVER["SCRIPT_URI"];
 $m_url=substr($url_page, 0, 25);
 $fr_url=substr($url_page, 0, 9);
 
-$page=$_SERVER['PHP_SELF'];
-$taille= strlen($name_page);
-$taille2=$taille-4;
-$php_self = substr("$page",1,$taille2);
+$page = $_SERVER['PHP_SELF'];
+$taille = strlen($name_page);
+$taille2 = $taille-4;
+$php_self = substr($page, 1, $taille2);
 
 if ($domaine == "teen-quotes.com")
 	{
@@ -1033,7 +1033,26 @@ function mobile_device_detect($iphone=true,$android=true,$opera=true,$blackberry
   $user_agent       = $_SERVER['HTTP_USER_AGENT']; // get the user agent value - this should be cleaned to ensure no nefarious input gets executed
   $accept           = $_SERVER['HTTP_ACCEPT']; // get the content accept value - this should be cleaned to ensure no nefarious input gets executed
   $domaine = "teen-quotes.com";
-  $iphone='http://m.'.$domaine.'';
+  if (isset($_GET['id_user'])) 
+	{
+	$id_user = mysql_real_escape_string($_GET['id_user']);
+	$php_self = 'user-'.$id_user.'';
+	}
+  elseif (isset($_GET['id_quote'])) 
+	{
+	$id_quote = mysql_real_escape_string($_GET['id_quote']);
+	$php_self = 'quote-'.$id_quote.'';
+	}
+  elseif (isset($_GET['letter']) OR $php_self == "members") 
+	{
+	$lettre = mysql_real_escape_string($_GET['letter']);
+	if (empty($lettre))
+		{
+		$lettre = "A"; 
+		}
+	$php_self = 'members-'.$lettre.'';
+	}
+  $iphone='http://m.'.$domaine.'/'.$php_self.'';
   $android=$iphone;
   $opera=$iphone;
   $blackberry=$iphone;

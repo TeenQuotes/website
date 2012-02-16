@@ -3,7 +3,7 @@ include 'header.php';
 include '../lang/'.$language.'/contact.php';
 ?>
 <div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/contact.png" class="icone" />Contact</h1>
+	<h2><img src="http://www.teen-quotes.com/images/icones/contact.png" class="icone" />Contact</h2>
 	<img src="http://www.teen-quotes.com/images/icones/mail.png" class="icone" /> <?php echo $about_website; ?> : <a href="mailto:contact@pretty-web.com">contact@pretty-web.com</a><br>
 	<br />
 	<img src="http://www.teen-quotes.com/images/icones/mail.png" class="icone" /> <?php echo $about_twitter_account; ?> : <a href="mailto:contact@teen-quotes.com">contact@teen-quotes.com</a><br>

@@ -21,7 +21,7 @@ if (empty($value_search))
 elseif (isset($value_search)) 
 	{
 	$num_rows_quote = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved='1' AND (texte_english like '%$value_search%' OR texte_french like '%$value_search%')"));
-	$num_rows_members = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE username like '%$value_search%'"));
+	$num_rows_members = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE username like '%$value_search%' AND hide_profile = '0'"));
 	
 	$num_rows_result = $num_rows_quote + $num_rows_members;
 
@@ -29,13 +29,15 @@ elseif (isset($value_search))
 		{
 		echo '
 		<div class="post">
-		<h2><img src="http://www.teen-quotes.com/images/icones/search_result.png" class="icone" />'.$search_results.'<span class="right">'.$num_rows_result.''; ?> <?php echo $results; ?><?php if($num_rows_result >'1'){echo"s";}
-		echo
-		'</span></h2>';
-		if ($num_rows_quote >='1' AND $num_rows_members >= '1')
-			{
-			echo '<h3><a href="#quotes"><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone">'.$quotes.'</a><span class="right"><a href="#members"><img src="http://www.teen-quotes.com/images/icones/staff.png" class="icone">'.$members.'</span></a></h3>';
-			}
+			<div class="grey_post">
+			<h2><img src="http://'.$domaine.'/images/icones/search_result.png" class="icone" />'.$search_results.'<span class="right" style="font-size:70%;padding-top:5px">'.$num_rows_result.''; ?> <?php echo $results; ?><?php if($num_rows_result >'1'){echo"s";}
+			echo
+			'</span></h2>';
+			if ($num_rows_quote >='1' AND $num_rows_members >= '1')
+				{
+				echo '<h2><a href="#quotes"><img src="http://'.$domaine.'/images/icones/profil.png" class="icone">'.$quotes.'</a><span class="right"><a href="#members"><img src="http://'.$domaine.'/images/icones/staff.png" class="icone">'.$members.'</span></a></h2>';
+				}
+			echo '</div>';
 		echo '</div>';
 		
 		// RESULTAT DES QUOTES
@@ -75,7 +77,7 @@ elseif (isset($value_search))
 			<div class="post" id="members">
 			<h2><img src="http://www.teen-quotes.com/images/icones/staff.png" class="icone">'.$members.'<span class="right" style="font-size:90%;padding-top:5px">'.$num_rows_members.''; echo ' '.$results.''; if($num_rows_members >'1'){echo"s";} if ($num_rows_members > '15'){echo ' '.$max_result.'';} echo '</span></h2>';
 			
-			$reponse = mysql_query("SELECT * FROM teen_quotes_account WHERE username like '%$value_search%' ORDER BY username ASC LIMIT 0,15");
+			$reponse = mysql_query("SELECT * FROM teen_quotes_account WHERE username like '%$value_search%'  AND hide_profile = '0' ORDER BY username ASC LIMIT 0,15");
 			while ($result = mysql_fetch_array($reponse))
 				{
 				$id_user = $result['id'];

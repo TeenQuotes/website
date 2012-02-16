@@ -1,6 +1,6 @@
-<?php session_start();
+<?php
+session_start();
 error_reporting(E_ALL ^ E_NOTICE);
-header("Cache-Control: public");
 
 $domaine = $_SERVER['HTTP_HOST'];
 switch ($domaine)
@@ -89,8 +89,8 @@ $_SESSION['logged'] = false;
 // PERMET DE GERER LE TITRE DES PAGES DYNAMIQUES ET LES DESCRIPTION POUR LE SHARE SUR FB
 if (isset($_GET['id_user'])) 
 	{
-	$id_user=mysql_real_escape_string($_GET['id_user']);
-	$php_self="user-$id_user";
+	$id_user = mysql_real_escape_string($_GET['id_user']);
+	$php_self = 'user-'.$id_user.'';
 	$result = mysql_fetch_array(mysql_query("SELECT username FROM teen_quotes_account where id='$id_user'"));
 	$username_title = ucfirst($result['username']);
 	echo '<title>Teen Quotes | '.$username_title.'</title>';
@@ -99,7 +99,7 @@ if (isset($_GET['id_user']))
 	}
 elseif (isset($_GET['id_quote'])) 
 	{
-	$id_quote=mysql_real_escape_string($_GET['id_quote']);
+	$id_quote = mysql_real_escape_string($_GET['id_quote']);
 	$php_self = 'quote-'.$id_quote.'';
 	$result = mysql_fetch_array(mysql_query("SELECT texte_english FROM teen_quotes_quotes where id='$id_quote' AND approved='1'"));
 	$texte = $result['texte_english'];
@@ -145,7 +145,7 @@ else
 		<script type="text/javascript" src="http://teen-quotes.com/scrypt.js"></script>
 		
 		<?php
-		if ($php_self == "stats")
+		if ($php_self == "statistics")
 			{
 			create_stats($language);
 			}

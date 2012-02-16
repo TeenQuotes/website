@@ -23,7 +23,7 @@ elseif (empty($action) AND $_SESSION['security_level'] >='2')
 		}
 	?>
 	<div class="post">
-		<h1><img src="http://www.teen-quotes.com/images/icones/add.png" class="icone" />Add a quote</h1>
+		<h2><img src="http://www.teen-quotes.com/images/icones/add.png" class="icone" />Add a quote</h2>
 		<form action="?action=add_quote" method="post">
 			Enter the Quote<br>
 			<textarea name="texte_quote" style="width:100%;height:50px"></textarea>
@@ -34,7 +34,7 @@ elseif (empty($action) AND $_SESSION['security_level'] >='2')
 	</div>
 	
 	<div class="post">
-		<h1><img src="http://teen-quotes.com/images/icones/profil.png" class="icone" />Edit an existing quote</h1>
+		<h2><img src="http://teen-quotes.com/images/icones/profil.png" class="icone" />Edit an existing quote</h2>
 		<form action="?action=edit_existing_quote" method="post">
 			Enter the ID of the quote<br>
 			<input name="id_quote" type="text" />
@@ -44,7 +44,7 @@ elseif (empty($action) AND $_SESSION['security_level'] >='2')
 	</div>
 
 	<div class="post">
-		<h1><img src="http://www.teen-quotes.com/images/icones/test.png" class="icone" />Approve Quotes</h1>
+		<h2><img src="http://www.teen-quotes.com/images/icones/test.png" class="icone" />Approve Quotes</h2>
 	<?php 
 		echo '
 		<div class="grey_post">
@@ -79,7 +79,7 @@ elseif ($action=="add_quote")
 	{
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/add.png" class="icone" />Add a quote</h1>';
+	<h2><img src="http://www.teen-quotes.com/images/icones/add.png" class="icone" />Add a quote</h2>';
 	
 	$texte_quote= htmlspecialchars(mysql_escape_string($_POST['texte_quote']));
 	$date = date("d/m/Y");
@@ -107,7 +107,7 @@ elseif ($action=="rate")
 	{
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/test.png" class="icone" />Approve Quotes</h1>';
+	<h2><img src="http://www.teen-quotes.com/images/icones/test.png" class="icone" />Approve Quotes</h2>';
 
 	$id_quote = mysql_real_escape_string($_GET['id']);
 	$approve = mysql_real_escape_string($_GET['approve']);
@@ -148,7 +148,7 @@ elseif ($action=="delete_comment")
 	{ 
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/delete.png" class="icone" />Delete a comment</h1>';
+	<h2><img src="http://www.teen-quotes.com/images/icones/delete.png" class="icone" />Delete a comment</h2>';
 	
 	$id_comment = htmlspecialchars($_GET['id']);
 
@@ -215,7 +215,7 @@ elseif ($action=="edit")
 	{
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit a quote</h1>';
+	<h2><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit a quote</h2>';
 	
 	$id_quote=$_GET['id'];
 
@@ -236,7 +236,7 @@ elseif ($action=="edit_quote")
 	{
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit a quote</h1>';
+	<h2><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit a quote</h2>';
 	$id_quote=$_POST['id_quote'];
 	$texte_quote=$_POST['texte_quote'];
 
@@ -254,7 +254,7 @@ elseif ($action=="edit_existing_quote")
 	{
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit an existing quote</h1>';
+	<h2><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit an existing quote</h2>';
 	$id_quote=$_POST['id_quote'];
 	$exist = mysql_num_rows(mysql_query("SELECT texte_english FROM teen_quotes_quotes WHERE id='$id_quote' AND approved='1'"));
 	if ($exist == '1')
@@ -291,7 +291,7 @@ elseif ($action=="edit_existing_quote_valide")
 	{
 	echo '
 	<div class="post">
-	<h1><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit an existing quote</h1>';
+	<h2><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" />Edit an existing quote</h2>';
 	$id_quote=$_POST['id_quote'];
 	$texte_quote= htmlspecialchars(mysql_escape_string($_POST['texte_quote']));
 	$texte_quote=stripslashes($texte_quote);

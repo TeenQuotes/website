@@ -11,6 +11,7 @@ echo '
 if (empty($action)) 
 	{ 
 	echo $texte_newsletter; 
+	echo '<div class="grey_post">';
 	echo '<form action="?action=send" method="post">';
 	
 	if (!$_SESSION['logged']) 
@@ -18,13 +19,14 @@ if (empty($action))
 		echo '<div class="colonne-gauche">Email </div><div class="colonne-milieu"><input type="text" name="email" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$valid_email.'</span></div>
 		<br /><br />';
 		}
-	else
+		else
 		{
 		echo '<input type="hidden" name="email" value="'.$email.'" class="signup"/>';
 		} 
 
 	echo '<center><p><input type="submit" value="'.$inscription_newsletter.'" class="submit" /></p></center>
 	</form>';
+	echo '</div>';
 	}
 	
 elseif ($action=="send") // INSCRIPTION
@@ -41,17 +43,17 @@ elseif ($action=="send") // INSCRIPTION
 				{
 				echo ''.$succes_newsletter.'';
 				}
-			else 
+				else 
 				{
 				echo ''.$error.' '.$lien_retour.'';
 				}
 			}
-		else
+			else
 			{
 			echo ''.$already_subscribe.' '.$lien_retour.'';
 			}
 		}
-	else 
+		else 
 		{
 		echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
 		}
@@ -72,17 +74,17 @@ elseif ($action=="unsuscribe")  // DESINSCRIPTION
 				{
 				echo ''.$succes_unsuscribe.'';
 				}
-			else 
+				else 
 				{
 				echo ''.$error.'';
 				}
 			}
-		else
+			else
 			{
 			echo ''.$not_subscribe.'';
 			}
 		}
-	else 
+		else 
 		{
 		echo ''.$error.'';
 		}
