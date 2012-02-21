@@ -274,36 +274,7 @@ else
 			}
 		// QUOTES AJOUTEES PAR L'USER
 		echo '
-		<div class="clear"></div>';
-		if ($show_pub =='1')
-			{
-			echo '
-			<div class="pub">
-			<script type="text/javascript"><!--
-			google_ad_client = "ca-pub-8130906994953193";
-			/* Page user 2 */
-			google_ad_slot = "4049465860";
-			google_ad_width = 468;
-			google_ad_height = 60;
-			//-->
-			</script>
-			<script type="text/javascript"
-			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-			</script>
-			<script type="text/javascript"><!--
-			google_ad_client = "ca-pub-8130906994953193";
-			/* Page user - 2 */
-			google_ad_slot = "2431949866";
-			google_ad_width = 234;
-			google_ad_height = 60;
-			//-->
-			</script>
-			<script type="text/javascript"
-			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-			</script>
-			</div>';
-			}
-		echo '
+		<div class="clear"></div>
 		<div class="post" id="user_quotes">
 		<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone">'.$user_quotes.'</h2>
 		';
