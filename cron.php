@@ -2,8 +2,8 @@
 
 require "kernel/config.php";
 require "kernel/fonctions.php";
-$db = mysql_connect("$host", "$user", "$pass")  or die('Erreur de connexion '.mysql_error());
-mysql_select_db('teenq208598',$db)  or die('Erreur de selection '.mysql_error()); 
+$db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
+mysql_select_db($user,$db)  or die('Erreur de selection '.mysql_error()); 
 
 $query_monday=mysql_fetch_array(mysql_query("SELECT send_mail_monday FROM config WHERE id='1'"));
 $send_monday=$query_monday['send_mail_monday'];
