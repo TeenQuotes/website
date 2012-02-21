@@ -1,5 +1,18 @@
 <?php 
 include 'header.php';
+
+if ($action == 'send')
+	{
+	$username = ucfirst(trim(htmlspecialchars(mysql_escape_string($_POST['username']))));
+	$username=str_replace(' ','',$username);
+	$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
+	$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
+	$email = htmlspecialchars(mysql_escape_string($_POST['email']));
+	$email_quote_today = htmlspecialchars(mysql_escape_string($_POST['email_quote_today']));
+	$newsletter_checkbox = htmlspecialchars(mysql_escape_string($_POST['newsletter']));
+	$ip = $_SERVER["REMOTE_ADDR"];
+	}
+	
 include '../lang/'.$language.'/signup.php';
 include '../lang/'.$language.'/edit_profile.php';
 include '../lang/'.$language.'/newsletter.php';
@@ -47,13 +60,7 @@ elseif ($action == "send")
 	<div class="post">
 	<h2><img src="http://'.$domaine.'/images/icones/signin.png" class="icone"/>'.$sign_up.'</h2>
 	';
- 
-	$username = ucfirst(trim(htmlspecialchars(mysql_escape_string($_POST['username']))));
-	$username=str_replace(' ','',$username);
-	$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
-	$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
-	$email = htmlspecialchars(mysql_escape_string($_POST['email']));
-	$ip=$_SERVER["REMOTE_ADDR"];
+	
 	$confmail="0";
 	$timestamp_expire = time() + 3600;
 	$code = caracteresAleatoires(5);
@@ -78,7 +85,14 @@ elseif ($action == "send")
 							if($test == '0')
 								{
 								$add = mysql_query("INSERT INTO teen_quotes_account (username,pass,email,ip,security_level) values('$username','$pass', '$email', '$ip','0')");
-								$query_newsletter =mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");
+								if ($newsletter_checkbox == '1')
+									{
+									$query_newsletter =mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");
+									}
+								if ($email_quote_today == '1')
+									{
+									$query = mysql_query("INSERT INTO teen_quotes_settings (param,value) VALUES ('email_quote_today','$email')");
+									}
 								$message = ''.$email_message.'';
 								$mail = mail($email, $email_subject, $message, $headers);
 								if($add)

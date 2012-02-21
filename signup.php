@@ -1,9 +1,25 @@
 <?php 
 include 'header.php';
+$action = $_GET['action'];
+
+if ($action == 'send')
+	{
+	$username = ucfirst(trim(htmlspecialchars(mysql_escape_string($_POST['username']))));
+	$username=str_replace(' ','',$username);
+	$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
+	$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
+	$email = htmlspecialchars(mysql_escape_string($_POST['email']));
+	$email_quote_today = htmlspecialchars(mysql_escape_string($_POST['email_quote_today']));
+	$newsletter_checkbox = htmlspecialchars(mysql_escape_string($_POST['newsletter']));
+	$ip = $_SERVER["REMOTE_ADDR"];
+	}
+	
 include 'lang/'.$language.'/signup.php';
 include 'lang/'.$language.'/edit_profile.php';
 include 'lang/'.$language.'/newsletter.php';
-$action = $_GET['action'];
+
+
+
 
 if (empty($action)) 
 	{
@@ -62,15 +78,7 @@ elseif ($action == "send")
 	<div class="post">
 	<h1><img src="http://'.$domaine.'/images/icones/signin.png" class="icone"/>'.$sign_up.'</h1>
 	';
- 
-	$username = ucfirst(trim(htmlspecialchars(mysql_escape_string($_POST['username']))));
-	$username=str_replace(' ','',$username);
-	$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
-	$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
-	$email = htmlspecialchars(mysql_escape_string($_POST['email']));
-	$email_quote_today = htmlspecialchars(mysql_escape_string($_POST['email_quote_today']));
-	$newsletter_checkbox = htmlspecialchars(mysql_escape_string($_POST['newsletter']));
-	$ip = $_SERVER["REMOTE_ADDR"];
+	
 	$confmail="0";
 	$timestamp_expire = time() + 3600;
 	$code = caracteresAleatoires(5);
