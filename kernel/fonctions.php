@@ -809,13 +809,13 @@ function MailPostedToday($id_quote)
 			}
 			
 		$today = date("d/m/Y"); 
-		$message = ''.$top_mail.$query_txt.'Here are the quotes posted today ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
-		
 		$search_email = mysql_query("SELECT value FROM teen_quotes_settings WHERE param = 'email_quote_today'");
 		
 		while ($donnees = mysql_fetch_array($search_email))
 			{
 			$email = $donnees['value'];
+			$message = ''.$top_mail.$query_txt.'Here are the quotes posted today ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
+			$message .= '<br /><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsuscribe, please follow <a href="http://www.teen-quotes.com/newsletter.php?action=unsuscribe&email='.$email.'" target="_blank"> this link</a></span>';
 			$mail = mail($email, 'Quotes posted today - '.$today.'', $message, $headers);
 			}
 		}
