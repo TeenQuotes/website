@@ -12,6 +12,7 @@ $added_on_favorites = "Number of my quotes added to favorites";
 $about_user = "About";
 $last_visitor = "Last visitors";
 $not_specified = "Not specified";
+$years_old = 'years old';
 $no_posted_comments = "This user has not posted comments yet.";
 $no_description = "This user has not yet fulfilled its description.";
 $user_quotes = "&raquo; Quotes";

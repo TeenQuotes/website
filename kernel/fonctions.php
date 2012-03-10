@@ -412,6 +412,31 @@ function last_visit($session_last_visit,$last_visit,$id_account)
 		}
 	}
 	
+function age($naiss)  
+	{
+	list($jour, $mois, $annee) = split('[/]', $naiss);
+	$today['mois'] = date('n');
+	$today['jour'] = date('j');
+	$today['annee'] = date('Y');
+	$annees = $today['annee'] - $annee;
+	
+	if ($today['mois'] <= $mois) 
+		{
+		if ($mois == $today['mois']) 
+			{
+			if ($jour > $today['jour'])
+				{
+				$annees--;
+				}	
+			}
+		else
+			{
+			$annees--;
+			}
+		}
+	return $annees;
+  }
+	
 function is_quote_new($date_quote,$last_visit,$page,$compteur_quote)
 	{
 	include "config.php";
@@ -458,6 +483,7 @@ elseif ($heure >= "00" AND $heure <= "02")
 	if ($compteur_quote_posted_today == '0')
 		{
 		flush_quotes();
+		email_birthday();
 		}
 	}
 
@@ -498,6 +524,28 @@ function flush_quotes ()
 	if ($affected_rows >= '1')
 		{
 		MailPostedToday($ids_quotes_posted_today);
+		}
+	}
+	
+function email_birthday()
+	{
+	include 'config.php';
+	
+	$date_today = date("d/m");
+	$date_today .= '/%';
+	
+	$query = mysql_query("SELECT username, email, birth_date FROM teen_quotes_account WHERE birth_date LIKE '$date_today'");
+	if (mysql_num_rows($query) >= '1')
+		{
+		while ($donnees = mysql_fetch_array($query))
+			{
+			$email_user = $donnees['email'];
+			$username = ucfirst($donnees['username']);
+			$age = age($donnees['birth_date']);
+			$email_subject = 'Happy birthday !';
+			$email_message = ''.$top_mail.' Hello '.$username.',<br><br />Wow, '.$age.' years old, that\'s great ! All the team want to wish you a happy birthday ! We hope that you will have a great day :) '.$end_mail.'';
+			$mail = mail($email_user, $email_subject, $email_message, $headers);
+			}
 		}
 	}
 
@@ -793,7 +841,7 @@ function MailPostedToday($id_quote)
 	if (!empty($id_quote))
 		{
 		$id_quote = str_replace(',', '\',\'', $id_quote);
-		$query = mysql_query("SELECT id, texte_english,date,auteur,auteur_id FROM teen_quotes_quotes WHERE approved = '1' AND id IN ('$id_quote')");
+		$query = mysql_query("SELECT id, texte_english,date,auteur,auteur_id FROM teen_quotes_quotes WHERE approved = '1' AND id IN ('$id_quote') ORDER BY id DESC");
 			
 		while($donnees = mysql_fetch_array($query)) 
 			{
@@ -815,7 +863,7 @@ function MailPostedToday($id_quote)
 			{
 			$email = $donnees['value'];
 			$message = ''.$top_mail.$query_txt.'Here are the quotes posted today ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
-			$message .= '<br /><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsuscribe, please follow <a href="http://www.teen-quotes.com/newsletter.php?action=unsuscribe&email='.$email.'" target="_blank"> this link</a></span>';
+			$message .= '<br /><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsuscribe, please follow <a href="http://www.teen-quotes.com/newsletter.php?action=unsuscribe_everyday&email='.$email.'" target="_blank"> this link</a></span>';
 			$mail = mail($email, 'Quotes posted today - '.$today.'', $message, $headers);
 			}
 		}
@@ -885,11 +933,11 @@ function afficher_favori ($id_quote,$is_favorite,$logged,$add_favorite,$unfavori
 	{
 	if ($logged == true AND $is_favorite == '0') 
 		{
-		echo '<span class="favorite" data-id="'.$id_quote.'"><a href="" onclick="favorite('.$id_quote.','.$id_user.'); return false;" title="'.$add_favorite.'"><img src="http://teen-quotes.com/images/icones/heart.png" /></a></span>';
+		echo '<span class="favorite fade_jquery" data-id="'.$id_quote.'"><a href="" onclick="favorite('.$id_quote.','.$id_user.'); return false;" title="'.$add_favorite.'"><img src="http://teen-quotes.com/images/icones/heart.png" /></a></span>';
 		}
 	elseif($logged == true AND $is_favorite == '1')
 		{
-		echo '<span class="favorite" data-id="'.$id_quote.'"><a href=""  onclick="unfavorite('.$id_quote.','.$id_user.'); return false;" title="'.$unfavorite.'"><img src="http://teen-quotes.com/images/icones/broken_heart.gif" /></a></span>';
+		echo '<span class="favorite fade_jquery" data-id="'.$id_quote.'"><a href=""  onclick="unfavorite('.$id_quote.','.$id_user.'); return false;" title="'.$unfavorite.'"><img src="http://teen-quotes.com/images/icones/broken_heart.gif" /></a></span>';
 		}
 	}
 

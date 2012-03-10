@@ -12,6 +12,7 @@ $number_comments = "Nombre de commentaires";
 $about_user = "À propos de";
 $last_visitor = "Derniers visiteurs";
 $not_specified = "Non renseigné";
+$years_old = 'ans';
 $no_posted_comments = "Cet utilisateur n'a pas encore posté de commentaires.";
 $no_description = "Cet utilisateur n'a pas encore rempli sa description.";
 $user_quotes = "&raquo; Citations";

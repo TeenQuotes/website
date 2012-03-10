@@ -58,6 +58,16 @@ else
 		if(empty($result['avatar'])) {$result['avatar']="icon50.png";}
 		if($result['avatar']=="http://www.teen-quotes.com/images/icon50.png") {$result['avatar']="icon50.png";}
 		
+		if ($result['birth_date'] != "$not_specified")
+			{
+			$age = age($result['birth_date']);
+			$age = '('.$age.' '.$years_old.')';
+			}
+		else
+			{
+			$age = '';
+			}
+		
 		echo '<div class="post">';
 		
 		if ($result['hide_profile'] == '1' AND $id = $_SESSION['account'])
@@ -80,7 +90,7 @@ else
 			echo '
 			<div style="position:relative;margin-left:55px;">
 			<span class="bleu">'.$title.':</span> '.$result['title'].'<br>
-			<span class="bleu">'.$birth_date.' :</span> '. $result['birth_date'].'<br>
+			<span class="bleu">'.$birth_date.' :</span> '. $result['birth_date'].' '.$age.'<br>
 			<span class="bleu">'.$country.' :</span> '. $result['country'].'<br>
 			<span class="bleu">'.$city.' :</span> '. $result['city'].'<br>
 			<span class="bleu">'.$fav_quote.' :</span> '. $nb_favorite_quotes.'<br>
