@@ -3,7 +3,7 @@
 $next_page = "Next page";
 $previous_page = "Previous page";
 $search = "Search";
-$sign_in = "Sign in !";
+$sign_in = "Sign in";
 $log_me = "Log me";
 $sign_up = "Sign up";
 $forget = "Forget ?";
@@ -26,7 +26,8 @@ $deco_succes = "You have been disconnected successfully.";
 $lien_retour='<br /><br /><br /><br /><a href="javascript:history.back()">&raquo; Back</a><br /><br />';
 $error = "Error !";
 $edit = "Edit";
-$random_quote = "Random Quotes";
+$random_quote = "Random quotes";
+$random_quote_m = "Random quotes";
 $add_a_quote = "Add your quote";
 $developer="Developer";
 $add_favorite="Add this quote to your favorites !";

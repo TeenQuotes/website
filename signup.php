@@ -93,51 +93,51 @@ elseif ($action == "send")
 				if( $pass1 == $pass2 )
 					{
 					if(strlen($pass1) >= '6')
-					{
-					$pass = sha1(strtoupper($username).':'.strtoupper($pass1));
-					if(strlen($email) >= '6')
-						{          
-						if(preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email))
-							{
-							$test = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_account WHERE email='$email'"));
-							if($test == '0')
+						{
+						$pass = sha1(strtoupper($username).':'.strtoupper($pass1));
+						if(strlen($email) >= '6')
+							{          
+							if(preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email))
 								{
-								$add = mysql_query("INSERT INTO teen_quotes_account (username,pass,email,ip,security_level) values('$username','$pass', '$email', '$ip','0')");
-								if ($newsletter_checkbox == '1')
+								$test = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_account WHERE email='$email'"));
+								if($test == '0')
 									{
-									$query_newsletter =mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");
-									}
-								if ($email_quote_today == '1')
-									{
-									$query = mysql_query("INSERT INTO teen_quotes_settings (param,value) VALUES ('email_quote_today','$email')");
-									}
-								$message = ''.$email_message.'';
-								$mail = mail($email, $email_subject, $message, $headers);
-								if($add)
-									{
-									echo ''.$signup_succes.'';
-									echo '<meta http-equiv="refresh" content="10;url=connexion.php?method=get&pseudo='.$username.'&password='.$pass.'" />';
+									$add = mysql_query("INSERT INTO teen_quotes_account (username,pass,email,ip,security_level) values('$username','$pass', '$email', '$ip','0')");
+									if ($newsletter_checkbox == '1')
+										{
+										$query_newsletter =mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");
+										}
+									if ($email_quote_today == '1')
+										{
+										$query = mysql_query("INSERT INTO teen_quotes_settings (param,value) VALUES ('email_quote_today','$email')");
+										}
+									$message = ''.$email_message.'';
+									$mail = mail($email, $email_subject, $message, $headers);
+									if($add)
+										{
+										echo ''.$signup_succes.'';
+										echo '<meta http-equiv="refresh" content="10;url=connexion.php?method=get&pseudo='.$username.'&password='.$pass.'" />';
+										}
+									else
+										{
+										echo ''.$error.'';
+										}
 									}
 								else
 									{
-									echo ''.$error.'';
-									}
+									echo '<span class="erreur">'.$email_taken.'</span>'.$lien_retour.'';
+									}		
 								}
 							else
 								{
-								echo '<span class="erreur">'.$email_taken.'</span>'.$lien_retour.'';
-								}		
+								echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
+								}
 							}
 						else
 							{
 							echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
 							}
 						}
-					else
-						{
-						echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
-						}
-					}
 					else
 						{
 						echo '<span class="erreur">'.$password_short.'</span>'.$lien_retour.'';

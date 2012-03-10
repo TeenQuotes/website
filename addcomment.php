@@ -62,12 +62,12 @@ if (!empty($id_quote) AND !empty($texte))
 			echo '<h2>'.$error.'</h2>'.$lien_retour.'';
 			}
 		}
-		else
+	else
 		{
 		echo '<span class="erreur">'.$comment_too_long.'</span>';
 		}
 	}
-	else
+else
 	{
 	echo '<span class="erreur">'.$not_complete.'</span>';
 	}

@@ -27,6 +27,7 @@ $lien_retour='<br /><br /><br /><br /><a href="javascript:history.back()">&raquo
 $error = "Erreur !";
 $edit = "Éditer";
 $random_quote = "Citations aléatoires";
+$random_quote_m = "Aléatoire";
 $add_a_quote = "Ajouter une citation";
 $developer="Développeur";
 $add_favorite="Ajouter cette citation à vos favoris !";

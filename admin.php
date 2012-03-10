@@ -1,7 +1,7 @@
 <?php 
 include 'header.php';
 $action = $_GET['action'];
-if ($_SESSION['security_level'] <'2') 
+if ($_SESSION['security_level'] < '2') 
 	{
 	echo '<meta http-equiv="refresh" content="0; url=error.php?erreur=403">';
 	} 
