@@ -168,17 +168,22 @@ else
 
 <div id="wrapper"><!-- START WRAPPER -->
 	<ul class="menu">
-	<li><a href="../">Home</a></li>
-	<li><a href="random">Random</a></li>
-	<li><a href="searchform">Search</a></li>
 	<?php if (!$_SESSION['logged']) { ?>
-	<li><a href="signin">Login</a></li>
-	<li><a href="signup">Sign up</a></li>
-	<?php }else { ?>
-	<li><a href="user-<?php echo $_SESSION['account'] ?>"><?php echo $my_profile; ?></a></li>
-	<li><a href="addquote">Add a quote</a></li>
-	<li><a href="?deconnexion">Log out</a></li>
-	<?php } ?>
+		<li><a href="/"><?php echo $home; ?></a></li>
+		<li><a href="signup?topbar"><?php echo $sign_up; ?></a></li>
+		<li><a href="signin"><?php echo $sign_in; ?></a></li>
+		<li><a href="random"><?php echo $random_quote_m; ?></a></li>
+		<li><a href="newsletter">Newsletter</a></li>
+		<li><a href="signup?addquote"><?php echo $add_a_quote; ?></a></li>
+			<?php } else { ?>
+		<li><a href="/"><?php echo $home; ?></a></li>
+		<li><a href="user-<?php echo $id; ?>"><?php echo $my_profile; ?></a></li>
+		<li><a href="random"><?php echo $random_quote_m; ?></a></li>
+		<?php if($is_newsletter=="0") { ?><li><a href="newsletter">Newsletter</a></li><?php } ?>
+		<li><a href="addquote"><?php echo $add_a_quote; ?></a></li>
+		<li><a href="?deconnexion" title="<?php echo $log_out; ?>"><?php echo $logout; ?></a></li>
+		<?php if($_SESSION['security_level'] >='2') { ?><li><a href="admin">Admin <?php if ($citations_awaiting_approval > '0'){echo '- '.$citations_awaiting_approval.'';} ?></a></li><?php } ?>
+		<?php }	?>
 	</ul>
 
 <div class="clear" style="height:10px"></div>
