@@ -173,12 +173,14 @@ else
 		<li><a href="signup?topbar"><?php echo $sign_up; ?></a></li>
 		<li><a href="signin"><?php echo $sign_in; ?></a></li>
 		<li><a href="random"><?php echo $random_quote_m; ?></a></li>
+		<li><a href="searchform"><?php echo $search; ?></a></li>
 		<li><a href="newsletter">Newsletter</a></li>
 		<li><a href="signup?addquote"><?php echo $add_a_quote; ?></a></li>
 			<?php } else { ?>
 		<li><a href="/"><?php echo $home; ?></a></li>
 		<li><a href="user-<?php echo $id; ?>"><?php echo $my_profile; ?></a></li>
 		<li><a href="random"><?php echo $random_quote_m; ?></a></li>
+		<li><a href="searchform"><?php echo $search; ?></a></li>
 		<?php if($is_newsletter=="0") { ?><li><a href="newsletter">Newsletter</a></li><?php } ?>
 		<li><a href="addquote"><?php echo $add_a_quote; ?></a></li>
 		<li><a href="?deconnexion" title="<?php echo $log_out; ?>"><?php echo $logout; ?></a></li>
