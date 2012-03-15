@@ -1,14 +1,17 @@
 <?php 
 include 'header.php'; 
-include "../lang/$language/quote.php"; 
+include '../lang/'.$language.'/quote.php'; 
 
 $id_quote = nl2br(htmlspecialchars(mysql_escape_string($_POST['id_quote'])));
 $texte = htmlspecialchars(mysql_escape_string($_POST['texte']));
 $username=ucfirst($username);
-$date = date("d/m/Y"); ?>
+$date = date("d/m/Y"); 
+$comments_ucfirst = ucfirst($comments);
+echo '
 <div class="post">
-<h2><img src="http://www.teen-quotes.com/images/icones/about.png" class="icone" /><?php echo ucfirst($comments); ?></h2>
-<?php
+<h2><img src="http://'.$domaine.'/images/icones/about.png" class="icone" />'.$comments_ucfirst.'</h2>
+';
+
 if (!empty($id_quote) AND !empty($texte)) 
 	{
 	if (strlen($texte) <= '450') 
@@ -42,7 +45,7 @@ if (!empty($id_quote) AND !empty($texte))
 			Here is the comment :
 			<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
 			'.$texte_comment.'<br><br />
-			<a href="http://www.teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://www.teen-quotes.com/images/avatar/'.$avatar.'" style="border:2px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br>
+			<a href="http://www.teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br>
 			</div>
 			'.$end_mail.'';
 			
@@ -59,14 +62,16 @@ if (!empty($id_quote) AND !empty($texte))
 			echo '<h2>'.$error.'</h2>'.$lien_retour.'';
 			}
 		}
-		else
+	else
 		{
 		echo '<span class="erreur">'.$comment_too_long.'</span>';
 		}
 	}
-	else
+else
 	{
 	echo '<span class="erreur">'.$not_complete.'</span>';
 	}
+	
 echo '</div>';
-include "footer.php"; ?>
+include "footer.php";
+?>
