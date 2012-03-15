@@ -88,6 +88,48 @@ if (empty($id_quote))
 		
 	if ($nombre_commentaires >= '1')
 		{ // affichage si seulement il y a des commentaires
+		
+		$nombreDeMessagesParPage = 10; 
+		$nombreDePages  = ceil($nombre_commentaires / $nombreDeMessagesParPage);
+		if (isset($_GET['p']))
+			{
+			$page = mysql_real_escape_string($_GET['p']);
+			}
+		else 
+			{
+			$page = 1; 
+			}
+
+		if ($page > $nombreDePages) 
+			{
+			$page = $nombreDePages;
+			}
+
+		$page2 = $page + 1;
+		$page3 = $page - 1;
+
+		if ($page > 1)
+			{
+			echo '<span class="page"><a href="?p='.$page3.'">'.$previous_page.'</a> || ';
+			}
+		if ($page == 1 AND $page < $nombreDePages)
+			{
+			echo '<span class="page">';
+			}
+			
+		if ($page < $nombreDePages)
+			{
+			echo '<a href="?p='.$page2.'">'.$next_page.'</a></span><br>';
+			}
+		else
+			{
+			echo '</span><br>';
+			}
+
+
+		$premierMessageAafficher = ($page - 1) * $nombreDeMessagesParPage;
+		
+		$commentaires = mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='$id_quote' ORDER BY id ASC LIMIT $premierMessageAafficher ,  $nombreDeMessagesParPage");
 		while ($donnees = mysql_fetch_array ($commentaires))
 			{ 
 			$id_auteur=$donnees['auteur_id'];
@@ -101,6 +143,75 @@ if (empty($id_quote))
 			<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" /></a>'; if ($_SESSION['security_level'] >= '2'){echo '<span class="favorite"><a href="admin.php?action=delete_comment&id='.$donnees['id'].'"> <img src="http://'.$domaine.'/images/icones/delete.png" class="mini_icone" /></a></span>';} echo '<span class="right">'.$by.' <a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'">'.$donnees['auteur'].'</a> '.$on.' '.$donnees['date'].'</span><br>
 			</div>';
 			}
+			
+		if ($page > 1)
+			{
+			if ($page >= 5)
+				{
+				echo '<span class="page_bottom_number"><a href="?p=1">1</a></span> <span class="left" style="margin-left:5px;margin-top:-13px">...</span>';
+				for ($num_page = $page-2;$num_page < $page;$num_page++)
+					{
+					echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>'; 
+					}
+				}
+			else 
+				{
+				for ($num_page = '1';$num_page <= $page-1;$num_page++)
+					{
+					echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>'; 
+					}
+				}
+			}
+
+		if ($page <= $nombreDePages-4)
+			{
+			for ($num_page = $page;$num_page <= $page+2;$num_page++)
+				{
+				if ($num_page == $page)
+					{
+					echo '<span class="page_bottom_number_active"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
+					}
+				else
+					{
+					echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
+					}
+				}
+			echo '<span class="left" style="margin-left:5px;margin-top:-13px">...</span>';
+			echo '<span class="page_bottom_number"><a href="?p='.$nombreDePages.'">'.$nombreDePages.'</a></span>';
+			}
+		else
+			{
+			for ($num_page = $page;$num_page <= $nombreDePages;$num_page++)
+				{
+				if ($num_page == $page)
+					{
+					echo '<span class="page_bottom_number_active"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
+					}
+				else
+					{
+					echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
+					}
+				}
+			}
+			
+		if ($page > 1)
+			{
+			echo '<span class="page_bottom"><a href="?p='.$page3.'">'.$previous_page.'</a> || ';
+			}
+		if ($page == 1 AND $page < $nombreDePages)
+			{
+			echo '<span class="page_bottom">';
+			}
+		if ($page < $nombreDePages)
+			{
+			echo '<a href="?p='.$page2.'">'.$next_page.'</a></span><br>';
+			}
+		else
+			{
+			echo '</span><br>';
+			}
+			
+		echo '<div class="clear"></div>';
 		echo '</div>';
 		}
 	else 
