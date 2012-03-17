@@ -40,7 +40,7 @@ echo '<a href="?p='.$page2.'">'.$next_page.'</a></span><br>';
 
 $premierMessageAafficher = ($page - 1) * $nombreDeMessagesParPage;
 
-$reponse = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved='1' ORDER BY RAND() DESC LIMIT $premierMessageAafficher ,  $nombreDeMessagesParPage");
+$reponse = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved='1' ORDER BY RAND() LIMIT $premierMessageAafficher ,  $nombreDeMessagesParPage");
 while ($result = mysql_fetch_array($reponse))
 	{
 	$logged = $_SESSION['logged'];
