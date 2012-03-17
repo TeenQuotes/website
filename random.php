@@ -8,7 +8,7 @@ $retour = mysql_query("SELECT COUNT(*) AS nb_messages FROM teen_quotes_quotes WH
 $donnees = mysql_fetch_array($retour);
 $totalDesMessages = $donnees['nb_messages'];
 
-$nombreDeMessagesParPage = 15; 
+$nombreDeMessagesParPage = 10; 
 $nombreDePages  = ceil($totalDesMessages / $nombreDeMessagesParPage);
 if (isset($_GET['p']))
 	{
@@ -63,6 +63,56 @@ while ($result = mysql_fetch_array($reponse))
 <?php 
 	$i++;
 	} 
+if ($page > 1)
+	{
+	if ($page >= 5)
+		{
+		echo '<span class="page_bottom_number"><a href="?p=1">1</a></span> <span class="left" style="margin-left:5px;margin-top:-13px">...</span>';
+		for ($num_page = $page-2;$num_page < $page;$num_page++)
+			{
+			echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>'; 
+			}
+		}
+	else 
+		{
+		for ($num_page = '1';$num_page <= $page-1;$num_page++)
+			{
+			echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>'; 
+			}
+		}
+	}
+
+if ($page <= $nombreDePages-4)
+	{
+	for ($num_page = $page;$num_page <= $page+2;$num_page++)
+		{
+		if ($num_page == $page)
+			{
+			echo '<span class="page_bottom_number_active"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
+			}
+		else
+			{
+			echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
+			}
+		}
+	echo '<span class="left" style="margin-left:5px;margin-top:-13px">...</span>';
+	echo '<span class="page_bottom_number"><a href="?p='.$nombreDePages.'">'.$nombreDePages.'</a></span>';
+	}
+else
+	{
+	for ($num_page = $page;$num_page <= $nombreDePages;$num_page++)
+		{
+		if ($num_page == $page)
+			{
+			echo '<span class="page_bottom_number_active"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
+			}
+		else
+			{
+			echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
+			}
+		}
+	}
+	
 if ($page > 1)
 	{
 	echo '<span class="page_bottom"><a href="?p='.$page3.'">'.$previous_page.'</a> || ';

@@ -8,7 +8,7 @@ $retour = mysql_query("SELECT COUNT(*) AS nb_messages FROM teen_quotes_quotes WH
 $donnees = mysql_fetch_array($retour);
 $totalDesMessages = $donnees['nb_messages'];
 
-$nombreDeMessagesParPage = 15; 
+$nombreDeMessagesParPage = 10; 
 $nombreDePages  = ceil($totalDesMessages / $nombreDeMessagesParPage);
 if (isset($_GET['p']))
 	{
