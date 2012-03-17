@@ -9,7 +9,7 @@
 		if ($show_pub == '1')
 			{
 			echo '
-			<div class="pub">
+			<div class="pub_footer">
 			<script type="text/javascript"><!--
 			google_ad_client = "ca-pub-8130906994953193";
 			/* Footer - mobile */
