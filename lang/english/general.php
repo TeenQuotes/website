@@ -50,4 +50,7 @@ $view_his_profile = "View his profile";
 $back_home ="Back to home";
 $log_me="Log me";
 $log_out="Log out";
+
+$download_iphone_app = '<div class="download_app"><img src="http://teen-quotes.com/images/icones/download.gif" alt="Icone" class="mini_icone" />You can download the Teen Quotes\'s application for your iPhone / iTouch <a href="#">here</a>.</div>';
+$download_android_app = '<div class="download_app"><img src="http://teen-quotes.com/images/icones/download.gif" alt="Icone" class="mini_icone" />You can download the Teen Quotes\'s application for your Android <a href="#">here</a>.</div>';
 ?>

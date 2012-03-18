@@ -189,3 +189,17 @@ else
 	</ul>
 
 <div class="clear" style="height:10px"></div>
+
+<?php
+if ($download_app == TRUE)
+	{
+	if (mb_eregi('ipod',$user_agent) OR mb_eregi('iphone',$user_agent))
+		{
+		echo ''.$download_iphone_app.'';
+		}
+	elseif (mb_eregi('android',$user_agent))
+		{
+		echo ''.$download_android_app.'';
+		}
+	}
+?>

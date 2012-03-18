@@ -1,5 +1,6 @@
 <?php
 $domaine = $_SERVER['HTTP_HOST'];
+$user_agent = $_SERVER['HTTP_USER_AGENT'];
 switch ($domaine)
 	{
 	case "fr.teen-quotes.com" :

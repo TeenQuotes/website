@@ -62,7 +62,7 @@ input.signup{width:230px;}
 #footer a{font-weight:400;}
 .error{color:#246;display:block;font-weight:700;margin:10px auto 15px auto;vertical-align:middle}
 .erreur{background:transparent url('http://www.teen-quotes.com/images/icones/alert.png') no-repeat 2% 50%;color:#5C9FC0;font-weight:600;padding-left:30px;}
-.erreur_addquote{margin:5px 0px;background:#fff9d7;border: 1px solid #e2c822;padding:5px;color:#333;font-family:Helvetica;font-size:11px}
+.erreur_addquote,.download_app{margin:5px 0px;background:#fff9d7;border: 1px solid #e2c822;padding:5px;color:#333;font-family:Helvetica;font-size:11px}
 .grey_post {background:#f5f5f5;border:1px solid #e5e5e5;padding:5px 10px;margin:0 auto 15px;color:#666;font-size:12px;font-weight:300;}
 .grey_line{border-bottom:2px solid #F0F0F0;margin:5px 10px}
 .favorite {opacity:0.5;margin-left:10px}
