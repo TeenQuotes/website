@@ -27,7 +27,7 @@ elseif ($action == "add_quote")
 	';
 	
 	$texte_quote= ucfirst(htmlspecialchars(mysql_escape_string($_POST['texte_quote'])));
-	$texte_quote=str_replace(array("\r", "\n"), array('',''), $texte_quote);
+	$texte_quote = str_replace(array("\r", "\n"," dont "," im "," Im ",'´', " cant "), array('','',' don\'t ',' I\'m ',' I\'m ','\'','can\'t'), $texte_quote);
 	$date = date("d/m/Y");
 	$texte_quote=stripslashes($texte_quote);
 
