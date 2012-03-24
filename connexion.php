@@ -12,8 +12,7 @@ if ($method == 'get')
 	$pseudo = htmlspecialchars($_GET['pseudo']);
 	$password = htmlspecialchars($_GET['password']);
 	}
-	
-	
+
 if (isset($_POST['connexion']) OR $method == 'get')
 	{
 	if (!empty($pseudo) and !empty($password))
