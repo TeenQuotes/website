@@ -114,6 +114,13 @@ elseif (isset($_GET['letter']) OR $php_self == "members")
 	echo '<title>Teen Quotes | Members - '.$lettre.'</title>';
 	echo '<meta name="description" content="Teen Quotes : because our lives are filled full of beautiful sentences, and because some quotes are simply true"/>';
 	}
+elseif ($php_self == 'apps')
+	{
+	include 'lang/'.$language.'/apps.php';
+	echo '<title>Teen Quotes | '.$applications.'</title>';
+	echo "\r\n";
+	echo '<meta name="description" content="Teen Quotes : download our application for iOS and Android."/>';
+	}
 else 
 	{
 	echo '<title>Teen Quotes | Because some quotes are simply true</title>';
