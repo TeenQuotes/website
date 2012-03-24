@@ -534,6 +534,8 @@ function email_birthday()
 	
 	$date_today = date("d/m");
 	$date_today .= '/%';
+	$i = '0';
+	$txt_file = 'Birthdays on '.$today.'\r\n\n';
 	
 	$query = mysql_query("SELECT username, email, birth_date FROM teen_quotes_account WHERE birth_date LIKE '$date_today'");
 	if (mysql_num_rows($query) >= '1')
@@ -546,7 +548,16 @@ function email_birthday()
 			$email_subject = 'Happy birthday !';
 			$email_message = ''.$top_mail.' Hello '.$username.',<br><br />Wow, '.$age.' years old, that\'s great ! All the team want to wish you a happy birthday ! We hope that you will have a great day :) '.$end_mail.'';
 			$mail = mail($email_user, $email_subject, $email_message, $headers);
+			if ($mail)
+				{
+				$i++;
+				$txt_file .= '#'.$i.' : '.$username.' - '.$age.'\r';
+				}
 			}
+		$monfichier = fopen('../files/birthdays.txt', 'r+'); // Ouverture du fichier
+		fseek($monfichier, 0); // On remet le curseur au début du fichier
+		fputs($monfichier, $txt_file); // On écrit le nouveau nombre de pages vues
+		fclose($monfichier);
 		}
 	}
 
@@ -857,7 +868,8 @@ function MailPostedToday($id_quote)
 			$email_txt.= '</div>';
 			}
 			
-		$today = date("d/m/Y"); 
+		$today = date("d/m/Y");
+		$nb_email_send = '0';
 		$search_email = mysql_query("SELECT value FROM teen_quotes_settings WHERE param = 'email_quote_today'");
 		
 		while ($donnees = mysql_fetch_array($search_email))
@@ -866,7 +878,15 @@ function MailPostedToday($id_quote)
 			$message = ''.$top_mail.$query_txt.'Here are the quotes posted today ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
 			$message .= '<br /><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsuscribe, please follow <a href="http://www.teen-quotes.com/newsletter.php?action=unsuscribe_everyday&email='.$email.'" target="_blank"> this link</a></span>';
 			$mail = mail($email, 'Quotes posted today - '.$today.'', $message, $headers);
+			if ($mail)
+				{
+				$nb_email_send++;
+				}
 			}
+		$monfichier = fopen('../files/compteur_email_quotidien.txt', 'r+'); // Ouverture du fichier
+		fseek($monfichier, 0); // On remet le curseur au début du fichier
+		fputs($monfichier, ''.$today.' : '.$nb_email_send.''); // On écrit le nouveau nombre de pages vues
+		fclose($monfichier);
 		}
 	}
 
