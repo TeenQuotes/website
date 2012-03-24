@@ -60,7 +60,7 @@ while ($result = mysql_fetch_array($reponse))
 	</div>
 	</div>
 <?php
-	if ($i=='20' && $show_pub == '1')
+	if ($i=='4' && $show_pub == '1')
 		{
 		echo 
 		'<div class="pub_middle">
