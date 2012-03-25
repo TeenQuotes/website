@@ -154,6 +154,7 @@ elseif ($action=="send")
 				$query = mysql_query("UPDATE teen_quotes_account set title='$title', birth_date='$birth_date', country='$country', city='$city', about_me='$about_me', hide_profile='$hide_profile' WHERE id='$id'");
 				if ($query) 
 					{
+					unset($_SESSION['profile_not_fullfilled']);
 					echo ''.$edit_succes.'';
 					}
 				else 

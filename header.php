@@ -32,54 +32,55 @@ require 'lang/'.$language.'/general.php';
 
 
 if (!$_SESSION['logged'])
-{
-	$_SESSION['logged'] = false;
-}else{$post = mysql_real_escape_string($_SESSION['username']);}
+	{
+	$_SESSION['logged'] = FALSE;
+	}
+else
+	{
+	$post = mysql_real_escape_string($_SESSION['username']);
+	}
 
-if ($_COOKIE['Pseudo'] AND $_COOKIE['Pass']){
-$pseudo = mysql_escape_string($_COOKIE['Pseudo']);
-$pass = mysql_escape_string($_COOKIE['Pass']);
-		$retour_nb_pseudo = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE `username` ='$pseudo'"));
-		
-		if ($retour_nb_pseudo == '1')
-		{
-			$compte = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account WHERE `username` = '$pseudo'"));				
-			{	
-				$sha = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE `pass` = '$pass' AND `username` = '$pseudo'"));
-				if ($sha == '1')
+if (isset($_COOKIE['Pseudo']) AND isset($_COOKIE['Pass']))
+	{
+	$pseudo = mysql_escape_string($_COOKIE['Pseudo']);
+	$pass = mysql_escape_string($_COOKIE['Pass']);
+	$query_base = mysql_query("SELECT * FROM teen_quotes_account WHERE `username` ='$pseudo'");
+	
+	$retour_nb_pseudo = mysql_num_rows($query_base);
+	if ($retour_nb_pseudo == '1')
+		{				
+		$sha = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE `pass` = '$pass' AND `username` = '$pseudo'"));
+		if ($sha == '1')
+			{
+			$compte = mysql_fetch_array($query_base);
+			
+			$_SESSION['logged'] = true;
+			$_SESSION['account'] = $compte['id'];										
+			$_SESSION['pseudo'] = $pseudo;
+			$_SESSION['security_level'] = $compte['security_level'];									
+			$_SESSION['username'] = $compte['username'];
+			
+			$username = $_SESSION['username'];
+			$id = $_SESSION['account'];
+			$email = $compte['email'];
+			$last_visit = $compte['last_visit'];
+			$session_last_visit = $_SESSION['last_visit_user'];
+			$notification_comment_quote = $compte['notification_comment_quote'];
+			$is_newsletter=mysql_num_rows(mysql_query("SELECT id FROM newsletter where email='$email'"));
+				
+			last_visit($session_last_visit,$last_visit,$id);
+				
+			if (empty($compte['birth_date']) AND empty($compte['title']) AND empty($compte['country']) AND empty($compte['about_me']) AND $compte['avatar']=="icon50.png" AND empty($compte['city']))
 				{
-					
-					$_SESSION['logged'] = true;
-					$_SESSION['account'] = $compte['id'];										
-					$_SESSION['pseudo'] = $pseudo;
-					$_SESSION['security_level'] = $compte['security_level'];									
-					$_SESSION['username'] = $compte['username'];
-					
-					$username = $_SESSION['username'];
-					$id = $_SESSION['account'];
-					$email = $compte['email'];
-					$last_visit = $compte['last_visit'];
-					$session_last_visit = $_SESSION['last_visit_user'];
-					$notification_comment_quote = $compte['notification_comment_quote'];
-					$is_newsletter=mysql_num_rows(mysql_query("SELECT id FROM newsletter where email='$email'"));
-					
-					last_visit($session_last_visit,$last_visit,$id);
-					
-					if (empty($compte['birth_date']) AND empty($compte['title']) AND empty($compte['country']) AND empty($compte['about_me']) AND $compte['avatar']=="icon50.png" AND empty($compte['city']))
-						{
-						$profile_not_fullfilled = TRUE;
-						}
-					
+				$_SESSION['profile_not_fullfilled'] = TRUE;
 				}
 			}
 		}
-
-
-;}
+	}
 else
-{
-$_SESSION['logged'] = false;
-}
+	{
+	$_SESSION['logged'] = FALSE;
+	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -220,7 +221,7 @@ else
 </div><!-- END MENU -->
 
 <?php 
-if($profile_not_fullfilled == TRUE AND $_SERVER['PHP_SELF']=='/index.php')
+if($_SESSION['profile_not_fullfilled'] == TRUE AND $_SERVER['PHP_SELF'] =='/index.php')
 	{
 	echo ''.$profite_not_yet_fulffiled.'';
 	}
