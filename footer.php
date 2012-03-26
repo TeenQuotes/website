@@ -94,9 +94,6 @@
 		<div id="footer">
 			Teen Quotes &copy; <?php echo date("Y"); ?> | Kotado : <a href="http://kotado.fr/" title="Kotado" target="_blank">kotado.fr</a>
 			<span class="right">
-				<?php if($language=='french') {?>
-				<a href="http://www.teen-quotes.com/project/">Présentation du projet</a> |
-				<?php } ?>
 				<a href="http://m.teen-quotes.com/<?php echo $php_self; ?>"><?php echo $mobile_website; ?></a> |
 				<a href="contact">Contact</a> |
 				<a href="legalterms"><?php echo $legal_terms; ?></a>
