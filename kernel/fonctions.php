@@ -535,7 +535,7 @@ function email_birthday()
 	$date_today = date("d/m");
 	$date_today .= '/%';
 	$i = '0';
-	$txt_file = 'Birthdays on '.$today.'\r\n\n';
+	$txt_file = 'Birthdays on '.$date_today.'\r\n\n';
 	
 	$query = mysql_query("SELECT username, email, birth_date FROM teen_quotes_account WHERE birth_date LIKE '$date_today'");
 	if (mysql_num_rows($query) >= '1')
@@ -1092,10 +1092,12 @@ function RelativeTime_en($time) {
 }
 
 // MOBILE
-if (isset($_GET['mobile'])) {
-setcookie("mobile", 1 , time() + (((3600*24)*30)*12));
-}
-			
+if (isset($_GET['mobile'])) 
+	{
+	$domaine = 'teen-quotes.com';
+	setcookie("mobile", 1 , time() + (((3600*24)*30)*12), null, '.'.$domaine.'', false, true);
+	}
+
 function mobile_device_detect($iphone=true,$android=true,$opera=true,$blackberry=true,$palm=true,$windows=true,$mobileredirect=true,$desktopredirect=false){
 
   $mobile_browser   = false; // set mobile browser as false till we can prove otherwise
