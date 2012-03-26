@@ -1,9 +1,10 @@
 <?php 
 $add_quote = "Add a quote";
 $add_consignes = "<li>Your quotation should be relatively short.</li>
-<li>Your quotation must be in English</li>
-<li>Your quote does not include spelling mistakes</li>
-<li>Thank you to respect the syntax: capital letters, commas, spaces...</li>
+<li>Your quotation must be in english.</li>
+<li>Your quote does not already exist on the website.</li>
+<li>Your quote does not include spelling mistakes.</li>
+<li>You have to respect the syntax : capital letters, commas, spaces...</li>
 <br />
 <img src=\"http://teen-quotes.com/images/icones/infos.png\" class=\"mini_icone\"/>Your quotation will then be approved or rejected by our team, you will be informed by email.<br><br />";
 $enter_quote = "Enter your quote";
