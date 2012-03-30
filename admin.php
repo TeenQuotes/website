@@ -162,7 +162,7 @@ elseif ($action == "rate")
 		if ($approve_quote) 
 			{
 			echo ''.$succes.' The author has been notified successfully !';
-			echo '<meta http-equiv="refresh" content="1;url=admin" />';
+			echo '<meta http-equiv="refresh" content="0;url=admin" />';
 			}
 		}
 	else
@@ -289,7 +289,7 @@ elseif ($action == "edit_quote")
 
 	if ($update_quote)
 		{
-		echo '<meta http-equiv="refresh" content="1;url=admin.php?action=rate&id='.$id_quote.'&approve=yes&auteur='.$id_auteur.'&edit=yes" />';
+		echo '<meta http-equiv="refresh" content="0;url=admin.php?action=rate&id='.$id_quote.'&approve=yes&auteur='.$id_auteur.'&edit=yes" />';
 		}
 		
 	}
