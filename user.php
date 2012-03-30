@@ -257,19 +257,8 @@ else
 				<?php 
 				$i++;
 				}
-				if ($page_fav > 1)
-					{
-					echo '<span class="page_bottom page_user_margin"><a href="?page_fav='.$page_fav3.'#fav_quotes">'.$previous_page.'</a> ||  ';
-					}
-				if ($page_fav == 1 AND $page_fav < $nombreDePages_fav)
-					{
-					echo '<span class="page_bottom page_user_margin">';
-					} 
-				if($page_fav < $nombreDePages_fav)
-					{
-					echo '<a href="?page_fav='.$page_fav2.'#fav_quotes">'.$next_page.'</a>';
-					}
-			echo '</span><br>';
+				
+				display_page_bottom($page_fav, $nombreDePages_fav, 'page_fav', '#fav_quotes', $previous_page, $next_page);
 				
 			echo '</div>';
 			}
@@ -356,19 +345,8 @@ else
 				<?php
 				$j++;
 				}
-			if ($page_user > 1)
-				{
-				echo '<span class="page_bottom page_user_margin"><a href="?page_user='.$page_user3.'#user_quotes">'.$previous_page.'</a> || ';
-				}
-			if ($page_user == 1 AND $page_user < $nombreDePages)
-				{
-				echo '<span class="page_bottom page_user_margin">';
-				}  
-			if($page_user < $nombreDePages) 
-				{
-				echo '<a href="?page_user='.$page_user2.'#user_quotes">'.$next_page.'</a>';
-				}
-			echo '</span><br>';
+				
+				display_page_bottom($page_user, $nombreDePages, 'page_user', '#user_quotes', $previous_page, $next_page);
 				
 			echo '</div>';
 			}
