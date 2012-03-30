@@ -143,6 +143,7 @@ else
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		
 		<link type="text/css" rel="stylesheet" media="screen" href="http://<?php echo $domaine; ?>/style.css" /> 
+		<link rel="stylesheet" type="text/css" media="screen" href="http://<?php echo $domaine; ?>/uniform/uniform.css" />
 		<!--[if IE]><style>.submit:hover{color:#000!important}</style><![endif]--> 
 		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domaine; ?>/images/favicon.gif" /> 
 		<link rel="image_src" href="http://<?php echo $domaine; ?>/images/icon50.png" /> 
@@ -150,6 +151,7 @@ else
 		
 
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="http://<?php echo $domaine; ?>/uniform/uniform.js" type="text/javascript"></script>
 		<script type="text/javascript" src="http://teen-quotes.com/scrypt.js"></script>
 		
 		<?php
