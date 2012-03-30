@@ -186,6 +186,30 @@ function deconnexion()
 	
 <?php 
 	}
+	
+if(isset($_GET['hide_download_app'])) 
+	{
+	$_SESSION['hide_download_app'] = TRUE;
+	?>
+	<script language="JavaScript">
+	<!--
+	window.location.href="../"
+	//-->
+	</script>
+	<?php
+	}
+	
+if(isset($_GET['show_download_app'])) 
+	{
+	$_SESSION['hide_download_app'] = FALSE;
+	?>
+	<script language="JavaScript">
+	<!--
+	window.location.href="../"
+	//-->
+	</script>
+	<?php
+	}
 
 function caracteresAleatoires($nombreDeCaracteres)
 	{

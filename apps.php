@@ -6,7 +6,18 @@ echo '
 <div class="post">
 	<h1><img src="http://'.$domaine.'/images/icones/mobile.png" class="icone" />'.$applications.'</h1>
 	<div class="grey_post">
-	'.$text_applications.'
+	'.$text_applications.'';
+	
+	if ($link_app_iphone == '#')
+		{
+		echo ''.$app_iphone_not_available.'';
+		}
+	if ($link_app_android == '#')
+		{
+		echo ''.$app_android_not_available.'';
+		}
+		
+	echo '
 	</div>
 	
 	<div class="img_apps left">

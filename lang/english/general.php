@@ -51,6 +51,6 @@ $back_home ="Back to home";
 $log_me="Log me";
 $log_out="Log out";
 
-$download_iphone_app = '<div class="download_app"><img src="http://teen-quotes.com/images/icones/download.gif" alt="Icone" class="mini_icone" />You can download the Teen Quotes\'s application for your iPhone / iTouch <a href="'.$link_app_iphone.'">here</a>.</div>';
-$download_android_app = '<div class="download_app"><img src="http://teen-quotes.com/images/icones/download.gif" alt="Icone" class="mini_icone" />You can download the Teen Quotes\'s application for your Android <a href="'.$link_app_android.'">here</a>.</div>';
+$download_iphone_app = '<div class="download_app"><img src="http://teen-quotes.com/images/icones/download.gif" alt="Icone" class="mini_icone" />You can download the Teen Quotes\'s application for your iPhone / iTouch <a href="'.$link_app_iphone.'">here</a>.<span class="right"><a href="?hide_download_app">Close</a></span></div>';
+$download_android_app = '<div class="download_app"><img src="http://teen-quotes.com/images/icones/download.gif" alt="Icone" class="mini_icone" />You can download the Teen Quotes\'s application for your Android <a href="'.$link_app_android.'">here</a>.<span class="right"><a href="?hide_download_app">Close</a></span></div>';
 ?>
