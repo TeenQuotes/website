@@ -196,11 +196,11 @@ else
 <?php
 if ($download_app == TRUE OR $_SESSION['security_level'] > '0')
 	{
-	if (((mb_eregi('ipod',$user_agent) OR mb_eregi('iphone',$user_agent)) AND $link_app_iphone != '#' AND $_SESSION['hide_download_app'] != TRUE) OR ($_SESSION['security_level'] > '0' AND $_SESSION['hide_download_app'] != TRUE))
+	if (((mb_eregi('ipod',$user_agent) OR mb_eregi('iphone',$user_agent)) AND $link_app_iphone != '#' AND $_SESSION['hide_download_app'] != TRUE) OR ((mb_eregi('ipod',$user_agent) OR mb_eregi('iphone',$user_agent)) AND $_SESSION['security_level'] > '0' AND $_SESSION['hide_download_app'] != TRUE))
 		{
 		echo ''.$download_iphone_app.'';
 		}
-	elseif ((mb_eregi('android',$user_agent) AND $link_app_android != '#' AND $_SESSION['hide_download_app'] != TRUE) OR ($_SESSION['security_level'] > '0' AND $_SESSION['hide_download_app'] != TRUE))
+	elseif ((mb_eregi('android',$user_agent) AND $link_app_android != '#' AND $_SESSION['hide_download_app'] != TRUE) OR (mb_eregi('android',$user_agent) AND $_SESSION['security_level'] > '0' AND $_SESSION['hide_download_app'] != TRUE))
 		{
 		echo ''.$download_android_app.'';
 		}
