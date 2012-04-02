@@ -4,43 +4,15 @@ include "header.php";
 $i = '0';
 
 $retour = mysql_query("SELECT COUNT(*) AS nb_messages FROM teen_quotes_quotes WHERE approved='1'");
-
 $donnees = mysql_fetch_array($retour);
-$totalDesMessages = $donnees['nb_messages'];
+$nb_messages_par_page = '10';
 
-$nombreDeMessagesParPage = 10; 
-$nombreDePages  = ceil($totalDesMessages / $nombreDeMessagesParPage);
-if (isset($_GET['p']))
-	{
-    $page = mysql_real_escape_string($_GET['p']);
-	}
-else 
-	{
-    $page = 1; 
-	}
+$display_page_top = display_page_top($donnees['nb_messages'], $nb_messages_par_page, 'p', $previous_page, $next_page);
+$premierMessageAafficher = $display_page_top[0];
+$nombreDePages = $display_page_top[1];
+$page = $display_page_top[2];
 
-if ($page > $nombreDePages) 
-	{
-	$page = $nombreDePages;
-	}
-
-$page2 = $page + 1;
-$page3 = $page - 1;
-
-if ($page > 1)
-	{
-	echo '<span class="page"><a href="?p='.$page3.'">'.$previous_page.'</a> || ';
-	}
-if ($page == 1)
-	{
-	echo '<span class="page">';
-	}
-echo '<a href="?p='.$page2.'">'.$next_page.'</a></span><br>';
-
-
-$premierMessageAafficher = ($page - 1) * $nombreDeMessagesParPage;
-
-$reponse = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved='1' ORDER BY RAND() LIMIT $premierMessageAafficher ,  $nombreDeMessagesParPage");
+$reponse = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved='1' ORDER BY RAND() LIMIT $premierMessageAafficher ,  $nb_messages_par_page");
 while ($result = mysql_fetch_array($reponse))
 	{
 	$logged = $_SESSION['logged'];
@@ -78,66 +50,9 @@ while ($result = mysql_fetch_array($reponse))
 		</div>';
 		}
 	$i++;
-	} 
-if ($page > 1)
-	{
-	if ($page >= 4)
-		{
-		echo '<span class="page_bottom_number"><a href="?p=1">1</a></span> <span class="left" style="margin-left:5px;margin-top:-16px">..</span>';
-		for ($num_page = $page-1;$num_page < $page;$num_page++)
-			{
-			echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>'; 
-			}
-		}
-	else 
-		{
-		for ($num_page = '1';$num_page <= $page-1;$num_page++)
-			{
-			echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>'; 
-			}
-		}
-	}
-
-if ($page <= $nombreDePages-3)
-	{
-	for ($num_page = $page;$num_page <= $page+1;$num_page++)
-		{
-		if ($num_page == $page)
-			{
-			echo '<span class="page_bottom_number_active"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
-			}
-		else
-			{
-			echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
-			}
-		}
-	echo '<span class="left" style="margin-left:5px;margin-top:-16px">..</span>';
-	echo '<span class="page_bottom_number"><a href="?p='.$nombreDePages.'">'.$nombreDePages.'</a></span>';
-	}
-else
-	{
-	for ($num_page = $page;$num_page <= $nombreDePages;$num_page++)
-		{
-		if ($num_page == $page)
-			{
-			echo '<span class="page_bottom_number_active"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
-			}
-		else
-			{
-			echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
-			}
-		}
 	}
 	
-if ($page > 1)
-	{
-	echo '<span class="page_bottom"><a href="?p='.$page3.'">'.$previous_page.'</a> || ';
-	}
-if ($page == 1)
-	{
-	echo '<span class="page_bottom">';
-	}
-echo '<a href="?p='.$page2.'">'.$next_page.'</a></span><br>';
+display_page_bottom($page, $nombreDePages, 'p', NULL, $previous_page, $next_page);
 
 
 include "footer.php"; 

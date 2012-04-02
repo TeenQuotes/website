@@ -23,38 +23,12 @@ $totalDesMembres = $donnees['nb_membre'];
 
 if ($totalDesMembres > 0) 
 	{
-	$nombreDeMembresParPage = 10; 
-	$nombreDePages  = ceil($totalDesMembres / $nombreDeMembresParPage);
-	if (isset($_GET['p']))
-	{
-			$page = mysql_real_escape_string($_GET['p']);
-	}
-	else 
-	{
-			$page = 1; 
-	}
+	$nb_messages_par_page = '10';
 
-	if ($page > $nombreDePages) {$page=$nombreDePages;}
-
-	$page2 = $page + 1;
-	$page3 = $page - 1;
-	
-	if ($page > 1)
-		{
-		echo '<span class="page"><a href="?p='.$page3.'">'.$previous_page.'</a> ||  ';
-		}
-	if ($page == 1 AND $page < $nombreDePages)
-		{
-		echo '<span class="page">';
-		}   
-	if($page < $nombreDePages) 
-		{
-		echo '<a href="?p='.$page2.'">'.$next_page.'</a>';
-		}
-	echo "</span><br>";
-
-
-	$premierMessageAafficher = ($page - 1) * $nombreDeMembresParPage;
+	$display_page_top = display_page_top($totalDesMembres, $nb_messages_par_page, 'p', $previous_page, $next_page);
+	$premierMessageAafficher = $display_page_top[0];
+	$nombreDePages = $display_page_top[1];
+	$page = $display_page_top[2];
 	
 	if ($totalDesMembres > '10') 
 		{
@@ -65,7 +39,7 @@ if ($totalDesMembres > 0)
 		echo '<div class="post">';
 		}
 
-	$reponse = mysql_query("SELECT * FROM teen_quotes_account WHERE username like '$lettre%' AND hide_profile = '0' ORDER BY username ASC LIMIT $premierMessageAafficher ,  $nombreDeMembresParPage");
+	$reponse = mysql_query("SELECT * FROM teen_quotes_account WHERE username like '$lettre%' AND hide_profile = '0' ORDER BY username ASC LIMIT $premierMessageAafficher ,  $nb_messages_par_page");
 	while ($result = mysql_fetch_array($reponse))
 	{
 	$id_user = $result['id'];
@@ -117,19 +91,7 @@ if ($totalDesMembres > 0)
 	}  // END WHILE
 	echo '</div>';
 	
-	if ($page > 1)
-		{
-		echo '<span class="page_bottom"><a href="?p='.$page3.'">'.$previous_page.'</a> ||  ';
-		}
-	if ($page == 1 AND $page < $nombreDePages)
-		{
-		echo '<span class="page_bottom">';
-		}   
-	if($page < $nombreDePages) 
-		{
-		echo '<a href="?p='.$page2.'">'.$next_page.'</a>';
-		}
-	echo "</span><br>";
+	display_page_bottom($page, $nombreDePages, 'p', NULL, $previous_page, $next_page);
  
 	}
 	else

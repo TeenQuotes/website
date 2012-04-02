@@ -12,7 +12,7 @@ if ($exist_quote=='0')
 $nombre_commentaires= mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='$id_quote'"));
 $commentaires = mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='$id_quote' ORDER BY id ASC");
 $is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='$id_quote' AND id_user='$id'"));
-$logged= htmlspecialchars($_SESSION['logged']);
+$logged = htmlspecialchars($_SESSION['logged']);
 // SI PAS D'ID DONNE
 if (empty($id_quote)) 
 	{
@@ -88,48 +88,14 @@ if (empty($id_quote))
 		
 	if ($nombre_commentaires >= '1')
 		{ // affichage si seulement il y a des commentaires
+		$nb_messages_par_page = '10';
+
+		$display_page_top = display_page_top($nombre_commentaires, $nb_messages_par_page, 'p', $previous_page, $next_page);
+		$premierMessageAafficher = $display_page_top[0];
+		$nombreDePages = $display_page_top[1];
+		$page = $display_page_top[2];
 		
-		$nombreDeMessagesParPage = 10; 
-		$nombreDePages  = ceil($nombre_commentaires / $nombreDeMessagesParPage);
-		if (isset($_GET['p']))
-			{
-			$page = mysql_real_escape_string($_GET['p']);
-			}
-		else 
-			{
-			$page = 1; 
-			}
-
-		if ($page > $nombreDePages) 
-			{
-			$page = $nombreDePages;
-			}
-
-		$page2 = $page + 1;
-		$page3 = $page - 1;
-
-		if ($page > 1)
-			{
-			echo '<span class="page"><a href="?p='.$page3.'">'.$previous_page.'</a> || ';
-			}
-		if ($page == 1 AND $page < $nombreDePages)
-			{
-			echo '<span class="page">';
-			}
-			
-		if ($page < $nombreDePages)
-			{
-			echo '<a href="?p='.$page2.'">'.$next_page.'</a></span><br>';
-			}
-		else
-			{
-			echo '</span><br>';
-			}
-
-
-		$premierMessageAafficher = ($page - 1) * $nombreDeMessagesParPage;
-		
-		$commentaires = mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='$id_quote' ORDER BY id ASC LIMIT $premierMessageAafficher ,  $nombreDeMessagesParPage");
+		$commentaires = mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='$id_quote' ORDER BY id ASC LIMIT $premierMessageAafficher ,  $nb_messages_par_page");
 		while ($donnees = mysql_fetch_array ($commentaires))
 			{ 
 			$id_auteur=$donnees['auteur_id'];
@@ -144,72 +110,7 @@ if (empty($id_quote))
 			</div>';
 			}
 			
-		if ($page > 1)
-			{
-			if ($page >= 5)
-				{
-				echo '<span class="page_bottom_number"><a href="?p=1">1</a></span> <span class="left" style="margin-left:5px;margin-top:-13px">...</span>';
-				for ($num_page = $page-2;$num_page < $page;$num_page++)
-					{
-					echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>'; 
-					}
-				}
-			else 
-				{
-				for ($num_page = '1';$num_page <= $page-1;$num_page++)
-					{
-					echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>'; 
-					}
-				}
-			}
-
-		if ($page <= $nombreDePages-4)
-			{
-			for ($num_page = $page;$num_page <= $page+2;$num_page++)
-				{
-				if ($num_page == $page)
-					{
-					echo '<span class="page_bottom_number_active"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
-					}
-				else
-					{
-					echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
-					}
-				}
-			echo '<span class="left" style="margin-left:5px;margin-top:-13px">...</span>';
-			echo '<span class="page_bottom_number"><a href="?p='.$nombreDePages.'">'.$nombreDePages.'</a></span>';
-			}
-		else
-			{
-			for ($num_page = $page;$num_page <= $nombreDePages;$num_page++)
-				{
-				if ($num_page == $page)
-					{
-					echo '<span class="page_bottom_number_active"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
-					}
-				else
-					{
-					echo '<span class="page_bottom_number"><a href="?p='.$num_page.'">'.$num_page.'</a></span>';
-					}
-				}
-			}
-			
-		if ($page > 1)
-			{
-			echo '<span class="page_bottom"><a href="?p='.$page3.'">'.$previous_page.'</a> || ';
-			}
-		if ($page == 1 AND $page < $nombreDePages)
-			{
-			echo '<span class="page_bottom">';
-			}
-		if ($page < $nombreDePages)
-			{
-			echo '<a href="?p='.$page2.'">'.$next_page.'</a></span><br>';
-			}
-		else
-			{
-			echo '</span><br>';
-			}
+		display_page_bottom($page, $nombreDePages, 'p', NULL, $previous_page, $next_page);
 			
 		echo '<div class="clear"></div>';
 		echo '</div>';

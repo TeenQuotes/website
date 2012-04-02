@@ -78,6 +78,14 @@ else
 		
 	if ($nombre_commentaires >= '1')
 		{ // affichage si seulement il y a des commentaires
+		$nb_messages_par_page = '10';
+
+		$display_page_top = display_page_top($nombre_commentaires, $nb_messages_par_page, 'p', $previous_page, $next_page);
+		$premierMessageAafficher = $display_page_top[0];
+		$nombreDePages = $display_page_top[1];
+		$page = $display_page_top[2];
+		
+		$commentaires = mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='$id_quote' ORDER BY id ASC LIMIT $premierMessageAafficher ,  $nb_messages_par_page");
 		while ($donnees = mysql_fetch_array ($commentaires))
 			{ 
 			$id_auteur=$donnees['auteur_id'];
@@ -91,6 +99,10 @@ else
 			<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" /></a>'; if ($_SESSION['security_level'] >= '2'){echo '<span class="favorite"><a href="admin.php?action=delete_comment&id='.$donnees['id'].'"> <img src="http://'.$domaine.'/images/icones/delete.png" class="mini_icone" /></a></span>';} echo '<span class="right">'.$by.' <a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'">'.$donnees['auteur'].'</a> '.$on.' '.$donnees['date'].'</span><br>
 			</div>';
 			}
+			
+		display_page_bottom($page, $nombreDePages, 'p', NULL, $previous_page, $next_page);
+			
+		echo '<div class="clear"></div>';
 		echo '</div>';
 		}
 	else 
