@@ -102,8 +102,7 @@
 
 		<?php mysql_close(); ?>
 		
-			<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-			<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 			<?php 
 			if ($php_self=="search")
 				{
