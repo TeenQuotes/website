@@ -189,7 +189,7 @@ else
 <div id="topbar">
 	<a href="../" class="menu"><img src="http://<?php echo $domaine; ?>/images/logo.png" alt="logo" /></a>
 		<div class="follow">
-		<a href="http://twitter.com/ohteenquotes" class="twitter-follow-button" data-show-count="false" data-lang="fr">Follow @ohteenquotes</a>
+		<a href="http://twitter.com/ohteenquotes" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @ohteenquotes</a>
 		<div class="clear"></div>
 		<iframe src="http://www.facebook.com/plugins/like.php?locale=en_US&amp;app_id=211130238926911&amp;href=http%3A%2F%2Fwww.facebook.com%2Fohteenquotes&amp;send=false&amp;layout=button_count&amp;width=20&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=segoe+ui&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
 		</div>
