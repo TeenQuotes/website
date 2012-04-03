@@ -137,43 +137,14 @@ else
 		
 		if($nb_favorite_quotes >= '1')
 			{
-			$totalDesMessages = $nb_favorite_quotes;
+			$nb_messages_par_page = 5;
 
-			$nombreDeMessagesParPage = 5; 
-			$nombreDePages_fav  = ceil($totalDesMessages / $nombreDeMessagesParPage);
-			if (isset($_GET['page_fav']))
-			{
-					$page_fav = mysql_real_escape_string($_GET['page_fav']);
-			}
-			else 
-			{
-					$page_fav = 1; 
-			}
-
-			if ($page_fav > $nombreDePages_fav) 
-			{
-			$page_fav = $nombreDePages_fav;
-			}
-
-			$page_fav2 = $page_fav + 1;
-			$page_fav3 = $page_fav - 1;
-			if ($page_fav > 1)
-				{
-				echo '<span class="page page_grey"><a href="?page_fav='.$page_fav3.'#fav_quotes">'.$previous_page.'</a> ||  ';
-				}
-			if ($page_fav == 1)
-				{
-				echo '<span class="page page_grey">';
-				} 
-			if($page_fav < $nombreDePages_fav)
-				{
-				echo '<a href="?page_fav='.$page_fav2.'#fav_quotes">'.$next_page.'</a>';
-				}
-			echo '</span><br>';
-			
-			$premierMessageAafficher = ($page_fav - 1) * $nombreDeMessagesParPage;
-		
-			$reponse = mysql_query("SELECT DISTINCT id_quote FROM teen_quotes_favorite WHERE id_user='$id' ORDER BY id DESC LIMIT $premierMessageAafficher ,  $nombreDeMessagesParPage");
+			$display_page_top = display_page_top($nb_favorite_quotes, $nb_messages_par_page, 'page_fav', $previous_page, $next_page, '#fav_quotes');
+			$premierMessageAafficher = $display_page_top[0];
+			$nombreDePages = $display_page_top[1];
+			$page = $display_page_top[2];
+	
+			$reponse = mysql_query("SELECT DISTINCT id_quote FROM teen_quotes_favorite WHERE id_user='$id' ORDER BY id DESC LIMIT $premierMessageAafficher ,  $nb_messages_par_page");
 			while ($resultat = mysql_fetch_array($reponse))
 				{
 				$id_quote_fav=$resultat['id_quote'];
@@ -197,19 +168,8 @@ else
 				<?php 
 				$i++;
 				}
-				if ($page_fav > 1)
-					{
-					echo '<span class="page_bottom page_grey"><a href="?page_fav='.$page_fav3.'#fav_quotes">'.$previous_page.'</a> ||  ';
-					}
-				if ($page_fav == 1)
-					{
-					echo '<span class="page_bottom page_grey">';
-					} 
-				if($page_fav < $nombreDePages_fav)
-					{
-					echo '<a href="?page_fav='.$page_fav2.'#fav_quotes">'.$next_page.'</a>';
-					}
-			echo '</span><br>';
+				
+			display_page_bottom($page, $nombreDePages, 'page_fav', '#fav_quotes', $previous_page, $next_page);
 				
 			echo '</div>';
 			if ($show_pub == '1' AND ($nb_quotes_approved >= '1' OR $nb_favorite_quotes >= '1'))
@@ -248,44 +208,14 @@ else
 			
 		if($nb_quotes_approved >= '1')
 			{
-			$retour = mysql_query("SELECT COUNT(*) AS nb_messages FROM teen_quotes_quotes where auteur_id='$id' AND approved='1'");
+			$nb_messages_par_page = 5;
 
-			$donnees = mysql_fetch_array($retour);
-			$totalDesMessages = $donnees['nb_messages'];
-
-			$nombreDeMessagesParPage = 5; 
-			$nombreDePages  = ceil($totalDesMessages / $nombreDeMessagesParPage);
-			if (isset($_GET['page_user']))
-			{
-					$page_user = mysql_real_escape_string($_GET['page_user']);
-			}
-			else 
-			{
-					$page_user = 1; 
-			}
-
-			if ($page_user > $nombreDePages) {$page_user=$nombreDePages;}
-
-			$page_user2 = $page_user + 1;
-			$page_user3 = $page_user - 1;
-			if ($page_user > 1)
-				{
-				echo '<span class="page page_grey"><a href="?page_user='.$page_user3.'#user_quotes">'.$previous_page.'</a> || ';
-				}
-			if ($page_user == 1)
-				{
-				echo '<span class="page page_grey">';
-				}  
-			if($page_user < $nombreDePages) 
-				{
-				echo '<a href="?page_user='.$page_user2.'#user_quotes">'.$next_page.'</a>';
-				}
-			echo '</span><br>';
-
+			$display_page_top = display_page_top($nb_quotes_approved, $nb_messages_par_page, 'page_user', $previous_page, $next_page, '#user_quotes');
+			$premierMessageAafficher = $display_page_top[0];
+			$nombreDePages = $display_page_top[1];
+			$page = $display_page_top[2];
 			
-			$premierMessageAafficher = ($page_user - 1) * $nombreDeMessagesParPage;
-			
-			$query_reponse = "SELECT * FROM teen_quotes_quotes WHERE auteur_id='$id' AND approved='1' ORDER BY id DESC LIMIT $premierMessageAafficher ,  $nombreDeMessagesParPage";
+			$query_reponse = "SELECT * FROM teen_quotes_quotes WHERE auteur_id='$id' AND approved='1' ORDER BY id DESC LIMIT $premierMessageAafficher ,  $nb_messages_par_page";
 			$reponse = mysql_query($query_reponse) or die("<b>A fatal MySQL error occured</b>.\n<br />Query: " . $query_reponse. "<br />\nError: (" . mysql_errno() . ") " . mysql_error()); 
 			while ($result = mysql_fetch_array($reponse))
 				{
@@ -309,19 +239,8 @@ else
 				<?php
 				$j++;
 				}
-			if ($page_user > 1)
-				{
-				echo '<span class="page_bottom page_grey"><a href="?page_user='.$page_user3.'#user_quotes">'.$previous_page.'</a> || ';
-				}
-			if ($page_user == 1)
-				{
-				echo '<span class="page_bottom page_grey">';
-				}  
-			if($page_user < $nombreDePages) 
-				{
-				echo '<a href="?page_user='.$page_user2.'#user_quotes">'.$next_page.'</a>';
-				}
-			echo '</span><br>';
+				
+			display_page_bottom($page, $nombreDePages, 'page_user', '#user_quotes', $previous_page, $next_page);
 				
 			echo '</div>';
 			}

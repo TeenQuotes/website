@@ -536,7 +536,7 @@ function display_page_bottom($page, $nombreDePages, $nom_lien_page, $div_redirec
 	echo '<div class="clear"></div>';
 	}
 	
-function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_page, $next_page)
+function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_page, $next_page, $div_redirection = NULL)
 	{
 	$nombreDePages  = ceil($nb_messages / $nb_messages_par_page);
 	if (isset($_GET[$lien]))
@@ -558,7 +558,7 @@ function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_
 
 	if ($page > 1)
 		{
-		echo '<span class="page"><a href="?'.$lien.'='.$page3.'">'.$previous_page.'</a> || ';
+		echo '<span class="page"><a href="?'.$lien.'='.$page3.''.$div_redirection.'">'.$previous_page.'</a> || ';
 		}
 	if ($page == 1 AND $page < $nombreDePages)
 		{
@@ -566,7 +566,7 @@ function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_
 		}
 	if($page < $nombreDePages)
 		{
-		echo '<a href="?'.$lien.'='.$page2.'">'.$next_page.'</a>';
+		echo '<a href="?'.$lien.'='.$page2.''.$div_redirection.'">'.$next_page.'</a>';
 		}
 	if ($nombreDePages != '1')
 		{
