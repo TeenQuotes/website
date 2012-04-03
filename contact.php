@@ -5,7 +5,7 @@ include 'lang/'.$language.'/contact.php';
 echo '
 <div class="post">
 	<h1><img src="http://'.$domaine.'/images/icones/contact.png" class="icone" />Contact</h1>
-	<img src="http://'.$domaine.'/images/icones/mail.png" class="icone" /> '.$about_website.' : <a href="mailto:contact@pretty-web.com">contact@pretty-web.com</a><br>
+	<img src="http://'.$domaine.'/images/icones/mail.png" class="icone" /> '.$about_website.' : <a href="mailto:support@teen-quotes.com">support@teen-quotes.com</a><br>
 	<br />
 	<img src="http://'.$domaine.'/images/icones/mail.png" class="icone" /> '.$about_twitter_account.' : <a href="mailto:contact@teen-quotes.com">contact@teen-quotes.com</a><br>
 	<br />
