@@ -1,7 +1,7 @@
 <?php 
 include 'header.php'; 
 include 'lang/'.$language.'/quote.php'; 
-$id_quote=mysql_real_escape_string($_GET['id_quote']);
+$id_quote = mysql_real_escape_string($_GET['id_quote']);
 $exist_quote = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE id='$id_quote' AND approved='1'"));
 
 if ($exist_quote=='0') 
@@ -97,16 +97,32 @@ if (empty($id_quote))
 		
 		$commentaires = mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='$id_quote' ORDER BY id ASC LIMIT $premierMessageAafficher ,  $nb_messages_par_page");
 		while ($donnees = mysql_fetch_array ($commentaires))
-			{ 
-			$id_auteur=$donnees['auteur_id'];
-			$query_avatar= mysql_fetch_array(mysql_query("SELECT avatar FROM teen_quotes_account where id='$id_auteur'"));
-			$avatar=$query_avatar['avatar'];
+			{
+			$id_comment = $donnees['id'];
+			$id_auteur = $donnees['auteur_id'];
+			$query_avatar = mysql_fetch_array(mysql_query("SELECT avatar FROM teen_quotes_account where id='$id_auteur'"));
+			$avatar = $query_avatar['avatar'];
 			$texte_stripslashes = stripslashes($donnees['texte']);
 			
 			echo '
 			<div class="grey_post">
 			'.$texte_stripslashes.'<br><br />
-			<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" /></a>'; if ($_SESSION['security_level'] >= '2'){echo '<span class="favorite"><a href="admin.php?action=delete_comment&id='.$donnees['id'].'"> <img src="http://'.$domaine.'/images/icones/delete.png" class="mini_icone" /></a></span>';} echo '<span class="right">'.$by.' <a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'">'.$donnees['auteur'].'</a> '.$on.' '.$donnees['date'].'</span><br>
+			<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" /></a>'; 
+			if ($_SESSION['security_level'] >= '2' OR $id_auteur == $id)
+				{
+				echo '<span class="favorite">';
+				if ($id_auteur == $id)
+					{
+					echo '<a href="editcomment-'.$id_comment.'"><img src="http://'.$domaine.'/images/icones/profil.png" class="mini_icone" /></a>';
+					}
+				if ($_SESSION['security_level'] >= '2')
+					{
+					echo '<a href="admin.php?action=delete_comment&id='.$id_comment.'"><img src="http://'.$domaine.'/images/icones/delete.png" class="mini_icone" /></a>';
+					}
+				echo '</span>';
+				}
+			
+			echo '<span class="right">'.$by.' <a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'">'.$donnees['auteur'].'</a> '.$on.' '.$donnees['date'].'</span><br>
 			</div>';
 			}
 			
