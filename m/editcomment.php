@@ -11,7 +11,7 @@ if ($action == 'send' AND is_numeric($_POST['id_comment']))
 
 echo '
 <div class="post">
-<h1><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />'.$edit_comment.'</h1>
+<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />'.$edit_comment.'</h2>
 ';
 
 if (is_numeric($id_comment) AND !empty($id_comment))

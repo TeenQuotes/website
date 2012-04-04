@@ -1,7 +1,7 @@
 <?php 
 include 'header.php';
 $action = $_GET['action'];
-if ($_SESSION['security_level'] < '2') 
+if ($_SESSION['security_level'] <'2') 
 	{
 	echo '<meta http-equiv="refresh" content="0; url=error.php?erreur=403">';
 	} 
@@ -356,7 +356,7 @@ elseif ($action == "delete_existing_quote")
 	$id_quote = mysql_real_escape_string($_POST['id_quote']);
 	$date = date("d/m/Y");
 	$ip = $_SERVER["REMOTE_ADDR"];
-	$username = ucfirst($compte['username']);
+	$username = ucfirst($_SESSION['username']);
 	
 	echo '
 	<div class="post">

@@ -31,7 +31,7 @@ if (!empty($id_quote) AND !empty($texte))
 		
 		if ($notification_comment_quote == '1')
 			{
-			$avatar = $compte['avatar'];
+			$avatar = $_SESSION['avatar'];
 				
 			$comment_added_mail = '
 			'.$top_mail.' 

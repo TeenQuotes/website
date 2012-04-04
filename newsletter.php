@@ -14,7 +14,7 @@ if (empty($action))
 	echo '<div class="grey_post">';
 	echo '<form action="?action=send" method="post">';
 	
-	if (!$_SESSION['logged']) 
+	if ($_SESSION['logged'] != TRUE) 
 		{ 
 		echo '<div class="colonne-gauche">Email </div><div class="colonne-milieu"><input type="text" name="email" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$valid_email.'</span></div>
 		<br /><br />';
@@ -32,7 +32,7 @@ if (empty($action))
 	echo $texte_newsletter_everyday;
 	echo '<div class="grey_post">';
 	echo '<form action="?action=send_everyday" method="post">';
-	if (!$_SESSION['logged']) 
+	if ($_SESSION['logged'] != TRUE) 
 		{ 
 		echo '<div class="colonne-gauche">Email </div><div class="colonne-milieu"><input type="text" name="email" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$valid_email.'</span></div>
 		<br /><br />';

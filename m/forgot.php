@@ -3,7 +3,7 @@ include 'header.php';
 include "../lang/$language/forgot.php";
 $action=$_GET['action'];
 
-if (empty($action) AND !$_SESSION['logged']) 
+if (empty($action) AND $_SESSION['logged'] != TRUE)
 	{
 	echo '
 	<div class="post">

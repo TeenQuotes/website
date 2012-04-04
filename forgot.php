@@ -3,7 +3,7 @@ include 'header.php';
 include 'lang/'.$language.'/forgot.php';
 $action = $_GET['action'];
 
-if (empty($action) AND !$_SESSION['logged']) 
+if (empty($action) AND $_SESSION['logged'] != TRUE) 
 	{ 
 	echo '
 	<div class="post">
@@ -40,7 +40,7 @@ elseif ($action=="send")
 			$passwd = sha1(strtoupper($username).':'.strtoupper($newpass));
 			$update_pass = mysql_query ("UPDATE teen_quotes_account SET pass='$passwd' WHERE username='$username'") or die(mysql_error());
 			
-			$message = "$top_mail $change_succes1 <font color=\"#5C9FC0\"><b>$username</b></font> $change_succes2 <font color=\"#5C9FC0\"><b>$newpass</b></font> $change_succes3 <a href=\"http://www.teen-quotes.com/connexion.php?method=get&pseudo=$username&password=$passwd\" target=\"_blank\">$this_link</a>. $end_mail";
+			$message = "$top_mail $change_succes1 <font color=\"#5C9FC0\"><b>$username</b></font> $change_succes2 <font color=\"#5C9FC0\"><b>$newpass</b></font> $change_succes3 <a href=\"http://$domaine/connexion.php?method=get&pseudo=$username&password=$passwd\" target=\"_blank\">$this_link</a>. $end_mail";
 			$mail = mail($email, "$email_subject", $message, $headers); 
 			
 			if($update_pass AND $mail) 
@@ -61,7 +61,6 @@ elseif ($action=="send")
 		{
 		echo '<span class="erreur">'.$email_not_valid.'</span>'.$lien_retour.'';
 		}
-																	
 	}
 	
 echo '</div>';

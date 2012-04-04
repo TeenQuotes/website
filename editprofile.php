@@ -7,7 +7,9 @@ $pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
 $pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
 
 $email_quote_today_num_rows = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'"));
-		
+$is_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletter where email='$email'"));
+$notification_comment_quote = $result['notification_comment_quote'];
+
 // SELECTED POUR LE TITRE USER
 switch ($result['title']) {
 case "Mr" : $selected_mr='selected="selected"';
@@ -54,8 +56,7 @@ if(empty($result['city']))
 	{
 	$result['city']="";
 	}
-
-
+	
 // FORMULAIRE
 if (empty($action)) 
 	{
@@ -186,13 +187,13 @@ elseif ($action=="avatar")
 	';
 	$photo= $_FILES['photo']['name'];
 	$point=".";
-	// Testons si le fichier a bien été envoyé et s'il n'y a pas d'erreur
+	// Testons si le fichier a bien Ã©tÃ© envoyÃ© et s'il n'y a pas d'erreur
 	if (isset($_FILES['photo']) AND $_FILES['photo']['error'] == 0)
 		{
 		// Testons si le fichier n'est pas trop gros
 		if ($_FILES['photo']['size'] <= 550000)
 			{
-			// Testons si l'extension est autorisée
+			// Testons si l'extension est autorisÃ©e
 			$infosfichier = pathinfo($_FILES['photo']['name']);
 			$extension_upload = strtolower($infosfichier['extension']);
 			$extensions_autorisees = array('jpg', 'gif', 'png','JPG');
@@ -202,12 +203,13 @@ elseif ($action=="avatar")
 					{
 					unlink("./images/avatar/$id.$extension_upload"); // delete de l'image si celle ci existe
 					}
-				// On peut valider le fichier et le stocker définitivement
+				// On peut valider le fichier et le stocker dÃ©finitivement
 				move_uploaded_file($_FILES['photo']['tmp_name'], './images/avatar/' . $id.$point.$extension_upload);
-				// on écrit la requête sql 
-				$nom_fichier=$id.$point.$extension_upload;
+				// on Ã©crit la requÃªte sql 
+				$nom_fichier = $id.$point.$extension_upload;
 				$sql = "UPDATE teen_quotes_account SET avatar='$nom_fichier' WHERE id='$id'"; 
-				mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error()); 
+				mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error());
+				$_SESSION['avatar'] = $nom_fichier;
 				echo ''.$change_avatar_succes.'';
 				echo '<meta http-equiv="refresh" content="3;url=user-'.$id.'" />';
 				}
@@ -237,7 +239,8 @@ elseif ($action=="reset_avatar")
 	<h1><img src="http://'.$domaine.'/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h1>
 	';
 	$sql = "UPDATE teen_quotes_account SET avatar='icon50.png' WHERE id='$id'"; 
-	mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error()); 
+	mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error());
+	$_SESSION['avatar'] = 'icon50.png';
 	echo ''.$change_avatar_succes.'';
 	echo '<meta http-equiv="refresh" content="3;url=user-'.$id.'" />';
 	
@@ -290,7 +293,7 @@ elseif ($action == "settings")
 	$comments_quote = htmlspecialchars($_POST['comments_quote']);
 	$newsletter = htmlspecialchars($_POST['newsletter']);
 	$email_quote_today = htmlspecialchars($_POST['email_quote_today']);
-	$email = $compte['email'];
+	$email = $_SESSION['email'];
 	
 	// NEWSLETTER
 	if ($newsletter == '1')

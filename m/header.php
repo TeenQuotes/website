@@ -17,16 +17,12 @@ if(!empty($_COOKIE['mobile']))
 	setcookie("mobile", 1 , time() -4200, null, '.'.$domaine.'', false, true);
 	}
 
-if (!$_SESSION['logged'])
+if ($_SESSION['logged'] == TRUE AND (empty($_SESSION['id']) OR empty($_SESSION['security_level']) OR empty($_SESSION['username']) OR empty($_SESSION['email']) OR empty($_SESSION['avatar'])))
 	{
-	$_SESSION['logged'] = FALSE;
-	}
-else
-	{
-	$post = mysql_real_escape_string($_SESSION['username']);
+	deconnexion();
 	}
 
-if (isset($_COOKIE['Pseudo']) AND isset($_COOKIE['Pass']))
+if (isset($_COOKIE['Pseudo']) AND isset($_COOKIE['Pass']) AND $_SESSION['logged'] == FALSE)
 	{
 	$pseudo = mysql_escape_string($_COOKIE['Pseudo']);
 	$pass = mysql_escape_string($_COOKIE['Pass']);
@@ -40,19 +36,18 @@ if (isset($_COOKIE['Pseudo']) AND isset($_COOKIE['Pass']))
 			{
 			$compte = mysql_fetch_array($query_base);
 			
-			$_SESSION['logged'] = true;
-			$_SESSION['account'] = $compte['id'];										
-			$_SESSION['pseudo'] = $pseudo;
+			$_SESSION['logged'] = TRUE;
+			$_SESSION['id'] = $compte['id'];										
 			$_SESSION['security_level'] = $compte['security_level'];									
 			$_SESSION['username'] = $compte['username'];
+			$_SESSION['email'] = $compte['email'];
+			$_SESSION['avatar'] = $compte['avatar'];
 			
 			$username = $_SESSION['username'];
-			$id = $_SESSION['account'];
+			$id = $_SESSION['id'];
 			$email = $compte['email'];
 			$last_visit = $compte['last_visit'];
 			$session_last_visit = $_SESSION['last_visit_user'];
-			$notification_comment_quote = $compte['notification_comment_quote'];
-			$is_newsletter=mysql_num_rows(mysql_query("SELECT id FROM newsletter where email='$email'"));
 				
 			last_visit($session_last_visit,$last_visit,$id);
 				
@@ -63,9 +58,13 @@ if (isset($_COOKIE['Pseudo']) AND isset($_COOKIE['Pass']))
 			}
 		}
 	}
-else
+
+if ($_SESSION['logged'] == TRUE)
 	{
-	$_SESSION['logged'] = FALSE;
+	$username = $_SESSION['username'];
+	$id = $_SESSION['id'];
+	$email = $_SESSION['email'];
+	$session_last_visit = $_SESSION['last_visit_user'];
 	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
@@ -161,7 +160,7 @@ else
 	<a href="../"><img src="http://www.teen-quotes.com/images/logo.png" style="height:50px" /></a>
 	<span class="right" style="margin-top:20px">
 		<a href="http://teen-quotes.com" title="View the english version"><span class="icone_flags english"></span></a>
-		<a href="http://kotado.fr" title="Voir la version française"><span class="icone_flags french"></span></a>
+		<a href="http://kotado.fr" title="Voir la version franÃ§aise"><span class="icone_flags french"></span></a>
 	</span> 
 </div>
 </div><!-- END TOPBAR -->
@@ -171,7 +170,7 @@ else
 
 <div id="wrapper"><!-- START WRAPPER -->
 	<ul class="menu">
-	<?php if (!$_SESSION['logged']) { ?>
+	<?php if ($_SESSION['logged'] != TRUE) { ?>
 		<li><a href="/"><?php echo $home; ?></a></li>
 		<li><a href="signup?topbar"><?php echo $sign_up; ?></a></li>
 		<li><a href="signin"><?php echo $sign_in; ?></a></li>

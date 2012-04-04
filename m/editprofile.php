@@ -7,7 +7,9 @@ $pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
 $pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
 
 $email_quote_today_num_rows = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'"));
-		
+$is_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletter where email='$email'"));
+$notification_comment_quote = $result['notification_comment_quote'];
+
 // SELECTED POUR LE TITRE USER
 switch ($result['title']) {
 case "Mr" : $selected_mr='selected="selected"';
@@ -196,9 +198,10 @@ elseif ($action=="avatar")
 				// On peut valider le fichier et le stocker définitivement
 				move_uploaded_file($_FILES['photo']['tmp_name'], './images/avatar/' . $id.$point.$extension_upload);
 				// on écrit la requête sql 
-				$nom_fichier=$id.$point.$extension_upload;
+				$nom_fichier = $id.$point.$extension_upload;
 				$sql = "UPDATE teen_quotes_account SET avatar='$nom_fichier' WHERE id='$id'"; 
-				mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error()); 
+				mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error());
+				$_SESSION['avatar'] = $nom_fichier;
 				echo ''.$change_avatar_succes.'';
 				echo '<meta http-equiv="refresh" content="3;url=user-'.$id.'" />';
 				}
@@ -228,7 +231,8 @@ elseif ($action=="reset_avatar")
 	<h2><img src="http://'.$domaine.'/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h2>
 	';
 	$sql = "UPDATE teen_quotes_account SET avatar='icon50.png' WHERE id='$id'"; 
-	mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error()); 
+	mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error());
+	$_SESSION['avatar'] = 'icon50.png';
 	echo ''.$change_avatar_succes.'';
 	echo '<meta http-equiv="refresh" content="3;url=user-'.$id.'" />';
 	
@@ -282,7 +286,7 @@ elseif ($action == "settings")
 	$comments_quote = htmlspecialchars($_POST['comments_quote']);
 	$newsletter = htmlspecialchars($_POST['newsletter']);
 	$email_quote_today = htmlspecialchars($_POST['email_quote_today']);
-	$email = $compte['email'];
+	$email = $_SESSION['email'];
 	
 	// NEWSLETTER
 	if ($newsletter == '1')

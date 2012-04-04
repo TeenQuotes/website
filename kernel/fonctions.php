@@ -143,7 +143,7 @@ if (isset($_GET['deco_succes']))
 if (isset($_GET['co'])) 
 	{
 	$domaine = "teen-quotes.com";
-	$pseudo = $_SESSION['pseudo'];		
+	$pseudo = $_SESSION['username'];		
 	$passwd = $_SESSION['passwd'];
 
 	setcookie("Pseudo", $pseudo, time() + (((3600*24)*30)*12), null, '.'.$domaine.'', false, true);

@@ -269,7 +269,7 @@ else
 				$auteur = $result['auteur']; 
 				$date_quote = $result['date'];
 				
-				$id_user_co = $compte['id'];
+				$id_user_co = $_SESSION['id'];
 				
 				$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='$id_quote' AND id_user='$id_user_co'"))
 				?>

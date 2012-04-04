@@ -35,13 +35,14 @@ if (isset($_POST['connexion']) OR $method == 'get')
 				{
 				$compte = mysql_fetch_array($query_base);
 				
-				$_SESSION['logged'] = true;
 				// variables session
-				$_SESSION['account'] = $compte['id'];										
-				$_SESSION['pseudo'] = $pseudo;
-				$_SESSION['security_level'] = $compte['security_level'];					
-				$_SESSION['passwd'] = $passwd;
-				$_SESSION['username'] = $compte['username'];
+				$_SESSION['logged'] = TRUE;
+				$_SESSION['id'] = $compte['id'];										
+				$_SESSION['security_level'] = $compte['security_level'];
+				$_SESSION['email'] = $compte['email'];
+				$_SESSION['avatar'] = $compte['avatar'];
+ 				$_SESSION['passwd'] = $passwd;
+ 				$_SESSION['username'] = $compte['username'];
 				
 				// redirection
 				?>
