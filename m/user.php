@@ -8,9 +8,9 @@ $id = mysql_real_escape_string($_GET['id_user']);
 $exist_user = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE id='$id'"));
 if ($exist_user=='0') {header("Location: error.php?erreur=404"); }
 
-if($id != $_SESSION['account'] AND !empty($id) AND !empty($_SESSION['account']))
+if($id != $_SESSION['id'] AND !empty($id) AND !empty($_SESSION['id']))
 	{
-	$id_visitor = $_SESSION['account'];
+	$id_visitor = $_SESSION['id'];
 	$insert_visitor = mysql_query("INSERT INTO teen_quotes_visitors (id_user,id_visitor) VALUES ('$id','$id_visitor')");
 	}
 
@@ -28,7 +28,7 @@ else
 	$result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account where id='$id'"));
 	
 	// SI LE PROFIL DOIT ETRE CACHE
-	if ($result['hide_profile'] == '1' AND $id != $_SESSION['account'])
+	if ($result['hide_profile'] == '1' AND $id != $_SESSION['id'])
 		{
 		echo '
 		<div class="bandeau_erreur">
@@ -37,7 +37,7 @@ else
 		</div>
 		';
 		}
-	elseif ($result['hide_profile'] == '0' OR ($result['hide_profile'] == '1' AND $id = $_SESSION['account']))
+	elseif ($result['hide_profile'] == '0' OR ($result['hide_profile'] == '1' AND $id = $_SESSION['id']))
 		{
 		// AFFICHAGE DES INFOS DU PROFIL
 		$nb_quotes_approved=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes where auteur_id='$id' AND approved='1'"));
@@ -70,7 +70,7 @@ else
 		
 		echo '<div class="post">';
 		
-		if ($result['hide_profile'] == '1' AND $id = $_SESSION['account'])
+		if ($result['hide_profile'] == '1' AND $id = $_SESSION['id'])
 			{
 			echo '
 			<div class="bandeau_erreur hide_this">
@@ -82,7 +82,7 @@ else
 			<img src="http://'.$domaine.'/images/avatar/'.$result['avatar'].'" class="user_avatar" />
 			<h2>'.$result['username'].'<span class="right">'. $user_informations.'
 			';
-			if($id == $_SESSION['account']) 
+			if($id == $_SESSION['id']) 
 				{
 			    echo ' - <a class="submit" href="editprofile">'.$edit.'</a>';
 				}
@@ -149,7 +149,7 @@ else
 				{
 				$id_quote_fav=$resultat['id_quote'];
 				$donnees=mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_quotes WHERE id='$id_quote_fav'"));
-				$id_visitor = $_SESSION['account'];
+				$id_visitor = $_SESSION['id'];
 				$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='$id_quote_fav' AND id_user='$id_visitor'"));
 				$logged = $_SESSION['logged'];
 				$id_quote = $donnees['id'];
@@ -162,7 +162,7 @@ else
 				<div class="grey_post">
 				<?php echo $donnees['texte_english']; ?><br>
 				<div style="font-size:65%">
-				<a href="quote-<?php echo $donnees['id']; ?>">#<?php echo $donnees['id']; ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['account']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+				<a href="quote-<?php echo $donnees['id']; ?>">#<?php echo $donnees['id']; ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 				</div>
 				</div>
 				<?php 
@@ -233,7 +233,7 @@ else
 				<div class="grey_post">
 				<?php echo $result['texte_english']; ?><br>
 				<div style="font-size:65%">
-				<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['account']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+				<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 				</div>
 				</div>
 				<?php

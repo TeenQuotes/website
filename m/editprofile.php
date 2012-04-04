@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 $action = $_GET['action'];
-$id_user = $_SESSION['account'];
+$id_user = $_SESSION['id'];
 $result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account where id='$id_user'"));
 $pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
 $pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));

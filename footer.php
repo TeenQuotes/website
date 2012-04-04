@@ -9,7 +9,7 @@
 					</form>
 				</div>
 			
-				<?php if (!$_SESSION['logged']) { ?>
+				<?php if ($_SESSION['logged'] != TRUE) { ?>
 				
 				<div class="post">
 					<div class="title"><span class="icone_login signin"></span><?php echo $sign_in; ?></div>
@@ -26,7 +26,7 @@
 					<div class="title"><span class="icone_login member"></span><?php echo $my_account; ?></div>
 					<?php echo $connected_as; ?> <span class="bleu"><?php echo ucfirst($username); ?></span><br>
 					<br />
-					<a href="user-<?php echo $_SESSION['account'] ?>">&raquo; <?php echo $my_profile; ?></a><span class="right"><form action="../editprofile" method="post"><input type="submit" value="<?php echo $edit; ?>" /></form></span><br>
+					<a href="user-<?php echo $_SESSION['id'] ?>">&raquo; <?php echo $my_profile; ?></a><span class="right"><form action="../editprofile" method="post"><input type="submit" value="<?php echo $edit; ?>" /></form></span><br>
 					<a href="?deconnexion" title="<?php echo $log_out; ?>">&raquo; <?php echo $logout; ?> </a><br>
 					
 				</div>
