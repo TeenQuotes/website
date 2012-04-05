@@ -150,6 +150,7 @@ else
 				$id_quote_fav=$resultat['id_quote'];
 				$donnees=mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_quotes WHERE id='$id_quote_fav'"));
 				$id_visitor = $_SESSION['id'];
+				$nombre_commentaires = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='".$id_quote_fav."'"));
 				$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='$id_quote_fav' AND id_user='$id_visitor'"));
 				$logged = $_SESSION['logged'];
 				$id_quote = $donnees['id'];
@@ -162,7 +163,7 @@ else
 				<div class="grey_post">
 				<?php echo $donnees['texte_english']; ?><br>
 				<div style="font-size:65%">
-				<a href="quote-<?php echo $donnees['id']; ?>">#<?php echo $donnees['id']; ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+				<a href="quote-<?php echo $id_quote_fav; ?>">#<?php echo $id_quote_fav; ?> - <?php if($nombre_commentaires >'1'){echo "$nombre_commentaires $comments";}elseif($nombre_commentaires=='1'){echo "$nombre_commentaires $comment";}else{echo"$no_comments";} ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 				</div>
 				</div>
 				<?php 
@@ -227,13 +228,13 @@ else
 				$date_quote = $result['date'];
 				
 				$id_user_co = $compte['id'];
-				
+				$nombre_commentaires = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='".$id_quote."'"));
 				$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='$id_quote' AND id_user='$id_user_co'"))
 				?>
 				<div class="grey_post">
 				<?php echo $result['texte_english']; ?><br>
 				<div style="font-size:65%">
-				<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+				<a href="quote-<?php echo $id_quote; ?>">#<?php echo $id_quote; ?> - <?php if($nombre_commentaires >'1'){echo "$nombre_commentaires $comments";}elseif($nombre_commentaires=='1'){echo "$nombre_commentaires $comment";}else{echo"$no_comments";} ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 				</div>
 				</div>
 				<?php
