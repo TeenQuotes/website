@@ -32,7 +32,7 @@ elseif ($action == "add_quote")
 	$date = date("d/m/Y");
 	$texte_quote = stripslashes($texte_quote);
 
-	if (strlen($texte_quote) >= '30') 
+	if (strlen($texte_quote) >= '50') 
 		{
 		$submitted_today = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id='$id' AND date='$date'"));
 		if ($submitted_today < '5')
