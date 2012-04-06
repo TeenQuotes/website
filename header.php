@@ -27,7 +27,7 @@ mysql_select_db($user,$db)  or die('Erreur de selection '.mysql_error());
 require "kernel/fonctions.php";
 require 'lang/'.$language.'/general.php';
 
-if ($_SESSION['logged'] == TRUE AND (empty($_SESSION['id']) OR empty($_SESSION['security_level']) OR empty($_SESSION['username']) OR empty($_SESSION['email']) OR empty($_SESSION['avatar'])))
+if ($_SESSION['logged'] == TRUE AND (empty($_SESSION['id']) OR empty($_SESSION['username']) OR empty($_SESSION['email']) OR empty($_SESSION['avatar'])))
 	{
 	deconnexion();
 	}

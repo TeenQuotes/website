@@ -17,7 +17,7 @@ if(!empty($_COOKIE['mobile']))
 	setcookie("mobile", 1 , time() -4200, null, '.'.$domaine.'', false, true);
 	}
 
-if ($_SESSION['logged'] == TRUE AND (empty($_SESSION['id']) OR empty($_SESSION['security_level']) OR empty($_SESSION['username']) OR empty($_SESSION['email']) OR empty($_SESSION['avatar'])))
+if ($_SESSION['logged'] == TRUE AND (empty($_SESSION['id']) OR empty($_SESSION['username']) OR empty($_SESSION['email']) OR empty($_SESSION['avatar'])))
 	{
 	deconnexion();
 	}
