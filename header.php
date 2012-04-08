@@ -36,12 +36,12 @@ if (isset($_COOKIE['Pseudo']) AND isset($_COOKIE['Pass']) AND $_SESSION['logged'
 	{
 	$pseudo = mysql_escape_string($_COOKIE['Pseudo']);
 	$pass = mysql_escape_string($_COOKIE['Pass']);
-	$query_base = mysql_query("SELECT * FROM teen_quotes_account WHERE `username` ='$pseudo'");
+	$query_base = mysql_query("SELECT * FROM teen_quotes_account WHERE `username` ='".$pseudo."'");
 	
 	$retour_nb_pseudo = mysql_num_rows($query_base);
 	if ($retour_nb_pseudo == '1')
 		{				
-		$sha = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE `pass` = '$pass' AND `username` = '$pseudo'"));
+		$sha = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE `pass` = '".$pass."' AND `username` = '".$pseudo."'"));
 		if ($sha == '1')
 			{
 			$compte = mysql_fetch_array($query_base);
@@ -87,7 +87,7 @@ if (isset($_GET['id_user']))
 	{
 	$id_user = mysql_real_escape_string($_GET['id_user']);
 	$php_self = 'user-'.$id_user.'';
-	$result = mysql_fetch_array(mysql_query("SELECT username FROM teen_quotes_account where id='$id_user'"));
+	$result = mysql_fetch_array(mysql_query("SELECT username FROM teen_quotes_account where id = '".$id_user."'"));
 	$username_title = ucfirst($result['username']);
 	echo '<title>Teen Quotes | '.$username_title.'</title>';
 	echo "\r\n";
@@ -97,7 +97,7 @@ elseif (isset($_GET['id_quote']))
 	{
 	$id_quote = mysql_real_escape_string($_GET['id_quote']);
 	$php_self = 'quote-'.$id_quote.'';
-	$result = mysql_fetch_array(mysql_query("SELECT texte_english FROM teen_quotes_quotes where id='$id_quote' AND approved='1'"));
+	$result = mysql_fetch_array(mysql_query("SELECT texte_english FROM teen_quotes_quotes where id = '".$id_quote."' AND approved = '1'"));
 	$texte = $result['texte_english'];
 	echo '<title>Teen Quotes | Quote #'.$id_quote.'</title>';
 	echo '<meta name="description" content="'.$texte.'"/>';
@@ -127,7 +127,7 @@ else
 		<meta name="keywords" content="'Teen Quotes', 'teenage quotes', 'teenager quotes', 'quotes for teenagers', 'teen qoutes', 'quotes', 'teen', 'citations', 'sentences', 'Augusti', 'Twitter', 'Facebook'"/> 
 		<meta name="author" content="Antoine Augusti"/> 
 		<meta name="revisit-after" content="2 days"/> 
-		<meta name="date-creation-ddmmyyyy" content="2609010"/> 
+		<meta name="date-creation-ddmmyyyy" content="26092010"/> 
 		<meta name="Robots" content="all"/> 
 		<meta name="Rating" content="General"/> 
 		<meta name="location" content="France, FRANCE"/> 

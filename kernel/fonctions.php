@@ -29,9 +29,9 @@ $domaine_en = "teen-quotes.com";
 $domaine_fr = "kotado.fr";
 
 // NOMS DES PAGES
-$url_page=$_SERVER["SCRIPT_URI"];
-$m_url=substr($url_page, 0, 25);
-$fr_url=substr($url_page, 0, 9);
+$url_page = $_SERVER["SCRIPT_URI"];
+$m_url = substr($url_page, 0, 25);
+$fr_url = substr($url_page, 0, 9);
 
 $page = $_SERVER['PHP_SELF'];
 $taille = strlen($name_page);
@@ -42,18 +42,18 @@ if ($domaine == "teen-quotes.com")
 	{
 	if($php_self=="index" OR $php_self=="error") 
 		{
-		$php_self=NULL;
+		$php_self = NULL;
 		}
 		
 	if($fr_url=="http://fr")
 		{
-		$language="french";
+		$language = "french";
 		$second_language = "english";
-		$php_self=$page_include; // FIX NOM DE LA PAGE  VOIR /fr/.htaccess
+		$php_self = $page_include; // FIX NOM DE LA PAGE  VOIR /fr/.htaccess
 		}
 	else
 		{
-		$language="english";
+		$language = "english";
 		$second_language = "french";
 		}
 
@@ -62,28 +62,28 @@ if ($domaine == "teen-quotes.com")
 		$page_index = htmlspecialchars($_GET['p']);
 		$php_self = '?p='.$page_index.'';
 		
-		if($fr_url=="http://fr")
+		if($fr_url == "http://fr")
 			{
-			$php_self=$page_include.'?p='.$page_index.'';
+			$php_self = $page_include.'?p='.$page_index.'';
 			}
 		}
 	}
 elseif ($domaine == $domaine_fr)
 	{
-	if($php_self=="index" OR $php_self=="error") 
+	if($php_self == "index" OR $php_self == "error") 
 		{
-		$php_self=NULL;
+		$php_self = NULL;
 		}
 		
-	if($fr_url=="http://en")
+	if($fr_url == "http://en")
 		{
-		$language="english";
+		$language = "english";
 		$second_language = "french";
-		$php_self=$page_include; // FIX NOM DE LA PAGE  VOIR /fr/.htaccess
+		$php_self = $page_include; // FIX NOM DE LA PAGE  VOIR /fr/.htaccess
 		}
 	else
 		{
-		$language="french";
+		$language = "french";
 		$second_language = "english";
 		}
 
@@ -92,9 +92,9 @@ elseif ($domaine == $domaine_fr)
 		$page_index = htmlspecialchars($_GET['p']);
 		$php_self = '?p='.$page_index.'';
 		
-		if($fr_url=="http://en")
+		if($fr_url == "http://en")
 			{
-			$php_self=$page_include.'?p='.$page_index.'';
+			$php_self = $page_include.'?p='.$page_index.'';
 			}
 		}
 	}
@@ -174,10 +174,10 @@ function deconnexion()
 	setcookie("Pass", Yo, time()-4200, null, '.'.$domaine.'', false, true);
 	setcookie("Pass", Yo, time()-4200);
 	setcookie("Pseudo", Yo, time()-4200);
-	$pseudo="";
-	$id="";
-	$email="";
-	$username=""; ?>
+	$pseudo = "";
+	$id = "";
+	$email = "";
+	$username = ""; ?>
 	<script language="JavaScript">
 	<!--
 	window.location.href="../"
@@ -236,6 +236,24 @@ function number_space($number)
 	{
 	$number_space = number_format($number, 0, ',', ' '); // Arrondi et espaces sur les milliers
 	return $number_space;
+	}
+	
+function captchaMath()
+	{
+	$n1 = mt_rand(1,30);
+	$n2 = 42 - $n1;
+	$nbrFr = array('0','1','2','3','4','5','6','7','8','9','10');
+	$resultat = $n1 + $n2;
+	$phrase = ''.$n1.' + '.$n2.'';
+	
+	return array($resultat, $phrase);	
+	}
+
+function captcha()
+	{
+	list($resultat, $phrase) = captchaMath();
+	$_SESSION['captcha'] = $resultat;
+	return $phrase;
 	}
 
 function create_stats ($language) {
@@ -404,18 +422,17 @@ echo $graph_stats_js;
 $minute = date("i");
 if ($minute % '10' == '0' OR $_SESSION['security_level'] > '0') 
 	{
-	$citations_awaiting_approval = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='0'"));
-	$alerte_admin_query = mysql_fetch_array(mysql_query("SELECT alerte_admin FROM config WHERE id='1'"));
+	$citations_awaiting_approval = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '0'"));
+	$alerte_admin_query = mysql_fetch_array(mysql_query("SELECT alerte_admin FROM config WHERE id = '1'"));
 	$alerte_admin = $alerte_admin_query['alerte_admin'];
-	if ($citations_awaiting_approval >= '10' AND $alerte_admin=='0')
+	if ($citations_awaiting_approval >= '10' AND $alerte_admin == '0')
 		{
 		$email_subject = "Quotes awaiting approval";
 		$domaine = "teen-quotes.com";
 		
 		$message = 'Hey,<br><br />There are more than 10 quotes awaiting approval ! It\'s time to check the admin panel, you can access it by clicking <a href="http://'.$domaine.'/admin" target="_blank">here</a>';
 		$mail = mail("antoine.augusti@gmail.com", $email_subject, $top_mail.$message.$end_mail, $headers); 
- 		$mail_2 = mail("southernstarzz@facebook.com", $email_subject, $top_mail.$message.$end_mail, $headers);
- 		$update_alerte = mysql_query("UPDATE config SET alerte_admin='1' WHERE id='1'");
+ 		$update_alerte = mysql_query("UPDATE config SET alerte_admin = '1' WHERE id = '1'");
 		}
 		
 	if ($citations_awaiting_approval < '10' AND $alerte_admin=='1')
@@ -583,7 +600,7 @@ function is_quote_new($date_quote,$last_visit,$page,$compteur_quote)
 	include "config.php";
 	
 	$yesterday_timestamp = mktime(0, 0, 0, date("m")  , date("d")-1, date("Y"));
-	$yesterday= date("d/m/Y", $yesterday_timestamp);
+	$yesterday = date("d/m/Y", $yesterday_timestamp);
 	
 	$jour = substr($date_quote, 0, 2);
 	$mois = substr($date_quote, 3, 2);
@@ -607,18 +624,18 @@ $heure = date("H");
 // RESET COMPTEUR QUOTE POSTED TODAY
 if ($heure >= "22" AND $heure <= "23")
 	{
-	$compteur_quote_posted_today_query = mysql_fetch_array(mysql_query("SELECT compteur_quote_posted_today FROM config WHERE id='1'"));
+	$compteur_quote_posted_today_query = mysql_fetch_array(mysql_query("SELECT compteur_quote_posted_today FROM config WHERE id = '1'"));
 	$compteur_quote_posted_today = $compteur_quote_posted_today_query['compteur_quote_posted_today'];
 	
 	if ($compteur_quote_posted_today == '1')
 		{
-		$update = mysql_query ("UPDATE config SET compteur_quote_posted_today='0' WHERE id='1'");
+		$update = mysql_query ("UPDATE config SET compteur_quote_posted_today='0' WHERE id = '1'");
 		}
 	}
 // POSTAGE DES QUOTES ENTRE 0H ET 2H DU MATIN
 elseif ($heure >= "00" AND $heure <= "02")
 	{
-	$compteur_quote_posted_today_query = mysql_fetch_array(mysql_query("SELECT compteur_quote_posted_today FROM config WHERE id='1'"));
+	$compteur_quote_posted_today_query = mysql_fetch_array(mysql_query("SELECT compteur_quote_posted_today FROM config WHERE id = '1'"));
 	$compteur_quote_posted_today = $compteur_quote_posted_today_query['compteur_quote_posted_today'];
 	
 	if ($compteur_quote_posted_today == '0')
@@ -633,33 +650,33 @@ function flush_quotes ()
 	{
 	include "config.php";
 	
-	$query = mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='2' ORDER BY id ASC LIMIT 0,$nb_quote_released_per_day");
+	$query = mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2' ORDER BY id ASC LIMIT 0, ".$nb_quote_released_per_day."");
 	$affected_rows = mysql_affected_rows();
 	
 	while ($result = mysql_fetch_array($query))
 		{
 		$id_quote = $result['id'];
 		
-		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT texte_english,date,auteur_id FROM teen_quotes_quotes WHERE id='$id_quote'"));
+		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT texte_english,date,auteur_id FROM teen_quotes_quotes WHERE id = '".$id_quote."'"));
 		$texte_quote = $query_texte_quote['texte_english'];
 		$date_quote = $query_texte_quote['date'];
 		$auteur_id = $query_texte_quote['auteur_id'];
 
-		$approve_quote= mysql_query("UPDATE teen_quotes_quotes set approved='1' WHERE id='$id_quote'");
+		$approve_quote= mysql_query("UPDATE teen_quotes_quotes SET approved='1' WHERE id = '".$id_quote."'");
 
-		$query_email_auteur = mysql_fetch_array(mysql_query("SELECT email,username FROM teen_quotes_account WHERE id='$auteur_id'"));
+		$query_email_auteur = mysql_fetch_array(mysql_query("SELECT email,username FROM teen_quotes_account WHERE id = '".$auteur_id."'"));
 		$email_auteur = $query_email_auteur['email'];
 		$name_auteur = ucfirst($query_email_auteur['username']);
 
 		if ($approve_quote AND !empty($email_auteur)) 
 			{
-			$message = "$top_mail Hello <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Your quote has been <font color=\"#5C9FC0\"><b>approved</b></font> recently by a member of our team ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br><br /><a href=\"http://www.teen-quotes.com/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">by <a href=\"http://www.teen-quotes.com/user-$auteur_id\" target=\"_blank\">$name_auteur</a> on $date_quote</span></div>Congratulations !<br><br />Your Quote is now visible on our website. You can share it or comment it if you want !<br><br /><br />If you want to see your quote, <a href=\"http://www.teen-quotes.com/quote-$id_quote\" target=\"_blank\">click here</a>.<br><br /><br />Sincerely,<br><b>The Teen Quotes Team</b><br /><br /><br /><div style=\"border-top:1px dashed #CCCCCC\"></div><br /><br />VERSION FRANCAISE :<br /><br />Bonjour <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Votre citation a été récemment <font color=\"#5C9FC0\"><b>approuvée</b></font> par un membre de notre équipe ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br><br /><a href=\"http://www.teen-quotes.com/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">par <a href=\"http://www.teen-quotes.com/user-$auteur_id\" target=\"_blank\">$name_auteur</a> le $date_quote</span></div>Congratulations !<br><br />Votre citation est maintenant visible sur Teen Quotes. Vous pouvez dès à présent la partager ou la commenter si vous le souhaitez !<br><br /><br />Si vous voulez voir votre citation, <a href=\"http://www.teen-quotes.com/quote-$id_quote\" target=\"_blank\">cliquez ici</a>.<br><br /><br />Cordialement,<br><b>The Teen Quotes Team</b> $end_mail";
+			$message = ''.$top_mail.' Hello <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Your quote has been <font color="#5C9FC0"><b>approved</b></font> recently by a member of our team ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Congratulations !<br><br />Your quote is now visible on our website. You can share it or comment it if you want !<br><br /><br />If you want to see your quote, <a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">click here</a>.<br><br /><br />Sincerely,<br><b>The Teen Quotes Team</b><br /><br /><br /><div style="border-top:1px dashed #CCCCCC"></div><br /><br />VERSION FRANCAISE :<br /><br />Bonjour <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Votre citation a été récemment <font color="#5C9FC0"><b>approuvée</b></font> par un membre de notre équipe ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Congratulations !<br><br />Votre citation est maintenant visible sur Teen Quotes. Vous pouvez dès à présent la partager ou la commenter si vous le souhaitez !<br><br /><br />Si vous voulez voir votre citation, <a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">cliquez ici</a>.<br><br /><br />Cordialement,<br><b>The Teen Quotes Team</b> '.$end_mail.'';
 			$mail = mail($email_auteur, "Quote approved", $message, $headers); 
 			}
 		$ids_quotes_posted_today .= ''.$id_quote.'';
 		$ids_quotes_posted_today .= ",";
 		}
-	$update = mysql_query ("UPDATE config SET compteur_quote_posted_today='1' WHERE id='1'");
+	$update = mysql_query ("UPDATE config SET compteur_quote_posted_today = '1' WHERE id = '1'");
 	
 	$ids_quotes_posted_today = substr($ids_quotes_posted_today,0,strlen($ids_quotes_posted_today)-1);
 	if ($affected_rows >= '1')
@@ -677,7 +694,7 @@ function email_birthday()
 	$i = '0';
 	$txt_file = 'Birthdays on '.$date_today.'\r\n\n';
 	
-	$query = mysql_query("SELECT username, email, birth_date FROM teen_quotes_account WHERE birth_date LIKE '$date_today'");
+	$query = mysql_query("SELECT username, email, birth_date FROM teen_quotes_account WHERE birth_date LIKE '".$date_today."'");
 	if (mysql_num_rows($query) >= '1')
 		{
 		while ($donnees = mysql_fetch_array($query))
@@ -958,8 +975,8 @@ function select_country($country,$other_countries,$common_choices)
 	</select>';
 		if(strstr($str, 'value="'.$country.'"')) 
 		{
-		$str=str_replace('selected="selected"', '', $str);
-		$str=str_replace('value="'.$country.'"', 'value="'.$country.'" selected="selected"', $str);
+		$str = str_replace('selected="selected"', '', $str);
+		$str = str_replace('value="'.$country.'"', 'value="'.$country.'" selected="selected"', $str);
 		}
 	echo $str;
 	}
@@ -993,7 +1010,7 @@ function MailPostedToday($id_quote)
 	if (!empty($id_quote))
 		{
 		$id_quote = str_replace(',', '\',\'', $id_quote);
-		$query = mysql_query("SELECT id, texte_english,date,auteur,auteur_id FROM teen_quotes_quotes WHERE approved = '1' AND id IN ('$id_quote') ORDER BY id DESC");
+		$query = mysql_query("SELECT id, texte_english,date,auteur,auteur_id FROM teen_quotes_quotes WHERE approved = '1' AND id IN ('".$id_quote."') ORDER BY id DESC");
 			
 		while($donnees = mysql_fetch_array($query)) 
 			{
@@ -1092,11 +1109,11 @@ function cut_tweet($chaine)
 
 function afficher_favori ($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$id_user) 
 	{
-	if ($logged == true AND $is_favorite == '0') 
+	if ($logged == TRUE AND $is_favorite == '0') 
 		{
 		echo '<span class="favorite fade_jquery" data-id="'.$id_quote.'"><a href="" onclick="favorite('.$id_quote.','.$id_user.'); return false;" title="'.$add_favorite.'"><img src="http://teen-quotes.com/images/icones/heart.png" /></a></span>';
 		}
-	elseif($logged == true AND $is_favorite == '1')
+	elseif($logged == TRUE AND $is_favorite == '1')
 		{
 		echo '<span class="favorite fade_jquery" data-id="'.$id_quote.'"><a href=""  onclick="unfavorite('.$id_quote.','.$id_user.'); return false;" title="'.$unfavorite.'"><img src="http://teen-quotes.com/images/icones/broken_heart.gif" /></a></span>';
 		}
@@ -1104,11 +1121,11 @@ function afficher_favori ($id_quote,$is_favorite,$logged,$add_favorite,$unfavori
 
 function afficher_favori_m ($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite) 
 	{
-	if ($logged == true AND $is_favorite=='0') 
+	if ($logged == TRUE AND $is_favorite == '0') 
 		{
 		echo '<span class="favorite"><a href="favorite-'.$id_quote.'" title="'.$add_favorite.'"><img src="http://teen-quotes.com/images/icones/heart.png" /></a></span>';
 		}
-	elseif($logged==true AND $is_favorite=='1')
+	elseif($logged == TRUE AND $is_favorite == '1')
 		{
 		echo '<span class="favorite"><a href="unfavorite-'.$id_quote.'" title="'.$unfavorite.'"><img src="http://teen-quotes.com/images/icones/broken_heart.gif" /></a></span>';
 		}
@@ -1117,7 +1134,7 @@ function afficher_favori_m ($id_quote,$is_favorite,$logged,$add_favorite,$unfavo
 function share_fb_twitter ($id_quote,$txt_quote,$share) 
 	{
 	$domaine = "teen-quotes.com";
-	$txt_tweet=cut_tweet($txt_quote);
+	$txt_tweet = cut_tweet($txt_quote);
 	$url_encode = urlencode('http://'.$domaine.'/quote-'.$id_quote.'');
 	echo '<div class="share_fb_twitter"><span class="fade_jquery"><iframe src="//www.facebook.com/plugins/like.php?href='.$url_encode.'&amp;send=false&amp;layout=button_count&amp;width=110&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="true"></iframe></span><span class="right fade_jquery"><a href="http://twitter.com/share?url=http://'.$domaine.'/quote-'.$id_quote.'&text='.$txt_tweet.'" class="twitter-share-button" data-count="none">Tweet</a></span></div>';
 	}
@@ -1138,11 +1155,11 @@ function is_quote_exist ($txt_quote)
 	$quote_exist = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE texte_english like '%$txt_quote_cut%' AND approved='1'"));
 	if ($quote_exist > '0')
 		{
-		return true;
+		return TRUE;
 		}
 	else
 		{
-		return false;
+		return FALSE;
 		}
 	}
 

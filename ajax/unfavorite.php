@@ -17,8 +17,8 @@ if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$
 		}
 	else
 		{
-		$query=mysql_query('DELETE FROM teen_quotes_favorite WHERE id_quote='.$id_quote.' AND id_user='.$id.'');
-		$update_fav= mysql_query('UPDATE teen_quotes_quotes SET nb_fav=nb_fav-1 WHERE id='.$id_quote.'');
+		$query = mysql_query('DELETE FROM teen_quotes_favorite WHERE id_quote = '.$id_quote.' AND id_user = '.$id.'');
+		$update_fav = mysql_query('UPDATE teen_quotes_quotes SET nb_fav = nb_fav-1 WHERE id = '.$id_quote.'');
 		 
 		if($query) 
 			{
