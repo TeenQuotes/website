@@ -15,8 +15,35 @@ if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$
 		{
 		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '2' WHERE id = '".$id_quote."'");
 		
+		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT texte_english,date FROM teen_quotes_quotes WHERE id = '".$id_quote."'"));
+		$texte_quote = $query_texte_quote['texte_english'];
+		$date_quote = $query_texte_quote['date'];
+		
+		$query_email_auteur = mysql_fetch_array(mysql_query("SELECT email,username FROM teen_quotes_account WHERE id = '".$auteur_id."'"));
+		$email_auteur = $query_email_auteur['email'];
+		$name_auteur = ucfirst($query_email_auteur['username']);
+		
+		$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='2'"));
+		$jours_posted = floor($nb_quote_awaiting_post / $nb_quote_released_per_day);
+		if ($nb_quote_awaiting_post % $nb_quote_released_per_day != '0')
+			{
+			$jours_posted = $jours_posted + 1;
+			}
+		if ($jours_posted > '1')
+			{
+			$days_quote_posted = "days";
+			}
+		else
+			{
+			$days_quote_posted = "day";
+			}
+			
+		$date = date("d/m/Y", strtotime('+'.$jours_posted.' '.$days_quote_posted .''));
+		
 		if ($approve_quote) 
 			{
+			$message = ''.$top_mail.' Hello <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Your quote has been <font color="#5C9FC0"><b>approuved</b></font> recently by a member of our team. It will be released on <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted .'), you will receive an email when it will be posted on the website.<br><br />Here is your quote :<br><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://www.teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Sincerely,<br><b>The Teen Quotes Team</b>'.$end_mail.'';
+			$mail = mail($email_auteur, "Quote added to the queue", $message, $headers); 
 			echo ''.$succes.' The quote has been added to the queue. The author will be notified';
 			}
 		}
