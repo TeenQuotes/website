@@ -1,5 +1,5 @@
 <?php
-$comments = "comments";
+$comment = "comment";
 $warning_comments = "Thank you for being respectful
 
 Your comment must not be longer than 450 characters

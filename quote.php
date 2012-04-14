@@ -66,7 +66,7 @@ if (empty($id_quote))
 	$comments_ucfirst = ucfirst($comments);
 	echo '
 	<div class="post slidedown">
-	<h2><img src="http://'.$domaine.'/images/icones/about.png" class="icone" />'.$comments_ucfirst.''; if ($nombre_commentaires >'1'){echo '<span class="right">'.$nombre_commentaires.' '.$comments.'</span>';}else{echo'<span class="right">'.$nombre_commentaires.' '.$comments.'</span>';}echo '</h2>';
+	<h2><img src="http://'.$domaine.'/images/icones/about.png" class="icone" />'.$comments_ucfirst.''; if ($nombre_commentaires >'1'){echo '<span class="right">'.$nombre_commentaires.' '.$comment.'s</span>';}else{echo'<span class="right">'.$nombre_commentaires.' '.$comment.'</span>';}echo '</h2>';
 	if ($_SESSION['logged']) 
 		{
 		echo '
