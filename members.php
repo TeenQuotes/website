@@ -25,20 +25,13 @@ if ($totalDesMembres > 0)
 	{
 	$nb_messages_par_page = '10';
 
-	$display_page_top = display_page_top($totalDesMembres, $nb_messages_par_page, 'p', $previous_page, $next_page);
+	$display_page_top = display_page_top($totalDesMembres, $nb_messages_par_page, 'p', $previous_page, $next_page, NULL, TRUE);
 	$premierMessageAafficher = $display_page_top[0];
 	$nombreDePages = $display_page_top[1];
 	$page = $display_page_top[2];
 	
-	if ($totalDesMembres > '10') 
-		{
-		echo '<div class="post no_rounded_borders_right_top">';
-		}
-	else
-		{
-		echo '<div class="post">';
-		}
-
+	echo '<div class="post">';
+	
 	$reponse = mysql_query("SELECT * FROM teen_quotes_account WHERE username like '$lettre%' AND hide_profile = '0' ORDER BY username ASC LIMIT $premierMessageAafficher ,  $nb_messages_par_page");
 	while ($result = mysql_fetch_array($reponse))
 	{
