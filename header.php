@@ -108,7 +108,7 @@ elseif (isset($_GET['letter']) OR $php_self == "members")
 	if (empty($lettre)) { $lettre = "A"; }
 	$php_self = 'members-'.$lettre.'';
 	echo '<title>Teen Quotes | Members - '.$lettre.'</title>';
-	echo '<meta name="description" content="Teen Quotes : because our lives are filled full of beautiful sentences, and because some quotes are simply true"/>';
+	echo '<meta name="description" content="Teen Quotes : because our lives are filled full of beautiful sentences, and because some quotes are simply true. Your every day life moments."/>';
 	}
 elseif ($php_self == 'apps')
 	{
@@ -121,7 +121,7 @@ else
 	{
 	echo '<title>Teen Quotes | Because some quotes are simply true</title>';
 	echo "\r\n";
-	echo '<meta name="description" content="Teen Quotes : because our lives are filled full of beautiful sentences, and because some quotes are simply true"/>';
+	echo '<meta name="description" content="Teen Quotes : because our lives are filled full of beautiful sentences, and because some quotes are simply true. Your every day life moments."/>';
 	}
 ?>	
 		<meta name="keywords" content="'Teen Quotes', 'teenage quotes', 'teenager quotes', 'quotes for teenagers', 'teen qoutes', 'quotes', 'teen', 'citations', 'sentences', 'Augusti', 'Twitter', 'Facebook'"/> 
