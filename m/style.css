@@ -21,7 +21,7 @@ span.icone_flags{background:url('http://www.teen-quotes.com/images/icones/sprite
 span.icone_flags.english{background-position:-15px 0;height:14px;margin-right:20px;width:14px;}
 span.icone_flags.french{background-position:-30px 0;height:14px;width:14px;}
 .bleu{color:#5C9FC0;font-weight:700;}
-#topbar{-webkit-box-shadow:inset 0px -1px 5px rgba(0, 0, 0, 0.3);-moz-box-shadow:inset 0px -1px 5px rgba(0, 0, 0, 0.3);box-shadow:inset 0px -1px 5px hsla(0, 0%, 0%, 0.3);-moz-border-radius:8px;-webkit-border-radius:8px;background:#fff;border-radius:8px;font-size:85%;text-align:left;margin:0 auto;padding:10px;}
+#topbar{-webkit-box-shadow:inset 0px 1px 3px rgba(0, 0, 0, 0.3);-moz-box-shadow:inset 0px 1px 3px rgba(0, 0, 0, 0.3);box-shadow:inset 0px 1px 3px hsla(0, 0%, 0%, 0.3);-moz-border-radius:8px;-webkit-border-radius:8px;background:#fff;border-radius:8px;font-size:85%;text-align:left;margin:0 auto;padding:10px;}
 #topbar .title{margin-top:-10px;}
 #topbar .title a{color:#424545;text-decoration:none;}
 #topbar .title a:hover{color:#5C9FC0;}
@@ -41,7 +41,7 @@ span.icone_flags.french{background-position:-30px 0;height:14px;width:14px;}
 #wrapper h3{color:#246;margin-bottom:8px;margin-left:20px;font-family:Helvetica;}
 h1,h2,h3 {letter-spacing:-1px}
 .min_info{font-size:75%;}
-.post{-webkit-box-shadow:inset 0px -1px 5px rgba(0, 0, 0, 0.3);-moz-box-shadow:inset 0px -1px 5px rgba(0, 0, 0, 0.3);box-shadow:inset 0px -1px 5px hsla(0, 0%, 0%, 0.3);-moz-border-radius:8px;-webkit-border-radius:8px;background:#fff;border-radius:8px;color:#666;font-size:12px;font-weight:300;line-height:20px;width:95%;margin:0 auto 15px;padding:5px 10px;}
+.post{-webkit-box-shadow:inset 0px 1px 3px rgba(0, 0, 0, 0.3);-moz-box-shadow:inset 0px 1px 3px rgba(0, 0, 0, 0.3);box-shadow:inset 0px 1px 3px hsla(0, 0%, 0%, 0.3);-moz-border-radius:8px;-webkit-border-radius:8px;background:#fff;border-radius:8px;color:#666;font-size:12px;font-weight:300;line-height:20px;width:95%;margin:0 auto 15px;padding:5px 10px;}
 #wrapper a,.post a,#footer a{color:#5C9FC0;font-weight:700;text-decoration:none;}
 .post a:hover,#footer a:hover{text-decoration:underline;}
 .post a.boutton{-moz-border-radius:10px;-webkit-border-radius:10px;background:#246;border-radius:10px;color:#fff;font-size:14px;font-weight:400;padding:5px 12px;}
@@ -58,7 +58,7 @@ input .edit_user,select .edit_user{width:180px;}
 input:hover,textarea:hover,input:focus,textarea:focus{border:1px solid #5C9FC0;}
 input.submit{-moz-border-radius:8px;-webkit-border-radius:8px;background:#5C9FC0;border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:400;padding:5px;}
 input.signup{width:230px;}
-#footer{-webkit-box-shadow:inset 0px -1px 5px rgba(0, 0, 0, 0.3);-moz-box-shadow:inset 0px -1px 5px rgba(0, 0, 0, 0.3);box-shadow:inset 0px -1px 5px hsla(0, 0%, 0%, 0.3);-moz-border-radius:8px;-webkit-border-radius:8px;background:#fff;border-radius:8px;font-size:50%;margin:10px auto;padding:10px;}
+#footer{-webkit-box-shadow:inset 0px 1px 3px rgba(0, 0, 0, 0.3);-moz-box-shadow:inset 0px 1px 3px rgba(0, 0, 0, 0.3);box-shadow:inset 0px 1px 3px hsla(0, 0%, 0%, 0.3);-moz-border-radius:8px;-webkit-border-radius:8px;background:#fff;border-radius:8px;font-size:50%;margin:10px auto;padding:10px;}
 #footer a{font-weight:400;}
 .error{color:#246;display:block;font-weight:700;margin:10px auto 15px auto;vertical-align:middle}
 .erreur{background:transparent url('http://www.teen-quotes.com/images/icones/alert.png') no-repeat 2% 50%;color:#5C9FC0;font-weight:600;padding-left:30px;}
