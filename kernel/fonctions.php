@@ -741,6 +741,7 @@ function select_country($country,$other_countries,$common_choices)
 			<option value="United States" selected="selected">United States</option> 
 			<option value="Canada">Canada</option> 
 			<option value="United Kingdom" >United Kingdom</option>
+			<option value="France">France</option> 
 			<option value="Ireland" >Ireland</option>
 			<option value="Australia" >Australia</option>
 			<option value="New Zealand" >New Zealand</option>
@@ -818,7 +819,6 @@ function select_country($country,$other_countries,$common_choices)
 			<option value="Faroe Islands">Faroe Islands</option> 
 			<option value="Fiji">Fiji</option> 
 			<option value="Finland">Finland</option> 
-			<option value="France">France</option> 
 			<option value="French Guiana">French Guiana</option> 
 			<option value="French Polynesia">French Polynesia</option> 
 			<option value="French Southern Territories">French Southern Territories</option> 
