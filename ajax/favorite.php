@@ -11,7 +11,7 @@ $id = mysql_real_escape_string($_POST['id_user']);
 
 if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$domaine_en.'/', $_SERVER['SERVER_NAME'])) 
 	{
-	if (empty($id_quote))
+	if (empty($id_quote) OR empty($id))
 		{
 		echo 'Erreur id !';
 		}
