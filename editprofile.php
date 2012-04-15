@@ -204,14 +204,22 @@ elseif ($action=="avatar")
 					unlink("./images/avatar/$id.$extension_upload"); // delete de l'image si celle ci existe
 					}
 				// On peut valider le fichier et le stocker définitivement
-				move_uploaded_file($_FILES['photo']['tmp_name'], './images/avatar/' . $id.$point.$extension_upload);
-				// on écrit la requête sql 
-				$nom_fichier = $id.$point.$extension_upload;
-				$sql = "UPDATE teen_quotes_account SET avatar='$nom_fichier' WHERE id='$id'"; 
-				mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error());
-				$_SESSION['avatar'] = $nom_fichier;
-				echo ''.$change_avatar_succes.'';
-				echo '<meta http-equiv="refresh" content="3;url=user-'.$id.'" />';
+				$move = move_uploaded_file($_FILES['photo']['tmp_name'], './images/avatar/' . $id.$point.$extension_upload);
+				
+				if ($move)
+					{
+					// on écrit la requête sql 
+					$nom_fichier = $id.$point.$extension_upload;
+					$sql = "UPDATE teen_quotes_account SET avatar='$nom_fichier' WHERE id='$id'"; 
+					mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error());
+					$_SESSION['avatar'] = $nom_fichier;
+					echo ''.$change_avatar_succes.'';
+					echo '<meta http-equiv="refresh" content="3;url=user-'.$id.'" />';
+					}
+				else
+					{
+					echo '<span class="erreur">'.$error.'</span>'.$lien_retour.'';
+					}
 				}
 			else
 				{
@@ -296,29 +304,20 @@ elseif ($action == "settings")
 	$email = $_SESSION['email'];
 	
 	// NEWSLETTER
-	if ($newsletter == '1')
+	if ($newsletter == '1' AND $is_newsletter == '0')
 		{
 		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 			{
-			$num_rows=mysql_num_rows(mysql_query("SELECT id FROM newsletter where email='$email'")); 
-			if ($num_rows=="0") 
-				{
-				$code = caracteresAleatoires(5);
-				$query=mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");
-				if ($query) 
-					{
-					echo ''.$settings_updated.'';
-					$notifications_succes = TRUE;
-					}
-				else 
-					{
-					echo ''.$error.' '.$lien_retour.'';
-					}
-				}
-			else
+			$code = caracteresAleatoires(5);
+			$query=mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");
+			if ($query) 
 				{
 				echo ''.$settings_updated.'';
 				$notifications_succes = TRUE;
+				}
+			else 
+				{
+				echo ''.$error.' '.$lien_retour.'';
 				}
 			}
 		else 
@@ -326,28 +325,19 @@ elseif ($action == "settings")
 			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
 			}
 		}
-	else 
+	elseif ($newsletter != '1' AND $is_newsletter == '1') 
 		{
 		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 			{
-			$num_rows = mysql_num_rows(mysql_query("SELECT id FROM newsletter WHERE email='$email'")); 
-			if ($num_rows=="1") 
-				{
-				$query=mysql_query("DELETE FROM newsletter WHERE email='$email'");
-				if ($query) 
-					{
-					echo ''.$settings_updated.'';
-					$notifications_succes = TRUE;
-					}
-				else 
-					{
-					echo ''.$error.' '.$lien_retour.'';
-					}
-				}
-			else
+			$query = mysql_query("DELETE FROM newsletter WHERE email='$email'");
+			if ($query) 
 				{
 				echo ''.$settings_updated.'';
 				$notifications_succes = TRUE;
+				}
+			else 
+				{
+				echo ''.$error.' '.$lien_retour.'';
 				}
 			}
 		else 
@@ -380,27 +370,27 @@ elseif ($action == "settings")
 			echo ''.$error.' '.$lien_retour.'';
 			}
 		}
-	else
+	elseif ($email_quote_today != '1' AND $email_quote_today_num_rows == '1')
 		{
 		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 			{
 			$query = mysql_query("DELETE FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'");
 			if ($query) 
+				{
+				if ($notifications_succes != TRUE)
 					{
-					if ($notifications_succes != TRUE)
-						{
-						echo ''.$settings_updated.'';
-						$notifications_succes = TRUE;
-						}
+					echo ''.$settings_updated.'';
+					$notifications_succes = TRUE;
 					}
-				else 
-					{
-					echo ''.$error.' '.$lien_retour.'';
-					}
+				}
+			else 
+				{
+				echo ''.$error.' '.$lien_retour.'';
+				}
 			}
 		else 
 			{
-			echo ''.$error.' '.$lien_retour.'';
+			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
 			}
 		}
 		
