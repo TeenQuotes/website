@@ -3,7 +3,7 @@ include "header.php";
 // CALCUL DU NOMBRE DE PAGES
 $i = '0';
 
-$retour = mysql_query("SELECT COUNT(*) AS nb_messages FROM teen_quotes_quotes WHERE approved='1'");
+$retour = mysql_query("SELECT COUNT(*) AS nb_messages FROM teen_quotes_quotes WHERE approved = '1'");
 $donnees = mysql_fetch_array($retour);
 $nb_messages_par_page = '10';
 
@@ -12,7 +12,7 @@ $premierMessageAafficher = $display_page_top[0];
 $nombreDePages = $display_page_top[1];
 $page = $display_page_top[2];
 
-$reponse = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved='1' ORDER BY id DESC LIMIT $premierMessageAafficher ,  $nb_messages_par_page");
+$reponse = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved = '1' ORDER BY id DESC LIMIT ".$premierMessageAafficher.",  ".$nb_messages_par_page."");
 while ($result = mysql_fetch_array($reponse))
 	{
 	$logged = $_SESSION['logged'];
@@ -22,13 +22,16 @@ while ($result = mysql_fetch_array($reponse))
 	$auteur = $result['auteur']; 
 	$date_quote = $result['date'];
 
-	$nombre_commentaires= mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='$id_quote'")); 
-	$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='$id_quote' AND id_user='$id'"));
+	$nombre_commentaires= mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote = '".$id_quote."'")); 
+	if ($logged)
+		{
+		$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='".$id_quote."' AND id_user='".$id."'"));
+		}
 ?>
 	<div class="post<?php if($i=='0'){echo ' no_rounded_borders_right_top';} ?>">
 	<?php is_quote_new($date_quote,$last_visit,$page,$i); ?><?php echo $txt_quote; ?><br>
 	<div style="font-size:65%">
-	<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?> - <?php if($nombre_commentaires >'1'){echo "$nombre_commentaires $comments";}elseif($nombre_commentaires=='1'){echo "$nombre_commentaires $comment";}else{echo"$no_comments";} ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+	<a href="quote-<?php echo $id_quote; ?>">#<?php echo $id_quote; ?> - <?php if($nombre_commentaires >'1'){echo ''.$nombre_commentaires.' '.$comments.'';}elseif($nombre_commentaires=='1'){echo ''.$nombre_commentaires.' '.$comment.'';}else{echo ''.$no_comments.'';} ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 	</div>
 	</div>
 <?php

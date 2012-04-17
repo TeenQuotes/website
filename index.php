@@ -22,8 +22,11 @@ while ($result = mysql_fetch_array($reponse))
 	$auteur = $result['auteur']; 
 	$date_quote = $result['date'];
 
-	$nombre_commentaires= mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='".$id_quote."'")); 
-	$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='".$id_quote."' AND id_user='".$id."'"));
+	$nombre_commentaires= mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='".$id_quote."'"));
+	if ($logged)
+		{
+		$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='".$id_quote."' AND id_user='".$id."'"));
+		}
 ?>
 	<div class="post">
 	<?php is_quote_new($date_quote,$last_visit,$page,$i); ?><?php echo $txt_quote; ?><br>

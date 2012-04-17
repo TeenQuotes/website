@@ -23,7 +23,10 @@ while ($result = mysql_fetch_array($reponse))
 	$date_quote = $result['date'];
 
 	$nombre_commentaires= mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='".$id_quote."'")); 
-	$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='".$id_quote."' AND id_user='".$id."'"));
+	if ($logged)
+		{
+		$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='".$id_quote."' AND id_user='".$id."'"));
+		}
 ?>
 	<div class="post">
 	<?php echo $txt_quote; ?><br>
