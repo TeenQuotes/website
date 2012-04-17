@@ -68,7 +68,8 @@ else
 			$age = '';
 			}
 		
-		echo '<div class="post">';
+		echo '<div class="post">
+		<div class="grey_post">';
 		
 		if ($result['hide_profile'] == '1' AND $id = $_SESSION['id'])
 			{
@@ -107,6 +108,7 @@ else
 			<div class="clear"></div>
 			<h3>'.$about_user.' '.$result['username'].'</h3>
 			'.$result['about_me'].'
+			</div>
 			';
 			
 		echo '</div>';

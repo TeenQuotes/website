@@ -99,6 +99,7 @@ select {outline:none}
 .highlight {background:yellow}
 .graph_stats {width:600px;height:400px}
 .no_shadow {-moz-box-shadow: 0 0 0 0 #FFF;-webkit-box-shadow: 0 0 0 0 #FFF;box-shadow: 0 0 0 0 #FFF;}
+.margin_profile_user {margin:5px}
 
 
 /* UI Button */
