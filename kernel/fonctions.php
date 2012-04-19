@@ -1275,31 +1275,13 @@ function mobile_device_detect($iphone=true,$android=true,$opera=true,$blackberry
   $user_agent       = $_SERVER['HTTP_USER_AGENT']; // get the user agent value - this should be cleaned to ensure no nefarious input gets executed
   $accept           = $_SERVER['HTTP_ACCEPT']; // get the content accept value - this should be cleaned to ensure no nefarious input gets executed
   $domaine = "teen-quotes.com";
-  if (isset($_GET['id_user'])) 
-	{
-	$id_user = mysql_real_escape_string($_GET['id_user']);
-	$php_self = 'user-'.$id_user.'';
-	}
-  elseif (isset($_GET['id_quote'])) 
-	{
-	$id_quote = mysql_real_escape_string($_GET['id_quote']);
-	$php_self = 'quote-'.$id_quote.'';
-	}
-  elseif (isset($_GET['letter']) OR $php_self == "members") 
-	{
-	$lettre = mysql_real_escape_string($_GET['letter']);
-	if (empty($lettre))
-		{
-		$lettre = "A"; 
-		}
-	$php_self = 'members-'.$lettre.'';
-	}
-  $iphone='http://m.'.$domaine.'/'.$php_self.'';
-  $android=$iphone;
-  $opera=$iphone;
-  $blackberry=$iphone;
-  $palm=$iphone;
-  $windows=$iphone;
+  
+  $iphone = 'http://m.'.$domaine.''.$_SERVER['REQUEST_URI'].'';
+  $android = $iphone;
+  $opera = $iphone;
+  $blackberry = $iphone;
+  $palm = $iphone;
+  $windows = $iphone;
 
   switch(true){ // using a switch against the following statements which could return true is more efficient than the previous method of using if statements
 
