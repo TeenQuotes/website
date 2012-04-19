@@ -69,3 +69,42 @@ $bad_extension="Votre photo doit être au format JPG, GIF ou PNG !";
 $select_a_file = "Merci de sélectionner une image !";
 
 $settings_updated = "$succes Vos options ont été mises à jour avec succès !";
+
+$delete_account = "Supprimer mon compte";
+$txt_delete_account = "En supprimant votre compte sur ".$name_website.", seront supprimés :<br>
+<ul>
+	<li>L'intégralité de votre compte</li>
+	<li>Vos commentaires</li>
+	<li>Vos citations favorites</li>
+</ul>
+En revanche, si vous avez proposé des citations et qu'elles ont été acceptées, elles ne seront pas supprimées. Elles seront associées à un compte par défaut.<br>";
+$confirm_delete_by_email = "<br />
+Vous devrez valider la suppression de votre compte par email.";
+$i_want_to_delete_my_account = "Je veux supprimer mon compte";
+$email_subject_delete_account = "Suppression de votre compte";
+$email_message_delete_account = "".$top_mail." Bonjour ".$_SESSION['username'].",<br>
+<br />
+Vous voulez supprimer votre compte sur ".$name_website.". Pour confimer ce choix, vous devez cliquer sur <a href=\"http://".$domaine."/editprofile?action=delete_account_confirm&id=".$_SESSION['id']."&code=".$code."\">ce lien</a>.<br>
+<br />
+".$txt_delete_account."<br>
+".$end_mail."";
+
+$mail_sent_delete_account = "Vous voulez supprimer votre compte sur ".$name_website.". Pour confimer ce choix, vous devez cliquer sur le lien qui a été envoyé à votre adresse email (".$_SESSION['email'].").";
+$already_exist_delete_account = "Vous avez déjà demandé à supprimer votre compte.";
+
+$txt_delete_account_short = "En supprimant votre compte sur ".$name_website.", seront supprimés :<br>
+<ul>
+	<li>L'intégralité de votre compte</li>
+	<li>Vos commentaires</li>
+	<li>Vos citations favorites</li>
+</ul>";
+$delete_account_not_exist = "Impossible de trouver une demande avec ces informations";
+$txt_to_write = "EFFACER";
+$write_here_delete = "Écrivez ici \"".$txt_to_write."\"";
+$do_not_delete_account = "J'ai bien réfléchi et je veux garder mon compte sur ".$name_website.".";
+$i_dont_want_to_delete_my_account = "Je veux garder mon compte";
+
+$account_not_deleted_successfully = "Votre compte n'a pas été supprimé ! Ouf...";
+
+$account_deleted_successfully = "Votre compte et toutes les informations associées ont été définitivement supprimées. Vous serez déconnecté définitivement dans 5 secondes...";
+$wrong_txt_to_write = "Vous n'avez pas entré le bon texte.";

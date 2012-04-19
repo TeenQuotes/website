@@ -68,6 +68,44 @@ $change_avatar_succes ="$succes Your photo has been updated successfully !<br><b
 $photo_extra_size="The size of your photo is too big! The maximum is 500 ko!";
 $bad_extension="Your photo must be in JPG, PNG or GIF !";
 $select_a_file = "Please select a file !";
-			
-			
+	
 $settings_updated = "$succes Your options have been updated successfully !";
+
+$delete_account = "Delete my account";
+$txt_delete_account = "By deleting your account on ".$name_website.", will be deleted :<br>
+<ul>
+	<li>Your entire account</li>
+	<li>Your comments</li>
+	<li>Your favorite quotes </li>
+</ul>
+But if you suggested quotes and they were accepted, they will not be deleted. They will be associated to a default account. <br>";
+$confirm_delete_by_email = "<br />
+You will need to confirm the deletion of your account by email.";
+$i_want_to_delete_my_account = "I want to delete my account";
+$email_subject_delete_account = "Delete your account";
+$email_message_delete_account = "".$top_mail." Hello ".$_SESSION['username'].",<br>
+<br />
+You want to delete your account on ".$name_website.". To confirm this request, you must click on <a href=\"http://".$domaine."/editprofile?action=delete_account_confirm&id=".$_SESSION['id']."&code=".$code."\">this link</a>.<br>
+<br />
+".$txt_delete_account."<br>
+".$end_mail."";
+
+$mail_sent_delete_account = "You want to delete your account on ".$name_website.". To confirm this request, you must click on the link that was sent to your email address (".$_SESSION['email'].").";
+$already_exist_delete_account = "You have already asked to remove your account.";
+
+$txt_delete_account_short = "By deleting your account on ".$name_website.", will be deleted :<br>
+<ul>
+	<li>Your entire account</li>
+	<li>Your comments</li>
+	<li>Your favorite quotes </li>
+</ul>";
+$delete_account_not_exist = "Can not find a request with this information";
+$txt_to_write = "DELETE";
+$write_here_delete = "Write here \"".$txt_to_write."\"";
+$do_not_delete_account = "I've been thinking and I want to keep my account on ".$name_website.".";
+$i_dont_want_to_delete_my_account = "I want to keep my account";
+
+$account_not_deleted_successfully = "Your account has not been deleted ! Phew...";
+
+$account_deleted_successfully = "Your account and all related information have been permanently deleted. You will be disconnected permanently in 5 seconds...";
+$wrong_txt_to_write = "You have not entered the correct text.";

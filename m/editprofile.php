@@ -10,6 +10,11 @@ $email_quote_today_num_rows = mysql_num_rows(mysql_query("SELECT id FROM teen_qu
 $is_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletter where email='$email'"));
 $notification_comment_quote = $result['notification_comment_quote'];
 
+if ($action == "delete_account")
+	{
+	$code = caracteresAleatoires(10);
+	}
+
 // SELECTED POUR LE TITRE USER
 switch ($result['title']) {
 case "Mr" : $selected_mr='selected="selected"';
@@ -117,6 +122,16 @@ if (empty($action))
 			</form>
 		</div>
 	</div>
+	
+	<div class="post">
+		<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
+		<div class="grey_post">
+		'.$txt_delete_account.$confirm_delete_by_email.'
+			<form action="?action=delete_account" method="post">
+			<center><p><input type="submit" value="'.$i_want_to_delete_my_account.'" class="submit" /></p></center>
+			</form>
+		</div>
+	</div>	
 	';
 	}
 elseif ($action=="send") 
@@ -412,6 +427,165 @@ elseif ($action == "settings")
 		}
 	echo '</div>';
 	}
+elseif ($action == "delete_account")
+	{
+	echo '
+	<div class="post">
+	<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
+	';
+	
+	if (!empty($_SESSION['id']) AND !empty($_SESSION['email']))
+		{
+		$id_user = $_SESSION['id'];
+		
+		$query = mysql_query("SELECT id FROM delete_account WHERE id_user = '".$id_user."' AND statut = '0'");
+		if (mysql_num_rows($query) == '0')
+			{
+			$insert = mysql_query("INSERT INTO delete_account (id_user,code) VALUES ('".$id_user."', '".$code."')");
+			$mail = mail($_SESSION['email'], $email_subject_delete_account, $email_message_delete_account, $headers);
+			if ($insert AND $mail)
+				{
+				echo ''.$succes.' '.$mail_sent_delete_account.'';
+				}
+			else
+				{
+				echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+				}
+			}
+		else
+			{
+			echo '<div class="bandeau_erreur">'.$already_exist_delete_account.'</div> '.$lien_retour.'';
+			}
+		}
+	else
+		{
+		echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+		}
+	echo '</div>';
+	}
+elseif ($action == "delete_account_confirm")
+	{
+	echo '
+	<div class="post">
+	<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
+	';
+	
+	$id_user = mysql_real_escape_string($_GET['id']);
+	$code = mysql_real_escape_string($_GET['code']);
+	
+	if (($_SESSION['id'] == $id_user) AND !empty($code))
+		{
+		$query = mysql_query("SELECT id FROM delete_account WHERE id_user = '".$id_user."' AND code = '".$code."' AND statut = '0'");
+		
+		if (mysql_num_rows($query) == '1')
+			{
+			echo '
+			<div class="grey_post">
+			'.$txt_delete_account_short.'
+				<form action="?action=delete_account_valide" method="post">
+					<input type="hidden" name="code" value="'.$code.'" />
+					'.$write_here_delete.'<br>
+					<input type="text" name="confirm" />
+					<center><p><input type="submit" value="'.$i_want_to_delete_my_account.'" class="submit" /></p></center>
+				</form>
+			</div>
+			
+			<div class="grey_post">
+			'.$do_not_delete_account.'
+				<form action="?action=delete_account_cancel" method="post">
+				<input type="hidden" name="code" value="'.$code.'" />
+					<center><p><input type="submit" value="'.$i_dont_want_to_delete_my_account.'" class="submit" /></p></center>
+				</form>
+			</div>
+			<div class="clear"></div>';
+			}
+		else
+			{
+			echo '<div class="bandeau_erreur">'.$delete_account_not_exist.'</div> '.$lien_retour.'';
+			}
+		}
+	else
+		{
+		echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+		}
+	echo '</div>';
+	}
+elseif ($action == "delete_account_cancel")
+	{
+	echo '
+	<div class="post">
+	<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
+	';
+	
+	$code = mysql_real_escape_string($_POST['code']);
+	$query = mysql_query("SELECT id FROM delete_account WHERE id_user = '".$_SESSION['id']."' AND code = '".$code."' AND statut = '0'");
+	
+	if (mysql_num_rows($query) == '1')
+		{
+		$delete = mysql_query("UPDATE delete_account SET statut = '-1' WHERE id_user = '".$_SESSION['id']."' AND code = '".$code."' AND statut = '0'");
+		
+		if ($delete)
+			{
+			echo ''.$succes.''.$account_not_deleted_successfully.'';
+			echo '<meta http-equiv="refresh" content="5;url=../" />';
+			}
+		else
+			{
+			echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+			}
+		}
+	else
+		{
+		echo '<div class="bandeau_erreur">'.$delete_account_not_exist.'</div> '.$lien_retour.'';
+		}
+	echo '</div>';
+	}
+elseif ($action == "delete_account_valide")
+	{
+	echo '
+	<div class="post">
+	<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
+	';
+	
+	$code = mysql_real_escape_string($_POST['code']);
+	$confirm = mysql_real_escape_string($_POST['confirm']);
+	
+	if ($confirm == $txt_to_write)
+		{
+		$query = mysql_query("SELECT id FROM delete_account WHERE id_user = '".$_SESSION['id']."' AND code = '".$code."' AND statut = '0'");
+		if (mysql_num_rows($query) == '1')
+			{
+			$update_quote = mysql_query("UPDATE teen_quotes_quotes SET auteur_id = '1211' AND auteur = 'Unknow' WHERE auteur_id = '".$_SESSION['id']."' AND approved IN ('0','1','2')");
+			$delete_comments = mysql_query("DELETE FROM teen_quotes_comments WHERE auteur_id = '".$_SESSION['id']."'");
+			$delete_favorites = mysql_query("DELETE FROM teen_quotes_favorite WHERE id_user = '".$_SESSION['id']."'");
+			$delete_visitors = mysql_query("DELETE FROM teen_quotes_visitors WHERE id_visitor = '".$_SESSION['id']."'");
+			$delete_newsletter = mysql_query("DELETE FROM newsletter WHERE email = '".$_SESSION['email']."'");
+			$delete_newsletter_quotidienne = mysql_query("DELETE FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '".$_SESSION['email']."'");
+			$delete_account = mysql_query("DELETE FROM teen_quotes_account WHERE id = '".$_SESSION['id']."'");
+			
+			if ($delete_account AND $delete_newsletter_quotidienne AND $delete_visitors AND $delete_favorites AND $delete_comments AND $update_quote)
+				{
+				$update_statut = mysql_query("UPDATE delete_account SET statut = '1' WHERE code = '".$code."'");
+				echo ''.$succes.' '.$account_deleted_successfully.'';
+				echo '<meta http-equiv="refresh" content="5;url=?deconnexion" />';
+				}
+			else
+				{
+				echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+				}
+			}
+		else
+			{
+			echo '<div class="bandeau_erreur">'.$delete_account_not_exist.'</div> '.$lien_retour.'';
+			}
+		}
+	else
+		{
+		echo '<div class="bandeau_erreur">'.$wrong_txt_to_write.'</div> '.$lien_retour.'';
+		}
+	echo '</div>';
+	}
+
 
 include "footer.php";
 ?>
