@@ -5,13 +5,16 @@ $i = '0';
 $j = '0';
 
 $id = mysql_real_escape_string($_GET['id_user']);
-$exist_user = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE id='$id'"));
-if ($exist_user=='0') {header("Location: error.php?erreur=404"); }
+$exist_user = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE id = '".$id."'"));
+if ($exist_user == '0')
+	{
+	header("Location: error.php?erreur=404");
+	}
 
 if($id != $_SESSION['id'] AND !empty($id) AND !empty($_SESSION['id']))
 	{
 	$id_visitor = $_SESSION['id'];
-	$insert_visitor = mysql_query("INSERT INTO teen_quotes_visitors (id_user,id_visitor) VALUES ('$id','$id_visitor')");
+	$insert_visitor = mysql_query("INSERT INTO teen_quotes_visitors (id_user,id_visitor) VALUES ('".$id."','".$id_visitor."')");
 	}
 
 // FORMULAIRE
@@ -25,40 +28,37 @@ include 'footer.php';
 	}
 else
 	{
-	$result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account where id='$id'"));
+	$result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account WHERE id = '".$id."'"));
 	
 	// SI LE PROFIL DOIT ETRE CACHE
 	if ($result['hide_profile'] == '1' AND $id != $_SESSION['id'])
 		{
 		echo '
 		<div class="bandeau_erreur">
-		<span class="erreur">'.$hide_profile.'</span>
-		'.$lien_retour.'
+			<span class="erreur">'.$hide_profile.'</span>
+			'.$lien_retour.'
 		</div>
 		';
 		}
 	elseif ($result['hide_profile'] == '0' OR ($result['hide_profile'] == '1' AND $id = $_SESSION['id']))
 		{
 		// AFFICHAGE DES INFOS DU PROFIL
-		$nb_quotes_approved=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes where auteur_id='$id' AND approved='1'"));
-		$nb_quotes_submited=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes where auteur_id='$id'"));
-		$nb_favorite_quotes=mysql_num_rows(mysql_query("SELECT DISTINCT id_quote FROM teen_quotes_favorite where id_user='$id'"));
-		$nb_comments=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_comments where auteur_id='$id'"));
-		$nb_quotes_added_to_favorite = mysql_num_rows(mysql_query("SELECT F.id FROM teen_quotes_favorite F, teen_quotes_quotes Q WHERE F.id_quote=Q.id AND Q.auteur_id='$id'"));
-		if ($nb_quotes_approved >= '1') 
-			{
-			$quotes = mysql_query("SELECT id, texte, date FROM teen_quotes_quotes where auteur_id='$id' AND approved='1'");
-			}
-		if(empty($result['birth_date'])) {$result['birth_date']="$not_specified";}
-		if(empty($result['title'])) {$result['title']="$not_specified";}
-		if(empty($result['about_me'])) {$result['about_me']="$no_description";}
-		if(empty($result['country'])) {$result['country']="$not_specified";}
-		if(empty($result['city'])) {$result['city']="$not_specified";}
-		if(empty($result['number_comments'])) {$result['number_comments']="$no_posted_comments";}
+		$nb_quotes_approved=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id = '".$id."' AND approved = '1'"));
+		$nb_quotes_submited=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id = '".$id."'"));
+		$nb_favorite_quotes=mysql_num_rows(mysql_query("SELECT DISTINCT id_quote FROM teen_quotes_favorite WHERE id_user = '".$id."'"));
+		$nb_comments=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_comments WHERE auteur_id = '".$id."'"));
+		$nb_quotes_added_to_favorite = mysql_num_rows(mysql_query("SELECT F.id FROM teen_quotes_favorite F, teen_quotes_quotes Q WHERE F.id_quote = Q.id AND Q.auteur_id= '".$id."'"));
+		
+		if(empty($result['birth_date'])) {$result['birth_date']=''.$not_specified.'';}
+		if(empty($result['title'])) {$result['title']=''.$not_specified.'';}
+		if(empty($result['about_me'])) {$result['about_me']= ''.$no_description.'';}
+		if(empty($result['country'])) {$result['country']=''.$not_specified.'';}
+		if(empty($result['city'])) {$result['city']=''.$not_specified.'';}
+		if(empty($result['number_comments'])) {$result['number_comments']= ''.$no_posted_comments.'';}
 		if(empty($result['avatar'])) {$result['avatar']="icon50.png";}
 		if($result['avatar']=="http://www.teen-quotes.com/images/icon50.png") {$result['avatar']="icon50.png";}
 		
-		if ($result['birth_date'] != "$not_specified")
+		if ($result['birth_date'] != ''.$not_specified.'')
 			{
 			$age = age($result['birth_date']);
 			$age = '('.$age.' '.$years_old.')';
@@ -90,13 +90,13 @@ else
 			echo '</span></h2>';
 			echo '
 			<div style="position:relative;margin-left:55px;">
-			<span class="bleu">'.$title.':</span> '.$result['title'].'<br>
-			<span class="bleu">'.$birth_date.' :</span> '. $result['birth_date'].' '.$age.'<br>
-			<span class="bleu">'.$country.' :</span> '. $result['country'].'<br>
-			<span class="bleu">'.$city.' :</span> '. $result['city'].'<br>
-			<span class="bleu">'.$fav_quote.' :</span> '. $nb_favorite_quotes.'<br>
-			<span class="bleu">'.$number_comments.' :</span> '. $nb_comments.'<br>
-			<span class="bleu">'.$number_quotes.' :</span> '.$nb_quotes_approved.' '.$validees.' '.$nb_quotes_submited.' '.$soumises.'<br>';
+				<span class="bleu">'.$title.':</span> '.$result['title'].'<br>
+				<span class="bleu">'.$birth_date.' :</span> '. $result['birth_date'].' '.$age.'<br>
+				<span class="bleu">'.$country.' :</span> '. $result['country'].'<br>
+				<span class="bleu">'.$city.' :</span> '. $result['city'].'<br>
+				<span class="bleu">'.$fav_quote.' :</span> '. $nb_favorite_quotes.'<br>
+				<span class="bleu">'.$number_comments.' :</span> '. $nb_comments.'<br>
+				<span class="bleu">'.$number_quotes.' :</span> '.$nb_quotes_approved.' '.$validees.' '.$nb_quotes_submited.' '.$soumises.'<br>';
 			if ($nb_quotes_approved > '0')
 				{
 				echo '
@@ -146,26 +146,30 @@ else
 			$nombreDePages = $display_page_top[1];
 			$page = $display_page_top[2];
 	
-			$reponse = mysql_query("SELECT DISTINCT id_quote FROM teen_quotes_favorite WHERE id_user='$id' ORDER BY id DESC LIMIT $premierMessageAafficher ,  $nb_messages_par_page");
+			$reponse = mysql_query("SELECT DISTINCT id_quote FROM teen_quotes_favorite WHERE id_user= '".$id."' ORDER BY id DESC LIMIT ".$premierMessageAafficher." ,  ".$nb_messages_par_page."");
 			while ($resultat = mysql_fetch_array($reponse))
 				{
 				$id_quote_fav=$resultat['id_quote'];
-				$donnees=mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_quotes WHERE id='$id_quote_fav'"));
+				$donnees = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_quotes WHERE id = '".$id_quote_fav."'"));
 				$id_visitor = $_SESSION['id'];
-				$nombre_commentaires = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='".$id_quote_fav."'"));
-				$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='$id_quote_fav' AND id_user='$id_visitor'"));
+				$nombre_commentaires = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote = '".$id_quote_fav."'"));
 				$logged = $_SESSION['logged'];
 				$id_quote = $donnees['id'];
 				$txt_quote = $donnees['texte_english'];
 				$auteur_id = $donnees['auteur_id'];
 				$auteur = $donnees['auteur']; 
 				$date_quote = $donnees['date'];
+				
+				if ($logged)
+					{
+					$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote = '".$id_quote_fav."' AND id_user = '".$id_visitor."'"));
+					}
 				?>
 		
 				<div class="grey_post">
 				<?php echo $donnees['texte_english']; ?><br>
 				<div style="font-size:65%">
-				<a href="quote-<?php echo $id_quote_fav; ?>">#<?php echo $id_quote_fav; ?> - <?php if($nombre_commentaires >'1'){echo "$nombre_commentaires $comments";}elseif($nombre_commentaires=='1'){echo "$nombre_commentaires $comment";}else{echo"$no_comments";} ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+				<a href="quote-<?php echo $id_quote_fav; ?>">#<?php echo $id_quote_fav; ?> - <?php if($nombre_commentaires >'1'){echo ''.$nombre_commentaires.' '.$comments.'';}elseif($nombre_commentaires ==  '1'){echo ''.$nombre_commentaires.' '.$comment.'';}else{echo ''.$no_comments.'';} ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 				</div>
 				</div>
 				<?php 
@@ -218,8 +222,8 @@ else
 			$nombreDePages = $display_page_top[1];
 			$page = $display_page_top[2];
 			
-			$query_reponse = "SELECT * FROM teen_quotes_quotes WHERE auteur_id='$id' AND approved='1' ORDER BY id DESC LIMIT $premierMessageAafficher ,  $nb_messages_par_page";
-			$reponse = mysql_query($query_reponse) or die("<b>A fatal MySQL error occured</b>.\n<br />Query: " . $query_reponse. "<br />\nError: (" . mysql_errno() . ") " . mysql_error()); 
+			$query_reponse = "SELECT * FROM teen_quotes_quotes WHERE auteur_id= '".$id."' AND approved = '1' ORDER BY id DESC LIMIT ".$premierMessageAafficher." ,  ".$nb_messages_par_page."";
+			$reponse = mysql_query($query_reponse); 
 			while ($result = mysql_fetch_array($reponse))
 				{
 				$logged = $_SESSION['logged'];
@@ -230,13 +234,16 @@ else
 				$date_quote = $result['date'];
 				
 				$id_user_co = $compte['id'];
-				$nombre_commentaires = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='".$id_quote."'"));
-				$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='$id_quote' AND id_user='$id_user_co'"))
+				$nombre_commentaires = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote= '".$id_quote."'"));
+				if ($logged)
+					{
+					$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote = '".$id_quote."' AND id_user= '".$id_user_co."'"));
+					}
 				?>
 				<div class="grey_post">
 				<?php echo $result['texte_english']; ?><br>
 				<div style="font-size:65%">
-				<a href="quote-<?php echo $id_quote; ?>">#<?php echo $id_quote; ?> - <?php if($nombre_commentaires >'1'){echo "$nombre_commentaires $comments";}elseif($nombre_commentaires=='1'){echo "$nombre_commentaires $comment";}else{echo"$no_comments";} ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+				<a href="quote-<?php echo $id_quote; ?>">#<?php echo $id_quote; ?> - <?php if($nombre_commentaires >'1'){echo ''.$nombre_commentaires.' '.$comments.'';}elseif($nombre_commentaires ==  '1'){echo ''.$nombre_commentaires.' '.$comment.'';}else{echo ''.$no_comments.'';} ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 				</div>
 				</div>
 				<?php
