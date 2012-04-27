@@ -8,7 +8,7 @@ $id = mysql_real_escape_string($_GET['id_user']);
 $exist_user = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE id = '".$id."'"));
 if ($exist_user == '0')
 	{
-	header("Location: error.php?erreur=404");
+	echo '<meta http-equiv="refresh" content="0; url=error.php?erreur=403">';
 	}
 
 if($id != $_SESSION['id'] AND !empty($id) AND !empty($_SESSION['id']))

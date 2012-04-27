@@ -15,9 +15,9 @@ $not_specified = "Not specified";
 $years_old = 'years old';
 $no_posted_comments = "This user has not posted comments yet.";
 $no_description = "This user has not yet fulfilled its description.";
-$user_quotes = "&raquo; Quotes";
+$user_quotes = "Quotes";
 $fav_quote="Favorite Quotes";
-$favorite_quotes = "&raquo; Favorite Quotes";
+$favorite_quotes = "Favorite quotes";
 $no_fav_quotes="This user has no favorite quotes yet";
 
 $hide_profile = "Sorry but this member has decided to hide his profile";

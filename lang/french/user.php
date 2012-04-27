@@ -15,9 +15,9 @@ $not_specified = "Non renseigné";
 $years_old = 'ans';
 $no_posted_comments = "Cet utilisateur n'a pas encore posté de commentaires.";
 $no_description = "Cet utilisateur n'a pas encore rempli sa description.";
-$user_quotes = "&raquo; Citations";
+$user_quotes = "Citations";
 $fav_quote="Citations favorites";
-$favorite_quotes = "&raquo; Citations Favorites";
+$favorite_quotes = "Citations favorites";
 $no_fav_quotes="Cet utilisateur n'a pas encore de citations favorites";
 
 
