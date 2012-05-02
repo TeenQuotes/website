@@ -42,7 +42,6 @@
 					&raquo; <a href="statistics"><?php echo $statistics; ?></a><br>
 					&raquo; <a href="contact" title="Contact">Contact</a><br>
 					&raquo; <a href="legalterms"><?php echo $legal_terms; ?></a><br>
-					<?php if($language=='french'){?>&raquo; <a href="http://www.teen-quotes.com/project/">Présentation du projet</a><?php } ?></p>
 				</div>
 				
 				<?php 
