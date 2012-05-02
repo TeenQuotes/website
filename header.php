@@ -209,7 +209,7 @@ else
 	<a href="random" class="menu"><span class="icone_menu random"></span><?php echo $random_quote; ?></a>
 	<?php if($is_newsletter=="0") { ?><a href="newsletter" class="menu"><span class="icone_menu newsletter"></span>Newsletter</a><?php } ?>
 	<a href="addquote" class="menu"><span class="icone_menu add"></span><?php echo $add_a_quote; ?></a>
-	<?php if($_SESSION['security_level'] >='2') { ?><a href="admin" class="menu"><span class="icone_menu admin"></span>Admin <?php if ($citations_awaiting_approval > '0'){echo '- '.$citations_awaiting_approval.'';} ?></a><?php } ?>	
+	<?php if($_SESSION['security_level'] >='2') { ?><a href="apps" class="menu"><img src="http://<?php echo $domaine; ?>/images/icones/mobile.png" class="icone_menu_apps" />Apps</a><a href="admin" class="menu"><span class="icone_menu admin"></span>Admin <?php if ($citations_awaiting_approval > '0'){echo '- '.$citations_awaiting_approval.'';} ?></a><?php } ?>	
 	<span class="right">
 		<a href="http://teen-quotes.com" title="View the english version"><span class="icone_flags english"></span></a>
 		<a href="http://kotado.fr" title="Voir la version française"><span class="icone_flags french"></span></a>
