@@ -20,7 +20,7 @@ if (empty($value_search))
 	}
 elseif (isset($value_search)) 
 	{
-	$num_rows_quote = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved = '1' AND (texte_english like '%".$value_search."%' OR texte_french like '%".$value_search."%')"));
+	$num_rows_quote = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved = '1' AND texte_english like '%".$value_search."%'"));
 	$num_rows_members = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE username like '%".$value_search."%' AND hide_profile = '0'"));
 	
 	$num_rows_result = $num_rows_quote + $num_rows_members;
@@ -47,7 +47,7 @@ elseif (isset($value_search))
 			<div class="post" id="quotes">
 			<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone">'.$quotes.'<span class="right" style="font-size:90%;padding-top:5px">'.$num_rows_quote.''; echo ' '.$results.''; if($num_rows_quote >'1'){echo"s";} if ($num_rows_quote > '15'){echo ' '.$max_result.'';} echo '</span></h2>';
 			
-			$reponse = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved = '1' AND (texte_english like '%".$value_search."%' OR texte_french like '%".$value_search."%') ORDER BY id DESC LIMIT 0,15");
+			$reponse = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved = '1' AND texte_english like '%".$value_search."%' ORDER BY id DESC LIMIT 0,15");
 			
 			while ($result = mysql_fetch_array($reponse))
 				{
@@ -64,13 +64,13 @@ elseif (isset($value_search))
 					$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote = '".$id_quote."' AND id_user = '".$id."'"));
 					}
 				?>
-						<div class="grey_post">
-						<?php echo $txt_quote; ?><br>
-						<div class="footer_quote">
-						<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?> - <?php if($nombre_commentaires >'1'){echo ''.$nombre_commentaires.' '.$comments.'';}elseif($nombre_commentaires ==  '1'){echo ''.$nombre_commentaires.' '.$comment.'';}else{echo ''.$no_comments.'';} ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
-						</div>
-						<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
-						</div>
+				<div class="grey_post">
+				<?php echo $txt_quote; ?><br>
+					<div class="footer_quote">
+						<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?> - <?php afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments); ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+					</div>
+				<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
+				</div>
 				<?php 
 				}
 			echo '</div>';
