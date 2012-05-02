@@ -91,19 +91,6 @@ if (empty($action))
 	</div>
 
 	<div class="post">
-		<h1><img src="http://'.$domaine.'/images/icones/outils.png" class="icone" />'.$settings.'</h1>
-		<div class="grey_post">
-			<form action="?action=settings" method="post">
-			<input type="checkbox" name="newsletter" value="1"'; if ($is_newsletter == '1') echo 'checked="checked"'; echo ' />'.$i_want_newsletter.'<br>
-			<input type="checkbox" name="email_quote_today" value="1"'; if ($email_quote_today_num_rows == '1') echo 'checked="checked"'; echo ' />'.$i_want_email_quote_today.'<br>
-			<input type="checkbox" name="comments_quote" value="1"'; if($notification_comment_quote == '1') echo 'checked="checked"'; echo ' />'.$i_want_comment_quotes.'<br>
-			<br />
-			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
-			</form>
-		</div>
-	</div>
-
-	<div class="post">
 		<h1><img src="http://'.$domaine.'/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h1>
 		<div class="grey_post">
 			'.$change_avatar_rules.'
@@ -112,6 +99,19 @@ if (empty($action))
 			<div class="colonne-gauche">'.$select_photo.'</div><div class="colonne-milieu"><input type="file" name="photo" class="signup" /></div>
 			<br /><br />
 			<a href="?action=reset_avatar">'.$reset_avatar.'</a><br>
+			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+			</form>
+		</div>
+	</div>
+
+	<div class="post">
+		<h1><img src="http://'.$domaine.'/images/icones/outils.png" class="icone" />'.$settings.'</h1>
+		<div class="grey_post">
+			<form action="?action=settings" method="post">
+			<input type="checkbox" name="newsletter" value="1"'; if ($is_newsletter == '1') echo 'checked="checked"'; echo ' />'.$i_want_newsletter.'<br>
+			<input type="checkbox" name="email_quote_today" value="1"'; if ($email_quote_today_num_rows == '1') echo 'checked="checked"'; echo ' />'.$i_want_email_quote_today.'<br>
+			<input type="checkbox" name="comments_quote" value="1"'; if($notification_comment_quote == '1') echo 'checked="checked"'; echo ' />'.$i_want_comment_quotes.'<br>
+			<br />
 			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
 			</form>
 		</div>
@@ -542,7 +542,6 @@ elseif ($action == "delete_account_cancel")
 		if ($delete)
 			{
 			echo ''.$succes.''.$account_not_deleted_successfully.'';
-			echo '<meta http-equiv="refresh" content="5;url=../" />';
 			}
 		else
 			{
@@ -580,7 +579,6 @@ elseif ($action == "delete_account_valide")
 			
 			if ($delete_account AND $delete_newsletter_quotidienne AND $delete_visitors AND $delete_favorites AND $delete_comments AND $update_quote)
 				{
-				$update_statut = mysql_query("UPDATE delete_account SET statut = '1' WHERE code = '".$code."'");
 				echo ''.$succes.' '.$account_deleted_successfully.'';
 				echo '<meta http-equiv="refresh" content="5;url=?deconnexion" />';
 				}
