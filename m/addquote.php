@@ -34,7 +34,7 @@ elseif ($action == "add_quote")
 	if (strlen($texte_quote) >= '50') 
 		{
 		$submitted_today = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id='$id' AND date='$date'"));
-		if ($submitted_today < '5')
+		if ($submitted_today < $nb_quote_released_per_day )
 			{
 			if (is_quote_exist($texte_quote) == FALSE) 
 				{
@@ -53,7 +53,7 @@ elseif ($action == "add_quote")
 					}
 				else
 					{
-					echo '<h2>'.$error.'</h2> Please contact us at contact@pretty-web.com with your username. '.$lien_retour.'';
+					echo '<h2>'.$error.'</h2> Please contact us at support@teen-quotes.com with your username. '.$lien_retour.'';
 					}
 				}
 				else
