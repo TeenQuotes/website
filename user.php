@@ -114,7 +114,7 @@ else
 				}
 			echo '</span></h2>';
 			echo '
-			<div style="position:relative;margin-left:150px;">
+			<div class="cadre_infos_profil">
 				<span class="bleu">'.$title.' :</span> '.$result['title'].'<br>
 				<span class="bleu">'.$birth_date.' :</span> '. $result['birth_date'].' '.$age.'<br>
 				<span class="bleu">'.$country.' :</span> '. $result['country'].'<br>
@@ -223,10 +223,10 @@ else
 				?>
 		
 				<div class="grey_post">
-				<?php echo $donnees['texte_english']; ?><br>
-				<div class="footer_quote">
-				<a href="quote-<?php echo $id_quote_fav; ?>">#<?php echo $id_quote_fav; ?> - <?php if($nombre_commentaires > '1'){echo ''.$nombre_commentaires.' '.$comments.'';}elseif($nombre_commentaires == '1'){echo ''.$nombre_commentaires.' '.$comment.'';}else{echo ''.$no_comments.'';} ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
-				</div>
+				<?php echo $txt_quote; ?><br>
+					<div class="footer_quote">
+						<a href="quote-<?php echo $id_quote_fav; ?>">#<?php echo $id_quote_fav; ?> - <?php afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments); ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+					</div>
 				<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
 				</div>
 				<?php 
@@ -282,10 +282,10 @@ else
 					}
 				?>
 				<div class="grey_post">
-				<?php echo $result['texte_english']; ?><br>
-				<div class="footer_quote">
-				<a href="quote-<?php echo $id_quote; ?>">#<?php echo $id_quote; ?> - <?php if($nombre_commentaires > '1'){echo ''.$nombre_commentaires.' '.$comments.'';}elseif($nombre_commentaires == '1'){echo ''.$nombre_commentaires.' '.$comment.'';}else{echo ''.$no_comments.'';} ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
-				</div>
+				<?php echo $txt_quote; ?><br>
+					<div class="footer_quote">
+						<a href="quote-<?php echo $id_quote; ?>">#<?php echo $id_quote; ?> - <?php afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments); ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+					</div>
 				<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
 				</div>
 				<?php

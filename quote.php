@@ -72,7 +72,7 @@ if (empty($id_quote))
 		echo '
 		<form action="addcomment" method="post">
 		<input type="hidden" name="id_quote" value="'.$id_quote.'" />
-		<textarea  name="texte" rows="8" cols="75" onFocus="javascript:this.value=\'\'">'.$warning_comments.'</textarea> 
+		<textarea name="texte" rows="8" cols="75" value="'.$warning_comments.'" onblur="javascript:if(this.value==\'\'){this.value=\''.$warning_comments.'\'}" onFocus="javascript:if(this.value==\''.$warning_comments.'\'){this.value=\'\'}" />'.$warning_comments.'</textarea> 
 		<center><p><input type="submit" value="Okey" class="submit" /></p></center>
 		</form>
 		';

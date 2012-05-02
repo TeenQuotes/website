@@ -609,7 +609,7 @@ function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_
 	return array($premierMessageAafficher,$nombreDePages, $page);
 	}
 	
-function is_quote_new($date_quote,$last_visit,$page,$compteur_quote)
+function is_quote_new ($date_quote,$last_visit,$page,$compteur_quote)
 	{
 	include "config.php";
 	
@@ -627,7 +627,7 @@ function is_quote_new($date_quote,$last_visit,$page,$compteur_quote)
 	$timestamp_last_visit = mktime(0, 0, 0, $mois_last_visit, $jour_last_visit, $annee_last_visit); 
 	
 	
-	if ($date_quote == $yesterday OR ($timestamp_last_visit != '943916400' AND $timestamp_date_quote >$timestamp_last_visit) OR ($page == '1' AND $compteur_quote < $nb_quote_released_per_day))
+	if ($date_quote == $yesterday OR ($timestamp_last_visit != '943916400' AND $timestamp_date_quote > $timestamp_last_visit) OR ($page == '1' AND $compteur_quote < $nb_quote_released_per_day))
 		{
 		echo '<span class="icone_new_quote hide_this"></span>';
 		}
@@ -719,6 +719,7 @@ function email_birthday()
 			$email_subject = 'Happy birthday !';
 			$email_message = ''.$top_mail.' Hello '.$username.',<br><br />Wow, '.$age.' years old, that\'s great ! All the team want to wish you a happy birthday ! We hope that you will have a great day :) '.$end_mail.'';
 			$mail = mail($email_user, $email_subject, $email_message, $headers);
+			$mail = mail('antoine.augusti@gmail.com', $email_subject, $email_message, $headers);
 			if ($mail)
 				{
 				$i++;
@@ -1024,15 +1025,15 @@ function MailPostedToday($id_quote)
 	if (!empty($id_quote))
 		{
 		$id_quote = str_replace(',', '\',\'', $id_quote);
-		$query = mysql_query("SELECT id, texte_english,date,auteur,auteur_id FROM teen_quotes_quotes WHERE approved = '1' AND id IN ('".$id_quote."') ORDER BY id DESC");
+		$query = mysql_query("SELECT id, texte_english, date, auteur, auteur_id FROM teen_quotes_quotes WHERE approved = '1' AND id IN ('".$id_quote."') ORDER BY id DESC");
 			
-		while($donnees = mysql_fetch_array($query)) 
+		while ($donnees = mysql_fetch_array($query)) 
 			{
-			$txt_quote=$donnees['texte_english'];
-			$id_quote=$donnees['id'];
-			$auteur=$donnees['auteur'];
-			$auteur_id=$donnees['auteur_id'];
-			$date=$donnees['date'];
+			$txt_quote = $donnees['texte_english'];
+			$id_quote = $donnees['id'];
+			$auteur = $donnees['auteur'];
+			$auteur_id = $donnees['auteur_id'];
+			$date = $donnees['date'];
 			
 			$email_txt.= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">';
 			$email_txt.= ''.$txt_quote.'<br><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';
@@ -1046,7 +1047,7 @@ function MailPostedToday($id_quote)
 		while ($donnees = mysql_fetch_array($search_email))
 			{
 			$email = $donnees['value'];
-			$message = ''.$top_mail.$query_txt.'Here are the quotes posted today ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
+			$message = ''.$top_mail.'Here are the quotes posted today ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
 			$message .= '<br /><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsuscribe, please follow <a href="http://www.teen-quotes.com/newsletter.php?action=unsuscribe_everyday&email='.$email.'" target="_blank"> this link</a></span>';
 			$mail = mail($email, 'Quotes posted today - '.$today.'', $message, $headers);
 			if ($mail)
@@ -1119,6 +1120,21 @@ function cut_tweet($chaine)
 	   {
 	   return $chaine;
 	   }
+	}
+
+function afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments)
+	{
+	if($nombre_commentaires > '1')
+		{
+		echo ''.$nombre_commentaires.' '.$comments.'';
+		}
+	elseif($nombre_commentaires == '1')
+		{
+		echo ''.$nombre_commentaires.' '.$comment.'';
+		}
+	else
+		{echo ''.$no_comments.'';
+		}
 	}
 
 function afficher_favori ($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$id_user) 

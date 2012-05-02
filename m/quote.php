@@ -62,7 +62,7 @@ else
 		echo '
 		<form action="addcomment" method="post">
 		<input type="hidden" name="id_quote" value="'.$id_quote.'" />
-		<textarea  name="texte" style="width:100%;height:50px" onFocus="javascript:this.value=\'\'">'.$warning_comments.'</textarea> 
+		<textarea name="texte" style="width:100%;height:50px" value="'.$warning_comments.'" onblur="javascript:if(this.value==\'\'){this.value=\''.$warning_comments.'\'}" onFocus="javascript:if(this.value==\''.$warning_comments.'\'){this.value=\'\'}" />'.$warning_comments.'</textarea> 
 		<center><p><input type="submit" value="Okey" class="submit" /></p></center>
 		</form>
 		';
