@@ -92,7 +92,7 @@ elseif ($action == "send")
 	
 	if (strlen(trim($username)) >= '5') 
 		{
-		if (preg_match('#[\w]{5,15}#', $username)) 
+		if (preg_match('#[a-zA-Z0-9]{5,15}#', $username)) 
 			{
 			$test = mysql_num_rows(mysql_query("select * from teen_quotes_account WHERE username='$username'"));
 			if($test == '0') 
