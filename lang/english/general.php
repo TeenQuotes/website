@@ -21,6 +21,7 @@ $no_comments="No comments";
 $my_account = "My account";
 $my_profile = "My profile";
 $connected_as = "Connected as";
+$apps = "Apps";
 $co_succes = "You have successfully logged.";
 $deco_succes = "You have been disconnected successfully.";
 $lien_retour='<br /><br /><br /><br /><a href="javascript:history.back()">&raquo; Back</a><br /><br />';

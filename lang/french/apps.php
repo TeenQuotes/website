@@ -1,7 +1,7 @@
 <?php
 $applications = 'Applications';
 $text_applications = '
-Ne quittez plus jamais Teen Quotes. Gratuite, facile à utiliser et rapide, cette application offre les meilleures fonctionnalités du site.<br>
+Ne quittez plus jamais '.$name_website.'. Gratuite, facile à utiliser et rapide, cette application offre les meilleures fonctionnalités du site.<br>
 <br />
 - Soyez avertis lorsque des citations ont été ajoutées<br>
 - Ajoutez des citations et des commentaires<br>

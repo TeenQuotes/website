@@ -124,7 +124,7 @@ if (empty($action))
 	</div>
 	
 	<div class="post">
-		<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
+		<h1><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h1>
 		<div class="grey_post">
 		'.$txt_delete_account.$confirm_delete_by_email.'
 			<form action="?action=delete_account" method="post">
@@ -431,7 +431,7 @@ elseif ($action == "delete_account")
 	{
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
+	<h1><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h1>
 	';
 	
 	if (!empty($_SESSION['id']) AND !empty($_SESSION['email']))
@@ -467,7 +467,7 @@ elseif ($action == "delete_account_confirm")
 	{
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
+	<h1><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h1>
 	';
 	
 	$id_user = mysql_real_escape_string($_GET['id']);
@@ -514,7 +514,7 @@ elseif ($action == "delete_account_cancel")
 	{
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
+	<h1><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h1>
 	';
 	
 	$code = mysql_real_escape_string($_POST['code']);
@@ -544,7 +544,7 @@ elseif ($action == "delete_account_valide")
 	{
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
+	<h1><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h1>
 	';
 	
 	$code = mysql_real_escape_string($_POST['code']);

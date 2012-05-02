@@ -20,6 +20,7 @@ $no_comments="Pas de commentaires";
 $logout = "Déconnexion";
 $my_account = "Mon compte";
 $my_profile = "Mon profil";
+$apps = "Apps";
 $connected_as = "Connecté en tant que";
 $co_succes = "Vous vous êtes bien connecté.";
 $deco_succes = "Vous vous êtes bien déconnecté.";

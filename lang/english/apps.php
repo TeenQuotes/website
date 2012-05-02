@@ -1,7 +1,7 @@
 <?php
 $applications = 'Applications';
 $text_applications = '
-Do not ever leave Teen Quotes. Free, easy to use and fast, this application offers the website\'s best functionalities.<br>
+Do not ever leave '.$name_website.'. Free, easy to use and fast, this application offers the website\'s best functionalities.<br>
 <br />
 - Be warned when new quotes have been published<br>
 - Submit quotes and add comments<br>

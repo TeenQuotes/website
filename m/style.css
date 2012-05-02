@@ -60,6 +60,7 @@ input.submit{-moz-border-radius:8px;-webkit-border-radius:8px;background:#5C9FC0
 input.signup{width:230px;}
 #footer{-webkit-box-shadow:inset 0px 1px 3px rgba(0, 0, 0, 0.3);-moz-box-shadow:inset 0px 1px 3px rgba(0, 0, 0, 0.3);box-shadow:inset 0px 1px 3px hsla(0, 0%, 0%, 0.3);-moz-border-radius:8px;-webkit-border-radius:8px;background:#fff;border-radius:8px;font-size:50%;margin:10px auto;padding:10px;}
 #footer a{font-weight:400;}
+.cadre_infos_profil {position:relative;margin-left:55px}
 .error{color:#246;display:block;font-weight:700;margin:10px auto 15px auto;vertical-align:middle}
 .erreur{background:transparent url('http://www.teen-quotes.com/images/icones/alert.png') no-repeat 2% 50%;color:#5C9FC0;font-weight:600;padding-left:30px;}
 .erreur_addquote,.download_app{margin:5px 0px;background:#fff9d7;border: 1px solid #e2c822;padding:5px;color:#333;font-family:Helvetica;font-size:11px}
