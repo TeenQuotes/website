@@ -165,9 +165,9 @@ elseif ($action=="send")
 			}
 		if (strlen($about_me) <= '1000') 
 			{
-			if(preg_match("#[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}#", $birth_date)) 
+			if (date_est_valide($birth_date)) 
 				{
-				$query = mysql_query("UPDATE teen_quotes_account set title='$title', birth_date='$birth_date', country='$country', city='$city', about_me='$about_me', hide_profile='$hide_profile' WHERE id='$id'");
+				$query = mysql_query("UPDATE teen_quotes_account SET title = '$title', birth_date = '$birth_date', country = '$country', city = '$city', about_me = '$about_me', hide_profile = '$hide_profile' WHERE id = '$id'");
 				if ($query) 
 					{
 					unset($_SESSION['profile_not_fullfilled']);
@@ -178,7 +178,7 @@ elseif ($action=="send")
 					echo '<h2>'.$error.'</h2>'.$lien_retour.'';
 					}
 				}
-				else
+			else
 				{
 				echo ''.$wrong_birth_date.' '.$lien_retour.'';
 				}

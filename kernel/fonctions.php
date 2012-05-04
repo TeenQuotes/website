@@ -478,7 +478,32 @@ function age($naiss)
 		}
 	return $annees;
   }
-  
+
+function date_est_valide ($date)
+	{
+	if (preg_match("#[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}#", $date))
+		{
+		list($jour, $mois, $annee) = split('[/]', $date);
+		return checkdate($mois, $jour, $annee);
+		}
+	else
+		{	
+		return FALSE;
+		}
+	}
+
+function username_est_valide ($username)
+	{
+	if (preg_match("#^[a-z0-9_]+$#", $username))
+		{	
+		return TRUE;
+		}
+	else
+		{	
+		return FALSE;
+		}
+	}
+
 function display_page_bottom($page, $nombreDePages, $nom_lien_page, $div_redirection, $previous_page, $next_page)
 	{
 	$page2 = $page + 1;
@@ -708,7 +733,7 @@ function email_birthday()
 	$i = '0';
 	$txt_file = 'Birthdays on '.$date_today.'\r\n\n';
 	
-	$query = mysql_query("SELECT username, email, birth_date FROM teen_quotes_account WHERE birth_date LIKE '".$date_today."'");
+	$query = mysql_query("SELECT username, email, birth_date FROM teen_quotes_account WHERE birth_date LIKE '$date_today'");
 	if (mysql_num_rows($query) >= '1')
 		{
 		while ($donnees = mysql_fetch_array($query))
