@@ -22,7 +22,7 @@ if (empty($id))
 	{
 	echo '
 	<div class="post">
-	<h1>'.$error.'</h1>
+	<h2>'.$error.'</h2>
 	</div>';
 include 'footer.php'; 
 	}

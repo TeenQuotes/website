@@ -4,7 +4,7 @@ $action = $_GET['action'];
 
 if ($action == 'send')
 	{
-	$username = ucfirst(trim(htmlspecialchars(mysql_escape_string($_POST['username']))));
+	$username = trim(htmlspecialchars(mysql_escape_string($_POST['username'])));
 	$username=str_replace(' ','',$username);
 	$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
 	$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
@@ -56,13 +56,13 @@ if (empty($action))
 	'.$require_age.'<br>
 		<div class="grey_post">
 		<form method="post" action="?action=send"> 
-			<div class="colonne-gauche">'.$username_enter.' </div><div class="colonne-milieu"><input type="text" name="username" class="signup"/></div><div class="colonne-droite"><span class="min_info">Minimum 5 '.$characters.'</span></div>
+			<div class="colonne-gauche">'.$username_enter.' </div><div class="colonne-milieu"><input type="text" name="username" class="signup"/></div><div class="colonne-droite"><span class="min_info">Minimum 5 '.$characters.'. '.$username_shape.'</span></div>
 			<br /><br />
-			<div class="colonne-gauche">'.$password.' </div><div class="colonne-milieu"><input type="password" name="pass1" class="signup"/></div><div class="colonne-droite"><span class="min_info">Minimum 6 '.$characters.'</span></div>
+			<div class="colonne-gauche">'.$password.' </div><div class="colonne-milieu"><input type="password" name="pass1" class="signup"/></div><div class="colonne-droite"><span class="min_info">Minimum 6 '.$characters.'.</span></div>
 			<br /><br />
-			<div class="colonne-gauche">'.$confirm_password.' </div><div class="colonne-milieu"><input type="password" name="pass2" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$reenter_pass.'</span></div>
+			<div class="colonne-gauche">'.$confirm_password.' </div><div class="colonne-milieu"><input type="password" name="pass2" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$reenter_pass.'.</span></div>
 			<br /><br />
-			<div class="colonne-gauche">Email </div><div class="colonne-milieu"><input type="text" name="email" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$valid_email.'</span></div>
+			<div class="colonne-gauche">Email </div><div class="colonne-milieu"><input type="text" name="email" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$valid_email.'.</span></div>
 			<br /><br /><br />
 			<input type="checkbox" name="newsletter" value="1" checked="checked" /> '.$i_want_newsletter.'<br>
 			<input type="checkbox" name="email_quote_today" value="1" /> '.$i_want_email_quote_today.'<br>
@@ -85,7 +85,7 @@ elseif ($action == "send")
 	
 	if (strlen(trim($username)) >= '5') 
 		{
-		if (preg_match('#[a-zA-Z0-9]{5,15}#', $username)) 
+		if (username_est_valide ($username)) 
 			{
 			$test = mysql_num_rows(mysql_query("select * from teen_quotes_account WHERE username='$username'"));
 			if($test == '0') 

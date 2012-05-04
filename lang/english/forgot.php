@@ -3,7 +3,6 @@ $pass_forget = "Forgotten password";
 $texte_forget = "Forgot your login ? Do not panic, we can give you again !<br>
 <br />
 For this, simply fill out the form below :<br>
-<br />
 <br />";
 $email_adress = "Enter your email adress";
 $email_use_signup = "Please enter the email address used during registration";

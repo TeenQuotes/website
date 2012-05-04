@@ -2,7 +2,7 @@
 include 'header.php';
 include 'lang/'.$language.'/newsletter.php';
 include 'lang/'.$language.'/signup.php';
-$action=htmlspecialchars($_GET['action']);
+$action = htmlspecialchars($_GET['action']);
 
 echo '
 <div class="post">

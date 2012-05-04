@@ -173,7 +173,7 @@ elseif ($action == "rate")
 		
 		$query_email_auteur = mysql_fetch_array(mysql_query("SELECT email,username FROM teen_quotes_account WHERE id = '".$auteur_id."'"));
 		$email_auteur = $query_email_auteur['email'];
-		$name_auteur = ucfirst($query_email_auteur['username']);
+		$name_auteur = $query_email_auteur['username'];
 		
 		$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2'"));
 		$jours_posted = floor($nb_quote_awaiting_post / $nb_quote_released_per_day);
@@ -216,7 +216,7 @@ elseif ($action == "rate")
 
 		$query_email_auteur = mysql_fetch_array(mysql_query("SELECT email, username FROM teen_quotes_account WHERE id = '".$auteur_id."'"));
 		$email_auteur = $query_email_auteur['email'];
-		$name_auteur = ucfirst($query_email_auteur['username']);
+		$name_auteur = $query_email_auteur['username'];
 	
 
 		if ($delete_quote AND !empty($email_auteur)) 
@@ -246,7 +246,7 @@ elseif ($action == "delete_comment")
 	$donnees = mysql_fetch_array(mysql_query("SELECT auteur, auteur_id, texte,id_quote,date FROM teen_quotes_comments WHERE id = '".$id_comment."'"));
 	$auteur_id = $donnees['auteur_id'];
 	$id_quote = $donnees['id_quote'];
-	$name_auteur = ucfirst($donnees['auteur']);
+	$name_auteur = $donnees['auteur'];
 	$texte_comment = stripslashes($donnees['texte']);
 	$date_comment = $donnees['date'];
 
@@ -406,7 +406,7 @@ elseif ($action == "delete_existing_quote")
 	$id_quote = mysql_real_escape_string($_POST['id_quote']);
 	$date = date("d/m/Y");
 	$ip = $_SERVER["REMOTE_ADDR"];
-	$username = ucfirst($_SESSION['username']);
+	$username = $_SESSION['username'];
 	
 	echo '
 	<div class="post">

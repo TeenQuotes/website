@@ -4,7 +4,6 @@ $pass_forget = "Oubli de mot de passe";
 $texte_forget = "Vous avez oublié vos identifiants ? Pas de panique, nous pouvons vous en donner de nouveau !<br>
 <br />
 Pour ceci, il suffit de remplir le formulaire suivant :<br>
-<br />
 <br />";
 $email_adress="Entrez votre adresse e-mail";
 $email_use_signup = "Veuillez entrer l'adresse email utilisée lors de l'inscription";

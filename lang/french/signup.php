@@ -19,13 +19,14 @@ $email_taken = "Votre adresse email est déjà utilisée.";
 $email_incorrect = "Votre adresse email n'est pas correcte.";
 $password_short = "Votre mot de passe est trop court.";
 $password_not_same = "Les mots de passe sont différents.";
+$username_shape = "[a-z] [0-9] et _";
 $username_taken = "Votre nom d'utilisateur est déjà utilisé.";
 $username_short = "Votre nom d'utilisateur est trop court.";
-$username_not_valid = "Votre nom d'utilisateur ne respecte pas la forme demandée :</span><br>
+$username_not_valid = "Votre nom d'utilisateur ne respecte pas la forme demandée :<br>
 <br />
-<li> Le pseudo ne peut comporter que des miniscules, majuscules et des chiffres</li>
-<li> Il doit être de 20 caractères maximum (avec ou sans chiffres)</li>
-<li> Aucun espaces ni caractères spéciaux</li>";
+<li> Le pseudo ne peut comporter que des miniscules [a-z], des chiffres [0-9] et un tiret du bas [_].</li>
+<li> Il doit être compris être 5 et 20 caractères.</li>
+<li> Aucun espaces ni caractères spéciaux.</li>";
 
 $must_be_registered_for_quote = '<div class="erreur_addquote"> Vous devez vous inscrire pour soumettre une citation !</div>';
 $must_be_registered_to_comment = '<div class="erreur_addquote"> Vous devez vous inscrire pour écrire un commentaire !</div>';

@@ -75,6 +75,14 @@ if ($_SESSION['logged'] == TRUE)
 	$id = $_SESSION['id'];
 	$email = $_SESSION['email'];
 	$session_last_visit = $_SESSION['last_visit_user'];
+	if (username_est_valide(strtolower($_SESSION['username'])) == FALSE AND $php_self != 'changeusername')
+		{
+		echo '<meta http-equiv="refresh" content="0;url=changeusername">';
+		}
+	if (isset($_COOKIE['Pseudo']) AND username_est_valide(strtolower($_SESSION['username'])) == TRUE AND username_est_valide($_SESSION['username']) == FALSE)
+		{
+		$_SESSION['username'] = strtolower($_SESSION['username']);
+		}
 	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
@@ -88,7 +96,7 @@ if (isset($_GET['id_user']))
 	$id_user = mysql_real_escape_string($_GET['id_user']);
 	$php_self = 'user-'.$id_user.'';
 	$result = mysql_fetch_array(mysql_query("SELECT username FROM teen_quotes_account where id = '".$id_user."'"));
-	$username_title = ucfirst($result['username']);
+	$username_title = $result['username'];
 	echo '<title>Teen Quotes | '.$username_title.'</title>';
 	echo "\r\n";
 	echo '<meta name="description" content="'.$username_title.'\'s profile on Teen Quotes" />';
@@ -209,7 +217,7 @@ else
 	<a href="random" class="menu"><span class="icone_menu random"></span><?php echo $random_quote; ?></a>
 	<?php if($is_newsletter=="0") { ?><a href="newsletter" class="menu"><span class="icone_menu newsletter"></span>Newsletter</a><?php } ?>
 	<a href="addquote" class="menu"><span class="icone_menu add"></span><?php echo $add_a_quote; ?></a>
-	<?php if($_SESSION['security_level'] >='2') { ?><a href="apps" class="menu"><img src="http://<?php echo $domaine; ?>/images/icones/mobile.png" class="icone_menu_apps" />Apps</a><a href="admin" class="menu"><span class="icone_menu admin"></span>Admin <?php if ($citations_awaiting_approval > '0'){echo '- '.$citations_awaiting_approval.'';} ?></a><?php } ?>	
+	<?php if($_SESSION['security_level'] >='2') { ?><a href="apps" class="menu"><img src="http://<?php echo $domaine; ?>/images/icones/mobile.png" class="icone_menu_apps" /><?php echo $apps; ?></a><a href="admin" class="menu"><span class="icone_menu admin"></span>Admin <?php if ($citations_awaiting_approval > '0'){echo '- '.$citations_awaiting_approval.'';} ?></a><?php } ?>	
 	<span class="right">
 		<a href="http://teen-quotes.com" title="View the english version"><span class="icone_flags english"></span></a>
 		<a href="http://kotado.fr" title="Voir la version française"><span class="icone_flags french"></span></a>

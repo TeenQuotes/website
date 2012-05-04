@@ -65,6 +65,14 @@ if ($_SESSION['logged'] == TRUE)
 	$id = $_SESSION['id'];
 	$email = $_SESSION['email'];
 	$session_last_visit = $_SESSION['last_visit_user'];
+	if (username_est_valide(strtolower($_SESSION['username'])) == FALSE AND $php_self != 'changeusername')
+		{
+		echo '<meta http-equiv="refresh" content="0;url=changeusername">';
+		}
+	if (isset($_COOKIE['Pseudo']) AND username_est_valide(strtolower($_SESSION['username'])) == TRUE AND username_est_valide($_SESSION['username']) == FALSE)
+		{
+		$_SESSION['username'] = strtolower($_SESSION['username']);
+		}
 	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
@@ -78,7 +86,7 @@ if (isset($_GET['id_user']))
 	$id_user = mysql_real_escape_string($_GET['id_user']);
 	$php_self = 'user-'.$id_user.'';
 	$result = mysql_fetch_array(mysql_query("SELECT username FROM teen_quotes_account where id = '".$id_user."'"));
-	$username_title = ucfirst($result['username']);
+	$username_title = $result['username'];
 	echo '<title>Teen Quotes | '.$username_title.'</title>';
 	echo "\r\n";
 	echo '<meta name="description" content="'.$username_title.'\'s profile on Teen Quotes" />';

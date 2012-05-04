@@ -133,7 +133,6 @@ else
 			<div class="clear"></div>
 			<h3>'.$about_user.' '.$result['username'].'</h3>
 			'.$result['about_me'].'
-			</div>
 			';
 			
 		// DERNIERS VISITEURS DU PROFIL
@@ -144,19 +143,24 @@ else
 			echo '
 			<div class="slidedown">
 			<h3>'.$last_visitor.'</h3>
-			<div class="right">';
-			while ($reponse_visiteur = mysql_fetch_array($query_visiteur))
-				{
-				$avatar = $reponse_visiteur['avatar'];
-				$id_visitor = $reponse_visiteur['id_visitor'];
-				$username_visitor = $reponse_visiteur['username_visitor'];
-				
-				echo '<a href="user-'.$id_visitor.'" title="'.$username_visitor.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="user_avatar_last_visitors" /></a>';
-				}
-			echo '
+				<div class="right">';
+				while ($reponse_visiteur = mysql_fetch_array($query_visiteur))
+					{
+					$avatar = $reponse_visiteur['avatar'];
+					$id_visitor = $reponse_visiteur['id_visitor'];
+					$username_visitor = $reponse_visiteur['username_visitor'];
+					
+					echo '<a href="user-'.$id_visitor.'" title="'.$username_visitor.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="user_avatar_last_visitors" /></a>';
+					}
+				echo '
+				</div>
 			</div>
 			<div class="clear"></div>
 			</div>';
+			}
+		else
+			{
+			echo '</div>';
 			}
 			
 		echo '</div>';

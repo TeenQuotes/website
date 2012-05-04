@@ -4,8 +4,8 @@ $action = $_GET['action'];
 
 if ($action == 'send')
 	{
-	$username = ucfirst(trim(htmlspecialchars(mysql_escape_string($_POST['username']))));
-	$username=str_replace(' ','',$username);
+	$username = trim(htmlspecialchars(mysql_escape_string($_POST['username'])));
+	$username = str_replace(' ','',$username);
 	$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
 	$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
 	$email = htmlspecialchars(mysql_escape_string($_POST['email']));
@@ -56,19 +56,19 @@ if (empty($action))
 			<form method="post" action="signup.php?action=send"> 
 				'.$username_enter.'<br>
 				<input type="text" name="username" class="signup"/><br>
-				<span class="min_info">Minimum 5 '.$characters.'</span>
+				<span class="min_info">Minimum 5 '.$characters.'. '.$username_shape.'</span>
 				<br /><br />
 				'.$password.'<br>
 				<input type="password" name="pass1" class="signup"/><br>
-				<span class="min_info">Minimum 6 '.$characters.'</span>
+				<span class="min_info">Minimum 6 '.$characters.'.</span>
 				<br /><br />
 				'.$confirm_password.'<br>
 				<input type="password" name="pass2" class="signup"/><br>
-				<span class="min_info">'.$reenter_pass.'</span>
+				<span class="min_info">'.$reenter_pass.'.</span>
 				<br /><br />
 				Email<br>
 				<input type="text" name="email" class="signup"/><br>
-				<span class="min_info">'.$valid_email.'</span>
+				<span class="min_info">'.$valid_email.'.</span>
 				<br /><br />
 				<input type="checkbox" name="newsletter" value="1" checked="checked" /> '.$i_want_newsletter.'<br>
 				<input type="checkbox" name="email_quote_today" value="1" /> '.$i_want_email_quote_today.'<br>
@@ -92,7 +92,7 @@ elseif ($action == "send")
 	
 	if (strlen(trim($username)) >= '5') 
 		{
-		if (preg_match('#[a-zA-Z0-9]{5,15}#', $username)) 
+		if (preg_match("#^[a-z0-9_]+$#", $username)) 
 			{
 			$test = mysql_num_rows(mysql_query("select * from teen_quotes_account WHERE username='$username'"));
 			if($test == '0') 

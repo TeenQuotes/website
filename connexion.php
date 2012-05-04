@@ -43,6 +43,13 @@ if (isset($_POST['connexion']) OR $method == 'get')
 				$_SESSION['avatar'] = $compte['avatar'];
 				$_SESSION['passwd'] = $passwd;
 				$_SESSION['username'] = $compte['username'];
+
+				if (username_est_valide(strtolower($_SESSION['username'])) == FALSE)
+					{
+					echo '<meta http-equiv="refresh" content="0; url=changeusername">';
+					}
+				else
+					{
 				
 				// redirection
 				?>
@@ -52,6 +59,7 @@ if (isset($_POST['connexion']) OR $method == 'get')
 				//-->
 				</script>
 				<?php
+					}
 				}
 			else
 				{

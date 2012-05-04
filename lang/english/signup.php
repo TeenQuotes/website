@@ -20,13 +20,14 @@ $email_taken = "Your email adress is already taken.";
 $email_incorrect = "Your email adress is not correct.";
 $password_short = "Your password is too short.";
 $password_not_same = "Passwords are not the same.";
+$username_shape = "[a-z] [0-9] and _";
 $username_taken = "Your username is already taken.";
 $username_short = "Your username is too short.";
-$username_not_valid = "Your username does not meet the required shape :</span><br>
+$username_not_valid = "Your username does not meet the required shape :<br>
 <br />
-<li> Your nickname can contain only lower case, uppercase and numbers </li>
-<li> Your nickname must be less than 20 characters</li>
-<li> No spaces or special characters </li> ";
+<li> Your nickname can contain only lower case [a-z], numbers [0-9] and an underscore [_].</li>
+<li> Your nickname must be between 5 and 20 letters.</li>
+<li> No spaces or special characters.</li>";
 
 $must_be_registered_for_quote = '<div class="erreur_addquote"> You must be registered if you want to add your quote !</div>';
 $must_be_registered_to_comment = '<div class="erreur_addquote"> You must be registered if you want to add a comment !</div>';

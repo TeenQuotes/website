@@ -4,7 +4,6 @@ include '../lang/'.$language.'/quote.php';
 
 $id_quote = nl2br(htmlspecialchars(mysql_escape_string($_POST['id_quote'])));
 $texte = htmlspecialchars(mysql_escape_string($_POST['texte']));
-$username=ucfirst($username);
 $date = date("d/m/Y"); 
 $comments_ucfirst = ucfirst($comments);
 echo '
