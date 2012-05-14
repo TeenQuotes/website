@@ -1,12 +1,25 @@
 <?php 
 include 'header.php';
 include 'lang/'.$language.'/apps.php';
+$action = htmlspecialchars($_GET['action']);
 
-echo '
-<div class="post">
-	<h1><img src="http://'.$domaine.'/images/icones/mobile.png" class="icone" />'.$applications.'</h1>
-	<div class="grey_post">
-	'.$text_applications.'';
+if (empty($action))
+	{	
+	echo '
+	<div class="post">
+		<h1><img src="http://'.$domaine.'/images/icones/mobile.png" class="icone" />'.$applications.'</h1>
+		<div class="grey_post">
+		'.$text_applications.'';
+	}
+else
+	{
+	echo '
+	<div class="post">
+		<h1><img src="http://'.$domaine.'/images/icones/mobile.png" class="icone" />'.$signed_out_go_mobile.'</h1>
+		<div class="grey_post">
+		'.$text_applications.'';
+	}
+
 	
 	if ($link_app_iphone == '#')
 		{

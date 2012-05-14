@@ -157,7 +157,7 @@ if (isset($_GET['co']))
 	window.location.href="../"
 	//-->
 	</script>
-	<?php
+	<?php	
 	}
 
 if (isset($_GET['deconnexion']))
@@ -167,6 +167,14 @@ if (isset($_GET['deconnexion']))
 
 function deconnexion()
 	{
+	if(($_SESSION['security_level'] >= 2 OR $download_app) AND !(preg_match('#http://m.#', $_SERVER["SCRIPT_URI"])))
+		{
+		$link = '../apps?action=disconnect';
+		}
+	else
+		{	
+		$link = '../';
+		}
 	$domaine = "teen-quotes.com";
 	$_SESSION = array(); //Destruction des variables.
 	session_destroy(); //Destruction de la session.
@@ -177,14 +185,15 @@ function deconnexion()
 	$pseudo = "";
 	$id = "";
 	$email = "";
-	$username = ""; ?>
+	$username = "";
+	
+	?>
 	<script language="JavaScript">
 	<!--
-	window.location.href="../"
+	window.location.href=<?php echo '"'.$link.'"';?>
 	//-->
-	</script>	
-	
-<?php 
+	</script>
+	<?php 
 	}
 	
 if(isset($_GET['hide_download_app'])) 
@@ -744,7 +753,6 @@ function email_birthday()
 			$email_subject = 'Happy birthday !';
 			$email_message = ''.$top_mail.' Hello '.$username.',<br><br />Wow, '.$age.' years old, that\'s great ! All the team want to wish you a happy birthday ! We hope that you will have a great day :) '.$end_mail.'';
 			$mail = mail($email_user, $email_subject, $email_message, $headers);
-			$mail = mail('antoine.augusti@gmail.com', $email_subject, $email_message, $headers);
 			if ($mail)
 				{
 				$i++;
@@ -1417,7 +1425,7 @@ function mobile_device_detect($iphone=true,$android=true,$opera=true,$blackberry
 
 
 
-if (empty($_COOKIE['mobile']) AND $m_url != 'http://m.teen-quotes.com/' AND !isset($_GET['mobile']))
+if (empty($_COOKIE['mobile']) AND !(preg_match('#http://m.#', $_SERVER["SCRIPT_URI"])) AND !isset($_GET['mobile']))
 	{
 	mobile_device_detect();
 	}
