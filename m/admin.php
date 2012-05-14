@@ -135,7 +135,7 @@ elseif ($action == "add_quote")
 			}
 		elseif ($domaine == "kotado.fr")
 			{
-			$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english,auteur,date,auteur_id,approved) VALUES ('".$texte_quote."', 'Kotado', '".$date."', '3','2')");
+			$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english,auteur,date,auteur_id,approved) VALUES ('".$texte_quote."', 'kotado', '".$date."', '3','2')");
 			}
 			
 		if ($query) 

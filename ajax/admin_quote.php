@@ -30,7 +30,7 @@ if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$
 		
 		$query_email_auteur = mysql_fetch_array(mysql_query("SELECT email, username FROM teen_quotes_account WHERE id = '".$auteur_id."'"));
 		$email_auteur = $query_email_auteur['email'];
-		$name_auteur = ucfirst($query_email_auteur['username']);
+		$name_auteur = $query_email_auteur['username'];
 		
 		$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2'"));
 		$jours_posted = floor($nb_quote_awaiting_post / $nb_quote_released_per_day);
@@ -70,7 +70,7 @@ if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$
 
 		$query_email_auteur = mysql_fetch_array(mysql_query("SELECT email,username FROM teen_quotes_account WHERE id = '".$auteur_id."'"));
 		$email_auteur = $query_email_auteur['email'];
-		$name_auteur = ucfirst($query_email_auteur['username']);
+		$name_auteur = $query_email_auteur['username'];
 		
 		if ($delete_quote AND !empty($email_auteur)) 
 			{
