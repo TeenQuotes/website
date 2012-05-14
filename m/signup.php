@@ -4,7 +4,7 @@ $action = $_GET['action'];
 
 if ($action == 'send')
 	{
-	$username = trim(htmlspecialchars(mysql_escape_string($_POST['username'])));
+	$username = strtolower(trim(htmlspecialchars(mysql_escape_string($_POST['username']))));
 	$username = str_replace(' ','',$username);
 	$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
 	$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
