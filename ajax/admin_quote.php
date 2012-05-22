@@ -1,4 +1,5 @@
-<?php 
+<?php
+session_start();
 header("Access-Control-Allow-Origin: *");
 require "../kernel/config.php";
 if ($domaine == "kotado.fr")
@@ -18,19 +19,17 @@ $approve = mysql_real_escape_string($_POST['approve']);
 $id_quote = mysql_real_escape_string($_POST['id_quote']);
 $auteur_id = mysql_real_escape_string($_POST['id_user']);
 
-if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$domaine_en.'/', $_SERVER['SERVER_NAME'])) 
+if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$domaine_en.'/', $_SERVER['SERVER_NAME']) AND $_SESSION['security_level'] >= 2) 
 	{
 	if ($approve == "yes") 
 		{
 		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '2' WHERE id = '".$id_quote."'");
 		
-		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT texte_english, date FROM teen_quotes_quotes WHERE id = '".$id_quote."'"));
+		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english, q.date date, a.username username, a.email email FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND q.id = '".$id_quote."'"));
 		$texte_quote = $query_texte_quote['texte_english'];
 		$date_quote = $query_texte_quote['date'];
-		
-		$query_email_auteur = mysql_fetch_array(mysql_query("SELECT email, username FROM teen_quotes_account WHERE id = '".$auteur_id."'"));
-		$email_auteur = $query_email_auteur['email'];
-		$name_auteur = $query_email_auteur['username'];
+		$email_auteur = $query_texte_quote['email'];
+		$name_auteur = $query_texte_quote['username'];
 		
 		$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2'"));
 		$jours_posted = floor($nb_quote_awaiting_post / $nb_quote_released_per_day);
@@ -62,15 +61,13 @@ if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$
 		}
 	else
 		{
-		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT texte_english, date FROM teen_quotes_quotes WHERE id = '".$id_quote."'"));
-		$texte_quote = $query_texte_quote['texte_english'];
-		$date_quote = $query_texte_quote['date'];
-
 		$delete_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '-1' WHERE id = '".$id_quote."'");
 
-		$query_email_auteur = mysql_fetch_array(mysql_query("SELECT email,username FROM teen_quotes_account WHERE id = '".$auteur_id."'"));
-		$email_auteur = $query_email_auteur['email'];
-		$name_auteur = $query_email_auteur['username'];
+		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english, q.date date, a.username username, a.email email FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND q.id = '".$id_quote."'"));
+		$texte_quote = $query_texte_quote['texte_english'];
+		$date_quote = $query_texte_quote['date'];
+		$email_auteur = $query_texte_quote['email'];
+		$name_auteur = $query_texte_quote['username'];
 		
 		if ($delete_quote AND !empty($email_auteur)) 
 			{
