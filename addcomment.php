@@ -17,16 +17,15 @@ if (!empty($id_quote) AND !empty($texte))
 		{
 		$query = mysql_query("INSERT INTO teen_quotes_comments (id_quote, texte, auteur, auteur_id, date) VALUES ('$id_quote', '$texte', '$username', '$id', '$date')");
 		
-		$select_quote = mysql_fetch_array(mysql_query("SELECT auteur_id, auteur, texte_english, date FROM teen_quotes_quotes WHERE id='$id_quote'"));
+		$select_quote = mysql_fetch_array(mysql_query("SELECT q.auteur_id auteur_id, q.texte_english texte_english, q.date date, a.username auteur, a.email email, a.notification_comment_quote notification_comment_quote FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.id = '$id_quote' AND q.auteur_id = a.id"));
 		$txt_quote = $select_quote['texte_english'];
 		$auteur_id = $select_quote['auteur_id'];
 		$auteur = $select_quote['auteur']; 
 		$date_posted = $select_quote['date'];
 		$texte_comment = stripslashes(stripslashes($texte));
-		
-		$query_author_quote = mysql_fetch_array(mysql_query("SELECT email,notification_comment_quote FROM teen_quotes_account WHERE id='$auteur_id'"));
-		$email_auteur = $query_author_quote['email'];
-		$notification_comment_quote = $query_author_quote['notification_comment_quote'];
+
+		$email_auteur = $select_quote['email'];
+		$notification_comment_quote = $select_quote['notification_comment_quote'];
 		
 		if ($notification_comment_quote == '1')
 			{

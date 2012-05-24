@@ -1,41 +1,55 @@
 <?php 
 include 'header.php'; 
-include 'lang/'.$language.'/quote.php'; 
+include 'lang/'.$language.'/quote.php';
+
 $id_quote = mysql_real_escape_string($_GET['id_quote']);
+$logged = $_SESSION['logged'];
 $exist_quote = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE id='$id_quote' AND approved='1'"));
 
-if ($exist_quote=='0') 
+if ($exist_quote == 0 OR empty($id_quote)) 
 	{
 	echo '<meta http-equiv="refresh" content="0; url=error.php?erreur=404">';
 	}
 
-$nombre_commentaires= mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='$id_quote'"));
-$commentaires = mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='$id_quote' ORDER BY id ASC");
-$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote='$id_quote' AND id_user='$id'"));
-$logged = htmlspecialchars($_SESSION['logged']);
-// SI PAS D'ID DONNE
-if (empty($id_quote)) 
-	{
-	echo '
-	<div class="post">
-	<h1>'.$error.'</h1>
-	</div>';
-	include 'footer.php'; 
-	}
-	else 
-	{ 
-	$result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_quotes where id='$id_quote' AND approved='1'"));
+if ($logged)
+{
+	$result = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur,
+											(SELECT COUNT(*)
+											FROM teen_quotes_comments c
+											WHERE q.id = c.id_quote) AS nb_comments,
+											(SELECT COUNT(*)
+											FROM teen_quotes_favorite f
+											WHERE q.id = f.id_quote AND f.id_user = '$id') AS is_favorite
+											FROM teen_quotes_quotes q, teen_quotes_account a 
+											WHERE q.auteur_id = a.id AND q.id = '$id_quote'"));
+}
+else
+{
+	$result = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur,
+											(SELECT COUNT(*)
+											FROM teen_quotes_comments c
+											WHERE q.id = c.id_quote) AS nb_comments
+											FROM teen_quotes_quotes q, teen_quotes_account a 
+											WHERE q.auteur_id = a.id AND q.id = '$id_quote'"));
+}
+
 	$txt_quote = $result['texte_english'];
 	$auteur_id = $result['auteur_id'];
 	$auteur = $result['auteur']; 
-	$date_quote = $result['date'];   ?>
+	$date_quote = $result['date'];
+	$nombre_commentaires = $result['nb_comments'];
+	if ($logged)
+	{
+		$is_favorite = $result['is_favorite'];
+	}
+?>
 
 	<div class="post">
-	<?php echo $txt_quote; ?><br>
-	<div class="footer_quote">
-	<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']);date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
-	</div>
-	<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
+		<?php echo $txt_quote; ?><br>
+		<div class="footer_quote">
+		<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']);date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+		</div>
+		<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
 	</div>
 	
 	<?php
@@ -64,6 +78,7 @@ if (empty($id_quote))
 		</div>';
 		}
 	$comments_ucfirst = ucfirst($comments);
+
 	echo '
 	<div class="post slidedown">
 	<h2><img src="http://'.$domaine.'/images/icones/about.png" class="icone" />'.$comments_ucfirst.''; if ($nombre_commentaires >'1'){echo '<span class="right">'.$nombre_commentaires.' '.$comment.'s</span>';}else{echo'<span class="right">'.$nombre_commentaires.' '.$comment.'</span>';}echo '</h2>';
@@ -86,29 +101,28 @@ if (empty($id_quote))
 		}
 		
 		
-	if ($nombre_commentaires >= '1')
+	if ($nombre_commentaires >= 1)
 		{ // affichage si seulement il y a des commentaires
-		$nb_messages_par_page = '10';
+		$nb_messages_par_page = 10;
 
 		$display_page_top = display_page_top($nombre_commentaires, $nb_messages_par_page, 'p', $previous_page, $next_page);
 		$premierMessageAafficher = $display_page_top[0];
 		$nombreDePages = $display_page_top[1];
 		$page = $display_page_top[2];
 		
-		$commentaires = mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote='$id_quote' ORDER BY id ASC LIMIT $premierMessageAafficher ,  $nb_messages_par_page");
+		$commentaires = mysql_query("SELECT c.id id, c.auteur_id auteur_id, c.texte texte, c.date date, a.username auteur, a.avatar avatar FROM teen_quotes_comments c, teen_quotes_account a WHERE c.auteur_id = a.id AND c.id_quote = '$id_quote' ORDER BY c.id ASC LIMIT $premierMessageAafficher ,  $nb_messages_par_page");
 		while ($donnees = mysql_fetch_array ($commentaires))
 			{
 			$id_comment = $donnees['id'];
 			$id_auteur = $donnees['auteur_id'];
-			$query_avatar = mysql_fetch_array(mysql_query("SELECT avatar FROM teen_quotes_account where id='$id_auteur'"));
-			$avatar = $query_avatar['avatar'];
+			$avatar = $donnees['avatar'];
 			$texte_stripslashes = stripslashes($donnees['texte']);
 			
 			echo '
 			<div class="grey_post">
 			'.$texte_stripslashes.'<br><br />
 			<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" /></a>'; 
-			if ($_SESSION['security_level'] >= '2' OR $id_auteur == $id)
+			if ($_SESSION['security_level'] >= 2 OR $id_auteur == $id)
 				{
 				echo '<span class="favorite">';
 				if ($id_auteur == $id)
@@ -139,8 +153,8 @@ if (empty($id_quote))
 		</div>
 		';
 		}
-	echo '</div>';
-	}
+
+echo '</div>';
 
 include 'footer.php'; 
 ?>

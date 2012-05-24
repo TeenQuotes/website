@@ -16,25 +16,23 @@ echo '
 
 if (is_numeric($id_comment) AND !empty($id_comment))
 	{
-	$query_comment = mysql_query("SELECT * FROM teen_quotes_comments WHERE id = '".$id_comment."'");
+	$query_comment = mysql_query("SELECT c.auteur_id auteur_id, c.id_quote id_quote, c.texte texte, c.date date, a.avatar avatar FROM teen_quotes_comments c, teen_quotes_account a WHERE c.auteur_id = a.id AND c.id = '".$id_comment."'");
 	$fetch_comment = mysql_fetch_array($query_comment);
 	$id_auteur = $fetch_comment['auteur_id'];
 	$id_quote = $fetch_comment['id_quote'];
 	$texte_comment = stripcslashes($fetch_comment['texte']);
 	$date = $fetch_comment['date'];
-	
+	$avatar = $fetch_comment['avatar'];
+
 	if (mysql_num_rows($query_comment) == 1 AND $id_auteur == $id)
 		{
 		if (empty($action))
 			{
-			$result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_quotes where id='".$id_quote."' AND approved ='1'"));
+			$result = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english, q.auteur_id auteur_id, q.date date, a.username auteur FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND q.id = '".$id_quote."' AND q.approved = '1'"));
 			$txt_quote = $result['texte_english'];
 			$auteur_id = $result['auteur_id'];
 			$auteur = $result['auteur']; 
 			$date_quote = $result['date'];
-			
-			$query_avatar = mysql_fetch_array(mysql_query("SELECT avatar FROM teen_quotes_account where id='$id_auteur'"));
-			$avatar = $query_avatar['avatar'];
 			
 			echo '
 			'.$here_is_the_quote.'

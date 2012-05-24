@@ -35,14 +35,14 @@ elseif ($action == "add_quote")
 
 	if (strlen($texte_quote) >= '50') 
 		{
-		$submitted_today = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id='$id' AND date='$date'"));
+		$submitted_today = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id = '$id' AND date = '$date'"));
 		if ($submitted_today < $nb_quote_released_per_day)
 			{
 			if (is_quote_exist($texte_quote) == FALSE) 
 				{
 				if (!empty($username) AND !empty($id))
 					{
-					$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english,auteur,date,auteur_id,approved) VALUES ('$texte_quote', '$username', '$date', '$id','0')");
+					$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english, date, auteur_id, approved) VALUES ('$texte_quote', '$date', '$id','0')");
 					
 					if ($query) 
 						{
