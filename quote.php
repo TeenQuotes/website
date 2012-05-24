@@ -4,7 +4,7 @@ include 'lang/'.$language.'/quote.php';
 
 $id_quote = mysql_real_escape_string($_GET['id_quote']);
 $logged = $_SESSION['logged'];
-$exist_quote = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE id='$id_quote' AND approved='1'"));
+$exist_quote = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE id = '$id_quote' AND approved = '1'"));
 
 if ($exist_quote == 0 OR empty($id_quote)) 
 	{

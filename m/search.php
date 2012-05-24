@@ -2,9 +2,9 @@
 include 'header.php'; 
 include '../lang/'.$language.'/search.php';
 include '../lang/'.$language.'/user.php';
+
 $value_search = htmlspecialchars(mysql_escape_string($_GET['q']));
-echo '<script type="text/javascript" src="http://static.augusti.fr/js/highlight.js"></script>';
-echo '<script type="text/javascript">$(\'#wrapper\').highlight(\''.$value_search.'\');</script>';
+$logged = $_SESSION['logged'];
 
 if (strlen($value_search) < '50')
 	{
@@ -20,7 +20,7 @@ if (empty($value_search))
 	}
 elseif (isset($value_search)) 
 	{
-	$num_rows_quote = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved = '1' AND texte_english like '%".$value_search."%'"));
+	$num_rows_quote = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '1' AND texte_english like '%".$value_search."%'"));
 	$num_rows_members = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE username like '%".$value_search."%' AND hide_profile = '0'"));
 	
 	$num_rows_result = $num_rows_quote + $num_rows_members;
@@ -47,22 +47,43 @@ elseif (isset($value_search))
 			<div class="post" id="quotes">
 			<h2><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone">'.$quotes.'<span class="right" style="font-size:90%;padding-top:5px">'.$num_rows_quote.''; echo ' '.$results.''; if($num_rows_quote >'1'){echo"s";} if ($num_rows_quote > '15'){echo ' '.$max_result.'';} echo '</span></h2>';
 			
-			$reponse = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved = '1' AND texte_english like '%".$value_search."%' ORDER BY id DESC LIMIT 0,15");
-			
+			if ($logged)
+			{
+				$reponse = mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur,
+									(SELECT COUNT(*)
+									FROM teen_quotes_comments c
+									WHERE q.id = c.id_quote) AS nb_comments,
+									(SELECT COUNT(*)
+									FROM teen_quotes_favorite f
+									WHERE q.id = f.id_quote AND f.id_user = '$id') AS is_favorite
+									FROM teen_quotes_quotes q, teen_quotes_account a 
+									WHERE q.auteur_id = a.id AND q.approved = '1' AND q.texte_english like '%$value_search%'
+									ORDER BY q.id DESC LIMIT 0,15");
+			}
+			else
+			{
+				$reponse = mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur,
+									(SELECT COUNT(*)
+									FROM teen_quotes_comments c
+									WHERE q.id = c.id_quote) AS nb_comments
+									FROM teen_quotes_quotes q, teen_quotes_account a 
+									WHERE q.auteur_id = a.id AND q.approved = '1' AND q.texte_english like '%$value_search%'
+									ORDER BY q.id DESC LIMIT 0,15");
+			}
+
 			while ($result = mysql_fetch_array($reponse))
 				{
-				$logged = $_SESSION['logged'];
 				$id_quote = $result['id'];
 				$txt_quote = $result['texte_english'];
 				$auteur_id = $result['auteur_id'];
 				$auteur = $result['auteur']; 
 				$date_quote = $result['date'];
-
-				$nombre_commentaires= mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_comments WHERE id_quote = '".$id_quote."'")); 
+				$nombre_commentaires = $result['nb_comments'];
 				if ($logged)
-					{
-					$is_favorite = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_favorite WHERE id_quote = '".$id_quote."' AND id_user = '".$id."'"));
-					}
+				{
+					$is_favorite = $result['is_favorite'];
+				}
+
 				?>
 				<div class="grey_post">
 				<?php echo $txt_quote; ?><br>
@@ -91,10 +112,10 @@ elseif (isset($value_search))
 				$country = $result['country'];
 				$city = $result['city'];
 				
-				$nb_quotes_approved= mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id = '".$id_user."' AND approved = '1'"));
-				$nb_quotes_submited= mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id = '".$id_user."'"));
-				$nb_favorite_quotes= mysql_num_rows(mysql_query("SELECT DISTINCT id_quote FROM teen_quotes_favorite WHERE id_user = '".$id_user."'"));
-				$nb_comments= mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_comments WHERE auteur_id = '".$id_user."'"));
+				$nb_quotes_approved = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id = '".$id_user."' AND approved = '1'"));
+				$nb_quotes_submited = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id = '".$id_user."'"));
+				$nb_favorite_quotes = mysql_num_rows(mysql_query("SELECT DISTINCT id_quote FROM teen_quotes_favorite WHERE id_user = '".$id_user."'"));
+				$nb_comments = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_comments WHERE auteur_id = '".$id_user."'"));
 				$nb_quotes_added_to_favorite = mysql_num_rows(mysql_query("SELECT F.id FROM teen_quotes_favorite F, teen_quotes_quotes Q WHERE F.id_quote = Q.id AND Q.auteur_id = '".$id_user."'"));
 				
 			

@@ -37,7 +37,7 @@ elseif (empty($action) AND $_SESSION['security_level'] >='2')
 		Number of citations waiting to be posted : '.$nb_quote_awaiting_post.' ('.$jours_posted.' '.$days_quote_posted .')
 		</div>
 	';
-	$query = mysql_query("SELECT * FROM teen_quotes_quotes WHERE approved = '0' ORDER BY id ASC");
+	$query = mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND approved = '0' ORDER BY id ASC");
 	while ($result=mysql_fetch_array($query)) 
 		{
 		$txt_quote = $result['texte_english'];
@@ -131,11 +131,11 @@ elseif ($action == "add_quote")
 		{
 		if ($domaine == "teen-quotes.com")
 			{
-			$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english,auteur,date,auteur_id,approved) VALUES ('".$texte_quote."', '".$username."', '".$date."', '".$id."','2')");
+			$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english, date, auteur_id, approved) VALUES ('".$texte_quote."', '".$date."', '".$id."','2')");
 			}
 		elseif ($domaine == "kotado.fr")
 			{
-			$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english,auteur,date,auteur_id,approved) VALUES ('".$texte_quote."', 'kotado', '".$date."', '3','2')");
+			$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english, date, auteur_id, approved) VALUES ('".$texte_quote."', '".$date."', '3','2')");
 			}
 			
 		if ($query) 
@@ -167,13 +167,11 @@ elseif ($action == "rate")
 		{
 		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '2' WHERE id = '".$id_quote."'");
 		
-		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT texte_english,date FROM teen_quotes_quotes WHERE id = '".$id_quote."'"));
+		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english, q.date date, a.email email, a.username username FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND q.id = '".$id_quote."'"));
 		$texte_quote = $query_texte_quote['texte_english'];
 		$date_quote = $query_texte_quote['date'];
-		
-		$query_email_auteur = mysql_fetch_array(mysql_query("SELECT email,username FROM teen_quotes_account WHERE id = '".$auteur_id."'"));
-		$email_auteur = $query_email_auteur['email'];
-		$name_auteur = $query_email_auteur['username'];
+		$email_auteur = $query_texte_quote['email'];
+		$name_auteur = $query_texte_quote['username'];
 		
 		$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2'"));
 		$jours_posted = floor($nb_quote_awaiting_post / $nb_quote_released_per_day);
@@ -208,17 +206,13 @@ elseif ($action == "rate")
 		}
 	else
 		{
-		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT texte_english, date FROM teen_quotes_quotes WHERE id = '".$id_quote."'"));
+		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english, q.date date, a.email email, a.username username FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND q.id = '".$id_quote."'"));
 		$texte_quote = $query_texte_quote['texte_english'];
 		$date_quote = $query_texte_quote['date'];
+		$email_auteur = $query_texte_quote['email'];
+		$name_auteur = $query_texte_quote['username'];
 
 		$delete_quote= mysql_query("UPDATE teen_quotes_quotes SET approved = '-1' WHERE id='".$id_quote."'");
-
-		$query_email_auteur = mysql_fetch_array(mysql_query("SELECT email, username FROM teen_quotes_account WHERE id = '".$auteur_id."'"));
-		$email_auteur = $query_email_auteur['email'];
-		$name_auteur = $query_email_auteur['username'];
-	
-
 		if ($delete_quote AND !empty($email_auteur)) 
 			{
 			if ($language == "french")
@@ -243,19 +237,17 @@ elseif ($action == "delete_comment")
 	
 	$id_comment = htmlspecialchars($_GET['id']);
 
-	$donnees = mysql_fetch_array(mysql_query("SELECT auteur, auteur_id, texte,id_quote,date FROM teen_quotes_comments WHERE id = '".$id_comment."'"));
+	$donnees = mysql_fetch_array(mysql_query("SELECT c.auteur_id auteur_id, c.texte texte, c.id_quote id_quote, c.date date, a.username auteur, a.email email, a.avatar avatar FROM teen_quotes_comments c, teen_quotes_account a WHERE c.auteur_id = a.id AND c.id = '".$id_comment."'"));
 	$auteur_id = $donnees['auteur_id'];
 	$id_quote = $donnees['id_quote'];
 	$name_auteur = $donnees['auteur'];
 	$texte_comment = stripslashes($donnees['texte']);
 	$date_comment = $donnees['date'];
-
-	$donnees2 = mysql_fetch_array(mysql_query("SELECT email,avatar,username FROM teen_quotes_account WHERE id = '".$auteur_id."'"));
-	$email_auteur = $donnees2['email'];
-	$avatar = $donnees2['avatar'];
-	$username_comment = $donnees2['username'];
+	$email_auteur = $donnees['email'];
+	$avatar = $donnees['avatar'];
+	$username_comment = $name_auteur;
 	
-	$select_quote = mysql_fetch_array(mysql_query("SELECT auteur_id, auteur, texte_english, date FROM teen_quotes_quotes WHERE id = '".$id_quote."'"));
+	$select_quote = mysql_fetch_array(mysql_query("SELECT q.auteur_id auteur_id, q.texte_english texte_english, q.date date, a.username auteur FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND q.id = '".$id_quote."'"));
 	$txt_quote = $select_quote['texte_english'];
 	$auteur_id = $select_quote['auteur_id'];
 	$auteur = $select_quote['auteur']; 
@@ -333,8 +325,8 @@ elseif ($action == "edit_quote")
 	$id_quote = $_POST['id_quote'];
 	$texte_quote = $_POST['texte_quote'];
 
-	$update_quote = mysql_query("UPDATE teen_quotes_quotes SET texte_english='$texte_quote' WHERE id='$id_quote'");
-	$id_auteur_query = mysql_fetch_array(mysql_query("SELECT auteur_id FROM teen_quotes_quotes WHERE id='$id_quote'"));
+	$update_quote = mysql_query("UPDATE teen_quotes_quotes SET texte_english = '$texte_quote' WHERE id = '$id_quote'");
+	$id_auteur_query = mysql_fetch_array(mysql_query("SELECT auteur_id FROM teen_quotes_quotes WHERE id = '$id_quote'"));
 	$id_auteur = $id_auteur_query['auteur_id'];
 
 	if ($update_quote)
@@ -351,7 +343,7 @@ elseif ($action == "edit_existing_quote")
 	$exist = mysql_num_rows(mysql_query("SELECT texte_english FROM teen_quotes_quotes WHERE id = '".$id_quote."' AND approved = '1'"));
 	if ($exist == '1')
 		{
-		$result = mysql_fetch_array(mysql_query("SELECT texte_english, auteur, auteur_id, date FROM teen_quotes_quotes WHERE id = '".$id_quote."' AND approved = '1'"));
+		$result = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english, q.auteur_id auteur_id, q.date date, a.username auteur FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND q.id = '".$id_quote."' AND q.approved = '1'"));
 		
 		$txt_quote = $result['texte_english'];
 		$auteur_id = $result['auteur_id'];

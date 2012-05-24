@@ -2,7 +2,7 @@
 include 'header.php'; 
 include 'lang/'.$language.'/quote.php'; 
 
-$id_quote = nl2br(htmlspecialchars(mysql_escape_string($_POST['id_quote'])));
+$id_quote = htmlspecialchars(mysql_escape_string($_POST['id_quote']));
 $texte = htmlspecialchars(mysql_escape_string($_POST['texte']));
 $date = date("d/m/Y"); 
 $comments_ucfirst = ucfirst($comments);
@@ -15,7 +15,7 @@ if (!empty($id_quote) AND !empty($texte))
 	{
 	if (strlen($texte) <= '450') 
 		{
-		$query = mysql_query("INSERT INTO teen_quotes_comments (id_quote, texte, auteur, auteur_id, date) VALUES ('$id_quote', '$texte', '$username', '$id', '$date')");
+		$query = mysql_query("INSERT INTO teen_quotes_comments (id_quote, texte, auteur_id, date) VALUES ('$id_quote', '$texte', '$id', '$date')");
 		
 		$select_quote = mysql_fetch_array(mysql_query("SELECT q.auteur_id auteur_id, q.texte_english texte_english, q.date date, a.username auteur, a.email email, a.notification_comment_quote notification_comment_quote FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.id = '$id_quote' AND q.auteur_id = a.id"));
 		$txt_quote = $select_quote['texte_english'];
@@ -30,22 +30,43 @@ if (!empty($id_quote) AND !empty($texte))
 		if ($notification_comment_quote == '1')
 			{
 			$avatar = $_SESSION['avatar'];
-				
-			$comment_added_mail = '
-			'.$top_mail.' 
-			Hello '.$auteur.',<br><br />
-			A comment has been added on your quote :
-			<br />
-			<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
-				'.$txt_quote.'<br><br />
-				<a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">'.$by.' <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_posted.'</span>
-			</div>
-			Here is the comment :
-			<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
-			'.$texte_comment.'<br><br />
-			<a href="http://www.teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">'.$by.' <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br>
-			</div>
-			'.$end_mail.'';
+			
+			if ($language == 'french')
+			{
+				$comment_added_mail = '
+				'.$top_mail.' 
+				Bonjour '.$auteur.',<br><br />
+				Un commentaire a été ajouté à votre citation :
+				<br />
+				<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
+					'.$txt_quote.'<br><br />
+					<a href="http://kotado.fr/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">'.$by.' <a href="http://kotado.fr/user-'.$auteur_id.'" target="_blank" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_posted.'</span>
+				</div>
+				Voici le commentaire :
+				<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
+				'.$texte_comment.'<br><br />
+				<a href="http://kotado.fr/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">'.$by.' <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br>
+				</div>
+				'.$end_mail.'';
+			}
+			else
+			{
+				$comment_added_mail = '
+				'.$top_mail.' 
+				Hello '.$auteur.',<br><br />
+				A comment has been added on your quote :
+				<br />
+				<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
+					'.$txt_quote.'<br><br />
+					<a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">'.$by.' <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_posted.'</span>
+				</div>
+				Here is the comment :
+				<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
+				'.$texte_comment.'<br><br />
+				<a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">'.$by.' <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br>
+				</div>
+				'.$end_mail.'';
+			}
 			
 			$mail = mail($email_auteur, $comment_added_on_quote, $comment_added_mail, $headers);
 			}
