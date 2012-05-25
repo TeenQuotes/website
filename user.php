@@ -305,7 +305,7 @@ else
 										FROM teen_quotes_favorite f
 										WHERE q.id = f.id_quote AND f.id_user = '$id_visitor') AS is_favorite
 										FROM teen_quotes_quotes q, teen_quotes_account a 
-										WHERE q.auteur_id = a.id AND q.auteur_id = '$id'
+										WHERE q.auteur_id = a.id AND q.auteur_id = '$id' AND q.approved = '1'
 										ORDER BY q.id DESC LIMIT $premierMessageAafficher, $nb_messages_par_page");
 				}
 				else
@@ -315,7 +315,7 @@ else
 										FROM teen_quotes_comments c
 										WHERE q.id = c.id_quote) AS nb_comments
 										FROM teen_quotes_quotes q, teen_quotes_account a 
-										WHERE q.auteur_id = a.id AND q.auteur_id = '$id'
+										WHERE q.auteur_id = a.id AND q.auteur_id = '$id' AND q.approved = '1'
 										ORDER BY q.id DESC LIMIT $premierMessageAafficher, $nb_messages_par_page");
 				}
 			while ($result = mysql_fetch_array($reponse))
