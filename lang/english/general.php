@@ -40,6 +40,7 @@ $quotes= "Quotes";
 $follow_twitter = "Follow us on Twitter !";
 $follow_facebook = "Became a fan on Facebook !";
 $statistics = "Statistics";
+$keyboard_shortcuts = 'Keyboard shortcuts';
 
 $search_value_form = 'value="An user, a quote..." onblur="javascript:if(this.value==\'\'){this.value=\'An user, a quote...\'}" onFocus="javascript:if(this.value==\'An user, a quote...\'){this.value=\'\'}"';
 

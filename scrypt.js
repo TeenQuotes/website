@@ -177,6 +177,64 @@ texte = texte.replace(/ÿ/g,'&yuml;'); // 255 FF
 return texte;
 }
 
+// Keyboard shortcuts
+var isG = false;
+$(document).keyup(function (e) 
+{
+	if(e.which == 71) isG = false;
+}).keydown(function (e) 
+{
+	if(e.which == 71) isG = true;
+	// G + Q
+	if(e.which == 81 && isG == true) 
+	{
+		window.location.href = "../admin";
+		return false;
+	}
+	// G + A
+	if(e.which == 65 && isG == true) 
+	{
+		window.location.href = "../addquote";
+		return false;
+	}
+	// G + E
+	if(e.which == 69 && isG == true) 
+	{
+		window.location.href = "../editprofile";
+		return false;
+	}
+	// G + H
+	if(e.which == 72 && isG == true) 
+	{
+		window.location.href = "../";
+		return false;
+	}
+	// G + R
+	if(e.which == 82 && isG == true) 
+	{
+		window.location.href = "../random";
+		return false;
+	}
+	// G + P
+	if(e.which == 80 && isG == true) 
+	{
+		window.location.href = "../profile";
+		return false;
+	}	
+	// G + M
+	if(e.which == 77 && isG == true) 
+	{
+		window.location.href = "../members";
+		return false;
+	}
+	// G + L
+	if(e.which == 76 && isG == true) 
+	{
+		window.location.href = "../?deconnexion";
+		return false;
+	}
+});
+
 $(function() {
   $("#submit_translate").click(function() {
 	$(".translate_quote[data-id="+id_quote+"]").html("<em>Wait...</em>");

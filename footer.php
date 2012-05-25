@@ -26,7 +26,7 @@
 					<div class="title"><span class="icone_login member"></span><?php echo $my_account; ?></div>
 					<?php echo $connected_as; ?> <span class="bleu"><?php echo $username; ?></span><br>
 					<br />
-					<a href="user-<?php echo $_SESSION['id'] ?>">&raquo; <?php echo $my_profile; ?></a><span class="right"><form action="../editprofile" method="post"><input type="submit" value="<?php echo $edit; ?>" /></form></span><br>
+					<a href="user-<?php echo $_SESSION['id'] ?>" title="<?php echo $my_profile; ?>">&raquo; <?php echo $my_profile; ?></a><span class="right"><form action="../editprofile" method="post"><input type="submit" value="<?php echo $edit; ?>" /></form></span><br>
 					<a href="?deconnexion" title="<?php echo $log_out; ?>">&raquo; <?php echo $logout; ?> </a><br>
 					
 				</div>
@@ -39,9 +39,11 @@
 					&copy; <?php echo date("Y"); ?> teen-quotes.com<br>
 					<?php echo $created_by; ?> <a href="http://www.antoine-augusti.fr" target="_blank"> Antoine Augusti</a>
 					<br><?php echo $developer; ?> <a href="http://www.pretty-web.com" target="_blank">Pretty Web</a><br>
-					&raquo; <a href="statistics"><?php echo $statistics; ?></a><br>
+					&raquo; <a href="statistics" title="<?php echo $statistics; ?>"><?php echo $statistics; ?></a><br>
+					&raquo; <a href="shortcuts" title="<?php echo $keyboard_shortcuts; ?>"><?php echo $keyboard_shortcuts; ?></a><br>
 					&raquo; <a href="contact" title="Contact">Contact</a><br>
-					&raquo; <a href="legalterms"><?php echo $legal_terms; ?></a><br>
+					&raquo; <a href="legalterms" title="<?php echo $legal_terms; ?>"><?php echo $legal_terms; ?></a><br>
+					</p>
 				</div>
 				
 				<?php 

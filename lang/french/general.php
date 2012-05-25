@@ -40,6 +40,7 @@ $quotes= "Citations";
 $follow_twitter = "Suivez nous sur Twitter !";
 $follow_facebook = "Devenez fan sur Facebook !";
 $statistics = "Statistiques";
+$keyboard_shortcuts = 'Raccourcis clavier';
 
 $search_value_form = 'value="Citation, auteur..." onblur="javascript:if(this.value==\'\'){this.value=\'Citation, auteur...\'}" onFocus="javascript:if(this.value==\'Citation, auteur...\'){this.value=\'\'}"';
 
