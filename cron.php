@@ -1,14 +1,13 @@
 <?php 
-
 require "kernel/config.php";
 require "kernel/fonctions.php";
 $db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
 mysql_select_db($user,$db)  or die('Erreur de selection '.mysql_error()); 
 
-$query_monday = mysql_fetch_array(mysql_query("SELECT send_mail_monday FROM config WHERE id='1'"));
+$query_monday = mysql_fetch_array(mysql_query("SELECT send_mail_monday FROM config WHERE id = '1'"));
 $send_monday = $query_monday['send_mail_monday'];
 
-$jour=date("D");
+$jour = date("D");
 
 if ($send_monday == "0" AND $jour == "Mon") 
 	{ // ENVOI DE MAIL LE LUNDI
@@ -34,7 +33,7 @@ if ($send_monday == "0" AND $jour == "Mon")
 		if ($mail)
 			{
 			$i++;
-			$txt_file .= '#'.$i.' : '.$email.' - '.$code.' \r';
+			$txt_file .= '#'.$i.' : '.$email.' - '.$code.''."\r";
 			}
 		}
 	$monfichier = fopen('files/compteur_email_hebdomadaire.txt', 'r+'); // Ouverture du fichier
@@ -42,7 +41,7 @@ if ($send_monday == "0" AND $jour == "Mon")
 	fputs($monfichier, $txt_file); // On écrit le nouveau nombre de pages vues
 	fclose($monfichier);
 		
-	$update = mysql_query("UPDATE config SET send_mail_monday='1' WHERE id='1'");
+	$update = mysql_query("UPDATE config SET send_mail_monday='1' WHERE id = '1'");
 	}
 else
 	{
@@ -52,5 +51,5 @@ else
 
 if ($send_monday == "1" AND $jour == "Tue") 
 	{ // RESET COMPTEUR MARDI
-	$update=mysql_query("UPDATE config SET send_mail_monday='0' WHERE id='1'");
+	$update=mysql_query("UPDATE config SET send_mail_monday='0' WHERE id = '1'");
 	}
