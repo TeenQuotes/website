@@ -16,10 +16,9 @@ $years_old = 'ans';
 $no_posted_comments = "Cet utilisateur n'a pas encore posté de commentaires.";
 $no_description = "Cet utilisateur n'a pas encore rempli sa description.";
 $user_quotes = "Citations";
-$fav_quote="Citations favorites";
+$fav_quote = "Citations favorites";
 $favorite_quotes = "Citations favorites";
-$no_fav_quotes="Cet utilisateur n'a pas encore de citations favorites";
-
+$no_fav_quotes = "Cet utilisateur n'a pas encore de citations favorites";
 
 $hide_profile = "Désolé mais cet utilisateur a choisi de cacher son profil";
 $profile_hidden_self = "Votre profil est actuellement caché. Seul vous pouvez voir votre profil.";

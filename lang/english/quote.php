@@ -10,5 +10,4 @@ $not_complete = "All fields are required !";
 
 $comment_added_on_quote = "Comment added on your quote";
 
-$refresh = "View another Quote";
-
+$refresh = "View another quote";

@@ -1,7 +1,7 @@
 <?php 
 $statistics = "Statistiques";
 $other_stats = "Autres statistiques";
-$more_stats_email = '<img src="http://www.teen-quotes.com/images/icones/infos.png" class="mini_plus_icone" /> Si vous voulez plus de statistiques, envoyez-nous un email à <a href="mailto:support@teen-quotes.com">support@teen-quotes.com</a><br>';
+$more_stats_email = '<img src="http://'.$domaine.'/images/icones/infos.png" class="mini_plus_icone" />Si vous voulez plus de statistiques, envoyez-nous un email à <a href="mailto:support@teen-quotes.com">support@teen-quotes.com</a><br>';
 
 $approved = "Approuvées";
 $rejected = "Rejetées";
@@ -15,7 +15,7 @@ $members = "Membres";
 $visitors = "Visiteurs";
 $people_subscribed_newsletter = "Personnes inscrites à la newsletter";
 $members_with_fav_quotes = "Membres possédant des citations favorites";
-$members_without_fav_quotes = "Membres sans des citations favorites";
+$members_without_fav_quotes = "Membres sans citations favorites";
 $members_and_fav_quotes = "Membres et citations favorites";
 $others = "Autre";
 $top_members_ordered_by_nb_quotes_in_fav = "Top des membres en fonction du nombre de citations ajoutées dans les favoris";

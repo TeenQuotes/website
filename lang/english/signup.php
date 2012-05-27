@@ -1,7 +1,7 @@
 <?php
 
-$account_create = "To create an account on Teen Quotes and be able to access all the advantages that come with it, fill in the form below, your account will be created in an instant !";
-$require_age = "You must be 13 or older to create a Teen Quotes's account.";
+$account_create = "To create an account on ".$name_website." and be able to access all the advantages that come with it, fill in the form below, your account will be created in an instant !";
+$require_age = "You must be 13 or older to create a ".$name_website."'s account.";
 $username_enter = "Username";
 $password = "Password";
 $confirm_password = "Confirm password";
@@ -13,8 +13,8 @@ $valid_email = "Please enter a valid email address, it will be necessary later";
 
 $username = str_replace(' ','',$username);
 $email_subject = "Welcome";
-$email_message = "$top_mail Welcome to Teen Quotes !<br><br />While you set up and you discover Teen Quotes, we send you some informations to log.<br><br />Your credentials are :<br /><br /><li>Username : <font color=\"#5C9FC0\"><b>$username</b></font></li><li>Password : <font color=\"#5C9FC0\"><b>$pass2</b></font></li><br /><br />Keep precisely !<br><br />You can login now by clicking on <a href=\"http://www.teen-quotes.com/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">this link</a>. Remember to fill out your profile as soon as you can !<br><br />Sincerely,<br><b>The Teen Quotes Team</b> $end_mail";
-$signup_succes = "$succes Your account has been created with success !<br><br />Welcome to Teen Quotes!<br><br />While you set up and you discover Teen Quotes, we send you some informations to log.<br><br />Think about when you can complete your profile !<br><br /><br /><br />Your login will be sent to your email address ($email). You will be logged in a few seconds...";
+$email_message = "$top_mail Welcome to ".$name_website." !<br><br />While you set up and you discover ".$name_website.", we send you some informations to log.<br><br />Your credentials are :<br /><br /><li>Username : <font color=\"#5C9FC0\"><b>$username</b></font></li><li>Password : <font color=\"#5C9FC0\"><b>$pass2</b></font></li><br /><br />Keep precisely !<br><br />You can login now by clicking on <a href=\"http://".$domaine."/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">this link</a>. Remember to fill out your profile as soon as you can !<br><br />Sincerely,<br><b>The ".$name_website." Team</b> $end_mail";
+$signup_succes = "$succes Your account has been created with success !<br><br />Welcome to ".$name_website."!<br><br />While you set up and you discover ".$name_website.", we send you some informations to log.<br><br />Think about when you can complete your profile !<br><br /><br /><br />Your login will be sent to your email address ($email). You will be logged in a few seconds...";
 
 $email_taken = "Your email adress is already taken.";
 $email_incorrect = "Your email adress is not correct.";

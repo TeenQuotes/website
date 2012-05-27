@@ -9,5 +9,5 @@ Do not ever leave '.$name_website.'. Free, easy to use and fast, this applicatio
 - Share on Facebook, Twitter and via email.<br>
 - Add quotes to your favorites.<br>';
 
-$app_iphone_not_available = '<br /><img src="http://teen-quotes.com/images/icones/erreur.png" class="mini_icone" alt="Icone" />The iPhone application is not yet available.<br>';
-$app_android_not_available = '<br /><img src="http://teen-quotes.com/images/icones/erreur.png" class="mini_icone" alt="Icone" />The Android application is not yet available.<br>';
+$app_iphone_not_available = '<br /><img src="http://'.$domaine.'/images/icones/erreur.png" class="mini_icone" alt="Icone" />The iPhone application is not yet available.<br>';
+$app_android_not_available = '<br /><img src="http://'.$domaine.'/images/icones/erreur.png" class="mini_icone" alt="Icone" />The Android application is not yet available.<br>';

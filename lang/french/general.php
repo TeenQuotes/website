@@ -14,9 +14,9 @@ $home = "Accueil";
 $by = "par";
 $share = "Partager";
 $on = "le";
-$comment="commentaire";
-$comments="commentaires";
-$no_comments="Pas de commentaires";
+$comment = "commentaire";
+$comments = "commentaires";
+$no_comments = "Pas de commentaires";
 $logout = "Déconnexion";
 $my_account = "Mon compte";
 $my_profile = "Mon profil";
@@ -30,13 +30,13 @@ $edit = "Éditer";
 $random_quote = "Citations aléatoires";
 $random_quote_m = "Aléatoire";
 $add_a_quote = "Ajouter une citation";
-$developer="Développeur";
-$add_favorite="Ajouter cette citation à vos favoris !";
-$unfavorite="Supprimer cette citation de vos favoris";
-$mobile_website="Site mobile";
-$full_website="Site normal";
-$members="Membres";
-$quotes= "Citations";
+$developer = "Développeur";
+$add_favorite = "Ajouter cette citation à vos favoris !";
+$unfavorite = "Supprimer cette citation de vos favoris";
+$mobile_website = "Site mobile";
+$full_website = "Site normal";
+$members = "Membres";
+$quotes = "Citations";
 $follow_twitter = "Suivez nous sur Twitter !";
 $follow_facebook = "Devenez fan sur Facebook !";
 $statistics = "Statistiques";
@@ -49,14 +49,10 @@ $must_be_log = "Vous devez être connecté ! <a href=\"signup?addcomment\">Cliqu
 $profite_not_yet_fulffiled = '<div class="profile_not_fullfilled">Vous n\'avez pas encore rempli votre profil, <a href="../editprofile">cliquez ici</a><a onclick="return false;" class="hide right">Fermer</a></div>';
 
 $view_his_profile = "Voir son profil";
-$back_home ="Retour à l'accueil";
-$log_me="Connexion";
-$log_out="Déconnexion";
+$back_home = "Retour à l'accueil";
+$log_me = "Connexion";
+$log_out = "Déconnexion";
 
-$download_iphone_app = '<div class="download_app"><img src="http://teen-quotes.com/images/icones/download.gif" alt="Icone" class="mini_icone" />Vous pouvez télécharger l\'application '.$name_website.' pour votre iPhone / iTouch <a href="'.$link_app_iphone.'">ici</a>.<span class="right"><a href="?hide_download_app">Fermer</a></span></div>';
-$download_android_app = '<div class="download_app"><img src="http://teen-quotes.com/images/icones/download.gif" alt="Icone" class="mini_icone" />Vous pouvez télécharger l\'application '.$name_website.' pour votre Android <a href="'.$link_app_android.'">ici</a>.<span class="right"><a href="?hide_download_app">Fermer</a></span></div>';
-
-
-
-
+$download_iphone_app = '<div class="download_app"><img src="http://'.$domaine.'/images/icones/download.gif" alt="Icone" class="mini_icone" />Vous pouvez télécharger l\'application '.$name_website.' pour votre iPhone / iTouch <a href="'.$link_app_iphone.'">ici</a>.<span class="right"><a href="?hide_download_app">Fermer</a></span></div>';
+$download_android_app = '<div class="download_app"><img src="http://'.$domaine.'/images/icones/download.gif" alt="Icone" class="mini_icone" />Vous pouvez télécharger l\'application '.$name_website.' pour votre Android <a href="'.$link_app_android.'">ici</a>.<span class="right"><a href="?hide_download_app">Fermer</a></span></div>';
 ?>
