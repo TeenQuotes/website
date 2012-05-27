@@ -157,7 +157,7 @@ elseif ($action=="send")
 	$hide_profile = htmlspecialchars(mysql_escape_string($_POST['hide_profile']));
 				
 				
-	if(!empty($title) AND !empty($birth_date) AND !empty($country) AND !empty($city) AND !empty($about_me) AND !empty($hide_profile)) 
+	if((!empty($title) OR !empty($birth_date) OR !empty($country) OR !empty($city) OR !empty($about_me)) AND !empty($hide_profile)) 
 		{
 		if ($hide_profile == "No") 
 			{
