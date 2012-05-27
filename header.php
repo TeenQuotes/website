@@ -85,9 +85,8 @@ if ($_SESSION['logged'] == TRUE)
 		}
 	}
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <?php 
 // PERMET DE GERER LE TITRE DES PAGES DYNAMIQUES ET LES DESCRIPTION POUR LE SHARE SUR FB
@@ -134,28 +133,21 @@ else
 ?>	
 		<meta name="keywords" content="'Teen Quotes', 'teenage quotes', 'teenager quotes', 'quotes for teenagers', 'teen qoutes', 'quotes', 'teen', 'citations', 'sentences', 'Augusti', 'Twitter', 'Facebook'"/> 
 		<meta name="author" content="Antoine Augusti"/> 
-		<meta name="revisit-after" content="2 days"/> 
-		<meta name="date-creation-ddmmyyyy" content="26092010"/> 
-		<meta name="Robots" content="all"/> 
-		<meta name="Rating" content="General"/> 
-		<meta name="location" content="France, FRANCE"/> 
-		<meta name="expires" content="never"/> 
-		<meta name="Distribution" content="Global"/> 
-		<meta name="Audience" content="General"/> 
-		<meta http-equiv="Content-Language" content="en,fr" /> 
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="revisit-after" content="2 days"/>
+		<meta name="robots" content="all"/>
+		<meta charset="utf-8" />
 		
-		<link type="text/css" rel="stylesheet" media="screen" href="http://<?php echo $domaine; ?>/style.css" /> 
-		<link rel="stylesheet" type="text/css" media="screen" href="http://<?php echo $domaine; ?>/uniform/uniform.css" />
+		<link rel="stylesheet" href="http://<?php echo $domaine; ?>/style.css" /> 
+		<link rel="stylesheet" href="http://<?php echo $domaine; ?>/uniform/uniform.css" />
 		<!--[if IE]><style>.submit:hover{color:#000!important}</style><![endif]--> 
 		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domaine; ?>/images/favicon.gif" /> 
 		<link rel="image_src" href="http://<?php echo $domaine; ?>/images/icon50.png" /> 
 		<meta property="og:image" content="http://<?php echo $domaine; ?>/images/icon50.png" /> 
 		
 
-		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
-		<script src="http://<?php echo $domaine; ?>/uniform/uniform.js" type="text/javascript"></script>
-		<script type="text/javascript" src="http://teen-quotes.com/scrypt.js"></script>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="http://<?php echo $domaine; ?>/uniform/uniform.js"></script>
+		<script src="http://<?php echo $domaine; ?>/scrypt.js"></script>
 		
 		<?php
 		if ($php_self == "statistics")
@@ -164,7 +156,7 @@ else
 			}
 		?>
 		
-		<script type="text/javascript">
+		<script>
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', 'UA-12045924-10']);
 		_gaq.push(['_setDomainName', 'teen-quotes.com']);
