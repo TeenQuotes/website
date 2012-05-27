@@ -179,59 +179,93 @@ return texte;
 
 // Keyboard shortcuts
 var isG = false;
+var peutFaireAction = true;
+
+$(document).ready(function()
+{
+	$("input").focus(function(){
+		peutFaireAction = false;
+	});
+	$("input").mouseover(function(){
+		peutFaireAction = false;
+	}).mouseout(function(){
+    	peutFaireAction = true;
+	});
+	
+	$("textarea").focus(function(){
+		peutFaireAction = false;
+	});
+	$("textarea").mouseover(function(){
+		peutFaireAction = false;
+	}).mouseout(function(){
+    	peutFaireAction = true;
+	});
+});
+
 $(document).keyup(function (e) 
 {
 	if(e.which == 71) isG = false;
+
 }).keydown(function (e) 
 {
 	if(e.which == 71) isG = true;
-	// G + Q
-	if(e.which == 81 && isG == true) 
+
+	if (peutFaireAction == true)
 	{
-		window.location.href = "../admin";
-		return false;
-	}
-	// G + A
-	if(e.which == 65 && isG == true) 
-	{
-		window.location.href = "../addquote";
-		return false;
-	}
-	// G + E
-	if(e.which == 69 && isG == true) 
-	{
-		window.location.href = "../editprofile";
-		return false;
-	}
-	// G + H
-	if(e.which == 72 && isG == true) 
-	{
-		window.location.href = "../";
-		return false;
-	}
-	// G + R
-	if(e.which == 82 && isG == true) 
-	{
-		window.location.href = "../random";
-		return false;
-	}
-	// G + P
-	if(e.which == 80 && isG == true) 
-	{
-		window.location.href = "../profile";
-		return false;
-	}	
-	// G + M
-	if(e.which == 77 && isG == true) 
-	{
-		window.location.href = "../members";
-		return false;
-	}
-	// G + L
-	if(e.which == 76 && isG == true) 
-	{
-		window.location.href = "../?deconnexion";
-		return false;
+		var key = e.which;
+		switch (key)
+		{
+			// G + Q
+			case 81:
+				window.location.href = "../admin";
+				return false;
+				break;
+			// G + A
+			case 65:
+				window.location.href = "../addquote";
+				return false;
+				break;
+			// G + E
+			case 69:
+				window.location.href = "../editprofile";
+				return false;
+				break;
+			// G + H
+			case 72:
+				window.location.href = "../";
+				return false;
+				break;
+			// G + R
+			case 82:
+				window.location.href = "../random";
+				return false;
+				break;
+			// G + P
+			case 80:
+				window.location.href = "../profile";
+				return false;
+				break;
+			// G + M
+			case 77:
+				window.location.href = "../members";
+				return false;
+				break;
+			// G + L
+			case 76:
+				window.location.href = "../?deconnexion";
+				return false;
+				break;
+			// G + T
+			case 84:
+				window.location.href = "http://teen-quotes.com";
+				return false;
+				break;
+			// G + K
+			case 75:
+				window.location.href = "http://kotado.fr";
+				return false;
+				break;
+		}
 	}
 });
 
@@ -268,11 +302,11 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-$(".fade_jquery").hover(
-function() {
-$(this).stop().animate({"opacity": "1"}, "slow");
-},
-function() {
-$(this).stop().animate({"opacity": "0.5"}, "slow");
-});
+	$(".fade_jquery").hover(
+	function() {
+	$(this).stop().animate({"opacity": "1"}, "slow");
+	},
+	function() {
+	$(this).stop().animate({"opacity": "0.5"}, "slow");
+	});
 });
