@@ -87,7 +87,7 @@ $i_want_to_delete_my_account = "Je veux supprimer mon compte";
 $email_subject_delete_account = "Suppression de votre compte";
 $email_message_delete_account = "".$top_mail." Bonjour ".$_SESSION['username'].",<br>
 <br />
-Vous voulez supprimer votre compte sur ".$name_website.". Pour confimer ce choix, vous devez cliquer sur <a href=\"http://".$domaine."/editprofile?action=delete_account_confirm&id= ".$_SESSION['id']."&code= ".$code."\">ce lien</a>.<br>
+Vous voulez supprimer votre compte sur ".$name_website.". Pour confimer ce choix, vous devez cliquer sur <a href=\"http://".$domaine."/editprofile?action=delete_account_confirm&id=".$_SESSION['id']."&code=".$code."\">ce lien</a>.<br>
 <br />
 ".$txt_delete_account."<br>
 ".$end_mail."";

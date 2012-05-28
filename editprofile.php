@@ -579,6 +579,7 @@ elseif ($action == "delete_account_valide")
 			
 			if ($delete_account AND $delete_newsletter_quotidienne AND $delete_visitors AND $delete_favorites AND $delete_comments AND $update_quote)
 				{
+				$update_statut = mysql_query("UPDATE delete_account SET statut = '1' WHERE code = '".$code."'");
 				echo ''.$succes.' '.$account_deleted_successfully.'';
 				echo '<meta http-equiv="refresh" content="5;url=?deconnexion" />';
 				}
