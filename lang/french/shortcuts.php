@@ -10,4 +10,6 @@ Si vous voulez gagner du temps en naviguant sur le site, vous pouvez utiliser le
 	<li><span class="keyboard_key">G</span><span class="keyboard_key">M</span> : voir la liste des membres.</li>
 	<li><span class="keyboard_key">G</span><span class="keyboard_key">P</span> : voir votre profil.</li>
 	<li><span class="keyboard_key">G</span><span class="keyboard_key">R</span> : citations aléatoires.</li>
+	<li><span class="keyboard_key">G</span><span class="keyboard_key">T</span> : aller à teen-quotes.com.</li>
+	<li><span class="keyboard_key">G</span><span class="keyboard_key">K</span> : aller à kotado.fr.</li>
 </ul>';
