@@ -3,7 +3,7 @@ include 'header.php';
 include '../lang/'.$language.'/search.php';
 include '../lang/'.$language.'/user.php';
 
-$value_search = htmlspecialchars(mysql_escape_string($_GET['q']));
+$value_search = htmlspecialchars(mysql_real_escape_string($_GET['q']));
 $logged = $_SESSION['logged'];
 
 if (strlen($value_search) < '50')

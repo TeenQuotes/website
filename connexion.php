@@ -2,15 +2,15 @@
 include_once "header.php";
 include 'lang/'.$language.'/connexion.php';
 
-$pseudo = mysql_escape_string($_POST['pseudo']);
-$password = mysql_escape_string($_POST['pass']);
+$pseudo = mysql_real_escape_string($_POST['pseudo']);
+$password = mysql_real_escape_string($_POST['pass']);
 
 $method = htmlspecialchars($_GET['method']);
 
 if ($method == 'get')
 	{
-	$pseudo = mysql_escape_string($_GET['pseudo']);
-	$password = mysql_escape_string($_GET['password']);
+	$pseudo = mysql_real_escape_string($_GET['pseudo']);
+	$password = mysql_real_escape_string($_GET['password']);
 	}
 
 if (isset($_POST['connexion']) OR $method == 'get')

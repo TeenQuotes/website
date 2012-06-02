@@ -3,8 +3,8 @@ include 'header.php';
 $action = $_GET['action'];
 $id_user = $_SESSION['id'];
 $result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account where id='$id_user'"));
-$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
-$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
+$pass1 = htmlspecialchars(mysql_real_escape_string($_POST['pass1']));
+$pass2 = htmlspecialchars(mysql_real_escape_string($_POST['pass2']));
 
 $email_quote_today_num_rows = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'"));
 $is_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletter where email='$email'"));
@@ -142,12 +142,12 @@ elseif ($action=="send")
 	<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />'.$edit_profile.'</h2>
 	';
 
-	$title = htmlspecialchars(mysql_escape_string($_POST['title']));
-	$birth_date = htmlspecialchars(mysql_escape_string($_POST['birth_date']));
-	$country = ucfirst(htmlspecialchars(mysql_escape_string($_POST['country'])));
-	$city = ucfirst(htmlspecialchars(mysql_escape_string($_POST['city'])));
+	$title = htmlspecialchars(mysql_real_escape_string($_POST['title']));
+	$birth_date = htmlspecialchars(mysql_real_escape_string($_POST['birth_date']));
+	$country = ucfirst(htmlspecialchars(mysql_real_escape_string($_POST['country'])));
+	$city = ucfirst(htmlspecialchars(mysql_real_escape_string($_POST['city'])));
 	$about_me = nl2br(htmlspecialchars($_POST['about_me']));
-	$hide_profile = htmlspecialchars(mysql_escape_string($_POST['hide_profile']));
+	$hide_profile = htmlspecialchars(mysql_real_escape_string($_POST['hide_profile']));
 				
 				
 	if((!empty($title) OR !empty($birth_date) OR !empty($country) OR !empty($city) OR !empty($about_me)) AND !empty($hide_profile))

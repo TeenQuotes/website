@@ -65,7 +65,7 @@ if (is_numeric($id_comment) AND !empty($id_comment))
 			}
 		elseif($action == 'send')
 			{
-			$new_texte = htmlspecialchars(mysql_escape_string($_POST['texte_comment']));
+			$new_texte = htmlspecialchars(mysql_real_escape_string($_POST['texte_comment']));
 			if (!empty($new_texte))
 				{
 				$update = mysql_query("UPDATE teen_quotes_comments SET texte = '".$new_texte."' WHERE id = '".$id_comment."'");

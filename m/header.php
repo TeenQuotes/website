@@ -24,8 +24,8 @@ if ($_SESSION['logged'] == TRUE AND (empty($_SESSION['id']) OR empty($_SESSION['
 
 if (isset($_COOKIE['Pseudo']) AND isset($_COOKIE['Pass']) AND $_SESSION['logged'] == FALSE)
 	{
-	$pseudo = mysql_escape_string($_COOKIE['Pseudo']);
-	$pass = mysql_escape_string($_COOKIE['Pass']);
+	$pseudo = mysql_real_escape_string($_COOKIE['Pseudo']);
+	$pass = mysql_real_escape_string($_COOKIE['Pass']);
 	$query_base = mysql_query("SELECT * FROM teen_quotes_account WHERE `username` ='$pseudo'");
 	
 	$retour_nb_pseudo = mysql_num_rows($query_base);

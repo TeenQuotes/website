@@ -5,8 +5,8 @@ if ($action == 'send')
 	{	
 	$username_old = mysql_real_escape_string($_POST['username_old']);
 	$new_username = mysql_real_escape_string($_POST['username']);
-	$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
-	$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
+	$pass1 = htmlspecialchars(mysql_real_escape_string($_POST['pass1']));
+	$pass2 = htmlspecialchars(mysql_real_escape_string($_POST['pass2']));
 	$session_id = $_SESSION['id'];
 	}
 include 'lang/'.$language.'/signup.php';

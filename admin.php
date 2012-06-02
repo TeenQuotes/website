@@ -119,10 +119,8 @@ elseif ($action == "add_quote")
 	<div class="post">
 	<h1><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />Add a quote</h1>';
 	
-	$texte_quote = htmlspecialchars(mysql_escape_string($_POST['texte_quote']));
+	$texte_quote = htmlspecialchars(mysql_real_escape_string($_POST['texte_quote']));
 	$date = date("d/m/Y");
-	$texte_quote = stripslashes($texte_quote);
-
 
 	if (strlen($texte_quote) >= '30') 
 		{
@@ -376,8 +374,7 @@ elseif ($action == "edit_existing_quote_valide")
 	<h1><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />Edit an existing quote</h1>';
 	
 	$id_quote = $_POST['id_quote'];
-	$texte_quote = htmlspecialchars(mysql_escape_string($_POST['texte_quote']));
-	$texte_quote =stripslashes($texte_quote);
+	$texte_quote = htmlspecialchars(mysql_real_escape_string($_POST['texte_quote']));
 	
 	$query = mysql_query("UPDATE teen_quotes_quotes SET texte_english = '".$texte_quote."' WHERE id = '".$id_quote."'");
 	

@@ -26,7 +26,7 @@ elseif ($action=="send")
 	<h1><img src="http://'.$domaine.'/images/icones/faq.png" class="icone" />'.$pass_forget.'</h1>
 	';
 	
-	$email = mysql_escape_string($_POST['email']);
+	$email = mysql_real_escape_string($_POST['email']);
 
 	if(preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email))
 		{

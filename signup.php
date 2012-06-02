@@ -4,13 +4,13 @@ $action = $_GET['action'];
 
 if ($action == 'send')
 	{
-	$username = strtolower(trim(htmlspecialchars(mysql_escape_string($_POST['username']))));
+	$username = strtolower(trim(htmlspecialchars(mysql_real_escape_string($_POST['username']))));
 	$username= str_replace(' ','',$username);
-	$pass1 = htmlspecialchars(mysql_escape_string($_POST['pass1']));
-	$pass2 = htmlspecialchars(mysql_escape_string($_POST['pass2']));
-	$email = htmlspecialchars(mysql_escape_string($_POST['email']));
-	$email_quote_today = htmlspecialchars(mysql_escape_string($_POST['email_quote_today']));
-	$newsletter_checkbox = htmlspecialchars(mysql_escape_string($_POST['newsletter']));
+	$pass1 = htmlspecialchars(mysql_real_escape_string($_POST['pass1']));
+	$pass2 = htmlspecialchars(mysql_real_escape_string($_POST['pass2']));
+	$email = htmlspecialchars(mysql_real_escape_string($_POST['email']));
+	$email_quote_today = htmlspecialchars(mysql_real_escape_string($_POST['email_quote_today']));
+	$newsletter_checkbox = htmlspecialchars(mysql_real_escape_string($_POST['newsletter']));
 	$ip = $_SERVER["REMOTE_ADDR"];
 	}
 	
