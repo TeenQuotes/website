@@ -16,15 +16,16 @@ echo '
 
 if (is_numeric($id_comment) AND !empty($id_comment))
 	{
-	$query_comment = mysql_query("SELECT c.auteur_id auteur_id, c.id_quote id_quote, c.texte texte, c.date date, a.avatar avatar FROM teen_quotes_comments c, teen_quotes_account a WHERE c.auteur_id = a.id AND c.id = '".$id_comment."'");
+	$query_comment = mysql_query("SELECT c.auteur_id auteur_id, c.id_quote id_quote, c.texte texte, c.date date, a.avatar avatar, a.username auteur FROM teen_quotes_comments c, teen_quotes_account a WHERE c.auteur_id = a.id AND c.id = '".$id_comment."'");
 	$fetch_comment = mysql_fetch_array($query_comment);
 	$id_auteur = $fetch_comment['auteur_id'];
 	$id_quote = $fetch_comment['id_quote'];
 	$texte_comment = stripcslashes($fetch_comment['texte']);
 	$date = $fetch_comment['date'];
 	$avatar = $fetch_comment['avatar'];
+	$auteur_comment = $fetch_comment['auteur'];
 
-	if (mysql_num_rows($query_comment) == 1 AND $id_auteur == $id)
+	if ((mysql_num_rows($query_comment) == 1 AND $id_auteur == $id) OR $_SESSION['security_level'] >= 2)
 		{
 		if (empty($action))
 			{
@@ -50,7 +51,7 @@ if (is_numeric($id_comment) AND !empty($id_comment))
 			<div class="grey_post">
 				'.$texte_comment.'<br><br />
 				<a href="user-'.$id_auteur.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" /></a>
-				<span class="right">'.$by.' <a href="user-'.$id_auteur.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br>
+				<span class="right">'.$by.' <a href="user-'.$id_auteur.'" title="'.$view_his_profile.'">'.$auteur_comment.'</a> '.$on.' '.$date.'</span><br>
 			</div>';
 			
 			echo ''.$write_new_comment_here.'';

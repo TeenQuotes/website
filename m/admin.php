@@ -61,6 +61,26 @@ elseif (empty($action) AND $_SESSION['security_level'] >='2')
 		}
 	echo '
 	</div>
+
+	<div class="post">
+		<h2><img src="http://'.$domaine.'/images/icones/about.png" class="icone" />Last comments</h2>
+		<div class="grey_post">
+			<ul>';
+			$query = mysql_query("SELECT c.id id, c.id_quote id_quote, c.auteur_id auteur_id, c.texte texte, c.date date, a.username auteur FROM teen_quotes_comments c, teen_quotes_account a WHERE c.auteur_id = a.id ORDER BY c.id DESC LIMIT 0, 5");
+			while ($comments = mysql_fetch_array($query))
+			{
+				$comment_id = $comments['id'];
+				$comment_id_quote = $comments['id_quote'];
+				$comment_auteur_id = $comments['auteur_id'];
+				$comment_texte = cut_comment(stripcslashes($comments['texte']));
+				$comment_date = $comments['date'];
+				$comment_username_auteur = $comments['auteur'];
+				echo '<li><a href="quote-'.$comment_id_quote.'" title="Quote '.$comment_id_quote.'">#'.$comment_id.'</a> by <a href="user-'.$comment_auteur_id.'" title="'.$comment_username_auteur.'">'.$comment_username_auteur.'</a> on '.$comment_date.' : "'.$comment_texte.'". &nbsp;&nbsp;<a href="editcomment-'.$comment_id.'"><img src="http://teen-quotes.com/images/icones/profil.png" class="mini_icone" /></a><a href="admin.php?action=delete_comment&id='.$comment_id.'"><img src="http://teen-quotes.com/images/icones/delete.png" class="mini_icone" /></a></li>'; 
+			}
+	echo '
+			</ul>
+		</div>
+	</div>
 	
 	<div class="post">
 		<h2><img src="http://teen-quotes.com/images/icones/profil.png" class="icone" />Edit an existing quote</h2>
@@ -321,7 +341,7 @@ elseif ($action == "edit_quote")
 	<div class="post">
 	<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />Edit a quote</h2>';
 	$id_quote = $_POST['id_quote'];
-	$texte_quote = $_POST['texte_quote'];
+	$texte_quote = mysql_real_escape_string($_POST['texte_quote']);
 
 	$update_quote = mysql_query("UPDATE teen_quotes_quotes SET texte_english = '$texte_quote' WHERE id = '$id_quote'");
 	$id_auteur_query = mysql_fetch_array(mysql_query("SELECT auteur_id FROM teen_quotes_quotes WHERE id = '$id_quote'"));

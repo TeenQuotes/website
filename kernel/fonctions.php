@@ -1132,8 +1132,8 @@ function geoloca_ip($ip){
 
 function cut_tweet($chaine)
 	{
-		$lg_max='117';
-	   if (strlen($chaine) > $lg_max) 
+	$lg_max = 117;
+	if (strlen($chaine) > $lg_max) 
 	   {
 		  $chaine1 = substr($chaine, 0, $lg_max);
 		  $last_space = strrpos($chaine1, " "); 
@@ -1148,6 +1148,26 @@ function cut_tweet($chaine)
 	   {
 	   $chaine .= ' @ohteenquotes';
 	   return $chaine;
+	   }
+	else
+	   {
+	   return $chaine;
+	   }
+	}
+
+function cut_comment($chaine)
+	{
+	$lg_max = 100;
+	if (strlen($chaine) > $lg_max) 
+	   {
+		  $chaine1 = substr($chaine, 0, $lg_max);
+		  $last_space = strrpos($chaine1, " "); 
+		  
+		  // On ajoute ... à la suite de cet espace    
+		  $chaine1 = substr($chaine1, 0, $last_space);
+		  $chaine1 .='...';
+		  
+		  return $chaine1;
 	   }
 	else
 	   {
@@ -1234,82 +1254,6 @@ function nl2br_to_textarea ($texte)
 	$string = preg_replace($patterns, $replacements, $texte);
 	return $string;
 	}
-
-function RelativeTime_fr($time) {
-        $timeDiff = time() - $time;
-
-        if($timeDiff <= 0)
-                return "moins d'une seconde";
-
-        $timeDiff = abs($timeDiff);
-
-        $times = array(
-                31104000 => 'an{s}',       // 12 * 30 * 24 * 60 * 60 secondes
-                2592000  => 'mois',        // 30 * 24 * 60 * 60 secondes
-                604800   => 'semaine{s}',  // 7 * 24 * 60 * 60 secondes
-                86400    => 'jour{s}',     // 24 * 60 * 60 secondes
-                3600     => 'heure{s}',    // 60 * 60 secondes
-                60       => 'minute{s}');
-
-        $strTime = NULL;
-
-        // Until that the rest can't being converted
-        while($timeDiff >= 60) {
-                foreach($times AS $seconds => $unit) {
-                        $delta = floor($timeDiff / $seconds);
-
-                        if($delta >= 1) {
-                                $unit = str_replace('{s}', ($delta == 1 ? NULL : 's'), $unit);
-                                $strTime .= "$delta $unit ";
-                                $timeDiff -= $delta * $seconds;
-                        }
-                }
-        }
-
-        // If there is still seconds
-        ($timeDiff > 0)
-                && $strTime .= "et $timeDiff secondes";
-
-        return trim($strTime);
-}
-
-function RelativeTime_en($time) {
-        $timeDiff = time() - $time;
-
-        if($timeDiff <= 0)
-                return "moins d'une seconde";
-
-        $timeDiff = abs($timeDiff);
-
-        $times = array(
-                31104000 => 'year{s}',       // 12 * 30 * 24 * 60 * 60 secondes
-                2592000  => 'month{s}',        // 30 * 24 * 60 * 60 secondes
-                604800   => 'week{s}',  // 7 * 24 * 60 * 60 secondes
-                86400    => 'day{s}',     // 24 * 60 * 60 secondes
-                3600     => 'hour{s}',    // 60 * 60 secondes
-                60       => 'minute{s}');
-
-        $strTime = NULL;
-
-        // Until that the rest can't being converted
-        while($timeDiff >= 60) {
-                foreach($times AS $seconds => $unit) {
-                        $delta = floor($timeDiff / $seconds);
-
-                        if($delta >= 1) {
-                                $unit = str_replace('{s}', ($delta == 1 ? NULL : 's'), $unit);
-                                $strTime .= "$delta $unit ";
-                                $timeDiff -= $delta * $seconds;
-                        }
-                }
-        }
-
-        // If there is still seconds
-        ($timeDiff > 0)
-                && $strTime .= "et $timeDiff secondes";
-
-        return trim($strTime);
-}
 
 // MOBILE
 if (isset($_GET['mobile'])) 
