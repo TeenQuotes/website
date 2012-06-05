@@ -3,7 +3,7 @@ b{font-weight:600;}
 a img{border:none;}
 h2,#wrapper h3{font-size:100%;}
 a .fb_share{margin-right:20px;margin-top:-5px;}
-.post li{list-style:square inside;margin-bottom:5px;margin-left:25px;}
+.post li{list-style:square inside;margin-bottom:5px}
 .mini_user_avatar{border:1px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px;}
 .user_avatar{border:2px solid #5C9FC0;float:left;height:40px;margin-right:10px;margin-top:10px;width:40px;}
 .user_avatar_members{border:1px solid #5C9FC0;float:left;height:40px;margin-right:10px;width:40px}
@@ -17,7 +17,7 @@ a .fb_share{margin-right:20px;margin-top:-5px;}
 .colonne-gauche{float:left;text-align:right;vertical-align:middle;width:250px;}
 .colonne-milieu{float:left;padding-left:10px;text-align:left;vertical-align:middle;width:250px;}
 .colonne-droite{float:left;text-align:left;vertical-align:middle;width:250px;}
-span.icone_flags{background:url('http://www.teen-quotes.com/images/icones/sprite_menu.png');display:inline-block;vertical-align:top;}
+span.icone_flags{background:url('http://teen-quotes.com/images/icones/sprite_menu.png');display:inline-block;vertical-align:top;}
 span.icone_flags.english{background-position:-15px 0;height:14px;margin-right:20px;width:14px;}
 span.icone_flags.french{background-position:-30px 0;height:14px;width:14px;}
 .bleu{color:#5C9FC0;font-weight:700;}
@@ -62,7 +62,7 @@ input.signup{width:230px;}
 #footer a{font-weight:400;}
 .cadre_infos_profil {position:relative;margin-left:55px}
 .error{color:#246;display:block;font-weight:700;margin:10px auto 15px auto;vertical-align:middle}
-.erreur{background:transparent url('http://www.teen-quotes.com/images/icones/alert.png') no-repeat 2% 50%;color:#5C9FC0;font-weight:600;padding-left:30px;}
+.erreur{background:transparent url('http://teen-quotes.com/images/icones/alert.png') no-repeat 2% 50%;color:#5C9FC0;font-weight:600;padding-left:30px;}
 .erreur_addquote,.download_app{margin:5px 0px;background:#fff9d7;border: 1px solid #e2c822;padding:5px;color:#333;font-family:Helvetica;font-size:11px}
 .grey_post {background:#f5f5f5;border:1px solid #e5e5e5;padding:5px 10px;margin:0 auto 15px;color:#666;font-size:12px;font-weight:300;}
 .grey_line{border-bottom:2px solid #F0F0F0;margin:5px 10px}
