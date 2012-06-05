@@ -28,7 +28,7 @@ if (empty($action))
 				<input type="text" name="nom" size="20" maxlength="30"><br> 
 				<br /> 
 				'.$your_email.' :<br>
-				<input type="text" name="email" size="20" maxlength="30"><br> 
+				<input type="email" name="email" size="20" maxlength="30"><br> 
 				<br />';
 				echo captcha();echo ' =<br>
 				<input type="text" name="captcha" size="20" maxlength="30"><br> 
@@ -96,7 +96,7 @@ elseif ($action == 'send')
 
 			$message .= "\r\n";
 			$message .= "\r\n";
-			$message .= "------------------ Ceci est la copie de votre message ------------------";
+			$message .= "------------------ This is the copy of your message ------------------";
 
 			if ($copie == TRUE && mail($email, stripslashes($sujet), stripslashes($message), "$headers"))
 				{

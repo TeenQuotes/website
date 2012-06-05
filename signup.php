@@ -62,7 +62,7 @@ if (empty($action))
 			<br /><br />
 			<div class="colonne-gauche">'.$confirm_password.' </div><div class="colonne-milieu"><input type="password" name="pass2" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$reenter_pass.'.</span></div>
 			<br /><br />
-			<div class="colonne-gauche">Email </div><div class="colonne-milieu"><input type="text" name="email" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$valid_email.'.</span></div>
+			<div class="colonne-gauche">Email </div><div class="colonne-milieu"><input type="email" name="email" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$valid_email.'.</span></div>
 			<br /><br /><br />
 			<input type="checkbox" name="newsletter" value="1" checked="checked" /> '.$i_want_newsletter.'<br>
 			<input type="checkbox" name="email_quote_today" value="1" /> '.$i_want_email_quote_today.'<br>

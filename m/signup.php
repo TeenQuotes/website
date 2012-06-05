@@ -67,7 +67,7 @@ if (empty($action))
 				<span class="min_info">'.$reenter_pass.'.</span>
 				<br /><br />
 				Email<br>
-				<input type="text" name="email" class="signup"/><br>
+				<input type="email" name="email" class="signup"/><br>
 				<span class="min_info">'.$valid_email.'.</span>
 				<br /><br />
 				<input type="checkbox" name="newsletter" value="1" checked="checked" /> '.$i_want_newsletter.'<br>
