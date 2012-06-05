@@ -134,7 +134,7 @@ if (empty($action))
 	</div>	
 	';
 	}
-elseif ($action=="send") 
+elseif ($action == "send") 
 	{
 	// LE FORMULAIRE A ETE ENVOYE ON LE TRAITE
 	echo '
@@ -146,11 +146,11 @@ elseif ($action=="send")
 	$birth_date = htmlspecialchars(mysql_real_escape_string($_POST['birth_date']));
 	$country = ucfirst(htmlspecialchars(mysql_real_escape_string($_POST['country'])));
 	$city = ucfirst(htmlspecialchars(mysql_real_escape_string($_POST['city'])));
-	$about_me = nl2br(htmlspecialchars($_POST['about_me']));
+	$about_me = nl2br(htmlspecialchars(mysql_real_escape_string($_POST['about_me'])));
 	$hide_profile = htmlspecialchars(mysql_real_escape_string($_POST['hide_profile']));
 				
 				
-	if((!empty($title) OR !empty($birth_date) OR !empty($country) OR !empty($city) OR !empty($about_me)) AND !empty($hide_profile))
+	if((!empty($title) OR !empty($birth_date) OR !empty($country) OR !empty($city) OR !empty($about_me)) OR !empty($hide_profile))
 		{
 		if ($hide_profile == "No") 
 			{
