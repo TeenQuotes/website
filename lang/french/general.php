@@ -10,6 +10,7 @@ $forget = "J'ai oublié !";
 $about = "À propos";
 $created_by = "Créé par";
 $legal_terms = "Mentions légales";
+$business = 'Business';
 $home = "Accueil";
 $by = "par";
 $share = "Partager";

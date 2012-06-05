@@ -9,6 +9,7 @@ $forget = "Forget ?";
 $about = "About";
 $created_by = "Created by";
 $legal_terms = "Legal terms";
+$business = 'Business';
 $home = "Home";
 $by = "by";
 $share = "Share";

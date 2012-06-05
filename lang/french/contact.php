@@ -7,6 +7,7 @@ $contact_us_by_email = "Contactez-nous par email";
 $subject = "Sujet";
 $your_name = "Votre nom";
 $your_email = "Votre email";
+$your_twitter_account = "Votre compte sur Twitter";
 $enter_your_message_here = "Entrez votre message ici";
 $copie_of_this_email = "Recevoir une copie ?";
 $send = "Envoyer";
