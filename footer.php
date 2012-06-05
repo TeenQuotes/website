@@ -39,6 +39,7 @@
 					&copy; <?php echo date("Y"); ?> teen-quotes.com<br>
 					<?php echo $created_by; ?> <a href="http://www.antoine-augusti.fr" target="_blank"> Antoine Augusti</a>
 					<br><?php echo $developer; ?> <a href="http://www.pretty-web.com" target="_blank">Pretty Web</a><br>
+					&raquo; <a href="business" title="<?php echo $business; ?>"><?php echo $business; ?></a><br>
 					&raquo; <a href="statistics" title="<?php echo $statistics; ?>"><?php echo $statistics; ?></a><br>
 					&raquo; <a href="shortcuts" title="<?php echo $keyboard_shortcuts; ?>"><?php echo $keyboard_shortcuts; ?></a><br>
 					&raquo; <a href="contact" title="Contact">Contact</a><br>

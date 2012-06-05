@@ -138,13 +138,9 @@ else
 		
 		<link type="text/css" rel="stylesheet" media="screen" href="http://m.teen-quotes.com/style.css" /> 
 		<!--[if IE]><style>.submit:hover{color:#000!important}</style><![endif]--> 
-		<link rel="shortcut icon" type="image/x-icon" href="http://www.teen-quotes.com/images/favicon.gif" /> 
-		<link rel="image_src" href="http://www.teen-quotes.com/images/icon50.png" /> 
-		<meta property="og:image" content="http://www.teen-quotes.com/images/icon50.png" /> 
-		
-
-		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
-		<script type="text/javascript" src="http://teen-quotes.com/scrypt.js"></script>
+		<link rel="shortcut icon" type="image/x-icon" href="http://teen-quotes.com/images/favicon.gif" /> 
+		<link rel="image_src" href="http://<?php echo $domaine; ?>/images/icon50.png" /> 
+		<meta property="og:image" content="http://<?php echo $domaine; ?>/images/icon50.png" />
 		
 		<script type="text/javascript">
 		var _gaq = _gaq || [];
@@ -172,7 +168,7 @@ else
 </head>
 <body>
 <div id="topbar">
-	<a href="../"><img src="http://www.teen-quotes.com/images/logo.png" style="height:50px" /></a>
+	<a href="../"><img src="http://teen-quotes.com/images/logo.png" style="height:50px" /></a>
 	<span class="right" style="margin-top:20px">
 		<a href="http://teen-quotes.com" title="View the english version"><span class="icone_flags english"></span></a>
 		<a href="http://kotado.fr" title="Voir la version française"><span class="icone_flags french"></span></a>

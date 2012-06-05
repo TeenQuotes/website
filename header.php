@@ -124,6 +124,12 @@ elseif ($php_self == 'apps')
 	echo "\r\n";
 	echo '<meta name="description" content="Teen Quotes : download our application for iOS and Android."/>';
 	}
+elseif ($php_self == 'business')
+	{
+	echo '<title>Teen Quotes | '.$business.'</title>';
+	echo "\r\n";
+	echo '<meta name="description" content="With more than 1,300,000 followers on Twitter, nearly 50,000 fans on Facebook and a powerful website, Teen Quotes is a really good opportunity for advertising."/>';
+	}
 else 
 	{
 	echo '<title>Teen Quotes | Because some quotes are simply true</title>';
@@ -145,9 +151,9 @@ else
 		<meta property="og:image" content="http://<?php echo $domaine; ?>/images/icon50.png" /> 
 		
 
-		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script src="http://<?php echo $domaine; ?>/uniform/uniform.js"></script>
-		<script src="http://<?php echo $domaine; ?>/scrypt.js"></script>
+		<script src="http://<?php echo $domaine; ?>/scrypt.min.js"></script>
 		
 		<?php
 		if ($php_self == "statistics")
