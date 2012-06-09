@@ -179,94 +179,85 @@ return texte;
 
 // Keyboard shortcuts
 var isG = false;
-var peutFaireAction = true;
 
-$(document).ready(function()
+$(document).keydown(function(e)
 {
-	$("input").focus(function(){
-		peutFaireAction = false;
-	});
-	$("input").mouseover(function(){
-		peutFaireAction = false;
-	}).mouseout(function(){
-    	peutFaireAction = true;
-	});
-	
-	$("textarea").focus(function(){
-		peutFaireAction = false;
-	});
-	$("textarea").mouseover(function(){
-		peutFaireAction = false;
-	}).mouseout(function(){
-    	peutFaireAction = true;
-	});
-});
-
-$(document).keyup(function (e) 
+	if (e.which == 71 || e.keyCode == 71)
+	{ 
+		isG = true; // si la touche G a été pressée
+	}
+}).keyup(function(e)
 {
-	if(e.which == 71) isG = false;
+	if ($('input:focus').length > 0 || $('textarea:focus').length > 0 || isG != true)
+	{ 
+		isG = false; // Si on se trouve dans un input, une textarea ou si on n'a pas pressé la touche G, on ne peut pas faire des raccourcis clavier
+		return false;
+	}
 
-}).keydown(function (e) 
-{
-	if(e.which == 71) isG = true;
-
-	if (peutFaireAction == true)
+	if (e.keyCode == true)
+	{
+		var key = e.keyCode;
+	} 
+	else 
 	{
 		var key = e.which;
-		switch (key)
-		{
-			// G + Q
-			case 81:
-				window.location.href = "../admin";
-				return false;
-				break;
-			// G + A
-			case 65:
-				window.location.href = "../addquote";
-				return false;
-				break;
-			// G + E
-			case 69:
-				window.location.href = "../editprofile";
-				return false;
-				break;
-			// G + H
-			case 72:
-				window.location.href = "../";
-				return false;
-				break;
-			// G + R
-			case 82:
-				window.location.href = "../random";
-				return false;
-				break;
-			// G + P
-			case 80:
-				window.location.href = "../profile";
-				return false;
-				break;
-			// G + M
-			case 77:
-				window.location.href = "../members";
-				return false;
-				break;
-			// G + L
-			case 76:
-				window.location.href = "../?deconnexion";
-				return false;
-				break;
-			// G + T
-			case 84:
-				window.location.href = "http://teen-quotes.com";
-				return false;
-				break;
-			// G + K
-			case 75:
-				window.location.href = "http://kotado.fr";
-				return false;
-				break;
-		}
 	}
+
+	switch (key) // On regarde la deuxième touche pressée par l'utilisateur
+	{
+		// G + Q
+		case 81:
+			window.location.href = "../admin";
+			return false;
+			break;
+		// G + A
+		case 65:
+			window.location.href = "../addquote";
+			return false;
+			break;
+		// G + E
+		case 69:
+			window.location.href = "../editprofile";
+			return false;
+			break;
+		// G + H
+		case 72:
+			window.location.href = "../";
+			return false;
+			break;
+		// G + R
+		case 82:
+			window.location.href = "../random";
+			return false;
+			break;
+		// G + P
+		case 80:
+			window.location.href = "../profile";
+			return false;
+			break;
+		// G + M
+		case 77:
+			window.location.href = "../members";
+			return false;
+			break;
+		// G + L
+		case 76:
+			window.location.href = "../?deconnexion";
+			return false;
+			break;
+		// G + T
+		case 84:
+			window.location.href = "http://teen-quotes.com";
+			return false;
+			break;
+		// G + K
+		case 75:
+			window.location.href = "http://kotado.fr";
+			return false;
+			break;
+	}
+	
+	isG = false; // On réinitialise le booléen
 });
 
 $(function() {
