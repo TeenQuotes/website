@@ -3,6 +3,42 @@ $about_website = "À propos du site web";
 $about_twitter_account = "À propos du compte Twitter";
 $developer = "développeur";
 $partner = "Partenaire";
+$team = "Équipe";
+$team_txt = '
+<h3>Président</h3>
+<ul>
+	<li>Antoine AUGUSTI : <a href="http://www.antoine-augusti.fr" title="Antoine AUGUSTI">www.antoine-augusti.fr</a></li>
+</ul>
+<br />
+<h3>Équipe de développement</h3>
+<h4>Développement web</h4>
+<ul>
+	<li>Antoine AUGUSTI : <a href="http://www.antoine-augusti.fr" title="Antoine AUGUSTI">www.antoine-augusti.fr</a></li>
+</ul>
+<h4>Développement iOS</h4>
+<ul>
+	<li>Maxime ANTOINE : <a href="http://www.muteoff.fr"" title="Maxime ANTOINE">www.muteoff.fr</a></li>
+</ul>
+<h4>Design</h4>
+<ul>
+	<li>Jonathan NOBLE : <a href="http://www.clocktweets.com" title="Jonathan NOBLE">www.clocktweets.com</a></li>
+</ul>
+<br />
+<h3>Communication</h3>
+<ul>
+	<li>Michel BUONOMO : <a href="http://playlife.pro" title="Michel BUONOMO">playlife.pro</a></li>
+</ul>
+<br />
+<h3>Twitter</h3>
+<h4>English (Teen Quotes)</h4>
+<ul>
+	<li>Clara QUIAMBAO : <a href="http://twitter.com/ohteenquotes" title="Teen Quotes">@ohteenquotes</a> - <a href="http://claraquiambao.net" title="Clara QUIAMBAO">www.claraquiambao.net</a></li>
+</ul>
+<h4>France (Kotado)</h4>
+<ul>
+	<li>Medhi BETTAYEB : <a href="http://twitter.com/kotado_" title="Kotado">@kotado_</a></li>
+</ul>
+';
 $contact_us_by_email = "Contactez-nous par email";
 $subject = "Sujet";
 $your_name = "Votre nom";

@@ -13,11 +13,13 @@ if (empty($action))
 			<img src="http://'.$domaine.'/images/icones/mail.png" class="icone" /> '.$about_website.' : <a href="mailto:support@teen-quotes.com">support@teen-quotes.com</a><br>
 			<br />
 			<img src="http://'.$domaine.'/images/icones/mail.png" class="icone" /> '.$about_twitter_account.' : <a href="mailto:contact@teen-quotes.com">contact@teen-quotes.com</a><br>
-			<br />
-			<img src="http://'.$domaine.'/images/icones/antoine.png" class="icone" />Antoine Augusti - '.$developer.' : <a href="http://www.antoine-augusti.fr" target="_blank">www.antoine-augusti.fr</a><br>
-			<br />
-			<img src="http://www.pretty-web.com/images/icones/frog.png" class="icone">'.$partner.' : <a href="http://www.pretty-web.com" target="_blank">Pretty Web</a><br>
 		</div>
+
+		<h2><img src="http://'.$domaine.'/images/icones/staff.png" class="icone" />'.$team.'</h2>
+		<div class="post">
+			'.$team_txt.'
+		</div>
+		
 		<h2><img src="http://'.$domaine.'/images/icones/mail.png" class="icone" />'.$contact_us_by_email.'</h2>
 		<div class="grey_post">
 			<form action="contact?action=send" method="post"> 

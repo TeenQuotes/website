@@ -114,27 +114,33 @@ elseif (isset($_GET['letter']) OR $php_self == "members")
 	$lettre = mysql_real_escape_string($_GET['letter']);
 	if (empty($lettre)) { $lettre = "A"; }
 	$php_self = 'members-'.$lettre.'';
-	echo '<title>Teen Quotes | Members - '.$lettre.'</title>';
-	echo '<meta name="description" content="Teen Quotes : because our lives are filled full of beautiful sentences, and because some quotes are simply true. Your every day life moments."/>';
+	echo '<title>'.$name_website.' | Members - '.$lettre.'</title>';
+	echo '<meta name="description" content="'.$name_website.' : because our lives are filled full of beautiful sentences, and because some quotes are simply true. Your every day life moments."/>';
 	}
 elseif ($php_self == 'apps')
 	{
 	include 'lang/'.$language.'/apps.php';
-	echo '<title>Teen Quotes | '.$applications.'</title>';
+	echo '<title>'.$name_website.' | '.$applications.'</title>';
 	echo "\r\n";
-	echo '<meta name="description" content="Teen Quotes : download our application for iOS and Android."/>';
+	echo '<meta name="description" content="'.$name_website.' : download our application for iOS and Android."/>';
+	}
+elseif ($php_self == 'contact')
+	{
+	echo '<title>'.$name_website.' | Contact</title>';
+	echo "\r\n";
+	echo '<meta name="description" content="'.$name_website.' : contact us by email if you have any question."/>';
 	}
 elseif ($php_self == 'business')
 	{
-	echo '<title>Teen Quotes | '.$business.'</title>';
+	echo '<title>'.$name_website.' | '.$business.'</title>';
 	echo "\r\n";
 	echo '<meta name="description" content="With more than 1,300,000 followers on Twitter, nearly 50,000 fans on Facebook and a powerful website, Teen Quotes is a really good opportunity for advertising."/>';
 	}
 else 
 	{
-	echo '<title>Teen Quotes | Because some quotes are simply true</title>';
+	echo '<title>'.$name_website.' | Because some quotes are simply true</title>';
 	echo "\r\n";
-	echo '<meta name="description" content="Teen Quotes : because our lives are filled full of beautiful sentences, and because some quotes are simply true. Your every day life moments."/>';
+	echo '<meta name="description" content="'.$name_website.' : because our lives are filled full of beautiful sentences, and because some quotes are simply true. Your every day life moments."/>';
 	}
 ?>	
 		<meta name="keywords" content="'Teen Quotes', 'teenage quotes', 'teenager quotes', 'quotes for teenagers', 'teen qoutes', 'quotes', 'teen', 'citations', 'sentences', 'Augusti', 'Twitter', 'Facebook'"/> 

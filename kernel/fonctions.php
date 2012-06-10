@@ -705,16 +705,14 @@ function flush_quotes ()
 		{
 		$id_quote = $result['id'];
 		
-		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT texte_english,date,auteur_id FROM teen_quotes_quotes WHERE id = '".$id_quote."'"));
+		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english,q.date date, q.auteur_id auteur_id, a.username username, a.email email FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND q.id = '".$id_quote."'"));
 		$texte_quote = $query_texte_quote['texte_english'];
 		$date_quote = $query_texte_quote['date'];
 		$auteur_id = $query_texte_quote['auteur_id'];
+		$email_auteur = $query_texte_quote['email'];
+		$name_auteur = $query_texte_quote['username'];
 
-		$approve_quote= mysql_query("UPDATE teen_quotes_quotes SET approved='1' WHERE id = '".$id_quote."'");
-
-		$query_email_auteur = mysql_fetch_array(mysql_query("SELECT email,username FROM teen_quotes_account WHERE id = '".$auteur_id."'"));
-		$email_auteur = $query_email_auteur['email'];
-		$name_auteur = ucfirst($query_email_auteur['username']);
+		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved='1' WHERE id = '".$id_quote."'");
 
 		if ($approve_quote AND !empty($email_auteur)) 
 			{
@@ -1032,15 +1030,15 @@ function select_country($country,$other_countries,$common_choices)
 
 function MailRandomQuote($nombre) 
 	{
-	$query = mysql_query('SELECT id, texte_english,date,auteur,auteur_id FROM teen_quotes_quotes WHERE approved = 1 ORDER BY RAND() LIMIT '.$nombre.'');
+	$query = mysql_query('SELECT q.id, q.texte_english texte_english,q.date date, a.username auteur, q.auteur_id auteur_id FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.approved = 1 AND q.auteur_id = a.id ORDER BY RAND() LIMIT '.$nombre.'');
 		
-	while($donnees=mysql_fetch_array($query)) 
+	while($donnees = mysql_fetch_array($query)) 
 		{
-		$txt_quote=$donnees['texte_english'];
-		$id_quote=$donnees['id'];
-		$auteur=$donnees['auteur'];
-		$auteur_id=$donnees['auteur_id'];
-		$date=$donnees['date'];
+		$txt_quote = $donnees['texte_english'];
+		$id_quote = $donnees['id'];
+		$auteur = $donnees['auteur'];
+		$auteur_id = $donnees['auteur_id'];
+		$date = $donnees['date'];
 		
 		$email_txt.= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">';
 		$email_txt.= ''.$txt_quote.'<br><div style="font-size:90%;margin-top:5px"><a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';
@@ -1058,7 +1056,7 @@ function MailPostedToday($id_quote)
 	if (!empty($id_quote))
 		{
 		$id_quote = str_replace(',', '\',\'', $id_quote);
-		$query = mysql_query("SELECT id, texte_english, date, auteur, auteur_id FROM teen_quotes_quotes WHERE approved = '1' AND id IN ('".$id_quote."') ORDER BY id DESC");
+		$query = mysql_query("SELECT q.id id, q.texte_english texte_english, q.date date, a.username auteur, q.auteur_id auteur_id FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.approved = '1' AND q.id IN ('".$id_quote."') AND q.auteur_id = a.id ORDER BY q.id DESC");
 			
 		while ($donnees = mysql_fetch_array($query)) 
 			{

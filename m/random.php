@@ -55,7 +55,7 @@ while ($result = mysql_fetch_array($reponse))
 		</div>
 	</div>
 <?php
-	if ($i == 4 && $show_pub == '1')
+	if ($i == 4 AND $show_pub == 0)
 		{
 		echo 
 		'<div class="pub_middle">
