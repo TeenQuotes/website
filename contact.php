@@ -16,7 +16,7 @@ if (empty($action))
 		</div>
 
 		<h2><img src="http://'.$domaine.'/images/icones/staff.png" class="icone" />'.$team.'</h2>
-		<div class="post">
+		<div class="grey_post">
 			'.$team_txt.'
 		</div>
 		

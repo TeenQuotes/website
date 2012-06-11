@@ -18,6 +18,12 @@ if (empty($action))
 			<br />
 			<img src="http://www.pretty-web.com/images/icones/frog.png" class="icone">'.$partner.' : <a href="http://www.pretty-web.com" target="_blank">Pretty Web</a><br>
 		</div>
+
+		<h2><img src="http://'.$domaine.'/images/icones/staff.png" class="icone" />'.$team.'</h2>
+		<div class="grey_post">
+			'.$team_txt.'
+		</div>
+		
 		<h2><img src="http://'.$domaine.'/images/icones/mail.png" class="icone" />'.$contact_us_by_email.'</h2>
 		<div class="grey_post">
 			<form action="contact?action=send" method="post"> 
