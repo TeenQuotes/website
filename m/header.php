@@ -147,16 +147,7 @@ else
 		_gaq.push(['_setAccount', 'UA-12045924-10']);
 		_gaq.push(['_setDomainName', 'teen-quotes.com']);
 		_gaq.push(['_setAllowHash', 'false']);
-		<?php
-		if ($_SESSION['logged'] == false)
-			{
-			echo "_gaq.push(['._setCustomVar', 1, 'user-type', 'visitor', 2]);";
-			}
-		else
-			{
-			echo "_gaq.push(['._setCustomVar', 1, 'user-type', 'member', 2]);";
-			}
-		?>
+		_gaq.push(['_setSiteSpeedSampleRate', 100]);
 		_gaq.push(['_trackPageview']);
 		
 		(function() {

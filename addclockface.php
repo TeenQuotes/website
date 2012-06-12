@@ -1,5 +1,4 @@
 <?php 
-
 require "kernel/config.php";
 require "kernel/fonctions.php";
 $db = mysql_connect("$host", "$user", "$pass")  or die('Erreur de connexion '.mysql_error());
