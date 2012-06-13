@@ -10,7 +10,7 @@ $j = '0';
 // variable $lettre dans header.php
 
 // GERE LES PAGES DE LETTRE
-echo '<div class="post">';
+echo '<div class="post padding_letters">';
 for ($i='0';$i<='25';$i++) {
 $lettre_url=$abcd[$i];
 echo '<a href="../members-'.$lettre_url.'" class="letters_members">'.$lettre_url.'</a>';
