@@ -121,7 +121,7 @@
 			</script> 
 			<script type="text/javascript">
 			$(function(){
-			$('.slidedown').slideDown(1500);
+			$('.slidedown').delay(2000).slideDown(1500);
 			});
 			</script>
 	</body>
