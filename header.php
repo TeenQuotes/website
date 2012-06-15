@@ -158,8 +158,6 @@ else
 		
 
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-		<script src="http://<?php echo $domaine; ?>/uniform/uniform.js"></script>
-		<script src="http://<?php echo $domaine; ?>/scrypt.min.js"></script>
 		
 		<?php
 		if ($php_self == "statistics")

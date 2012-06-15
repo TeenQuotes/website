@@ -43,7 +43,7 @@ span.icone_flags.french{background-position:-30px 0;height:14px;width:14px;}
 #menu a span.icone_menu.random {background-position:0px -132px;height:12px;width:12px;}
 #menu a span.icone_menu.signin {background-position:0px -154px;height:12px;width:12px;}
 #menu a.menu img.icone_menu_apps {height:12px;width:12px;margin-right:7px;vertical-align:-20%}
-#content{margin:0 auto;width:900px;display: none}
+#content{margin:0 auto;width:900px}
 #wrapper{float:left;margin-top:15px;width:710px}
 #wrapper h1,#wrapper h2{border-bottom:1px solid #5C9FC0;color:#246;margin-bottom:20px;margin-left:20px;padding-bottom:10px;font-family:Helvetica;text-shadow: 2px 2px 1px #ccc}
 #wrapper h3{color:#246;margin-bottom:15px;margin-left:20px;font-family:Helvetica}
@@ -69,6 +69,7 @@ select {outline:none}
 #footer{-webkit-box-shadow:inset 0px 1px 4px rgba(0, 0, 0, 0.3);-moz-box-shadow:inset 0px 1px 4px rgba(0, 0, 0, 0.3);box-shadow:inset 0px 1px 4px hsla(0, 0%, 0%, 0.3);-moz-border-radius:8px;-webkit-border-radius:8px;background:#fff;border-radius:8px;font-size:70%;margin:10px auto;padding:20px;width:860px}
 #footer a {font-weight:normal}
 .error{color:#246;display:block;font-weight:700;margin:10px auto 20px auto;vertical-align:middle}
+.text_align_center{text-align:center;}
 .page a,.page_bottom a,.page_bottom_number a,.page_bottom_number_active a {color:#666 !important}
 .page,.page_bottom{float:right;font-size:12px;background:#FFF;padding:4px 8px;-webkit-box-shadow:inset 0px 1px 3px rgba(0, 0, 0, 0.3);-moz-box-shadow:inset 0px 1px 3px rgba(0, 0, 0, 0.3);box-shadow:inset 0px 1px 3px hsla(0, 0%, 0%, 0.3);-moz-border-radius:4px;-webkit-border-radius:4px;border-radius:4px;}
 .page_bottom {margin-top:-10px}
@@ -106,6 +107,9 @@ select {outline:none}
 .no_shadow {-moz-box-shadow: 0 0 0 0 #FFF;-webkit-box-shadow: 0 0 0 0 #FFF;box-shadow: 0 0 0 0 #FFF;}
 .no_margin {margin:0}
 .margin_profile_user {margin:5px}
+.margin_log_me{margin-bottom:10px;}
+.input_right_connexion_form{width:115px;margin:-5px 0 10px 0;}
+.font_size_85 {font-size:85%;}
 
 
 /* UI Button */

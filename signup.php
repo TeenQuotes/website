@@ -25,7 +25,7 @@ if (empty($action))
 	{
 	echo '
 	<div class="post slidedown">
-		<h1><img src="http://'.$domaine.'/images/icones/signin.png" class="icone"/>'.$sign_up.'</h1>
+		<h1><img src="http://'.$domaine.'/images/icones/signin.png" class="icone" alt="icone"/>'.$sign_up.'</h1>
 	';
 	if (isset($_GET['addquote'])) 
 		{
@@ -64,10 +64,10 @@ if (empty($action))
 			<br /><br />
 			<div class="colonne-gauche">Email </div><div class="colonne-milieu"><input type="email" name="email" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$valid_email.'.</span></div>
 			<br /><br /><br />
-			<input type="checkbox" name="newsletter" value="1" checked="checked" /> '.$i_want_newsletter.'<br>
-			<input type="checkbox" name="email_quote_today" value="1" /> '.$i_want_email_quote_today.'<br>
+			<input type="checkbox" name="newsletter" value="1" checked="checked" id="input_newsletter" /><label for="input_newsletter"> '.$i_want_newsletter.'</label><br>
+			<input type="checkbox" name="email_quote_today" value="1" id="input_email_quote_today" /><label for ="input_email_quote_today">'.$i_want_email_quote_today.'</label><br>
 			<br /><br />
-			<center><p><input type="submit" value="'.$create_account.'" class="submit" /></p></center>
+			<div class="text_align_center"><input type="submit" value="'.$create_account.'" class="submit" /></div>
 		</form>
 		</div>
 	</div>';
@@ -76,7 +76,7 @@ elseif ($action == "send")
 	{
 	echo '
 	<div class="post">
-	<h1><img src="http://'.$domaine.'/images/icones/signin.png" class="icone"/>'.$sign_up.'</h1>
+	<h1><img src="http://'.$domaine.'/images/icones/signin.png" class="icone" alt="icone"/>'.$sign_up.'</h1>
 	';
 	
 	$confmail="0";

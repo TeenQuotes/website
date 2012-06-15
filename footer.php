@@ -15,9 +15,10 @@
 					<div class="title"><span class="icone_login signin"></span><?php echo $sign_in; ?></div>
 					<?php require "connexion.php"; ?>
 					<form action="?action=connexion" method="post">
-					<span class="icone_login member"></span><input type="text" name="pseudo" style="width:115px;margin-bottom:10px;"/>
-					<span class="icone_login password"></span><input type="password" name="pass" style="width:115px"/>
-					<p align="right"><input type="submit" name="connexion" class="submit" value="<?php echo $log_me; ?>"/></p>
+						<span class="icone_login member"></span><input type="text" name="pseudo" class="input_right_connexion_form"/>
+						<span class="icone_login password"></span><input type="password" name="pass" class="input_right_connexion_form"/>
+						<span class="right margin_log_me"><input type="submit" name="connexion" class="submit" value="<?php echo $log_me; ?>"/></span>
+						<div class="clear"></div>
 					</form>
 					<span class="right"><a href="signup?menuright" title="<?php echo $sign_up; ?>"><?php echo $sign_up; ?></a> | <a href="forgot" title="<?php echo $forget; ?>"> <?php echo $forget; ?></a></span><br>
 				</div>
@@ -35,7 +36,7 @@
 				
 				<div class="post">
 					<div class="title"><span class="icone_login about"></span><?php echo $about; ?></div>
-					<p style="font-size:85%">
+					<div class="font_size_85">
 					&copy; <?php echo date("Y"); ?> teen-quotes.com<br>
 					<?php echo $created_by; ?> <a href="http://www.antoine-augusti.fr" target="_blank"> Antoine Augusti</a>
 					<br><?php echo $developer; ?> <a href="http://www.pretty-web.com" target="_blank">Pretty Web</a><br>
@@ -44,7 +45,7 @@
 					&raquo; <a href="shortcuts" title="<?php echo $keyboard_shortcuts; ?>"><?php echo $keyboard_shortcuts; ?></a><br>
 					&raquo; <a href="contact" title="Contact">Contact</a><br>
 					&raquo; <a href="legalterms" title="<?php echo $legal_terms; ?>"><?php echo $legal_terms; ?></a><br>
-					</p>
+					</div>
 				</div>
 				
 				<?php 
@@ -111,19 +112,7 @@
 				echo '<script type="text/javascript" src="http://static.augusti.fr/js/scroll.js"></script>';
 				}
 			?>
-			<script> 
-			$(".hide").click(function () {
-			$(".profile_not_fullfilled").slideUp("slow");
-			});
-			$(".hide_this").click(function () {
-			$(this).slideUp("slow");
-			});			
-			</script> 
-			<script type="text/javascript">
-			$(function(){
-			$('.slidedown').delay(2000).slideDown(1500);
-			});
-			</script>
+			<script src="http://<?php echo $domaine; ?>/scrypt.min.js"></script>
 	</body>
 </html>
 <!-- 
