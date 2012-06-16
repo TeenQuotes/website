@@ -54,13 +54,13 @@ else
 			echo '</div>';
 			
 			// RESULTAT DES QUOTES
-			if ($num_rows_quote >= 1 OR $query_match == FALSE)
+			if ($num_rows_quote >= 1)
 				{
 				echo '
 				<div class="post" id="quotes">
 					<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone">'.$quotes.'<span class="right" style="font-size:90%;padding-top:5px">'.$num_rows_quote.''; echo ' '.$results.''; if($num_rows_quote >'1'){echo"s";} if ($num_rows_quote > '15'){echo ' '.$max_result.'';} echo '</span></h2>';
 					
-					if (strlen($value_search) < 4)
+					if (strlen($value_search) < 4 OR $query_match == FALSE)
 					{
 						if ($logged)
 						{
