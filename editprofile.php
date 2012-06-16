@@ -108,9 +108,9 @@ if (empty($action))
 		<h1><img src="http://'.$domaine.'/images/icones/outils.png" class="icone" />'.$settings.'</h1>
 		<div class="grey_post">
 			<form action="?action=settings" method="post">
-			<input type="checkbox" name="newsletter" value="1"'; if ($is_newsletter == '1') echo 'checked="checked"'; echo ' />'.$i_want_newsletter.'<br>
-			<input type="checkbox" name="email_quote_today" value="1"'; if ($email_quote_today_num_rows == '1') echo 'checked="checked"'; echo ' />'.$i_want_email_quote_today.'<br>
-			<input type="checkbox" name="comments_quote" value="1"'; if($notification_comment_quote == '1') echo 'checked="checked"'; echo ' />'.$i_want_comment_quotes.'<br>
+			<input type="checkbox" id="input_newsletter" name="newsletter" value="1"'; if ($is_newsletter == '1') echo 'checked="checked"'; echo ' /><label for="input_newsletter">'.$i_want_newsletter.'</label><br>
+			<input type="checkbox" id="input_email_quote_today" name="email_quote_today" value="1"'; if ($email_quote_today_num_rows == '1') echo 'checked="checked"'; echo ' /><label for="input_email_quote_today">'.$i_want_email_quote_today.'</label><br>
+			<input type="checkbox" id="input_comments_quote" name="comments_quote" value="1"'; if($notification_comment_quote == '1') echo 'checked="checked"'; echo ' /><label for="input_comments_quote">'.$i_want_comment_quotes.'</label><br>
 			<br />
 			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
 			</form>
@@ -569,7 +569,14 @@ elseif ($action == "delete_account_valide")
 		$query = mysql_query("SELECT id FROM delete_account WHERE id_user = '".$_SESSION['id']."' AND code = '".$code."' AND statut = '0'");
 		if (mysql_num_rows($query) == '1')
 			{
-			$update_quote = mysql_query("UPDATE teen_quotes_quotes SET auteur_id = '1211' AND auteur = 'Unknow' WHERE auteur_id = '".$_SESSION['id']."' AND approved IN ('0','1','2')");
+			if ($domaine == 'teen-quotes.com')
+			{
+				$update_quote = mysql_query("UPDATE teen_quotes_quotes SET auteur_id = '1211' AND auteur = 'Unknow' WHERE auteur_id = '".$_SESSION['id']."' AND approved IN ('0','1','2')");	
+			}
+			elseif ($domaine == 'kotado.fr')
+			{
+				$update_quote = mysql_query("UPDATE teen_quotes_quotes SET auteur_id = '35' AND auteur = 'Inconnu' WHERE auteur_id = '".$_SESSION['id']."' AND approved IN ('0','1','2')");
+			}
 			$delete_comments = mysql_query("DELETE FROM teen_quotes_comments WHERE auteur_id = '".$_SESSION['id']."'");
 			$delete_favorites = mysql_query("DELETE FROM teen_quotes_favorite WHERE id_user = '".$_SESSION['id']."'");
 			$delete_visitors = mysql_query("DELETE FROM teen_quotes_visitors WHERE id_visitor = '".$_SESSION['id']."'");

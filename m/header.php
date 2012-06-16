@@ -2,6 +2,25 @@
 session_start();
 error_reporting(E_ALL ^ E_NOTICE);
 
+$domaine = $_SERVER['HTTP_HOST'];
+switch ($domaine)
+	{
+	case "fr.teen-quotes.com" :
+	$domaine = "teen-quotes.com";
+	break;
+	case "m.teen-quotes.com" :
+	$domaine = "teen-quotes.com";
+	break;
+	case "en.kotado.fr" :
+	$domaine = "kotado.fr";
+	break;
+	case "m.kotado.fr" :
+	$domaine = "kotado.fr";
+	break;
+	}
+$domaine_en = "teen-quotes.com";
+$domaine_fr = "kotado.fr";
+
 // INCLUSION DES FICHIERS
 require "../kernel/config.php";
 $db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
