@@ -104,7 +104,7 @@ else
 			{
 			echo '
 			<div class="bandeau_erreur hide_this">
-				<img src="http://'.$domaine.'/images/icones/infos.png" class="mini_plus_icone">'.$profile_hidden_self.'
+				<img src="http://'.$domaine.'/images/icones/infos.png" class="mini_plus_icone" alt="icone">'.$profile_hidden_self.'
 			</div>';
 			}
 			
@@ -154,7 +154,7 @@ else
 					$id_visitor = $reponse_visiteur['id_visitor'];
 					$username_visitor = $reponse_visiteur['username_visitor'];
 					
-					echo '<a href="user-'.$id_visitor.'" title="'.$username_visitor.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="user_avatar_last_visitors" /></a>';
+					echo '<a href="user-'.$id_visitor.'" title="'.$username_visitor.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="user_avatar_last_visitors" alt="'.$username_visitor.'"/></a>';
 					}
 				echo '
 				</div>
@@ -198,7 +198,7 @@ else
 		// CITATIONS FAVORITES
 		echo '
 		<div class="post" id="fav_quotes">
-		<h2><img src="http://'.$domaine.'/images/icones/heart_big.png" class="icone">'.$favorite_quotes.'</h2>
+		<h2><img src="http://'.$domaine.'/images/icones/heart_big.png" class="icone" alt="icone">'.$favorite_quotes.'</h2>
 		';
 		
 		if($nb_favorite_quotes >= '1')

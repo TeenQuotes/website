@@ -77,7 +77,7 @@ else
 			{
 			echo '
 			<div class="bandeau_erreur hide_this">
-			<img src="http://www.teen-quotes.com/images/icones/infos.png" class="mini_plus_icone">'.$profile_hidden_self.'
+			<img src="http://www.teen-quotes.com/images/icones/infos.png" class="mini_plus_icone" alt="icone">'.$profile_hidden_self.'
 			</div>';
 			}
 			
@@ -136,7 +136,7 @@ else
 		// CITATIONS FAVORITES
 		echo '
 		<div class="post" id="fav_quotes">
-		<h2><img src="http://www.teen-quotes.com/images/icones/heart_big.png" class="icone">'.$favorite_quotes.'</h2>
+		<h2><img src="http://www.teen-quotes.com/images/icones/heart_big.png" class="icone" alt="icone">'.$favorite_quotes.'</h2>
 		';
 		
 		if($nb_favorite_quotes >= '1')
@@ -237,7 +237,7 @@ else
 		echo '
 		<div class="clear"></div>
 		<div class="post" id="user_quotes">
-		<h2><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone">'.$user_quotes.'</h2>
+		<h2><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" alt="icone">'.$user_quotes.'</h2>
 		';
 			
 		if($nb_quotes_approved >= '1')
