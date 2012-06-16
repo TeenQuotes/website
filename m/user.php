@@ -115,24 +115,6 @@ else
 			
 		echo '</div>';
 		
-		if ($show_pub == '1' AND $nb_quotes_approved == '0' AND $nb_favorite_quotes == '0')
-			{
-			echo '
-			<div class="pub_middle">
-			<script type="text/javascript"><!--
-			google_ad_client = "ca-pub-8130906994953193";
-			/* Pub haut user - mobile */
-			google_ad_slot = "3398396117";
-			google_ad_width = 320;
-			google_ad_height = 50;
-			//-->
-			</script>
-			<script type="text/javascript"
-			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-			</script>
-			</div>';
-			}
-		
 		// CITATIONS FAVORITES
 		echo '
 		<div class="post" id="fav_quotes">
@@ -206,23 +188,6 @@ else
 			display_page_bottom($page, $nombreDePages, 'page_fav', '#fav_quotes', $previous_page, $next_page);
 				
 			echo '</div>';
-			if ($show_pub == '1' AND ($nb_quotes_approved >= '1' OR $nb_favorite_quotes >= '1'))
-				{
-				echo '
-				<div class="pub_middle">
-				<script type="text/javascript"><!--
-				google_ad_client = "ca-pub-8130906994953193";
-				/* Pub milieu user - mobile */
-				google_ad_slot = "6564367088";
-				google_ad_width = 320;
-				google_ad_height = 50;
-				//-->
-				</script>
-				<script type="text/javascript"
-				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-				</script>
-				</div>';
-				}
 			}
 		// PAS DE QUOTES FAVORITES
 		else 

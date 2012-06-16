@@ -50,23 +50,6 @@ else
 	</div>
 	
 	<?php
-	if ($show_pub == '1')
-		{
-		echo '
-		<div class="pub_middle">
-		<script type="text/javascript"><!--
-		google_ad_client = "ca-pub-8130906994953193";
-		/* Pub page quote - mobile */
-		google_ad_slot = "9237663358";
-		google_ad_width = 320;
-		google_ad_height = 50;
-		//-->
-		</script>
-		<script type="text/javascript"
-		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-		</script>
-		</div>';
-		}
 	$comments_ucfirst = ucfirst($comments);
 	echo '
 	<div class="post slidedown">
