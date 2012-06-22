@@ -26,7 +26,6 @@ elseif ($action=="send")
 	echo '
 	<div class="post">
 	<h2><img src="http://www.teen-quotes.com/images/icones/faq.png" class="icone" />'.$pass_forget.'</h2>
-	Romain et Matthieu sont cools
 	';
 
 	$email = mysql_real_escape_string($_POST['email']);
