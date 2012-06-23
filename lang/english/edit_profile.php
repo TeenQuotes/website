@@ -7,7 +7,8 @@ $change_avatar_rules= "
 	<li>Your photo will be resized to 120 pixels in height and width</li>
 	<li>Your photo must be in JPG, PNG or GIF</li>
 	<li>Maximum size : 500 ko</li>
-</ul>";
+</ul>
+<img src=\"http://".$domaine."/images/icones/infos.png\" class=\"mini_icone\"/>Your avatar will not appear on Google.<br><br />";
 $select_photo= "Select your photo";
 $reset_avatar= "I want the default picture !";
 $choose_title = "<span class=\"bleu\">Title : </span> 

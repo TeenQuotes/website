@@ -6,7 +6,8 @@ $change_avatar_rules = "
 	<li>Votre photo sera redimensionnée en 120 pixels de hauteur et de largeur</li>
 	<li>Votre photo doit être au format JPG, GIF ou PNG</li>
 	<li>La taille de votre photo ne doit pas excéder 500 ko</li>
-</ul>";
+</ul>
+<img src=\"http://".$domaine."/images/icones/infos.png\" class=\"mini_icone\"/>Votre avatar n'apparaîtra pas sur Google.<br><br";
 $select_photo = "Sélectionnez votre photo";
 $edit_profile = "Modifier mon profil";
 $reset_avatar = "Je veux l'avatar par défaut !";
