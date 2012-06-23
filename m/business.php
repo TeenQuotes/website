@@ -42,7 +42,7 @@ if (empty($action))
 				<input type="email" name="email" size="20" maxlength="30"><br> 
 				<br />
 				'.$your_twitter_account.' :<br>
-				<input type="text" name="twitter_account" size="20" maxlength="30"><br>
+				<input type="text" name="twitter_account" value="@" size="20" maxlength="30"><br>
 				<br />';
 				echo captcha();echo ' =<br>
 				<input type="text" name="captcha" size="20" maxlength="30"><br> 
