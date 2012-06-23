@@ -247,16 +247,32 @@ function number_space($number)
 	return $number_space;
 	}
 	
-function captchaMath()
+function captchaMath ()
+{
+	$n1 = mt_rand(1,84);
+
+	if (in_array($n1, array('1', '2', '3', '6', '7', '14', '21', '42')))
 	{
-	$n1 = mt_rand(1,30);
-	$n2 = 42 - $n1;
-	$nbrFr = array('0','1','2','3','4','5','6','7','8','9','10');
-	$resultat = $n1 + $n2;
-	$phrase = ''.$n1.' + '.$n2.'';
-	
-	return array($resultat, $phrase);	
+		$n2 = 42 / $n1;
+		$phrase = ''.$n1.' x '.$n2.'';
 	}
+	else
+	{
+		if ($n1 <= 42)
+		{
+			$n2 = 42 - $n1;
+			$phrase = ''.$n1.' + '.$n2.'';
+		}
+		else
+		{
+			$n2 = $n1 - 42;
+			$phrase = ''.$n1.' - '.$n2.'';
+		}
+	}
+	
+	
+	return array('42', $phrase);	
+}
 
 function captcha()
 	{
