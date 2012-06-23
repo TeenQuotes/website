@@ -1,4 +1,4 @@
-<?
+<?php
 $texte_legal ="
 <h2>Under construction !</h2>
 <center><img src=\"http://vendee.mariettatrichet.fr/__oneclick_uploads/2009/10/travaux.png\" /></center>

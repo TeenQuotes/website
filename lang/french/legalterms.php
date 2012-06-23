@@ -1,4 +1,4 @@
-<?
+<?php
 $texte_legal ='
 <h2><img src="http://www.'.$domaine.'/images/icones/infos.png" class="icone"/>Conditions d\'utilisation</h2>
 <p style="text-align:justify">Les éléments des sites Internet '.$name_website.' sont protégés par le droit des dessins et modèles, le droit d\'auteur, le droit des marques ainsi que par la réglementation applicable à la concurrence déloyale et ils ne peuvent être copiés ou imités en tout ou partie.<br>
