@@ -28,7 +28,16 @@ if ($send_monday == "0" AND $jour == "Mon")
 		{
 		$email = $donnees['email'];
 		$code = $donnees['code'];
-		$unsuscribe = '<br /><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsuscribe, please follow <a href="http://www.teen-quotes.com/newsletter.php?action=unsuscribe&email='.$email.'&code='.$code.'" target="_blank"> this link</a></span>';
+
+		if ($domaine == 'kotado.fr')
+		{
+			$unsuscribe= '<br /><span style="font-size:80%">Cet email a été envoyé à votre adresse ('.$email.') car vous êtes inscrit à la newsletter. Si vous souhaitez vous désinscrire, cliquez sur <a href="http://kotado.fr/newsletter.php?action=unsuscribe&email='.$email.'&code='.$code.'" target="_blank">ce lien</a>.</span>.';
+		}
+		else
+		{
+			$unsuscribe = '<br /><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsuscribe, please follow <a href="http://teen-quotes.com/newsletter.php?action=unsuscribe&email='.$email.'&code='.$code.'" target="_blank">this link</a>.</span>';
+		}
+		
 		$mail = mail ($email, "Newsletter", $message.$unsuscribe, $headers);
 		if ($mail)
 			{

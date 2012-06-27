@@ -37,7 +37,7 @@
 				<div class="post">
 					<div class="title"><span class="icone_login about"></span><?php echo $about; ?></div>
 					<div class="font_size_85">
-					&copy; <?php echo date("Y"); ?> teen-quotes.com<br>
+					&copy; <?php echo date("Y"); ?> <?php echo $domaine; ?><br>
 					<?php echo $created_by; ?> <a href="http://www.antoine-augusti.fr" target="_blank"> Antoine Augusti</a>
 					<br><?php echo $developer; ?> <a href="http://www.pretty-web.com" target="_blank">Pretty Web</a><br>
 					&raquo; <a href="business" title="<?php echo $business; ?>"><?php echo $business; ?></a><br>
@@ -76,9 +76,18 @@
 		<div class="clear"></div>
 
 		<div id="footer">
-			Teen Quotes &copy; <?php echo date("Y"); ?> | Kotado : <a href="http://kotado.fr/" title="Kotado" target="_blank">kotado.fr</a>
+			<?php
+			if ($domaine == 'kotado.fr')
+			{
+				echo 'Kotado &copy '; echo date("Y"); echo ' | Teen Quotes : <a href="http://teen-quotes.com" title="Teen Quotes" target="_blank">teen-quotes.com</a>';
+			}
+			else
+			{
+				echo 'Teen Quotes &copy '; echo date("Y"); echo ' | Kotado : <a href="http://kotado.fr" title="Kotado" target="_blank">kotado.fr</a>';
+			}
+			?>
 			<span class="right">
-				<a href="http://m.teen-quotes.com/<?php echo $php_self; ?>"><?php echo $mobile_website; ?></a> |
+				<a href="http://m.<?php echo $domaine; ?>/<?php echo $php_self; ?>"><?php echo $mobile_website; ?></a> |
 				<a href="contact">Contact</a> |
 				<a href="legalterms"><?php echo $legal_terms; ?></a>
 			</span>

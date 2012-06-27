@@ -19,7 +19,7 @@ if (empty($action) AND $_SESSION['logged'] != TRUE)
 	</div>
 	';
 	}
-elseif ($action=="send") 
+elseif ($action == "send") 
 	{
 	echo '
 	<div class="post">
