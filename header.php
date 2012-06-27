@@ -173,6 +173,19 @@ elseif ($php_self == 'apps')
 			echo '<meta name="description" content="'.$name_website.' : download our application for iOS and Android."/>';
 		}
 	}
+elseif ($php_self == 'business')
+	{
+		echo '<title>'.$name_website.' | Business</title>';
+		echo "\r\n";
+		if ($domaine == 'kotado.fr')
+		{
+			echo '<meta name="description" content="'.$name_website.' : avec plus de 1 300 000 followers sur Twitter, près de 50 000 fans sur Facebook et un site, Teen Quotes est une bonne opportunité pour proposer de la publicité."/>';
+		}
+		else
+		{
+			echo '<meta name="description" content="'.$name_website.' : with more than 1,300,000 followers on Twitter, nearly 50,000 fans on Facebook and a website, Teen Quotes is a really good opportunity for advertising."/>';
+		}
+	}
 else 
 	{
 		if ($domaine == 'kotado.fr')
@@ -188,6 +201,7 @@ else
 			echo '<meta name="description" content="'.$name_website.' : because our lives are filled full of beautiful sentences, and because some quotes are simply true. Your every day life moments."/>';
 		}
 	}
+// Fin des différents cas de <title></title>
 
 		if ($domaine == 'kotado.fr')
 		{
@@ -309,7 +323,6 @@ else
 	<a href="user-<?php echo $id; ?>" class="menu"><span class="icone_menu profile"></span><?php echo $my_profile; ?></a>
 	<a href="members" class="menu"><span class="icone_menu members"></span><?php echo $members; ?></a>
 	<a href="random" class="menu"><span class="icone_menu random"></span><?php echo $random_quote; ?></a>
-	<?php if($is_newsletter=="0") { ?><a href="newsletter" class="menu"><span class="icone_menu newsletter"></span>Newsletter</a><?php } ?>
 	<a href="addquote" class="menu"><span class="icone_menu add"></span><?php echo $add_a_quote; ?></a>
 	<?php if($_SESSION['security_level'] >='2') { ?><a href="apps" class="menu"><img src="http://<?php echo $domaine; ?>/images/icones/mobile.png" class="icone_menu_apps" /><?php echo $apps; ?></a><a href="admin" class="menu"><span class="icone_menu admin"></span>Admin <?php if ($citations_awaiting_approval > '0'){echo '- '.$citations_awaiting_approval.'';} ?></a><?php } ?>	
 	<span class="right">
