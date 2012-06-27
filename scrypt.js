@@ -9,6 +9,7 @@ function favorite(id_quote,id_user) {
 		},
 		success: function(data) {
 			$(".favorite[data-id="+id_quote+"]").hide().html("<span class=\"hide_this\" data-id="+id_quote+">"+data+"</span><span class=\"show_this\" data-id="+id_quote+"><a href=\"\"  onclick=\"unfavorite("+id_quote+","+id_user+"); return false;\" title=\"Delete this quote from your favorites\"><img src=\"http://teen-quotes.com/images/icones/broken_heart.gif\" /></a></span>").fadeIn(1000);
+			$(".favorite[data-id="+id_quote+"]").css("opacity","0.5");
 			$(".show_this[data-id="+id_quote+"]").hide().delay(3000).fadeIn(1000);
 			$(".hide_this[data-id="+id_quote+"]").delay(2000).fadeOut(1000);
 		}
@@ -28,6 +29,7 @@ function unfavorite(id_quote,id_user) {
 		},
 		success: function(data) {
 			$(".favorite[data-id="+id_quote+"]").hide().html("<span class=\"hide_this\" data-id="+id_quote+">"+data+"</span><span class=\"show_this\" data-id="+id_quote+"><a href=\"\"  onclick=\"favorite("+id_quote+","+id_user+"); return false;\" title=\"Add this quote to your favorites !\"><img src=\"http://teen-quotes.com/images/icones/heart.png\" /></a></span>").fadeIn(1000);
+			$(".favorite[data-id="+id_quote+"]").css("opacity","0.5");
 			$(".show_this[data-id="+id_quote+"]").hide().delay(3000).fadeIn(1000);
 			$(".hide_this[data-id="+id_quote+"]").delay(2000).fadeOut(1000);
 		}
