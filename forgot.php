@@ -33,9 +33,9 @@ elseif ($action == "send")
 		$test = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_account WHERE email='$email'"));
 		if ($test == '1')
 			{
-			$resultat=mysql_query("SELECT * FROM teen_quotes_account WHERE email='$email'");
-			$donnees=mysql_fetch_array($resultat);
-			$username=$donnees['username'];
+			$resultat = mysql_query("SELECT * FROM teen_quotes_account WHERE email='$email'");
+			$donnees = mysql_fetch_array($resultat);
+			$username = $donnees['username'];
 			$newpass = caracteresAleatoires(6);
 			$passwd = sha1(strtoupper($username).':'.strtoupper($newpass));
 			$update_pass = mysql_query ("UPDATE teen_quotes_account SET pass='$passwd' WHERE username='$username'") or die(mysql_error());
