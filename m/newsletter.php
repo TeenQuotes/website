@@ -10,7 +10,8 @@ echo '
 ';
 if (empty($action)) 
 	{ 
-	echo $texte_newsletter; 
+	echo $texte_newsletter;
+	echo '<div class="grey_post">';
 	echo '<form action="?action=send" method="post">';
 	
 	if ($_SESSION['logged'] != TRUE) 
