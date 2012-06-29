@@ -69,6 +69,7 @@ input.signup{width:230px;}
 .grey_line{border-bottom:2px solid #F0F0F0;margin:5px 10px}
 .favorite {opacity:0.5;margin-left:10px}
 .favorite:hover {opacity:1}
+.link_grey{color:#666 !important;}
 #wrapper span.page_grey, #wrapper span.page_grey a{color:#666666}
 ul.menu{text-align:center;font-size:11px;line-height:1.3em;margin-top:-10px;padding:2px 6px 0;}
 ul.menu li{float:left;list-style:none;margin:4px;}

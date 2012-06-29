@@ -51,14 +51,14 @@ else
 		$nb_comments=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_comments WHERE auteur_id = '".$id."'"));
 		$nb_quotes_added_to_favorite = mysql_num_rows(mysql_query("SELECT F.id FROM teen_quotes_favorite F, teen_quotes_quotes Q WHERE F.id_quote = Q.id AND Q.auteur_id= '".$id."'"));
 		
-		if(empty($result['birth_date'])) {$result['birth_date']=''.$not_specified.'';}
-		if(empty($result['title'])) {$result['title']=''.$not_specified.'';}
-		if(empty($result['about_me'])) {$result['about_me']= ''.$no_description.'';}
-		if(empty($result['country'])) {$result['country']=''.$not_specified.'';}
-		if(empty($result['city'])) {$result['city']=''.$not_specified.'';}
-		if(empty($result['number_comments'])) {$result['number_comments']= ''.$no_posted_comments.'';}
-		if(empty($result['avatar'])) {$result['avatar']="icon50.png";}
-		if($result['avatar']=="http://www.teen-quotes.com/images/icon50.png") {$result['avatar']="icon50.png";}
+		if(empty($result['birth_date'])) {$result['birth_date'] = ''.$not_specified.'';}
+		if(empty($result['title'])) {$result['title'] = ''.$not_specified.'';}
+		if(empty($result['about_me'])) {$result['about_me'] = ''.$no_description.'';}
+		if(empty($result['country'])) {$result['country'] = ''.$not_specified.'';}
+		if(empty($result['city'])) {$result['city'] = ''.$not_specified.'';}
+		if(empty($result['number_comments'])) {$result['number_comments'] = ''.$no_posted_comments.'';}
+		if(empty($result['avatar'])) {$result['avatar'] = "icon50.png";}
+		if($result['avatar'] =="http://".$domaine."/images/icon50.png") {$result['avatar'] = "icon50.png";}
 		
 		if ($result['birth_date'] != ''.$not_specified.'')
 			{
@@ -77,7 +77,7 @@ else
 			{
 			echo '
 			<div class="bandeau_erreur hide_this">
-			<img src="http://www.teen-quotes.com/images/icones/infos.png" class="mini_plus_icone" alt="icone">'.$profile_hidden_self.'
+			<img src="http://teen-quotes.com/images/icones/infos.png" class="mini_plus_icone" alt="icone">'.$profile_hidden_self.'
 			</div>';
 			}
 			
@@ -93,9 +93,27 @@ else
 			echo '
 			<div class="cadre_infos_profil">
 				<span class="bleu">'.$title.':</span> '.$result['title'].'<br>
-				<span class="bleu">'.$birth_date.' :</span> '. $result['birth_date'].' '.$age.'<br>
-				<span class="bleu">'.$country.' :</span> '. $result['country'].'<br>
-				<span class="bleu">'.$city.' :</span> '. $result['city'].'<br>
+				<span class="bleu">'.$birth_date.' :</span> '. $result['birth_date'].' '.$age.'<br>';
+
+				if ($result['country'] != $not_specified)
+				{
+					echo '<span class="bleu">'.$country.' :</span> <a href="search?country='.$result['country'].'" class="link_grey" title="'.$search.' '.$result['country'].'">'.$result['country'].'</a><br>';
+				}
+				else
+				{
+					echo '<span class="bleu">'.$country.' :</span> '. $result['country'].'<br>';
+				}
+
+				if ($result['city'] != $not_specified)
+				{
+					echo '<span class="bleu">'.$city.' :</span> <a href="search?city='.$result['city'].'" class="link_grey" title="'.$search.' '.$result['city'].'">'. $result['city'].'</a><br>';
+				}
+				else
+				{
+					echo '<span class="bleu">'.$city.' :</span> '. $result['city'].'<br>';
+				}
+				
+				echo '
 				<span class="bleu">'.$fav_quote.' :</span> '. $nb_favorite_quotes.'<br>
 				<span class="bleu">'.$number_comments.' :</span> '. $nb_comments.'<br>
 				<span class="bleu">'.$number_quotes.' :</span> '.$nb_quotes_approved.' '.$validees.' '.$nb_quotes_submited.' '.$soumises.'<br>';
@@ -118,7 +136,7 @@ else
 		// CITATIONS FAVORITES
 		echo '
 		<div class="post" id="fav_quotes">
-		<h2><img src="http://www.teen-quotes.com/images/icones/heart_big.png" class="icone" alt="icone">'.$favorite_quotes.'</h2>
+		<h2><img src="http://teen-quotes.com/images/icones/heart_big.png" class="icone" alt="icone">'.$favorite_quotes.'</h2>
 		';
 		
 		if($nb_favorite_quotes >= '1')
@@ -202,7 +220,7 @@ else
 		echo '
 		<div class="clear"></div>
 		<div class="post" id="user_quotes">
-		<h2><img src="http://www.teen-quotes.com/images/icones/profil.png" class="icone" alt="icone">'.$user_quotes.'</h2>
+		<h2><img src="http://teen-quotes.com/images/icones/profil.png" class="icone" alt="icone">'.$user_quotes.'</h2>
 		';
 			
 		if($nb_quotes_approved >= '1')
