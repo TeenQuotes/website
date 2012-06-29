@@ -7,7 +7,7 @@ $confirm_password = "Confirmation du mot de passe";
 $create_account = "Créer mon compte !";
 $characters = "caractères";
 $reenter_pass = "Entrez à nouveau votre mot de passe";
-$valid_email = "Merci d'entrer une adresse valide, elle sera nécessaire plus tard.";
+$valid_email = "Merci d'entrer une adresse valide, elle sera nécessaire plus tard";
 
 $username = str_replace(' ','',$username);
 $email_subject = "Bienvenue";
