@@ -24,7 +24,10 @@ elseif (empty($action) AND $_SESSION['security_level'] >='2')
 		<h1><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />Add a quote</h1>
 		<form action="?action=add_quote" method="post">
 			<div class="colonne-gauche">Enter the Quote</div><div class="colonne-milieu"><textarea name="texte_quote" style="height:60px;width:230px;"></textarea></div> 
-			<br /><br />
+			<br />
+			<div class="clear"></div>
+			<input type="checkbox" id="release_admin" name="release_admin" value="1" checked><label for="release_admin">Release with the '.$name_website.'\'s admin account</label><br>
+			<input type="checkbox" id="release_unknown" name="release_unknown" value="1"><label for="release_unknown">Release with the unknown account</label><br>
 			<div class="clear"></div>
 			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
 		</form>
@@ -140,18 +143,39 @@ elseif ($action == "add_quote")
 	<h1><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />Add a quote</h1>';
 	
 	$texte_quote = htmlspecialchars(mysql_real_escape_string($_POST['texte_quote']));
+	$release_admin = htmlspecialchars(mysql_real_escape_string($_POST['release_admin']));
+	$release_unknown = htmlspecialchars(mysql_real_escape_string($_POST['release_unknown']));
 	$date = date("d/m/Y");
 
-	if (strlen($texte_quote) >= '30') 
+	if (strlen($texte_quote) >= 30 AND ($release_admin != '1' OR $release_unknown != '1')) 
 		{
-		if ($domaine == "teen-quotes.com")
+
+		$id_auteur_quote = $id; // Cas général, l'administrateur est l'auteur de la nouvelle quote
+
+		if ($release_admin == '1')
+		{
+			if ($domaine == 'teen-quotes.com')
 			{
-			$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english, date, auteur_id, approved) VALUES ('".$texte_quote."', '".$date."', '".$id."','2')");
+				$id_auteur_quote = '70';
 			}
-		elseif ($domaine == "kotado.fr")
+			elseif ($domaine == 'kotado.fr')
 			{
-			$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english, date, auteur_id, approved) VALUES ('".$texte_quote."', '".$date."','3','2')");
+				$id_auteur_quote = '3';
 			}
+		}
+		elseif ($release_unknown == '1')
+		{
+			if ($domaine == 'teen-quotes.com')
+			{
+				$id_auteur_quote = '1211';
+			}
+			elseif ($domaine == 'kotado.fr')
+			{
+				$id_auteur_quote = '35';
+			}
+		}
+
+		$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english, date, auteur_id, approved) VALUES ('".$texte_quote."', '".$date."', '".$id_auteur_quote."','2')");
 			
 		if ($query) 
 			{
