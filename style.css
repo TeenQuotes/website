@@ -31,7 +31,7 @@ span.icone_flags.french{background-position:-30px 0;height:14px;width:14px;}
 .left {float:left}
 .bleu{color:#5C9FC0;font-weight:700}
 #topbar{-webkit-box-shadow:inset 0px 1px 4px rgba(0, 0, 0, 0.3);-moz-box-shadow:inset 0px 1px 4px rgba(0, 0, 0, 0.3);box-shadow:inset 0px 1px 4px hsla(0, 0%, 0%, 0.3);-moz-border-radius:8px;-webkit-border-radius:8px;background:#fff;border-radius:8px;font-size:85%;margin:0 auto 5px;padding:5px 20px;text-align:left;width:860px}
-#topbar .follow{float:right;margin-top:2px;display:none;background:#f5f5f5;border:1px solid #e5e5e5;padding:5px}
+#topbar .follow{float:right;margin-top:9px;display:none;}
 #menu {-webkit-box-shadow:inset 0px 1px 4px rgba(0, 0, 0, 0.3);-moz-box-shadow:inset 0px 1px 4px rgba(0, 0, 0, 0.3);box-shadow:inset 0px 1px 4px hsla(0, 0%, 0%, 0.3);-moz-border-radius:5px;-webkit-border-radius:5px;background:#fff;border-radius:5px;font-size:85%;margin:0 auto 10px;padding:5px 20px;text-align:left;width:860px}
 #menu a.menu {color:#5C9FC0;text-decoration:none;margin-right:30px;font-family:'Freight Sans Bold';font-weight:300;font-size:11px}
 #menu a.menu:hover {color:#246}
