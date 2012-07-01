@@ -1,7 +1,7 @@
 <?php 
-
 $next_page = "Page suivante";
 $previous_page = "Page précédente";
+$last_quotes = "Dernières citations";
 $search = "Recherche";
 $sign_in = "Connexion";
 $log_me = "Connexion";

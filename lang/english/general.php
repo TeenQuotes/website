@@ -1,6 +1,7 @@
 <?php
 $next_page = "Next page";
 $previous_page = "Previous page";
+$last_quotes = "Last quotes";
 $search = "Search";
 $sign_in = "Sign in";
 $log_me = "Log me";

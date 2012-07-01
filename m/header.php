@@ -124,6 +124,21 @@ if (isset($_GET['id_user']))
 			echo '<meta name="description" content="'.$username_title.'\'s profile on '.$name_website.'. View his favorite quotes and his quotes." />';
 		}
 	}
+elseif (isset($_GET['p']) AND (int) $_GET['p'] >= 2)
+	{
+		$page_index = htmlspecialchars($_GET['p']);
+		echo '<title>'.$name_website.' | '.$last_quotes.', page '.$page_index.'</title>';
+		echo "\r\n";
+
+		if ($domaine == 'kotado.fr')
+		{
+			echo '<meta name="description" content="'.$name_website.' : ta dose quotidienne de phrases. Citations de la vie quotidienne. Quotes Ados." />';
+		}
+		else
+		{
+			echo '<meta name="description" content="'.$name_website.' : because our lives are filled full of beautiful sentences, and because some quotes are simply true. Your every day life moments."/>';
+		}
+	}
 elseif (isset($_GET['id_quote'])) 
 	{
 		$id_quote=mysql_real_escape_string($_GET['id_quote']);
