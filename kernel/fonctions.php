@@ -168,13 +168,17 @@ if (isset($_GET['deconnexion']))
 function deconnexion()
 	{
 	if(($_SESSION['security_level'] >= 2 OR $download_app) AND !(preg_match('#http://m.#', $_SERVER["SCRIPT_URI"])))
-		{
+	{
 		$link = '../apps?action=disconnect';
-		}
+	}
+	elseif (!(preg_match('#http://m.#', $_SERVER["SCRIPT_URI"])))
+	{	
+		$link = '../apps?action=mobile';
+	}
 	else
-		{	
+	{
 		$link = '../';
-		}
+	}
 	$domaine = "teen-quotes.com";
 	$_SESSION = array(); //Destruction des variables.
 	session_destroy(); //Destruction de la session.
