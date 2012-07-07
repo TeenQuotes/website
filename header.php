@@ -306,7 +306,7 @@ else
 			?>
 			<a href="https://twitter.com/kotado_" class="twitter-follow-button" data-show-count="false" data-lang="fr">Follow @kotado_</a>
 			<div class="clear"></div>
-			<iframe src="http://www.facebook.com/plugins/like.php?locale=fr_FR&amp;app_id=211130238926911&amp;href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fkotado%2F207728899322070&amp;send=false&amp;layout=button_count&amp;width=40&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=segoe+ui&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+			<iframe src="http://www.facebook.com/plugins/like.php?locale=fr_FR&amp;app_id=211130238926911&amp;href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fkotado%2F207728899322070&amp;send=false&amp;layout=button_count&amp;width=40&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=segoe+ui&amp;height=21" class="iframe_facebook"></iframe>
 			<?php
 			}
 			else
@@ -314,7 +314,7 @@ else
 			?>
 			<a href="http://twitter.com/ohteenquotes" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @ohteenquotes</a>
 			<div class="clear"></div>
-			<iframe src="http://www.facebook.com/plugins/like.php?locale=en_US&amp;app_id=211130238926911&amp;href=http%3A%2F%2Fwww.facebook.com%2Fohteenquotes&amp;send=false&amp;layout=button_count&amp;width=20&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=segoe+ui&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
+			<iframe src="http://www.facebook.com/plugins/like.php?locale=en_US&amp;app_id=211130238926911&amp;href=http%3A%2F%2Fwww.facebook.com%2Fohteenquotes&amp;send=false&amp;layout=button_count&amp;width=20&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=segoe+ui&amp;height=21" class="iframe_facebook"></iframe>
 			<?php
 			}
 			?>		

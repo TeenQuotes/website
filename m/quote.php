@@ -53,7 +53,7 @@ else
 	$comments_ucfirst = ucfirst($comments);
 	echo '
 	<div class="post slidedown">
-	<h2><img src="http://'.$domaine.'/images/icones/about.png" class="icone" />'.$comments_ucfirst.''; if ($nombre_commentaires >'1'){echo '<span class="right">'.$nombre_commentaires.' '.$comment.'s</span>';}else{echo'<span class="right">'.$nombre_commentaires.' '.$comment.'</span>';}echo '</h2>';
+	<h2><img src="http://'.$domaine.'/images/icones/about.png" class="icone" alt="icone" />'.$comments_ucfirst.''; if ($nombre_commentaires >'1'){echo '<span class="right">'.$nombre_commentaires.' '.$comment.'s</span>';}else{echo'<span class="right">'.$nombre_commentaires.' '.$comment.'</span>';}echo '</h2>';
 	if ($_SESSION['logged']) 
 		{
 		echo '
@@ -94,7 +94,7 @@ else
 			echo '
 			<div class="grey_post">
 			'.$texte_stripslashes.'<br><br />
-			<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" /></a>'; 
+			<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" alt="Avatar" /></a>'; 
 			if ($_SESSION['security_level'] >= 2 OR $id_auteur == $id)
 				{
 				echo '<span class="favorite">';
@@ -116,7 +116,6 @@ else
 		display_page_bottom($page, $nombreDePages, 'p', NULL, $previous_page, $next_page);
 			
 		echo '<div class="clear"></div>';
-		echo '</div>';
 		}
 	else 
 		{ // NO COMMENTS

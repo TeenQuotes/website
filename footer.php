@@ -38,8 +38,8 @@
 					<div class="title"><span class="icone_login about"></span><?php echo $about; ?></div>
 					<div class="font_size_85">
 					&copy; <?php echo date("Y"); ?> <?php echo $domaine; ?><br>
-					<?php echo $created_by; ?> <a href="http://www.antoine-augusti.fr" target="_blank"> Antoine Augusti</a>
-					<br><?php echo $developer; ?> <a href="http://www.pretty-web.com" target="_blank">Pretty Web</a><br>
+					<?php echo $created_by; ?> <a href="http://www.antoine-augusti.fr" title="Antoine AUGUSTI" target="_blank"> Antoine Augusti</a>
+					<br><?php echo $developer; ?> <a href="http://www.pretty-web.com" title="Pretty Web" target="_blank">Pretty Web</a><br>
 					&raquo; <a href="business" title="<?php echo $business; ?>"><?php echo $business; ?></a><br>
 					&raquo; <a href="statistics" title="<?php echo $statistics; ?>"><?php echo $statistics; ?></a><br>
 					&raquo; <a href="shortcuts" title="<?php echo $keyboard_shortcuts; ?>"><?php echo $keyboard_shortcuts; ?></a><br>
@@ -79,11 +79,11 @@
 			<?php
 			if ($domaine == 'kotado.fr')
 			{
-				echo 'Kotado &copy '; echo date("Y"); echo ' | Teen Quotes : <a href="http://teen-quotes.com" title="Teen Quotes" target="_blank">teen-quotes.com</a>';
+				echo 'Kotado &copy; '; echo date("Y"); echo ' | Teen Quotes : <a href="http://teen-quotes.com" title="Teen Quotes" target="_blank">teen-quotes.com</a>';
 			}
 			else
 			{
-				echo 'Teen Quotes &copy '; echo date("Y"); echo ' | Kotado : <a href="http://kotado.fr" title="Kotado" target="_blank">kotado.fr</a>';
+				echo 'Teen Quotes &copy; '; echo date("Y"); echo ' | Kotado : <a href="http://kotado.fr" title="Kotado" target="_blank">kotado.fr</a>';
 			}
 			?>
 			<span class="right">
