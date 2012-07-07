@@ -168,17 +168,13 @@ if (isset($_GET['deconnexion']))
 function deconnexion()
 	{
 	if(($_SESSION['security_level'] >= 2 OR $download_app) AND !(preg_match('#http://m.#', $_SERVER["SCRIPT_URI"])))
-	{
+		{
 		$link = '../apps?action=disconnect';
-	}
-	elseif (!(preg_match('#http://m.#', $_SERVER["SCRIPT_URI"])))
-	{	
-		$link = '../apps?action=mobile';
-	}
+		}
 	else
-	{
+		{	
 		$link = '../';
-	}
+		}
 	$domaine = "teen-quotes.com";
 	$_SESSION = array(); //Destruction des variables.
 	session_destroy(); //Destruction de la session.
@@ -1234,7 +1230,7 @@ function share_fb_twitter ($id_quote,$txt_quote,$share)
 	$domaine = "teen-quotes.com";
 	$txt_tweet = cut_tweet($txt_quote);
 	$url_encode = urlencode('http://'.$domaine.'/quote-'.$id_quote.'');
-	echo '<div class="share_fb_twitter"><span class="fade_jquery"><iframe src="//www.facebook.com/plugins/like.php?href='.$url_encode.'&amp;send=false&amp;layout=button_count&amp;width=110&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" class="iframe_facebook"></iframe></span><span class="right fade_jquery"><a href="http://twitter.com/share?url=http://'.$domaine.'/quote-'.$id_quote.'&amp;text='.$txt_tweet.'" class="twitter-share-button" data-count="none">Tweet</a></span></div>';
+	echo '<div class="share_fb_twitter"><span class="fade_jquery"><iframe src="//www.facebook.com/plugins/like.php?href='.$url_encode.'&amp;send=false&amp;layout=button_count&amp;width=110&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="true"></iframe></span><span class="right fade_jquery"><a href="http://twitter.com/share?url=http://'.$domaine.'/quote-'.$id_quote.'&text='.$txt_tweet.'" class="twitter-share-button" data-count="none">Tweet</a></span></div>';
 	}
 
 function date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile) 
