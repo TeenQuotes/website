@@ -1,8 +1,9 @@
 <?php
 $domaine = $_SERVER['HTTP_HOST'];
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
+
 switch ($domaine)
-	{
+{
 	case "fr.teen-quotes.com" :
 	$domaine = "teen-quotes.com";
 	break;
@@ -15,22 +16,58 @@ switch ($domaine)
 	case "m.kotado.fr" :
 	$domaine = "kotado.fr";
 	break;
-	}
+}
+
 switch ($domaine)
-	{
+{
 	case "teen-quotes.com" :
 	$name_website = "Teen Quotes";
 	break;
 	case "kotado.fr" :
 	$name_website = "Kotado";
 	break;
+}
+
+function domaine()
+{
+	$domaine = $_SERVER['HTTP_HOST'];
+	$user_agent = $_SERVER['HTTP_USER_AGENT'];
+
+	switch ($domaine)
+	{
+		case "fr.teen-quotes.com" :
+		$domaine = "teen-quotes.com";
+		break;
+		case "m.teen-quotes.com" :
+		$domaine = "teen-quotes.com";
+		break;
+		case "en.kotado.fr" :
+		$domaine = "kotado.fr";
+		break;
+		case "m.kotado.fr" :
+		$domaine = "kotado.fr";
+		break;
 	}
+
+	switch ($domaine)
+	{
+		case "teen-quotes.com" :
+		$name_website = "Teen Quotes";
+		break;
+		case "kotado.fr" :
+		$name_website = "Kotado";
+		break;
+	}
+
+	return array($domaine, $name_website);
+}
+
 $domaine_en = "teen-quotes.com";
 $domaine_fr = "kotado.fr";
 
 // NOMS DES PAGES
-$url_page = $_SERVER["SCRIPT_URI"];
-$m_url = substr($url_page, 0, 25);
+$url_page = $_SERVER['SCRIPT_URI'];
+$m_url = 'http://m.'.$domaine;
 $fr_url = substr($url_page, 0, 9);
 
 $page = $_SERVER['PHP_SELF'];
@@ -39,115 +76,77 @@ $taille2 = $taille-4;
 $php_self = substr($page, 1, $taille2);
 
 if ($domaine == "teen-quotes.com")
+{
+	if ($php_self == "index" OR $php_self == "error") 
 	{
-	if($php_self=="index" OR $php_self=="error") 
-		{
 		$php_self = NULL;
-		}
-		
-	if($fr_url=="http://fr")
-		{
+	}
+
+	if ($fr_url == "http://fr")
+	{
 		$language = "french";
 		$second_language = "english";
 		$php_self = $page_include; // FIX NOM DE LA PAGE  VOIR /fr/.htaccess
-		}
+	}
 	else
-		{
+	{
 		$language = "english";
 		$second_language = "french";
-		}
+	}
 
 	if (isset($_GET['p']))
-		{
+	{
 		$page_index = htmlspecialchars($_GET['p']);
 		$php_self = '?p='.$page_index.'';
-		
-		if($fr_url == "http://fr")
-			{
+
+		if ($fr_url == "http://fr")
+		{
 			$php_self = $page_include.'?p='.$page_index.'';
-			}
 		}
 	}
+}
 elseif ($domaine == $domaine_fr)
+{
+	if ($php_self == "index" OR $php_self == "error") 
 	{
-	if($php_self == "index" OR $php_self == "error") 
-		{
 		$php_self = NULL;
-		}
-		
-	if($fr_url == "http://en")
-		{
+	} 
+
+	if ($fr_url == "http://en")
+	{
 		$language = "english";
 		$second_language = "french";
 		$php_self = $page_include; // FIX NOM DE LA PAGE  VOIR /fr/.htaccess
-		}
+	}
 	else
-		{
+	{
 		$language = "french";
 		$second_language = "english";
-		}
-
-	if (isset($_GET['p']))
-		{
-		$page_index = htmlspecialchars($_GET['p']);
-		$php_self = '?p='.$page_index.'';
-		
-		if($fr_url == "http://en")
-			{
-			$php_self = $page_include.'?p='.$page_index.'';
-			}
-		}
 	}
 
-/* ANCIENNE TRADUCTION
+	if (isset($_GET['p']))
+	{
+		$page_index = htmlspecialchars($_GET['p']);
+		$php_self = '?p='.$page_index.'';
 
-
-if (isset($_GET['english']))
-{
-setcookie("french", 1 , time() -4200);
-setcookie("english", 1 , time() + (((3600*24)*30)*12));
-echo "<meta http-equiv=\"refresh\" content=\"1;url=../\" />";
+		if ($fr_url == "http://en")
+			{
+				$php_self = $page_include.'?p='.$page_index.'';
+			}
+	}
 }
-
-if (isset($_GET['french']))
-{
-setcookie("english", 1 , time() -4200);
-setcookie("french", 1 , time() + (((3600*24)*30)*12));
-echo "<meta http-equiv=\"refresh\" content=\"1;url=../\" />";
-}
-
-if (isset($_COOKIE['english']) OR !isset($_COOKIE['french'])) {
-$language="english";
-}
-else{
-$language="french";
-}
-*/
-
-/* MESSAGES DE CONNEXION - BUG IE
-
-
-if (isset($_GET['succes']))
-{
-	echo "<span class=\"error\"><img src=\"http://<?php echo $domaine; ?>/images/icones/succes.png\" class=\"alerte\" />$co_succes</span>";
-	echo "<meta http-equiv=\"refresh\" content=\"2;url=../\" />";
-}
-
-if (isset($_GET['deco_succes']))
-{
-	echo "<span class=\"error\"><img src=\"http://<?php echo $domaine; ?>/images/icones/succes.png\" class=\"alerte\" />$deco_succes</span>";
-	echo "<meta http-equiv=\"refresh\" content=\"2;url=../\" />";
-} */
-
 
 if (isset($_GET['co'])) 
-	{
-	$domaine = "teen-quotes.com";
+{
+	$data = domaine();
+	$domaine = $data[0];
+	$name_website = $data[1];
+
 	$pseudo = $_SESSION['username'];		
 	$passwd = $_SESSION['passwd'];
 
-	setcookie("Pseudo", $pseudo, time() + (((3600*24)*30)*12), null, '.'.$domaine.'', false, true);
-	setcookie("Pass", $passwd, time() + (((3600*24)*30)*12), null, '.'.$domaine.'', false, true);
+	setcookie("Pseudo", $pseudo, time() + (((3600*24)*30)*12), null, '.'.$domaine.'', FALSE, TRUE);
+	setcookie("Pass", $passwd, time() + (((3600*24)*30)*12), null, '.'.$domaine.'', FALSE, TRUE);
 
 	unset($_SESSION['passwd']);
 	// redirection
@@ -157,36 +156,45 @@ if (isset($_GET['co']))
 	window.location.href="../"
 	//-->
 	</script>
-	<?php	
-	}
+	<?php
+}
 
 if (isset($_GET['deconnexion']))
-	{
+{
 	deconnexion();
-	}
+}
 
 function deconnexion()
+{
+	$data = domaine();
+	$domaine = $data[0];
+	$name_website = $data[1];
+
+	if (($_SESSION['security_level'] >= 2 OR $download_app) AND !(preg_match('#http://m.#', $_SERVER["SCRIPT_URI"])))
 	{
-	if(($_SESSION['security_level'] >= 2 OR $download_app) AND !(preg_match('#http://m.#', $_SERVER["SCRIPT_URI"])))
-		{
 		$link = '../apps?action=disconnect';
-		}
+	}
+	elseif (!(preg_match('#http://m.#', $_SERVER["SCRIPT_URI"])))
+	{	
+		$link = '../apps?action=mobile';
+	}
 	else
-		{	
+	{
 		$link = '../';
-		}
-	$domaine = "teen-quotes.com";
+	}
+
 	$_SESSION = array(); //Destruction des variables.
 	session_destroy(); //Destruction de la session.
-	setcookie("Pseudo", Yo, time()-4200, null, '.'.$domaine.'', false, true);
-	setcookie("Pass", Yo, time()-4200, null, '.'.$domaine.'', false, true);
+	setcookie("Pseudo", Yo, time()-4200, null, '.'.$domaine.'', FALSE, TRUE);
+	setcookie("Pass", Yo, time()-4200, null, '.'.$domaine.'', FALSE, TRUE);
 	setcookie("Pass", Yo, time()-4200);
 	setcookie("Pseudo", Yo, time()-4200);
+
 	$pseudo = "";
 	$id = "";
 	$email = "";
 	$username = "";
-	
+
 	?>
 	<script language="JavaScript">
 	<!--
@@ -194,10 +202,10 @@ function deconnexion()
 	//-->
 	</script>
 	<?php 
-	}
+}
 	
-if(isset($_GET['hide_download_app'])) 
-	{
+if (isset($_GET['hide_download_app'])) 
+{
 	$_SESSION['hide_download_app'] = TRUE;
 	?>
 	<script language="JavaScript">
@@ -206,10 +214,10 @@ if(isset($_GET['hide_download_app']))
 	//-->
 	</script>
 	<?php
-	}
-	
-if(isset($_GET['show_download_app'])) 
-	{
+}
+
+if (isset($_GET['show_download_app'])) 
+{
 	$_SESSION['hide_download_app'] = FALSE;
 	?>
 	<script language="JavaScript">
@@ -218,35 +226,35 @@ if(isset($_GET['show_download_app']))
 	//-->
 	</script>
 	<?php
-	}
+}
 
 function caracteresAleatoires($nombreDeCaracteres)
-	{
+{
 	$string = ""; 
 	$chaine = "abcdefghijklmnpqrstuvwxyz123456789"; 
 	srand((double)microtime()*1000000);
-	
+
 	for($i=0;$i<$nombreDeCaracteres; $i++)
 		{
-		$string .= $chaine[rand()%strlen($chaine)]; 
+			$string .= $chaine[rand()%strlen($chaine)]; 
 		}
 	return $string;
-    }
+}
 
 function microtime_float() 
-	{ 
+{ 
 	list($usec, $sec) = explode(" ", microtime()); 
 	return ((float)$usec + (float)$sec); 
-	}
-	
+}
+
 $time_start = microtime_float(); 
 
 function number_space($number) 
-	{
+{
 	$number_space = number_format($number, 0, ',', ' '); // Arrondi et espaces sur les milliers
 	return $number_space;
-	}
-	
+}
+
 function captchaMath ()
 {
 	$n1 = mt_rand(1,84);
@@ -269,458 +277,471 @@ function captchaMath ()
 			$phrase = ''.$n1.' - '.$n2.'';
 		}
 	}
-	
-	
+
 	return array('42', $phrase);	
 }
 
 function captcha()
-	{
+{
 	list($resultat, $phrase) = captchaMath();
 	$_SESSION['captcha'] = $resultat;
 	return $phrase;
-	}
+}
 
-function create_stats ($language) {
-if ($language == "english")
+function create_stats ($language) 
+{
+	if ($language == "english")
 	{
-	require 'lang/'.$language.'/stats.php';
+		require '../lang/'.$language.'/stats.php';
 	}
-else
+	else
 	{
-	require '../lang/'.$language.'/stats.php';
+		require 'lang/'.$language.'/stats.php';
 	}
-$total_quotes = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes"));
-$quotes_approved = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='1'"));
-$quotes_rejected = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='-1'"));
-$quotes_pending = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='0'"));
-$quotes_queued = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved='2'"));
 
-$total_members = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account"));
-$nb_empty_avatar = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE avatar='icon50.png'"));
-$nb_members_empty_profile = $total_members - $nb_empty_avatar;
+	$total_quotes = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes"));
+	$quotes_approved = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved= '1'"));
+	$quotes_rejected = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '-1'"));
+	$quotes_pending = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '0'"));
+	$quotes_queued = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2'"));
 
-$nb_favorite = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_favorite"));
-$nb_members_has_favorite_quotes = mysql_num_rows(mysql_query("SELECT DISTINCT A.id FROM teen_quotes_account A, teen_quotes_favorite F WHERE A.id IN (F.id_user)"));
-$nb_members_no_favorite_quotes = $total_members - $nb_members_has_favorite_quotes;
-$nb_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletter"));
-$nb_members_newsletter = mysql_num_rows(mysql_query("SELECT a.id FROM teen_quotes_account a, newsletter n WHERE a.email = n.email"));
-$nb_no_members_newsletter = $nb_newsletter - $nb_members_newsletter;
+	$total_members = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account"));
+	$nb_empty_avatar = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE avatar = 'icon50.png'"));
+	$nb_members_empty_profile = $total_members - $nb_empty_avatar;
 
-$query_top_user_favorite = mysql_query("SELECT COUNT( F.id ) AS nb_fav , A.id, A.username AS username FROM teen_quotes_favorite F, teen_quotes_quotes Q, teen_quotes_account A WHERE F.id_quote = Q.id AND Q.auteur_id = A.id GROUP BY A.id ORDER BY COUNT( F.id ) DESC LIMIT 0,20");
-$query_search = mysql_query ("SELECT * FROM teen_quotes_search ORDER BY value DESC LIMIT 0,20");
-$nb_search_query = mysql_fetch_array(mysql_query("SELECT SUM(value) AS nb_search FROM teen_quotes_search"));
-$nb_search = $nb_search_query['nb_search'];
-$graph_stats_js = "
-<script type=\"text/javascript\" src=\"http://www.google.com/jsapi\"></script>
-<script type=\"text/javascript\">
-  google.load('visualization', '1', {packages: ['corechart']});
-</script>
-<script type=\"text/javascript\">
-function graph_quotes() {
-var data = new google.visualization.DataTable();
-data.addColumn('string', 'Quote');
-data.addColumn('number', 'Status');
-data.addRows(4);
-data.setValue(0, 0, '".$approved." : ".$quotes_approved."');
-data.setValue(0, 1, ".$quotes_approved.");
-data.setValue(1, 0, '".$rejected." : ".$quotes_rejected."');
-data.setValue(1, 1, ".$quotes_rejected.");
-data.setValue(2, 0, '".$pending." : ".$quotes_pending."');
-data.setValue(2, 1, ".$quotes_pending.");
-data.setValue(3, 0, '".$waiting_to_be_posted." : ".$quotes_queued."');
-data.setValue(3, 1, ".$quotes_queued.");
+	$nb_favorite = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_favorite"));
+	$nb_members_has_favorite_quotes = mysql_num_rows(mysql_query("SELECT DISTINCT A.id FROM teen_quotes_account A, teen_quotes_favorite F WHERE A.id IN (F.id_user)"));
+	$nb_members_no_favorite_quotes = $total_members - $nb_members_has_favorite_quotes;
+	$nb_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletter"));
+	$nb_members_newsletter = mysql_num_rows(mysql_query("SELECT a.id FROM teen_quotes_account a, newsletter n WHERE a.email = n.email"));
+	$nb_no_members_newsletter = $nb_newsletter - $nb_members_newsletter;
 
-// Create and draw the visualization.
-new google.visualization.PieChart(document.getElementById('graph_quotes')).
+	$query_top_user_favorite = mysql_query("SELECT COUNT( F.id ) AS nb_fav , A.id, A.username AS username FROM teen_quotes_favorite F, teen_quotes_quotes Q, teen_quotes_account A WHERE F.id_quote = Q.id AND Q.auteur_id = A.id GROUP BY A.id ORDER BY COUNT( F.id ) DESC LIMIT 0,20");
+	$query_search = mysql_query("SELECT * FROM teen_quotes_search ORDER BY value DESC LIMIT 0,20");
+	$nb_search_query = mysql_fetch_array(mysql_query("SELECT SUM(value) AS nb_search FROM teen_quotes_search"));
+	$nb_search = $nb_search_query['nb_search'];
+	$graph_stats_js = "
+	<script type=\"text/javascript\" src=\"http://www.google.com/jsapi\"></script>
+	<script type=\"text/javascript\">
+	google.load('visualization', '1', {packages: ['corechart']});
+	</script>
+	<script type=\"text/javascript\">
+	function graph_quotes() {
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Quote');
+	data.addColumn('number', 'Status');
+	data.addRows(4);
+	data.setValue(0, 0, '".$approved." : ".$quotes_approved."');
+	data.setValue(0, 1, ".$quotes_approved.");
+	data.setValue(1, 0, '".$rejected." : ".$quotes_rejected."');
+	data.setValue(1, 1, ".$quotes_rejected.");
+	data.setValue(2, 0, '".$pending." : ".$quotes_pending."');
+	data.setValue(2, 1, ".$quotes_pending.");
+	data.setValue(3, 0, '".$waiting_to_be_posted." : ".$quotes_queued."');
+	data.setValue(3, 1, ".$quotes_queued.");
+
+	// Create and draw the visualization.
+	new google.visualization.PieChart(document.getElementById('graph_quotes')).
 	draw(data, {title:'".$total_nb_quotes." : ".$total_quotes."'});
-}
-function graph_empty_profile() {
-var data = new google.visualization.DataTable();
-data.addColumn('string', 'Profile');
-data.addColumn('number', 'Status');
-data.addRows(2);
-data.setValue(0, 0, '".$profile_not_fullfilled." : ".$nb_empty_avatar."');
-data.setValue(0, 1, ".$nb_empty_avatar.");
-data.setValue(1, 0, '".$profile_fullfilled." : ".$nb_members_empty_profile."');
-data.setValue(1, 1, ".$nb_members_empty_profile.");
+	}
+	function graph_empty_profile() {
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Profile');
+	data.addColumn('number', 'Status');
+	data.addRows(2);
+	data.setValue(0, 0, '".$profile_not_fullfilled." : ".$nb_empty_avatar."');
+	data.setValue(0, 1, ".$nb_empty_avatar.");
+	data.setValue(1, 0, '".$profile_fullfilled." : ".$nb_members_empty_profile."');
+	data.setValue(1, 1, ".$nb_members_empty_profile.");
 
-// Create and draw the visualization.
-new google.visualization.PieChart(document.getElementById('graph_empty_profile')).
+	// Create and draw the visualization.
+	new google.visualization.PieChart(document.getElementById('graph_empty_profile')).
 	draw(data, {title:'".$total_nb_members." : ".$total_members."'});
-}
-function graph_newsletter() {
-var data = new google.visualization.DataTable();
-data.addColumn('string', 'Profile');
-data.addColumn('number', 'Status');
-data.addRows(2);
-data.setValue(0, 0, '".$visitors." : ".$nb_no_members_newsletter."');
-data.setValue(0, 1, ".$nb_no_members_newsletter.");
-data.setValue(1, 0, '".$members." : ".$nb_members_newsletter."');
-data.setValue(1, 1, ".$nb_members_newsletter.");
+	}
+	function graph_newsletter() {
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Profile');
+	data.addColumn('number', 'Status');
+	data.addRows(2);
+	data.setValue(0, 0, '".$visitors." : ".$nb_no_members_newsletter."');
+	data.setValue(0, 1, ".$nb_no_members_newsletter.");
+	data.setValue(1, 0, '".$members." : ".$nb_members_newsletter."');
+	data.setValue(1, 1, ".$nb_members_newsletter.");
 
-// Create and draw the visualization.
-new google.visualization.PieChart(document.getElementById('graph_newsletter')).
+	// Create and draw the visualization.
+	new google.visualization.PieChart(document.getElementById('graph_newsletter')).
 	draw(data, {title:'".$people_subscribed_newsletter." : ".$nb_newsletter."'});
-}
-function members_favorite_quote() {
-var data = new google.visualization.DataTable();
-data.addColumn('string', 'Profile');
-data.addColumn('number', 'Status');
-data.addRows(2);
-data.setValue(0, 0, '".$members_with_fav_quotes." : ".$nb_members_has_favorite_quotes."');
-data.setValue(0, 1, ".$nb_members_has_favorite_quotes.");
-data.setValue(1, 0, '".$members_without_fav_quotes." : ".$nb_members_no_favorite_quotes."');
-data.setValue(1, 1, ".$nb_members_no_favorite_quotes.");
+	}
+	function members_favorite_quote() {
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Profile');
+	data.addColumn('number', 'Status');
+	data.addRows(2);
+	data.setValue(0, 0, '".$members_with_fav_quotes." : ".$nb_members_has_favorite_quotes."');
+	data.setValue(0, 1, ".$nb_members_has_favorite_quotes.");
+	data.setValue(1, 0, '".$members_without_fav_quotes." : ".$nb_members_no_favorite_quotes."');
+	data.setValue(1, 1, ".$nb_members_no_favorite_quotes.");
 
-// Create and draw the visualization.
-new google.visualization.PieChart(document.getElementById('members_favorite_quote')).
+	// Create and draw the visualization.
+	new google.visualization.PieChart(document.getElementById('members_favorite_quote')).
 	draw(data, {title:'".$members_and_fav_quotes."'});
-}
-function top_user_favorite_quote() {
-var data = new google.visualization.DataTable();
-data.addColumn('string', 'Profile');
-data.addColumn('number', 'Status');
-data.addRows(21);";
-$i = '0';
-$sum_fav_top_user = '0';
-while ($donnees = mysql_fetch_array($query_top_user_favorite))
-	{
-	$nb_fav = $donnees['nb_fav'];
-	$username = $donnees['username'];
-	
-	$sum_fav_top_user = $sum_fav_top_user + $nb_fav;
-	$graph_stats_js .="
-	data.setValue(".$i.", 0, '".$username." : ".$nb_fav."');
-	data.setValue(".$i.", 1, ".$nb_fav.");
-	";
-	$i++;
 	}
-$reste_nb_favorite = $nb_favorite -  $sum_fav_top_user;
-$graph_stats_js .="
-data.setValue(".$i.", 0, '".$others." : ".$reste_nb_favorite."');
-data.setValue(".$i.", 1, ".$reste_nb_favorite.");
-// Create and draw the visualization.
-new google.visualization.PieChart(document.getElementById('top_user_favorite_quote')).
+	function top_user_favorite_quote() {
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Profile');
+	data.addColumn('number', 'Status');
+	data.addRows(21);";
+	$i = 0;
+	$sum_fav_top_user = 0;
+	while ($donnees = mysql_fetch_array($query_top_user_favorite))
+	{
+		$nb_fav = $donnees['nb_fav'];
+		$username = $donnees['username'];
+
+		$sum_fav_top_user = $sum_fav_top_user + $nb_fav;
+		$graph_stats_js .="
+		data.setValue(".$i.", 0, '".$username." : ".$nb_fav."');
+		data.setValue(".$i.", 1, ".$nb_fav.");
+		";
+		$i++;
+	}
+	$reste_nb_favorite = $nb_favorite -  $sum_fav_top_user;
+	$graph_stats_js .="
+	data.setValue(".$i.", 0, '".$others." : ".$reste_nb_favorite."');
+	data.setValue(".$i.", 1, ".$reste_nb_favorite.");
+	// Create and draw the visualization.
+	new google.visualization.PieChart(document.getElementById('top_user_favorite_quote')).
 	draw(data, {title:'".$top_members_ordered_by_nb_quotes_in_fav." (".$nb_favorite." ".$quotes_in_fav.")'});
-}
-function graph_search() {
-var data = new google.visualization.DataTable();
-data.addColumn('string', 'Profile');
-data.addColumn('number', 'Status');
-data.addRows(21);";
-$j = '0';
-$sum_nb_search = '0';
-while ($donnees = mysql_fetch_array($query_search))
-	{
-	$value = $donnees['value'];
-	$text = ucfirst($donnees['text']);
-	
-	$sum_nb_search = $sum_nb_search + $value;
-	
-	$graph_stats_js .="
-	data.setValue(".$j.", 0, '".$text." : ".$value."');
-	data.setValue(".$j.", 1, ".$value.");
-	";
-	$j++;
 	}
-$reste_nb_search = $nb_search - $sum_nb_search;
-$graph_stats_js .="
-data.setValue(".$i.", 0, '".$others." : ".$reste_nb_search."');
-data.setValue(".$i.", 1, ".$reste_nb_search.");
-// Create and draw the visualization.
-new google.visualization.PieChart(document.getElementById('graph_search')).
+	function graph_search() {
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Profile');
+	data.addColumn('number', 'Status');
+	data.addRows(21);";
+	$j = 0;
+	$sum_nb_search = 0;
+	while ($donnees = mysql_fetch_array($query_search))
+	{
+		$value = $donnees['value'];
+		$text = ucfirst($donnees['text']);
+
+		$sum_nb_search = $sum_nb_search + $value;
+
+		$graph_stats_js .="
+		data.setValue(".$j.", 0, '".$text." : ".$value."');
+		data.setValue(".$j.", 1, ".$value.");
+		";
+		$j++;
+	}
+	$reste_nb_search = $nb_search - $sum_nb_search;
+	$graph_stats_js .="
+	data.setValue(".$i.", 0, '".$others." : ".$reste_nb_search."');
+	data.setValue(".$i.", 1, ".$reste_nb_search.");
+	// Create and draw the visualization.
+	new google.visualization.PieChart(document.getElementById('graph_search')).
 	draw(data, {title:'".$total_nb_search." : ".$nb_search."'});
-}
-google.setOnLoadCallback(graph_quotes);
-google.setOnLoadCallback(graph_empty_profile); 
-google.setOnLoadCallback(graph_newsletter); 
-google.setOnLoadCallback(members_favorite_quote); 
-google.setOnLoadCallback(top_user_favorite_quote);
-google.setOnLoadCallback(graph_search);
-</script>
-";
-echo $graph_stats_js;
+	}
+	google.setOnLoadCallback(graph_quotes);
+	google.setOnLoadCallback(graph_empty_profile); 
+	google.setOnLoadCallback(graph_newsletter); 
+	google.setOnLoadCallback(members_favorite_quote); 
+	google.setOnLoadCallback(top_user_favorite_quote);
+	google.setOnLoadCallback(graph_search);
+	</script>
+	";
+	echo $graph_stats_js;
 }
 
 
 $minute = date("i");
-if ($minute % '10' == '0' OR $_SESSION['security_level'] > '0') 
-	{
+if ($minute % '10' == 0 OR $_SESSION['security_level'] > 0) 
+{
 	$citations_awaiting_approval = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '0'"));
 	$alerte_admin_query = mysql_fetch_array(mysql_query("SELECT alerte_admin FROM config WHERE id = '1'"));
 	$alerte_admin = $alerte_admin_query['alerte_admin'];
-	if ($citations_awaiting_approval >= '10' AND $alerte_admin == '0')
-		{
+
+	if ($citations_awaiting_approval >= 10 AND $alerte_admin == '0')
+	{
 		$email_subject = "Quotes awaiting approval";
-		$domaine = "teen-quotes.com";
 		
 		$message = 'Hey,<br><br />There are more than 10 quotes awaiting approval ! It\'s time to check the admin panel, you can access it by clicking <a href="http://'.$domaine.'/admin" target="_blank">here</a>';
 		$mail = mail("antoine.augusti@gmail.com", $email_subject, $top_mail.$message.$end_mail, $headers); 
- 		$update_alerte = mysql_query("UPDATE config SET alerte_admin = '1' WHERE id = '1'");
-		}
-		
-	if ($citations_awaiting_approval < '10' AND $alerte_admin=='1')
-		{
-		$update_alerte = mysql_query("UPDATE config SET alerte_admin='0' WHERE id='1'");
-		}
+		$mail_2 = mail("southernstarzz@facebook.com", $email_subject, $top_mail.$message.$end_mail, $headers);
+		$update_alerte = mysql_query("UPDATE config SET alerte_admin = '1' WHERE id = '1'");
 	}
-
-function last_visit($session_last_visit,$last_visit,$id_account)
+		
+	if ($citations_awaiting_approval < '10' AND $alerte_admin== '1')
 	{
+		$update_alerte = mysql_query("UPDATE config SET alerte_admin = '0' WHERE id = '1'");
+	}
+}
+
+function last_visit($session_last_visit, $last_visit, $id_account)
+{
 	if ($session_last_visit != '1')
-		{
+	{
 		$today = date("d/m/Y");
 		if ($last_visit != $today)
-			{
-			$update_last_visit = mysql_query("UPDATE teen_quotes_account SET last_visit='$today' WHERE id='$id_account'");
+		{
+			$update_last_visit = mysql_query("UPDATE teen_quotes_account SET last_visit = '$today' WHERE id = '$id_account'");
 			$_SESSION['last_visit_user'] = '1';
-			}
 		}
 	}
-	
+}
+
 function age($naiss)  
-	{
+{
 	list($jour, $mois, $annee) = split('[/]', $naiss);
 	$today['mois'] = date('n');
 	$today['jour'] = date('j');
 	$today['annee'] = date('Y');
 	$annees = $today['annee'] - $annee;
-	
+
 	if ($today['mois'] <= $mois) 
-		{
+	{
 		if ($mois == $today['mois']) 
-			{
+		{
 			if ($jour > $today['jour'])
-				{
-				$annees--;
-				}	
-			}
-		else
 			{
-			$annees--;
-			}
+				$annees--;
+			}	
 		}
+		else
+		{
+			$annees--;
+		}
+	}
+
 	return $annees;
-  }
+}
 
 function date_est_valide ($date)
-	{
+{
 	if (preg_match("#[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}#", $date))
-		{
+	{
 		list($jour, $mois, $annee) = split('[/]', $date);
 		return checkdate($mois, $jour, $annee);
-		}
-	else
-		{	
-		return FALSE;
-		}
 	}
+	else
+	{	
+		return FALSE;
+	}
+}
 
 function username_est_valide ($username)
-	{
+{
 	if (preg_match("#^[a-z0-9_]+$#", $username))
-		{	
+	{	
 		return TRUE;
-		}
-	else
-		{	
-		return FALSE;
-		}
 	}
-
+	else
+	{	
+		return FALSE;
+	}
+}
+  
 function display_page_bottom($page, $nombreDePages, $nom_lien_page, $div_redirection, $previous_page, $next_page)
-	{
+{
 	$page2 = $page + 1;
 	$page3 = $page - 1;
-	
+
 	if ($page > 1)
-		{
+	{
 		if ($page >= 5)
-			{
+		{
 			echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'=1">1</a></span> <span class="left" style="margin-left:5px;margin-top:-13px">...</span>';
+			
 			for ($num_page = $page-2;$num_page < $page;$num_page++)
-				{
-				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>'; 
-				}
-			}
-		else 
 			{
-			for ($num_page = '1';$num_page <= $page-1;$num_page++)
-				{
 				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>'; 
-				}
 			}
 		}
+		else 
+		{
+			for ($num_page = '1';$num_page <= $page-1;$num_page++)
+			{
+				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>'; 
+			}
+		}
+	}
 
 	if ($page <= $nombreDePages-4)
-		{
-		for ($num_page = $page;$num_page <= $page+2;$num_page++)
-			{
-			if ($num_page == $page)
-				{
-				echo '<span class="page_bottom_number_active"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>';
-				}
-			else
-				{
-				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>';
-				}
-			}
-		echo '<span class="left" style="margin-left:5px;margin-top:-13px">...</span>';
-		echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$nombreDePages.''.$div_redirection.'">'.$nombreDePages.'</a></span>';
-		}
-	else
-		{
-		for ($num_page = $page;$num_page <= $nombreDePages;$num_page++)
-			{
-			if ($num_page == $page)
-				{
-				echo '<span class="page_bottom_number_active"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>';
-				}
-			else
-				{
-				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>';
-				}
-			}
-		}
-		
-	if ($page > 1)
-		{
-		echo '<span class="page_bottom"><a href="?'.$nom_lien_page.'='.$page3.''.$div_redirection.'">'.$previous_page.'</a> || ';
-		}
-	if ($page == 1 AND $page < $nombreDePages)
-		{
-		echo '<span class="page_bottom">';
-		}
-	if($page < $nombreDePages)
-		{
-		echo '<a href="?'.$nom_lien_page.'='.$page2.''.$div_redirection.'">'.$next_page.'</a>';
-		}
-	if ($nombreDePages != '1')
-		{
-		echo '</span><br>';
-		}
-	echo '<div class="clear"></div>';
-	}
-	
-function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_page, $next_page, $div_redirection = NULL,$margin = FALSE)
 	{
-	$nombreDePages  = ceil($nb_messages / $nb_messages_par_page);
-	if (isset($_GET[$lien]))
+		for ($num_page = $page;$num_page <= $page+2;$num_page++)
 		{
-		$page = mysql_real_escape_string($_GET[$lien]);
-		}
-	else 
-		{
-		$page = 1; 
+			if ($num_page == $page)
+			{
+				echo '<span class="page_bottom_number_active"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>';
+			}
+			else
+			{
+				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>';
+			}
 		}
 
-	if ($page > $nombreDePages) 
+		echo '<span class="left" style="margin-left:5px;margin-top:-13px">...</span>';
+		echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$nombreDePages.''.$div_redirection.'">'.$nombreDePages.'</a></span>';
+	}
+	else
+	{
+		for ($num_page = $page;$num_page <= $nombreDePages;$num_page++)
 		{
-		$page = $nombreDePages;
+			if ($num_page == $page)
+			{
+				echo '<span class="page_bottom_number_active"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>';
+			}
+			else
+			{
+				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>';
+			}
 		}
+	}
+
+	if ($page > 1)
+	{
+		echo '<span class="page_bottom"><a href="?'.$nom_lien_page.'='.$page3.''.$div_redirection.'">'.$previous_page.'</a> || ';
+	}
+	if ($page == 1 AND $page < $nombreDePages)
+	{
+		echo '<span class="page_bottom">';
+	}
+	if ($page < $nombreDePages)
+	{
+		echo '<a href="?'.$nom_lien_page.'='.$page2.''.$div_redirection.'">'.$next_page.'</a>';
+	}
+	if ($nombreDePages != '1')
+	{
+		echo '</span><br>';
+	}
+
+	echo '<div class="clear"></div>';
+}
+	
+function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_page, $next_page, $div_redirection = NULL, $margin = FALSE)
+{
+	$nombreDePages  = ceil($nb_messages / $nb_messages_par_page);
+	if (isset($_GET[$lien]))
+	{
+		$page = mysql_real_escape_string($_GET[$lien]);
+	}
+	else 
+	{
+		$page = 1; 
+	}
+
+	if ($page > $nombreDePages) 
+	{
+		$page = $nombreDePages;
+	}
 
 	$page2 = $page + 1;
 	$page3 = $page - 1;
 
 	if ($page > 1)
-		{
+	{
 		if ($margin)
-			{
+		{
 			echo '<span class="page page_index"><a href="?'.$lien.'='.$page3.''.$div_redirection.'">'.$previous_page.'</a> || ';
-			}
+		}
 		else
-			{
+		{
 			echo '<span class="page"><a href="?'.$lien.'='.$page3.''.$div_redirection.'">'.$previous_page.'</a> || ';
-			}
 		}
+	}
+
 	if ($page == 1 AND $page < $nombreDePages)
-		{
+	{
 		if ($margin)
-			{
+		{
 			echo '<span class="page page_index">';
-			}
+		}
 		else
-			{
+		{
 			echo '<span class="page">';
-			}
 		}
-	if($page < $nombreDePages)
-		{
+	}
+
+	if ($page < $nombreDePages)
+	{
 		echo '<a href="?'.$lien.'='.$page2.''.$div_redirection.'">'.$next_page.'</a>';
-		}
-	if ($nombreDePages != '1')
-		{
-		echo '</span><br>';
-		}
-		
-	$premierMessageAafficher = ($page - 1) * $nb_messages_par_page;
-	
-	return array($premierMessageAafficher,$nombreDePages, $page);
 	}
 	
-function is_quote_new ($date_quote,$last_visit,$page,$compteur_quote)
+	if ($nombreDePages != '1')
 	{
+		echo '</span><br>';
+	}
+
+	$premierMessageAafficher = ($page - 1) * $nb_messages_par_page;
+
+	return array($premierMessageAafficher, $nombreDePages, $page);
+}
+	
+function is_quote_new($date_quote, $last_visit, $page, $compteur_quote)
+{
 	include "config.php";
-	
-	$yesterday_timestamp = mktime(0, 0, 0, date("m")  , date("d")-1, date("Y"));
+
+	$yesterday_timestamp = mktime(0, 0, 0, date("m"), date("d")-1, date("Y"));
 	$yesterday = date("d/m/Y", $yesterday_timestamp);
-	
+
 	$jour = substr($date_quote, 0, 2);
 	$mois = substr($date_quote, 3, 2);
 	$annee = substr($date_quote, 6, 4);
 	$timestamp_date_quote = mktime(0, 0, 0, $mois, $jour, $annee); 
-	
+
 	$jour_last_visit = substr($last_visit, 0, 2);
 	$mois_last_visit = substr($last_visit, 3, 2);
 	$annee_last_visit = substr($last_visit, 6, 4);
 	$timestamp_last_visit = mktime(0, 0, 0, $mois_last_visit, $jour_last_visit, $annee_last_visit); 
-	
-	
+
+
 	if ($date_quote == $yesterday OR ($timestamp_last_visit != '943916400' AND $timestamp_date_quote > $timestamp_last_visit) OR ($page == '1' AND $compteur_quote < $nb_quote_released_per_day))
-		{
+	{
 		echo '<span class="icone_new_quote hide_this"></span>';
-		}
 	}
+}
 
 
 $heure = date("H");
 // RESET COMPTEUR QUOTE POSTED TODAY
-if ($heure >= "22" AND $heure <= "23")
-	{
+if ($heure >= 22 AND $heure <= 23)
+{
 	$compteur_quote_posted_today_query = mysql_fetch_array(mysql_query("SELECT compteur_quote_posted_today FROM config WHERE id = '1'"));
 	$compteur_quote_posted_today = $compteur_quote_posted_today_query['compteur_quote_posted_today'];
-	
+
 	if ($compteur_quote_posted_today == '1')
-		{
-		$update = mysql_query ("UPDATE config SET compteur_quote_posted_today='0' WHERE id = '1'");
-		}
-	}
-// POSTAGE DES QUOTES ENTRE 0H ET 2H DU MATIN
-elseif ($heure >= "00" AND $heure <= "02")
 	{
+		$update = mysql_query("UPDATE config SET compteur_quote_posted_today = '0' WHERE id = '1'");
+	}
+}
+// POSTAGE DES QUOTES ENTRE 0H ET 2H DU MATIN
+elseif ($heure >= 00 AND $heure <= 02)
+{
 	$compteur_quote_posted_today_query = mysql_fetch_array(mysql_query("SELECT compteur_quote_posted_today FROM config WHERE id = '1'"));
 	$compteur_quote_posted_today = $compteur_quote_posted_today_query['compteur_quote_posted_today'];
-	
+
 	if ($compteur_quote_posted_today == '0')
-		{
+	{
 		flush_quotes();
 		email_birthday();
-		}
 	}
+}
 
 // POST DES $nb_quote_released_per_day QUOTES DU JOUR
 function flush_quotes ()
-	{
+{
 	include "config.php";
-	
-	$query = mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2' ORDER BY id ASC LIMIT 0, ".$nb_quote_released_per_day."");
+
+	$data = domaine();
+	$domaine = $data[0];
+	$name_website = $data[1];
+
+	$query = mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2' ORDER BY id ASC LIMIT 0, $nb_quote_released_per_day");
 	$affected_rows = mysql_affected_rows();
-	
+
 	while ($result = mysql_fetch_array($query))
-		{
+	{
 		$id_quote = $result['id'];
-		
+
 		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english,q.date date, q.auteur_id auteur_id, a.username username, a.email email FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND q.id = '".$id_quote."'"));
 		$texte_quote = $query_texte_quote['texte_english'];
 		$date_quote = $query_texte_quote['date'];
@@ -728,62 +749,90 @@ function flush_quotes ()
 		$email_auteur = $query_texte_quote['email'];
 		$name_auteur = $query_texte_quote['username'];
 
-		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved='1' WHERE id = '".$id_quote."'");
+		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '1' WHERE id = '".$id_quote."'");
 
 		if ($approve_quote AND !empty($email_auteur)) 
+		{
+			if ($domaine == 'teen-quotes.com')
 			{
-			$message = ''.$top_mail.' Hello <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Your quote has been <font color="#5C9FC0"><b>approved</b></font> recently by a member of our team ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Congratulations !<br><br />Your quote is now visible on our website. You can share it or comment it if you want !<br><br /><br />If you want to see your quote, <a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">click here</a>.<br><br /><br />Sincerely,<br><b>The Teen Quotes Team</b><br /><br /><br /><div style="border-top:1px dashed #CCCCCC"></div><br /><br />VERSION FRANCAISE :<br /><br />Bonjour <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Votre citation a été récemment <font color="#5C9FC0"><b>approuvée</b></font> par un membre de notre équipe ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Congratulations !<br><br />Votre citation est maintenant visible sur Teen Quotes. Vous pouvez dès à présent la partager ou la commenter si vous le souhaitez !<br><br /><br />Si vous voulez voir votre citation, <a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">cliquez ici</a>.<br><br /><br />Cordialement,<br><b>The Teen Quotes Team</b> '.$end_mail.'';
-			$mail = mail($email_auteur, "Quote approved", $message, $headers); 
+				$message = ''.$top_mail.' Hello <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Your quote has been <font color="#5C9FC0"><b>approved</b></font> recently by a member of our team ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Congratulations !<br><br />Your quote is now visible on our website. You can share it or comment it if you want !<br><br /><br />If you want to see your quote, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">click here</a>.<br><br /><br />Sincerely,<br><b>The Teen Quotes Team</b><br /><br /><br /><div style="border-top:1px dashed #CCCCCC"></div><br /><br />VERSION FRANCAISE :<br /><br />Bonjour <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Votre citation a été récemment <font color="#5C9FC0"><b>approuvée</b></font> par un membre de notre équipe ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Congratulations !<br><br />Votre citation est maintenant visible sur Teen Quotes. Vous pouvez dès à présent la partager ou la commenter si vous le souhaitez !<br><br /><br />Si vous voulez voir votre citation, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">cliquez ici</a>.<br><br /><br />Cordialement,<br><b>The Teen Quotes Team</b> '.$end_mail.'';
+				$mail = mail($email_auteur, "Quote approved", $message, $headers);
 			}
+			elseif ($domaine == 'kotado.fr')
+			{
+				$message = "$top_mail Bonjour <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Votre citation a été récemment <font color=\"#5C9FC0\"><b>approuvée</b></font> par un membre de notre équipe ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br><br /><a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">par <a href=\"http://".$domaine."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> le $date_quote</span></div>Congratulations !<br><br />Votre citation est maintenant visible sur Kotado. Vous pouvez dès à  présent la partager ou la commenter si vous le souhaitez !<br><br /><br />Si vous voulez voir votre citation, <a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">cliquez ici</a>.<br><br /><br />Cordialement,<br><b>The Kotado Team</b><br /><br /><br /><div style=\"border-top:1px dashed #CCCCCC\"></div><br /><br />ENGLISH VERSION :<br /><br />Hello <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Your quote has been <font color=\"#5C9FC0\"><b>approved</b></font> recently by a member of our team ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br><br /><a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">by <a href=\"http://".$domaine."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> on $date_quote</span></div>Congratulations !<br><br />Your quote is now visible on our website. You can share it or comment it if you want !<br><br /><br />If you want to see your quote, <a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">click here</a>.<br><br /><br />Sincerely,<br><b>The Kotado Team</b><br /><br /><br />$end_mail";
+				$mail = mail($email_auteur, "Citation approuvée", $message, $headers);
+			}
+		}
+
 		$ids_quotes_posted_today .= ''.$id_quote.'';
 		$ids_quotes_posted_today .= ",";
-		}
-	$update = mysql_query ("UPDATE config SET compteur_quote_posted_today = '1' WHERE id = '1'");
-	
-	$ids_quotes_posted_today = substr($ids_quotes_posted_today,0,strlen($ids_quotes_posted_today)-1);
-	if ($affected_rows >= '1')
-		{
-		MailPostedToday($ids_quotes_posted_today);
-		}
 	}
+
+	$update = mysql_query("UPDATE config SET compteur_quote_posted_today = '1' WHERE id = '1'");
+
+	$ids_quotes_posted_today = substr($ids_quotes_posted_today, 0, strlen($ids_quotes_posted_today)-1);
+
+	if ($affected_rows >= 1)
+	{
+		MailPostedToday($ids_quotes_posted_today);
+	}
+}
 	
 function email_birthday()
-	{
+{
 	include 'config.php';
-	
+
+	$data = domaine();
+	$domaine = $data[0];
+	$name_website = $data[1];
+
 	$date_today = date("d/m");
 	$date_today .= '/%';
 	$i = '0';
 	$txt_file = 'Birthdays on '.$date_today.'\r\n\n';
-	
+
 	$query = mysql_query("SELECT username, email, birth_date FROM teen_quotes_account WHERE birth_date LIKE '$date_today'");
 	if (mysql_num_rows($query) >= '1')
-		{
+	{
 		while ($donnees = mysql_fetch_array($query))
-			{
+		{
 			$email_user = $donnees['email'];
 			$username = ucfirst($donnees['username']);
 			$age = age($donnees['birth_date']);
-			$email_subject = 'Happy birthday !';
-			$email_message = ''.$top_mail.' Hello '.$username.',<br><br />Wow, '.$age.' years old, that\'s great ! All the team want to wish you a happy birthday ! We hope that you will have a great day :) '.$end_mail.'';
+
+			if ($domaine == 'teen-quotes.com')
+			{
+				$email_subject = 'Happy birthday '.$username.'!';
+				$email_message = ''.$top_mail.' Hello '.$username.',<br><br />Wow, '.$age.' years old, that\'s great ! All the team want to wish you a happy birthday ! We hope that you will have a great day :) '.$end_mail.'';
+			}
+			elseif ($domaine == 'kotado.fr')
+			{
+				$email_subject = 'Joyeux anniversaire '.$username.' !';
+				$email_message = ''.$top_mail.' Bonjour '.$username.',<br><br />Wow, '.$age.' ans, ça fait un paquet d\'années ! Tout l\'équipe vous souhaite un joyeux anniversaire ! Nous espérons que vous passerez une bonne journée :) '.$end_mail.'';
+				
+			}
+			
 			$mail = mail($email_user, $email_subject, $email_message, $headers);
+
 			if ($mail)
-				{
+			{
 				$i++;
 				$txt_file .= '#'.$i.' : '.$username.' - '.$age.'\r';
-				}
 			}
+		}
+
 		$monfichier = fopen('../files/birthdays.txt', 'r+'); // Ouverture du fichier
 		fseek($monfichier, 0); // On remet le curseur au début du fichier
 		fputs($monfichier, $txt_file); // On écrit le nouveau nombre de pages vues
 		fclose($monfichier);
-		}
 	}
+}
 
-function select_country($country,$other_countries,$common_choices)
-	{
+function select_country($country, $other_countries, $common_choices)
+{
 	$country = ucfirst($country);
-	$str='
+	$str= '
 	<select name="country" style="width:197px;">
 		<optgroup label="'.$common_choices.'">
 			<option value="United States" selected="selected">United States</option> 
@@ -1035,81 +1084,118 @@ function select_country($country,$other_countries,$common_choices)
 			<option value="Zimbabwe">Zimbabwe</option>
 		</optgroup>
 	</select>';
-		if(strstr($str, 'value="'.$country.'"')) 
+		if (strstr($str, 'value="'.$country.'"')) 
 		{
-		$str = str_replace('selected="selected"', '', $str);
-		$str = str_replace('value="'.$country.'"', 'value="'.$country.'" selected="selected"', $str);
+			$str = str_replace('selected="selected"', '', $str);
+			$str = str_replace('value="'.$country.'"', 'value="'.$country.'" selected="selected"', $str);
 		}
 	echo $str;
-	}
+}
 
 
 function MailRandomQuote($nombre) 
-	{
+{
+	$data = domaine();
+	$domaine = $data[0];
+	$name_website = $data[1];
+
 	$query = mysql_query('SELECT q.id, q.texte_english texte_english,q.date date, a.username auteur, q.auteur_id auteur_id FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.approved = 1 AND q.auteur_id = a.id ORDER BY RAND() LIMIT '.$nombre.'');
-		
+
 	while($donnees = mysql_fetch_array($query)) 
-		{
+	{
 		$txt_quote = $donnees['texte_english'];
 		$id_quote = $donnees['id'];
 		$auteur = $donnees['auteur'];
 		$auteur_id = $donnees['auteur_id'];
 		$date = $donnees['date'];
-		
-		$email_txt.= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">';
-		$email_txt.= ''.$txt_quote.'<br><div style="font-size:90%;margin-top:5px"><a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';
-		$email_txt.= '</div>';
-		}
-		
-	return $email_txt;
 
+		$email_txt.= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">';
+
+		if ($domaine == 'teen-quotes.com')
+		{
+			$email_txt.= ''.$txt_quote.'<br><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';	
+		}
+		elseif ($domaine == 'kotado.fr')
+		{
+			$email_txt.= ''.$txt_quote.'<br><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> le '.$date.'</span></div>';
+		}
+
+		$email_txt.= '</div>';
 	}
 
-function MailPostedToday($id_quote) 
-	{
-	include "config.php";
+	return $email_txt;
+}
 	
+function MailPostedToday($id_quote) 
+{
+	include "config.php";
+
+	$data = domaine();
+	$domaine = $data[0];
+	$name_website = $data[1];
+
 	if (!empty($id_quote))
-		{
+	{
 		$id_quote = str_replace(',', '\',\'', $id_quote);
 		$query = mysql_query("SELECT q.id id, q.texte_english texte_english, q.date date, a.username auteur, q.auteur_id auteur_id FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.approved = '1' AND q.id IN ('".$id_quote."') AND q.auteur_id = a.id ORDER BY q.id DESC");
-			
+
 		while ($donnees = mysql_fetch_array($query)) 
-			{
+		{
 			$txt_quote = $donnees['texte_english'];
 			$id_quote = $donnees['id'];
 			$auteur = $donnees['auteur'];
 			$auteur_id = $donnees['auteur_id'];
 			$date = $donnees['date'];
-			
+
 			$email_txt.= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">';
-			$email_txt.= ''.$txt_quote.'<br><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';
-			$email_txt.= '</div>';
-			}
-			
-		$today = date("d/m/Y");
-		$nb_email_send = '0';
-		$search_email = mysql_query("SELECT value FROM teen_quotes_settings WHERE param = 'email_quote_today'");
-		
-		while ($donnees = mysql_fetch_array($search_email))
+
+			if ($domaine == 'teen-quotes.com')
 			{
-			$email = $donnees['value'];
-			$message = ''.$top_mail.'Here are the quotes posted today ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
-			$message .= '<br /><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsuscribe, please follow <a href="http://www.teen-quotes.com/newsletter.php?action=unsuscribe_everyday&email='.$email.'" target="_blank"> this link</a></span>';
-			$mail = mail($email, 'Quotes posted today - '.$today.'', $message, $headers);
-			if ($mail)
-				{
-				$nb_email_send++;
-				}
+				$email_txt.= ''.$txt_quote.'<br><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';	
 			}
+			elseif ($domaine == 'kotado.fr')
+			{
+				$email_txt.= ''.$txt_quote.'<br><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> le '.$date.'</span></div>';
+			}
+
+			$email_txt.= '</div>';
+		}
+
+		$today = date("d/m/Y");
+		$nb_email_send = 0;
+		$search_email = mysql_query("SELECT value FROM teen_quotes_settings WHERE param = 'email_quote_today'");
+
+		while ($donnees = mysql_fetch_array($search_email))
+		{
+			$email = $donnees['value'];
+			if ($domaine == 'teen-quotes.com')
+			{
+				$message = ''.$top_mail.'Here are the quotes posted today ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
+				$message .= '<br /><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsuscribe, please follow <a href="/newsletter.php?action=unsuscribe_everyday&email='.$email.'" target="_blank"> this link</a>.</span>';
+			}
+			elseif ($domaine == 'kotado.fr')
+			{
+				$message = ''.$top_mail.'Voici les citations publiées aujourd\'hui ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
+				$message .= '<br /><span style="font-size:80%">Cet email a été envoyé à votre adresse ('.$email.') car vous êtes inscrit à la newsletter. Si vous souhaitez vous désinscrire, cliquez sur <a href="http://'.$domaine.'/newsletter.php?action=unsuscribe_everyday&email='.$email.'" target="_blank"> ce lien</a>.</span>.';
+			}
+
+			$mail = mail($email, 'Citations du jour - '.$today.'', $message, $headers);
+
+			if ($mail)
+			{
+				$nb_email_send++;
+			}
+		}
+
 		$monfichier = fopen('../files/compteur_email_quotidien.txt', 'r+'); // Ouverture du fichier
 		fseek($monfichier, 0); // On remet le curseur au début du fichier
 		fputs($monfichier, ''.$today.' : '.$nb_email_send.''); // On écrit le nouveau nombre de pages vues
 		fclose($monfichier);
-		}
 	}
+}
 
-function geoloca_ip($ip){
+function geoloca_ip($ip)
+{
 	$email = "u3jr1cyppzo6ax0@jetable.org";
 	$pass = "azerty";
 	global $erreur;
@@ -1119,34 +1205,61 @@ function geoloca_ip($ip){
 	//$url = $urlb."?email=".$email."&pass=".$pass."&ip=".$ip;
 	$url = $urlb."?email=".urlencode($email)."&pass=".urlencode($pass)."&ip=".$ip;
 	$result = file_get_contents($url);
-	if($result!=false AND $result!=""){
-		$tab_result_temp = split("&",$result);
-		if(is_array($tab_result_temp)){
-			if(sizeof($tab_result_temp)>0){
-				foreach($tab_result_temp as $val){
-					$tb_v_temp = split("=",$val);
+	if ($result != FALSE AND $result!="")
+	{
+		$tab_result_temp = split("&", $result);
+		if (is_array($tab_result_temp))
+		{
+			if (sizeof($tab_result_temp) > 0)
+			{
+				foreach($tab_result_temp as $val)
+				{
+					$tb_v_temp = split("=", $val);
 					$tab_result[$tb_v_temp[0]] = $tb_v_temp[1];
 				}
-			}else{
-				$erreur=1;
 			}
-		}else{
-			$erreur=1;
+			else
+			{
+				$erreur = 1;
+			}
 		}
-		foreach($tab_result as $key => $val){
-			if($key !="")
-				global ${$key};
-				${$key}=$val;
+		else
+		{
+			$erreur = 1;
 		}
-	}else{
-		$erreur=1;
+
+		foreach($tab_result as $key => $val)
+		{
+		if ($key !="")
+		global ${$key};
+		${$key}=$val;
+		}
+	}
+	else
+	{
+		$erreur = 1;
 	}
 }
 
 
 function cut_tweet($chaine)
 {
+	$data = domaine();
+	$domaine = $data[0];
+	$name_website = $data[1];
+
 	$lg_max = 117;
+
+	if ($domaine == 'teen-quotes.com')
+	{
+		$longueur_max_ajout_twitter = 105;
+		$username_twitter = '@ohteenquotes';
+	}
+	elseif ($domaine == 'kotado.fr')
+	{
+		$longueur_max_ajout_twitter = 108;
+		$username_twitter = '@Kotado_';	
+	}
 	
 	if (strlen($chaine) > $lg_max) 
 	{
@@ -1155,11 +1268,11 @@ function cut_tweet($chaine)
 
 		// On ajoute ... à la suite de cet espace    
 		$chaine = substr($chaine, 0, $last_space);
-		$chaine .='...';
+		$chaine .= '...';
 	}
-	elseif (strlen($chaine) <= '105')
+	elseif (strlen($chaine) <= $longueur_max_ajout_twitter)
 	{
-		$chaine .= ' @ohteenquotes';
+		$chaine .= ' '.$username_twitter;
 	}
 
 	$chaine = str_replace(' ', '%20', $chaine);
@@ -1167,119 +1280,130 @@ function cut_tweet($chaine)
 }
 
 function cut_comment($chaine)
-	{
+{
 	$lg_max = 100;
+
 	if (strlen($chaine) > $lg_max) 
-	   {
-		  $chaine1 = substr($chaine, 0, $lg_max);
-		  $last_space = strrpos($chaine1, " "); 
-		  
-		  // On ajoute ... à la suite de cet espace    
-		  $chaine1 = substr($chaine1, 0, $last_space);
-		  $chaine1 .='...';
-		  
-		  return $chaine1;
-	   }
-	else
-	   {
-	   return $chaine;
-	   }
+	{
+		$chaine1 = substr($chaine, 0, $lg_max);
+		$last_space = strrpos($chaine1, " "); 
+
+		// On ajoute ... à la suite de cet espace    
+		$chaine1 = substr($chaine1, 0, $last_space);
+		$chaine1 .= '...';
+
+		return $chaine1;
 	}
+	else
+	{
+		return $chaine;
+	}
+}
 
 function afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments)
+{
+	if ($nombre_commentaires > '1')
 	{
-	if($nombre_commentaires > '1')
-		{
 		echo ''.$nombre_commentaires.' '.$comments.'';
-		}
-	elseif($nombre_commentaires == '1')
-		{
+	}
+	elseif ($nombre_commentaires == '1')
+	{
 		echo ''.$nombre_commentaires.' '.$comment.'';
-		}
+	}
 	else
-		{echo ''.$no_comments.'';
-		}
-	}
-
-function afficher_favori ($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$id_user) 
 	{
+		echo ''.$no_comments.'';
+	}
+}
+
+function afficher_favori ($id_quote, $is_favorite, $logged, $add_favorite, $unfavorite, $id_user) 
+{
 	if ($logged == TRUE AND $is_favorite == '0') 
-		{
-		echo '<span class="favorite fade_jquery" data-id="'.$id_quote.'"><a href="" onclick="favorite('.$id_quote.','.$id_user.'); return false;" title="'.$add_favorite.'"><img src="http://teen-quotes.com/images/icones/heart.png" /></a></span>';
-		}
-	elseif($logged == TRUE AND $is_favorite == '1')
-		{
-		echo '<span class="favorite fade_jquery" data-id="'.$id_quote.'"><a href=""  onclick="unfavorite('.$id_quote.','.$id_user.'); return false;" title="'.$unfavorite.'"><img src="http://teen-quotes.com/images/icones/broken_heart.gif" /></a></span>';
-		}
-	}
-
-function afficher_favori_m ($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite) 
 	{
+		echo '<span class="favorite fade_jquery" data-id ="'.$id_quote.'"><a href="" onclick="favorite('.$id_quote.','.$id_user.'); return FALSE;" title="'.$add_favorite.'"><img src="http://teen-quotes.com/images/icones/heart.png" alt="Heart"/></a></span>';
+	}
+	elseif ($logged == TRUE AND $is_favorite == '1')
+	{
+		echo '<span class="favorite fade_jquery" data-id ="'.$id_quote.'"><a href="" onclick="unfavorite('.$id_quote.','.$id_user.'); return FALSE;" title="'.$unfavorite.'"><img src="http://teen-quotes.com/images/icones/broken_heart.gif" alt="Heart"/></a></span>';
+	}
+}
+
+function afficher_favori_m ($id_quote, $is_favorite, $logged, $add_favorite, $unfavorite) 
+{
 	if ($logged == TRUE AND $is_favorite == '0') 
-		{
-		echo '<span class="favorite"><a href="favorite-'.$id_quote.'" title="'.$add_favorite.'"><img src="http://teen-quotes.com/images/icones/heart.png" /></a></span>';
-		}
-	elseif($logged == TRUE AND $is_favorite == '1')
-		{
-		echo '<span class="favorite"><a href="unfavorite-'.$id_quote.'" title="'.$unfavorite.'"><img src="http://teen-quotes.com/images/icones/broken_heart.gif" /></a></span>';
-		}
-	}
-
-function share_fb_twitter ($id_quote,$txt_quote,$share) 
 	{
-	$domaine = "teen-quotes.com";
+		echo '<span class="favorite"><a href="favorite-'.$id_quote.'" title="'.$add_favorite.'"><img src="http://teen-quotes.com/images/icones/heart.png" alt="Heart"/></a></span>';
+	}
+	elseif ($logged == TRUE AND $is_favorite == '1')
+	{
+		echo '<span class="favorite"><a href="unfavorite-'.$id_quote.'" title="'.$unfavorite.'"><img src="http://teen-quotes.com/images/icones/broken_heart.gif" alt="Heart"/></a></span>';
+	}
+}
+
+function share_fb_twitter ($id_quote, $txt_quote, $share) 
+{
+	$data = domaine();
+	$domaine = $data[0];
+	$name_website = $data[1];
+
 	$txt_tweet = cut_tweet($txt_quote);
 	$url_encode = urlencode('http://'.$domaine.'/quote-'.$id_quote.'');
-	echo '<div class="share_fb_twitter"><span class="fade_jquery"><iframe src="//www.facebook.com/plugins/like.php?href='.$url_encode.'&amp;send=false&amp;layout=button_count&amp;width=110&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="true"></iframe></span><span class="right fade_jquery"><a href="http://twitter.com/share?url=http://'.$domaine.'/quote-'.$id_quote.'&text='.$txt_tweet.'" class="twitter-share-button" data-count="none">Tweet</a></span></div>';
-	}
+	echo '<div class="share_fb_twitter"><span class="fade_jquery"><iframe src="//www.facebook.com/plugins/like.php?href= '.$url_encode.'&amp;send=FALSE&amp;layout=button_count&amp;width=110&amp;show_faces=FALSE&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="TRUE"></iframe></span><span class="right fade_jquery"><a href="http://twitter.com/share?url=http://'.$domaine.'/quote-'.$id_quote.'&text='.$txt_tweet.'" class="twitter-share-button" data-count="none">Tweet</a></span></div>';
+}
 
-function date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile) 
-	{
+function date_et_auteur ($auteur_id, $auteur, $date_quote, $on, $by, $view_his_profile) 
+{
 	echo '<span class="right">'.$by.'<a href="user-'.$auteur_id.'" title="'.$view_his_profile.'"> '.$auteur.' </a>'.$on.' '.$date_quote.'</span><br>';
-	}
+}
 
-function date_et_auteur_m ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile) 
-	{
+function date_et_auteur_m ($auteur_id, $auteur, $date_quote, $on, $by, $view_his_profile) 
+{
 	echo '<span class="right">'.$by.'<a href="user-'.$auteur_id.'" title="'.$view_his_profile.'"> '.$auteur.' </a>'.$on.' '.$date_quote.'</span><br>';
-	}
+}
 
 function is_quote_exist ($txt_quote) 
-	{
+{
 	$txt_quote_cut = cut_tweet($txt_quote);
-	$quote_exist = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE texte_english like '%$txt_quote_cut%' AND approved='1'"));
-	if ($quote_exist > '0')
-		{
+	$quote_exist = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE texte_english LIKE '%$txt_quote_cut%' AND approved = '1'"));
+	
+	if ($quote_exist >= 1)
+	{
 		return TRUE;
-		}
-	else
-		{
-		return FALSE;
-		}
 	}
+	else
+	{
+		return FALSE;
+	}
+}
 
 function nl2br_to_textarea ($texte) 
-	{
+{
 	$line_break = PHP_EOL;
 	$patterns = array("/(<br>|<br \/>|<br\/>)\s*/i","/(\r\n|\r|\n)/");
-	$replacements = array(PHP_EOL,$line_break);
+	$replacements = array(PHP_EOL, $line_break);
 	$string = preg_replace($patterns, $replacements, $texte);
 	return $string;
-	}
+}
 
 // MOBILE
 if (isset($_GET['mobile'])) 
-	{
-	$domaine = 'teen-quotes.com';
-	setcookie("mobile", 1 , time() + (((3600*24)*30)*12), null, '.'.$domaine.'', false, true);
-	}
+{
+	$data = domaine();
+	$domaine = $data[0];
+	$name_website = $data[1];
 
-function mobile_device_detect($iphone=true,$android=true,$opera=true,$blackberry=true,$palm=true,$windows=true,$mobileredirect=true,$desktopredirect=false){
+	setcookie("mobile", 1 , time() + (((3600*24)*30)*12), null, '.'.$domaine.'', FALSE, TRUE);
+}
 
-  $mobile_browser   = false; // set mobile browser as false till we can prove otherwise
+function mobile_device_detect($iphone=TRUE, $android =TRUE, $opera=TRUE, $blackberry=TRUE, $palm=TRUE, $windows=TRUE, $mobileredirect=TRUE, $desktopredirect=FALSE){
+
+  $mobile_browser   = FALSE; // set mobile browser as FALSE till we can prove otherwise
   $user_agent       = $_SERVER['HTTP_USER_AGENT']; // get the user agent value - this should be cleaned to ensure no nefarious input gets executed
   $accept           = $_SERVER['HTTP_ACCEPT']; // get the content accept value - this should be cleaned to ensure no nefarious input gets executed
-  $domaine = "teen-quotes.com";
-  
+ 
+  $data = domaine();
+  $domaine = $data[0];
+  $name_website = $data[1];  
   $iphone = 'http://m.'.$domaine.''.$_SERVER['REQUEST_URI'].'';
   $android = $iphone;
   $opera = $iphone;
@@ -1287,78 +1411,78 @@ function mobile_device_detect($iphone=true,$android=true,$opera=true,$blackberry
   $palm = $iphone;
   $windows = $iphone;
 
-  switch(true){ // using a switch against the following statements which could return true is more efficient than the previous method of using if statements
+  switch(TRUE){ // using a switch against the following statements which could return TRUE is more efficient than the previous method of using if statements
 
-    case (mb_eregi('ipod',$user_agent)||mb_eregi('iphone',$user_agent)); // we find the words iphone or ipod in the user agent
-      $mobile_browser = $iphone; // mobile browser is either true or false depending on the setting of iphone when calling the function
+    case (mb_eregi('ipod', $user_agent)||mb_eregi('iphone', $user_agent)); // we find the words iphone or ipod in the user agent
+      $mobile_browser = $iphone; // mobile browser is either TRUE or FALSE depending on the setting of iphone when calling the function
       $status = 'Apple';
-      if(substr($iphone,0,4)=='http'){ // does the value of iphone resemble a url
+      if (substr($iphone,0,4)== 'http'){ // does the value of iphone resemble a url
         $mobileredirect = $iphone; // set the mobile redirect url to the url value stored in the iphone value
       } // ends the if for iphone being a url
     break; // break out and skip the rest if we've had a match on the iphone or ipod
 
-    case (mb_eregi('android',$user_agent));  // we find android in the user agent
-      $mobile_browser = $android; // mobile browser is either true or false depending on the setting of android when calling the function
+    case (mb_eregi('android', $user_agent));  // we find android in the user agent
+      $mobile_browser = $android; // mobile browser is either TRUE or FALSE depending on the setting of android when calling the function
       $status = 'Android';
-      if(substr($android,0,4)=='http'){ // does the value of android resemble a url
+      if (substr($android,0,4)== 'http'){ // does the value of android resemble a url
         $mobileredirect = $android; // set the mobile redirect url to the url value stored in the android value
       } // ends the if for android being a url
     break; // break out and skip the rest if we've had a match on android
 
-    case (mb_eregi('opera mini',$user_agent)); // we find opera mini in the user agent
-      $mobile_browser = $opera; // mobile browser is either true or false depending on the setting of opera when calling the function
+    case (mb_eregi('opera mini', $user_agent)); // we find opera mini in the user agent
+      $mobile_browser = $opera; // mobile browser is either TRUE or FALSE depending on the setting of opera when calling the function
       $status = 'Opera';
-      if(substr($opera,0,4)=='http'){ // does the value of opera resemble a rul
+      if (substr($opera,0,4)== 'http'){ // does the value of opera resemble a rul
         $mobileredirect = $opera; // set the mobile redirect url to the url value stored in the opera value
       } // ends the if for opera being a url 
     break; // break out and skip the rest if we've had a match on opera
 
-    case (mb_eregi('blackberry',$user_agent)); // we find blackberry in the user agent
-      $mobile_browser = $blackberry; // mobile browser is either true or false depending on the setting of blackberry when calling the function
+    case (mb_eregi('blackberry', $user_agent)); // we find blackberry in the user agent
+      $mobile_browser = $blackberry; // mobile browser is either TRUE or FALSE depending on the setting of blackberry when calling the function
       $status = 'Blackberry';
-      if(substr($blackberry,0,4)=='http'){ // does the value of blackberry resemble a rul
+      if (substr($blackberry,0,4)== 'http'){ // does the value of blackberry resemble a rul
         $mobileredirect = $blackberry; // set the mobile redirect url to the url value stored in the blackberry value
       } // ends the if for blackberry being a url 
     break; // break out and skip the rest if we've had a match on blackberry
 
-    case (preg_match('/(pre\/|palm os|palm|hiptop|avantgo|fennec|plucker|xiino|blazer|elaine)/i',$user_agent)); // we find palm os in the user agent - the i at the end makes it case insensitive
-      $mobile_browser = $palm; // mobile browser is either true or false depending on the setting of palm when calling the function
+    case (preg_match('/(pre\/|palm os|palm|hiptop|avantgo|fennec|plucker|xiino|blazer|elaine)/i', $user_agent)); // we find palm os in the user agent - the i at the end makes it case insensitive
+      $mobile_browser = $palm; // mobile browser is either TRUE or FALSE depending on the setting of palm when calling the function
       $status = 'Palm';
-      if(substr($palm,0,4)=='http'){ // does the value of palm resemble a rul
+      if (substr($palm,0,4)== 'http'){ // does the value of palm resemble a rul
         $mobileredirect = $palm; // set the mobile redirect url to the url value stored in the palm value
       } // ends the if for palm being a url 
     break; // break out and skip the rest if we've had a match on palm os
 
-    case (preg_match('/(iris|3g_t|windows ce|opera mobi|windows ce; smartphone;|windows ce; iemobile)/i',$user_agent)); // we find windows mobile in the user agent - the i at the end makes it case insensitive
-      $mobile_browser = $windows; // mobile browser is either true or false depending on the setting of windows when calling the function
+    case (preg_match('/(iris|3g_t|windows ce|opera mobi|windows ce; smartphone;|windows ce; iemobile)/i', $user_agent)); // we find windows mobile in the user agent - the i at the end makes it case insensitive
+      $mobile_browser = $windows; // mobile browser is either TRUE or FALSE depending on the setting of windows when calling the function
       $status = 'Windows Smartphone';
-      if(substr($windows,0,4)=='http'){ // does the value of windows resemble a rul
+      if (substr($windows,0,4)== 'http'){ // does the value of windows resemble a rul
         $mobileredirect = $windows; // set the mobile redirect url to the url value stored in the windows value
       } // ends the if for windows being a url 
     break; // break out and skip the rest if we've had a match on windows
 
-    case (preg_match('/(mini 9.5|vx1000|lge |m800|e860|u940|ux840|compal|wireless| mobi|ahong|lg380|lgku|lgu900|lg210|lg47|lg920|lg840|lg370|sam-r|mg50|s55|g83|t66|vx400|mk99|d615|d763|el370|sl900|mp500|samu3|samu4|vx10|xda_|samu5|samu6|samu7|samu9|a615|b832|m881|s920|n210|s700|c-810|_h797|mob-x|sk16d|848b|mowser|s580|r800|471x|v120|rim8|c500foma:|160x|x160|480x|x640|t503|w839|i250|sprint|w398samr810|m5252|c7100|mt126|x225|s5330|s820|htil-g1|fly v71|s302|-x113|novarra|k610i|-three|8325rc|8352rc|sanyo|vx54|c888|nx250|n120|mtk |c5588|s710|t880|c5005|i;458x|p404i|s210|c5100|teleca|s940|c500|s590|foma|samsu|vx8|vx9|a1000|_mms|myx|a700|gu1100|bc831|e300|ems100|me701|me702m-three|sd588|s800|8325rc|ac831|mw200|brew |d88|htc\/|htc_touch|355x|m50|km100|d736|p-9521|telco|sl74|ktouch|m4u\/|me702|8325rc|kddi|phone|lg |sonyericsson|samsung|240x|x320vx10|nokia|sony cmd|motorola|up.browser|up.link|mmp|symbian|smartphone|midp|wap|vodafone|o2|pocket|kindle|mobile|psp|treo)/i',$user_agent)); // check if any of the values listed create a match on the user agent - these are some of the most common terms used in agents to identify them as being mobile devices - the i at the end makes it case insensitive
-      $mobile_browser = true; // set mobile browser to true
+    case (preg_match('/(mini 9.5|vx1000|lge |m800|e860|u940|ux840|compal|wireless| mobi|ahong|lg380|lgku|lgu900|lg210|lg47|lg920|lg840|lg370|sam-r|mg50|s55|g83|t66|vx400|mk99|d615|d763|el370|sl900|mp500|samu3|samu4|vx10|xda_|samu5|samu6|samu7|samu9|a615|b832|m881|s920|n210|s700|c-810|_h797|mob-x|sk16d|848b|mowser|s580|r800|471x|v120|rim8|c500foma:|160x|x160|480x|x640|t503|w839|i250|sprint|w398samr810|m5252|c7100|mt126|x225|s5330|s820|htil-g1|fly v71|s302|-x113|novarra|k610i|-three|8325rc|8352rc|sanyo|vx54|c888|nx250|n120|mtk |c5588|s710|t880|c5005|i;458x|p404i|s210|c5100|teleca|s940|c500|s590|foma|samsu|vx8|vx9|a1000|_mms|myx|a700|gu1100|bc831|e300|ems100|me701|me702m-three|sd588|s800|8325rc|ac831|mw200|brew |d88|htc\/|htc_touch|355x|m50|km100|d736|p-9521|telco|sl74|ktouch|m4u\/|me702|8325rc|kddi|phone|lg |sonyericsson|samsung|240x|x320vx10|nokia|sony cmd|motorola|up.browser|up.link|mmp|symbian|smartphone|midp|wap|vodafone|o2|pocket|kindle|mobile|psp|treo)/i', $user_agent)); // check if any of the values listed create a match on the user agent - these are some of the most common terms used in agents to identify them as being mobile devices - the i at the end makes it case insensitive
+      $mobile_browser = TRUE; // set mobile browser to TRUE
       $status = 'Mobile matched on piped preg_match';
-    break; // break out and skip the rest if we've preg_match on the user agent returned true 
+    break; // break out and skip the rest if we've preg_match on the user agent returned TRUE 
 
     case ((strpos($accept,'text/vnd.wap.wml')>0)||(strpos($accept,'application/vnd.wap.xhtml+xml')>0)); // is the device showing signs of support for text/vnd.wap.wml or application/vnd.wap.xhtml+xml
-      $mobile_browser = true; // set mobile browser to true
+      $mobile_browser = TRUE; // set mobile browser to TRUE
       $status = 'Mobile matched on content accept header';
     break; // break out and skip the rest if we've had a match on the content accept headers
 
     case (isset($_SERVER['HTTP_X_WAP_PROFILE'])||isset($_SERVER['HTTP_PROFILE'])); // is the device giving us a HTTP_X_WAP_PROFILE or HTTP_PROFILE header - only mobile devices would do this
-      $mobile_browser = true; // set mobile browser to true
+      $mobile_browser = TRUE; // set mobile browser to TRUE
       $status = 'Mobile matched on profile headers being set';
-    break; // break out and skip the final step if we've had a return true on the mobile specfic headers
+    break; // break out and skip the final step if we've had a return TRUE on the mobile specfic headers
 
     case (in_array(strtolower(substr($user_agent,0,4)),array('1207'=>'1207','3gso'=>'3gso','4thp'=>'4thp','501i'=>'501i','502i'=>'502i','503i'=>'503i','504i'=>'504i','505i'=>'505i','506i'=>'506i','6310'=>'6310','6590'=>'6590','770s'=>'770s','802s'=>'802s','a wa'=>'a wa','acer'=>'acer','acs-'=>'acs-','airn'=>'airn','alav'=>'alav','asus'=>'asus','attw'=>'attw','au-m'=>'au-m','aur '=>'aur ','aus '=>'aus ','abac'=>'abac','acoo'=>'acoo','aiko'=>'aiko','alco'=>'alco','alca'=>'alca','amoi'=>'amoi','anex'=>'anex','anny'=>'anny','anyw'=>'anyw','aptu'=>'aptu','arch'=>'arch','argo'=>'argo','bell'=>'bell','bird'=>'bird','bw-n'=>'bw-n','bw-u'=>'bw-u','beck'=>'beck','benq'=>'benq','bilb'=>'bilb','blac'=>'blac','c55/'=>'c55/','cdm-'=>'cdm-','chtm'=>'chtm','capi'=>'capi','cond'=>'cond','craw'=>'craw','dall'=>'dall','dbte'=>'dbte','dc-s'=>'dc-s','dica'=>'dica','ds-d'=>'ds-d','ds12'=>'ds12','dait'=>'dait','devi'=>'devi','dmob'=>'dmob','doco'=>'doco','dopo'=>'dopo','el49'=>'el49','erk0'=>'erk0','esl8'=>'esl8','ez40'=>'ez40','ez60'=>'ez60','ez70'=>'ez70','ezos'=>'ezos','ezze'=>'ezze','elai'=>'elai','emul'=>'emul','eric'=>'eric','ezwa'=>'ezwa','fake'=>'fake','fly-'=>'fly-','fly_'=>'fly_','g-mo'=>'g-mo','g1 u'=>'g1 u','g560'=>'g560','gf-5'=>'gf-5','grun'=>'grun','gene'=>'gene','go.w'=>'go.w','good'=>'good','grad'=>'grad','hcit'=>'hcit','hd-m'=>'hd-m','hd-p'=>'hd-p','hd-t'=>'hd-t','hei-'=>'hei-','hp i'=>'hp i','hpip'=>'hpip','hs-c'=>'hs-c','htc '=>'htc ','htc-'=>'htc-','htca'=>'htca','htcg'=>'htcg','htcp'=>'htcp','htcs'=>'htcs','htct'=>'htct','htc_'=>'htc_','haie'=>'haie','hita'=>'hita','huaw'=>'huaw','hutc'=>'hutc','i-20'=>'i-20','i-go'=>'i-go','i-ma'=>'i-ma','i230'=>'i230','iac'=>'iac','iac-'=>'iac-','iac/'=>'iac/','ig01'=>'ig01','im1k'=>'im1k','inno'=>'inno','iris'=>'iris','jata'=>'jata','java'=>'java','kddi'=>'kddi','kgt'=>'kgt','kgt/'=>'kgt/','kpt '=>'kpt ','kwc-'=>'kwc-','klon'=>'klon','lexi'=>'lexi','lg g'=>'lg g','lg-a'=>'lg-a','lg-b'=>'lg-b','lg-c'=>'lg-c','lg-d'=>'lg-d','lg-f'=>'lg-f','lg-g'=>'lg-g','lg-k'=>'lg-k','lg-l'=>'lg-l','lg-m'=>'lg-m','lg-o'=>'lg-o','lg-p'=>'lg-p','lg-s'=>'lg-s','lg-t'=>'lg-t','lg-u'=>'lg-u','lg-w'=>'lg-w','lg/k'=>'lg/k','lg/l'=>'lg/l','lg/u'=>'lg/u','lg50'=>'lg50','lg54'=>'lg54','lge-'=>'lge-','lge/'=>'lge/','lynx'=>'lynx','leno'=>'leno','m1-w'=>'m1-w','m3ga'=>'m3ga','m50/'=>'m50/','maui'=>'maui','mc01'=>'mc01','mc21'=>'mc21','mcca'=>'mcca','medi'=>'medi','meri'=>'meri','mio8'=>'mio8','mioa'=>'mioa','mo01'=>'mo01','mo02'=>'mo02','mode'=>'mode','modo'=>'modo','mot '=>'mot ','mot-'=>'mot-','mt50'=>'mt50','mtp1'=>'mtp1','mtv '=>'mtv ','mate'=>'mate','maxo'=>'maxo','merc'=>'merc','mits'=>'mits','mobi'=>'mobi','motv'=>'motv','mozz'=>'mozz','n100'=>'n100','n101'=>'n101','n102'=>'n102','n202'=>'n202','n203'=>'n203','n300'=>'n300','n302'=>'n302','n500'=>'n500','n502'=>'n502','n505'=>'n505','n700'=>'n700','n701'=>'n701','n710'=>'n710','nec-'=>'nec-','nem-'=>'nem-','newg'=>'newg','neon'=>'neon','netf'=>'netf','noki'=>'noki','nzph'=>'nzph','o2 x'=>'o2 x','o2-x'=>'o2-x','opwv'=>'opwv','owg1'=>'owg1','opti'=>'opti','oran'=>'oran','p800'=>'p800','pand'=>'pand','pg-1'=>'pg-1','pg-2'=>'pg-2','pg-3'=>'pg-3','pg-6'=>'pg-6','pg-8'=>'pg-8','pg-c'=>'pg-c','pg13'=>'pg13','phil'=>'phil','pn-2'=>'pn-2','pt-g'=>'pt-g','palm'=>'palm','pana'=>'pana','pire'=>'pire','pock'=>'pock','pose'=>'pose','psio'=>'psio','qa-a'=>'qa-a','qc-2'=>'qc-2','qc-3'=>'qc-3','qc-5'=>'qc-5','qc-7'=>'qc-7','qc07'=>'qc07','qc12'=>'qc12','qc21'=>'qc21','qc32'=>'qc32','qc60'=>'qc60','qci-'=>'qci-','qwap'=>'qwap','qtek'=>'qtek','r380'=>'r380','r600'=>'r600','raks'=>'raks','rim9'=>'rim9','rove'=>'rove','s55/'=>'s55/','sage'=>'sage','sams'=>'sams','sc01'=>'sc01','sch-'=>'sch-','scp-'=>'scp-','sdk/'=>'sdk/','se47'=>'se47','sec-'=>'sec-','sec0'=>'sec0','sec1'=>'sec1','semc'=>'semc','sgh-'=>'sgh-','shar'=>'shar','sie-'=>'sie-','sk-0'=>'sk-0','sl45'=>'sl45','slid'=>'slid','smb3'=>'smb3','smt5'=>'smt5','sp01'=>'sp01','sph-'=>'sph-','spv '=>'spv ','spv-'=>'spv-','sy01'=>'sy01','samm'=>'samm','sany'=>'sany','sava'=>'sava','scoo'=>'scoo','send'=>'send','siem'=>'siem','smar'=>'smar','smit'=>'smit','soft'=>'soft','sony'=>'sony','t-mo'=>'t-mo','t218'=>'t218','t250'=>'t250','t600'=>'t600','t610'=>'t610','t618'=>'t618','tcl-'=>'tcl-','tdg-'=>'tdg-','telm'=>'telm','tim-'=>'tim-','ts70'=>'ts70','tsm-'=>'tsm-','tsm3'=>'tsm3','tsm5'=>'tsm5','tx-9'=>'tx-9','tagt'=>'tagt','talk'=>'talk','teli'=>'teli','topl'=>'topl','hiba'=>'hiba','up.b'=>'up.b','upg1'=>'upg1','utst'=>'utst','v400'=>'v400','v750'=>'v750','veri'=>'veri','vk-v'=>'vk-v','vk40'=>'vk40','vk50'=>'vk50','vk52'=>'vk52','vk53'=>'vk53','vm40'=>'vm40','vx98'=>'vx98','virg'=>'virg','vite'=>'vite','voda'=>'voda','vulc'=>'vulc','w3c '=>'w3c ','w3c-'=>'w3c-','wapj'=>'wapj','wapp'=>'wapp','wapu'=>'wapu','wapm'=>'wapm','wig '=>'wig ','wapi'=>'wapi','wapr'=>'wapr','wapv'=>'wapv','wapy'=>'wapy','wapa'=>'wapa','waps'=>'waps','wapt'=>'wapt','winc'=>'winc','winw'=>'winw','wonu'=>'wonu','x700'=>'x700','xda2'=>'xda2','xdag'=>'xdag','yas-'=>'yas-','your'=>'your','zte-'=>'zte-','zeto'=>'zeto','acs-'=>'acs-','alav'=>'alav','alca'=>'alca','amoi'=>'amoi','aste'=>'aste','audi'=>'audi','avan'=>'avan','benq'=>'benq','bird'=>'bird','blac'=>'blac','blaz'=>'blaz','brew'=>'brew','brvw'=>'brvw','bumb'=>'bumb','ccwa'=>'ccwa','cell'=>'cell','cldc'=>'cldc','cmd-'=>'cmd-','dang'=>'dang','doco'=>'doco','eml2'=>'eml2','eric'=>'eric','fetc'=>'fetc','hipt'=>'hipt','http'=>'http','ibro'=>'ibro','idea'=>'idea','ikom'=>'ikom','inno'=>'inno','ipaq'=>'ipaq','jbro'=>'jbro','jemu'=>'jemu','java'=>'java','jigs'=>'jigs','kddi'=>'kddi','keji'=>'keji','kyoc'=>'kyoc','kyok'=>'kyok','leno'=>'leno','lg-c'=>'lg-c','lg-d'=>'lg-d','lg-g'=>'lg-g','lge-'=>'lge-','libw'=>'libw','m-cr'=>'m-cr','maui'=>'maui','maxo'=>'maxo','midp'=>'midp','mits'=>'mits','mmef'=>'mmef','mobi'=>'mobi','mot-'=>'mot-','moto'=>'moto','mwbp'=>'mwbp','mywa'=>'mywa','nec-'=>'nec-','newt'=>'newt','nok6'=>'nok6','noki'=>'noki','o2im'=>'o2im','opwv'=>'opwv','palm'=>'palm','pana'=>'pana','pant'=>'pant','pdxg'=>'pdxg','phil'=>'phil','play'=>'play','pluc'=>'pluc','port'=>'port','prox'=>'prox','qtek'=>'qtek','qwap'=>'qwap','rozo'=>'rozo','sage'=>'sage','sama'=>'sama','sams'=>'sams','sany'=>'sany','sch-'=>'sch-','sec-'=>'sec-','send'=>'send','seri'=>'seri','sgh-'=>'sgh-','shar'=>'shar','sie-'=>'sie-','siem'=>'siem','smal'=>'smal','smar'=>'smar','sony'=>'sony','sph-'=>'sph-','symb'=>'symb','t-mo'=>'t-mo','teli'=>'teli','tim-'=>'tim-','tosh'=>'tosh','treo'=>'treo','tsm-'=>'tsm-','upg1'=>'upg1','upsi'=>'upsi','vk-v'=>'vk-v','voda'=>'voda','vx52'=>'vx52','vx53'=>'vx53','vx60'=>'vx60','vx61'=>'vx61','vx70'=>'vx70','vx80'=>'vx80','vx81'=>'vx81','vx83'=>'vx83','vx85'=>'vx85','wap-'=>'wap-','wapa'=>'wapa','wapi'=>'wapi','wapp'=>'wapp','wapr'=>'wapr','webc'=>'webc','whit'=>'whit','winw'=>'winw','wmlb'=>'wmlb','xda-'=>'xda-',))); // check against a list of trimmed user agents to see if we find a match
-      $mobile_browser = true; // set mobile browser to true
+      $mobile_browser = TRUE; // set mobile browser to TRUE
       $status = 'Mobile matched on in_array';
     break; // break even though it's the last statement in the switch so there's nothing to break away from but it seems better to include it than exclude it
 
     default;
-      $mobile_browser = false; // set mobile browser to false
+      $mobile_browser = FALSE; // set mobile browser to FALSE
       $status = 'Desktop / full capability browser';
     break; // break even though it's the last statement in the switch so there's nothing to break away from but it seems better to include it than exclude it
 
@@ -1368,12 +1492,12 @@ function mobile_device_detect($iphone=true,$android=true,$opera=true,$blackberry
 //  header('Cache-Control: no-transform'); // http://mobiforge.com/developing/story/setting-http-headers-advise-transcoding-proxies
 //  header('Vary: User-Agent, Accept'); // http://mobiforge.com/developing/story/setting-http-headers-advise-transcoding-proxies
 
-  // if redirect (either the value of the mobile or desktop redirect depending on the value of $mobile_browser) is true redirect else we return the status of $mobile_browser
-  if($redirect = ($mobile_browser==true) ? $mobileredirect : $desktopredirect){
+  // if redirect (either the value of the mobile or desktop redirect depending on the value of $mobile_browser) is TRUE redirect else we return the status of $mobile_browser
+  if ($redirect = ($mobile_browser==TRUE) ? $mobileredirect : $desktopredirect){
     header('Location: '.$redirect); // redirect to the right url for this device
     exit;
   }else{ 
-    return $mobile_browser; // will return either true or false 
+    return $mobile_browser; // will return either TRUE or FALSE 
   }
 
 } // ends function mobile_device_detect
@@ -1381,9 +1505,7 @@ function mobile_device_detect($iphone=true,$android=true,$opera=true,$blackberry
 
 
 if (empty($_COOKIE['mobile']) AND !(preg_match('#http://m.#', $_SERVER["SCRIPT_URI"])) AND !isset($_GET['mobile']))
-	{
+{
 	mobile_device_detect();
-	}
-
-
+}
 ?>

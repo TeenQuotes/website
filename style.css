@@ -95,7 +95,6 @@ select {outline:none}
 .favorite {opacity:0.5;margin-left:20px}
 .favorite:hover {opacity:1}
 .share_fb_twitter{margin:0 0 0 -2px}
-.iframe_facebook{border:none;overflow:hidden;width:110px;height:21px;}
 .fade_jquery {opacity:0.5}
 .no_rounded_borders_right_top {-webkit-border-top-right-radius:0px;-moz-border-radius-topright:0px;border-top-right-radius:0px}
 .erreur_addquote{margin:20px 0px;background:#fff9d7;border: 1px solid #e2c822;padding:10px 20px;color:#333;font-family:Helvetica;font-size:11px}
