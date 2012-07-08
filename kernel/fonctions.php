@@ -290,13 +290,31 @@ function captcha()
 
 function create_stats ($language) 
 {
-	if ($language == "english")
+	$data = domaine();
+	$domaine = $data[0];
+	$name_website = $data[1];
+
+	if ($domaine == 'teen-quotes.com')
 	{
-		require '../lang/'.$language.'/stats.php';
+		if ($language == "english")
+		{
+			require 'lang/'.$language.'/stats.php';
+		}
+		else
+		{
+			require '../lang/'.$language.'/stats.php';
+		}
 	}
 	else
 	{
-		require 'lang/'.$language.'/stats.php';
+		if ($language == "english")
+		{
+			require '../lang/'.$language.'/stats.php';
+		}
+		else
+		{
+			require 'lang/'.$language.'/stats.php';
+		}
 	}
 
 	$total_quotes = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes"));
