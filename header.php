@@ -115,11 +115,12 @@ if (isset($_GET['id_user']))
 		{
 			echo '<meta name="description" content="'.$username_title.'\'s profile on '.$name_website.'. View his favorite quotes and his quotes." />';
 		}
+		echo "\r\n";
 	}
-elseif (isset($_GET['p']) AND (int) $_GET['p'] >= 2)
+elseif (isset($_GET['p']) AND (int) $_GET['p'] >= 2 AND !(preg_match('#members#', $_SERVER["SCRIPT_URI"])) AND !(preg_match('#random#', $_SERVER["SCRIPT_URI"])))
 	{
 		$page_index = htmlspecialchars($_GET['p']);
-		echo '<title>'.$name_website.' | '.$last_quotes.', page '.$page_index.'</title>';
+		echo '<title>'.$name_website.' | '.$last_quotes.' - page '.$page_index.'</title>';
 		echo "\r\n";
 
 		if ($domaine == 'kotado.fr')
@@ -130,22 +131,49 @@ elseif (isset($_GET['p']) AND (int) $_GET['p'] >= 2)
 		{
 			echo '<meta name="description" content="'.$name_website.' : because our lives are filled full of beautiful sentences, and because some quotes are simply true. Your every day life moments."/>';
 		}
+		echo "\r\n";
+	}
+elseif (preg_match('#random#', $_SERVER["SCRIPT_URI"]))
+	{
+		$page_random = (int) htmlspecialchars($_GET['p']);
+
+		if ($page_random >= 2)
+		{
+			echo '<title>'.$name_website.' | '.$random_quote.' - page '.$page_random.'</title>';
+		}
+		else
+		{
+			echo '<title>'.$name_website.' | '.$random_quote.'</title>';
+		}
+		echo "\r\n";
+
+		if ($domaine == 'kotado.fr')
+		{
+			echo '<meta name="description" content="Citations aléatoires postées sur '.$name_website.'. Citations de la vie quotidienne. Quotes ados."/>';
+		}
+		else
+		{
+			echo '<meta name="description" content="Random quotes released on '.$name_website.'. Because some quotes are simply true. Your everyday life moments."/>';
+		}
+		echo "\r\n";
 	}
 elseif (isset($_GET['id_quote'])) 
 	{
-		$id_quote=mysql_real_escape_string($_GET['id_quote']);
+		$id_quote = mysql_real_escape_string($_GET['id_quote']);
 		$php_self = 'quote-'.$id_quote.'';
 		$result = mysql_fetch_array(mysql_query("SELECT texte_english FROM teen_quotes_quotes WHERE id = '$id_quote' AND approved = '1'"));
 		$texte = $result['texte_english'];
 		echo '<title>'.$name_website.' | Quote #'.$id_quote.'</title>';
 		echo "\r\n";
 		echo '<meta name="description" content="'.$texte.'"/>';
+		echo "\r\n";
 	}
-elseif (isset($_GET['letter']) OR $php_self == "members") 
+elseif (isset($_GET['letter']) OR preg_match('#members#', $_SERVER["SCRIPT_URI"])) 
 	{
 		$lettre = mysql_real_escape_string($_GET['letter']);
 		if (empty($lettre)) { $lettre = "A"; }
 		$php_self = 'members-'.$lettre.'';
+
 		if ($domaine == 'kotado.fr')
 		{
 			echo '<title>'.$name_website.' | Membre - '.$lettre.'</title>';
@@ -156,14 +184,15 @@ elseif (isset($_GET['letter']) OR $php_self == "members")
 		{
 			echo '<title>'.$name_website.' | Member - '.$lettre.'</title>';
 			echo "\r\n";
-			echo '<meta name="description" content="Members beginning with '.$lettre.' on '.$name_website.'. '.$name_website.' : because some quotes are simply true." />';
+			echo '<meta name="description" content="Members beginning with '.$lettre.' on '.$name_website.'. '.$name_website.' : because some quotes are simply true. Your everyday life moments." />';
 		}
-
+		echo "\r\n";
 	}
 elseif ($php_self == 'contact')
 	{
 		echo '<title>'.$name_website.' | Contact</title>';
 		echo "\r\n";
+
 		if ($domaine == 'kotado.fr')
 		{
 			echo '<meta name="description" content="'.$name_website.' : contactez-nous par email pour toute question."/>';	
@@ -172,7 +201,22 @@ elseif ($php_self == 'contact')
 		{
 			echo '<meta name="description" content="'.$name_website.' : contact us by email if you have any question."/>';
 		}
-		
+		echo "\r\n";		
+	}
+elseif ($php_self == 'signup')
+	{
+		echo '<title>'.$name_website.' | '.$sign_up.'</title>';
+		echo "\r\n";
+
+		if ($domaine == 'kotado.fr')
+		{
+			echo '<meta name="description" content="'.$name_website.' : créez votre compte et accédez à tous les avantages qui vont avec : profils, citations favorites, ajout de commentaires..." />';
+		}
+		else
+		{
+			echo '<meta name="description" content="'.$name_website.' : create an account and be able to access all the advantages that come with it: profiles, favorite quotes, comments..." />';
+		}
+		echo "\r\n";
 	}
 elseif ($php_self == 'apps')
 	{
@@ -181,12 +225,13 @@ elseif ($php_self == 'apps')
 		echo "\r\n";
 		if ($domaine == 'kotado.fr')
 		{
-			echo '<meta name="description" content="'.$name_website.' : téléchargez notre application pour iOS et Android."/>';
+			echo '<meta name="description" content="'.$name_website.' : téléchargez notre application pour iOS et Android. Visitez notre version mobile depuis votre portable."/>';
 		}
 		else
 		{
-			echo '<meta name="description" content="'.$name_website.' : download our application for iOS and Android."/>';
+			echo '<meta name="description" content="'.$name_website.' : download our application for iOS and Android. Visit our mobile website right from your smartphone."/>';
 		}
+		echo "\r\n";
 	}
 elseif ($php_self == 'business')
 	{
@@ -200,6 +245,21 @@ elseif ($php_self == 'business')
 		{
 			echo '<meta name="description" content="'.$name_website.' : with more than 1,300,000 followers on Twitter, nearly 50,000 fans on Facebook and a website, Teen Quotes is a really good opportunity for advertising."/>';
 		}
+		echo "\r\n";
+	}
+elseif ($php_self == 'statistics')
+	{
+		echo '<title>'.$name_website.' | '.$statistics.'</title>';
+		echo "\r\n";
+		if ($domaine == 'kotado.fr')
+		{
+			echo '<meta name="description" content="'.$name_website.' : statistiques. Quelques statistiques sur l\'utilisation du site : membres, citations, recherches..."/>';
+		}
+		else
+		{
+			echo '<meta name="description" content="'.$name_website.' : statistics. Some statistics about the use of the website : members, quotes, searchs..."/>';
+		}
+		echo "\r\n";
 	}
 else 
 	{
@@ -215,6 +275,7 @@ else
 			echo "\r\n";
 			echo '<meta name="description" content="'.$name_website.' : because our lives are filled full of beautiful sentences, and because some quotes are simply true. Your every day life moments."/>';
 		}
+		echo "\r\n";
 	}
 // Fin des différents cas de <title></title>
 
@@ -226,13 +287,14 @@ else
 		{
 			echo '<meta name="keywords" content="Teen Quotes, teenage quotes, teenager quotes, quotes for teenagers, teen qoutes, quotes, teen, citations, sentences, Augusti, Twitter, Facebook"/>';
 		}
+		echo "\r\n";
 		?>
 		<meta name="author" content="Antoine Augusti"/> 
-		<meta name="revisit-after" content="2 days"/>
+		<meta name="revisit-after" content="1 day"/>
 		<meta name="robots" content="all"/>
 		<meta charset="utf-8" />
 		
-		<link rel="stylesheet" href="http://<?php echo $domaine; ?>/style.css" /> 
+		<link rel="stylesheet" href="http://<?php echo $domaine; ?>/style.css" />
 		<link rel="stylesheet" href="http://<?php echo $domaine; ?>/uniform/uniform.css" />
 
 		<?php
@@ -243,7 +305,8 @@ else
 		else
 		{
 			echo '<link rel="shortcut icon" type="image/x-icon" href="http://'.$domaine.'/images/favicon.gif"/>';
-		} 
+		}
+		echo "\r\n";
 		?>
 		<meta property="og:image" content="http://<?php echo $domaine; ?>/images/icon50.png" /> 
 		
