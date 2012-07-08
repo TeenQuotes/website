@@ -19,7 +19,7 @@ Do not ever leave '.$name_website.'. Free, easy to use and fast, the mobile webs
 	<li> Submit quotes and add comments.</li>
 	<li> Browse profiles.</li>
 	<li> Add quotes to your favorites.</li>
-	<li> Search for user and quotes.</li>
+	<li> Search for users and quotes.</li>
 </ul>
 <br />
 The mobile website is available at <b>m.'.$domaine.'</b> right from your smartphone!';
