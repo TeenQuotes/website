@@ -61,7 +61,7 @@ if (isset($_COOKIE['Pseudo']) AND isset($_COOKIE['Pass']) AND $_SESSION['logged'
 				
 			last_visit($session_last_visit,$last_visit,$id);
 				
-			if (empty($compte['birth_date']) AND empty($compte['title']) AND empty($compte['country']) AND empty($compte['about_me']) AND $compte['avatar']=="icon50.png" AND empty($compte['city']))
+			if (empty($compte['birth_date']) AND empty($compte['title']) AND empty($compte['country']) AND empty($compte['about_me']) AND $compte['avatar'] == "icon50.png" AND empty($compte['city']))
 				{
 				$_SESSION['profile_not_fullfilled'] = TRUE;
 				}
@@ -410,8 +410,9 @@ else
 		<?php }	?>
 </div><!-- END MENU -->
 
-<?php 
-if($_SESSION['profile_not_fullfilled'] == TRUE AND $_SERVER['PHP_SELF'] =='/index.php')
+<?php
+echo '<!-- '.$_SESSION['profile_not_fullfilled'].' -->';
+if($_SESSION['profile_not_fullfilled'] == TRUE AND $_SERVER['PHP_SELF'] == '/index.php')
 	{
 	echo ''.$profite_not_yet_fulffiled.'';
 	}

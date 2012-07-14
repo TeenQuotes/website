@@ -47,7 +47,7 @@ $search_value_form = 'value="Citation, auteur..." onblur="javascript:if(this.val
 
 $must_be_log = "Vous devez être connecté ! <a href=\"signup?addcomment\">Cliquez ici</a> pour vous inscrire";
 
-$profite_not_yet_fulffiled = '<div class="profile_not_fullfilled">Vous n\'avez pas encore rempli votre profil, <a href="../editprofile">cliquez ici</a><a onclick="return false;" class="hide right">Fermer</a></div>';
+$profite_not_yet_fulffiled = '<div class="profile_not_fullfilled">Vous n\'avez pas encore rempli votre profil, <a href="../editprofile" title="Éditer mon profil">cliquez ici</a><a onclick="hide_profile_not_fullfilled();return false;" class="hide right">Fermer</a></div>';
 
 $view_his_profile = "Voir son profil";
 $back_home = "Retour à l'accueil";

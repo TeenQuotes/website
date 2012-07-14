@@ -34,6 +34,11 @@ if (isset($_POST['connexion']) OR $method == 'get')
 			if ($sha == '1')
 				{
 				$compte = mysql_fetch_array($query_base);
+
+				if (empty($compte['birth_date']) AND empty($compte['title']) AND empty($compte['country']) AND empty($compte['about_me']) AND $compte['avatar'] == "icon50.png" AND empty($compte['city']))
+				{
+					$_SESSION['profile_not_fullfilled'] = TRUE;
+				}
 				
 				// variables session
 				$_SESSION['logged'] = TRUE;
