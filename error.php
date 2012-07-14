@@ -17,7 +17,7 @@ elseif ($error_code == '403')
 {
 	echo '
 	<div class="post">
-		<h1><img src="http://teen-quotes.com/images/icones/erreur.png" class="icone" />'.$error.'</h1>
+		<h1><img src="http://teen-com.quotes/images/icones/erreur.png" class="icone" />'.$error.'</h1>
 		'.$texte_error_403.'
 	</div>';
 }
