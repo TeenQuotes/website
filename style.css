@@ -89,9 +89,9 @@ select {outline:none}
 .grey_line{border-bottom:2px solid #F0F0F0;margin:10px 20px}
 .img_apps {background-image: -moz-linear-gradient(top, #fff, #e6e6e6); /* FF3.6 */ background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #fff),color-stop(1, #e6e6e6)); /* Saf4+, Chrome */ filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6'); /* IE6,IE7 */ -ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6')";border:1px solid #e5e5e5;margin:20px 5px;padding:20px 40px}
 .img_apps:hover {background:#e6e6e6;border:1px solid #CCC;cursor:pointer}
-.img_apps.left {height:308px;}
+.img_apps.right {height:286px;}
 .apps {margin:0 auto 20px auto;width:200px;height:200px}
-.download_app {width:187px;margin:0 auto;display:block}
+.download_app {height:60px;margin:0 auto;display:block}
 .favorite {opacity:0.5;margin-left:20px}
 .favorite:hover {opacity:1}
 .share_fb_twitter{margin:0 0 0 -2px}
