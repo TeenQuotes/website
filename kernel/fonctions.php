@@ -293,7 +293,7 @@ function create_stats ($language)
 	$data = domaine();
 	$domaine = $data[0];
 	$name_website = $data[1];
-
+	
 	if ($domaine == 'teen-quotes.com')
 	{
 		if ($language == "english")
@@ -1338,11 +1338,11 @@ function afficher_favori ($id_quote, $is_favorite, $logged, $add_favorite, $unfa
 {
 	if ($logged == TRUE AND $is_favorite == '0') 
 	{
-		echo '<span class="favorite fade_jquery" data-id ="'.$id_quote.'"><a href="" onclick="favorite('.$id_quote.','.$id_user.'); return FALSE;" title="'.$add_favorite.'"><img src="http://teen-quotes.com/images/icones/heart.png" alt="Heart"/></a></span>';
+		echo '<span class="favorite fade_jquery" data-id ="'.$id_quote.'"><a href="" onclick="favorite('.$id_quote.','.$id_user.');return false;" title="'.$add_favorite.'"><img src="http://teen-quotes.com/images/icones/heart.png" alt="Heart"/></a></span>';
 	}
 	elseif ($logged == TRUE AND $is_favorite == '1')
 	{
-		echo '<span class="favorite fade_jquery" data-id ="'.$id_quote.'"><a href="" onclick="unfavorite('.$id_quote.','.$id_user.'); return FALSE;" title="'.$unfavorite.'"><img src="http://teen-quotes.com/images/icones/broken_heart.gif" alt="Heart"/></a></span>';
+		echo '<span class="favorite fade_jquery" data-id ="'.$id_quote.'"><a href="" onclick="unfavorite('.$id_quote.','.$id_user.'); return false;" title="'.$unfavorite.'"><img src="http://teen-quotes.com/images/icones/broken_heart.gif" alt="Heart"/></a></span>';
 	}
 }
 
