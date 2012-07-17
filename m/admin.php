@@ -236,7 +236,7 @@ elseif ($action == "rate")
 			}
 
 			$mail = mail($email_auteur, $quote_added_queue, $message, $headers);
-			$update_send = mysql_query("UPDATE approve_quotes SET send = '1' WHERE id_quote = '".$id_quote."' AND id_user = '".$auteur_id."' LIMIT 0, 1");
+			$update_send = mysql_query("UPDATE approve_quotes SET send = '1' WHERE id_quote = '".$id_quote."' AND id_user = '".$auteur_id."' LIMIT 1");
 			echo ''.$succes.' The quote has been added to the queue. The author will be notified';
 			echo '<meta http-equiv="refresh" content="0;url=admin" />';
 		}

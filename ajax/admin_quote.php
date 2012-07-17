@@ -65,7 +65,7 @@ if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$
 			}
 			
 			$mail = mail($email_auteur, $quote_added_queue, $message, $headers);
-			$update_send = mysql_query("UPDATE approve_quotes SET send = '1' WHERE id_quote = '".$id_quote."' AND id_user = '".$auteur_id."' LIMIT 0, 1"); 
+			$update_send = mysql_query("UPDATE approve_quotes SET send = '1' WHERE id_quote = '".$id_quote."' AND id_user = '".$auteur_id."' LIMIT 1"); 
 			echo ''.$succes.' The quote has been added to the queue. The author will be notified';
 		}
 		elseif (mysql_num_rows($waiting_moderation) == 0 AND mysql_num_rows($waiting_send) >= 2)
@@ -105,7 +105,7 @@ if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$
 				}
 
 				$mail = mail($email_auteur, $quote_rejected, $message, $headers);
-				$update_send = mysql_query("UPDATE approve_quotes SET send = '1' WHERE id_quote = '".$id_quote."' AND id_user = '".$auteur_id."' LIMIT 0, 1");
+				$update_send = mysql_query("UPDATE approve_quotes SET send = '1' WHERE id_quote = '".$id_quote."' AND id_user = '".$auteur_id."' LIMIT 1");
 				echo ''.$succes.' The author has been notified successfully';
 			}
 			elseif (mysql_num_rows($waiting_moderation) == 0 AND mysql_num_rows($waiting_send) >= 2)

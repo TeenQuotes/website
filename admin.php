@@ -268,13 +268,19 @@ elseif ($action == "rate")
 			}
 
 			$mail = mail($email_auteur, $quote_added_queue, $message, $headers);
-			$update_send = mysql_query("UPDATE approve_quotes SET send = '1' WHERE id_quote = '".$id_quote."' AND id_user = '".$auteur_id."' LIMIT 0, 1");
+			$update_send = mysql_query("UPDATE approve_quotes SET send = '1' WHERE id_quote = '".$id_quote."' AND id_user = '".$auteur_id."' LIMIT 1");
 			echo ''.$succes.' The quote has been added to the queue. The author will be notified';
-			echo '<meta http-equiv="refresh" content="0;url=admin#approvequotes" />';
+			echo '<meta http-equiv="refresh" content="0;url=admin" />';
 		}
 		elseif (mysql_num_rows($waiting_moderation) == 0 AND mysql_num_rows($waiting_send) >= 2)
 		{
-			include_once('send_moderation.php');
+			include_once('kernel/send_moderation.php');
+			echo '<meta http-equiv="refresh" content="0;url=admin" />';
+		}
+		else
+		{
+			echo $succes;
+			echo '<meta http-equiv="refresh" content="0;url=admin" />';
 		}
 	}
 	else
@@ -306,11 +312,17 @@ elseif ($action == "rate")
 
 				$mail = mail($email_auteur, $quote_rejected, $message, $headers); 
 				echo ''.$succes.' The author has been notified successfully !';
-				echo '<meta http-equiv="refresh" content="0;url=admin#approvequotes" />';
+				echo '<meta http-equiv="refresh" content="0;url=admin" />';
 			}
 			elseif (mysql_num_rows($waiting_moderation) == 0 AND mysql_num_rows($waiting_send) >= 2)
 			{
-				include_once('send_moderation.php');
+				include_once('kernel/send_moderation.php');
+				echo '<meta http-equiv="refresh" content="0;url=admin" />';
+			}
+			else
+			{
+				echo $succes;
+				echo '<meta http-equiv="refresh" content="0;url=admin" />';
 			}
 		}									
 	}	
