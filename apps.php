@@ -1,5 +1,5 @@
 <?php
-// Commentaire pour commit depuis mon Mac
+// Commentaire pour commit depuis mon Mac. Blah.
 include 'header.php';
 include 'lang/'.$language.'/apps.php';
 $action = htmlspecialchars($_GET['action']);
