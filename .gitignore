@@ -1,0 +1,4 @@
+/app
+.DS_STORE
+*sublime*
+sftp-config.json
