@@ -17,7 +17,7 @@ $team_txt = '
 </ul>
 <h4>Développement iOS</h4>
 <ul>
-	<li>Maxime ANTOINE : <a href="http://www.muteoff.fr"" title="Maxime ANTOINE">www.muteoff.fr</a></li>
+	<li>Maxime ANTOINE : <a href="http://www.navissal.com" title="Maxime ANTOINE">www.navissal.com</a></li>
 </ul>
 <h4>Design</h4>
 <ul>
@@ -26,7 +26,7 @@ $team_txt = '
 <br />
 <h3>Communication</h3>
 <ul>
-	<li>Michel BUONOMO : <a href="http://playlife.pro" title="Michel BUONOMO">playlife.pro</a></li>
+	<li>Michel BUONOMO : <a href="http://www.navissal.com" title="Michel BUONOMO">www.navissal.com</a></li>
 </ul>
 <br />
 <h3>Twitter</h3>
