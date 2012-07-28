@@ -1293,7 +1293,9 @@ function cut_tweet($chaine)
 		$chaine .= ' '.$username_twitter;
 	}
 
-	$chaine = str_replace(' ', '%20', $chaine);
+	$search = array ('%', ' ');
+	$replace = array('%25', '%20');
+	$chaine = str_replace($search, $replace, $chaine);
 	return $chaine;
 }
 
