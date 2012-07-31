@@ -16,8 +16,8 @@ $email_subject = "Welcome";
 $email_message = "$top_mail Welcome to ".$name_website." !<br><br />While you set up and you discover ".$name_website.", we send you some informations to log.<br><br />Your credentials are :<br /><br /><li>Username : <font color=\"#5C9FC0\"><b>$username</b></font></li><li>Password : <font color=\"#5C9FC0\"><b>$pass2</b></font></li><br /><br />Keep precisely !<br><br />You can login now by clicking on <a href=\"http://".$domaine."/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">this link</a>. Remember to fill out your profile as soon as you can !<br><br />Sincerely,<br><b>The ".$name_website." Team</b> $end_mail";
 $signup_succes = "$succes Your account has been created with success !<br><br />Welcome to ".$name_website."!<br><br />While you set up and you discover ".$name_website.", we send you some informations to log.<br><br />Think about when you can complete your profile !<br><br /><br /><br />Your login will be sent to your email address ($email). You will be logged in a few seconds...";
 
-$email_taken = "Your email adress is already taken.";
-$email_incorrect = "Your email adress is not correct.";
+$email_taken = "Your email address is already taken.";
+$email_incorrect = "Your email address is not correct.";
 $password_short = "Your password is too short.";
 $password_not_same = "Passwords are not the same.";
 $username_shape = "[a-z] [0-9] and _";
