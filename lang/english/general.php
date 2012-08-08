@@ -43,7 +43,7 @@ $follow_facebook = "Became a fan on Facebook !";
 $statistics = "Statistics";
 $keyboard_shortcuts = 'Keyboard shortcuts';
 
-$search_value_form = 'value= "An user, a quote..." onblur= "javascript:if(this.value==\'\'){this.value=\'An user, a quote...\'}" onFocus= "javascript:if(this.value==\'An user, a quote...\'){this.value=\'\'}"';
+$search_value_form = 'value= "A user, a quote..." onblur= "javascript:if(this.value==\'\'){this.value=\'A user, a quote...\'}" onFocus= "javascript:if(this.value==\'A user, a quote...\'){this.value=\'\'}"';
 
 $must_be_log = "You must be logged in ! <a href=\"signup?addcomment\">Click here</a> to signup";
 
