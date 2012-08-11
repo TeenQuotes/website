@@ -1,4 +1,11 @@
 /app
+/images/avatar
+/files
+/kernel/config.php
+/error
+/en
+/uniform
+/stats
 .DS_STORE
 *sublime*
 sftp-config.json
