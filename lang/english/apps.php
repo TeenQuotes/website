@@ -5,7 +5,8 @@ $text_applications = '
 Do not ever leave '.$name_website.'. Free, easy to use and fast, this application offers the website\'s best functionalities.<br>
 <br />
 <ul>
-	<li>Be warned when new quotes have been published.</li>
+	<li>Browse quotes, even if you\'re offline.</li>
+	<li>Create your account, or sign in if you have already one.</li>
 	<li>Submit quotes and add comments.</li>
 	<li>Share on Facebook, Twitter and via email.</li>
 	<li>Add quotes to your favorites.</li>
@@ -15,11 +16,11 @@ $text_mobile_website = '
 Do not ever leave '.$name_website.'. Free, easy to use and fast, the mobile website offers the website\'s best functionalities.<br>
 <br />
 <ul>
-	<li> Show the latest quotes released.</li>
-	<li> Submit quotes and add comments.</li>
-	<li> Browse profiles.</li>
-	<li> Add quotes to your favorites.</li>
-	<li> Search for users and quotes.</li>
+	<li>Show the latest quotes released.</li>
+	<li>Submit quotes and add comments.</li>
+	<li>Browse profiles.</li>
+	<li>Add quotes to your favorites.</li>
+	<li>Search for users and quotes.</li>
 </ul>
 <br />
 The mobile website is available at <b>m.'.$domaine.'</b> right from your smartphone!';
