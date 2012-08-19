@@ -13,19 +13,6 @@ ErrorDocument 404 /error.php?erreur=404
 ErrorDocument 403 /error.php?erreur=403
 ErrorDocument 500 /error.php?erreur=500
 
-# MOD_DEFLATE COMPRESSION
-SetOutputFilter DEFLATE
-AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/x-javascript application/x-httpd-php
-#Pour les navigateurs incompatibles
-BrowserMatch ^Mozilla/4 gzip-only-text/html
-BrowserMatch ^Mozilla/4\.0[678] no-gzip
-BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
-BrowserMatch \bMSI[E] !no-gzip !gzip-only-text/html
-#ne pas mettre en cache si ces fichiers le sont déjà
-SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip
-#les proxies doivent donner le bon contenu
-Header append Vary User-Agent env=!dont-vary
-
 # BEGIN Expire headers
 <IfModule mod_expires.c>
  ExpiresActive On
@@ -47,36 +34,3 @@ Header append Vary User-Agent env=!dont-vary
  ExpiresByType application/x-shockwave-flash "access plus 2592000 seconds"
 </IfModule>
 # END Expire headers
-
-# BEGIN Cache-Control Headers
-<IfModule mod_headers.c>
- <FilesMatch "\\.(ico|jpe?g|png|gif|swf|gz|ttf)$">
- Header set Cache-Control "max-age=2592000, public"
- </FilesMatch>
- <FilesMatch "\\.(css)$">
- Header set Cache-Control "max-age=2592000, public"
- </FilesMatch>
- <FilesMatch "\\.(js)$">
- Header set Cache-Control "max-age=2592000, private"
- </FilesMatch>
-<filesMatch "\\.(html|htm)$">
-Header set Cache-Control "max-age=7200, public"
-</filesMatch>
-# Disable caching for scripts and other dynamic files
-<FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
-Header unset Cache-Control
-</FilesMatch>
-</IfModule>
-<IfModule mod_headers.c>
-  <FilesMatch "\.(js|css|xml|gz)$">
-    Header append Vary Accept-Encoding
-  </FilesMatch>
-</IfModule>
-# END Cache-Control Headers
-
-# KILL THEM ETAGS
-Header unset ETag
-FileETag none
-
-# protection de la lecture des répertoires
-Options -Indexes
