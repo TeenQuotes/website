@@ -8,4 +8,4 @@
 /stats
 .DS_STORE
 *sublime*
-sftp-config.json
+sftp-config*
