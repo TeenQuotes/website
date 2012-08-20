@@ -1431,20 +1431,30 @@ function mobile_device_detect($iphone=TRUE, $android =TRUE, $opera=TRUE, $blackb
   $palm = $iphone;
   $windows = $iphone;
 
+  global $link_app_iphone;
+  global $link_app_android;
+  
   switch(TRUE){ // using a switch against the following statements which could return TRUE is more efficient than the previous method of using if statements
 
     case (mb_eregi('ipod', $user_agent)||mb_eregi('iphone', $user_agent)); // we find the words iphone or ipod in the user agent
       $mobile_browser = $iphone; // mobile browser is either TRUE or FALSE depending on the setting of iphone when calling the function
       $status = 'Apple';
-      if (substr($iphone,0,4)== 'http'){ // does the value of iphone resemble a url
-        $mobileredirect = $iphone; // set the mobile redirect url to the url value stored in the iphone value
-      } // ends the if for iphone being a url
+      if (preg_match('#apps#', $_SERVER['REQUEST_URI']) AND $link_app_iphone != '#') {
+      	$mobileredirect = $link_app_iphone;
+      }
+      elseif (substr($iphone,0,4)== 'http')
+      {
+      	$mobileredirect = $iphone; // set the mobile redirect url to the url value stored in the iphone value
+      }
     break; // break out and skip the rest if we've had a match on the iphone or ipod
 
     case (mb_eregi('android', $user_agent));  // we find android in the user agent
       $mobile_browser = $android; // mobile browser is either TRUE or FALSE depending on the setting of android when calling the function
       $status = 'Android';
-      if (substr($android,0,4)== 'http'){ // does the value of android resemble a url
+      if (preg_match('#apps#', $_SERVER['REQUEST_URI']) AND $link_app_android != '#') {
+      	$mobileredirect = $link_app_android;
+      }
+      elseif (substr($android,0,4)== 'http'){ // does the value of android resemble a url
         $mobileredirect = $android; // set the mobile redirect url to the url value stored in the android value
       } // ends the if for android being a url
     break; // break out and skip the rest if we've had a match on android
