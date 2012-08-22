@@ -188,8 +188,6 @@ elseif ($action == "rate")
 		$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2'"));
 		$jours_posted = floor($nb_quote_awaiting_post / $nb_quote_released_per_day);
 		$date = date("d/m/Y", strtotime('+'.$jours_posted.' days'));
-
-		$date_log = ''.$date.'-'.$jours_posted.'';
 		
 		if ($nb_quote_awaiting_post % $nb_quote_released_per_day != 0)
 		{
@@ -200,6 +198,8 @@ elseif ($action == "rate")
 		{
 			$days_quote_posted = $days_quote_posted.'s';
 		}
+
+		$date_log = ''.$date.'-'.$jours_posted.'';
 
 		if ($edit == 'yes')
 		{
