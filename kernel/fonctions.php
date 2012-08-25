@@ -753,47 +753,54 @@ function flush_quotes ()
 	$domaine = $data[0];
 	$name_website = $data[1];
 
-	$query = mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2' ORDER BY id ASC LIMIT 0, $nb_quote_released_per_day");
-	$affected_rows = mysql_affected_rows();
+	// We select another time because we do not want to post two times
+	$compteur_quote_posted_today_query = mysql_fetch_array(mysql_query("SELECT compteur_quote_posted_today FROM config WHERE id = '1'"));
+	$compteur_quote_posted_today = $compteur_quote_posted_today_query['compteur_quote_posted_today'];
 
-	while ($result = mysql_fetch_array($query))
+	if ($compteur_quote_posted_today == '0')
 	{
-		$id_quote = $result['id'];
+		$query = mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2' ORDER BY id ASC LIMIT 0, $nb_quote_released_per_day");
+		$affected_rows = mysql_affected_rows();
 
-		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english,q.date date, q.auteur_id auteur_id, a.username username, a.email email FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND q.id = '".$id_quote."'"));
-		$texte_quote = $query_texte_quote['texte_english'];
-		$date_quote = $query_texte_quote['date'];
-		$auteur_id = $query_texte_quote['auteur_id'];
-		$email_auteur = $query_texte_quote['email'];
-		$name_auteur = $query_texte_quote['username'];
-
-		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '1' WHERE id = '".$id_quote."'");
-
-		if ($approve_quote AND !empty($email_auteur)) 
+		while ($result = mysql_fetch_array($query))
 		{
-			if ($domaine == 'teen-quotes.com')
+			$id_quote = $result['id'];
+
+			$query_texte_quote = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english,q.date date, q.auteur_id auteur_id, a.username username, a.email email FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND q.id = '".$id_quote."'"));
+			$texte_quote = $query_texte_quote['texte_english'];
+			$date_quote = $query_texte_quote['date'];
+			$auteur_id = $query_texte_quote['auteur_id'];
+			$email_auteur = $query_texte_quote['email'];
+			$name_auteur = $query_texte_quote['username'];
+
+			$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '1' WHERE id = '".$id_quote."'");
+
+			if ($approve_quote AND !empty($email_auteur)) 
 			{
-				$message = ''.$top_mail.' Hello <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Your quote has been <font color="#5C9FC0"><b>approved</b></font> recently by a member of our team ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Congratulations !<br><br />Your quote is now visible on our website. You can share it or comment it if you want !<br><br /><br />If you want to see your quote, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">click here</a>.<br><br /><br />Sincerely,<br><b>The Teen Quotes Team</b><br /><br /><br /><div style="border-top:1px dashed #CCCCCC"></div><br /><br />VERSION FRANCAISE :<br /><br />Bonjour <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Votre citation a été récemment <font color="#5C9FC0"><b>approuvée</b></font> par un membre de notre équipe ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Congratulations !<br><br />Votre citation est maintenant visible sur Teen Quotes. Vous pouvez dès à présent la partager ou la commenter si vous le souhaitez !<br><br /><br />Si vous voulez voir votre citation, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">cliquez ici</a>.<br><br /><br />Cordialement,<br><b>The Teen Quotes Team</b> '.$end_mail.'';
-				$mail = mail($email_auteur, "Quote approved", $message, $headers);
+				if ($domaine == 'teen-quotes.com')
+				{
+					$message = ''.$top_mail.' Hello <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Your quote has been <font color="#5C9FC0"><b>approved</b></font> recently by a member of our team ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Congratulations !<br><br />Your quote is now visible on our website. You can share it or comment it if you want !<br><br /><br />If you want to see your quote, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">click here</a>.<br><br /><br />Sincerely,<br><b>The Teen Quotes Team</b><br /><br /><br /><div style="border-top:1px dashed #CCCCCC"></div><br /><br />VERSION FRANCAISE :<br /><br />Bonjour <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Votre citation a été récemment <font color="#5C9FC0"><b>approuvée</b></font> par un membre de notre équipe ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Congratulations !<br><br />Votre citation est maintenant visible sur Teen Quotes. Vous pouvez dès à présent la partager ou la commenter si vous le souhaitez !<br><br /><br />Si vous voulez voir votre citation, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">cliquez ici</a>.<br><br /><br />Cordialement,<br><b>The Teen Quotes Team</b> '.$end_mail.'';
+					$mail = mail($email_auteur, "Quote approved", $message, $headers);
+				}
+				elseif ($domaine == 'kotado.fr')
+				{
+					$message = "$top_mail Bonjour <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Votre citation a été récemment <font color=\"#5C9FC0\"><b>approuvée</b></font> par un membre de notre équipe ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br><br /><a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">par <a href=\"http://".$domaine."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> le $date_quote</span></div>Congratulations !<br><br />Votre citation est maintenant visible sur Kotado. Vous pouvez dès à  présent la partager ou la commenter si vous le souhaitez !<br><br /><br />Si vous voulez voir votre citation, <a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">cliquez ici</a>.<br><br /><br />Cordialement,<br><b>The Kotado Team</b><br /><br /><br /><div style=\"border-top:1px dashed #CCCCCC\"></div><br /><br />ENGLISH VERSION :<br /><br />Hello <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Your quote has been <font color=\"#5C9FC0\"><b>approved</b></font> recently by a member of our team ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br><br /><a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">by <a href=\"http://".$domaine."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> on $date_quote</span></div>Congratulations !<br><br />Your quote is now visible on our website. You can share it or comment it if you want !<br><br /><br />If you want to see your quote, <a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">click here</a>.<br><br /><br />Sincerely,<br><b>The Kotado Team</b><br /><br /><br />$end_mail";
+					$mail = mail($email_auteur, "Citation approuvée", $message, $headers);
+				}
 			}
-			elseif ($domaine == 'kotado.fr')
-			{
-				$message = "$top_mail Bonjour <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Votre citation a été récemment <font color=\"#5C9FC0\"><b>approuvée</b></font> par un membre de notre équipe ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br><br /><a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">par <a href=\"http://".$domaine."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> le $date_quote</span></div>Congratulations !<br><br />Votre citation est maintenant visible sur Kotado. Vous pouvez dès à  présent la partager ou la commenter si vous le souhaitez !<br><br /><br />Si vous voulez voir votre citation, <a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">cliquez ici</a>.<br><br /><br />Cordialement,<br><b>The Kotado Team</b><br /><br /><br /><div style=\"border-top:1px dashed #CCCCCC\"></div><br /><br />ENGLISH VERSION :<br /><br />Hello <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Your quote has been <font color=\"#5C9FC0\"><b>approved</b></font> recently by a member of our team ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br><br /><a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">by <a href=\"http://".$domaine."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> on $date_quote</span></div>Congratulations !<br><br />Your quote is now visible on our website. You can share it or comment it if you want !<br><br /><br />If you want to see your quote, <a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">click here</a>.<br><br /><br />Sincerely,<br><b>The Kotado Team</b><br /><br /><br />$end_mail";
-				$mail = mail($email_auteur, "Citation approuvée", $message, $headers);
-			}
+
+			$ids_quotes_posted_today .= ''.$id_quote.'';
+			$ids_quotes_posted_today .= ",";
 		}
 
-		$ids_quotes_posted_today .= ''.$id_quote.'';
-		$ids_quotes_posted_today .= ",";
-	}
+		$update = mysql_query("UPDATE config SET compteur_quote_posted_today = '1' WHERE id = '1'");
 
-	$update = mysql_query("UPDATE config SET compteur_quote_posted_today = '1' WHERE id = '1'");
+		$ids_quotes_posted_today = substr($ids_quotes_posted_today, 0, strlen($ids_quotes_posted_today)-1);
 
-	$ids_quotes_posted_today = substr($ids_quotes_posted_today, 0, strlen($ids_quotes_posted_today)-1);
-
-	if ($affected_rows >= 1)
-	{
-		MailPostedToday($ids_quotes_posted_today);
+		if ($affected_rows >= 1)
+		{
+			MailPostedToday($ids_quotes_posted_today);
+		}
 	}
 }
 	
