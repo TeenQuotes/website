@@ -5,7 +5,7 @@ include 'lang/'.$language.'/contact.php';
 $action = htmlspecialchars($_GET['action']);
 
 if (empty($action))
-	{
+{
 	echo '
 	<div class="post">
 		<h2><img src="http://'.$domaine.'/images/icones/contact.png" class="icone" />Contact</h2>
@@ -43,9 +43,9 @@ if (empty($action))
 		</div>
 	</div>
 	';
-	}
+}
 elseif ($action == 'send')
-	{
+{
 	echo '
 	<div class="post">
 	<h2><img src="http://'.$domaine.'/images/icones/mail.png" class="icone" />'.$contact_us_by_email.'</h2>';
@@ -67,13 +67,13 @@ elseif ($action == 'send')
 	else      $nom = "";
 	
 	if(empty($sujet) OR empty($message) OR empty($email) OR empty($nom))
-		{ 
+	{ 
 		echo '<div class="bandeau_erreur">'.$input_empty.'</div>'.$lien_retour.'';
-		}
+	}
 	else      
-		{
+	{
 		if($_POST['captcha'] == $_SESSION['captcha'])
-			{
+		{
 		  
 			$headers ='From: "'.$nom.'"<no-reply@'.$domaine.'>'."\n";
 			$headers .='Reply-To: '.$email.''."\n";
@@ -88,30 +88,30 @@ elseif ($action == 'send')
 			$message .= '------------------ Message sent from www.'.$domaine.' ------------------';
 			
 			if(mail("support@teen-quotes.com", stripslashes($sujet), stripslashes($message), $headers))
-				{ 
+			{ 
 				echo ''.$succes.' '.$send_succes.' (<a href="mailto:'.$email.'">'.$email.'</a>)';
-				}
+			}
 			else
-				{
+			{
 				echo '<div class="bandeau_erreur">'.$error.'</div>'.$lien_retour.'';
-				}
+			}
 
 			$message .= "\r\n";
 			$message .= "\r\n";
 			$message .= "------------------ This is the copy of your message ------------------";
 
-			if ($copie == TRUE && mail($email, stripslashes($sujet), stripslashes($message), "$headers"))
-				{
-				echo '<br /><br />'.$copy_sent.'';
-				}
-			}
-		else 
+			if ($copie == TRUE AND mail($email, stripslashes($sujet), stripslashes($message), $headers))
 			{
-			echo '<div class="bandeau_erreur">'.$captcha_wrong.'</div>'.$lien_retour.'';
+				echo '<br /><br />'.$copy_sent.'';
 			}
 		}
-	echo '</div>';
+		else 
+		{
+			echo '<div class="bandeau_erreur">'.$captcha_wrong.'</div>'.$lien_retour.'';
+		}
 	}
+	echo '</div>';
+}
 
 include "footer.php"; 
 ?>

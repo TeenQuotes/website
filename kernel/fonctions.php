@@ -230,14 +230,14 @@ if (isset($_GET['show_download_app']))
 
 function caracteresAleatoires($nombreDeCaracteres)
 {
-	$string = ""; 
+	$string = ''; 
 	$chaine = "abcdefghijklmnpqrstuvwxyz123456789"; 
 	srand((double)microtime()*1000000);
 
 	for($i=0;$i<$nombreDeCaracteres; $i++)
-		{
-			$string .= $chaine[rand()%strlen($chaine)]; 
-		}
+	{
+		$string .= $chaine[rand()%strlen($chaine)]; 
+	}
 	return $string;
 }
 
@@ -472,7 +472,7 @@ function create_stats ($language)
 
 
 $minute = date("i");
-if ($minute % '10' == 0 OR $_SESSION['security_level'] > 0) 
+if ($minute % 10 == 0 OR $_SESSION['security_level'] > 0) 
 {
 	$citations_awaiting_approval = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '0'"));
 	$alerte_admin_query = mysql_fetch_array(mysql_query("SELECT alerte_admin FROM config WHERE id = '1'"));
@@ -721,7 +721,7 @@ function is_quote_new($date_quote, $last_visit, $page, $compteur_quote)
 
 $heure = date("H");
 // RESET COMPTEUR QUOTE POSTED TODAY
-if ($heure >= 22 AND $heure <= 23)
+if ($heure >= 21 AND $heure <= 22)
 {
 	$compteur_quote_posted_today_query = mysql_fetch_array(mysql_query("SELECT compteur_quote_posted_today FROM config WHERE id = '1'"));
 	$compteur_quote_posted_today = $compteur_quote_posted_today_query['compteur_quote_posted_today'];

@@ -12,11 +12,11 @@ echo '
 ';
 
 if (!empty($id_quote) AND !empty($texte)) 
+{
+	if (strlen($texte) <= 450) 
 	{
-	if (strlen($texte) <= '450') 
-		{
 		$query = mysql_query("INSERT INTO teen_quotes_comments (id_quote, texte, auteur_id, date) VALUES ('$id_quote', '$texte', '$id', '$date')");
-		
+
 		$select_quote = mysql_fetch_array(mysql_query("SELECT q.auteur_id auteur_id, q.texte_english texte_english, q.date date, a.username auteur, a.email email, a.notification_comment_quote notification_comment_quote FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.id = '$id_quote' AND q.auteur_id = a.id"));
 		$txt_quote = $select_quote['texte_english'];
 		$auteur_id = $select_quote['auteur_id'];
@@ -26,11 +26,11 @@ if (!empty($id_quote) AND !empty($texte))
 
 		$email_auteur = $select_quote['email'];
 		$notification_comment_quote = $select_quote['notification_comment_quote'];
-		
+
 		if ($notification_comment_quote == '1')
-			{
+		{
 			$avatar = $_SESSION['avatar'];
-			
+
 			if ($language == 'french')
 			{
 				$comment_added_mail = '
@@ -67,30 +67,30 @@ if (!empty($id_quote) AND !empty($texte))
 				</div>
 				'.$end_mail.'';
 			}
-			
+
 			$mail = mail($email_auteur, $comment_added_on_quote, $comment_added_mail, $headers);
-			}
-		
+		}
+
 		if ($query) 
-			{
+		{
 			echo ''.$comment_add_succes.'';
 			echo '<meta http-equiv="refresh" content="3;url=quote-'.$id_quote.'" />';
-			}
+		}
 		else
-			{
-			echo '<h2>'.$error.'</h2>'.$lien_retour.'';
-			}
-		}
-	else
 		{
-		echo '<span class="erreur">'.$comment_too_long.'</span>';
+			echo '<h2>'.$error.'</h2>'.$lien_retour.'';
 		}
 	}
-else
+	else
 	{
-	echo '<span class="erreur">'.$not_complete.'</span>';
+		echo '<span class="erreur">'.$comment_too_long.'</span>';
 	}
-	
+}
+else
+{
+	echo '<span class="erreur">'.$not_complete.'</span>';
+}
+
 echo '</div>';
 include "footer.php";
 ?>

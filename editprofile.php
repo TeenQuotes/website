@@ -2,34 +2,36 @@
 include 'header.php';
 $action = $_GET['action'];
 $id_user = $_SESSION['id'];
-$result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account where id='$id_user'"));
+$result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account where id = '$id_user'"));
 $pass1 = htmlspecialchars(mysql_real_escape_string($_POST['pass1']));
 $pass2 = htmlspecialchars(mysql_real_escape_string($_POST['pass2']));
 
 $email_quote_today_num_rows = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'"));
-$is_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletter where email='$email'"));
+$is_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletter where email = '$email'"));
 $notification_comment_quote = $result['notification_comment_quote'];
 
 if ($action == "delete_account")
-	{
+{
 	$code = caracteresAleatoires(10);
-	}
+}
 
 // SELECTED POUR LE TITRE USER
-switch ($result['title']) {
-case "Mr" : $selected_mr='selected="selected"';
-break;
-case "Mrs" : $selected_mrs='selected="selected"';
-break;
-case "Miss" : $selected_miss='selected="selected"';
-break;
+switch ($result['title']) 
+{
+	case "Mr" : $selected_mr = 'selected="selected"';
+	break;
+	case "Mrs" : $selected_mrs = 'selected="selected"';
+	break;
+	case "Miss" : $selected_miss = 'selected="selected"';
+	break;
 }
 		
-switch ($result['hide_profile']) {
-case "0" : $selected_profile_no = 'selected="selected"';
-break;
-case "1" : $selected_profile_yes = 'selected="selected"';
-break;
+switch ($result['hide_profile']) 
+{
+	case "0" : $selected_profile_no = 'selected="selected"';
+	break;
+	case "1" : $selected_profile_yes = 'selected="selected"';
+	break;
 }
 
 include 'lang/'.$language.'/edit_profile.php';
@@ -38,33 +40,33 @@ include 'lang/'.$language.'/signup.php';
 
 
 if(empty($result['birth_date'])) 
-	{
+{
 	$result['birth_date']="";
-	}
+}
 if(empty($result['title']))
-	{
+{
 	$result['title']="";
-	}
+}
 if(empty($result['about_me']))
-	{
+{
 	$result['about_me']="";
-	}
+}
 else
-	{
+{
 	$result['about_me'] = nl2br_to_textarea($result['about_me']);
-	}
+}
 if(empty($result['country']))
-	{
+{
 	$result['country']="";
-	}
+}
 if(empty($result['city']))
-	{
+{
 	$result['city']="";
-	}
+}
 	
 // FORMULAIRE
 if (empty($action)) 
-	{
+{
 	echo '
 	<div class="post">
 		<h1><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />'.$edit_profile.'</h1>
@@ -140,9 +142,9 @@ if (empty($action))
 		</div>
 	</div>	
 	';
-	}
+}
 elseif ($action == "send") 
-	{
+{
 	// LE FORMULAIRE A ETE ENVOYE ON LE TRAITE
 	echo '
 	<div class="post">
@@ -158,110 +160,110 @@ elseif ($action == "send")
 				
 				
 	if((!empty($title) OR !empty($birth_date) OR !empty($country) OR !empty($city) OR !empty($about_me)) OR !empty($hide_profile))
-		{
+	{
 		if ($hide_profile == "No") 
-			{
+		{
 			$hide_profile = '0';
-			}
+		}
 		if (strlen($about_me) <= '1000') 
-			{
+		{
 			if (date_est_valide($birth_date)) 
-				{
+			{
 				$query = mysql_query("UPDATE teen_quotes_account SET title = '$title', birth_date = '$birth_date', country = '$country', city = '$city', about_me = '$about_me', hide_profile = '$hide_profile' WHERE id = '$id'");
 				if ($query) 
-					{
+				{
 					unset ($_SESSION['profile_not_fullfilled']);
 					echo ''.$edit_succes.'';
-					}
-				else 
-					{
-					echo '<h2>'.$error.'</h2>'.$lien_retour.'';
-					}
 				}
-			else
+				else 
 				{
-				echo ''.$wrong_birth_date.' '.$lien_retour.'';
+					echo '<h2>'.$error.'</h2>'.$lien_retour.'';
 				}
 			}
-		else
+			else
 			{
-			echo ''.$description_long.'';
+				echo ''.$wrong_birth_date.' '.$lien_retour.'';
 			}
 		}
-	else 
+		else
 		{
-		echo ''.$not_completed.'';
-		}				
-	echo '</div>';
+			echo ''.$description_long.'';
+		}
 	}
-elseif ($action=="avatar") 
+	else 
 	{
+		echo ''.$not_completed.'';
+	}				
+	echo '</div>';
+}
+elseif ($action == "avatar") 
+{
 	echo '
 	<div class="post">
 	<h1><img src="http://'.$domaine.'/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h1>
 	';
-	$photo= $_FILES['photo']['name'];
-	$point=".";
+	$photo = $_FILES['photo']['name'];
+	$point = ".";
 	// Testons si le fichier a bien été envoyé et s'il n'y a pas d'erreur
 	if (isset($_FILES['photo']) AND $_FILES['photo']['error'] == 0)
-		{
+	{
 		// Testons si le fichier n'est pas trop gros
 		if ($_FILES['photo']['size'] <= 550000)
-			{
+		{
 			// Testons si l'extension est autorisée
 			$infosfichier = pathinfo($_FILES['photo']['name']);
 			$extension_upload = strtolower($infosfichier['extension']);
 			$extensions_autorisees = array('jpg', 'gif', 'png','JPG');
 			if (in_array($extension_upload, $extensions_autorisees))
-				{		
+			{		
 				if (file_exists("./images/avatar/$id.$extension_upload"))
-					{
+				{
 					unlink("./images/avatar/$id.$extension_upload"); // delete de l'image si celle ci existe
-					}
+				}
 				// On peut valider le fichier et le stocker définitivement
 				$move = move_uploaded_file($_FILES['photo']['tmp_name'], './images/avatar/' . $id.$point.$extension_upload);
 				
 				if ($move)
-					{
+				{
 					// on écrit la requête sql 
 					$nom_fichier = $id.$point.$extension_upload;
-					$sql = "UPDATE teen_quotes_account SET avatar='$nom_fichier' WHERE id='$id'"; 
+					$sql = "UPDATE teen_quotes_account SET avatar = '$nom_fichier' WHERE id = '$id'"; 
 					mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error());
 					$_SESSION['avatar'] = $nom_fichier;
 					echo ''.$change_avatar_succes.'';
 					echo '<meta http-equiv="refresh" content="3;url=user-'.$id.'" />';
-					}
+				}
 				else
-					{
-					echo '<span class="erreur">'.$error.'</span>'.$lien_retour.'';
-					}
-				}
-			else
 				{
-				echo '<span class="erreur">'.$bad_extension.'</span>'.$lien_retour.'';
+					echo '<span class="erreur">'.$error.'</span>'.$lien_retour.'';
 				}
 			}
-		else
+			else
 			{
-			echo '<span class="erreur">'.$photo_extra_size.'</span>'.$lien_retour.'';
+				echo '<span class="erreur">'.$bad_extension.'</span>'.$lien_retour.'';
 			}
 		}
-	else
+		else
 		{
-		echo '<span class="erreur">'.$select_a_file.'</span>'.$lien_retour.'';
+			echo '<span class="erreur">'.$photo_extra_size.'</span>'.$lien_retour.'';
 		}
+	}
+	else
+	{
+		echo '<span class="erreur">'.$select_a_file.'</span>'.$lien_retour.'';
+	}
 	
 	echo '</div>';
 	
-	}
-elseif ($action=="reset_avatar") 
-	{
+}
+elseif ($action == "reset_avatar") 
+{
 	// RESET DE L'AVATAR 
 	echo '
 	<div class="post">
 	<h1><img src="http://'.$domaine.'/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h1>
 	';
-	$sql = "UPDATE teen_quotes_account SET avatar='icon50.png' WHERE id='$id'"; 
+	$sql = "UPDATE teen_quotes_account SET avatar = 'icon50.png' WHERE id = '$id'"; 
 	mysql_query($sql) or die('Erreur SQL !'.$sql.'<br>'.mysql_error());
 	$_SESSION['avatar'] = 'icon50.png';
 	echo ''.$change_avatar_succes.'';
@@ -269,46 +271,46 @@ elseif ($action=="reset_avatar")
 	
 	echo '</div>';
 	
-	}
+}
 elseif ($action=="change") 
-	{
+{
 	//CHANGEMENT DE MOT DE PASSE
 	echo '
 	<div class="post">
 	<h1><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />'.$change_password.'</h1>
 	';
 			
-	if ($pass1==$pass2) 
+	if ($pass1 == $pass2) 
+	{
+		if (strlen($pass1) >= 5)
 		{
-		if (strlen($pass1) >= '5')
-			{
 			$pass = sha1(strtoupper($username).':'.strtoupper($pass1));
-			$query = mysql_query ("UPDATE teen_quotes_account SET pass='$pass' WHERE id='$id'") or die ('Erreur : '.mysql_error());
+			$query = mysql_query("UPDATE teen_quotes_account SET pass = '$pass' WHERE id = '$id'") or die ('Erreur : '.mysql_error());
 			$mail = mail($email, $email_subject_change_pass, $email_message_change_pass, $headers); 
 			if ($query AND $mail)
-				{
+			{
 				echo ''.$change_pass_succes.'';
 				echo '<meta http-equiv="refresh" content="3;url=connexion.php?method=get&pseudo='.$username.'&password='.$pass.'" />';
-				}
+			}
 			else 
-				{
-				echo '<h2>'.$error.'</h2>'.$lien_retour.'';
-				}
-			}
-		else 
 			{
-			echo '<span class="erreur">'.$password_short.'</span>'.$lien_retour.'';
+				echo '<h2>'.$error.'</h2>'.$lien_retour.'';
 			}
-		}		
-	else 
+		}
+		else 
 		{
+			echo '<span class="erreur">'.$password_short.'</span>'.$lien_retour.'';
+		}
+	}		
+	else 
+	{
 		echo '<span class="erreur">'.$password_not_same.'</span>'.$lien_retour.'';
-		} 
+	} 
 		
 	echo '</div>';
-	}
+}
 elseif ($action == "settings")
-	{
+{
 	echo '
 	<div class="post">
 	<h1><img src="http://'.$domaine.'/images/icones/outils.png" class="icone" />'.$settings.'</h1>
@@ -320,166 +322,167 @@ elseif ($action == "settings")
 	
 	// NEWSLETTER
 	if ($newsletter == '1' AND $is_newsletter == '0')
-		{
+	{
 		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
-			{
+		{
 			$code = caracteresAleatoires(5);
 			$query=mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");
 			if ($query) 
-				{
+			{
 				echo ''.$settings_updated.'';
 				$notifications_succes = TRUE;
-				}
-			else 
-				{
-				echo ''.$error.' '.$lien_retour.'';
-				}
 			}
-		else 
+			else 
 			{
-			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
+				echo ''.$error.' '.$lien_retour.'';
 			}
 		}
-	elseif ($newsletter != '1' AND $is_newsletter == '1') 
+		else 
 		{
+			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
+		}
+	}
+	elseif ($newsletter != '1' AND $is_newsletter == '1') 
+	{
 		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
-			{
-			$query = mysql_query("DELETE FROM newsletter WHERE email='$email'");
+		{
+			$query = mysql_query("DELETE FROM newsletter WHERE email = '$email'");
 			if ($query) 
-				{
+			{
 				echo ''.$settings_updated.'';
 				$notifications_succes = TRUE;
-				}
-			else 
-				{
-				echo ''.$error.' '.$lien_retour.'';
-				}
 			}
-		else 
+			else 
 			{
-			echo ''.$error.' '.$lien_retour.'';
+				echo ''.$error.' '.$lien_retour.'';
 			}
 		}
+		else 
+		{
+			echo ''.$error.' '.$lien_retour.'';
+		}
+	}
 		
 	// INSCRIPTION CITATIONS TOUS LES JOURS PAR MAIL
 	if ($email_quote_today == '1' AND $email_quote_today_num_rows == '0')
-		{
+	{
 		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
-			{
+		{
 			$query = mysql_query("INSERT INTO teen_quotes_settings (param,value) VALUES ('email_quote_today','$email')");
 			if ($query) 
-					{
-					if ($notifications_succes != TRUE)
-						{
-						echo ''.$settings_updated.'';
-						$notifications_succes = TRUE;
-						}
-					}
-				else 
-					{
-					echo ''.$error.' '.$lien_retour.'';
-					}
-			}
-		else 
 			{
-			echo ''.$error.' '.$lien_retour.'';
-			}
-		}
-	elseif ($email_quote_today != '1' AND $email_quote_today_num_rows == '1')
-		{
-		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
-			{
-			$query = mysql_query("DELETE FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'");
-			if ($query) 
-				{
 				if ($notifications_succes != TRUE)
-					{
+				{
 					echo ''.$settings_updated.'';
 					$notifications_succes = TRUE;
-					}
-				}
-			else 
-				{
-				echo ''.$error.' '.$lien_retour.'';
 				}
 			}
-		else 
+			else 
 			{
-			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
+				echo ''.$error.' '.$lien_retour.'';
 			}
 		}
+		else 
+		{
+			echo ''.$error.' '.$lien_retour.'';
+		}
+	}
+	elseif ($email_quote_today != '1' AND $email_quote_today_num_rows == '1')
+	{
+		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
+		{
+			$query = mysql_query("DELETE FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'");
+			if ($query) 
+			{
+				if ($notifications_succes != TRUE)
+					{
+						echo ''.$settings_updated.'';
+						$notifications_succes = TRUE;
+					}
+			}
+			else 
+			{
+				echo ''.$error.' '.$lien_retour.'';
+			}
+		}
+		else 
+		{
+			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
+		}
+	}
 		
 	// COMMENTAIRE SUR LES QUOTES DE L'AUTEUR
 	if ($comments_quote == '1')
-		{
-		$query = mysql_query("UPDATE teen_quotes_account SET notification_comment_quote='1' WHERE id = '$id_user'");
-		if ($query)
-			{
-			if ($notifications_succes != TRUE)
-				{
-				echo ''.$settings_updated.'';
-				}
-			}
-		else 
-			{
-			echo ''.$error.' '.$lien_retour.'';
-			}
-		}
-	else
-		{
-		$query = mysql_query("UPDATE teen_quotes_account SET notification_comment_quote='0' WHERE id = '$id_user'");
-		if ($query)
-			{
-			if ($notifications_succes != TRUE)
-				{
-				echo ''.$settings_updated.'';
-				}
-			}
-		else 
-			{
-			echo ''.$error.' '.$lien_retour.'';
-			}
-		}
-	echo '</div>';
-	}
-elseif ($action == "delete_account")
 	{
+		$query = mysql_query("UPDATE teen_quotes_account SET notification_comment_quote = '1' WHERE id = '$id_user'");
+		if ($query)
+		{
+			if ($notifications_succes != TRUE)
+			{
+				echo ''.$settings_updated.'';
+			}
+		}
+		else 
+		{
+			echo ''.$error.' '.$lien_retour.'';
+		}
+	}
+	else
+	{
+		$query = mysql_query("UPDATE teen_quotes_account SET notification_comment_quote = '0' WHERE id = '$id_user'");
+		if ($query)
+		{
+			if ($notifications_succes != TRUE)
+			{
+				echo ''.$settings_updated.'';
+			}
+		}
+		else 
+		{
+			echo ''.$error.' '.$lien_retour.'';
+		}
+	}
+	echo '</div>';
+}
+elseif ($action == "delete_account")
+{
 	echo '
 	<div class="post">
 	<h1><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h1>
 	';
 	
 	if (!empty($_SESSION['id']) AND !empty($_SESSION['email']))
-		{
+	{
 		$id_user = $_SESSION['id'];
 		
 		$query = mysql_query("SELECT id FROM delete_account WHERE id_user = '".$id_user."' AND statut = '0'");
 		if (mysql_num_rows($query) == '0')
-			{
+		{
 			$insert = mysql_query("INSERT INTO delete_account (id_user,code) VALUES ('".$id_user."', '".$code."')");
 			$mail = mail($_SESSION['email'], $email_subject_delete_account, $email_message_delete_account, $headers);
+
 			if ($insert AND $mail)
-				{
-				echo ''.$succes.' '.$mail_sent_delete_account.'';
-				}
-			else
-				{
-				echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
-				}
-			}
-		else
 			{
-			echo '<div class="bandeau_erreur">'.$already_exist_delete_account.'</div> '.$lien_retour.'';
+				echo ''.$succes.' '.$mail_sent_delete_account.'';
+			}
+			else
+			{
+				echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
 			}
 		}
-	else
+		else
 		{
-		echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+			echo '<div class="bandeau_erreur">'.$already_exist_delete_account.'</div> '.$lien_retour.'';
 		}
-	echo '</div>';
 	}
-elseif ($action == "delete_account_confirm")
+	else
 	{
+		echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+	}
+	echo '</div>';
+}
+elseif ($action == "delete_account_confirm")
+{
 	echo '
 	<div class="post">
 	<h1><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h1>
@@ -489,11 +492,11 @@ elseif ($action == "delete_account_confirm")
 	$code = mysql_real_escape_string($_GET['code']);
 	
 	if (($_SESSION['id'] == $id_user) AND !empty($code))
-		{
+	{
 		$query = mysql_query("SELECT id FROM delete_account WHERE id_user = '".$id_user."' AND code = '".$code."' AND statut = '0'");
 		
 		if (mysql_num_rows($query) == '1')
-			{
+		{
 			echo '
 			<div class="grey_post" style="width:45%;float:left">
 			'.$txt_delete_account_short.'
@@ -513,20 +516,20 @@ elseif ($action == "delete_account_confirm")
 				</form>
 			</div>
 			<div class="clear"></div>';
-			}
+		}
 		else
-			{
-			echo '<div class="bandeau_erreur">'.$delete_account_not_exist.'</div> '.$lien_retour.'';
-			}
-		}
-	else
 		{
-		echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+			echo '<div class="bandeau_erreur">'.$delete_account_not_exist.'</div> '.$lien_retour.'';
 		}
-	echo '</div>';
+	}
+	else
+	{
+		echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+	}
+echo '</div>';
 	}
 elseif ($action == "delete_account_cancel")
-	{
+{
 	echo '
 	<div class="post">
 	<h1><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h1>
@@ -535,27 +538,27 @@ elseif ($action == "delete_account_cancel")
 	$code = mysql_real_escape_string($_POST['code']);
 	$query = mysql_query("SELECT id FROM delete_account WHERE id_user = '".$_SESSION['id']."' AND code = '".$code."' AND statut = '0'");
 	
-	if (mysql_num_rows($query) == '1')
-		{
+	if (mysql_num_rows($query) == 1)
+	{
 		$delete = mysql_query("UPDATE delete_account SET statut = '-1' WHERE id_user = '".$_SESSION['id']."' AND code = '".$code."' AND statut = '0'");
 		
 		if ($delete)
-			{
-			echo ''.$succes.''.$account_not_deleted_successfully.'';
-			}
-		else
-			{
-			echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
-			}
-		}
-	else
 		{
-		echo '<div class="bandeau_erreur">'.$delete_account_not_exist.'</div> '.$lien_retour.'';
+			echo ''.$succes.''.$account_not_deleted_successfully.'';
 		}
-	echo '</div>';
+		else
+		{
+			echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+		}
 	}
-elseif ($action == "delete_account_valide")
+	else
 	{
+		echo '<div class="bandeau_erreur">'.$delete_account_not_exist.'</div> '.$lien_retour.'';
+	}
+	echo '</div>';
+}
+elseif ($action == "delete_account_valide")
+{
 	echo '
 	<div class="post">
 	<h1><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h1>
@@ -565,10 +568,10 @@ elseif ($action == "delete_account_valide")
 	$confirm = mysql_real_escape_string($_POST['confirm']);
 	
 	if ($confirm == $txt_to_write)
-		{
+	{
 		$query = mysql_query("SELECT id FROM delete_account WHERE id_user = '".$_SESSION['id']."' AND code = '".$code."' AND statut = '0'");
 		if (mysql_num_rows($query) == '1')
-			{
+		{
 			if ($domaine == 'teen-quotes.com')
 			{
 				$update_quote = mysql_query("UPDATE teen_quotes_quotes SET auteur_id = '1211' AND auteur = 'Unknow' WHERE auteur_id = '".$_SESSION['id']."' AND approved IN ('0','1','2')");	
@@ -585,27 +588,27 @@ elseif ($action == "delete_account_valide")
 			$delete_account = mysql_query("DELETE FROM teen_quotes_account WHERE id = '".$_SESSION['id']."'");
 			
 			if ($delete_account AND $delete_newsletter_quotidienne AND $delete_visitors AND $delete_favorites AND $delete_comments AND $update_quote)
-				{
+			{
 				$update_statut = mysql_query("UPDATE delete_account SET statut = '1' WHERE code = '".$code."'");
 				echo ''.$succes.' '.$account_deleted_successfully.'';
 				echo '<meta http-equiv="refresh" content="5;url=?deconnexion" />';
-				}
+			}
 			else
-				{
-				echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
-				}
-			}
-		else
 			{
-			echo '<div class="bandeau_erreur">'.$delete_account_not_exist.'</div> '.$lien_retour.'';
+				echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
 			}
 		}
-	else
+		else
 		{
-		echo '<div class="bandeau_erreur">'.$wrong_txt_to_write.'</div> '.$lien_retour.'';
+			echo '<div class="bandeau_erreur">'.$delete_account_not_exist.'</div> '.$lien_retour.'';
 		}
-	echo '</div>';
 	}
+	else
+	{
+		echo '<div class="bandeau_erreur">'.$wrong_txt_to_write.'</div> '.$lien_retour.'';
+	}
+	echo '</div>';
+}
 
 include "footer.php";
 ?>
