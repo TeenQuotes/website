@@ -739,6 +739,7 @@ elseif ($heure >= 00 AND $heure <= 02)
 
 	if ($compteur_quote_posted_today == '0')
 	{
+		$update = mysql_query("UPDATE config SET compteur_quote_posted_today = '1' WHERE id = '1'");
 		flush_quotes();
 		email_birthday();
 	}
@@ -786,8 +787,6 @@ function flush_quotes ()
 		$ids_quotes_posted_today .= ''.$id_quote.'';
 		$ids_quotes_posted_today .= ",";
 	}
-
-	$update = mysql_query("UPDATE config SET compteur_quote_posted_today = '1' WHERE id = '1'");
 
 	$ids_quotes_posted_today = substr($ids_quotes_posted_today, 0, strlen($ids_quotes_posted_today)-1);
 
@@ -1188,16 +1187,18 @@ function MailPostedToday($id_quote)
 			$email = $donnees['value'];
 			if ($domaine == 'teen-quotes.com')
 			{
+				$email_subject = 'Quotes of the day';
 				$message = ''.$top_mail.'Here are the quotes posted today ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
 				$message .= '<br /><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsuscribe, please follow <a href="/newsletter.php?action=unsuscribe_everyday&email='.$email.'" target="_blank"> this link</a>.</span>';
 			}
 			elseif ($domaine == 'kotado.fr')
 			{
+				$email_subject = 'Citations du jour';
 				$message = ''.$top_mail.'Voici les citations publiées aujourd\'hui ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
 				$message .= '<br /><span style="font-size:80%">Cet email a été envoyé à votre adresse ('.$email.') car vous êtes inscrit à la newsletter. Si vous souhaitez vous désinscrire, cliquez sur <a href="http://'.$domaine.'/newsletter.php?action=unsuscribe_everyday&email='.$email.'" target="_blank"> ce lien</a>.</span>.';
 			}
 
-			$mail = mail($email, 'Citations du jour - '.$today.'', $message, $headers);
+			$mail = mail($email, ''.$email_subject.' - '.$today.'', $message, $headers);
 
 			if ($mail)
 			{
