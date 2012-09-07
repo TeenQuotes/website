@@ -720,8 +720,9 @@ function is_quote_new($date_quote, $last_visit, $page, $compteur_quote)
 
 
 $heure = date("H");
+$seconde = date('s');
 // RESET COMPTEUR QUOTE POSTED TODAY
-if ($heure >= 21 AND $heure <= 22)
+if ($heure >= 21 AND $heure <= 22 AND $seconde == 0)
 {
 	$compteur_quote_posted_today_query = mysql_fetch_array(mysql_query("SELECT compteur_quote_posted_today FROM config WHERE id = '1'"));
 	$compteur_quote_posted_today = $compteur_quote_posted_today_query['compteur_quote_posted_today'];
@@ -732,7 +733,7 @@ if ($heure >= 21 AND $heure <= 22)
 	}
 }
 // POSTAGE DES QUOTES ENTRE 0H ET 2H DU MATIN
-elseif ($heure >= 00 AND $heure <= 02)
+elseif ($heure >= 00 AND $heure <= 02 AND $seconde == 0)
 {
 	$compteur_quote_posted_today_query = mysql_fetch_array(mysql_query("SELECT compteur_quote_posted_today FROM config WHERE id = '1'"));
 	$compteur_quote_posted_today = $compteur_quote_posted_today_query['compteur_quote_posted_today'];
@@ -754,12 +755,14 @@ function flush_quotes ()
 	$domaine = $data[0];
 	$name_website = $data[1];
 
-	$query = mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2' ORDER BY id ASC LIMIT 0, $nb_quote_released_per_day");
+	$date_quote = date("d/m/Y");
+
+	$query = mysql_query("SELECT id_quote FROM approve_quotes WHERE quote_release LIKE '".$date_quote."' ORDER BY id_quote ASC LIMIT 0, $nb_quote_released_per_day");
 	$affected_rows = mysql_affected_rows();
 
 	while ($result = mysql_fetch_array($query))
 	{
-		$id_quote = $result['id'];
+		$id_quote = $result['id_quote'];
 
 		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english,q.date date, q.auteur_id auteur_id, a.username username, a.email email FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND q.id = '".$id_quote."'"));
 		$texte_quote = $query_texte_quote['texte_english'];
