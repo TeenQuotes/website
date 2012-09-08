@@ -733,7 +733,7 @@ if ($heure >= 21 AND $heure <= 22)
 	}
 }
 // POSTAGE DES QUOTES ENTRE 0H ET 2H DU MATIN
-elseif ($heure >= 00 AND $heure <= 2 AND $seconde % 2 == 0)
+elseif ($heure >= 00 AND $heure <= 02 AND $seconde % 2 == 0)
 {
 	$compteur_quote_posted_today_query = mysql_fetch_array(mysql_query("SELECT compteur_quote_posted_today FROM config WHERE id = '1'"));
 	$compteur_quote_posted_today = $compteur_quote_posted_today_query['compteur_quote_posted_today'];
