@@ -162,9 +162,10 @@ elseif ($action == "add_quote")
 		$date = date("d/m/Y", strtotime('+'.$jours_posted.' days'));
 		$date_log = ''.$date.'-'.$jours_posted.'';
 
-		$approve_quote_log = mysql_query("INSERT INTO approve_quotes (id_quote, id_user, quote_release) VALUES ('".$id_quote."', '".$id_auteur_quote."', '".$date_log."')");
-
 		$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english, date, auteur_id, approved) VALUES ('".$texte_quote."', '".$date."', '".$id_auteur_quote."','2')");
+		$id_quote = mysql_insert_id();
+
+		$approve_quote_log = mysql_query("INSERT INTO approve_quotes (id_quote, id_user, quote_release) VALUES ('".$id_quote."', '".$id_auteur_quote."', '".$date_log."')");
 		
 		if ($query) 
 		{
