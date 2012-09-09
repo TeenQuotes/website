@@ -42,7 +42,7 @@ elseif (empty($action) AND $_SESSION['security_level'] >= '2')
 		</div>
 	';
 	$query = mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND approved = '0' ORDER BY id ASC");
-	while ($result=mysql_fetch_array($query)) 
+	while ($result = mysql_fetch_array($query)) 
 	{
 		$txt_quote = $result['texte_english'];
 		$auteur_id = $result['auteur_id'];
@@ -177,6 +177,23 @@ elseif ($action == "add_quote")
 			}
 		}
 
+		$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2'"));
+		$jours_posted = floor($nb_quote_awaiting_post / $nb_quote_released_per_day);
+
+		if ($nb_quote_awaiting_post % $nb_quote_released_per_day != '0')
+		{
+			$jours_posted = $jours_posted + 1;
+		}
+		if ($jours_posted > '1')
+		{
+			$days_quote_posted = $days_quote_posted.'s';
+		}
+			
+		$date = date("d/m/Y", strtotime('+'.$jours_posted.' days'));
+		$date_log = ''.$date.'-'.$jours_posted.'';
+
+		$approve_quote_log = mysql_query("INSERT INTO approve_quotes (id_quote, id_user, quote_release) VALUES ('".$id_quote."', '".$id_auteur_quote."', '".$date_log."')");
+		
 		$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english, date, auteur_id, approved) VALUES ('".$texte_quote."', '".$date."', '".$id_auteur_quote."','2')");
 			
 		if ($query) 
