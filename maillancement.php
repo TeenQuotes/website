@@ -1,5 +1,5 @@
 <?php
-if (date('M') == 'Sep' AND date('d') >= 10)
+if (date('M') == 'Dec' AND date('d') >= 10)
 {
 	require "kernel/config.php";
 	$db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
