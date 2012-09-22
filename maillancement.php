@@ -6,7 +6,7 @@ if (date('M') == 'Dec' AND date('d') >= 10)
 	mysql_select_db($user,$db)  or die('Erreur de selection '.mysql_error()); 
 	require "kernel/fonctions.php";
 
-	$query = mysql_query("SELECT email, username FROM teen_quotes_account WHERE id IN ('27', '2006', '2030', '842', '1936')");
+	$query = mysql_query("SELECT email, username FROM teen_quotes_account WHERE id IN ('27')");
 
 	while ($donnees = mysql_fetch_array($query))
 	{
@@ -29,12 +29,14 @@ if (date('M') == 'Dec' AND date('d') >= 10)
 		</ul>
 		You can download the application right now : visit <a href="http://teen-quotes.com/apps" title="Teen Quotes application">teen-quotes.com/apps</a> from your iPhone / iTouch.<br/>
 		<br/>
+		By the way, we have also release a new version of the desktop version and the mobile version in order to suit the application’s design. We’re sure you’ll enjoy it!<br/>
+		<br/>
 		See you soon on Teen Quotes.<br/>
 		<br/>
 		Best regards,<br/>
 		<b>The Teen Quotes Team</b>'.$end_mail;
 
-		mail($email, 'iPhone / iTouch application', $message, $headers);
+		mail($email, 'iPhone / iTouch application and new version of Teen Quotes', $message, $headers);
 	}
 }
 else
