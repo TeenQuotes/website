@@ -28,18 +28,14 @@ if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$
 		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '2' WHERE id = '".$id_quote."'");
 
 		$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2'"));
-		$jours_posted = floor($nb_quote_awaiting_post / $nb_quote_released_per_day);
-
-		if ($nb_quote_awaiting_post % $nb_quote_released_per_day != '0')
-		{
-			$jours_posted = $jours_posted + 1;
-		}
-		if ($jours_posted > '1')
+		$jours_posted = floor($nb_quote_awaiting_post / $nb_quote_released_per_day) + 1;
+		$date = date("d/m/Y", strtotime('+'.$jours_posted.' days'));
+			
+		if ($jours_posted > 1)
 		{
 			$days_quote_posted = $days_quote_posted.'s';
 		}
-			
-		$date = date("d/m/Y", strtotime('+'.$jours_posted.' days'));
+
 		$date_log = ''.$date.'-'.$jours_posted.'';
 
 		$approve_quote_log = mysql_query("INSERT INTO approve_quotes (id_quote, id_user, quote_release) VALUES ('".$id_quote."', '".$auteur_id."', '".$date_log."')");
