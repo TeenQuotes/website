@@ -756,8 +756,9 @@ function flush_quotes ()
 	$name_website = $data[1];
 
 	$date_quote = date("d/m/Y");
+	$date_quote_yesterday = date("d/m/Y", strtotime('-1 day'));
 
-	$query = mysql_query("SELECT id_quote FROM approve_quotes WHERE quote_release LIKE '%".$date_quote."%' ORDER BY id_quote ASC LIMIT 0, $nb_quote_released_per_day");
+	$query = mysql_query("SELECT a.id_quote id_quote FROM approve_quotes a, teen_quotes_quotes q WHERE (a.quote_release LIKE '%".$date_quote."%' OR a.quote_release LIKE '%".$date_quote_yesterday."%') AND a.id_quote = q.id AND q.approved = '2' ORDER BY a.id_quote ASC LIMIT 0, $nb_quote_released_per_day");
 	$affected_rows = mysql_affected_rows();
 
 	while ($result = mysql_fetch_array($query))
