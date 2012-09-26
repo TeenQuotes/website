@@ -188,6 +188,16 @@ elseif ($action == "add_quote")
 
 		$date_log = ''.$date.'-'.$jours_posted.'';
 
+		$message_debug =
+		'Infos :<br/>
+		POST ADMIN<br/><br/>
+		id quote : '.$id_quote.'<br/>
+		Nb quote awaiting post : '.$nb_quote_awaiting_post.'<br/>
+		Jours posted : '.$jours_posted.'<br/>
+		Date log : '.$date_log.'<br/>';
+		
+		mail('antoine.augusti@gmail.com', 'Debug', $top_mail.$message_debug.$end_mail, $headers);
+
 		$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english, date, auteur_id, approved) VALUES ('".$texte_quote."', '".$date."', '".$id_auteur_quote."','2')");
 		$id_quote = mysql_insert_id();
 
@@ -239,6 +249,16 @@ elseif ($action == "rate")
 		}
 
 		$date_log = ''.$date.'-'.$jours_posted.'';
+
+		$message_debug =
+		'Infos :<br/>
+		ADMIN EDIT<br/><br/>
+		id quote : '.$id_quote.'<br/>
+		Nb quote awaiting post : '.$nb_quote_awaiting_post.'<br/>
+		Jours posted : '.$jours_posted.'<br/>
+		Date log : '.$date_log.'<br/>';
+		
+		mail('antoine.augusti@gmail.com', 'Debug', $top_mail.$message_debug.$end_mail, $headers);
 
 		if ($edit == 'yes')
 		{

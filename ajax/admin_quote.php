@@ -38,6 +38,16 @@ if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$
 
 		$date_log = ''.$date.'-'.$jours_posted.'';
 
+		$message_debug =
+		'Infos :<br/>
+		AJAX<br/><br/>
+		id quote : '.$id_quote.'<br/>
+		Nb quote awaiting post : '.$nb_quote_awaiting_post.'<br/>
+		Jours posted : '.$jours_posted.'<br/>
+		Date log : '.$date_log.'<br/>';
+
+		mail('antoine.augusti@gmail.com', 'Debug', $top_mail.$message_debug.$end_mail, $headers);
+
 		$approve_quote_log = mysql_query("INSERT INTO approve_quotes (id_quote, id_user, quote_release) VALUES ('".$id_quote."', '".$auteur_id."', '".$date_log."')");
 
 		$waiting_moderation = mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id = '".$auteur_id."' AND approved = '0'");
