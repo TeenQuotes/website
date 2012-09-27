@@ -191,8 +191,6 @@ elseif ($action == "rate")
 
 	if ($approve == "yes") 
 	{
-		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '2' WHERE id = '".$id_quote."'");
-		
 		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english, q.date date, a.email email, a.username username FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND q.id = '".$id_quote."'"));
 		$texte_quote = $query_texte_quote['texte_english'];
 		$date_quote = $query_texte_quote['date'];
@@ -209,6 +207,8 @@ elseif ($action == "rate")
 		}
 
 		$date_log = ''.$date.'-'.$jours_posted.'';
+
+		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '2' WHERE id = '".$id_quote."'");
 
 		if ($edit == 'yes')
 		{
