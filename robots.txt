@@ -4,3 +4,4 @@ Disallow: /images/
 Disallow: /uniform/
 Disallow: /files/
 Disallow: /ajax/
+Disallow: /mail/

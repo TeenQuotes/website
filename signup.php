@@ -102,7 +102,7 @@ elseif ($action == "send")
 								$test = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_account WHERE email='$email'"));
 								if($test == '0')
 									{
-									$add = mysql_query("INSERT INTO teen_quotes_account (username,pass,email,ip,security_level) values('$username','$pass', '$email', '$ip','0')");
+									$add = mysql_query("INSERT INTO teen_quotes_account (username, pass, email, ip, security_level, location_signup) VALUES ('$username', '$pass', '$email', '$ip', '0', 'website')");
 									if ($newsletter_checkbox == '1')
 										{
 										$query_newsletter =mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");

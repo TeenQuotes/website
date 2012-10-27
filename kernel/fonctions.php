@@ -334,15 +334,15 @@ function create_stats ($language)
 	$nb_members_newsletter = mysql_num_rows(mysql_query("SELECT a.id FROM teen_quotes_account a, newsletter n WHERE a.email = n.email"));
 	$nb_no_members_newsletter = $nb_newsletter - $nb_members_newsletter;
 
+	$query_location_signup = mysql_query("SELECT COUNT(*) as tot, location_signup FROM teen_quotes_account GROUP BY location_signup ORDER BY tot DESC");
+
 	$query_top_user_favorite = mysql_query("SELECT COUNT( F.id ) AS nb_fav , A.id, A.username AS username FROM teen_quotes_favorite F, teen_quotes_quotes Q, teen_quotes_account A WHERE F.id_quote = Q.id AND Q.auteur_id = A.id GROUP BY A.id ORDER BY COUNT( F.id ) DESC LIMIT 0,20");
 	$query_search = mysql_query("SELECT * FROM teen_quotes_search ORDER BY value DESC LIMIT 0,20");
 	$nb_search_query = mysql_fetch_array(mysql_query("SELECT SUM(value) AS nb_search FROM teen_quotes_search"));
 	$nb_search = $nb_search_query['nb_search'];
 	$graph_stats_js = "
 	<script type=\"text/javascript\" src=\"http://www.google.com/jsapi\"></script>
-	<script type=\"text/javascript\">
-	google.load('visualization', '1', {packages: ['corechart']});
-	</script>
+	<script type=\"text/javascript\">google.load('visualization', '1', {packages: ['corechart']});</script>
 	<script type=\"text/javascript\">
 	function graph_quotes() {
 	var data = new google.visualization.DataTable();
@@ -362,6 +362,7 @@ function create_stats ($language)
 	new google.visualization.PieChart(document.getElementById('graph_quotes')).
 	draw(data, {title:'".$total_nb_quotes." : ".$total_quotes."'});
 	}
+
 	function graph_empty_profile() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Profile');
@@ -376,6 +377,7 @@ function create_stats ($language)
 	new google.visualization.PieChart(document.getElementById('graph_empty_profile')).
 	draw(data, {title:'".$total_nb_members." : ".$total_members."'});
 	}
+
 	function graph_newsletter() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Profile');
@@ -390,6 +392,7 @@ function create_stats ($language)
 	new google.visualization.PieChart(document.getElementById('graph_newsletter')).
 	draw(data, {title:'".$people_subscribed_newsletter." : ".$nb_newsletter."'});
 	}
+
 	function members_favorite_quote() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Profile');
@@ -404,6 +407,7 @@ function create_stats ($language)
 	new google.visualization.PieChart(document.getElementById('members_favorite_quote')).
 	draw(data, {title:'".$members_and_fav_quotes."'});
 	}
+
 	function top_user_favorite_quote() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Profile');
@@ -427,10 +431,35 @@ function create_stats ($language)
 	$graph_stats_js .="
 	data.setValue(".$i.", 0, '".$others." : ".$reste_nb_favorite."');
 	data.setValue(".$i.", 1, ".$reste_nb_favorite.");
+
 	// Create and draw the visualization.
 	new google.visualization.PieChart(document.getElementById('top_user_favorite_quote')).
 	draw(data, {title:'".$top_members_ordered_by_nb_quotes_in_fav." (".$nb_favorite." ".$quotes_in_fav.")'});
 	}
+
+	function location_signup() {
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', 'Profile');
+	data.addColumn('number', 'Status');
+	data.addRows(5);";
+	$i = 0;
+	while($donnees = mysql_fetch_array($query_location_signup))
+	{
+		$location_signup_device = $donnees['location_signup'];
+		$nb = $donnees['tot'];
+		$graph_stats_js .= "
+		data.setValue(".$i.", 0, '".$location_signup_device." : ".$nb."');
+		data.setValue(".$i.", 1, ".$nb.");
+		";
+		$i++;
+	}
+	$graph_stats_js .= "
+	// Create and draw the visualization.
+	new google.visualization.PieChart(document.getElementById('graph_location_signup')).
+	draw(data, {title:'".$location_signup."'});
+	}
+
+
 	function graph_search() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Profile');
@@ -455,16 +484,19 @@ function create_stats ($language)
 	$graph_stats_js .="
 	data.setValue(".$i.", 0, '".$others." : ".$reste_nb_search."');
 	data.setValue(".$i.", 1, ".$reste_nb_search.");
+
 	// Create and draw the visualization.
 	new google.visualization.PieChart(document.getElementById('graph_search')).
 	draw(data, {title:'".$total_nb_search." : ".$nb_search."'});
 	}
+
 	google.setOnLoadCallback(graph_quotes);
 	google.setOnLoadCallback(graph_empty_profile); 
 	google.setOnLoadCallback(graph_newsletter); 
 	google.setOnLoadCallback(members_favorite_quote); 
 	google.setOnLoadCallback(top_user_favorite_quote);
 	google.setOnLoadCallback(graph_search);
+	google.setOnLoadCallback(location_signup);
 	</script>
 	";
 	echo $graph_stats_js;
@@ -778,13 +810,13 @@ function flush_quotes ()
 		{
 			if ($domaine == 'teen-quotes.com')
 			{
-				$message = ''.$top_mail.' Hello <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Your quote has been <font color="#5C9FC0"><b>approved</b></font> recently by a member of our team ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Congratulations !<br><br />Your quote is now visible on our website. You can share it or comment it if you want !<br><br /><br />If you want to see your quote, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">click here</a>.<br><br /><br />Sincerely,<br><b>The Teen Quotes Team</b><br /><br /><br /><div style="border-top:1px dashed #CCCCCC"></div><br /><br />VERSION FRANCAISE :<br /><br />Bonjour <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Votre citation a été récemment <font color="#5C9FC0"><b>approuvée</b></font> par un membre de notre équipe ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Congratulations !<br><br />Votre citation est maintenant visible sur Teen Quotes. Vous pouvez dès à présent la partager ou la commenter si vous le souhaitez !<br><br /><br />Si vous voulez voir votre citation, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">cliquez ici</a>.<br><br /><br />Cordialement,<br><b>The Teen Quotes Team</b> '.$end_mail.'';
+				$message = ''.$top_mail.' Hello <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Your quote has been <font color="#5C9FC0"><b>approved</b></font> recently by a member of our team ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Congratulations !<br><br />Your quote is now visible on our website. You can share it or comment it if you want !<br><br /><br />If you want to see your quote, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">click here</a>.<br><br /><br />Sincerely,<br><b>The Teen Quotes Team</b><br /><br /><br /><div style="border-top:1px dashed #CCCCCC"></div><br /><br />VERSION FRANCAISE :<br /><br />Bonjour <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Votre citation a Ã©tÃ© rÃ©cemment <font color="#5C9FC0"><b>approuvÃ©e</b></font> par un membre de notre Ã©quipe ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Congratulations !<br><br />Votre citation est maintenant visible sur Teen Quotes. Vous pouvez dÃ¨s Ã  prÃ©sent la partager ou la commenter si vous le souhaitez !<br><br /><br />Si vous voulez voir votre citation, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">cliquez ici</a>.<br><br /><br />Cordialement,<br><b>The Teen Quotes Team</b> '.$end_mail.'';
 				$mail = mail($email_auteur, "Quote approved", $message, $headers);
 			}
 			elseif ($domaine == 'kotado.fr')
 			{
-				$message = "$top_mail Bonjour <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Votre citation a été récemment <font color=\"#5C9FC0\"><b>approuvée</b></font> par un membre de notre équipe ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br><br /><a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">par <a href=\"http://".$domaine."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> le $date_quote</span></div>Congratulations !<br><br />Votre citation est maintenant visible sur Kotado. Vous pouvez dès à  présent la partager ou la commenter si vous le souhaitez !<br><br /><br />Si vous voulez voir votre citation, <a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">cliquez ici</a>.<br><br /><br />Cordialement,<br><b>The Kotado Team</b><br /><br /><br /><div style=\"border-top:1px dashed #CCCCCC\"></div><br /><br />ENGLISH VERSION :<br /><br />Hello <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Your quote has been <font color=\"#5C9FC0\"><b>approved</b></font> recently by a member of our team ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br><br /><a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">by <a href=\"http://".$domaine."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> on $date_quote</span></div>Congratulations !<br><br />Your quote is now visible on our website. You can share it or comment it if you want !<br><br /><br />If you want to see your quote, <a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">click here</a>.<br><br /><br />Sincerely,<br><b>The Kotado Team</b><br /><br /><br />$end_mail";
-				$mail = mail($email_auteur, "Citation approuvée", $message, $headers);
+				$message = "$top_mail Bonjour <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Votre citation a Ã©tÃ© rÃ©cemment <font color=\"#5C9FC0\"><b>approuvÃ©e</b></font> par un membre de notre Ã©quipe ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br><br /><a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">par <a href=\"http://".$domaine."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> le $date_quote</span></div>Congratulations !<br><br />Votre citation est maintenant visible sur Kotado. Vous pouvez dÃ¨s Ã   prÃ©sent la partager ou la commenter si vous le souhaitez !<br><br /><br />Si vous voulez voir votre citation, <a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">cliquez ici</a>.<br><br /><br />Cordialement,<br><b>The Kotado Team</b><br /><br /><br /><div style=\"border-top:1px dashed #CCCCCC\"></div><br /><br />ENGLISH VERSION :<br /><br />Hello <font color=\"#5C9FC0\"><b>$name_auteur</b></font> !<br><br />Your quote has been <font color=\"#5C9FC0\"><b>approved</b></font> recently by a member of our team ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br><br /><a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">by <a href=\"http://".$domaine."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> on $date_quote</span></div>Congratulations !<br><br />Your quote is now visible on our website. You can share it or comment it if you want !<br><br /><br />If you want to see your quote, <a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">click here</a>.<br><br /><br />Sincerely,<br><b>The Kotado Team</b><br /><br /><br />$end_mail";
+				$mail = mail($email_auteur, "Citation approuvÃ©e", $message, $headers);
 			}
 		}
 
@@ -830,7 +862,7 @@ function email_birthday()
 			elseif ($domaine == 'kotado.fr')
 			{
 				$email_subject = 'Joyeux anniversaire '.$username.' !';
-				$email_message = ''.$top_mail.' Bonjour '.$username.',<br><br />Wow, '.$age.' ans, ça fait un paquet d\'années ! Tout l\'équipe vous souhaite un joyeux anniversaire ! Nous espérons que vous passerez une bonne journée :) '.$end_mail.'';
+				$email_message = ''.$top_mail.' Bonjour '.$username.',<br><br />Wow, '.$age.' ans, Ã§a fait un paquet d\'annÃ©es ! Tout l\'Ã©quipe vous souhaite un joyeux anniversaire ! Nous espÃ©rons que vous passerez une bonne journÃ©e :) '.$end_mail.'';
 				
 			}
 			
@@ -844,8 +876,8 @@ function email_birthday()
 		}
 
 		$monfichier = fopen('../files/birthdays.txt', 'r+'); // Ouverture du fichier
-		fseek($monfichier, 0); // On remet le curseur au début du fichier
-		fputs($monfichier, $txt_file); // On écrit le nouveau nombre de pages vues
+		fseek($monfichier, 0); // On remet le curseur au dÃ©but du fichier
+		fputs($monfichier, $txt_file); // On Ã©crit le nouveau nombre de pages vues
 		fclose($monfichier);
 	}
 }
@@ -1198,8 +1230,8 @@ function MailPostedToday($id_quote)
 			elseif ($domaine == 'kotado.fr')
 			{
 				$email_subject = 'Citations du jour';
-				$message = ''.$top_mail.'Voici les citations publiées aujourd\'hui ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
-				$message .= '<br /><span style="font-size:80%">Cet email a été envoyé à votre adresse ('.$email.') car vous êtes inscrit à la newsletter. Si vous souhaitez vous désinscrire, cliquez sur <a href="http://'.$domaine.'/newsletter.php?action=unsuscribe_everyday&email='.$email.'" target="_blank"> ce lien</a>.</span>.';
+				$message = ''.$top_mail.'Voici les citations publiÃ©es aujourd\'hui ('.$today.') :<br><br />'.$email_txt.$end_mail.'';
+				$message .= '<br /><span style="font-size:80%">Cet email a Ã©tÃ© envoyÃ© Ã  votre adresse ('.$email.') car vous Ãªtes inscrit Ã  la newsletter. Si vous souhaitez vous dÃ©sinscrire, cliquez sur <a href="http://'.$domaine.'/newsletter.php?action=unsuscribe_everyday&email='.$email.'" target="_blank"> ce lien</a>.</span>.';
 			}
 
 			$mail = mail($email, ''.$email_subject.' - '.$today.'', $message, $headers);
@@ -1211,8 +1243,8 @@ function MailPostedToday($id_quote)
 		}
 
 		$monfichier = fopen('../files/compteur_email_quotidien.txt', 'r+'); // Ouverture du fichier
-		fseek($monfichier, 0); // On remet le curseur au début du fichier
-		fputs($monfichier, ''.$today.' : '.$nb_email_send.''); // On écrit le nouveau nombre de pages vues
+		fseek($monfichier, 0); // On remet le curseur au dÃ©but du fichier
+		fputs($monfichier, ''.$today.' : '.$nb_email_send.''); // On Ã©crit le nouveau nombre de pages vues
 		fclose($monfichier);
 	}
 }
@@ -1289,7 +1321,7 @@ function cut_tweet($chaine)
 		$chaine = substr($chaine, 0, $lg_max);
 		$last_space = strrpos($chaine, " "); 
 
-		// On ajoute ... à la suite de cet espace    
+		// On ajoute ... Ã  la suite de cet espace    
 		$chaine = substr($chaine, 0, $last_space);
 		$chaine .= '...';
 	}
@@ -1313,7 +1345,7 @@ function cut_comment($chaine)
 		$chaine1 = substr($chaine, 0, $lg_max);
 		$last_space = strrpos($chaine1, " "); 
 
-		// On ajoute ... à la suite de cet espace    
+		// On ajoute ... Ã  la suite de cet espace    
 		$chaine1 = substr($chaine1, 0, $last_space);
 		$chaine1 .= '...';
 

@@ -11,6 +11,7 @@ $total_nb_quotes = "Total number of quotes";
 $profile_not_fullfilled = "Profile not fullfilled";
 $profile_fullfilled = "Profile fullfilled";
 $total_nb_members = "Total number of members";
+$location_signup = "Type of registration to ".$name_website;
 $members = "Members";
 $visitors = "Visitors";
 $people_subscribed_newsletter = "People subscribed to the newsletter";

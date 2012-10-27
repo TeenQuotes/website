@@ -14,6 +14,9 @@ echo '
 	
 	<h2>'.$members.'</h2>
 	<div id="graph_empty_profile" class="graph_stats"></div>
+
+	<h2>'.$location_signup.'</h2>
+	<div id="graph_location_signup" class="graph_stats"></div>
 	
 	<h2>'.$search.'</h2>
 	<div id="graph_search" class="graph_stats"></div>
