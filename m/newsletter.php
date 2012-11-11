@@ -110,7 +110,7 @@ elseif ($action == "send_everyday") // INSCRIPTION EVERYDAY
 		}
 	}
 	
-elseif ($action == "unsuscribe")  // DESINSCRIPTION
+elseif ($action == "unsubscribe")  // DESINSCRIPTION
 	{ 
 	$email=htmlspecialchars($_GET['email']);
 	$code=htmlspecialchars($_GET['code']);
@@ -141,7 +141,7 @@ elseif ($action == "unsuscribe")  // DESINSCRIPTION
 		}
 	}
 	
-elseif ($action == "unsuscribe_everyday")  // DESINSCRIPTION
+elseif ($action == "unsubscribe_everyday")  // DESINSCRIPTION
 	{ 
 	$email=htmlspecialchars($_GET['email']);
 

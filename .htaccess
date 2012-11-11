@@ -18,8 +18,6 @@ ErrorDocument 500 /down
 ErrorDocument 503 /down
 
 
-
-
 # BEGIN Expire headers
 <IfModule mod_expires.c>
  ExpiresActive On
@@ -41,4 +39,3 @@ ErrorDocument 503 /down
  ExpiresByType application/x-shockwave-flash "access plus 2592000 seconds"
 </IfModule>
 # END Expire headers
-

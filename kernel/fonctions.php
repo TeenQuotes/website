@@ -541,7 +541,10 @@ function last_visit($session_last_visit, $last_visit, $id_account)
 
 function age($naiss)  
 {
-	list($jour, $mois, $annee) = split('[/]', $naiss);
+	$jour = substr($naiss, 0, 2);
+	$mois = substr($naiss, 3, 2);
+	$annee = substr($naiss, 6, 4);
+
 	$today['mois'] = date('n');
 	$today['jour'] = date('j');
 	$today['annee'] = date('Y');
@@ -565,11 +568,13 @@ function age($naiss)
 	return $annees;
 }
 
-function date_est_valide ($date)
+function date_est_valide ($naiss)
 {
-	if (preg_match("#[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}#", $date))
+	if (preg_match("#[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}#", $naiss))
 	{
-		list($jour, $mois, $annee) = split('[/]', $date);
+		$jour = substr($naiss, 0, 2);
+		$mois = substr($naiss, 3, 2);
+		$annee = substr($naiss, 6, 4);
 		return checkdate($mois, $jour, $annee);
 	}
 	else
@@ -747,34 +752,6 @@ function is_quote_new($date_quote, $last_visit, $page, $compteur_quote)
 	if ($date_quote == $yesterday OR ($timestamp_last_visit != '943916400' AND $timestamp_date_quote > $timestamp_last_visit) OR ($page == '1' AND $compteur_quote < $nb_quote_released_per_day))
 	{
 		echo '<span class="icone_new_quote hide_this"></span>';
-	}
-}
-
-
-$heure = date("H");
-$seconde = date('s');
-// RESET COMPTEUR QUOTE POSTED TODAY
-if ($heure >= 21 AND $heure <= 22)
-{
-	$compteur_quote_posted_today_query = mysql_fetch_array(mysql_query("SELECT compteur_quote_posted_today FROM config WHERE id = '1'"));
-	$compteur_quote_posted_today = $compteur_quote_posted_today_query['compteur_quote_posted_today'];
-
-	if ($compteur_quote_posted_today == '1')
-	{
-		$update = mysql_query("UPDATE config SET compteur_quote_posted_today = '0' WHERE id = '1'");
-	}
-}
-// POSTAGE DES QUOTES ENTRE 0H ET 2H DU MATIN
-elseif ($heure >= 00 AND $heure <= 02 AND $seconde % 2 == 0)
-{
-	$compteur_quote_posted_today_query = mysql_fetch_array(mysql_query("SELECT compteur_quote_posted_today FROM config WHERE id = '1'"));
-	$compteur_quote_posted_today = $compteur_quote_posted_today_query['compteur_quote_posted_today'];
-
-	if ($compteur_quote_posted_today == '0')
-	{
-		$update = mysql_query("UPDATE config SET compteur_quote_posted_today = '1' WHERE id = '1'");
-		flush_quotes();
-		email_birthday();
 	}
 }
 
@@ -1262,14 +1239,14 @@ function geoloca_ip($ip)
 	$result = file_get_contents($url);
 	if ($result != FALSE AND $result!="")
 	{
-		$tab_result_temp = split("&", $result);
+		$tab_result_temp = explode("&", $result);
 		if (is_array($tab_result_temp))
 		{
 			if (sizeof($tab_result_temp) > 0)
 			{
 				foreach($tab_result_temp as $val)
 				{
-					$tb_v_temp = split("=", $val);
+					$tb_v_temp = explode("=", $val);
 					$tab_result[$tb_v_temp[0]] = $tb_v_temp[1];
 				}
 			}

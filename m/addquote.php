@@ -26,8 +26,7 @@ elseif ($action == "add_quote")
 	<h2><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />'.$add_quote.'</h2>
 	';
 	
-	$texte_quote= ucfirst(htmlspecialchars(mysql_real_escape_string($_POST['texte_quote'])));
-	$texte_quote = str_replace(array("\r", "\n"," dont "," im "," Im ",'´', " cant "), array('','',' don\'t ',' I\'m ',' I\'m ','\'','can\'t'), $texte_quote);
+	$texte_quote = ucfirst(htmlspecialchars(mysql_real_escape_string($_POST['texte_quote'])));
 	$date = date("d/m/Y");
 
 	if (strlen($texte_quote) >= '50') 

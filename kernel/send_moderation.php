@@ -1,9 +1,11 @@
-<?php				$query = mysql_query("SELECT * FROM approve_quotes WHERE send = '0' AND id_user = '".$auteur_id."'");
+<?php			$query = mysql_query("SELECT * FROM approve_quotes WHERE send = '0' AND id_user = '".$auteur_id."'");
 
 				$approved_quote_txt = '';
 				$unapproved_quote_txt = '';
 				$nb_quote_approved = 0;
 				$nb_quote_unapproved = 0;
+
+				$days_quote_posted_while = $days_quote_posted;
 
 				while ($data = mysql_fetch_array($query))
 				{
@@ -15,7 +17,7 @@
 
 					if ($jours_posted > '1')
 					{
-						$days_quote_posted = $days_quote_posted.'s';
+						$days_quote_posted = $days_quote_posted_while.'s';
 					}
 
 					if ($edit == '1')

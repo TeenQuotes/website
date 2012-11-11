@@ -44,4 +44,4 @@ $message ='
 		</div>
 	</div>
 </div>';
-mail('valerie.augusti@hotmail.fr', 'Test', $message, $headers);
+mail('antoine.augusti@gmail.com', 'Test', $message, $headers);

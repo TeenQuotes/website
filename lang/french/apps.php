@@ -8,7 +8,7 @@ Ne quittez plus jamais '.$name_website.'. Gratuite, facile à utiliser et rapide
 	<li>Lisez les citations, même si vous n\'avez pas de réseau.</li>
 	<li>Créez votre compte, ou connectez-vous si vous en possédez déjà un.</li>
 	<li>Ajoutez des citations et des commentaires.</li>
-	<li>Partagez sur Facebook, Twitter et via email.</li>
+	<li>Partagez par SMS et sur Twitter.</li>
 	<li>Ajoutez des citations à vos favoris.</li>
 </ul>';
 

@@ -2,13 +2,13 @@
 $applications = 'Applications';
 $signed_out_go_mobile = 'You\'ve signed out of '.$name_website.'. Now, go mobile!';
 $text_applications = '
-Do not ever leave '.$name_website.'. Free, easy to use and fast, this application offers the website\'s best functionalities.<br>
+Do not ever leave '.$name_website.'. Free, easy to use and fast, this application offers the website\'s best features.<br>
 <br />
 <ul>
 	<li>Browse quotes, even if you\'re offline.</li>
 	<li>Create your account, or sign in if you have already one.</li>
 	<li>Submit quotes and add comments.</li>
-	<li>Share on Facebook, Twitter and via email.</li>
+	<li>Share via SMS and Twitter.</li>
 	<li>Add quotes to your favorites.</li>
 </ul>';
 $mobile_website = 'Mobile website';

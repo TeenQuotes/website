@@ -1,4 +1,5 @@
 <?php
+
 $account_create = "To create an account on ".$name_website." and be able to access all the advantages that come with it, fill in the form below, your account will be created in an instant !";
 $require_age = "You must be 13 or older to create a ".$name_website."'s account.";
 $username_enter = "Username";
