@@ -1,8 +1,17 @@
 <?php 
 require "kernel/config.php";
 require "kernel/fonctions.php";
-$db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
-mysql_select_db($user,$db)  or die('Erreur de selection '.mysql_error());
+// Connect to SQL master unless we want to ping the slave
+if ($_GET['code'] != 'pingslave')
+{
+	$db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
+	mysql_select_db($user,$db)  or die('Erreur de selection '.mysql_error());
+}
+else
+{
+	sql_connect(TRUE);
+}
+
 
 $hour = date("H");
 $day = date("D");
@@ -109,6 +118,21 @@ elseif ($_GET['code'] == 'tuesday')
 	else
 	{
 		echo 'No reset.<br/>';
+	}
+}
+// Try to connect to the slave. If it fails, alert with an email.
+elseif ($_GET['code'] == 'pingslave')
+{
+	$ping = mysql_ping();
+
+	if ($ping == FALSE)
+	{
+		$object = 'SQL slave down';
+		$message = $top_mail.'The SQL slave appears to be down. Check its status NOW!'.$end_mail;
+
+		mail('antoine.augusti@gmail.com', $object, $message, $headers);
+		mail('maxime05.antoine@gmail.com', $object, $message, $headers);
+		mail('michel@navissal.com', $object, $message, $headers);
 	}
 }
 
