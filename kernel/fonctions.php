@@ -2,6 +2,8 @@
 $domaine = $_SERVER['HTTP_HOST'];
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
+require 'database.php';
+
 switch ($domaine)
 {
 	case "fr.teen-quotes.com" :
