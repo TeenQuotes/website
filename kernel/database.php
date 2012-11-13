@@ -10,8 +10,6 @@ function sql_connect ($slave=false)
 		$host = $host_slave;
 		$user = $user_slave;
 		$pass = $pass_slave;
-
-		echo 'slave ';
 	}
 
 	$db = mysql_connect($host, $user, $pass)  or die('Connexion error'.mysql_error());
