@@ -181,6 +181,7 @@ elseif ($_GET['code'] == 'checkslaveupdate')
 		fwrite($file, $string);
 		fclose($file);
 
+		// Send a notification to administrators
 		mail('antoine.augusti@gmail.com', 'SQL slave updated', $message, $headers);
 		mail('maxime05.antoine@gmail.com', 'SQL slave updated', $message, $headers);
 	}
