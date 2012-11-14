@@ -822,7 +822,7 @@ function email_birthday()
 	$date_today = date("d/m");
 	$date_today .= '/%';
 	$i = '0';
-	$txt_file = 'Birthdays on '.$date_today.'\r\n\n';
+	$txt_file = 'Birthdays on '.$date_today."\r\n\n";
 
 	$query = mysql_query("SELECT username, email, birth_date FROM teen_quotes_account WHERE birth_date LIKE '$date_today'");
 	if (mysql_num_rows($query) >= '1')
@@ -850,7 +850,7 @@ function email_birthday()
 			if ($mail)
 			{
 				$i++;
-				$txt_file .= '#'.$i.' : '.$username.' - '.$age.'\r';
+				$txt_file .= '#'.$i.' : '.$username.' - '.$age."\r";
 			}
 		}
 

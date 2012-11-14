@@ -2,7 +2,7 @@
 require "kernel/config.php";
 require "kernel/fonctions.php";
 // Connect to SQL master unless we want to ping the slave
-if ($_GET['code'] != 'pingslave')
+if ($_GET['code'] != 'pingslave' OR $_GET['code'] != 'checkslaveupdate') 
 {
 	$db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
 	mysql_select_db($user,$db)  or die('Erreur de selection '.mysql_error());
@@ -66,7 +66,7 @@ if ($_GET['code'] == 'monday')
 		
 		$today = date("d/m/Y");
 		$i = '0';
-		$txt_file = 'Newsletter on '.$today.'\r\n\n';
+		$txt_file = 'Newsletter on '.$today."\r\n\n";
 
 
 		$query = mysql_query("SELECT email, code FROM newsletter");
@@ -134,6 +134,57 @@ elseif ($_GET['code'] == 'pingslave')
 		mail('maxime05.antoine@gmail.com', $object, $message, $headers);
 		mail('michel@navissal.com', $object, $message, $headers);
 	}
+}
+elseif ($_GET['code'] == 'checkslaveupdate')
+{
+	$do = FALSE;
+
+	// Check the current content of the file
+	$content_file = file_get_contents("files/replication.php");
+	// Ping the slave
+	$ping = mysql_ping();
+
+	// The slave answers
+	if ($ping == TRUE)
+	{
+		// If the replication was disabled, enable it
+		if (strpos($content_file, "FALSE"))
+		{
+			$txt_to_write = "TRUE";
+			$do = TRUE;
+			$message = $top_mail.' The slave has been ENABLED.'.$end_mail;
+		}
+	}
+	// The slave is down
+	else
+	{
+		// If the replication was enabled, disable it
+		if (strpos($content_file, "TRUE"))
+		{
+			$txt_to_write = "FALSE";
+			$do = TRUE;
+			$message = $top_mail.' The slave has been DISABLED.'.$end_mail;
+		}
+	}
+
+	// Check if we need to write or not
+	if ($do == TRUE)
+	{
+		// New content of the file
+		$string = '
+		<?php
+		$replication = '.$txt_to_write.';
+		?>';
+
+		// Write in the file
+		$file = fopen("files/replication.php", "w");
+		fwrite($file, $string);
+		fclose($file);
+
+		mail('antoine.augusti@gmail.com', 'SQL slave updated', $message, $headers);
+		mail('maxime05.antoine@gmail.com', 'SQL slave updated', $message, $headers);
+	}
+	
 }
 
 echo 'Hello World.';
