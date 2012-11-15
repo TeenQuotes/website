@@ -2,14 +2,13 @@
 require "kernel/config.php";
 require "kernel/fonctions.php";
 // Connect to SQL master unless we want to ping the slave
-if ($_GET['code'] != 'pingslave' OR $_GET['code'] != 'checkslaveupdate') 
+if ($_GET['code'] == 'pingslave' OR $_GET['code'] == 'checkslaveupdate') 
 {
-	$db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
-	mysql_select_db($user,$db)  or die('Erreur de selection '.mysql_error());
+	sql_connect(TRUE);
 }
 else
 {
-	sql_connect(TRUE);
+	sql_connect();
 }
 
 
@@ -98,7 +97,7 @@ if ($_GET['code'] == 'monday')
 		fputs($monfichier, $txt_file); // On écrit le nouveau nombre de pages vues
 		fclose($monfichier);
 			
-		$update = mysql_query("UPDATE config SET send_mail_monday='1' WHERE id = '1'");
+		$update = mysql_query("UPDATE config SET send_mail_monday = '1' WHERE id = '1'");
 		mail('antoine.augusti@gmail.com', 'Sent newsletter', '', $headers);
 	}
 	else
@@ -120,7 +119,7 @@ elseif ($_GET['code'] == 'tuesday')
 		echo 'No reset.<br/>';
 	}
 }
-// Try to connect to the slave. If it fails, alert with an email.
+// Try to connect to the slave. If it fails, alert with an email. (1 mn)
 elseif ($_GET['code'] == 'pingslave')
 {
 	$ping = mysql_ping();
@@ -135,21 +134,29 @@ elseif ($_GET['code'] == 'pingslave')
 		mail('michel@navissal.com', $object, $message, $headers);
 	}
 }
+// Try to connect to the slave. If it fails, disable SQL replication (15 mns)
 elseif ($_GET['code'] == 'checkslaveupdate')
 {
 	$do = FALSE;
-
+	
 	// Check the current content of the file
 	$content_file = file_get_contents("files/replication.php");
 	// Ping the slave
 	$ping = mysql_ping();
-
-	// The slave answers
+	// Check if everything is ok
 	if ($ping == TRUE)
+	{
+		$query = mysql_query("SHOW SLAVE STATUS");
+		$data = mysql_fetch_array($query);
+	}
+	
+	// The slave answers
+	if ($ping == TRUE AND $data['Slave_IO_State'] == 'Waiting for master to send event' AND $data['Slave_IO_Running'] == 'Yes' AND $data['Slave_SQL_Running'] == 'Yes')
 	{
 		// If the replication was disabled, enable it
 		if (strpos($content_file, "FALSE"))
 		{
+			
 			$txt_to_write = "TRUE";
 			$do = TRUE;
 			$message = $top_mail.' The slave has been ENABLED.'.$end_mail;
@@ -163,7 +170,7 @@ elseif ($_GET['code'] == 'checkslaveupdate')
 		{
 			$txt_to_write = "FALSE";
 			$do = TRUE;
-			$message = $top_mail.' The slave has been DISABLED.'.$end_mail;
+			$message = $top_mail.' The slave has been DISABLED.<br/><br/>Debug: ping state: '.$ping.'<br/><br/>'.$data.$end_mail;
 		}
 	}
 
