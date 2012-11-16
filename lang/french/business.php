@@ -1,6 +1,6 @@
 <?php
 $intro_txt = '
-Avec plus de 1 300 000 followers sur Twitter, près de 50 000 fans sur Facebook et un site qui rencontre du succès, Teen Quotes est une bonne opportunité pour proposer de la publicité.<br>
+Avec plus de 1 700 000 followers sur Twitter, près de 50 000 fans sur Facebook et un site qui rencontre du succès, Teen Quotes est une bonne opportunité pour proposer de la publicité.<br>
 <br />
 Nous pouvons gérer votre campagne de publicité et ainsi vous faire gagner des visiteurs ou des followers. Retrouvez tous les détails ici.';
 
