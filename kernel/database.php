@@ -1,11 +1,11 @@
 <?php
-function sql_connect ($slave=false)
+function sql_connect ($slave=false, $force=false)
 {
 	// Grant access to variables located in /kernel/config.php
 	global $host, $user, $pass, $replication, $freq, $host_slave, $user_slave, $pass_slave;
 	$db_name = $user;
 
-	if ($slave == TRUE AND $replication == TRUE AND date(s) % $freq == 0)
+	if ($slave == TRUE AND ($replication == TRUE OR $force == TRUE) AND date(s) % $freq == 0)
 	{
 		$host = $host_slave;
 		$user = $user_slave;

@@ -4,7 +4,7 @@ require "kernel/fonctions.php";
 // Connect to SQL master unless we want to ping the slave
 if ($_GET['code'] == 'pingslave' OR $_GET['code'] == 'checkslaveupdate') 
 {
-	sql_connect(TRUE);
+	sql_connect(TRUE, TRUE);
 }
 else
 {
