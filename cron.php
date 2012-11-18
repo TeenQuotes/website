@@ -178,10 +178,10 @@ elseif ($_GET['code'] == 'checkslaveupdate')
 	if ($do == TRUE)
 	{
 		// New content of the file
-		$string = '
-		<?php
-		$replication = '.$txt_to_write.';
-		?>';
+$string = 
+'<?php
+$replication = '.$txt_to_write.';
+?>';
 
 		// Write in the file
 		$file = fopen("files/replication.php", "w");
