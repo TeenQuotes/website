@@ -1515,7 +1515,7 @@ function mobile_device_detect($iphone=TRUE, $android =TRUE, $opera=TRUE, $blackb
 //  header('Vary: User-Agent, Accept'); // http://mobiforge.com/developing/story/setting-http-headers-advise-transcoding-proxies
 
   // if redirect (either the value of the mobile or desktop redirect depending on the value of $mobile_browser) is TRUE redirect else we return the status of $mobile_browser
-  if ($redirect = ($mobile_browser==TRUE) ? $mobileredirect : $desktopredirect){
+  if ($redirect = ($mobile_browser == TRUE) ? $mobileredirect : $desktopredirect){
     header('Location: '.$redirect); // redirect to the right url for this device
     exit;
   }else{ 
