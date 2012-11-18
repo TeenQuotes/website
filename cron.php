@@ -178,6 +178,7 @@ elseif ($_GET['code'] == 'checkslaveupdate')
 	if ($do == TRUE)
 	{
 		// New content of the file
+		// WARNING: Do no touch the indentation!
 $string = 
 '<?php
 $replication = '.$txt_to_write.';
