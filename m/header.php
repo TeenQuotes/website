@@ -230,8 +230,7 @@ elseif ($php_self == 'signup')
 	}
 elseif ($php_self == 'apps')
 	{
-		include 'lang/'.$language.'/apps.php';
-		echo '<title>'.$name_website.' | '.$applications.'</title>';
+		echo '<title>'.$name_website.' | Applications</title>';
 		echo "\r\n";
 		if ($domaine == 'kotado.fr')
 		{
