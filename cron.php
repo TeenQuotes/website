@@ -195,5 +195,41 @@ $replication = '.$txt_to_write.';
 	}
 	
 }
+elseif ($_GET['code'] == 'maillancement' AND $day == 'Thu')
+{
+	mail('antoine.augusti@gmail.com', 'iPhone sent', 'Yeah', $headers);
+
+	$query = mysql_query("SELECT email, username FROM teen_quotes_account");
+
+	while ($donnees = mysql_fetch_array($query))
+	{
+		$username = $donnees['username'];
+		$email = $donnees['email'];
+
+		$message = $top_mail.'
+		Hi <font color="#394DAC"><b>'.$username.'</b></font>!<br/>
+		<br/>
+		Today we’ve got a big annoucement for you! <b>Teen Quotes is now available right from your iPhone or your iPod touch</b> thanks to our brand new application.<br/>
+		<br/>
+		You can download the application right now: visit <a href="https://itunes.apple.com/us/app/teen-quotes/id577239995" title="Teen Quotes application">teen-quotes.com/apps</a> from your iPhone / iTouch.<br/>
+		<br/>
+		Do not ever leave Teen Quotes. Free, easy to use and fast, this application offers the website\'s best functionalities.<br/>
+		<ul>
+			<li>Browse quotes, <font color="#394DAC">even if you\'re offline</font>.</li>
+			<li>Create your account, or sign in if you have already one.</li>
+			<li>Submit quotes and add comments.</li>
+			<li>Share on Twitter and SMS.</li>
+			<li>Add quotes to your favorites.</li>
+		</ul>
+		By the way, we have also release a new version of the desktop version and the mobile version in order to suit the application’s design. We’re sure you’ll enjoy it!<br/>
+		<br/>
+		See you soon on Teen Quotes.<br/>
+		<br/>
+		Best regards,<br/>
+		<b>The Teen Quotes Team</b>'.$end_mail;
+
+		mail($email, 'iPhone / iPod touch application and new version of Teen Quotes', $message, $headers);
+	}
+}
 
 echo 'Hello World.';
