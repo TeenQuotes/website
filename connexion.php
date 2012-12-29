@@ -31,7 +31,7 @@ if (isset($_POST['connexion']) OR $method == 'get')
 			}
 				
 			$sha = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE `pass` = '$passwd' AND `username` = '$pseudo'"));
-			if ($sha == '1')
+			if ($sha == 1)
 			{
 				$compte = mysql_fetch_array($query_base);
 
@@ -49,7 +49,7 @@ if (isset($_POST['connexion']) OR $method == 'get')
 				$_SESSION['passwd'] = $passwd;
 				$_SESSION['username'] = $compte['username'];
 
-				if (username_est_valide(strtolower($_SESSION['username'])) == FALSE)
+				if (usernameIsValid(strtolower($_SESSION['username'])) == FALSE)
 				{
 					echo '<meta http-equiv="refresh" content="0; url=changeusername">';
 				}
@@ -83,4 +83,3 @@ if (isset($_POST['connexion']) OR $method == 'get')
 	}
 }
 ?>
-

@@ -2,6 +2,7 @@ RewriteEngine On
 RewriteBase /
 RewriteCond %{HTTP_HOST} ^www.teen-quotes.com [NC]
 RewriteRule ^(.*)$ http://teen-quotes.com/$1 [L,R=301]
+RewriteRule ^business advertise [L,R=301]
 RewriteRule ^user-([0-9]+)$ user.php?id_user=$1 [L,QSA]
 RewriteRule ^quote-([0-9]+)$ quote.php?id_quote=$1 [L,QSA]
 RewriteRule ^editcomment-([0-9]+)$ editcomment.php?id_comment=$1 [L,QSA]

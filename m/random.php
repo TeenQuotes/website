@@ -35,7 +35,7 @@ else
 							ORDER BY RAND() LIMIT $premierMessageAafficher, $nb_messages_par_page");
 }
 while ($result = mysql_fetch_array($reponse))
-	{
+{
 	$id_quote = $result['id'];
 	$txt_quote = $result['texte_english'];
 	$auteur_id = $result['auteur_id'];
@@ -49,14 +49,14 @@ while ($result = mysql_fetch_array($reponse))
 	
 ?>
 	<div class="post">
-	<?php echo $txt_quote; ?><br>
-		<div style="font-size:65%">
+	<?php echo $txt_quote; ?><br/>
+		<div class="footer_quote">
 			<a href="quote-<?php echo $id_quote; ?>">#<?php echo $id_quote; ?> - <?php afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments); ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 		</div>
 	</div>
 <?php
 	if ($i == 4 AND $show_pub == 0)
-		{
+	{
 		echo 
 		'<div class="pub_middle">
 		<script type="text/javascript"><!--
@@ -71,9 +71,9 @@ while ($result = mysql_fetch_array($reponse))
 		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 		</script>
 		</div>';
-		}
+	}
 	$i++;
-	} 
+} 
 	
 display_page_bottom($page, $nombreDePages, 'p', NULL, $previous_page, $next_page);
 

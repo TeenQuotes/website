@@ -1,6 +1,6 @@
 RewriteEngine on
 RewriteCond %{HTTP_HOST} ^teen-quotes.com [NC]
-RewriteRule (.*) http://www.teen-quotes.com/$1 [QSA,R=301,L]
+RewriteRule (.*) http://teen-quotes.com/$1 [QSA,R=301,L]
 RewriteRule ^user-([0-9]+)$ /include.php?page=user&id_user=$1 [L,QSA]
 RewriteRule ^quote-([0-9]+)$ /include.php?page=quote&id_quote=$1 [L,QSA]
 RewriteRule ^editcomment-([0-9]+)$ /include.php?page=editcomment&id_comment=$1 [L,QSA]
@@ -10,9 +10,9 @@ RewriteRule ^unfavorite-([0-9]+)$ /include.php?page=unfavorite&id_quote=$1 [L,QS
 RewriteRule ^([a-z]+)$ /include.php?page=$1 [L,QSA]
 
 
-ErrorDocument 404 http://www.teen-quotes.com/error.php?erreur=404
-ErrorDocument 403 http://www.teen-quotes.com/error.php?erreur=403
-ErrorDocument 500 http://www.teen-quotes.com/error.php?erreur=500
+ErrorDocument 404 http://teen-quotes.com/error.php?erreur=404
+ErrorDocument 403 http://teen-quotes.com/error.php?erreur=403
+ErrorDocument 500 http://teen-quotes.com/error.php?erreur=500
 
 
 # BEGIN Cache-Control Headers
@@ -35,4 +35,3 @@ Header unset Cache-Control
 </FilesMatch>
 </IfModule>
 # END Cache-Control Headers
- 

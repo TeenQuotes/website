@@ -35,17 +35,17 @@ if (!empty($id_quote) AND !empty($texte))
 			{
 				$comment_added_mail = '
 				'.$top_mail.' 
-				Bonjour '.$auteur.',<br><br />
+				Bonjour '.$auteur.',<br/><br/>
 				Un commentaire a été ajouté à votre citation :
-				<br />
+				<br/>
 				<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
-					'.$txt_quote.'<br><br />
+					'.$txt_quote.'<br/><br/>
 					<a href="http://kotado.fr/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">'.$by.' <a href="http://kotado.fr/user-'.$auteur_id.'" target="_blank" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_posted.'</span>
 				</div>
 				Voici le commentaire :
 				<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
-				'.$texte_comment.'<br><br />
-				<a href="http://kotado.fr/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">'.$by.' <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br>
+				'.$texte_comment.'<br/><br/>
+				<a href="http://kotado.fr/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #394DAC;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">'.$by.' <a href="http://'.$domaine.'/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br/>
 				</div>
 				'.$end_mail.'';
 			}
@@ -53,17 +53,17 @@ if (!empty($id_quote) AND !empty($texte))
 			{
 				$comment_added_mail = '
 				'.$top_mail.' 
-				Hello '.$auteur.',<br><br />
+				Hello '.$auteur.',<br/><br/>
 				A comment has been added on your quote :
-				<br />
+				<br/>
 				<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
-					'.$txt_quote.'<br><br />
-					<a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">'.$by.' <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_posted.'</span>
+					'.$txt_quote.'<br/><br/>
+					<a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">'.$by.' <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_posted.'</span>
 				</div>
 				Here is the comment :
 				<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
-				'.$texte_comment.'<br><br />
-				<a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">'.$by.' <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br>
+				'.$texte_comment.'<br/><br/>
+				<a href="http://'.$domaine.'/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #394DAC;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">'.$by.' <a href="http://'.$domaine.'/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br/>
 				</div>
 				'.$end_mail.'';
 			}

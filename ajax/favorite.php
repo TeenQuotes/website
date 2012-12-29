@@ -10,7 +10,7 @@ include '../lang/'.$language.'/favorite.php';
 $id_quote = mysql_real_escape_string($_POST['id_quote']);
 $id = mysql_real_escape_string($_POST['id_user']);
 
-if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$domaine_en.'/', $_SERVER['SERVER_NAME']))
+if (isDomainValidForAjax())
 {
 	$verif_quote = mysql_fetch_assoc(mysql_query("SELECT COUNT(*) AS nb FROM teen_quotes_quotes WHERE id = '$id_quote' AND approved = '1'"));
 

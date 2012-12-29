@@ -7,9 +7,9 @@ $logged = $_SESSION['logged'];
 $exist_quote = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE id = '$id_quote' AND approved = '1'"));
 
 if ($exist_quote == 0 OR empty($id_quote)) 
-	{
+{
 	echo '<meta http-equiv="refresh" content="0; url=error.php?erreur=404">';
-	}
+}
 
 if ($logged)
 {
@@ -45,8 +45,8 @@ else
 ?>
 
 	<div class="post">
-	<?php echo $txt_quote; ?><br><br />
-	<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']);date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+		<?php echo $txt_quote; ?><br/><br/>
+		<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']);date_et_auteur_m($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 	</div>
 	
 	<?php
@@ -55,26 +55,26 @@ else
 	<div class="post slidedown">
 	<h2><img src="http://'.$domaine.'/images/icones/about.png" class="icone" alt="icone" />'.$comments_ucfirst.''; if ($nombre_commentaires >'1'){echo '<span class="right">'.$nombre_commentaires.' '.$comment.'s</span>';}else{echo'<span class="right">'.$nombre_commentaires.' '.$comment.'</span>';}echo '</h2>';
 	if ($_SESSION['logged']) 
-		{
+	{
 		echo '
 		<form action="addcomment" method="post">
-		<input type="hidden" name="id_quote" value="'.$id_quote.'" />
-		<textarea name="texte" style="width:100%;height:50px" value="'.$warning_comments.'" onblur="javascript:if(this.value==\'\'){this.value=\''.$warning_comments.'\'}" onFocus="javascript:if(this.value==\''.$warning_comments.'\'){this.value=\'\'}" />'.$warning_comments.'</textarea> 
-		<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+			<input type="hidden" name="id_quote" value="'.$id_quote.'" />
+			<textarea name="texte" style="width:100%;height:50px" placeholder="'.$warning_comments.'"/></textarea> 
+			<center><p><input type="submit" value="'.$add_my_comment.'" class="submit" /></p></center>
 		</form>
 		';
-		}
+	}
 	else
-		{
+	{
 		echo '
-		<span class="erreur">'.$must_be_log.'</span><br>
-		<br />
+		<span class="erreur">'.$must_be_log.'</span><br/>
+		<br/>
 		';
-		}
+	}
 		
 		
 	if ($nombre_commentaires >= 1)
-		{ // affichage si seulement il y a des commentaires
+	{ // affichage si seulement il y a des commentaires
 		$nb_messages_par_page = 10;
 
 		$display_page_top = display_page_top($nombre_commentaires, $nb_messages_par_page, 'p', $previous_page, $next_page);
@@ -84,7 +84,7 @@ else
 		
 		$commentaires = mysql_query("SELECT c.id id, c.auteur_id auteur_id, c.texte texte, c.date date, a.username auteur, a.avatar avatar FROM teen_quotes_comments c, teen_quotes_account a WHERE c.auteur_id = a.id AND c.id_quote = '$id_quote' ORDER BY c.id ASC LIMIT $premierMessageAafficher ,  $nb_messages_par_page");
 		while ($donnees = mysql_fetch_array ($commentaires))
-			{
+		{
 			$id_comment = $donnees['id'];
 			$id_auteur = $donnees['auteur_id'];
 			$query_avatar = $donnees['avatar'];
@@ -93,38 +93,38 @@ else
 			
 			echo '
 			<div class="grey_post">
-			'.$texte_stripslashes.'<br><br />
-			<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" alt="Avatar" /></a>'; 
-			if ($_SESSION['security_level'] >= 2 OR $id_auteur == $id)
+				'.$texte_stripslashes.'<br/><br/>
+				<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" alt="Avatar" /></a>'; 
+				if ($_SESSION['security_level'] >= 2 OR $id_auteur == $id)
 				{
-				echo '<span class="favorite">';
-				if ($id_auteur == $id)
+					echo '<span class="favorite">';
+					if ($id_auteur == $id)
 					{
-					echo '<a href="editcomment-'.$id_comment.'"><img src="http://'.$domaine.'/images/icones/profil.png" class="mini_icone" /></a>';
+						echo '<a href="editcomment-'.$id_comment.'"><img src="http://'.$domaine.'/images/icones/profil.png" class="mini_icone" /></a>';
 					}
-				if ($_SESSION['security_level'] >= '2')
+					if ($_SESSION['security_level'] >= '2')
 					{
-					echo '<a href="admin.php?action=delete_comment&id='.$id_comment.'"><img src="http://'.$domaine.'/images/icones/delete.png" class="mini_icone" /></a>';
+						echo '<a href="admin.php?action=delete_comment&id='.$id_comment.'"><img src="http://'.$domaine.'/images/icones/delete.png" class="mini_icone" /></a>';
 					}
-				echo '</span>';
+					echo '</span>';
 				}
-			
-			echo '<span class="right">'.$by.' <a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'">'.$donnees['auteur'].'</a> '.$on.' '.$donnees['date'].'</span><br>
+				
+				echo '<span class="right">'.$by.' <a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'">'.$donnees['auteur'].'</a> '.$on.' '.$donnees['date'].'</span><br/>
 			</div>';
-			}
+		}
 			
 		display_page_bottom($page, $nombreDePages, 'p', NULL, $previous_page, $next_page);
 			
 		echo '<div class="clear"></div>';
-		}
+	}
 	else 
-		{ // NO COMMENTS
+	{ // NO COMMENTS
 		echo '
 		<div class="bandeau_erreur">
-		'.$no_comments.'
+			'.$no_comments.'
 		</div>
 		';
-		}
+	}
 
 echo '</div>';
 

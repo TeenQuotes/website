@@ -17,7 +17,7 @@ $language_translate = mysql_real_escape_string($_POST['language_translate']);
 $second_language = $language_translate;
 
 
-if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$domaine_en.'/', $_SERVER['SERVER_NAME'])) 
+if (isDomainValidForAjax())
 	{
 	$previous_translate_query = mysql_fetch_array(mysql_query("SELECT texte_".$language_translate." as txt FROM teen_quotes_quotes WHERE id = '".$id_quote."'"));
 	$previous_translate = $previous_translate_query['txt'];
@@ -51,23 +51,23 @@ if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$
 		else
 			{
 			echo 'Error';
-			echo "1<br>
-			$id_quote <br>
-			$texte_quote_translate <br>
-			$language_source <br>
-			$language_translate <br>";
+			echo "1<br/>
+			$id_quote <br/>
+			$texte_quote_translate <br/>
+			$language_source <br/>
+			$language_translate <br/>";
 			}
 		}
 	else
 		{
 		echo 'Error';
 		echo "
-			2<br>
-			$id_quote <br>
-			$previous_translate <br>
-			$texte_quote_translate <br>
-			$language_source <br>
-			$language_translate <br>";
+			2<br/>
+			$id_quote <br/>
+			$previous_translate <br/>
+			$texte_quote_translate <br/>
+			$language_source <br/>
+			$language_translate <br/>";
 		}
 	}		
 ?>

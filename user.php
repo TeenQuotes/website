@@ -5,7 +5,7 @@ $i = 0;
 $j = 0;
 
 $id = mysql_real_escape_string($_GET['id_user']);
-$exist_user = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE id='".$id."'"));
+$exist_user = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE id = '".$id."'"));
 $logged = $_SESSION['logged'];
 
 if ($exist_user == 0)
@@ -24,7 +24,7 @@ if (empty($id))
 {
 	echo '
 	<div class="post">
-	<h1>'.$error.'</h1>
+		<h1>'.$error.'</h1>
 	</div>';
 }
 else
@@ -119,35 +119,35 @@ else
 			echo '</span></h2>';
 			echo '
 			<div class="cadre_infos_profil">
-				<span class="bleu">'.$title.' :</span> '.$result['title'].'<br>
-				<span class="bleu">'.$birth_date.' :</span> '. $result['birth_date'].' '.$age.'<br>';
+				<span class="bleu">'.$title.' :</span> '.$result['title'].'<br/>
+				<span class="bleu">'.$birth_date.' :</span> '. $result['birth_date'].' '.$age.'<br/>';
 
 				if ($result['country'] != $not_specified)
 				{
-					echo '<span class="bleu">'.$country.' :</span> <a href="search?country='.$result['country'].'" class="link_grey" title="'.$search.' '.$result['country'].'">'.$result['country'].'</a><br>';
+					echo '<span class="bleu">'.$country.' :</span> <a href="search?country='.$result['country'].'" class="link_grey" title="'.$search.' '.$result['country'].'">'.$result['country'].'</a><br/>';
 				}
 				else
 				{
-					echo '<span class="bleu">'.$country.' :</span> '. $result['country'].'<br>';
+					echo '<span class="bleu">'.$country.' :</span> '. $result['country'].'<br/>';
 				}
 
 				if ($result['city'] != $not_specified)
 				{
-					echo '<span class="bleu">'.$city.' :</span> <a href="search?city='.$result['city'].'" class="link_grey" title="'.$search.' '.$result['city'].'">'. $result['city'].'</a><br>';
+					echo '<span class="bleu">'.$city.' :</span> <a href="search?city='.$result['city'].'" class="link_grey" title="'.$search.' '.$result['city'].'">'. $result['city'].'</a><br/>';
 				}
 				else
 				{
-					echo '<span class="bleu">'.$city.' :</span> '. $result['city'].'<br>';
+					echo '<span class="bleu">'.$city.' :</span> '. $result['city'].'<br/>';
 				}
 
 				echo '
-				<span class="bleu">'.$fav_quote.' :</span> '. $nb_favorite_quotes.'<br>
-				<span class="bleu">'.$number_comments.' :</span> '. $nb_comments.'<br>
-				<span class="bleu">'.$number_quotes.' :</span> '.$nb_quotes_approved.' '.$validees.' '.$nb_quotes_submited.' '.$soumises.'<br>';
+				<span class="bleu">'.$fav_quote.' :</span> '. $nb_favorite_quotes.'<br/>
+				<span class="bleu">'.$number_comments.' :</span> '. $nb_comments.'<br/>
+				<span class="bleu">'.$number_quotes.' :</span> '.$nb_quotes_approved.' '.$validees.' '.$nb_quotes_submited.' '.$soumises.'<br/>';
 			if ($nb_quotes_approved > '0')
 				{
 				echo '
-				<span class="bleu">'.$added_on_favorites.' :</span> '.$nb_quotes_added_to_favorite.'<br>
+				<span class="bleu">'.$added_on_favorites.' :</span> '.$nb_quotes_added_to_favorite.'<br/>
 				';
 				}
 			echo '
@@ -274,7 +274,7 @@ else
 				?>
 		
 				<div class="grey_post">
-				<?php echo $txt_quote; ?><br>
+				<?php echo $txt_quote; ?><br/>
 					<div class="footer_quote">
 						<a href="quote-<?php echo $id_quote_fav; ?>">#<?php echo $id_quote_fav; ?> - <?php afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments); ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 					</div>
@@ -353,7 +353,7 @@ else
 				$id_user_co = $_SESSION['id'];
 				?>
 				<div class="grey_post">
-				<?php echo $txt_quote; ?><br>
+				<?php echo $txt_quote; ?><br/>
 					<div class="footer_quote">
 						<a href="quote-<?php echo $id_quote; ?>">#<?php echo $id_quote; ?> - <?php afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments); ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 					</div>

@@ -46,10 +46,9 @@ while ($result = mysql_fetch_array($reponse))
 	{
 		$is_favorite = $result['is_favorite'];
 	}
-	
 ?>
 	<div class="post">
-	<?php is_quote_new($date_quote,$last_visit,$page,$i); ?><?php echo $txt_quote; ?><br>
+	<?php is_quote_new($date_quote,$last_visit,$page,$i); ?><?php echo $txt_quote; ?><br/>
 	<div class="footer_quote">
 		<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?> - <?php afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments); ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 	</div>
@@ -59,7 +58,7 @@ while ($result = mysql_fetch_array($reponse))
 	$i++;
 	}
 	
-display_page_bottom($page, $nombreDePages, 'p', NULL, $previous_page, $next_page);
+display_page_bottom($page, $nombreDePages, 'p', NULL, $previous_page, $next_page, TRUE);
 
 include "footer.php"; 
 ?>

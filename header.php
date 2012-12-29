@@ -1,92 +1,24 @@
 <?php
+ini_set('session.cookie_domain', '.teen-quotes.com');
 session_start();
-
-$domaine = $_SERVER['HTTP_HOST'];
-switch ($domaine)
-	{
-	case "fr.teen-quotes.com" :
-	$domaine = "teen-quotes.com";
-	break;
-	case "m.teen-quotes.com" :
-	$domaine = "teen-quotes.com";
-	break;
-	case "en.kotado.fr" :
-	$domaine = "kotado.fr";
-	break;
-	case "m.kotado.fr" :
-	$domaine = "kotado.fr";
-	break;
-	}
-$domaine_en = "teen-quotes.com";
-$domaine_fr = "kotado.fr";
+header('Content-type: text/html; charset=utf-8');
+if (preg_match('#[a-zA-Z]#', $_GET['p']))
+{
+	header("Location: /");
+	exit;
+}
 
 // INCLUSION DES FICHIERS
 // Does the SQL replication works or not
-require "files/replication.php";
-require "kernel/config.php";
+require 'files/replication.php';
+require 'kernel/config.php';
 $db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
 mysql_select_db($user,$db)  or die('Erreur de selection '.mysql_error()); 
-require "kernel/fonctions.php";
+require 'kernel/fonctions.php';
 require 'lang/'.$language.'/general.php';
+include 'lang/'.$language.'/connexion.php';
 
-if ($_SESSION['logged'] == TRUE AND (empty($_SESSION['id']) OR empty($_SESSION['username']) OR empty($_SESSION['email']) OR empty($_SESSION['avatar'])))
-{
-	deconnexion();
-}
-
-if (isset($_COOKIE['Pseudo']) AND isset($_COOKIE['Pass']) AND $_SESSION['logged'] == FALSE)
-{
-	$pseudo = mysql_real_escape_string($_COOKIE['Pseudo']);
-	$pass = mysql_real_escape_string($_COOKIE['Pass']);
-	$query_base = mysql_query("SELECT * FROM teen_quotes_account WHERE `username` ='$pseudo'");
-
-	$retour_nb_pseudo = mysql_num_rows($query_base);
-	if ($retour_nb_pseudo == '1')
-	{				
-		$sha = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE `pass` = '$pass' AND `username` = '$pseudo'"));
-		if ($sha == 1)
-		{
-			$compte = mysql_fetch_array($query_base);
-
-			$_SESSION['logged'] = TRUE;
-			$_SESSION['id'] = $compte['id'];										
-			$_SESSION['security_level'] = $compte['security_level'];									
-			$_SESSION['username'] = $compte['username'];
-			$_SESSION['email'] = $compte['email'];
-			$_SESSION['avatar'] = $compte['avatar'];
-
-			$username = $_SESSION['username'];
-			$id = $_SESSION['id'];
-			$email = $compte['email'];
-			$last_visit = $compte['last_visit'];
-			$session_last_visit = $_SESSION['last_visit_user'];
-
-			last_visit($session_last_visit,$last_visit,$id);
-
-			if (empty($compte['birth_date']) AND empty($compte['title']) AND empty($compte['country']) AND empty($compte['about_me']) AND $compte['avatar'] == "icon50.png" AND empty($compte['city']))
-			{
-				$_SESSION['profile_not_fullfilled'] = TRUE;
-			}
-		}
-	}
-}
-
-if ($_SESSION['logged'] == TRUE)
-{
-	$username = $_SESSION['username'];
-	$id = $_SESSION['id'];
-	$email = $_SESSION['email'];
-	$session_last_visit = $_SESSION['last_visit_user'];
-
-	if (username_est_valide(strtolower($_SESSION['username'])) == FALSE AND $php_self != 'changeusername')
-	{
-		echo '<meta http-equiv="refresh" content="0;url=changeusername">';
-	}
-	if (isset($_COOKIE['Pseudo']) AND username_est_valide(strtolower($_SESSION['username'])) == TRUE AND username_est_valide($_SESSION['username']) == FALSE)
-	{
-		$_SESSION['username'] = strtolower($_SESSION['username']);
-	}
-}
+include 'kernel/connexion_cookie.php';
 ?>
 <!DOCTYPE html>
 <?php
@@ -101,234 +33,32 @@ else
 ?>
 <head>
 <?php 
-// PERMET DE GERER LE TITRE DES PAGES DYNAMIQUES ET LES DESCRIPTION POUR LE SHARE SUR FB
-if (isset($_GET['id_user'])) 
-	{
-		$id_user = mysql_real_escape_string($_GET['id_user']);
-		$php_self = 'user-'.$id_user.'';
-		$result = mysql_fetch_array(mysql_query("SELECT username FROM teen_quotes_account WHERE id = '$id_user'"));
-		$username_title = $result['username'];
-		echo '<title>'.$name_website.' | '.$username_title.'</title>';
-		echo "\r\n";
-		if ($domaine == 'kotado.fr')
-		{
-			echo '<meta name="description" content="Profil de '.$username_title.' sur '.$name_website.'. Voir ses citations dans les favoris, ses citations ajoutées."/>';
-		}
-		else
-		{
-			echo '<meta name="description" content="'.$username_title.'\'s profile on '.$name_website.'. View his favorite quotes and his quotes." />';
-		}
-		echo "\r\n";
-	}
-elseif (isset($_GET['p']) AND (int) $_GET['p'] >= 2 AND !(preg_match('#members#', $_SERVER["SCRIPT_URI"])) AND !(preg_match('#random#', $_SERVER["SCRIPT_URI"])))
-	{
-		$page_index = htmlspecialchars($_GET['p']);
-		echo '<title>'.$name_website.' | '.$last_quotes.' - page '.$page_index.'</title>';
-		echo "\r\n";
-
-		if ($domaine == 'kotado.fr')
-		{
-			echo '<meta name="description" content="'.$name_website.' : ta dose quotidienne de phrases. Citations de la vie quotidienne. Quotes Ados." />';
-		}
-		else
-		{
-			echo '<meta name="description" content="'.$name_website.' : because our lives are filled full of beautiful sentences, and because some quotes are simply true. Your every day life moments."/>';
-		}
-		echo "\r\n";
-	}
-elseif (preg_match('#random#', $_SERVER["SCRIPT_URI"]))
-	{
-		$page_random = (int) htmlspecialchars($_GET['p']);
-
-		if ($page_random >= 2)
-		{
-			echo '<title>'.$name_website.' | '.$random_quote.' - page '.$page_random.'</title>';
-		}
-		else
-		{
-			echo '<title>'.$name_website.' | '.$random_quote.'</title>';
-		}
-		echo "\r\n";
-
-		if ($domaine == 'kotado.fr')
-		{
-			echo '<meta name="description" content="Citations aléatoires postées sur '.$name_website.'. Citations de la vie quotidienne. Quotes ados."/>';
-		}
-		else
-		{
-			echo '<meta name="description" content="Random quotes released on '.$name_website.'. Because some quotes are simply true. Your everyday life moments."/>';
-		}
-		echo "\r\n";
-	}
-elseif (isset($_GET['id_quote'])) 
-	{
-		$id_quote = mysql_real_escape_string($_GET['id_quote']);
-		$php_self = 'quote-'.$id_quote.'';
-		$result = mysql_fetch_array(mysql_query("SELECT texte_english FROM teen_quotes_quotes WHERE id = '$id_quote' AND approved = '1'"));
-		$texte = $result['texte_english'];
-		echo '<title>'.$name_website.' | Quote #'.$id_quote.'</title>';
-		echo "\r\n";
-		echo '<meta name="description" content="'.$texte.'"/>';
-		echo "\r\n";
-	}
-elseif (isset($_GET['letter']) OR preg_match('#members#', $_SERVER["SCRIPT_URI"])) 
-	{
-		$lettre = mysql_real_escape_string($_GET['letter']);
-		if (empty($lettre)) { $lettre = "A"; }
-		$php_self = 'members-'.$lettre.'';
-
-		if ($domaine == 'kotado.fr')
-		{
-			echo '<title>'.$name_website.' | Membre - '.$lettre.'</title>';
-			echo "\r\n";
-			echo '<meta name="description" content="Membres commençant par la lettre '.$lettre.' sur '.$name_website.'. '.$name_website.' : ta dose quotidienne de phrases. Citations de la vie quotidienne. Quotes Ados." />';
-		}
-		else
-		{
-			echo '<title>'.$name_website.' | Member - '.$lettre.'</title>';
-			echo "\r\n";
-			echo '<meta name="description" content="Members beginning with '.$lettre.' on '.$name_website.'. '.$name_website.' : because some quotes are simply true. Your everyday life moments." />';
-		}
-		echo "\r\n";
-	}
-elseif ($php_self == 'contact')
-	{
-		echo '<title>'.$name_website.' | Contact</title>';
-		echo "\r\n";
-
-		if ($domaine == 'kotado.fr')
-		{
-			echo '<meta name="description" content="'.$name_website.' : contactez-nous par email pour toute question."/>';	
-		}
-		else
-		{
-			echo '<meta name="description" content="'.$name_website.' : contact us by email if you have any question."/>';
-		}
-		echo "\r\n";		
-	}
-elseif ($php_self == 'signup')
-	{
-		echo '<title>'.$name_website.' | '.$sign_up.'</title>';
-		echo "\r\n";
-
-		if ($domaine == 'kotado.fr')
-		{
-			echo '<meta name="description" content="'.$name_website.' : créez votre compte et accédez à tous les avantages qui vont avec : profils, citations favorites, ajout de commentaires..." />';
-		}
-		else
-		{
-			echo '<meta name="description" content="'.$name_website.' : create an account and be able to access all the advantages that come with it: profiles, favorite quotes, comments..." />';
-		}
-		echo "\r\n";
-	}
-elseif ($php_self == 'apps')
-	{
-		include 'lang/'.$language.'/apps.php';
-		echo '<title>'.$name_website.' | '.$applications.'</title>';
-		echo "\r\n";
-		if ($domaine == 'kotado.fr')
-		{
-			echo '<meta name="description" content="'.$name_website.' : téléchargez notre application pour iOS et Android. Visitez notre version mobile depuis votre portable."/>';
-		}
-		else
-		{
-			echo '<meta name="description" content="'.$name_website.' : download our application for iOS and Android. Visit our mobile website right from your smartphone."/>';
-		}
-		echo "\r\n";
-	}
-elseif ($php_self == 'business')
-	{
-		echo '<title>'.$name_website.' | Business</title>';
-		echo "\r\n";
-		if ($domaine == 'kotado.fr')
-		{
-			echo '<meta name="description" content="'.$name_website.' : avec plus de 1 300 000 followers sur Twitter, près de 50 000 fans sur Facebook et un site, Teen Quotes est une bonne opportunité pour proposer de la publicité."/>';
-		}
-		else
-		{
-			echo '<meta name="description" content="'.$name_website.' : with more than 1,300,000 followers on Twitter, nearly 50,000 fans on Facebook and a website, Teen Quotes is a really good opportunity for advertising."/>';
-		}
-		echo "\r\n";
-	}
-elseif ($php_self == 'statistics')
-	{
-		echo '<title>'.$name_website.' | '.$statistics.'</title>';
-		echo "\r\n";
-		if ($domaine == 'kotado.fr')
-		{
-			echo '<meta name="description" content="'.$name_website.' : statistiques. Quelques statistiques sur l\'utilisation du site : membres, citations, recherches..."/>';
-		}
-		else
-		{
-			echo '<meta name="description" content="'.$name_website.' : statistics. Some statistics about the use of the website : members, quotes, searchs..."/>';
-		}
-		echo "\r\n";
-	}
-else 
-	{
-		if ($domaine == 'kotado.fr')
-		{
-			echo '<title>'.$name_website.' | Ta dose quotidienne de phrases</title>';
-			echo "\r\n";
-			echo '<meta name="description" content="'.$name_website.' : ta dose quotidienne de phrases. Citations de la vie quotidienne. Quotes Ados." />';
-		}
-		else
-		{
-			echo '<title>'.$name_website.' | Because some quotes are simply true</title>';
-			echo "\r\n";
-			echo '<meta name="description" content="'.$name_website.' : because our lives are filled full of beautiful sentences, and because some quotes are simply true. Your every day life moments."/>';
-		}
-		echo "\r\n";
-	}
-// Fin des différents cas de <title></title>
-
-		if ($domaine == 'kotado.fr')
-		{
-			echo '<meta name="keywords" content="Kotado, Quotes Ados, Citations Ados, Citations vie quotidienne, Citations adolescents, Teen Quotes, Pretty Web, Antoine Augusti, Twitter"/>';
-		}
-		else
-		{
-			echo '<meta name="keywords" content="Teen Quotes, teenage quotes, teenager quotes, quotes for teenagers, teen qoutes, quotes, teen, citations, sentences, Augusti, Twitter, Facebook"/>';
-		}
-		echo "\r\n";
-		?>
+		include 'kernel/page_title.php';
+?>
 		<meta name="author" content="Antoine Augusti"/> 
 		<meta name="revisit-after" content="1 day"/>
 		<meta name="robots" content="all"/>
 		<meta charset="utf-8" />
 		
-		<link rel="stylesheet" href="http://<?php echo $domaine; ?>/style.css" />
-		<link rel="stylesheet" href="http://<?php echo $domaine; ?>/uniform/uniform.css" />
+		<link href='//fonts.googleapis.com/css?family=Ubuntu:300|Gloria+Hallelujah|Open+Sans:300' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="//<?php echo $domaine; ?>/style.css" />
+		<link rel="stylesheet" href="//<?php echo $domaine; ?>/uniform/uniform.css" />
 
-		<?php
-		if ($domaine == 'kotado.fr')
-		{
-			echo '<link rel="shortcut icon" type="image/x-icon" href="http://'.$domaine.'/images/favicon.png"/>';
-		}
-		else
-		{
-			echo '<link rel="shortcut icon" type="image/x-icon" href="http://'.$domaine.'/images/favicon.gif"/>';
-		}
-		echo "\r\n";
-		?>
+		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domaine; ?>/images/favicon.png"/>
 		<meta property="og:image" content="http://<?php echo $domaine; ?>/images/icon50.png" /> 
 		
-		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script src="//code.jquery.com/jquery-latest.min.js"></script>
 		
 		<?php
 		if ($php_self == "statistics")
-			{
-			create_stats($language);
-			}
-		?>
-		<?php 
-		if ($domaine == 'kotado.fr')
 		{
+			create_stats($language);
+		}
 		?>
 		<script>
 		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', 'UA-12045924-22']);
-		  _gaq.push(['_setDomainName', 'kotado.fr']);
+		  _gaq.push(['_setAccount', <?php echo "'".$google_analytics_account."'"; ?>]);
+		  _gaq.push(['_setDomainName', <?php echo "'".$domaine."'"; ?>]);
 		  _gaq.push(['_setAllowHash', 'false']);
 		  _gaq.push(['_setSiteSpeedSampleRate', 100]);
 		  _gaq.push(['_trackPageview']);
@@ -339,105 +69,75 @@ else
 			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 		  })();
 		</script>
-		<?php
-		}
-		else
-		{
-		?>
-		<script>
-		var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', 'UA-12045924-10']);
-		_gaq.push(['_setDomainName', 'teen-quotes.com']);
-		_gaq.push(['_setAllowHash', 'false']);
-		_gaq.push(['_setSiteSpeedSampleRate', 100]);
-		_gaq.push(['_trackPageview']);
-		
-		(function() {
-			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();
-		</script>
-		<?php
-		}
-		?>
 </head>
 <body>
-<div id="topbar">
-	<a href="../" class="menu"><img src="http://<?php echo $domaine; ?>/images/logo.png" alt="Logo <?php echo $name_website; ?>" /></a>
-		<div class="follow">
-		<?php
-		if ($domaine == 'kotado.fr')
-		{
-		?>
-			<a href="https://twitter.com/kotado_" class="twitter-follow-button" data-show-count="false" data-lang="fr">Follow @kotado_</a>
-			<div class="clear"></div>
-			<iframe src="http://www.facebook.com/plugins/like.php?locale=fr_FR&amp;app_id=211130238926911&amp;href=http%3A%2F%2Fwww.facebook.com%2Fpages%2Fkotado%2F207728899322070&amp;send=false&amp;layout=button_count&amp;width=40&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=segoe+ui&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
-		<?php
-		}
-		else
-		{
-		?>
-			<a href="http://twitter.com/ohteenquotes" class="twitter-follow-button" data-show-count="false" data-lang="en">Follow @ohteenquotes</a>
-			<div class="clear"></div>
-			<iframe src="http://www.facebook.com/plugins/like.php?locale=en_US&amp;app_id=211130238926911&amp;href=http%3A%2F%2Fwww.facebook.com%2Fohteenquotes&amp;send=false&amp;layout=button_count&amp;width=20&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=segoe+ui&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
-		<?php
-		}
-		?>		
+<div id="header">
+	<div class="content">
+		<div id="logo">
+			<a href="/" title="<?php echo $name_website; ?>" class="fade_on_hover"><img src="//<?php echo $domaine; ?>/images/logo_<?php echo $name_logo; ?>.png" alt="<?php echo $name_website; ?>"/></a>
+			<span id="caption"><?php echo $website_caption; ?></span>
 		</div>
-</div><!-- END TOPBAR -->
 
-<div id="menu">	
-<?php 
-if ($_SESSION['logged'] != TRUE) 
-{ 
-?>
-	<a href="/" class="menu"><span class="icone_menu home"></span><?php echo $home; ?></a>
-	<a href="signup?topbar" class="menu"><span class="icone_menu signin"></span><?php echo $sign_up; ?></a>
-	<a href="members" class="menu"><span class="icone_menu members"></span><?php echo $members; ?></a>
-	<a href="random" class="menu"><span class="icone_menu random"></span><?php echo $random_quote; ?></a>
-	<a href="newsletter" class="menu"><span class="icone_menu newsletter"></span>Newsletter</a>
-	<a href="signup?addquote" class="menu"><span class="icone_menu add"></span><?php echo $add_a_quote; ?></a>
-	<span class="right">
-		<a href="http://teen-quotes.com" title="View the english version"><span class="icone_flags english"></span></a>
-		<a href="http://kotado.fr" title="Voir la version française"><span class="icone_flags french"></span></a>
-	</span> 
-<?php 
-}
-else
-{
-?>
-	<a href="/" class="menu"><span class="icone_menu home"></span><?php echo $home; ?></a>
-	<a href="user-<?php echo $id; ?>" class="menu"><span class="icone_menu profile"></span><?php echo $my_profile; ?></a>
-	<a href="members" class="menu"><span class="icone_menu members"></span><?php echo $members; ?></a>
-	<a href="random" class="menu"><span class="icone_menu random"></span><?php echo $random_quote; ?></a>
-	<a href="addquote" class="menu"><span class="icone_menu add"></span><?php echo $add_a_quote; ?></a>
-	<?php
-	// APPLICATIONS
-	if ($download_app == TRUE OR $_SESSION['security_level'] >= '2')
-	{
-	?>
-		<a href="apps" class="menu"><img src="http://<?php echo $domaine; ?>/images/icones/mobile.png" class="icone_menu_apps" /><?php echo $apps; ?></a>
-	<?php
-	}
-	?>
+		<div id="social-networks">
+			<a href="http://twitter.com/<?php echo $twitter_url; ?>" class="twitter-follow-button" data-show-count="<?php echo $twitter_show_count; ?>" data-lang="<?php echo $twitter_lang; ?>">Follow @<?php echo $twitter_url; ?></a>
+			<div class="clear"></div>
+			<iframe src="http://www.facebook.com/plugins/like.php?locale=<?php echo $facebook_locale; ?>&amp;app_id=211130238926911&amp;href=<?php echo $facebook_like_url; ?>&amp;send=false&amp;layout=button_count&amp;width=20&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=segoe+ui&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
+		</div>
+	</div>
+</div><!-- END HEADER -->
+<div id="menu">
+	<div class="content">	
 	<?php 
-	// ADMIN PANEL
-	if($_SESSION['security_level'] >= '2') 
+	if ($_SESSION['logged'] != TRUE) 
 	{ 
 	?>
-		
-		<a href="admin" class="menu"><span class="icone_menu admin"></span>Admin <?php if ($citations_awaiting_approval > 0){echo '- '.$citations_awaiting_approval.'';} ?></a>
-	<?php
+		<a href="/" class="menu" title="<?php echo $home; ?>"><span class="icone_menu home"></span><?php echo $home; ?></a>
+		<a href="/signup?topbar" onClick="_gaq.push(['_trackEvent', 'signup', 'clic', 'Website - topbar']);" class="menu" title="<?php echo $sign_up; ?>"><span class="icone_menu signin"></span><?php echo $sign_up; ?></a>
+		<a href="/members" class="menu" title="<?php echo $members; ?>"><span class="icone_menu members"></span><?php echo $members; ?></a>
+		<a href="/random" class="menu" title="<?php echo $random_quote; ?>"><span class="icone_menu random"></span><?php echo $random_quote; ?></a>
+		<a href="/newsletter" class="menu" title="<?php echo $newsletter; ?>"><span class="icone_menu newsletter"></span>Newsletter</a>
+		<a href="/signup?addquote" onClick="_gaq.push(['_trackEvent', 'signup', 'clic', 'Website - addquote']);" class="menu" title="<?php echo $add_a_quote; ?>"><span class="icone_menu add"></span><?php echo $add_a_quote; ?></a>
+		<?php
+		// APPLICATIONS
+		if ($download_app == TRUE OR $_SESSION['security_level'] >= '2')
+		{
+		?>
+			<a href="/apps" onClick="_gaq.push(['_trackEvent', 'appiOS', 'clic', 'Website - menu topbar']);" class="menu" title="<?php echo $apps; ?>"><span class="icone_menu apps"></span><?php echo $apps; ?></a>
+		<?php
+		}
 	}
-	?>	
-	<span class="right">
-		<a href="http://teen-quotes.com" title="View the english version"><span class="icone_flags english"></span></a>
-		<a href="http://kotado.fr" title="Voir la version française"><span class="icone_flags french"></span></a>
-	</span> 
-<?php
-}
-?>
+	else
+	{
+	?>
+		<a href="/" class="menu" title="<?php echo $home; ?>"><span class="icone_menu home"></span><?php echo $home; ?></a>
+		<a href="/user-<?php echo $id; ?>" class="menu" title="<?php echo $my_profile; ?>"><span class="icone_menu profile"></span><?php echo $my_profile; ?></a>
+		<a href="/members" class="menu" title="<?php echo $members; ?>"><span class="icone_menu members"></span><?php echo $members; ?></a>
+		<a href="/random" class="menu" title="<?php echo $random_quote; ?>"><span class="icone_menu random"></span><?php echo $random_quote; ?></a>
+		<a href="/addquote" class="menu" title="<?php echo $add_a_quote; ?>"><span class="icone_menu add"></span><?php echo $add_a_quote; ?></a>
+		<?php
+		// APPLICATIONS
+		if ($download_app == TRUE OR $_SESSION['security_level'] >= '2')
+		{
+		?>
+			<a href="/apps" onClick="_gaq.push(['_trackEvent', 'appiOS', 'clic', 'Website - menu topbar']);" class="menu" title="<?php echo $apps; ?>"><span class="icone_menu apps"></span><?php echo $apps; ?></a>
+		<?php
+		}
+
+		// ADMIN PANEL
+		if($_SESSION['security_level'] >= '2') 
+		{ 
+		?>
+			
+			<a href="/admin" class="menu" title="Admin"><span class="icone_menu admin"></span>Admin <?php if ($citations_awaiting_approval > 0){echo '- '.$citations_awaiting_approval.'';} ?></a>
+		<?php
+		}
+	}
+	?>
+		<span class="right">
+			<a href="//teen-quotes.com" title="View the english version"><span class="icone_flags english"></span></a>
+			<a href="//kotado.fr" title="Voir la version française"><span class="icone_flags french"></span></a>
+		</span> 
+	</div>
 </div><!-- END MENU -->
 
 <?php
@@ -449,8 +149,8 @@ if($_SESSION['profile_not_fullfilled'] == TRUE AND $_SERVER['PHP_SELF'] == '/ind
 
 <div id="content">
 
-	<div id="wrapper" <?php if ($_SERVER['PHP_SELF']!='/index.php' AND $_SERVER['PHP_SELF']!='/random.php')
+	<div id="wrapper" <?php if ($_SERVER['PHP_SELF'] =='/index.php' OR $_SERVER['PHP_SELF'] =='/random.php')
 		{
-		echo 'style="margin-top:33px"';
+		echo 'class="wrapper_index"';
 		} 
 	?>><!-- START WRAPPER -->

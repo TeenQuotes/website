@@ -8,12 +8,15 @@ if (empty($action) AND $_SESSION['logged'] != TRUE)
 	echo '
 	<div class="post">
 		<h1><img src="http://'.$domaine.'/images/icones/faq.png" class="icone" />'.$pass_forget.'</h1>
-		'.$texte_forget.'
+		<div class="div_pre_form">
+			'.$texte_forget.'
+		</div>
+		
 		<div class="grey_post">
 		<form action="?action=send" method="post">
 			<div class="colonne-gauche">'.$email_adress.'</div><div class="colonne-milieu"><input type="text" name="email" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$email_use_signup.'</span></div>
-			<br /><br />
-			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+			<br/><br/>
+			<center><p><input type="submit" value="Okay" class="submit" /></p></center>
 		</form>
 		</div>
 	</div>
@@ -40,7 +43,7 @@ elseif ($action == "send")
 			$passwd = sha1(strtoupper($username).':'.strtoupper($newpass));
 			$update_pass = mysql_query ("UPDATE teen_quotes_account SET pass='$passwd' WHERE username='$username'") or die(mysql_error());
 			
-			$message = "$top_mail $change_succes1 <font color=\"#5C9FC0\"><b>$username</b></font> $change_succes2 <font color=\"#5C9FC0\"><b>$newpass</b></font> $change_succes3 <a href=\"http://$domaine/connexion.php?method=get&pseudo=$username&password=$passwd\" target=\"_blank\">$this_link</a>. $end_mail";
+			$message = "$top_mail $change_succes1 <font color=\"#394DAC\"><b>$username</b></font> $change_succes2 <font color=\"#394DAC\"><b>$newpass</b></font> $change_succes3 <a href=\"http://$domaine/connexion.php?method=get&pseudo=$username&password=$passwd\" target=\"_blank\">$this_link</a>. $see_you_soon $end_mail";
 			$mail = mail($email, "$email_subject", $message, $headers); 
 			
 			if($update_pass AND $mail) 

@@ -25,21 +25,39 @@ else
 {
 	if (empty($city) AND empty($country))
 	{
-		// Recherche avec MATCH sur l'index FULLTEXT pour des résultats plus pertinents
-		if (strlen($value_search) >= 4)
-		{
-			$num_rows_quote = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '1' AND MATCH (texte_english) AGAINST('$value_search') > 0"));
-			$query_match = TRUE;
-		}
-		// Si aucun résultat "pertinent" ou si le mot recherché est trop court pour une recherche MATCH, on effectue une recherche classique
-		if (strlen($value_search) < 4 OR $num_rows_quote == 0)
-		{
-			$num_rows_quote = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '1' AND texte_english like '%".$value_search."%'"));
-			$query_match = FALSE;	
+		if($logged){
+			$sqlQuoteFav = ", (SELECT COUNT(*)
+							FROM teen_quotes_favorite f
+							WHERE q.id = f.id_quote AND f.id_user = '$id') AS is_favorite ";
+		}else{
+			$sqlQuoteFav = "";
 		}
 
+		$keywords = explode(" ", $value_search);
+		$kwSql = "";
+		foreach($keywords as $k){
+			$kwSql .= "AND texte_english LIKE '%$k%'";
+		}
 
-		$num_rows_members = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE username like '%".$value_search."%' AND hide_profile = '0'"));			
+		$sqlQuote = "SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur,
+					(SELECT COUNT(*) FROM teen_quotes_comments c WHERE q.id = c.id_quote) AS nb_comments ".$sqlQuoteFav."
+					 FROM teen_quotes_quotes q, teen_quotes_account a 
+					 WHERE q.auteur_id = a.id AND q.approved = '1'
+					 ".$kwSql." 
+					 ORDER BY q.id DESC
+					 LIMIT 0,15";
+
+		$resultatsQuotes = mysql_query($sqlQuote);
+		$num_rows_quote = mysql_num_rows($resultatsQuotes);
+
+		//Recherche d'un membre
+		$sqlMembre = "SELECT * FROM teen_quotes_account 
+					  WHERE (username LIKE '%$value_search%' OR SOUNDEX(username) LIKE SOUNDEX('$value_search')) 
+					  AND hide_profile = '0'
+					  ORDER BY (CASE WHEN username = '$value_search' THEN 3 ELSE 0 END) + (CASE WHEN username LIKE '$value_search%' THEN 2 ELSE 0 END) + (CASE WHEN username LIKE '%$value_search%' THEN 1 ELSE 0 END) DESC
+					  LIMIT 0,15";
+		$resultatsMembres = mysql_query($sqlMembre);
+		$num_rows_members = mysql_num_rows($resultatsMembres);			
 	}
 	else
 	{
@@ -47,11 +65,11 @@ else
 
 		if (!empty($city) AND empty($country))
 		{
-			$num_rows_members = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE city LIKE '%".$city."%' AND hide_profile = 0"));
+			$num_rows_members = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE city LIKE '%".$city."%' AND hide_profile = '0'"));
 		}
 		elseif (empty($city) AND !empty($country))
 		{
-			$num_rows_members = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE country LIKE '%".$country."%' AND hide_profile = 0"));	
+			$num_rows_members = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE country LIKE '%".$country."%' AND hide_profile = '0'"));	
 		}
 	}
 
@@ -80,61 +98,8 @@ else
 			<div class="post" id="quotes">
 				<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone">'.$quotes.'<span class="right" style="font-size:90%;padding-top:5px">'.$num_rows_quote.''; echo ' '.$results.''; if($num_rows_quote >'1'){echo"s";} if ($num_rows_quote > '15'){echo ' '.$max_result.'';} echo '</span></h2>';
 
-				if (strlen($value_search) < 4 OR $query_match == FALSE)
-				{
-					if ($logged)
-					{
-					$reponse = mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur,
-							(SELECT COUNT(*)
-							FROM teen_quotes_comments c
-							WHERE q.id = c.id_quote) AS nb_comments,
-							(SELECT COUNT(*)
-							FROM teen_quotes_favorite f
-							WHERE q.id = f.id_quote AND f.id_user = '$id') AS is_favorite
-							FROM teen_quotes_quotes q, teen_quotes_account a 
-							WHERE q.auteur_id = a.id AND q.approved = '1' AND q.texte_english like '%$value_search%'
-							ORDER BY q.id DESC LIMIT 0,15");
-					}
-					else
-					{
-					$reponse = mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur,
-							(SELECT COUNT(*)
-							FROM teen_quotes_comments c
-							WHERE q.id = c.id_quote) AS nb_comments
-							FROM teen_quotes_quotes q, teen_quotes_account a 
-							WHERE q.auteur_id = a.id AND q.approved = '1' AND q.texte_english like '%$value_search%'
-							ORDER BY q.id DESC LIMIT 0,15");
-					}
-				}
-				else
-				{
-					if ($logged)
-					{
-					$reponse = mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur,
-							(SELECT COUNT(*)
-							FROM teen_quotes_comments c
-							WHERE q.id = c.id_quote) AS nb_comments,
-							(SELECT COUNT(*)
-							FROM teen_quotes_favorite f
-							WHERE q.id = f.id_quote AND f.id_user = '$id') AS is_favorite
-							FROM teen_quotes_quotes q, teen_quotes_account a 
-							WHERE q.auteur_id = a.id AND q.approved = '1' AND MATCH (texte_english) AGAINST('$value_search') > 0
-							ORDER BY MATCH (texte_english) AGAINST('$value_search') DESC LIMIT 0,15");
-					}
-					else
-					{
-					$reponse = mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur,
-							(SELECT COUNT(*)
-							FROM teen_quotes_comments c
-							WHERE q.id = c.id_quote) AS nb_comments
-							FROM teen_quotes_quotes q, teen_quotes_account a 
-							WHERE q.auteur_id = a.id AND q.approved = '1' AND MATCH (texte_english) AGAINST('$value_search') > 0
-							ORDER BY MATCH (texte_english) AGAINST('$value_search') DESC LIMIT 0,15");
-					}
-				}
 
-
-				while ($result = mysql_fetch_array($reponse))
+				while ($result = mysql_fetch_array($resultatsQuotes))
 				{
 					$id_quote = $result['id'];
 					$txt_quote = $result['texte_english'];
@@ -149,8 +114,8 @@ else
 
 					?>
 					<div class="grey_post">
-						<?php echo $txt_quote; ?><br>
-						<div style="font-size:65%">
+						<?php echo $txt_quote; ?><br/>
+						<div class="footer_quote">
 							<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?> - <?php afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments); ?></a><?php afficher_favori_m($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 						</div>
 					</div>
@@ -175,7 +140,7 @@ else
 			}
 			elseif (empty($city) AND empty($country) AND !empty($value_search))
 			{
-				$reponse = mysql_query("SELECT * FROM teen_quotes_account WHERE username like '%".$value_search."%' AND hide_profile = '0' ORDER BY username ASC LIMIT 0,15");
+				$reponse = $resultatsMembres;
 			}
 
 			while ($result = mysql_fetch_array($reponse))
@@ -217,14 +182,14 @@ else
 					}
 
 					echo '
-					<span class="bleu">'.$fav_quote.' :</span> '.$nb_favorite_quotes.'<br>
-					<span class="bleu">'.$number_comments.' :</span> '.$nb_comments.'<br>
-					<span class="bleu">'.$number_quotes.' :</span> '.$nb_quotes_approved.' '.$validees.' '.$nb_quotes_submited.' '.$soumises.'<br>';
+					<span class="bleu">'.$fav_quote.' :</span> '.$nb_favorite_quotes.'<br/>
+					<span class="bleu">'.$number_comments.' :</span> '.$nb_comments.'<br/>
+					<span class="bleu">'.$number_quotes.' :</span> '.$nb_quotes_approved.' '.$validees.' '.$nb_quotes_submited.' '.$soumises.'<br/>';
 
 					if ($nb_quotes_approved > 0)
 					{
 						echo '
-						<span class="bleu">'.$added_on_favorites.' :</span> '.$nb_quotes_added_to_favorite.'<br>';
+						<span class="bleu">'.$added_on_favorites.' :</span> '.$nb_quotes_added_to_favorite.'<br/>';
 					}
 				echo '</div>';
 

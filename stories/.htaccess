@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteRule ^story/([0-9]+)/$ /story/$1 [R=301]
+RewriteRule ^story/([0-9]+)$ /story.php?id_story=$1 [L,QSA]
+
+ErrorDocument 404 http://teen-quotes.com/error.php?erreur=404

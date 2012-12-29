@@ -11,11 +11,11 @@ $no_result_fun = "<h2> You can:</h2>
 	<li>You lie on the ground, you roll into a ball and moaning pitifully.</li>
 	<li>Shouting someone to pick you, even if nobody will hear you.</li>
 </ul>
-<br />
+<br/>
 <h2> But the best is:</h2>
 <ul>
 	<li>Click on the button \"previous page \" in your browser.</li>
-	<li>Click <a href=\"/\" title=\"Home\"> here </a> to return to home.</li>
+	<li>Click <a href=\"/\" title=\"Home\">here</a> to return to home.</li>
 </ul>
-<br />";
+<br/>";
 $max_result = "- 15 results displayed";

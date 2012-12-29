@@ -9,7 +9,7 @@ $team_txt = '
 <ul>
 	<li>Antoine AUGUSTI : <a href="http://www.antoine-augusti.fr" title="Antoine AUGUSTI">www.antoine-augusti.fr</a></li>
 </ul>
-<br />
+<br/>
 <h3>Équipe de développement</h3>
 <h4>Développement web</h4>
 <ul>
@@ -23,12 +23,12 @@ $team_txt = '
 <ul>
 	<li>Jonathan NOBLE : <a href="http://www.clocktweets.com" title="Jonathan NOBLE">www.clocktweets.com</a></li>
 </ul>
-<br />
+<br/>
 <h3>Communication</h3>
 <ul>
 	<li>Michel BUONOMO : <a href="http://www.navissal.com" title="Michel BUONOMO">www.navissal.com</a></li>
 </ul>
-<br />
+<br/>
 <h3>Twitter</h3>
 <h4>English (Teen Quotes)</h4>
 <ul>
@@ -49,6 +49,6 @@ $copie_of_this_email = "Recevoir une copie ?";
 $send = "Envoyer";
 
 $input_empty = "Attention, un champ est vide";
-$send_succes = "Le message a bien été envoyé !<br><br /><br />Vous recevrez une réponse sur votre adresse email donnée";
+$send_succes = "Le message a bien été envoyé !<br/><br/><br/>Vous recevrez une réponse sur votre adresse email donnée";
 $captcha_wrong = "Le code de sécurité entré est mauvais";
 $copy_sent = "Une copie de votre message a été envoyée sur votre adresse email.";

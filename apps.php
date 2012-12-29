@@ -8,7 +8,7 @@ if (empty($action))
 	echo '
 	<div class="post">
 		<h1><img src="http://'.$domaine.'/images/icones/mobile.png" class="icone" />'.$applications.'</h1>
-		<div class="grey_post">
+		<div id="app_ios" class="grey_post">
 			'.$text_applications.'';
 }
 elseif ($action == 'disconnect')
@@ -16,8 +16,8 @@ elseif ($action == 'disconnect')
 	echo '
 	<div class="post">
 		<h1><img src="http://'.$domaine.'/images/icones/mobile.png" class="icone" />'.$signed_out_go_mobile.'</h1>
-		<div class="grey_post">
-			'.$text_applications.'';
+		<div id="app_ios" class="grey_post">
+		'.$text_applications.'';
 }
 elseif ($action == 'mobile')
 {
@@ -47,11 +47,9 @@ if (empty($action) OR $action == 'disconnect')
 		</div>
 		
 		<div class="img_apps left">
-			<a href="'.$link_app_iphone.'" target="_blank"><img src="http://'.$domaine.'/images/icones/app_iphone.png" class="apps" /><br /><img src="http://'.$domaine.'/images/icones/app_store_'.$language.'.png" class="download_app" /></a>
+			<a href="'.$link_app_iphone.'" onClick="_gaq.push([\'_trackEvent\', \'appiOS\', \'clic\', \'Website - redirect iTunes - page /apps\']);" target="_blank"><img src="http://'.$domaine.'/images/icones/app_iphone.png" class="apps" /><br/><img src="http://'.$domaine.'/images/icones/app_store_'.$language.'.png" class="download_app" /></a>
 		</div>
-		<div class="img_apps right">
-			<a href="'.$link_app_android.'" target="_blank"><img src="http://'.$domaine.'/images/icones/app_android.png" class="apps" /><br /><img src="http://'.$domaine.'/images/icones/android_market_'.$language.'.png" class="download_app" /></a>
-		</div>
+		
 		<div class="clear"></div>';
 	if ($action == 'disconnect')
 	{

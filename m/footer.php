@@ -12,8 +12,8 @@
 			<div class="pub_footer">
 			<script type="text/javascript"><!--
 			google_ad_client = "ca-pub-8130906994953193";
-			/* Footer - mobile */
-			google_ad_slot = "9975010108";
+			/* TQ / KTD - footer mobile */
+			google_ad_slot = "6086268668";
 			google_ad_width = 320;
 			google_ad_height = 50;
 			//-->

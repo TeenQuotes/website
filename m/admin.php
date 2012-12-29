@@ -23,14 +23,14 @@ elseif (empty($action) AND $_SESSION['security_level'] >= '2')
 	<div class="post">
 		<h2><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />Add a quote</h2>
 		<form action="?action=add_quote" method="post">
-			Enter the quote :<br>
+			Enter the quote :<br/>
 			<textarea name="texte_quote" style="width:100%;height:50px"></textarea>
-			<br />
+			<br/>
 			<div class="clear"></div>
-			<input type="checkbox" id="release_admin" name="release_admin" value="1" checked><label for="release_admin">Release with the '.$name_website.'\'s admin account</label><br>
-			<input type="checkbox" id="release_unknown" name="release_unknown" value="1"><label for="release_unknown">Release with the unknown account</label><br>
+			<input type="checkbox" id="release_admin" name="release_admin" value="1" checked><label for="release_admin">Release with the '.$name_website.'\'s admin account</label><br/>
+			<input type="checkbox" id="release_unknown" name="release_unknown" value="1"><label for="release_unknown">Release with the unknown account</label><br/>
 			<div class="clear"></div>
-			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+			<center><p><input type="submit" value="Okay" class="submit" /></p></center>
 		</form>
 	</div>
 	
@@ -51,15 +51,15 @@ elseif (empty($action) AND $_SESSION['security_level'] >= '2')
 		
 		echo '
 		<div class="grey_post" data-id="'.$id_quote.'">
-			'.$txt_quote.'<br><br />
+			'.$txt_quote.'<br/><br/>
 			
 			<span class="admin_quote" data-id="'.$id_quote.'">
-				<a href="admin.php?action=rate&approve=yes&id='.$id_quote.'&auteur='.$auteur_id.'"><img src="http://www.teen-quotes.com/images/icones/succes.png" class="mini_icone" /></a>
-				<a href="admin.php?action=edit&id='.$id_quote.'"><img src="http://www.teen-quotes.com/images/icones/profil.png" class="mini_icone" /></a>
-				<a href="admin.php?action=rate&approve=no&id='.$id_quote.'&auteur='.$auteur_id.'"><img src="http://www.teen-quotes.com/images/icones/delete.png" class="mini_icone" /></a>
+				<a href="admin.php?action=rate&approve=yes&id='.$id_quote.'&auteur='.$auteur_id.'"><img src="http://teen-quotes.com/images/icones/succes.png" class="mini_icone" /></a>
+				<a href="admin.php?action=edit&id='.$id_quote.'"><img src="http://teen-quotes.com/images/icones/profil.png" class="mini_icone" /></a>
+				<a href="admin.php?action=rate&approve=no&id='.$id_quote.'&auteur='.$auteur_id.'"><img src="http://teen-quotes.com/images/icones/delete.png" class="mini_icone" /></a>
 			</span>
 			
-			<span class="right">'.$by.' <a href="user-'.$auteur_id.'" title="'.$view_his_profile .'">'.$auteur.'</a> '.$on.' '.$date.'</span><br><br />
+			<span class="right">'.$by.' <a href="user-'.$auteur_id.'" title="'.$view_his_profile .'">'.$auteur.'</a> '.$on.' '.$date.'</span><br/><br/>
 		</div>';
 	}
 	echo '
@@ -88,23 +88,23 @@ elseif (empty($action) AND $_SESSION['security_level'] >= '2')
 	<div class="post">
 		<h2><img src="http://teen-quotes.com/images/icones/profil.png" class="icone" />Edit an existing quote</h2>
 		<form action="?action=edit_existing_quote" method="post">
-			Enter the ID of the quote<br>
+			Enter the ID of the quote<br/>
 			<input name="id_quote" type="text" />
-			<br />
-			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+			<br/>
+			<center><p><input type="submit" value="Okay" class="submit" /></p></center>
 		</form>
 	</div>';
 	
 	echo '
 	<div class="post">
 		<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />Delete existing quotes</h2>
-		If you want to delete only one quote, just enter the ID.<br>
-		If you want to delete quotes, you have to enter data like this : 100,200,300<br>
+		If you want to delete only one quote, just enter the ID.<br/>
+		If you want to delete quotes, you have to enter data like this : 100,200,300<br/>
 		<form action="?action=delete_existing_quote" method="post">
-			Enter the ID(s)<br>
+			Enter the ID(s)<br/>
 			<input name="id_quote" type="text" />
-			<br />
-			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+			<br/>
+			<center><p><input type="submit" value="Okay" class="submit" /></p></center>
 		</form>
 	</div>';
 }
@@ -230,18 +230,18 @@ elseif ($action == "rate")
 			{
 				if ($edit == 'yes')
 				{
-					$edit_message = '<br><br /><b>Votre citation a été modifiée par notre équipe avant son approbation. Veuillez respecter la syntaxe, l\'orthographe et le sens de votre citation.</b>';
+					$edit_message = '<br/><br/><b>Votre citation a été modifiée par notre équipe avant son approbation. Veuillez respecter la syntaxe, l\'orthographe et le sens de votre citation.</b>';
 				}
-				$message = ''.$top_mail.' Bonjour <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Votre citation a été <font color="#5C9FC0"><b>approuvée</b></font> récemment par un membre de notre équipe. Elle sera publiée le <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted.'), vous recevrez un email quand elle sera publiée sur le site.'.$edit_message.'<br><br />Voici votre citation :<br><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://www.kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://www.kotado.fr/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Cordialement,<br><b>L\'équipe de Kotado</b>'.$end_mail.'';
+				$message = ''.$top_mail.' Bonjour <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Votre citation a été <font color="#394DAC"><b>approuvée</b></font> récemment par un membre de notre équipe. Elle sera publiée le <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted.'), vous recevrez un email quand elle sera publiée sur le site.'.$edit_message.'<br/><br/>Voici votre citation :<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://kotado.fr/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Cordialement,<br/><b>L\'équipe de Kotado</b>'.$end_mail.'';
 			}
 			else
 			{
 				if ($edit == 'yes')
 				{
-					$edit_message = '<br><br /><b>Your quote has been modified by our team before approval. Please follow the syntax, the spelling and the meaning of your quote.</b>';
+					$edit_message = '<br/><br/><b>Your quote has been modified by our team before approval. Please follow the syntax, the spelling and the meaning of your quote.</b>';
 				}
 
-				$message = ''.$top_mail.' Hello <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Your quote has been <font color="#5C9FC0"><b>approved</b></font> recently by a member of our team. It will be released on <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted .'), you will receive an email when it will be posted on the website.'.$edit_message.'<br><br />Here is your quote :<br><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://www.teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Sincerely,<br><b>The Teen Quotes Team</b>'.$end_mail.'';
+				$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Your quote has been <font color="#394DAC"><b>approved</b></font> recently by a member of our team. It will be released on <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted .'), you will receive an email when it will be posted on the website.'.$edit_message.'<br/><br/>Here is your quote :<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Sincerely,<br/><b>The Teen Quotes Team</b>'.$end_mail.'';
 			}
 
 			$mail = mail($email_auteur, $quote_added_queue, $message, $headers);
@@ -280,11 +280,11 @@ elseif ($action == "rate")
 			{
 				if ($language == "french")
 				{
-					$message = ''.$top_mail.'Bonjour <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Votre citation a été <font color="#5C9FC0"><b>rejetée</b></font> récemment par un membre de notre équipe...<br><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://kotado.fr/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Cordialement,<br><b>The Kotado Team</b>'.$end_mail.'';
+					$message = ''.$top_mail.'Bonjour <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Votre citation a été <font color="#394DAC"><b>rejetée</b></font> récemment par un membre de notre équipe...<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://kotado.fr/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Cordialement,<br/><b>The Kotado Team</b>'.$end_mail.'';
 				}
 				else
 				{
-					$message = ''.$top_mail.' Hello <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />Your quote has been <font color="#5C9FC0"><b>rejected</b></font> recently by a member of our team...<br><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br><br /><a href="http://teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Sincerely,<br><b>The Teen Quotes Team</b>'.$end_mail.'';
+					$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Your quote has been <font color="#394DAC"><b>rejected</b></font> recently by a member of our team...<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Sincerely,<br/><b>The Teen Quotes Team</b>'.$end_mail.'';
 				}
 
 				$mail = mail($email_auteur, $quote_rejected, $message, $headers); 
@@ -331,35 +331,35 @@ elseif ($action == "delete_comment")
 	if ($language == "french")
 	{
 		$message = ''.$top_mail.' 
-			Bonjour <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />
-		Votre commentaire a été <b>supprimé</b> récemment par un membre de notre équipe sur cette citation :<br>
+			Bonjour <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>
+		Votre commentaire a été <b>supprimé</b> récemment par un membre de notre équipe sur cette citation :<br/>
 		<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
-			'.$txt_quote.'<br><br />
-			<a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">'.$by.' <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_posted.'</span>
+			'.$txt_quote.'<br/><br/>
+			<a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">'.$by.' <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_posted.'</span>
 		</div>
 		Voici votre commentaire :
 		<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
-		'.$texte_comment.'<br><br />
-		<a href="http://www.teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username_comment.'</a> '.$on.' '.$date_comment.'</span><br>
+		'.$texte_comment.'<br/><br/>
+		<a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #394DAC;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username_comment.'</a> '.$on.' '.$date_comment.'</span><br/>
 		</div>
-		Cordialement,<br>
+		Cordialement,<br/>
 		<b>The Teen Quotes Team</b>'.$end_mail.'';
 	}
 	else
 	{
 		$message = '
-		'.$top_mail.' Hello <font color="#5C9FC0"><b>'.$name_auteur.'</b></font> !<br><br />
-		Your comment has been <b>deleted</b> recently by a member of our team on this quote :<br>
+		'.$top_mail.' Hello <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>
+		Your comment has been <b>deleted</b> recently by a member of our team on this quote :<br/>
 		<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
-			'.$txt_quote.'<br><br />
-			<a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">'.$by.' <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_posted.'</span>
+			'.$txt_quote.'<br/><br/>
+			<a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">'.$by.' <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_posted.'</span>
 		</div>
 		Here is your comment :
 		<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
-		'.$texte_comment.'<br><br />
-		<a href="http://www.teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #5C9FC0;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username_comment.'</a> '.$on.' '.$date_comment.'</span><br>
+		'.$texte_comment.'<br/><br/>
+		<a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #394DAC;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username_comment.'</a> '.$on.' '.$date_comment.'</span><br/>
 		</div>
-		Sincerely,<br>
+		Sincerely,<br/>
 		<b>The Teen Quotes Team</b>
 		'.$end_mail.'';
 	}
@@ -383,12 +383,12 @@ elseif ($action == "edit")
 	
 	$query_texte_quote = mysql_fetch_array(mysql_query("SELECT texte_english FROM teen_quotes_quotes WHERE id = '".$id_quote."'"));
 	$texte_quote = $query_texte_quote['texte_english'];
-	echo 'Edit quote #'.$id_quote.'<br>
-	<br />
+	echo 'Edit quote #'.$id_quote.'<br/>
+	<br/>
 	<form action="?action=edit_quote" method="post">
 		<input type="hidden" name="id_quote" value="'.$id_quote.'" />
 		<textarea name="texte_quote" style="width:100%;height:50px">'.$texte_quote.'</textarea>
-		<br /><br />
+		<br/><br/>
 		<div class="clear"></div>
 		<center><p><input type="submit" value="Edit AND approve this quote" class="submit" /></p></center>
 	</form>';
@@ -428,18 +428,18 @@ elseif ($action == "edit_existing_quote")
 		
 		echo 'The original one :';
 		echo '<div class="grey_post">';
-		echo ''.$txt_quote.'<br><br /><a href="http://www.teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://www.teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span>';
+		echo ''.$txt_quote.'<br/><br/><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span>';
 		echo '</div>';
 		
 		echo '
-		Enter the new quote :<br>
-		<br />
+		Enter the new quote :<br/>
+		<br/>
 		<form action="?action=edit_existing_quote_valide" method="post">
 		<input type="hidden" name="id_quote" value="'.$id_quote.'" />
 		<textarea name="texte_quote" style="width:100%;height:50px">'.$txt_quote.'</textarea>
-			<br /><br />
+			<br/><br/>
 			<div class="clear"></div>
-			<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+			<center><p><input type="submit" value="Okay" class="submit" /></p></center>
 		</form>';
 	}
 	else

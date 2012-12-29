@@ -7,7 +7,7 @@ $texte_error_404 = "
 	<li>Had never existed (even if you're dreaming).</li>
 	<li>Will probably never exist.</li>
 </ul>
-<br />
+<br/>
 <h2> You can:</h2>
 <ul>
 	<li>Cry.</li>
@@ -15,16 +15,16 @@ $texte_error_404 = "
 	<li>You lie on the ground, you roll into a ball and moaning pitifully.</li>
 	<li>Shouting someone to pick you, even if nobody will hear you.</li>
 </ul>
-<br />
+<br/>
 <h2> But the best is:</h2>
 <ul>
 	<li>Click on the button \"previous page \" in your browser.</li>
 	<li>Click <a href=\"index.php\"> here </a> to return to home.</li>
 </ul>
-<br />";
+<br/>";
 
-$texte_error_403 = "<span class=\"erreur\">Sorry, but this page is prohibited!</span><br>
-<br />
+$texte_error_403 = "<span class=\"erreur\">Sorry, but this page is prohibited!</span><br/>
+<br/>
 <h2> You can:</h2>
 <ul>
 	<li>Cry.</li>
@@ -32,16 +32,16 @@ $texte_error_403 = "<span class=\"erreur\">Sorry, but this page is prohibited!</
 	<li>You lie on the ground, you roll into a ball and moaning pitifully.</li>
 	<li>Shouting someone to pick you, even if nobody will hear you.</li>
 </ul>
-<br />
+<br/>
 <h2> But the best is:</h2>
 <ul>
 	<li>Click on the button \"previous page \" in your browser.</li>
 	<li>Click <a href=\"../\"> here </a> to return to home.</li>
 </ul>
-<br />";
+<br/>";
 
-$texte_error_500 = "<span class=\"erreur\">Something is technically wrong!</span><br>
-<br />
+$texte_error_500 = "<span class=\"erreur\">Something is technically wrong!</span><br/>
+<br/>
 <h2> You can:</h2>
 <ul>
 	<li>Cry.</li>
@@ -49,11 +49,11 @@ $texte_error_500 = "<span class=\"erreur\">Something is technically wrong!</span
 	<li>You lie on the ground, you roll into a ball and moaning pitifully.</li>
 	<li>Shouting someone to pick you, even if nobody will hear you.</li>
 </ul>
-<br />
+<br/>
 <h2> But the best is:</h2>
 <ul>
 	<li>Click on the button \"previous page \" in your browser.</li>
 	<li>Click <a href=\"../\"> here </a> to return to home.</li>
 </ul>
-<br />";
+<br/>";
 ?>

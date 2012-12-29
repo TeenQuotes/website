@@ -8,8 +8,8 @@ if ($error_code == '404' OR empty($error_code))
 	echo '
 	<div class="post">
 		<h1><img src="http://teen-quotes.com/images/icones/erreur.png" class="icone" />'.$error.'</h1>
-		<br />
-		<br />
+		<br/>
+		<br/>
 		'.$texte_error_404.'
 	</div>';
 }

@@ -21,7 +21,7 @@ if ($_SESSION['logged'])
 		';
 	if (empty($action))
 	{
-		if (username_est_valide($_SESSION['username']) == FALSE)
+		if (usernameIsValid($_SESSION['username']) == FALSE)
 		{
 			echo ''.$text_change_username.'';
 			echo '
@@ -29,12 +29,12 @@ if ($_SESSION['logged'])
 				<form method="post" action="?action=send">
 					<input type="hidden" value="'.$_SESSION['username'].'" name="username_old" />
 					<div class="colonne-gauche">'.$username_enter.' </div><div class="colonne-milieu"><input type="text" name="username" class="signup"/></div><div class="colonne-droite"><span class="min_info">Minimum 5 '.$characters.'. '.$username_shape.'</span></div>
-					<br /><br />
+					<br/><br/>
 					<div class="colonne-gauche">'.$password.' </div><div class="colonne-milieu"><input type="password" name="pass1" class="signup"/></div><div class="colonne-droite"><span class="min_info">Minimum 6 '.$characters.'.</span></div>
-					<br /><br />
+					<br/><br/>
 					<div class="colonne-gauche">'.$confirm_password.' </div><div class="colonne-milieu"><input type="password" name="pass2" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$reenter_pass.'.</span></div>
-					<br /><br />
-					<center><p><input type="submit" value="Okey" class="submit" /></p></center>
+					<br/><br/>
+					<center><p><input type="submit" value="Okay" class="submit" /></p></center>
 				</form>
 			</div>
 			';
@@ -48,13 +48,13 @@ if ($_SESSION['logged'])
 	{
 		if (!empty($username_old) AND !empty($new_username))
 		{
-			if ((username_est_valide($username_old) == FALSE) AND (username_est_valide($new_username) == TRUE))
+			if ((usernameIsValid($username_old) == FALSE) AND (usernameIsValid($new_username) == TRUE))
 			{
 				if(($pass1 == $pass2) AND (strlen($pass1) >= '6'))
 				{
 					$passwd = sha1(strtoupper($new_username).':'.strtoupper($pass1));
 					$sql = "UPDATE  `teen_quotes_account` SET  `username` =  '$new_username', `pass` = '$passwd' WHERE  `teen_quotes_account`.`id` = '$session_id' LIMIT 1;";
-					$update_account = mysql_query($sql)  or die('Erreur SQL !'.$sql.'<br>'.mysql_error()); ;
+					$update_account = mysql_query($sql)  or die('Erreur SQL !'.$sql.'<br/>'.mysql_error()); ;
 					$update_comment = mysql_query("UPDATE teen_quotes_comments SET auteur = '$new_username' WHERE auteur_id = '$session_id'");
 					$update_quote = mysql_query("UPDATE teen_quotes_quotes SET auteur = '$new_username' WHERE auteur_id = '$session_id'");
 

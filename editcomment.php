@@ -39,7 +39,7 @@ if (is_numeric($id_comment) AND !empty($id_comment))
 			echo '
 			'.$here_is_the_quote.'
 			<div class="grey_post">
-				'.$txt_quote.'<br>
+				'.$txt_quote.'<br/>
 				<div class="footer_quote">
 				<a href="quote-'.$id_quote.'">#'.$id_quote.'</a>'; afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']);date_et_auteur($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile);
 			echo '</div>';
@@ -50,9 +50,9 @@ if (is_numeric($id_comment) AND !empty($id_comment))
 			echo ''.$here_is_your_comment.'';
 			echo '
 			<div class="grey_post">
-				'.$texte_comment.'<br><br />
+				'.$texte_comment.'<br/><br/>
 				<a href="user-'.$id_auteur.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" /></a>
-				<span class="right">'.$by.' <a href="user-'.$id_auteur.'" title="'.$view_his_profile.'">'.$auteur_comment.'</a> '.$on.' '.$date.'</span><br>
+				<span class="right">'.$by.' <a href="user-'.$id_auteur.'" title="'.$view_his_profile.'">'.$auteur_comment.'</a> '.$on.' '.$date.'</span><br/>
 			</div>';
 			
 			echo ''.$write_new_comment_here.'';
@@ -60,7 +60,7 @@ if (is_numeric($id_comment) AND !empty($id_comment))
 			<form action="?action=send" method="post">
 				<input type="hidden" name="id_comment" value="'.$id_comment.'" />
 				<textarea name="texte_comment" style="height:50px;width:400px;">'.$texte_comment.'</textarea>
-				<br /><br />
+				<br/><br/>
 				<div class="clear"></div>
 				<center><p><input type="submit" value="'.$edit_my_comment.'" class="submit" /></p></center>
 			</form>';

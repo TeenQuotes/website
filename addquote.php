@@ -7,18 +7,20 @@ if (empty($action))
 {
 	echo '
 	<div class="post">
-	<h1><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />'.$add_quote.'</h1>
-	'.$add_consignes.'
-	<div class="grey_post">
-	<form action="?action=add_quote" method="post">
-	'.$enter_quote.'<br>
-	<textarea name="texte_quote" id="texte_quote" style="height:50px;width:650px;"></textarea>
-	<span id="desc"></span><br>
-	<br /><br />
-	<div class="clear"></div>
-	<center><p><input type="submit" value="Okey" class="submit" /></p></center>
-	</form>
-	</div>
+		<h1><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />'.$add_quote.'</h1>
+		
+		<div class="grey_post">
+			<form action="?action=add_quote" method="post">
+				'.$enter_quote.'<br/>
+				<textarea name="texte_quote" id="texte_quote" placeholder="'.$placeholder_addquote.'"></textarea>
+				<span id="compteur_textarea" class="red">0 '.$characters.'</span><br/>
+				<br/>
+				<div class="clear"></div>
+				<center><p><input type="submit" value="'.$add_my_quote.'" class="submit" /></p></center>
+				<br/>
+				'.$add_consignes.'
+			</form>
+		</div>
 	';
 }
 elseif ($action == "add_quote") 
@@ -29,6 +31,7 @@ elseif ($action == "add_quote")
 	';
 
 	$texte_quote = ucfirst(htmlspecialchars(mysql_real_escape_string($_POST['texte_quote'])));
+	$texte_quote = str_replace(array("\r", "\n"," dont "," im "," Im ",'´', " cant "), array('','',' don\'t ',' I\'m ',' I\'m ','\'','can\'t'), $texte_quote);
 	$date = date("d/m/Y");
 
 	if (strlen($texte_quote) >= 50) 

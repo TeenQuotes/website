@@ -7,7 +7,7 @@ $texte_error_404 = "
 	<li>N'a jamais existé (même si vous en rêvez).</li> 
 	<li>N'existera sans doute jamais.</li> 
 </ul>
-<br /> 
+<br/> 
 <h2>Vous pouvez :</h2>
 <ul>
 	<li>Pleurer.</li> 
@@ -15,17 +15,17 @@ $texte_error_404 = "
 	<li>Vous allonger sur le sol, vous rouler en boule et gémir pitoyablement.</li> 
 	<li>Crier qu'on vienne vous chercher, même si personne ne vous entendra.</li>
 </ul>
-<br /> 
+<br/> 
 <h2>Mais le mieux c'est de :</h2>
 <ul>
 	<li>Cliquer sur le bouton \"page précédente\" de votre navigateur.</li> 
 	<li>Cliquer <a href=\"../\">ici</a> pour revenir à l'accueil.</li>
 </ul>
-<br /> 
+<br/> 
 ";
 
-$texte_error_403 = "<span class=\"erreur\">Désolé, cette page est interdite !</span><br>
-<br />
+$texte_error_403 = "<span class=\"erreur\">Désolé, cette page est interdite !</span><br/>
+<br/>
 <h2>Vous pouvez :</h2>
 <ul>
 	<li>Pleurer.</li>
@@ -33,16 +33,16 @@ $texte_error_403 = "<span class=\"erreur\">Désolé, cette page est interdite !<
 	<li>Vous allonger sur le sol, vous rouler en boule et gémir pitoyablement.</li>
 	<li>Crier qu'on vienne vous chercher, même si personne ne vous entendra.</li>
 </ul>
-<br />
+<br/>
 <h2>Mais le mieux c'est de :</h2>
 <ul>
 	<li>Cliquer sur le bouton \"page précédente\" de votre navigateur.</li>
 	<li>Cliquer <a href=\"../\">ici</a> pour revenir à l'accueil.</li>
 </ul>
-<br />";
+<br/>";
 
-$texte_error_500 = "<span class=\"erreur\">Le serveur rencontre un soucis technique !</span><br>
-<br />
+$texte_error_500 = "<span class=\"erreur\">Le serveur rencontre un soucis technique !</span><br/>
+<br/>
 <h2>Vous pouvez :</h2>
 <ul>
 	<li>Pleurer.</li>
@@ -50,11 +50,11 @@ $texte_error_500 = "<span class=\"erreur\">Le serveur rencontre un soucis techni
 	<li>Vous allonger sur le sol, vous rouler en boule et gémir pitoyablement.</li>
 	<li>Crier qu'on vienne vous chercher, même si personne ne vous entendra.</li>
 </ul>
-<br /> 
+<br/> 
 <h2>Mais le mieux c'est de :</h2>
 <ul>
 	<li>Cliquer sur le bouton \"page précédente\" de votre navigateur.</li>
 	<li>Cliquer <a href=\"../\">ici</a> pour revenir à l'accueil.</li>
 </ul>
-<br />";
+<br/>";
 ?>

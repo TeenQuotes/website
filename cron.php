@@ -1,6 +1,7 @@
 <?php 
 require "kernel/config.php";
 require "kernel/fonctions.php";
+
 // Connect to SQL master unless we want to ping the slave
 if ($_GET['code'] == 'pingslave' OR $_GET['code'] == 'checkslaveupdate') 
 {
@@ -11,9 +12,13 @@ else
 	sql_connect();
 }
 
-
+$timestamp = time();
 $hour = date("H");
-$day = date("D");
+$day = date("d");
+// From 'Mon' to 'Sun'
+$day_letter = date("D");
+$year = date("Y");
+$month = date("m");
 
 // Look if the newsletter has been posted
 if ($_GET['code'] == 'monday' OR $_GET['code'] == 'tuesday')
@@ -51,12 +56,11 @@ if ($_GET['code'] == 'resetquote')
 		}
 	}
 }
-// Send the newsletter
+// Send the weekly newsletter
 if ($_GET['code'] == 'monday')
 {
-
-	if ($send_monday == "0" AND $day == "Mon") 
-	{ // ENVOI DE MAIL LE LUNDI
+	if ($send_monday == "0" AND $day_letter == "Mon") 
+	{ 
 		$message = ''.$top_mail.'';
 		$message.= MailRandomQuote(15);
 		$message.= ''.$end_mail.'';
@@ -64,7 +68,7 @@ if ($_GET['code'] == 'monday')
 		echo 'Envoi de la newsletter';
 		
 		$today = date("d/m/Y");
-		$i = '0';
+		$i = 0;
 		$txt_file = 'Newsletter on '.$today."\r\n\n";
 
 
@@ -77,11 +81,11 @@ if ($_GET['code'] == 'monday')
 
 			if ($domaine == 'kotado.fr')
 			{
-				$unsubscribe= '<br /><span style="font-size:80%">Cet email a été envoyé à votre adresse ('.$email.') car vous êtes inscrit à la newsletter. Si vous souhaitez vous désinscrire, cliquez sur <a href="http://kotado.fr/newsletter.php?action=unsubscribe&email='.$email.'&code='.$code.'" target="_blank">ce lien</a>.</span>.';
+				$unsubscribe= '<br/><span style="font-size:80%">Cet email a Ã©tÃ© envoyÃ© Ã  votre adresse ('.$email.') car vous Ãªtes inscrit Ã  la newsletter. Si vous souhaitez vous dÃ©sinscrire, cliquez sur <a href="http://kotado.fr/newsletter.php?action=unsubscribe&email='.$email.'&code='.$code.'" target="_blank">ce lien</a>.</span>.';
 			}
 			else
 			{
-				$unsubscribe = '<br /><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsubscribe, please follow <a href="http://teen-quotes.com/newsletter.php?action=unsubscribe&email='.$email.'&code='.$code.'" target="_blank">this link</a>.</span>';
+				$unsubscribe = '<br/><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsubscribe, please follow <a href="http://teen-quotes.com/newsletter.php?action=unsubscribe&email='.$email.'&code='.$code.'" target="_blank">this link</a>.</span>';
 			}
 			
 			$mail = mail ($email, "Newsletter", $message.$unsubscribe, $headers);
@@ -93,12 +97,12 @@ if ($_GET['code'] == 'monday')
 		}
 
 		$monfichier = fopen('files/compteur_email_hebdomadaire.txt', 'r+'); // Ouverture du fichier
-		fseek($monfichier, 0); // On remet le curseur au début du fichier
-		fputs($monfichier, $txt_file); // On écrit le nouveau nombre de pages vues
+		fseek($monfichier, 0); // On remet le curseur au dÃ©but du fichier
+		fputs($monfichier, $txt_file); // On Ã©crit le nouveau nombre de pages vues
 		fclose($monfichier);
 			
 		$update = mysql_query("UPDATE config SET send_mail_monday = '1' WHERE id = '1'");
-		mail('antoine.augusti@gmail.com', 'Sent newsletter', '', $headers);
+		//mail('antoine.augusti@gmail.com', 'Sent newsletter', '', $headers);
 	}
 	else
 	{
@@ -108,7 +112,7 @@ if ($_GET['code'] == 'monday')
 // Reset newsletter
 elseif ($_GET['code'] == 'tuesday')
 {
-	if ($send_monday == "1" AND $day == "Tue") 
+	if ($send_monday == "1" AND $day_letter == "Tue") 
 	{ 	
 		// RESET COMPTEUR MARDI
 		$update = mysql_query("UPDATE config SET send_mail_monday = '0' WHERE id = '1'");
@@ -195,40 +199,72 @@ $replication = '.$txt_to_write.';
 	}
 	
 }
-elseif ($_GET['code'] == 'maillancement' AND $day == 'Thu')
+// Send the mail for Christmas
+elseif ($_GET['code'] == 'christmas' AND $month == 12 AND $day == 25)
 {
-	mail('antoine.augusti@gmail.com', 'iPhone sent', 'Yeah', $headers);
+	$query = mysql_query("SELECT username, email FROM teen_quotes_account");
+	$i = 1;
 
-	$query = mysql_query("SELECT email, username FROM teen_quotes_account");
-
-	while ($donnees = mysql_fetch_array($query))
+	while ($data = mysql_fetch_array($query))
 	{
-		$username = $donnees['username'];
-		$email = $donnees['email'];
+		$username = $data['username'];
+		$email = $data['email'];
 
-		$message = $top_mail.'
-		Hi <font color="#394DAC"><b>'.$username.'</b></font>!<br/>
+		$subject = "Merry Christmas!";
+		$message = 'Hello <font color="#394DAC"><b>'.$username.'</b></font>,<br/>
+		<img src="http://teen-quotes.com/mail/santa.png" style="width:111px;height:124px;display:block;float:right;margin:0px 0px 0px 10px" />
 		<br/>
-		Today we’ve got a big annoucement for you! <b>Teen Quotes is now available right from your iPhone or your iPod touch</b> thanks to our brand new application.<br/>
+		The entire team of Teen Quotes wish you a Merry Christmas and hope you enjoy these few days of family vacation. We hope you\'ve been nice this year and that Santa will give you great gifts!
+		<br/><br/>
+		We\'re looking forward to see you soon on Teen Quotes!
+		<br/><br/>
+		Cheers,<br/>
+		<b>The Teen Quotes Team</b>';
+
+		mail($email, $subject, $top_mail.$message.$end_mail, $headers);
+		echo '<b>#'.$i.'</b> - '.$email.'<br/>';
+		$i++;
+
+	}		
+}
+// Send the mail for the New Year
+elseif ($_GET['code'] == 'newyear' AND $month == 01 AND $day == 01)
+{
+	$query = mysql_query("SELECT username, email FROM teen_quotes_account");
+	$i = 1;
+
+	while ($data = mysql_fetch_array($query))
+	{
+		$username = $data['username'];
+		$email = $data['email'];
+
+		$subject = "Happy New Year!";
+		$message = 'Hello <font color="#394DAC"><b>'.$username.'</b></font>,<br/>
+		<img src="http://teen-quotes.com/mail/champagne.png" style="width:130px;height:130px;display:block;float:right;margin:0px 0px 0px 10px" />
 		<br/>
-		You can download the application right now: visit <a href="https://itunes.apple.com/us/app/teen-quotes/id577239995" title="Teen Quotes application">teen-quotes.com/apps</a> from your iPhone / iTouch.<br/>
+		New is the year, new are the hopes and the aspirations. New is the resolution, new are the spirits and forever our warm wishes are for you. Have a promising and fulfilling new year!
+		<br/><br/>
+		The entire team of Teen Quotes wish you a Happy New Year!<br/>
 		<br/>
-		Do not ever leave Teen Quotes. Free, easy to use and fast, this application offers the website\'s best functionalities.<br/>
+		2012 was a really interesting year for Teen Quotes:<br/>
 		<ul>
-			<li>Browse quotes, <font color="#394DAC">even if you\'re offline</font>.</li>
-			<li>Create your account, or sign in if you have already one.</li>
-			<li>Submit quotes and add comments.</li>
-			<li>Share on Twitter and SMS.</li>
-			<li>Add quotes to your favorites.</li>
+			<li>We launched our new design.</li>
+			<li>We launched the Teen Quotes <b>iOS application</b>: <a href="http://teen-quotes.com/apps" title="App iOS">teen-quotes.com/apps</a>.</li>
+			<li>As of mid-December, <b>Teen Quotes is now optimized for tablets</b>! Just browse <a href="http://teen-quotes.com">teen-quotes.com</a>.</li>
+			<li>We will reach very soon <b>2,000,000 followers</b> on Twitter! Follow <a href="http://twitter.com/ohteenquotes">@ohteenquotes</a>.</li>
+			<li>We read a lot of wonderful quotes!</li>
+			<li>And many more things...</li>
 		</ul>
-		By the way, we have also release a new version of the desktop version and the mobile version in order to suit the application’s design. We’re sure you’ll enjoy it!<br/>
+		We hope 2013 will be more awesome than 2012 for you!<br/>
 		<br/>
-		See you soon on Teen Quotes.<br/>
-		<br/>
-		Best regards,<br/>
-		<b>The Teen Quotes Team</b>'.$end_mail;
+		We\'re looking forward to see you soon on Teen Quotes!
+		<br/><br/>
+		Cheers,<br/>
+		<b>The Teen Quotes Team</b>';
 
-		mail($email, 'iPhone / iPod touch application and new version of Teen Quotes', $message, $headers);
+		mail($email, $subject, $top_mail.$message.$end_mail, $headers);
+		echo '<b>#'.$i.'</b> - '.$email.'<br/>';
+		$i++;
 	}
 }
 

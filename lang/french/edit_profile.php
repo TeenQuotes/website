@@ -7,7 +7,7 @@ $change_avatar_rules = "
 	<li>Votre photo doit être au format JPG, GIF ou PNG</li>
 	<li>La taille de votre photo ne doit pas excéder 500 ko</li>
 </ul>
-<img src=\"http://".$domaine."/images/icones/infos.png\" class=\"mini_icone\"/>Votre avatar n'apparaîtra pas sur Google.<br><br";
+<img src=\"http://".$domaine."/images/icones/infos.png\" class=\"mini_icone\"/>Votre avatar n'apparaîtra pas sur Google.<br/><br";
 $select_photo = "Sélectionnez votre photo";
 $edit_profile = "Modifier mon profil";
 $reset_avatar = "Je veux l'avatar par défaut !";
@@ -18,7 +18,7 @@ $choose_title = "<span class=\"bleu\">Titre : </span>
 				<option $selected_mrs value=\"Mrs\">Madame</option> 
 				<option $selected_miss value=\"Miss\">Mademoiselle</option> 
 			</select></div>";
-$choose_title_m = "<span class=\"bleu\">Titre : </span><br>		
+$choose_title_m = "<span class=\"bleu\">Titre : </span><br/>		
 				<select name=\"title\" style=\"width:197px\"> 
 				<option value=\"\">Choisissez</option> 
 				<option $selected_mr value=\"Mr\">Monsieur</option> 
@@ -36,7 +36,7 @@ $hide_profile = "<span class=\"bleu\">Cacher mon profil : </span>
 				<option $selected_profile_no value=\"No\">Non</option> 
 				<option $selected_profile_yes value=\"1\">Oui</option> 
 			</select></div>";
-$hide_profile_m = "<span class=\"bleu\">Cacher mon profil : </span><br>
+$hide_profile_m = "<span class=\"bleu\">Cacher mon profil : </span><br/>
 			<select name=\"hide_profile\" style=\"width:197px\"> 
 				<option $selected_profile_no value=\"No\">Non</option> 
 				<option $selected_profile_yes value=\"1\">Oui</option> 
@@ -49,7 +49,7 @@ $i_want_comment_quotes = "Je veux recevoir un email quand un commentaire sera po
 			
 			
 			
-$edit_succes = "$succes Votre profil a été modifié avec succès !<br><br /><br />&raquo; <a href=\"../\">Retour à l'accueil</a><br><br />";
+$edit_succes = "$succes Votre profil a été modifié avec succès !<br/><br/><br/>&raquo; <a href=\"../\">Retour à l'accueil</a><br/><br/>";
 $description_long = "<span class=\"erreur\">Votre description de vous-même est trop longue !</span>$lien_retour";
 $not_completed = "<span class=\"erreur\">Vous n'avez pas complété tout le formulaire !</span>$lien_retour";
 $wrong_birth_date = "<span class=\"erreur\"> Merci d'entrer une date de naissance valide (JJ/MM/AAAA) !</span>";
@@ -61,42 +61,42 @@ $new_password_repeat = "Répétez votre nouveau mot de passe";
 $characters = "caractères";
 
 $email_subject_change_pass = "Nouveau mot de passe";
-$email_message_change_pass = "$top_mail Bonjour $username !<br><br />Vous venez de changer votre mot de passe sur ".$name_website.".<br><br />Vos nouveaux identifiants sont :<br /><br /><li>Pseudo : <font color=\"#5C9FC0\"><b>$username</b></font></li><li>Mot de passe : <font color=\"#5C9FC0\"><b>$pass2</b></font></li><br /><br />Gardez les précieusement ! Vous pouvez vous connecter dès maintenant en cliquant <a href=\"http://".$domaine."/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">sur ce lien</a>.<br><br />Cordialement,<br><b>The ".$name_website." Team</b> $end_mail";
-$change_pass_succes = "$succes Votre mot de passe a été changé avec succès !<br><br /><br />Vos identifiants vous ont été envoyés sur votre adresse email.";
+$email_message_change_pass = "$top_mail Bonjour <font color=\"#394DAC\"><b>$username</b></font> !<br/><br/>Vous venez de changer votre mot de passe sur ".$name_website.".<br/><br/>Vos nouveaux identifiants sont :<br/><br/><li>Pseudo : <font color=\"#394DAC\"><b>$username</b></font></li><li>Mot de passe : <font color=\"#394DAC\"><b>$pass2</b></font></li><br/>Gardez les précieusement ! Vous pouvez vous connecter dès maintenant en cliquant <a href=\"http://".$domaine."/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">sur ce lien</a>.<br/><br/>Cordialement,<br/><b>The ".$name_website." Team</b> $end_mail";
+$change_pass_succes = "$succes Votre mot de passe a été changé avec succès !<br/><br/><br/>Vos identifiants vous ont été envoyés sur votre adresse email.";
 $password_short = "Votre mot de passe est trop court.";
 $password_not_same = "Les mots de passe ne sont pas identiques.";
-$change_avatar_succes = "$succes Votre avatar a été mis à jour avec succès !<br><br /><br />Vous allez être redirigé dans un instant...";
+$change_avatar_succes = "$succes Votre avatar a été mis à jour avec succès !<br/><br/><br/>Vous allez être redirigé dans un instant...";
 
 
 $photo_extra_size = "La taille de votre photo est trop grande ! Le maximum est de 500 ko !";
-$bad_extension= "Votre photo doit être au format JPG, GIF ou PNG !";
+$bad_extension = "Votre photo doit être au format JPG, GIF ou PNG !";
 $select_a_file = "Merci de sélectionner une image !";
 
 $settings_updated = "$succes Vos options ont été mises à jour avec succès !";
 
 $delete_account = "Supprimer mon compte";
-$txt_delete_account = "En supprimant votre compte sur ".$name_website.", seront supprimés :<br>
+$txt_delete_account = "En supprimant votre compte sur ".$name_website.", seront supprimés :<br/>
 <ul>
 	<li>L'intégralité de votre compte</li>
 	<li>Vos commentaires</li>
 	<li>Vos citations favorites</li>
 </ul>
-En revanche, si vous avez proposé des citations et qu'elles ont été acceptées, elles ne seront pas supprimées. Elles seront associées à un compte par défaut.<br>";
-$confirm_delete_by_email = "<br />
+En revanche, si vous avez proposé des citations et qu'elles ont été acceptées, elles ne seront pas supprimées. Elles seront associées à un compte par défaut.<br/>";
+$confirm_delete_by_email = "<br/>
 Vous devrez valider la suppression de votre compte par email.";
 $i_want_to_delete_my_account = "Je veux supprimer mon compte";
 $email_subject_delete_account = "Suppression de votre compte";
-$email_message_delete_account = "".$top_mail." Bonjour ".$_SESSION['username'].",<br>
-<br />
-Vous voulez supprimer votre compte sur ".$name_website.". Pour confimer ce choix, vous devez cliquer sur <a href=\"http://".$domaine."/editprofile?action=delete_account_confirm&id=".$_SESSION['id']."&code=".$code."\">ce lien</a>.<br>
-<br />
-".$txt_delete_account."<br>
+$email_message_delete_account = "".$top_mail." Bonjour ".$_SESSION['username'].",<br/>
+<br/>
+Vous voulez supprimer votre compte sur ".$name_website.". Pour confimer ce choix, vous devez cliquer sur <a href=\"http://".$domaine."/editprofile?action=delete_account_confirm&id=".$_SESSION['id']."&code=".$code."\">ce lien</a>.<br/>
+<br/>
+".$txt_delete_account."<br/>
 ".$end_mail."";
 
 $mail_sent_delete_account = "Vous voulez supprimer votre compte sur ".$name_website.". Pour confimer ce choix, vous devez cliquer sur le lien qui a été envoyé à votre adresse email (".$_SESSION['email'].").";
 $already_exist_delete_account = "Vous avez déjà demandé à supprimer votre compte.";
 
-$txt_delete_account_short = "En supprimant votre compte sur ".$name_website.", seront supprimés :<br>
+$txt_delete_account_short = "En supprimant votre compte sur ".$name_website.", seront supprimés :<br/>
 <ul>
 	<li>L'intégralité de votre compte</li>
 	<li>Vos commentaires</li>
