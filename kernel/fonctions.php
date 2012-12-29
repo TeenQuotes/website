@@ -732,7 +732,7 @@ function flush_quotes ()
 	
 function email_birthday()
 {
-	include 'config.php';
+	include_once 'config.php';
 
 	$data = domaine();
 	$domaine = $data[0];
@@ -755,12 +755,21 @@ function email_birthday()
 			if ($domaine == 'teen-quotes.com')
 			{
 				$email_subject = 'Happy birthday '.$username.'!';
-				$email_message = ''.$top_mail.' Hello '.$username.',<br/><br/>Wow, '.$age.' years old, that\'s great ! All the team want to wish you a happy birthday ! We hope that you will have a great day :) '.$end_mail.'';
+				$email_message = $top_mail.'
+				Hello <font color="#394DAC"><b>'.$username.'</b></font>,<br/>
+				<img src="http://teen-quotes.com/mail/birthday.png" style="width:128px;height:128px;display:block;float:right;margin:0px 0px 0px 10px" />
+				<br/>Wow, '.$age.' years old, that\'s great! All the team want to wish you a happy birthday! We hope that you will have a great day :)<br/>
+				<br/>
+				See you soon on '.$name_website.'! '.$end_mail;
 			}
 			elseif ($domaine == 'kotado.fr')
 			{
 				$email_subject = 'Joyeux anniversaire '.$username.' !';
-				$email_message = ''.$top_mail.' Bonjour '.$username.',<br/><br/>Wow, '.$age.' ans, ça fait un paquet d\'années ! Tout l\'équipe vous souhaite un joyeux anniversaire ! Nous espérons que vous passerez une bonne journée :) '.$end_mail.'';
+				$email_message = $top_mail.'
+				Bonjour <font color="#394DAC"><b>'.$username.'</b></font>,<br/>
+				<img src="http://teen-quotes.com/mail/birthday.png" style="width:128px;height:128px;display:block;float:right;margin:0px 0px 0px 10px" />
+				<br/>Wow, '.$age.' ans, ça fait un paquet d\'années ! Toute l\'équipe vous souhaite un joyeux anniversaire ! Nous espérons que vous passerez une bonne journée :)<br/>
+				À bientôt sur '.$name_website.' ! '.$end_mail;
 				
 			}
 			
@@ -773,8 +782,8 @@ function email_birthday()
 			}
 		}
 
-		$monfichier = fopen('../files/birthdays.txt', 'r+'); // Ouverture du fichier
-		fseek($monfichier, 0); // On remet le curseur au début du fichier
+		$monfichier = fopen('../files/birthdays.txt', 'r+');
+		fseek($monfichier, 0);
 		fputs($monfichier, $txt_file);
 		fclose($monfichier);
 	}
@@ -1281,9 +1290,10 @@ function is_quote_exist ($txt_quote)
 function nl2br_to_textarea ($texte) 
 {
 	$line_break = PHP_EOL;
-	$patterns = array("/(<br/>|<br \/>|<br\/>)\s*/i","/(\r\n|\r|\n)/");
+	$patterns = array("/(<br>|<br \/>|<br\/>)\s*/i","/(\r\n|\r|\n)/");
 	$replacements = array(PHP_EOL, $line_break);
 	$string = preg_replace($patterns, $replacements, $texte);
+
 	return $string;
 }
 
