@@ -41,7 +41,7 @@ if (is_numeric($id_comment) AND !empty($id_comment))
 			<div class="grey_post">
 				'.$txt_quote.'<br/>
 				<div class="footer_quote">
-				<a href="quote-'.$id_quote.'">#'.$id_quote.'</a>'; afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']);date_et_auteur($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile);
+				<a href="quote-'.$id_quote.'">#'.$id_quote.'</a>'; afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']);date_et_auteur($auteur_id, $auteur, $date_quote, $on, $by, $view_his_profile);
 			echo '</div>';
 			share_fb_twitter ($id_quote,$txt_quote,$share);
 			echo '

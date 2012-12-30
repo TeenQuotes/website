@@ -7,9 +7,9 @@ $logged = $_SESSION['logged'];
 $exist_quote = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE id = '$id_quote' AND approved = '1'"));
 
 if ($exist_quote == 0 OR empty($id_quote)) 
-	{
+{
 	echo '<meta http-equiv="refresh" content="0; url=error.php?erreur=404">';
-	}
+}
 
 if ($logged)
 {
@@ -124,7 +124,7 @@ else
 			<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" alt="Avatar" /></a>'; 
 			if ($_SESSION['security_level'] >= 2 OR $id_auteur == $id)
 			{
-				echo '<span class="favorite">';
+				echo '<span class="edit_comment">';
 				if ($id_auteur == $id)
 				{
 					echo '<a href="editcomment-'.$id_comment.'"><img src="http://'.$domaine.'/images/icones/profil.png" class="mini_icone" /></a>';

@@ -518,7 +518,15 @@ h1,h2,h3 {
 }
 .footer_quote {
 	font-size:90%;
-	margin-top:5px
+	margin-top:5px;
+	position: relative;
+}
+.edit_comment {
+	opacity: 0.5;
+	margin-left: 20px;
+}
+.edit_comment:hover {
+	opacity: 1;
 }
 .clear {
 	clear:both
@@ -779,7 +787,7 @@ a.letters_members {
 .img_apps.right {
 	height:286px;
 }
-.img_apps a:hover,.favorite a:hover {
+.img_apps a:hover,.favorite a:hover,.edit_comment a:hover {
 	border:none !important
 }
 img.apps {
@@ -794,7 +802,9 @@ img.apps {
 }
 .favorite {
 	opacity:0.5;
-	margin-left:20px
+	left: 150px;
+	top: -2px;
+	position: absolute;
 }
 .favorite:hover {
 	opacity:1
@@ -924,6 +934,34 @@ img.apps {
 	float:left;
 	width:445px;
 	text-align: justify
+}
+.no_comments {
+	position: absolute;
+	left: 53px;
+}
+.box_nb_comments {
+	width: 10px;
+	height: 10px;
+	display: inline-block;
+	text-align: center;
+	color: white;
+	padding: 4px 4px;
+	-webkit-border-radius: 13px;
+	-moz-border-radius: 13px;
+	border-radius: 13px;
+	box-shadow: 0 1px 6px #888;
+	background: #3C53BD;
+	background: -moz-linear-gradient(top, #3C53BD 0%, #2A3A84 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3C53BD), color-stop(100%,#2A3A84));
+	background: -webkit-linear-gradient(top, #3C53BD 0%,#2A3A84 100%);
+	background: -o-linear-gradient(top, #3C53BD 0%,#2A3A84 100%);
+	background: -ms-linear-gradient(top, #3C53BD 0%,#2A3A84 100%);
+	background: linear-gradient(to bottom, #3C53BD 0%,#2A3A84 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3c53bd', endColorstr='#2a3a84',GradientType=0 );
+	line-height: 10px;
+	position: absolute;
+	left: 53px;
+	top: 2px;
 }
 /* UI Button */
 .submit {

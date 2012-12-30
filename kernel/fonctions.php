@@ -1228,42 +1228,63 @@ function cut_comment ($chaine)
 
 function afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments)
 {
-	if ($nombre_commentaires > '1')
+	// Desktop
+	if (!isUrlMobile())
 	{
-		echo $nombre_commentaires.' '.$comments;
+		if ($nombre_commentaires >= 1)
+		{
+			echo '<span class="box_nb_comments">'.$nombre_commentaires.'</span>';
+		}
+		else
+		{
+			echo '<span class="no_comments">'.$no_comments.'</span>';
+		}	
 	}
-	elseif ($nombre_commentaires == '1')
-	{
-		echo $nombre_commentaires.' '.$comment;
-	}
+	// Mobile
 	else
 	{
-		echo $no_comments;
+		if ($nombre_commentaires > 1)
+		{
+			echo $nombre_commentaires.' '.$comments;
+		}
+		elseif ($nombre_commentaires == 1)
+		{
+			echo $nombre_commentaires.' '.$comment;
+		}
+		else
+		{
+			echo $no_comments;
+		}
 	}
 }
 
-function afficher_favori ($id_quote, $is_favorite, $logged, $add_favorite, $unfavorite, $id_user) 
+function afficher_favori ($id_quote, $is_favorite, $logged, $add_favorite, $unfavorite, $id_user=0) 
 {
-	if ($logged == TRUE AND $is_favorite == '0') 
+	// Desktop
+	if (!isUrlMobile())
 	{
-		echo '<span class="favorite fade_jquery" data-id ="'.$id_quote.'"><a href="" onclick="favorite('.$id_quote.','.$id_user.');return false;" title="'.$add_favorite.'"><span class="heart_fav on"></span></a></span>';
+		if ($logged == TRUE AND $is_favorite == '0') 
+		{
+			echo '<span class="favorite fade_jquery" data-id ="'.$id_quote.'"><a href="" onclick="favorite('.$id_quote.','.$id_user.');return false;" title="'.$add_favorite.'"><span class="heart_fav on"></span></a></span>';
+		}
+		elseif ($logged == TRUE AND $is_favorite == '1')
+		{
+			echo '<span class="favorite fade_jquery" data-id ="'.$id_quote.'"><a href="" onclick="unfavorite('.$id_quote.','.$id_user.'); return false;" title="'.$unfavorite.'"><span class="heart_fav off"></span></a></span>';
+		}
 	}
-	elseif ($logged == TRUE AND $is_favorite == '1')
+	// Mobile
+	else
 	{
-		echo '<span class="favorite fade_jquery" data-id ="'.$id_quote.'"><a href="" onclick="unfavorite('.$id_quote.','.$id_user.'); return false;" title="'.$unfavorite.'"><span class="heart_fav off"></span></a></span>';
+		if ($logged == TRUE AND $is_favorite == '0') 
+		{
+			echo '<span class="favorite"><a href="favorite-'.$id_quote.'" title="'.$add_favorite.'"><span class="heart_fav on"></span></a></span>';
+		}
+		elseif ($logged == TRUE AND $is_favorite == '1')
+		{
+			echo '<span class="favorite"><a href="unfavorite-'.$id_quote.'" title="'.$unfavorite.'"><span class="heart_fav off"></span></a></span>';
+		}
 	}
-}
 
-function afficher_favori_m ($id_quote, $is_favorite, $logged, $add_favorite, $unfavorite) 
-{
-	if ($logged == TRUE AND $is_favorite == '0') 
-	{
-		echo '<span class="favorite"><a href="favorite-'.$id_quote.'" title="'.$add_favorite.'"><span class="heart_fav on"></span></a></span>';
-	}
-	elseif ($logged == TRUE AND $is_favorite == '1')
-	{
-		echo '<span class="favorite"><a href="unfavorite-'.$id_quote.'" title="'.$unfavorite.'"><span class="heart_fav off"></span></a></span>';
-	}
 }
 
 function share_fb_twitter ($id_quote, $txt_quote, $share) 
@@ -1279,12 +1300,17 @@ function share_fb_twitter ($id_quote, $txt_quote, $share)
 
 function date_et_auteur ($auteur_id, $auteur, $date_quote, $on, $by, $view_his_profile) 
 {
-	echo '<span class="right">'.$by.' <a href="user-'.$auteur_id.'" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_quote.'</span><br/>';
-}
-
-function date_et_auteur_m ($auteur_id, $auteur, $date_quote, $on, $by, $view_his_profile) 
-{
-	echo '<span class="right">'.$by.'<a href="user-'.$auteur_id.'" title="'.$view_his_profile.'"> '.$auteur.' </a>'.$on.' '.$date_quote.'</span><br/>';
+	// Desktop
+	if (!isUrlMobile())
+	{
+		echo '<span class="right">'.$by.' <a href="user-'.$auteur_id.'" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_quote.'</span><br/>';
+	}
+	// Mobile
+	else
+	{
+		// Spaces are IN the link for touchscreen (easier to click)
+		echo '<span class="right">'.$by.'<a href="user-'.$auteur_id.'" title="'.$view_his_profile.'"> '.$auteur.' </a>'.$on.' '.$date_quote.'</span><br/>';
+	}
 }
 
 function is_quote_exist ($txt_quote) 
