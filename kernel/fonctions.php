@@ -760,7 +760,10 @@ function email_birthday()
 				<img src="http://teen-quotes.com/mail/birthday.png" style="width:128px;height:128px;display:block;float:right;margin:0px 0px 0px 10px" />
 				<br/>Wow, '.$age.' years old, that\'s great! All the team want to wish you a happy birthday! We hope that you will have a great day :)<br/>
 				<br/>
-				See you soon on '.$name_website.'! '.$end_mail;
+				See you soon on '.$name_website.'!<br/>
+				<br/>
+				Best regards,<br/>
+				The <b>'.$name_website.' Team</b>'.$end_mail;
 			}
 			elseif ($domaine == 'kotado.fr')
 			{
@@ -769,7 +772,11 @@ function email_birthday()
 				Bonjour <font color="#394DAC"><b>'.$username.'</b></font>,<br/>
 				<img src="http://teen-quotes.com/mail/birthday.png" style="width:128px;height:128px;display:block;float:right;margin:0px 0px 0px 10px" />
 				<br/>Wow, '.$age.' ans, ça fait un paquet d\'années ! Toute l\'équipe vous souhaite un joyeux anniversaire ! Nous espérons que vous passerez une bonne journée :)<br/>
-				À bientôt sur '.$name_website.' ! '.$end_mail;
+				<br/>
+				À bientôt sur '.$name_website.' !<br/>
+				<br/>
+				Cordialement,<br/>
+				The <b>'.$name_website.' Team</b>'.$end_mail;
 				
 			}
 			
