@@ -80,7 +80,7 @@ else
 		echo '
 		<div class="post">
 			<div class="grey_post">
-				<h2><img src="http://'.$domaine.'/images/icones/search_result.png" class="icone" />'.$search_results.'<span class="right" style="font-size:70%;padding-top:5px">'.$num_rows_result.''; ?> <?php echo $results; ?><?php if($num_rows_result >'1'){echo"s";}
+				<h2><img src="http://'.$domaine.'/images/icones/search_result.png" class="icone" />'.$search_results.'<span class="right" style="font-size:70%;padding-top:5px">'.$num_rows_result; ?> <?php echo $results; ?><?php if($num_rows_result >'1'){echo"s";}
 				echo
 				'</span></h2>';
 
@@ -96,7 +96,7 @@ else
 		{
 			echo '
 			<div class="post" id="quotes">
-				<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone">'.$quotes.'<span class="right" style="font-size:90%;padding-top:5px">'.$num_rows_quote.''; echo ' '.$results.''; if($num_rows_quote >'1'){echo"s";} if ($num_rows_quote > '15'){echo ' '.$max_result.'';} echo '</span></h2>';
+				<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone">'.$quotes.'<span class="right" style="font-size:90%;padding-top:5px">'.$num_rows_quote; echo ' '.$results; if($num_rows_quote >'1'){echo"s";} if ($num_rows_quote > '15'){echo ' '.$max_result;} echo '</span></h2>';
 
 
 				while ($result = mysql_fetch_array($resultatsQuotes))
@@ -128,7 +128,7 @@ else
 		{
 			echo '
 			<div class="post" id="members">
-			<h2><img src="http://'.$domaine.'/images/icones/staff.png" class="icone">'.$members.'<span class="right" style="font-size:90%;padding-top:5px">'.$num_rows_members.''; echo ' '.$results.''; if($num_rows_members >'1'){echo"s";} if ($num_rows_members > '15'){echo ' '.$max_result.'';} echo '</span></h2>';
+			<h2><img src="http://'.$domaine.'/images/icones/staff.png" class="icone">'.$members.'<span class="right" style="font-size:90%;padding-top:5px">'.$num_rows_members; echo ' '.$results; if($num_rows_members >'1'){echo"s";} if ($num_rows_members > '15'){echo ' '.$max_result;} echo '</span></h2>';
 
 			if (!empty($city) AND empty($country))
 			{
@@ -160,10 +160,10 @@ else
 
 
 				echo '<div class="grey_post">';
-					echo '<img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="user_avatar_members" /><a href="user-'.$id_user.'"><h2>'.$username_member.'';
+					echo '<img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="user_avatar_members" /><a href="user-'.$id_user.'"><h2>'.$username_member;
 					if (!empty($city)) 
 					{
-						echo '<span class="right">'.$city.'';
+						echo '<span class="right">'.$city;
 					}
 					if (!empty($country))
 					{
@@ -171,13 +171,13 @@ else
 						{
 							echo ' - ';
 						}
-						echo ''.$country.'</span>';
+						echo $country.'</span>';
 					}
 					echo '</h2></a>';
 
 					if (!empty($about_me)) 
 					{
-						echo ''.$about_me.'';
+						echo $about_me;
 						echo '<div class="grey_line"></div>';
 					}
 

@@ -27,12 +27,12 @@ if (empty($action))
 	';
 	if (isset($_GET['addquote'])) 
 	{
-		echo ''.$must_be_registered_for_quote.'';
+		echo $must_be_registered_for_quote;
 		$query = mysql_query("UPDATE teen_quotes_settings SET value = value+1 WHERE param = 'signup_addquote'");
 	} 
 	elseif (isset($_GET['addcomment'])) 
 	{
-		echo ''.$must_be_registered_to_comment.'';
+		echo $must_be_registered_to_comment;
 		$query = mysql_query("UPDATE teen_quotes_settings SET value = value+1 WHERE param = 'signup_addcomment'");
 	}
 	elseif (isset($_GET['topbar'])) 
@@ -115,56 +115,56 @@ elseif ($action == "send")
 									{
 										$query = mysql_query("INSERT INTO teen_quotes_settings (param, value) VALUES ('email_quote_today', '$email')");
 									}
-									$message = ''.$email_message.'';
+									$message = ''.$email_message;
 									$mail = mail($email, $email_subject, $message, $headers);
 									if($add)
 									{
-										echo ''.$signup_succes.'';
+										echo $signup_succes;
 										echo '<meta http-equiv="refresh" content="10;url=connexion.php?method=get&pseudo='.$username.'&password='.$pass_salt.'" />';
 									}
 									else
 									{
-										echo ''.$error.'';
+										echo $error;
 									}
 								}
 								else
 								{
-									echo '<span class="erreur">'.$email_taken.'</span>'.$lien_retour.'';
+									echo '<span class="erreur">'.$email_taken.'</span>'.$lien_retour;
 								}		
 							}
 							else
 							{
-								echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
+								echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour;
 							}
 						}
 						else
 						{
-							echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
+							echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour;
 						}
 					}
 					else
 					{
-						echo '<span class="erreur">'.$password_short.'</span>'.$lien_retour.'';
+						echo '<span class="erreur">'.$password_short.'</span>'.$lien_retour;
 					}
 				}
 				else
 				{
-					echo '<span class="erreur">'.$password_not_same.'</span>'.$lien_retour.'';
+					echo '<span class="erreur">'.$password_not_same.'</span>'.$lien_retour;
 				}
 			}
 			else
 			{
-				echo '<span class="erreur">'.$username_taken.'</span>'.$lien_retour.'';
+				echo '<span class="erreur">'.$username_taken.'</span>'.$lien_retour;
 			}
 		}
 		else
 		{
-			echo '<span class="erreur">'.$username_not_valid.'</span>'.$lien_retour.'';
+			echo '<span class="erreur">'.$username_not_valid.'</span>'.$lien_retour;
 		}
 	}
 	else
 	{
-		echo '<span class="erreur">'.$username_short.'</span>'.$lien_retour.'';
+		echo '<span class="erreur">'.$username_short.'</span>'.$lien_retour;
 	}
 
 	echo '</div>';

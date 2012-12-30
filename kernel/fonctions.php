@@ -144,19 +144,19 @@ function captchaMath()
 	if (in_array($n1, array('1', '2', '3', '6', '7', '14', '21', '42')))
 	{
 		$n2 = 42 / $n1;
-		$phrase = ''.$n1.' x '.$n2.'';
+		$phrase = ''.$n1.' x '.$n2;
 	}
 	else
 	{
 		if ($n1 <= 42)
 		{
 			$n2 = 42 - $n1;
-			$phrase = ''.$n1.' + '.$n2.'';
+			$phrase = ''.$n1.' + '.$n2;
 		}
 		else
 		{
 			$n2 = $n1 - 42;
-			$phrase = ''.$n1.' - '.$n2.'';
+			$phrase = ''.$n1.' - '.$n2;
 		}
 	}
 
@@ -711,7 +711,7 @@ function flush_quotes ()
 		{
 			if ($domaine == $domain_en)
 			{
-				$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Your quote has been <font color="#394DAC"><b>approved</b></font> recently by a member of our team ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Congratulations !<br/><br/>Your quote is now visible on our website. You can share it or comment it if you want !<br/><br/><br/>If you want to see your quote, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">click here</a>.<br/><br/><br/>Sincerely,<br/><b>The Teen Quotes Team</b><br/><br/><br/><div style="border-top:1px dashed #CCCCCC"></div><br/><br/>VERSION FRANCAISE :<br/><br/>Bonjour <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Votre citation a été récemment <font color="#394DAC"><b>approuvée</b></font> par un membre de notre équipe ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Congratulations !<br/><br/>Votre citation est maintenant visible sur Teen Quotes. Vous pouvez dès à présent la partager ou la commenter si vous le souhaitez !<br/><br/><br/>Si vous voulez voir votre citation, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">cliquez ici</a>.<br/><br/><br/>Cordialement,<br/><b>The Teen Quotes Team</b> '.$end_mail.'';
+				$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Your quote has been <font color="#394DAC"><b>approved</b></font> recently by a member of our team ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Congratulations !<br/><br/>Your quote is now visible on our website. You can share it or comment it if you want !<br/><br/><br/>If you want to see your quote, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">click here</a>.<br/><br/><br/>Sincerely,<br/><b>The Teen Quotes Team</b><br/><br/><br/><div style="border-top:1px dashed #CCCCCC"></div><br/><br/>VERSION FRANCAISE :<br/><br/>Bonjour <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Votre citation a été récemment <font color="#394DAC"><b>approuvée</b></font> par un membre de notre équipe ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Congratulations !<br/><br/>Votre citation est maintenant visible sur Teen Quotes. Vous pouvez dès à présent la partager ou la commenter si vous le souhaitez !<br/><br/><br/>Si vous voulez voir votre citation, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">cliquez ici</a>.<br/><br/><br/>Cordialement,<br/><b>The Teen Quotes Team</b> '.$end_mail;
 				$mail = mail($email_auteur, "Quote approved", $message, $headers);
 			}
 			elseif ($domaine == $domain_fr)
@@ -721,7 +721,7 @@ function flush_quotes ()
 			}
 		}
 
-		$ids_quotes_posted_today .= ''.$id_quote.'';
+		$ids_quotes_posted_today .= ''.$id_quote;
 		$ids_quotes_posted_today .= ",";
 	}
 
@@ -1143,13 +1143,13 @@ function MailPostedToday ($id_quote)
 			if ($domaine == $domain_en)
 			{
 				$email_subject = 'Quotes of the day';
-				$message = ''.$top_mail.'Here are the quotes posted today ('.$today.'):<br/><br/>'.$email_txt.$end_mail.'';
+				$message = ''.$top_mail.'Here are the quotes posted today ('.$today.'):<br/><br/>'.$email_txt.$end_mail;
 				$message .= '<br/><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsubscribe, please follow <a href="http://'.$domaine.'/newsletter.php?action=unsubscribe_everyday&email='.$email.'" target="_blank"> this link</a>.</span>';
 			}
 			elseif ($domaine == $domain_fr)
 			{
 				$email_subject = 'Citations du jour';
-				$message = ''.$top_mail.'Voici les citations publiées aujourd\'hui ('.$today.') :<br/><br/>'.$email_txt.$end_mail.'';
+				$message = ''.$top_mail.'Voici les citations publiées aujourd\'hui ('.$today.') :<br/><br/>'.$email_txt.$end_mail;
 				$message .= '<br/><span style="font-size:80%">Cet email a été envoyé à votre adresse ('.$email.') car vous êtes inscrit à la newsletter. Si vous souhaitez vous désinscrire, cliquez sur <a href="http://'.$domaine.'/newsletter.php?action=unsubscribe_everyday&email='.$email.'" target="_blank"> ce lien</a>.</span>.';
 			}
 
@@ -1230,15 +1230,15 @@ function afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_co
 {
 	if ($nombre_commentaires > '1')
 	{
-		echo ''.$nombre_commentaires.' '.$comments.'';
+		echo $nombre_commentaires.' '.$comments;
 	}
 	elseif ($nombre_commentaires == '1')
 	{
-		echo ''.$nombre_commentaires.' '.$comment.'';
+		echo $nombre_commentaires.' '.$comment;
 	}
 	else
 	{
-		echo ''.$no_comments.'';
+		echo $no_comments;
 	}
 }
 

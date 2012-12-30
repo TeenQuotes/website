@@ -45,7 +45,7 @@ elseif ($action == "send")
 			
 			if($update_pass AND $mail) 
 			{
-				echo ''.$its_ok.'';
+				echo $its_ok;
 			}
 			else
 			{
@@ -54,12 +54,12 @@ elseif ($action == "send")
 		}
 		else
 		{
-			echo '<span class="erreur">'.$no_account.'</span>'.$lien_retour.'';
+			echo '<span class="erreur">'.$no_account.'</span>'.$lien_retour;
 		}
 	}
 	else
 	{
-		echo '<span class="erreur">'.$email_not_valid.'</span>'.$lien_retour.'';
+		echo '<span class="erreur">'.$email_not_valid.'</span>'.$lien_retour;
 	}
 }
 	

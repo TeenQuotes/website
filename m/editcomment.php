@@ -44,7 +44,7 @@ if (is_numeric($id_comment) AND !empty($id_comment))
 			echo '</div>
 			</div>';
 			
-			echo ''.$here_is_your_comment.'';
+			echo $here_is_your_comment;
 			echo '
 			<div class="grey_post">
 				'.$texte_comment.'<br/><br/>
@@ -52,7 +52,7 @@ if (is_numeric($id_comment) AND !empty($id_comment))
 				<span class="right">'.$by.' <a href="user-'.$id_auteur.'" title="'.$view_his_profile.'">'.$auteur_comment.'</a> '.$on.' '.$date.'</span><br/>
 			</div>';
 			
-			echo ''.$write_new_comment_here.'';
+			echo $write_new_comment_here;
 			echo '
 			<form action="?action=send" method="post">
 				<input type="hidden" name="id_comment" value="'.$id_comment.'" />
@@ -72,27 +72,27 @@ if (is_numeric($id_comment) AND !empty($id_comment))
 				if ($update)
 				{
 					echo '<meta http-equiv="refresh" content="5;url=quote-'.$id_quote.'" />';
-					echo ''.$succes.' '.$comment_updated_successfully.'';
+					echo $succes.' '.$comment_updated_successfully;
 				}
 				else
 				{
-					echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+					echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour;
 				}
 			}
 			else
 			{
-				echo '<div class="bandeau_erreur">'.$please_enter_a_comment.'</div> '.$lien_retour.'';
+				echo '<div class="bandeau_erreur">'.$please_enter_a_comment.'</div> '.$lien_retour;
 			}
 		}
 	}
 	else
 	{
-		echo '<div class="bandeau_erreur">'.$not_author.'</div>'.$lien_retour.'';
+		echo '<div class="bandeau_erreur">'.$not_author.'</div>'.$lien_retour;
 	}
 }
 else
 {
-	echo ''.$error.' '.$lien_retour.'';
+	echo $error.' '.$lien_retour;
 }
 
 echo '</div>';

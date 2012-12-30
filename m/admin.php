@@ -156,7 +156,7 @@ elseif ($action == "add_quote")
 			$days_quote_posted = $days_quote_posted.'s';
 		}
 
-		$date_log = ''.$date.'-'.$jours_posted.'';
+		$date_log = ''.$date.'-'.$jours_posted;
 
 		$query = mysql_query("INSERT INTO teen_quotes_quotes (texte_english, date, auteur_id, approved) VALUES ('".$texte_quote."', '".$date."', '".$id_auteur_quote."','2')");
 		$id_quote = mysql_insert_id();
@@ -165,17 +165,17 @@ elseif ($action == "add_quote")
 		
 		if ($query) 
 		{
-			echo ''.$succes.' <a href="../admin">Add anoter one</a>';
+			echo $succes.' <a href="../admin">Add anoter one</a>';
 			echo '<meta http-equiv="refresh" content="0;url=admin" />';
 		}
 		else 
 		{
-			echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+			echo '<h2>'.$error.'</h2> '.$lien_retour;
 		}
 	}
 	else 
 	{
-		echo '<h2>'.$error.' : too short</h2> '.$lien_retour.'';
+		echo '<h2>'.$error.' : too short</h2> '.$lien_retour;
 	}	
 }
 elseif ($action == "rate") 
@@ -206,7 +206,7 @@ elseif ($action == "rate")
 			$days_quote_posted = $days_quote_posted.'s';
 		}
 
-		$date_log = ''.$date.'-'.$jours_posted.'';
+		$date_log = ''.$date.'-'.$jours_posted;
 
 		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '2' WHERE id = '".$id_quote."'");
 
@@ -232,7 +232,7 @@ elseif ($action == "rate")
 				{
 					$edit_message = '<br/><br/><b>Votre citation a été modifiée par notre équipe avant son approbation. Veuillez respecter la syntaxe, l\'orthographe et le sens de votre citation.</b>';
 				}
-				$message = ''.$top_mail.' Bonjour <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Votre citation a été <font color="#394DAC"><b>approuvée</b></font> récemment par un membre de notre équipe. Elle sera publiée le <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted.'), vous recevrez un email quand elle sera publiée sur le site.'.$edit_message.'<br/><br/>Voici votre citation :<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://kotado.fr/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Cordialement,<br/><b>L\'équipe de Kotado</b>'.$end_mail.'';
+				$message = ''.$top_mail.' Bonjour <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Votre citation a été <font color="#394DAC"><b>approuvée</b></font> récemment par un membre de notre équipe. Elle sera publiée le <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted.'), vous recevrez un email quand elle sera publiée sur le site.'.$edit_message.'<br/><br/>Voici votre citation :<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://kotado.fr/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Cordialement,<br/><b>L\'équipe de Kotado</b>'.$end_mail;
 			}
 			else
 			{
@@ -241,12 +241,12 @@ elseif ($action == "rate")
 					$edit_message = '<br/><br/><b>Your quote has been modified by our team before approval. Please follow the syntax, the spelling and the meaning of your quote.</b>';
 				}
 
-				$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Your quote has been <font color="#394DAC"><b>approved</b></font> recently by a member of our team. It will be released on <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted .'), you will receive an email when it will be posted on the website.'.$edit_message.'<br/><br/>Here is your quote :<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Sincerely,<br/><b>The Teen Quotes Team</b>'.$end_mail.'';
+				$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Your quote has been <font color="#394DAC"><b>approved</b></font> recently by a member of our team. It will be released on <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted .'), you will receive an email when it will be posted on the website.'.$edit_message.'<br/><br/>Here is your quote :<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Sincerely,<br/><b>The Teen Quotes Team</b>'.$end_mail;
 			}
 
 			$mail = mail($email_auteur, $quote_added_queue, $message, $headers);
 			$update_send = mysql_query("UPDATE approve_quotes SET send = '1' WHERE id_quote = '".$id_quote."' AND id_user = '".$auteur_id."' LIMIT 1");
-			echo ''.$succes.' The quote has been added to the queue. The author will be notified';
+			echo $succes.' The quote has been added to the queue. The author will be notified';
 			echo '<meta http-equiv="refresh" content="0;url=admin" />';
 		}
 		elseif (mysql_num_rows($waiting_moderation) == 0 AND mysql_num_rows($waiting_send) >= 2)
@@ -280,15 +280,15 @@ elseif ($action == "rate")
 			{
 				if ($language == "french")
 				{
-					$message = ''.$top_mail.'Bonjour <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Votre citation a été <font color="#394DAC"><b>rejetée</b></font> récemment par un membre de notre équipe...<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://kotado.fr/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Cordialement,<br/><b>The Kotado Team</b>'.$end_mail.'';
+					$message = ''.$top_mail.'Bonjour <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Votre citation a été <font color="#394DAC"><b>rejetée</b></font> récemment par un membre de notre équipe...<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://kotado.fr/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Cordialement,<br/><b>The Kotado Team</b>'.$end_mail;
 				}
 				else
 				{
-					$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Your quote has been <font color="#394DAC"><b>rejected</b></font> recently by a member of our team...<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Sincerely,<br/><b>The Teen Quotes Team</b>'.$end_mail.'';
+					$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Your quote has been <font color="#394DAC"><b>rejected</b></font> recently by a member of our team...<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Sincerely,<br/><b>The Teen Quotes Team</b>'.$end_mail;
 				}
 
 				$mail = mail($email_auteur, $quote_rejected, $message, $headers); 
-				echo ''.$succes.' The author has been notified successfully !';
+				echo $succes.' The author has been notified successfully !';
 				echo '<meta http-equiv="refresh" content="0;url=admin" />';
 			}
 			elseif (mysql_num_rows($waiting_moderation) == 0 AND mysql_num_rows($waiting_send) >= 2)
@@ -343,7 +343,7 @@ elseif ($action == "delete_comment")
 		<a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #394DAC;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username_comment.'</a> '.$on.' '.$date_comment.'</span><br/>
 		</div>
 		Cordialement,<br/>
-		<b>The Teen Quotes Team</b>'.$end_mail.'';
+		<b>The Teen Quotes Team</b>'.$end_mail;
 	}
 	else
 	{
@@ -361,7 +361,7 @@ elseif ($action == "delete_comment")
 		</div>
 		Sincerely,<br/>
 		<b>The Teen Quotes Team</b>
-		'.$end_mail.'';
+		'.$end_mail;
 	}
 	$mail = mail($email_auteur, $comment_deleted, $message, $headers); 
 
@@ -369,7 +369,7 @@ elseif ($action == "delete_comment")
 
 	if ($delete AND $mail) 
 	{
-		echo ''.$succes.' The author has been notified successfully !';
+		echo $succes.' The author has been notified successfully !';
 		echo '<meta http-equiv="refresh" content="1;url=admin" />';
 	}			
 }
@@ -428,7 +428,7 @@ elseif ($action == "edit_existing_quote")
 		
 		echo 'The original one :';
 		echo '<div class="grey_post">';
-		echo ''.$txt_quote.'<br/><br/><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span>';
+		echo $txt_quote.'<br/><br/><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span>';
 		echo '</div>';
 		
 		echo '
@@ -444,7 +444,7 @@ elseif ($action == "edit_existing_quote")
 	}
 	else
 	{
-		echo '<h2>'.$error.'</h2> That quote doesn\'t exist ! '.$lien_retour.'';
+		echo '<h2>'.$error.'</h2> That quote doesn\'t exist ! '.$lien_retour;
 	}
 }
 elseif ($action == "edit_existing_quote_valide")
@@ -460,12 +460,12 @@ elseif ($action == "edit_existing_quote_valide")
 	
 	if ($query)
 	{
-		echo ''.$succes.' Your quote has been edited !';
+		echo $succes.' Your quote has been edited !';
 		echo '<meta http-equiv="refresh" content="2;url=admin" />';
 	}
 	else 
 	{
-		echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+		echo '<h2>'.$error.'</h2> '.$lien_retour;
 	}
 }
 elseif ($action == "delete_existing_quote")
@@ -491,17 +491,17 @@ elseif ($action == "delete_existing_quote")
 			
 			if ($log_result)
 			{
-				echo ''.$succes.' Your quote has been successfully unapproved.';
+				echo $succes.' Your quote has been successfully unapproved.';
 				echo '<meta http-equiv="refresh" content="1;url=admin" />';
 			}
 			else
 			{
-				echo '<h2>'.$error.'</h2> 1'.$lien_retour.'';
+				echo '<h2>'.$error.'</h2> 1'.$lien_retour;
 			}
 		}
 		else
 		{
-			echo '<h2>'.$error.'</h2> 2'.$lien_retour.'';
+			echo '<h2>'.$error.'</h2> 2'.$lien_retour;
 		}
 	}
 	elseif (preg_match('/,/',$id_quote) AND !preg_match('/%/',$id_quote) AND !empty($username) AND !empty($ip) AND !empty($id_quote)) // REGEX à vérifier
@@ -516,17 +516,17 @@ elseif ($action == "delete_existing_quote")
 			
 			if ($log_result)
 			{
-				echo ''.$succes.' Your quotes has been deleted successfully.';
+				echo $succes.' Your quotes has been deleted successfully.';
 				echo '<meta http-equiv="refresh" content="1;url=admin" />';
 			}
 			else
 			{
-				echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+				echo '<h2>'.$error.'</h2> '.$lien_retour;
 			}
 		}
 		else
 		{
-			echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+			echo '<h2>'.$error.'</h2> '.$lien_retour;
 		}
 	}
 }

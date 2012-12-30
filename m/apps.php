@@ -20,7 +20,7 @@ else
 		<div class="post">
 			<h2><img src="http://'.$domaine.'/images/icones/mobile.png" class="icone" />'.$applications.'</h2>
 			<div class="grey_post">
-				'.$text_applications.'';
+				'.$text_applications;
 	}
 	elseif ($action == 'disconnect')
 	{
@@ -28,7 +28,7 @@ else
 		<div class="post">
 			<h2><img src="http://'.$domaine.'/images/icones/mobile.png" class="icone" />'.$signed_out_go_mobile.'</h2>
 			<div class="grey_post">
-				'.$text_applications.'';
+				'.$text_applications;
 	}
 	elseif ($action == 'mobile')
 	{
@@ -46,11 +46,11 @@ else
 	{	
 		if ($link_app_iphone == '#')
 		{
-			echo ''.$app_iphone_not_available.'';
+			echo $app_iphone_not_available;
 		}
 		if ($link_app_android == '#')
 		{
-			echo ''.$app_android_not_available.'';
+			echo $app_android_not_available;
 		}
 	}
 

@@ -51,12 +51,12 @@ else
 		$nb_comments=mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_comments WHERE auteur_id = '".$id."'"));
 		$nb_quotes_added_to_favorite = mysql_num_rows(mysql_query("SELECT F.id FROM teen_quotes_favorite F, teen_quotes_quotes Q WHERE F.id_quote = Q.id AND Q.auteur_id= '".$id."'"));
 		
-		if(empty($result['birth_date'])) {$result['birth_date'] = ''.$not_specified.'';}
-		if(empty($result['title'])) {$result['title'] = ''.$not_specified.'';}
-		if(empty($result['about_me'])) {$result['about_me'] = ''.$no_description.'';}
-		if(empty($result['country'])) {$result['country'] = ''.$not_specified.'';}
-		if(empty($result['city'])) {$result['city'] = ''.$not_specified.'';}
-		if(empty($result['number_comments'])) {$result['number_comments'] = ''.$no_posted_comments.'';}
+		if(empty($result['birth_date'])) {$result['birth_date'] = ''.$not_specified;}
+		if(empty($result['title'])) {$result['title'] = ''.$not_specified;}
+		if(empty($result['about_me'])) {$result['about_me'] = ''.$no_description;}
+		if(empty($result['country'])) {$result['country'] = ''.$not_specified;}
+		if(empty($result['city'])) {$result['city'] = ''.$not_specified;}
+		if(empty($result['number_comments'])) {$result['number_comments'] = ''.$no_posted_comments;}
 		if(empty($result['avatar'])) {$result['avatar'] = "icon50.png";}
 		if($result['avatar'] =="http://".$domaine."/images/icon50.png") {$result['avatar'] = "icon50.png";}
 		

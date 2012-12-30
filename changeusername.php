@@ -23,7 +23,7 @@ if ($_SESSION['logged'])
 	{
 		if (usernameIsValid($_SESSION['username']) == FALSE)
 		{
-			echo ''.$text_change_username.'';
+			echo $text_change_username;
 			echo '
 			<div class="grey_post">
 				<form method="post" action="?action=send">
@@ -41,7 +41,7 @@ if ($_SESSION['logged'])
 		}
 		else
 		{	
-			echo '<span class="erreur">'.$username_is_valid.'</span>'.$lien_retour.'';
+			echo '<span class="erreur">'.$username_is_valid.'</span>'.$lien_retour;
 		}
 	}
 	elseif ($action == 'send')
@@ -60,34 +60,34 @@ if ($_SESSION['logged'])
 
 					if ($update_account AND $update_comment AND $update_quote)
 					{	
-						echo ''.$change_username_succes.'';
+						echo $change_username_succes;
 						echo '<meta http-equiv="refresh" content="5;url=index.php?deconnexion" />';
 					}
 					else
 					{	
-						echo ''.$error.' '.$lien_retour.'';
+						echo $error.' '.$lien_retour;
 					}
 				}
 				else
 				{	
-					echo '<span class="erreur">'.$password_not_same.' - '.$password_short.'</span>'.$lien_retour.'';
+					echo '<span class="erreur">'.$password_not_same.' - '.$password_short.'</span>'.$lien_retour;
 				}
 			}
 			else
 			{
-				echo '<span class="erreur">'.$username_not_valid.'</span>'.$lien_retour.'';
+				echo '<span class="erreur">'.$username_not_valid.'</span>'.$lien_retour;
 			}
 		}
 		else
 		{	
-			echo '<span class="erreur">'.$erreur_empty.'</span> '.$lien_retour.'';
+			echo '<span class="erreur">'.$erreur_empty.'</span> '.$lien_retour;
 		}
 	}
 	echo '</div>';
 }
 else
 {	
-	echo ''.$error.' : you must be logged. '.$lien_retour.'';
+	echo $error.' : you must be logged. '.$lien_retour;
 }
 include "footer.php";
 ?>

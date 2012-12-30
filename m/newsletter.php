@@ -48,12 +48,12 @@ elseif ($action == "send") // SUBSCRIBE
 			$query = mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");
 			if ($query) 
 			{
-				echo ''.$succes_newsletter.'';
+				echo $succes_newsletter;
 				$notifications_succes = TRUE;
 			}
 			else 
 			{
-				echo ''.$error.' '.$lien_retour.'';
+				echo $error.' '.$lien_retour;
 			}	
 		}
 		elseif ($is_newsletter == 1) 
@@ -69,13 +69,13 @@ elseif ($action == "send") // SUBSCRIBE
 			{
 				if ($notifications_succes != TRUE)
 				{
-					echo ''.$succes_newsletter.'';
+					echo $succes_newsletter;
 					$notifications_succes = TRUE;
 				}
 			}
 			else 
 			{
-				echo ''.$error.' '.$lien_retour.'';
+				echo $error.' '.$lien_retour;
 			}
 		}
 		elseif ($email_quote_today_num_rows == 1)
@@ -85,7 +85,7 @@ elseif ($action == "send") // SUBSCRIBE
 	}
 	else 
 	{
-			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
+			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour;
 	}
 }
 elseif ($action == "unsubscribe")  // DESINSCRIPTION
@@ -101,21 +101,21 @@ elseif ($action == "unsubscribe")  // DESINSCRIPTION
 			$query = mysql_query("DELETE FROM newsletter WHERE email='$email'");
 			if ($query) 
 			{
-				echo ''.$succes_unsuscribe.'';
+				echo $succes_unsuscribe;
 			}
 			else 
 			{
-				echo ''.$error.'';
+				echo $error;
 			}
 		}
 		else
 		{
-			echo ''.$not_subscribe.'';
+			echo $not_subscribe;
 		}
 	}
 	else 
 	{
-		echo ''.$error.'';
+		echo $error;
 	}
 }	
 elseif ($action == "unsubscribe_everyday")  // DESINSCRIPTION
@@ -131,21 +131,21 @@ elseif ($action == "unsubscribe_everyday")  // DESINSCRIPTION
 			$query = mysql_query("DELETE FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'");
 			if ($query) 
 			{
-				echo ''.$succes_unsuscribe_everyday.'';
+				echo $succes_unsuscribe_everyday;
 			}
 			else 
 			{
-				echo ''.$error.'';
+				echo $error;
 			}
 		}
 		else
 		{
-			echo ''.$not_subscribe.'';
+			echo $not_subscribe;
 		}
 	}
 	else 
 	{
-		echo ''.$error.'';
+		echo $error;
 	}
 }	
 echo '</div>';

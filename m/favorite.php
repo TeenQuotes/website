@@ -15,12 +15,12 @@ echo '
 <div class="post">';
 	if($query) 
 	{
-		echo ''.$add_succes.'';
+		echo $add_succes;
 		echo '<meta http-equiv="refresh" content="2;url=quote-'.$id_quote.'" />';
 	}
 	else
 	{
-		echo '<h2>'.$error.'</h2>'.$lien_retour.'';
+		echo '<h2>'.$error.'</h2>'.$lien_retour;
 	}
 echo '
 </div>';

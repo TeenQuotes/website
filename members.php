@@ -48,11 +48,11 @@ if ($totalDesMembres > 0)
 		$nb_quotes_added_to_favorite = mysql_num_rows(mysql_query("SELECT F.id FROM teen_quotes_favorite F, teen_quotes_quotes Q WHERE F.id_quote = Q.id AND Q.auteur_id = '$id_user'"));
 		
 		echo '<div class="grey_post">';
-		echo '<img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="user_avatar_members" /><a href="user-'.$id_user.'"><h2>'.$username_member.'';
+		echo '<img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="user_avatar_members" /><a href="user-'.$id_user.'"><h2>'.$username_member;
 		
 		if (!empty($city)) 
 		{
-			echo '<span class="right">'.$city.'';
+			echo '<span class="right">'.$city;
 		}
 
 		if (!empty($country))
@@ -61,13 +61,13 @@ if ($totalDesMembres > 0)
 			{
 				echo ' - ';
 			}
-			echo ''.$country.'</span>';
+			echo $country.'</span>';
 		}
 		echo '</h2></a>';
 
 		if (!empty($about_me)) 
 		{
-			echo ''.$about_me.'';
+			echo $about_me;
 			echo '<div class="grey_line"></div>';
 		}
 

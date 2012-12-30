@@ -43,31 +43,31 @@ elseif ($action == "add_quote")
 					
 					if ($query) 
 					{
-						echo ''.$succes.' '.$add_ok.'';
+						echo $succes.' '.$add_ok;
 					}
 					else 
 					{
-						echo '<h2>'.$error.'</h2> '.$lien_retour.'';
+						echo '<h2>'.$error.'</h2> '.$lien_retour;
 					}
 				}
 				else
 				{
-					echo '<h2>'.$error.'</h2> Please contact us at support@teen-quotes.com with your username. '.$lien_retour.'';
+					echo '<h2>'.$error.'</h2> Please contact us at support@teen-quotes.com with your username. '.$lien_retour;
 				}
 			}
 			else
 			{
-				echo '<span class="erreur">'.$quote_already_exist.'</span> '.$lien_retour.'';
+				echo '<span class="erreur">'.$quote_already_exist.'</span> '.$lien_retour;
 			}
 		}
 		else
 		{
-			echo '<span class="erreur">'.$submitted_too_much.'</span> '.$lien_retour.'';
+			echo '<span class="erreur">'.$submitted_too_much.'</span> '.$lien_retour;
 		}
 	}
 	else 
 	{
-		echo '<span class="erreur">'.$too_short.'</span> '.$lien_retour.'';
+		echo '<span class="erreur">'.$too_short.'</span> '.$lien_retour;
 	}								
 }
 echo '</div>';

@@ -48,7 +48,7 @@ if (isDomainValidForAjax() AND $_SESSION['security_level'] >= 2)
 			$days_quote_posted = $days_quote_posted.'s';
 		}
 
-		$date_log = ''.$date.'-'.$jours_posted.'';
+		$date_log = ''.$date.'-'.$jours_posted;
 
 		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '2' WHERE id = '".$id_quote."'");
 		$approve_quote_log = mysql_query("INSERT INTO approve_quotes (id_quote, id_user, quote_release) VALUES ('".$id_quote."', '".$author_id."', '".$date_log."')");
@@ -75,11 +75,11 @@ if (isDomainValidForAjax() AND $_SESSION['security_level'] >= 2)
 		{	
 			if(preg_match('/'.$domain_fr.'/', $_SERVER['SERVER_NAME']))
 			{
-				$message = ''.$top_mail.' Bonjour <font color="#394DAC"><b>'.$name_author.'</b></font> !<br/><br/>Votre citation a été <font color="#394DAC"><b>approuvée</b></font> récemment par un membre de notre équipe. Elle sera publiée le <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted.'), vous recevrez un email quand elle sera publiée sur le site.<br/><br/>Voici votre citation :<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://kotado.fr/user-'.$author_id.'" target="_blank">'.$name_author.'</a> le '.$date_quote.'</span></div>'.$edit_message.'<br/><br/>Cordialement,<br/><b>L\'équipe de Kotado</b>'.$end_mail.'';
+				$message = ''.$top_mail.' Bonjour <font color="#394DAC"><b>'.$name_author.'</b></font> !<br/><br/>Votre citation a été <font color="#394DAC"><b>approuvée</b></font> récemment par un membre de notre équipe. Elle sera publiée le <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted.'), vous recevrez un email quand elle sera publiée sur le site.<br/><br/>Voici votre citation :<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://kotado.fr/user-'.$author_id.'" target="_blank">'.$name_author.'</a> le '.$date_quote.'</span></div>'.$edit_message.'<br/><br/>Cordialement,<br/><b>L\'équipe de Kotado</b>'.$end_mail;
 			}
 			else
 			{
-				$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_author.'</b></font> !<br/><br/>Your quote has been <font color="#394DAC"><b>approved</b></font> recently by a member of our team. It will be released on <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted .'), you will receive an email when it will be posted on the website.<br/><br/>Here is your quote:<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$author_id.'" target="_blank">'.$name_author.'</a> on '.$date_quote.'</span></div>'.$edit_message.'<br/><br/>Sincerely,<br/><b>The Teen Quotes Team</b>'.$end_mail.'';
+				$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_author.'</b></font> !<br/><br/>Your quote has been <font color="#394DAC"><b>approved</b></font> recently by a member of our team. It will be released on <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted .'), you will receive an email when it will be posted on the website.<br/><br/>Here is your quote:<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$author_id.'" target="_blank">'.$name_author.'</a> on '.$date_quote.'</span></div>'.$edit_message.'<br/><br/>Sincerely,<br/><b>The Teen Quotes Team</b>'.$end_mail;
 			}
 			
 			$mail = mail($email_author, $quote_added_queue, $message, $headers);
@@ -116,11 +116,11 @@ if (isDomainValidForAjax() AND $_SESSION['security_level'] >= 2)
 			{
 				if(preg_match('/'.$domain_fr.'/', $_SERVER['SERVER_NAME']))
 				{
-					$message = ''.$top_mail.'Bonjour <font color="#394DAC"><b>'.$name_author.'</b></font> !<br/><br/>Votre citation a été <font color="#394DAC"><b>rejetée</b></font> récemment par un membre de notre équipe...<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://kotado.fr/user-'.$author_id.'" target="_blank">'.$name_author.'</a> le '.$date_quote.'</span></div>'.$quotes_unapproved_singular.$quotes_unapproved_reasons.'Cordialement,<br/><b>The Kotado Team</b>'.$end_mail.'';
+					$message = ''.$top_mail.'Bonjour <font color="#394DAC"><b>'.$name_author.'</b></font> !<br/><br/>Votre citation a été <font color="#394DAC"><b>rejetée</b></font> récemment par un membre de notre équipe...<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://kotado.fr/user-'.$author_id.'" target="_blank">'.$name_author.'</a> le '.$date_quote.'</span></div>'.$quotes_unapproved_singular.$quotes_unapproved_reasons.'Cordialement,<br/><b>The Kotado Team</b>'.$end_mail;
 				}
 				else
 				{
-					$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_author.'</b></font>!<br/><br/>Your quote has been <font color="#394DAC"><b>rejected</b></font> recently by a member of our team...<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$author_id.'" target="_blank">'.$name_author.'</a> on '.$date_quote.'</span></div>'.$quotes_unapproved_singular.$quotes_unapproved_reasons.'Sincerely,<br/><b>The Teen Quotes Team</b>'.$end_mail.'';
+					$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_author.'</b></font>!<br/><br/>Your quote has been <font color="#394DAC"><b>rejected</b></font> recently by a member of our team...<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$author_id.'" target="_blank">'.$name_author.'</a> on '.$date_quote.'</span></div>'.$quotes_unapproved_singular.$quotes_unapproved_reasons.'Sincerely,<br/><b>The Teen Quotes Team</b>'.$end_mail;
 				}
 
 				$mail = mail($email_author, $quote_rejected, $message, $headers);

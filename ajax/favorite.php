@@ -29,7 +29,7 @@ if (isDomainValidForAjax())
 		 
 		if($query AND $update_fav)
 		{
-			echo ''.$add_succes.'';
+			echo $add_succes;
 		} 
 		else 
 		{

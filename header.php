@@ -128,7 +128,7 @@ else
 		{ 
 		?>
 			
-			<a href="/admin" class="menu" title="Admin"><span class="icone_menu admin"></span>Admin <?php if ($citations_awaiting_approval > 0){echo '- '.$citations_awaiting_approval.'';} ?></a>
+			<a href="/admin" class="menu" title="Admin"><span class="icone_menu admin"></span>Admin <?php if ($citations_awaiting_approval > 0){echo '- '.$citations_awaiting_approval;} ?></a>
 		<?php
 		}
 	}
@@ -143,7 +143,7 @@ else
 <?php
 if($_SESSION['profile_not_fullfilled'] == TRUE AND $_SERVER['PHP_SELF'] == '/index.php')
 {
-	echo ''.$profite_not_yet_fulffiled.'';
+	echo $profite_not_yet_fulffiled;
 }
 ?>
 

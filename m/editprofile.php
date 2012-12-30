@@ -169,13 +169,13 @@ elseif ($action == "send")
 			else
 			{
 				$error_form = TRUE;
-				echo ''.$wrong_birth_date.' '.$lien_retour.'';
+				echo $wrong_birth_date.' '.$lien_retour;
 			}
 		}
 		else
 		{
 			$error_form = TRUE;
-			echo ''.$description_long.'';
+			echo $description_long;
 		}
 
 		// Update the profile
@@ -187,16 +187,16 @@ elseif ($action == "send")
 		if ($query) 
 		{
 			unset ($_SESSION['profile_not_fullfilled']);
-			echo ''.$edit_succes.'';
+			echo $edit_succes;
 		}
 		else 
 		{
-			echo '<h2>'.$error.'</h2>'.$lien_retour.'';
+			echo '<h2>'.$error.'</h2>'.$lien_retour;
 		}
 	}
 	else 
 	{
-		echo ''.$not_completed.'';
+		echo $not_completed;
 	}				
 	echo '</div>';
 }
@@ -231,22 +231,22 @@ elseif ($action == "avatar")
 				$sql = "UPDATE teen_quotes_account SET avatar = '$nom_fichier' WHERE id = '$id'"; 
 				mysql_query($sql) or die('Erreur SQL !'.$sql.'<br/>'.mysql_error());
 				$_SESSION['avatar'] = $nom_fichier;
-				echo ''.$change_avatar_succes.'';
+				echo $change_avatar_succes;
 				echo '<meta http-equiv="refresh" content="3;url=user-'.$id.'" />';
 			}
 			else
 			{
-				echo '<span class="erreur">'.$bad_extension.'</span>'.$lien_retour.'';
+				echo '<span class="erreur">'.$bad_extension.'</span>'.$lien_retour;
 			}
 		}
 		else
 		{
-			echo '<span class="erreur">'.$photo_extra_size.'</span>'.$lien_retour.'';
+			echo '<span class="erreur">'.$photo_extra_size.'</span>'.$lien_retour;
 		}
 	}
 	else
 	{
-		echo '<span class="erreur">'.$select_a_file.'</span>'.$lien_retour.'';
+		echo '<span class="erreur">'.$select_a_file.'</span>'.$lien_retour;
 	}
 	
 	echo '</div>';
@@ -262,7 +262,7 @@ elseif ($action == "reset_avatar")
 	$sql = "UPDATE teen_quotes_account SET avatar='icon50.png' WHERE id='$id'"; 
 	mysql_query($sql) or die('Erreur SQL !'.$sql.'<br/>'.mysql_error());
 	$_SESSION['avatar'] = 'icon50.png';
-	echo ''.$change_avatar_succes.'';
+	echo $change_avatar_succes;
 	echo '<meta http-equiv="refresh" content="3;url=user-'.$id.'" />';
 	
 	echo '</div>';
@@ -286,22 +286,22 @@ elseif ($action == "change")
 			$mail = mail($email, $email_subject_change_pass, $message, $headers); 
 			if ($query AND $mail)
 			{
-				echo ''.$change_pass_succes.'';
+				echo $change_pass_succes;
 				echo '<meta http-equiv="refresh" content="3;url=connexion.php?method=get&pseudo='.$username.'&password='.$pass.'" />';
 			}
 			else 
 			{
-				echo '<h2>'.$error.'</h2>'.$lien_retour.'';
+				echo '<h2>'.$error.'</h2>'.$lien_retour;
 			}
 		}
 		else 
 		{
-			echo '<span class="erreur">'.$password_short.'</span>'.$lien_retour.'';
+			echo '<span class="erreur">'.$password_short.'</span>'.$lien_retour;
 		}
 	}		
 	else 
 	{
-		echo '<span class="erreur">'.$password_not_same.'</span>'.$lien_retour.'';
+		echo '<span class="erreur">'.$password_not_same.'</span>'.$lien_retour;
 	} 
 		
 	echo '</div>';
@@ -326,17 +326,17 @@ elseif ($action == "settings")
 			$query = mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");
 			if ($query) 
 			{
-				echo ''.$settings_updated.'';
+				echo $settings_updated;
 				$notifications_succes = TRUE;
 			}
 			else 
 			{
-				echo ''.$error.' '.$lien_retour.'';
+				echo $error.' '.$lien_retour;
 			}
 		}
 		else 
 		{
-			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
+			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour;
 		}
 	}
 	elseif ($newsletter != '1' AND $is_newsletter == 1) 
@@ -346,17 +346,17 @@ elseif ($action == "settings")
 			$query = mysql_query("DELETE FROM newsletter WHERE email = '$email'");
 			if ($query) 
 			{
-				echo ''.$settings_updated.'';
+				echo $settings_updated;
 				$notifications_succes = TRUE;
 			}
 			else 
 			{
-				echo ''.$error.' '.$lien_retour.'';
+				echo $error.' '.$lien_retour;
 			}
 		}
 		else 
 		{
-			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
+			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour;
 		}
 	}
 		
@@ -370,18 +370,18 @@ elseif ($action == "settings")
 				{
 					if ($notifications_succes != TRUE)
 					{
-					echo ''.$settings_updated.'';
+					echo $settings_updated;
 						$notifications_succes = TRUE;
 					}
 				}
 				else 
 				{
-					echo ''.$error.' '.$lien_retour.'';
+					echo $error.' '.$lien_retour;
 				}
 		}
 		else 
 		{
-			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
+			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour;
 		}
 	}
 	elseif ($email_quote_today != '1' AND $email_quote_today_num_rows == 1)
@@ -393,18 +393,18 @@ elseif ($action == "settings")
 			{
 				if ($notifications_succes != TRUE)
 				{
-					echo ''.$settings_updated.'';
+					echo $settings_updated;
 					$notifications_succes = TRUE;
 				}
 			}
 			else 
 			{
-				echo ''.$error.' '.$lien_retour.'';
+				echo $error.' '.$lien_retour;
 			}
 		}
 		else 
 		{
-			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour.'';
+			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour;
 		}
 	}
 		
@@ -416,12 +416,12 @@ elseif ($action == "settings")
 		{
 			if ($notifications_succes != TRUE)
 			{
-				echo ''.$settings_updated.'';
+				echo $settings_updated;
 			}
 		}
 		else 
 		{
-			echo ''.$error.' '.$lien_retour.'';
+			echo $error.' '.$lien_retour;
 		}
 	}
 	else
@@ -431,12 +431,12 @@ elseif ($action == "settings")
 		{
 			if ($notifications_succes != TRUE)
 			{
-				echo ''.$settings_updated.'';
+				echo $settings_updated;
 			}
 		}
 		else 
 		{
-			echo ''.$error.' '.$lien_retour.'';
+			echo $error.' '.$lien_retour;
 		}
 	}
 	echo '</div>';
@@ -459,21 +459,21 @@ elseif ($action == "delete_account")
 			$mail = mail($_SESSION['email'], $email_subject_delete_account, $email_message_delete_account, $headers);
 			if ($insert AND $mail)
 			{
-				echo ''.$succes.' '.$mail_sent_delete_account.'';
+				echo $succes.' '.$mail_sent_delete_account;
 			}
 			else
 			{
-				echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+				echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour;
 			}
 		}
 		else
 		{
-			echo '<div class="bandeau_erreur">'.$already_exist_delete_account.'</div> '.$lien_retour.'';
+			echo '<div class="bandeau_erreur">'.$already_exist_delete_account.'</div> '.$lien_retour;
 		}
 	}
 	else
 	{
-		echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+		echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour;
 	}
 	echo '</div>';
 }
@@ -515,12 +515,12 @@ elseif ($action == "delete_account_confirm")
 		}
 		else
 		{
-			echo '<div class="bandeau_erreur">'.$delete_account_not_exist.'</div> '.$lien_retour.'';
+			echo '<div class="bandeau_erreur">'.$delete_account_not_exist.'</div> '.$lien_retour;
 		}
 	}
 	else
 	{
-		echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+		echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour;
 	}
 	echo '</div>';
 }
@@ -540,17 +540,17 @@ elseif ($action == "delete_account_cancel")
 		
 		if ($delete)
 		{
-			echo ''.$succes.''.$account_not_deleted_successfully.'';
+			echo $succes.''.$account_not_deleted_successfully;
 			echo '<meta http-equiv="refresh" content="5;url=../" />';
 		}
 		else
 		{
-			echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+			echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour;
 		}
 	}
 	else
 	{
-		echo '<div class="bandeau_erreur">'.$delete_account_not_exist.'</div> '.$lien_retour.'';
+		echo '<div class="bandeau_erreur">'.$delete_account_not_exist.'</div> '.$lien_retour;
 	}
 	echo '</div>';
 }
@@ -587,22 +587,22 @@ elseif ($action == "delete_account_valide")
 			if ($delete_account AND $delete_newsletter_quotidienne AND $delete_visitors AND $delete_favorites AND $delete_comments AND $update_quote)
 			{
 				$update_statut = mysql_query("UPDATE delete_account SET statut = '1' WHERE code = '".$code."'");
-				echo ''.$succes.' '.$account_deleted_successfully.'';
+				echo $succes.' '.$account_deleted_successfully;
 				echo '<meta http-equiv="refresh" content="5;url=?deconnexion" />';
 			}
 			else
 			{
-				echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour.'';
+				echo '<div class="bandeau_erreur">'.$error.'</div> '.$lien_retour;
 			}
 		}
 		else
 		{
-			echo '<div class="bandeau_erreur">'.$delete_account_not_exist.'</div> '.$lien_retour.'';
+			echo '<div class="bandeau_erreur">'.$delete_account_not_exist.'</div> '.$lien_retour;
 		}
 	}
 	else
 	{
-		echo '<div class="bandeau_erreur">'.$wrong_txt_to_write.'</div> '.$lien_retour.'';
+		echo '<div class="bandeau_erreur">'.$wrong_txt_to_write.'</div> '.$lien_retour;
 	}
 	echo '</div>';
 }

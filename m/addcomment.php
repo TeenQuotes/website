@@ -44,19 +44,19 @@ if (!empty($id_quote) AND !empty($texte))
 			'.$texte_comment.'<br/><br/>
 			<a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #394DAC;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br/>
 			</div>
-			'.$end_mail.'';
+			'.$end_mail;
 			
 			$mail = mail($email_auteur, $comment_added_on_quote, $comment_added_mail, $headers);
 		}
 		
 		if ($query) 
 		{
-			echo ''.$comment_add_succes.'';
+			echo $comment_add_succes;
 			echo '<meta http-equiv="refresh" content="3;url=quote-'.$id_quote.'" />';
 		}
 		else
 		{
-			echo '<h2>'.$error.'</h2>'.$lien_retour.'';
+			echo '<h2>'.$error.'</h2>'.$lien_retour;
 		}
 	}
 	else

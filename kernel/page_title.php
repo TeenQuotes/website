@@ -3,7 +3,7 @@
 if (isset($_GET['id_user'])) 
 {
 	$id_user = mysql_real_escape_string($_GET['id_user']);
-	$php_self = 'user-'.$id_user.'';
+	$php_self = 'user-'.$id_user;
 	$result = mysql_fetch_array(mysql_query("SELECT username FROM teen_quotes_account WHERE id = '$id_user'"));
 	$username_title = $result['username'];
 	echo '<title>'.$name_website.' | '.$username_title.'</title>';
@@ -61,7 +61,7 @@ elseif (preg_match('#random#', $_SERVER["SCRIPT_URI"]))
 elseif (isset($_GET['id_quote'])) 
 {
 	$id_quote = mysql_real_escape_string($_GET['id_quote']);
-	$php_self = 'quote-'.$id_quote.'';
+	$php_self = 'quote-'.$id_quote;
 	$result = mysql_fetch_array(mysql_query("SELECT texte_english FROM teen_quotes_quotes WHERE id = '$id_quote' AND approved = '1'"));
 	$texte = $result['texte_english'];
 
@@ -74,7 +74,7 @@ elseif (isset($_GET['letter']) OR preg_match('#members#', $_SERVER["SCRIPT_URI"]
 {
 	$lettre = mysql_real_escape_string($_GET['letter']);
 	if (empty($lettre)) { $lettre = "A"; }
-	$php_self = 'members-'.$lettre.'';
+	$php_self = 'members-'.$lettre;
 
 	if ($domaine == $domain_fr)
 	{
