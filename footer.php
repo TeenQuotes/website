@@ -32,7 +32,7 @@
 				<?php } else { ?>
 				<div class="post">
 					<?php
-					if ($domaine == 'teen-quotes.com')
+					if ($domaine == $domain_en)
 					{
 					?>
 						<div class="title"><span class="icone_login member"></span><?php echo $my_account; ?></div>

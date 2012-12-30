@@ -585,11 +585,11 @@ elseif ($action == "delete_account_valide")
 		$query = mysql_query("SELECT id FROM delete_account WHERE id_user = '".$_SESSION['id']."' AND code = '".$code."' AND statut = '0'");
 		if (mysql_num_rows($query) == '1')
 		{
-			if ($domaine == 'teen-quotes.com')
+			if ($domaine == $domain_en)
 			{
 				$update_quote = mysql_query("UPDATE teen_quotes_quotes SET auteur_id = '1211' AND auteur = 'Unknow' WHERE auteur_id = '".$_SESSION['id']."' AND approved IN ('0','1','2')");	
 			}
-			elseif ($domaine == 'kotado.fr')
+			elseif ($domaine == $domain_fr)
 			{
 				$update_quote = mysql_query("UPDATE teen_quotes_quotes SET auteur_id = '35' AND auteur = 'Inconnu' WHERE auteur_id = '".$_SESSION['id']."' AND approved IN ('0','1','2')");
 			}

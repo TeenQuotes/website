@@ -8,7 +8,7 @@ if (isset($_GET['id_user']))
 	$username_title = $result['username'];
 	echo '<title>'.$name_website.' | '.$username_title.'</title>';
 	echo "\r\n";
-	if ($domaine == 'kotado.fr')
+	if ($domaine == $domain_fr)
 	{
 		echo '<meta name="description" content="Profil de '.$username_title.' sur '.$name_website.'. Voir ses citations dans les favoris, ses citations ajoutées."/>';
 	}
@@ -24,7 +24,7 @@ elseif (isset($_GET['p']) AND (int) $_GET['p'] >= 2 AND !(preg_match('#members#'
 	echo '<title>'.$name_website.' | '.$last_quotes.' - page '.$page_index.'</title>';
 	echo "\r\n";
 
-	if ($domaine == 'kotado.fr')
+	if ($domaine == $domain_fr)
 	{
 		echo '<meta name="description" content="'.$name_website.' : ta dose quotidienne de phrases. Citations de la vie quotidienne. Quotes Ados." />';
 	}
@@ -48,7 +48,7 @@ elseif (preg_match('#random#', $_SERVER["SCRIPT_URI"]))
 	}
 	echo "\r\n";
 
-	if ($domaine == 'kotado.fr')
+	if ($domaine == $domain_fr)
 	{
 		echo '<meta name="description" content="Citations aléatoires postées sur '.$name_website.'. Citations de la vie quotidienne. Quotes ados."/>';
 	}
@@ -76,7 +76,7 @@ elseif (isset($_GET['letter']) OR preg_match('#members#', $_SERVER["SCRIPT_URI"]
 	if (empty($lettre)) { $lettre = "A"; }
 	$php_self = 'members-'.$lettre.'';
 
-	if ($domaine == 'kotado.fr')
+	if ($domaine == $domain_fr)
 	{
 		echo '<title>'.$name_website.' | Membre - '.$lettre.'</title>';
 		echo "\r\n";
@@ -95,7 +95,7 @@ elseif ($php_self == 'contact')
 	echo '<title>'.$name_website.' | Contact</title>';
 	echo "\r\n";
 
-	if ($domaine == 'kotado.fr')
+	if ($domaine == $domain_fr)
 	{
 		echo '<meta name="description" content="'.$name_website.' : contactez-nous par email pour toute question."/>';	
 	}
@@ -110,7 +110,7 @@ elseif ($php_self == 'signup')
 	echo '<title>'.$name_website.' | '.$sign_up.'</title>';
 	echo "\r\n";
 
-	if ($domaine == 'kotado.fr')
+	if ($domaine == $domain_fr)
 	{
 		echo '<meta name="description" content="'.$name_website.' : créez votre compte et accédez à tous les avantages qui vont avec : profils, citations favorites, ajout de commentaires..." />';
 	}
@@ -124,7 +124,7 @@ elseif ($php_self == 'apps')
 {
 	echo '<title>'.$name_website.' | '.$application.'</title>';
 	echo "\r\n";
-	if ($domaine == 'kotado.fr')
+	if ($domaine == $domain_fr)
 	{
 		echo '<meta name="description" content="'.$name_website.' : téléchargez notre application pour iOS et Android. Visitez notre version mobile depuis votre portable."/>';
 	}
@@ -138,7 +138,7 @@ elseif ($php_self == 'advertise')
 {
 	echo '<title>'.$name_website.' | '.$advertise.'</title>';
 	echo "\r\n";
-	if ($domaine == 'kotado.fr')
+	if ($domaine == $domain_fr)
 	{
 		echo '<meta name="description" content="'.$name_website.' : avec plus de 1 700 000 followers sur Twitter, près de 50 000 fans sur Facebook et un site, Teen Quotes est une bonne opportunité pour proposer de la publicité."/>';
 	}
@@ -152,7 +152,7 @@ elseif ($php_self == 'statistics')
 {
 	echo '<title>'.$name_website.' | '.$statistics.'</title>';
 	echo "\r\n";
-	if ($domaine == 'kotado.fr')
+	if ($domaine == $domain_fr)
 	{
 		echo '<meta name="description" content="'.$name_website.' : statistiques. Quelques statistiques sur l\'utilisation du site : membres, citations, recherches..."/>';
 	}
@@ -164,7 +164,7 @@ elseif ($php_self == 'statistics')
 }
 else 
 {
-	if ($domaine == 'kotado.fr')
+	if ($domaine == $domain_fr)
 	{
 		echo '<title>'.$name_website.' | Ta dose quotidienne de phrases</title>';
 		echo "\r\n";
@@ -179,7 +179,7 @@ else
 	echo "\r\n";
 }
 // Fin des différents cas de <title></title>
-if ($domaine == 'kotado.fr')
+if ($domaine == $domain_fr)
 {
 	echo '<meta name="keywords" content="Kotado, Quotes Ados, Citations Ados, Citations vie quotidienne, Citations adolescents, Teen Quotes, Pretty Web, Antoine Augusti, Twitter"/>';
 }

@@ -2,12 +2,12 @@
 include 'header.php';
 $action = $_GET['action'];
 $id_user = $_SESSION['id'];
-$result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account where id='$id_user'"));
+$result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account WHERE id = '$id_user'"));
 $pass1 = htmlspecialchars(mysql_real_escape_string($_POST['pass1']));
 $pass2 = htmlspecialchars(mysql_real_escape_string($_POST['pass2']));
 
 $email_quote_today_num_rows = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'"));
-$is_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletter where email='$email'"));
+$is_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletter WHERE email = '$email'"));
 $notification_comment_quote = $result['notification_comment_quote'];
 
 if ($action == "delete_account")
@@ -570,11 +570,11 @@ elseif ($action == "delete_account_valide")
 		$query = mysql_query("SELECT id FROM delete_account WHERE id_user = '".$_SESSION['id']."' AND code = '".$code."' AND statut = '0'");
 		if (mysql_num_rows($query) == 1)
 		{
-			if ($domaine == 'teen-quotes.com')
+			if ($domaine == $domain_en)
 			{
 				$update_quote = mysql_query("UPDATE teen_quotes_quotes SET auteur_id = '1211' AND auteur = 'Unknow' WHERE auteur_id = '".$_SESSION['id']."' AND approved IN ('0','1','2')");	
 			}
-			elseif ($domaine == 'kotado.fr')
+			elseif ($domaine == $domain_fr)
 			{
 				$update_quote = mysql_query("UPDATE teen_quotes_quotes SET auteur_id = '35' AND auteur = 'Inconnu' WHERE auteur_id = '".$_SESSION['id']."' AND approved IN ('0','1','2')");
 			}

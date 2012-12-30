@@ -173,11 +173,14 @@ function captcha()
 
 function create_stats ($language) 
 {
+	// Grant access to these variables
+	global $domain_en, $domain_fr;
+
 	$data = domaine();
 	$domaine = $data[0];
 	$name_website = $data[1];
 	
-	if ($domaine == 'teen-quotes.com')
+	if ($domaine == $domain_en)
 	{
 		if ($language == "english")
 		{
@@ -706,12 +709,12 @@ function flush_quotes ()
 
 		if ($approve_quote AND !empty($email_auteur)) 
 		{
-			if ($domaine == 'teen-quotes.com')
+			if ($domaine == $domain_en)
 			{
 				$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Your quote has been <font color="#394DAC"><b>approved</b></font> recently by a member of our team ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Congratulations !<br/><br/>Your quote is now visible on our website. You can share it or comment it if you want !<br/><br/><br/>If you want to see your quote, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">click here</a>.<br/><br/><br/>Sincerely,<br/><b>The Teen Quotes Team</b><br/><br/><br/><div style="border-top:1px dashed #CCCCCC"></div><br/><br/>VERSION FRANCAISE :<br/><br/>Bonjour <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Votre citation a été récemment <font color="#394DAC"><b>approuvée</b></font> par un membre de notre équipe ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Congratulations !<br/><br/>Votre citation est maintenant visible sur Teen Quotes. Vous pouvez dès à présent la partager ou la commenter si vous le souhaitez !<br/><br/><br/>Si vous voulez voir votre citation, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">cliquez ici</a>.<br/><br/><br/>Cordialement,<br/><b>The Teen Quotes Team</b> '.$end_mail.'';
 				$mail = mail($email_auteur, "Quote approved", $message, $headers);
 			}
-			elseif ($domaine == 'kotado.fr')
+			elseif ($domaine == $domain_fr)
 			{
 				$message = "$top_mail Bonjour <font color=\"#394DAC\"><b>$name_auteur</b></font> !<br/><br/>Votre citation a été récemment <font color=\"#394DAC\"><b>approuvée</b></font> par un membre de notre équipe ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br/><br/><a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">par <a href=\"http://".$domaine."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> le $date_quote</span></div>Congratulations !<br/><br/>Votre citation est maintenant visible sur Kotado. Vous pouvez dès à  présent la partager ou la commenter si vous le souhaitez !<br/><br/><br/>Si vous voulez voir votre citation, <a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">cliquez ici</a>.<br/><br/><br/>Cordialement,<br/><b>The Kotado Team</b><br/><br/><br/><div style=\"border-top:1px dashed #CCCCCC\"></div><br/><br/>ENGLISH VERSION :<br/><br/>Hello <font color=\"#394DAC\"><b>$name_auteur</b></font> !<br/><br/>Your quote has been <font color=\"#394DAC\"><b>approved</b></font> recently by a member of our team ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br/><br/><a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">by <a href=\"http://".$domaine."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> on $date_quote</span></div>Congratulations !<br/><br/>Your quote is now visible on our website. You can share it or comment it if you want !<br/><br/><br/>If you want to see your quote, <a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">click here</a>.<br/><br/><br/>Sincerely,<br/><b>The Kotado Team</b><br/><br/><br/>$end_mail";
 				$mail = mail($email_auteur, "Citation approuvée", $message, $headers);
@@ -752,7 +755,7 @@ function email_birthday()
 			$username = ucfirst($donnees['username']);
 			$age = age($donnees['birth_date']);
 
-			if ($domaine == 'teen-quotes.com')
+			if ($domaine == $domain_en)
 			{
 				$email_subject = 'Happy birthday '.$username.'!';
 				$email_message = $top_mail.'
@@ -765,7 +768,7 @@ function email_birthday()
 				Best regards,<br/>
 				The <b>'.$name_website.' Team</b>'.$end_mail;
 			}
-			elseif ($domaine == 'kotado.fr')
+			elseif ($domaine == $domain_fr)
 			{
 				$email_subject = 'Joyeux anniversaire '.$username.' !';
 				$email_message = $top_mail.'
@@ -1062,6 +1065,8 @@ function select_country($country, $other_countries, $common_choices)
 
 function MailRandomQuote ($nombre) 
 {
+	// Grant access to these variables
+	global $domain_en, $domain_fr;
 	$data = domaine();
 	$domaine = $data[0];
 	$name_website = $data[1];
@@ -1078,11 +1083,11 @@ function MailRandomQuote ($nombre)
 
 		$email_txt.= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">';
 
-		if ($domaine == 'teen-quotes.com')
+		if ($domaine == $domain_en)
 		{
 			$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';	
 		}
-		elseif ($domaine == 'kotado.fr')
+		elseif ($domaine == $domain_fr)
 		{
 			$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> le '.$date.'</span></div>';
 		}
@@ -1116,11 +1121,11 @@ function MailPostedToday ($id_quote)
 
 			$email_txt.= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">';
 
-			if ($domaine == 'teen-quotes.com')
+			if ($domaine == $domain_en)
 			{
 				$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';	
 			}
-			elseif ($domaine == 'kotado.fr')
+			elseif ($domaine == $domain_fr)
 			{
 				$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> le '.$date.'</span></div>';
 			}
@@ -1135,13 +1140,13 @@ function MailPostedToday ($id_quote)
 		while ($donnees = mysql_fetch_array($search_email))
 		{
 			$email = $donnees['value'];
-			if ($domaine == 'teen-quotes.com')
+			if ($domaine == $domain_en)
 			{
 				$email_subject = 'Quotes of the day';
 				$message = ''.$top_mail.'Here are the quotes posted today ('.$today.'):<br/><br/>'.$email_txt.$end_mail.'';
 				$message .= '<br/><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsubscribe, please follow <a href="http://'.$domaine.'/newsletter.php?action=unsubscribe_everyday&email='.$email.'" target="_blank"> this link</a>.</span>';
 			}
-			elseif ($domaine == 'kotado.fr')
+			elseif ($domaine == $domain_fr)
 			{
 				$email_subject = 'Citations du jour';
 				$message = ''.$top_mail.'Voici les citations publiées aujourd\'hui ('.$today.') :<br/><br/>'.$email_txt.$end_mail.'';
@@ -1160,18 +1165,21 @@ function MailPostedToday ($id_quote)
 
 function cut_tweet ($chaine)
 {
+	// Grant access to these variables
+	global $domain_en, $domain_fr;
+
 	$data = domaine();
 	$domaine = $data[0];
 	$name_website = $data[1];
 
 	$lg_max = 117;
 
-	if ($domaine == 'teen-quotes.com')
+	if ($domaine == $domain_en)
 	{
 		$longueur_max_ajout_twitter = 105;
 		$username_twitter = '@ohteenquotes';
 	}
-	elseif ($domaine == 'kotado.fr')
+	elseif ($domaine == $domain_fr)
 	{
 		$longueur_max_ajout_twitter = 108;
 		$username_twitter = '@Kotado_';	
@@ -1404,9 +1412,9 @@ function isUrlMobile ()
 
 function isDomainValidForAjax ()
 {
-	global $domaine_fr, $domaine_en;
+	global $domain_fr, $domain_en;
 	
-	if (preg_match('/'.$domaine_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$domaine_en.'/', $_SERVER['SERVER_NAME']))
+	if (preg_match('/'.$domain_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$domain_en.'/', $_SERVER['SERVER_NAME']))
 	{
 		return TRUE;
 	}

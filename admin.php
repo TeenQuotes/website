@@ -163,22 +163,22 @@ elseif ($action == "add_quote")
 
 		if ($release_admin == '1')
 		{
-			if ($domaine == 'teen-quotes.com')
+			if ($domaine == $domain_en)
 			{
 				$id_auteur_quote = 70;
 			}
-			elseif ($domaine == 'kotado.fr')
+			elseif ($domaine == $domain_fr)
 			{
 				$id_auteur_quote = 3;
 			}
 		}
 		elseif ($release_unknown == '1')
 		{
-			if ($domaine == 'teen-quotes.com')
+			if ($domaine == $domain_en)
 			{
 				$id_auteur_quote = 1211;
 			}
-			elseif ($domaine == 'kotado.fr')
+			elseif ($domaine == $domain_fr)
 			{
 				$id_auteur_quote = 35;
 			}

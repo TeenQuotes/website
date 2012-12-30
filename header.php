@@ -22,7 +22,7 @@ include 'kernel/connexion_cookie.php';
 ?>
 <!DOCTYPE html>
 <?php
-if ($domaine == 'kotado.fr')
+if ($domaine == $domain_fr)
 {
 	echo '<html lang="fr">';
 }

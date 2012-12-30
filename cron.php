@@ -81,7 +81,7 @@ if ($_GET['secret'] == $cron_pass_secret)
 				$email = $donnees['email'];
 				$code = $donnees['code'];
 
-				if ($domaine == 'kotado.fr')
+				if ($domaine == $domain_fr)
 				{
 					$unsubscribe= '<br/><span style="font-size:80%">Cet email a été envoyé à votre adresse ('.$email.') car vous êtes inscrit à la newsletter. Si vous souhaitez vous désinscrire, cliquez sur <a href="http://kotado.fr/newsletter.php?action=unsubscribe&email='.$email.'&code='.$code.'" target="_blank">ce lien</a>.</span>.';
 				}
