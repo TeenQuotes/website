@@ -19,6 +19,7 @@ if (empty($action))
 	<div class="grey_post">
 		<form action="?action=send" method="post">
 			<div class="colonne-gauche">Email </div><div class="colonne-milieu"><input type="text" name="email" class="signup"/></div><div class="colonne-droite"><span class="min_info">'.$valid_email.'</span></div>
+			<div class="clear"></div>
 			<br/><br/>
 			<input type="checkbox" id="input_newsletter" name="newsletter" value="1"/><label for="input_newsletter">'.$i_want_newsletter.'</label><br/>
 			<input type="checkbox" id="input_email_quote_today" name="email_quote_today" value="1"/><label for="input_email_quote_today">'.$i_want_email_quote_today.'</label><br/> 
