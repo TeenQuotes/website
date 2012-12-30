@@ -1338,7 +1338,7 @@ function nl2br_to_textarea ($texte)
 	return $string;
 }
 
-// Mobile
+// Set a cookie to force the desktop view
 if (isset($_GET['mobile'])) 
 {
 	$data = domaine();
@@ -1434,6 +1434,18 @@ function isUrlMobile ()
 	{
 		return FALSE;
 	}
+}
+
+// Alias of isUrlMobile()
+function isMobile ()
+{
+	return isUrlMobile();
+}
+
+// Opposite of isUrlMobile()
+function isDesktop ()
+{
+	return !isUrlMobile();
 }
 
 function isDomainValidForAjax ()
