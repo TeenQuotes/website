@@ -41,15 +41,15 @@ include 'lang/'.$language.'/signup.php';
 
 if(empty($result['birth_date'])) 
 {
-	$result['birth_date']= '';
+	$result['birth_date'] = NULL;
 }
 if(empty($result['title']))
 {
-	$result['title']= '';
+	$result['title'] = NULL;
 }
 if(empty($result['about_me']))
 {
-	$result['about_me']= '';
+	$result['about_me'] = NULL;
 }
 else
 {
@@ -57,11 +57,11 @@ else
 }
 if(empty($result['country']))
 {
-	$result['country'] = "";
+	$result['country'] = NULL;
 }
 if(empty($result['city']))
 {
-	$result['city'] = "";
+	$result['city'] = NULL;
 }
 	
 // FORMULAIRE

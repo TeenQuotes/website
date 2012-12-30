@@ -18,11 +18,11 @@ if ($action == "delete_account")
 // SELECTED POUR LE TITRE USER
 switch ($result['title']) 
 {
-	case "Mr" : $selected_mr='selected="selected"';
+	case "Mr" : $selected_mr = 'selected="selected"';
 	break;
-	case "Mrs" : $selected_mrs='selected="selected"';
+	case "Mrs" : $selected_mrs = 'selected="selected"';
 	break;
-	case "Miss" : $selected_miss='selected="selected"';
+	case "Miss" : $selected_miss = 'selected="selected"';
 	break;
 }
 		
@@ -41,15 +41,15 @@ include '../lang/'.$language.'/signup.php';
 
 if(empty($result['birth_date'])) 
 {
-	$result['birth_date']="";
+	$result['birth_date'] = NULL;
 }
 if(empty($result['title']))
 {
-	$result['title']="";
+	$result['title'] = NULL;
 }
 if(empty($result['about_me']))
 {
-	$result['about_me']="";
+	$result['about_me'] = NULL;
 }
 else
 {
@@ -57,13 +57,12 @@ else
 }
 if(empty($result['country']))
 {
-	$result['country']="";
+	$result['country'] = NULL;
 }
 if(empty($result['city']))
 {
-	$result['city']="";
+	$result['city'] = NULL;
 }
-
 
 // FORMULAIRE
 if (empty($action)) 
