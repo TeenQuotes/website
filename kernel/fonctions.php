@@ -732,7 +732,7 @@ function flush_quotes ()
 	
 function email_birthday()
 {
-	include_once 'config.php';
+	include 'config.php';
 
 	$data = domaine();
 	$domaine = $data[0];
