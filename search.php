@@ -88,11 +88,11 @@ else
 		echo '
 		<div class="post">
 			<div class="grey_post">
-				<h1><img src="http://'.$domaine.'/images/icones/search_result.png" class="icone" />'.$search_results.'<span class="right" style="font-size:70%;padding-top:5px">'.$num_rows_result; ?> <?php echo $results; ?><?php if($num_rows_result >'1'){echo"s";}
+				<h1><img src="http://'.$domaine.'/images/icones/search_result.png" class="icone" />'.$search_results.'<span class="right" style="font-size:70%;padding-top:5px">'.$num_rows_result; ?> <?php echo $results; ?><?php if($num_rows_result > 1){echo"s";}
 				echo
 				'</span></h1>';
 
-				if ($num_rows_quote >= '1' AND $num_rows_members >= '1')
+				if ($num_rows_quote >= 1 AND $num_rows_members >= 1)
 				{
 					echo '<h3><a href="#quotes"><img src="http://'.$domaine.'/images/icones/profil.png" class="icone">'.$quotes.'</a><span class="right"><a href="#members"><img src="http://'.$domaine.'/images/icones/staff.png" class="icone">'.$members.'</span></a></h3>';
 				}
@@ -104,7 +104,7 @@ else
 		{
 			echo '
 			<div class="post" id="quotes">
-				<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone">'.$quotes.'<span class="right" style="font-size:90%;padding-top:5px">'.$num_rows_quote; echo ' '.$results; if($num_rows_quote >'1'){echo"s";} if ($num_rows_quote > '15'){echo ' '.$max_result;} echo '</span></h2>';
+				<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone">'.$quotes.'<span class="right" style="font-size:90%;padding-top:5px">'.$num_rows_quote; echo ' '.$results; if($num_rows_quote > 1){echo"s";} if ($num_rows_quote > 15){echo ' '.$max_result;} echo '</span></h2>';
 
 				while ($result = mysql_fetch_array($resultatsQuotes))
 				{
@@ -136,7 +136,7 @@ else
 		{
 			echo '
 			<div class="post" id="members">
-			<h2><img src="http://'.$domaine.'/images/icones/staff.png" class="icone">'.$members.'<span class="right" style="font-size:90%;padding-top:5px">'.$num_rows_members; echo ' '.$results; if($num_rows_members >'1'){echo"s";} if ($num_rows_members > '15'){echo ' '.$max_result;} echo '</span></h2>';
+			<h2><img src="http://'.$domaine.'/images/icones/staff.png" class="icone">'.$members.'<span class="right" style="font-size:90%;padding-top:5px">'.$num_rows_members; echo ' '.$results; if($num_rows_members > 1){echo"s";} if ($num_rows_members > 15){echo ' '.$max_result;} echo '</span></h2>';
 
 			if (!empty($city) AND empty($country))
 			{
