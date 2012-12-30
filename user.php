@@ -144,7 +144,7 @@ else
 				<span class="bleu">'.$fav_quote.' :</span> '. $nb_favorite_quotes.'<br/>
 				<span class="bleu">'.$number_comments.' :</span> '. $nb_comments.'<br/>
 				<span class="bleu">'.$number_quotes.' :</span> '.$nb_quotes_approved.' '.$validees.' '.$nb_quotes_submited.' '.$soumises.'<br/>';
-			if ($nb_quotes_approved > '0')
+			if ($nb_quotes_approved > 0)
 				{
 				echo '
 				<span class="bleu">'.$added_on_favorites.' :</span> '.$nb_quotes_added_to_favorite.'<br/>
@@ -160,7 +160,7 @@ else
 		// DERNIERS VISITEURS DU PROFIL
 		$query_visiteur = mysql_query("SELECT DISTINCT V.id_visitor id_visitor, A.username username_visitor, A.avatar avatar FROM teen_quotes_visitors V, teen_quotes_account A WHERE V.id_visitor = A.id AND V.id_user='".$id."' ORDER BY V.id DESC LIMIT 0,10"); 
 		$num_rows_visitors = mysql_num_rows($query_visiteur);
-		if ($num_rows_visitors > '0')
+		if ($num_rows_visitors > 0)
 		{
 			echo '
 			<div class="slidedown">

@@ -2,7 +2,7 @@
 include 'header.php';
 include '../lang/'.$language.'/admin.php';
 $action = $_GET['action'];
-if ($_SESSION['security_level'] <'2') 
+if ($_SESSION['security_level'] < '2') 
 {
 	echo '<meta http-equiv="refresh" content="0; url=error.php?erreur=403">';
 } 
@@ -10,7 +10,7 @@ elseif (empty($action) AND $_SESSION['security_level'] >= '2')
 {
 	$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2'"));
 	$jours_posted = floor($nb_quote_awaiting_post / $nb_quote_released_per_day); 
-	if ($nb_quote_awaiting_post % $nb_quote_released_per_day != '0')
+	if ($nb_quote_awaiting_post % $nb_quote_released_per_day != 0)
 	{
 		$jours_posted = $jours_posted + 1;
 	}
@@ -128,22 +128,22 @@ elseif ($action == "add_quote")
 		{
 			if ($domaine == $domain_en)
 			{
-				$id_auteur_quote = '70';
+				$id_auteur_quote = 70;
 			}
 			elseif ($domaine == $domain_fr)
 			{
-				$id_auteur_quote = '3';
+				$id_auteur_quote = 3;
 			}
 		}
 		elseif ($release_unknown == '1')
 		{
 			if ($domaine == $domain_en)
 			{
-				$id_auteur_quote = '1211';
+				$id_auteur_quote = 1211;
 			}
 			elseif ($domaine == $domain_fr)
 			{
-				$id_auteur_quote = '35';
+				$id_auteur_quote = 35;
 			}
 		}
 
