@@ -46,7 +46,7 @@ else
 
 	<div class="post">
 		<?php echo $txt_quote; ?><br/><br/>
-		<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori($id_quote, $is_favorite, $logged, $add_favorite, $unfavorite);date_et_auteur($auteur_id, $auteur, $date_quote, $on, $by, $view_his_profile); ?>
+		<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori($id_quote, $is_favorite, $logged);date_et_auteur($auteur_id, $auteur, $date_quote); ?>
 	</div>
 	
 	<?php

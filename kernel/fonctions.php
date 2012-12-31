@@ -711,7 +711,7 @@ function displayQuote ($result, $page, $i, $type='random')
 		echo 
 			$txt_quote.'<br/>
 			<div class="footer_quote">
-				<a href="quote-'.$id_quote.'" title="Quote #'.$id_quote.'">#'.$id_quote; echo afficher_nb_comments ($nombre_commentaires).'</a>'; echo afficher_favori($id_quote, $is_favorite, $logged, $_SESSION['id']); echo date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile).'
+				<a href="quote-'.$id_quote.'" title="Quote #'.$id_quote.'">#'.$id_quote; echo afficher_nb_comments ($nombre_commentaires).'</a>'; echo afficher_favori($id_quote, $is_favorite, $logged, $_SESSION['id']); echo date_et_auteur ($auteur_id,$auteur,$date_quote).'
 			</div>
 			'.share_fb_twitter ($id_quote,$txt_quote).'
 		</div>';
@@ -724,7 +724,7 @@ function displayQuote ($result, $page, $i, $type='random')
 		<div class="'.$class_div.'">
 			'.$txt_quote.'<br/>
 			<div class="footer_quote">
-				<a href="quote-'.$id_quote.'" title="Quote #'.$id_quote.'">#'.$id_quote.' - '; echo afficher_nb_comments ($nombre_commentaires).'</a>'; echo afficher_favori($id_quote, $is_favorite, $logged); echo date_et_auteur($auteur_id, $auteur, $date_quote, $on, $by, $view_his_profile).'
+				<a href="quote-'.$id_quote.'" title="Quote #'.$id_quote.'">#'.$id_quote.' - '; echo afficher_nb_comments ($nombre_commentaires).'</a>'; echo afficher_favori($id_quote, $is_favorite, $logged); echo date_et_auteur($auteur_id, $auteur, $date_quote).'
 			</div>
 		</div>';
 	}
@@ -1359,7 +1359,7 @@ function share_fb_twitter ($id_quote, $txt_quote)
 	echo '<div class="share_fb_twitter"><span class="fade_jquery"><iframe src="//www.facebook.com/plugins/like.php?href= '.$url_encode.'&amp;send=FALSE&amp;layout=button_count&amp;width=110&amp;show_faces=FALSE&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="TRUE"></iframe></span><span class="right fade_jquery"><a href="http://twitter.com/share?url=http://'.$domaine.'/quote-'.$id_quote.'&text='.$txt_tweet.'" class="twitter-share-button" data-count="none">Tweet</a></span></div>';
 }
 
-function date_et_auteur ($auteur_id, $auteur, $date_quote, $on, $by, $view_his_profile) 
+function date_et_auteur ($auteur_id, $auteur, $date_quote) 
 {
 	// Grant access to variables for lang
 	global $on, $by, $view_his_profile;
