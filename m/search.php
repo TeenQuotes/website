@@ -101,25 +101,7 @@ else
 
 				while ($result = mysql_fetch_array($resultatsQuotes))
 				{
-					$id_quote = $result['id'];
-					$txt_quote = $result['texte_english'];
-					$auteur_id = $result['auteur_id'];
-					$auteur = $result['auteur']; 
-					$date_quote = $result['date'];
-					$nombre_commentaires = $result['nb_comments'];
-					if ($logged)
-					{
-						$is_favorite = $result['is_favorite'];
-					}
-
-					?>
-					<div class="grey_post">
-						<?php echo $txt_quote; ?><br/>
-						<div class="footer_quote">
-							<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?> - <?php afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments); ?></a><?php afficher_favori($id_quote, $is_favorite, $logged, $add_favorite, $unfavorite); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
-						</div>
-					</div>
-					<?php 
+					displayQuote($result, NULL, NULL, 'search');
 				}
 			echo '</div>';
 		}

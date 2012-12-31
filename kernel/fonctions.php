@@ -672,6 +672,64 @@ function display_individual_story ($data)
 	</div>';
 }
 
+// TO DO : user.php && /m/user.php
+function displayQuote ($result, $page, $i, $type='random')
+{
+	// Antoine : I don't know why but we have to do multiple echos. Keep it like this.
+
+	// Grant access
+	global $last_visit;
+
+	$is_mobile = isUrlMobile();
+
+	// Variables from the array
+	$id_quote = $result['id'];
+	$txt_quote = $result['texte_english'];
+	$auteur_id = $result['auteur_id'];
+	$auteur = $result['auteur']; 
+	$date_quote = $result['date'];
+	$nombre_commentaires = $result['nb_comments'];
+	$logged = $_SESSION['logged'];
+	if ($logged)
+	{
+		$is_favorite = $result['is_favorite'];
+	}
+
+	// Special class for search and user
+	$class_div = ($type == 'search' OR $type == 'user') ? 'grey_post' : 'post';
+
+	// DESKTOP
+	if (!$is_mobile)
+	{
+		echo '
+		<div class="'.$class_div.'">';
+			if ($type == 'index')
+			{
+				is_quote_new($date_quote, $last_visit, $page, $i);
+			}
+		
+		echo 
+			$txt_quote.'<br/>
+			<div class="footer_quote">
+				<a href="quote-'.$id_quote.'" title="Quote #'.$id_quote.'">#'.$id_quote; echo afficher_nb_comments ($nombre_commentaires).'</a>'; echo afficher_favori($id_quote, $is_favorite, $logged, $_SESSION['id']); echo date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile).'
+			</div>
+			'.share_fb_twitter ($id_quote,$txt_quote).'
+		</div>';
+
+	}
+	// MOBILE
+	else
+	{
+		echo '
+		<div class="'.$class_div.'">
+			'.$txt_quote.'<br/>
+			<div class="footer_quote">
+				<a href="quote-'.$id_quote.'" title="Quote #'.$id_quote.'">#'.$id_quote.' - '; echo afficher_nb_comments ($nombre_commentaires).'</a>'; echo afficher_favori($id_quote, $is_favorite, $logged); echo date_et_auteur($auteur_id, $auteur, $date_quote, $on, $by, $view_his_profile).'
+			</div>
+		</div>';
+	}
+}
+
 // POST DES $nb_quote_released_per_day QUOTES DU JOUR
 function flush_quotes ()
 {
@@ -1060,6 +1118,7 @@ function MailRandomQuote ($nombre)
 {
 	// Grant access to these variables
 	global $domain_en, $domain_fr;
+
 	$data = domaine();
 	$domaine = $data[0];
 	$name_website = $data[1];
@@ -1219,8 +1278,11 @@ function cut_comment ($chaine)
 	}
 }
 
-function afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments)
+function afficher_nb_comments ($nombre_commentaires)
 {
+	// Grant access to variables for lang
+	global $comments, $comment, $no_comments;
+
 	// Desktop
 	if (!isUrlMobile())
 	{
@@ -1251,8 +1313,11 @@ function afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_co
 	}
 }
 
-function afficher_favori ($id_quote, $is_favorite, $logged, $add_favorite, $unfavorite, $id_user=0) 
+function afficher_favori ($id_quote, $is_favorite, $logged, $id_user=0) 
 {
+	// Grant access to variables for language
+	global $add_favorite, $unfavorite;
+
 	// Desktop
 	if (!isUrlMobile())
 	{
@@ -1280,8 +1345,11 @@ function afficher_favori ($id_quote, $is_favorite, $logged, $add_favorite, $unfa
 
 }
 
-function share_fb_twitter ($id_quote, $txt_quote, $share) 
+function share_fb_twitter ($id_quote, $txt_quote) 
 {
+	// Grant access to variable for lang
+	global $share;
+
 	$data = domaine();
 	$domaine = $data[0];
 	$name_website = $data[1];
@@ -1293,6 +1361,9 @@ function share_fb_twitter ($id_quote, $txt_quote, $share)
 
 function date_et_auteur ($auteur_id, $auteur, $date_quote, $on, $by, $view_his_profile) 
 {
+	// Grant access to variables for lang
+	global $on, $by, $view_his_profile;
+
 	// Desktop
 	if (!isUrlMobile())
 	{

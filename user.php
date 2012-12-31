@@ -228,7 +228,7 @@ else
 			$nombreDePages = $display_page_top[1];
 			$page = $display_page_top[2];
 	
-			$reponse = mysql_query("SELECT DISTINCT id_quote FROM teen_quotes_favorite WHERE id_user='".$id."' ORDER BY id DESC LIMIT ".$premierMessageAafficher." ,  ".$nb_messages_par_page."");
+			$reponse = mysql_query("SELECT DISTINCT id_quote FROM teen_quotes_favorite WHERE id_user = '".$id."' ORDER BY id DESC LIMIT ".$premierMessageAafficher." ,  ".$nb_messages_par_page."");
 			while ($resultat = mysql_fetch_array($reponse))
 			{
 				$id_quote_fav = $resultat['id_quote'];
@@ -276,9 +276,9 @@ else
 				<div class="grey_post">
 				<?php echo $txt_quote; ?><br/>
 					<div class="footer_quote">
-						<a href="quote-<?php echo $id_quote_fav; ?>">#<?php echo $id_quote_fav; ?> - <?php afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments); ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+						<a href="quote-<?php echo $id_quote_fav; ?>">#<?php echo $id_quote_fav; ?> - <?php afficher_nb_comments ($nombre_commentaires); ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote); ?>
 					</div>
-				<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
+				<?php share_fb_twitter ($id_quote,$txt_quote); ?> 
 				</div>
 				<?php 
 				$i++;
