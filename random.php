@@ -52,7 +52,7 @@ while ($result = mysql_fetch_array($reponse))
 	<div class="post">
 	<?php echo $txt_quote; ?><br/>
 	<div class="footer_quote">
-		<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments); ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
+		<a href="quote-<?php echo $id_quote; ?>" title="Quote #<?php echo $id_quote; ?>">#<?php echo $id_quote; afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments); ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$add_favorite,$unfavorite,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote,$on,$by,$view_his_profile); ?>
 	</div>
 	<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
 	</div>
@@ -60,8 +60,7 @@ while ($result = mysql_fetch_array($reponse))
 	$i++;
 }
 	
-	display_page_bottom($page, $nombreDePages, 'p', NULL, $previous_page, $next_page, TRUE);
-
+display_page_bottom($page, $nombreDePages, 'p', NULL, $previous_page, $next_page, TRUE);
 
 include "footer.php"; 
 ?>
