@@ -448,14 +448,7 @@ function date_est_valide ($date)
 
 function usernameIsValid ($username)
 {
-	if (preg_match("#^[a-z0-9_]+$#", $username))
-	{	
-		return TRUE;
-	}
-	else
-	{	
-		return FALSE;
-	}
+	return (preg_match("#^[a-z0-9_]+$#", $username));
 }
   
 function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redirection, $previous_page, $next_page, $index = FALSE)
@@ -1317,15 +1310,8 @@ function is_quote_exist ($txt_quote)
 {
 	$txt_quote_cut = cut_tweet($txt_quote);
 	$quote_exist = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE texte_english LIKE '%$txt_quote_cut%' AND approved = '1'"));
-	
-	if ($quote_exist >= 1)
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
+
+	return ($quote_exist >= 1);
 }
 
 function nl2br_to_textarea ($texte) 
@@ -1358,14 +1344,7 @@ function subDomainIsRestricted ($subDomain)
 	$restricted_sub_domains = array(
 		"stories");
 
-	if (in_array($subDomain, $restricted_sub_domains))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
+	return (in_array($subDomain, $restricted_sub_domains));
 }
 
 function mobile_device_detect ()
@@ -1426,14 +1405,7 @@ if (empty($_COOKIE['mobile']) AND !isUrlMobile() AND !isset($_GET['mobile']))
 
 function isUrlMobile ()
 {
-	if (preg_match('#http://m\.#', $_SERVER['SCRIPT_URI']))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
+	return (preg_match('#http://m\.#', $_SERVER['SCRIPT_URI']));
 }
 
 // Alias of isUrlMobile()
@@ -1452,14 +1424,7 @@ function isDomainValidForAjax ()
 {
 	global $domain_fr, $domain_en;
 	
-	if (preg_match('/'.$domain_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$domain_en.'/', $_SERVER['SERVER_NAME']))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
+	return (preg_match('/'.$domain_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$domain_en.'/', $_SERVER['SERVER_NAME']));
 }
 
 
