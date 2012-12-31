@@ -6,7 +6,7 @@ $uploaddir = './avatar/';
 $file = basename($_FILES['userfile']['name']);
 $uploadfile = $uploaddir . $file;
 echo $uploadfile."<br/>";
-$resultat = move_uploaded_file($_FILES['userfile']['tmp_name'],$uploadfile);
+$resultat = move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile);
 if ($resultat) 
 	echo "Transfert réussi";
 else
@@ -16,7 +16,7 @@ echo "<br/>";
 
 //Modification de l'image dans la bdd
 $db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
-mysql_select_db($user,$db)  or die('Erreur de selection '.mysql_error()); 
+mysql_select_db($user, $db)  or die('Erreur de selection '.mysql_error()); 
 
 $liste = explode(".", $file);
 $identifiant = intval($liste[0]);

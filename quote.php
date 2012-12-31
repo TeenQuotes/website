@@ -47,9 +47,9 @@ else
 	<div class="post">
 		<?php echo $txt_quote; ?><br/>
 		<div class="footer_quote">
-		<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$_SESSION['id']);date_et_auteur ($auteur_id,$auteur,$date_quote); ?>
+		<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori($id_quote, $is_favorite, $logged, $_SESSION['id']);date_et_auteur ($auteur_id, $auteur, $date_quote); ?>
 		</div>
-		<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
+		<?php share_fb_twitter ($id_quote, $txt_quote); ?> 
 	</div>
 	
 	<?php

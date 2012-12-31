@@ -13,7 +13,7 @@ else
 }
 
 $db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
-mysql_select_db($user,$db)  or die('Erreur de selection '.mysql_error()); 
+mysql_select_db($user, $db)  or die('Erreur de selection '.mysql_error()); 
 require "../kernel/fonctions.php";
 
 $approve = mysql_real_escape_string($_POST['approve']);

@@ -13,5 +13,5 @@ function sql_connect ($slave=false, $force=false)
 	}
 
 	$db = mysql_connect($host, $user, $pass)  or die('Connexion error'.mysql_error());
-	mysql_select_db($db_name,$db)  or die('Selection error '.mysql_error());
+	mysql_select_db($db_name, $db)  or die('Selection error '.mysql_error());
 }

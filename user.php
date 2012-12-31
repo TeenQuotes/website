@@ -276,9 +276,9 @@ else
 				<div class="grey_post">
 				<?php echo $txt_quote; ?><br/>
 					<div class="footer_quote">
-						<a href="quote-<?php echo $id_quote_fav; ?>">#<?php echo $id_quote_fav; ?> - <?php afficher_nb_comments ($nombre_commentaires); ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote); ?>
+						<a href="quote-<?php echo $id_quote_fav; ?>">#<?php echo $id_quote_fav; ?> - <?php afficher_nb_comments ($nombre_commentaires); ?></a><?php afficher_favori($id_quote, $is_favorite, $logged, $_SESSION['id']); date_et_auteur ($auteur_id, $auteur, $date_quote); ?>
 					</div>
-				<?php share_fb_twitter ($id_quote,$txt_quote); ?> 
+				<?php share_fb_twitter ($id_quote, $txt_quote); ?> 
 				</div>
 				<?php 
 				$i++;
@@ -355,9 +355,9 @@ else
 				<div class="grey_post">
 				<?php echo $txt_quote; ?><br/>
 					<div class="footer_quote">
-						<a href="quote-<?php echo $id_quote; ?>">#<?php echo $id_quote; ?> - <?php afficher_nb_comments ($nombre_commentaires, $comments, $comment, $no_comments); ?></a><?php afficher_favori($id_quote,$is_favorite,$logged,$_SESSION['id']); date_et_auteur ($auteur_id,$auteur,$date_quote); ?>
+						<a href="quote-<?php echo $id_quote; ?>">#<?php echo $id_quote; ?> - <?php afficher_nb_comments ($nombre_commentaires); ?></a><?php afficher_favori($id_quote, $is_favorite, $logged, $_SESSION['id']); date_et_auteur ($auteur_id, $auteur, $date_quote); ?>
 					</div>
-				<?php share_fb_twitter ($id_quote,$txt_quote,$share); ?> 
+				<?php share_fb_twitter ($id_quote, $txt_quote); ?> 
 				</div>
 				<?php
 				$j++;

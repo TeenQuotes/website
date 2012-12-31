@@ -504,7 +504,7 @@ elseif ($action == "delete_existing_quote")
 			echo '<h2>'.$error.'</h2> 2'.$lien_retour;
 		}
 	}
-	elseif (preg_match('/,/',$id_quote) AND !preg_match('/%/',$id_quote) AND !empty($username) AND !empty($ip) AND !empty($id_quote)) // REGEX à vérifier
+	elseif (preg_match('/,/', $id_quote) AND !preg_match('/%/', $id_quote) AND !empty($username) AND !empty($ip) AND !empty($id_quote)) // REGEX à vérifier
 	{
 		// Il y a plusieurs quotes à supprimer
 		$delete_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '-1' WHERE id IN ('".$id_quote."')");

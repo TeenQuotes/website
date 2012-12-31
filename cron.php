@@ -119,7 +119,7 @@ if ($_GET['secret'] == $cron_pass_secret)
 		{ 	
 			// RESET COMPTEUR MARDI
 			$update = mysql_query("UPDATE config SET send_mail_monday = '0' WHERE id = '1'");
-			mail('antoine.augusti@gmail.com', 'Reset done', '',$headers);
+			mail('antoine.augusti@gmail.com', 'Reset done', '', $headers);
 		}
 		else
 		{

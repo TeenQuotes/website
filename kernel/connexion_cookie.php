@@ -39,7 +39,7 @@ if (isset($_COOKIE['Pseudo']) AND isset($_COOKIE['Pass']) AND $_SESSION['logged'
 			$last_visit = $compte['last_visit'];
 			$session_last_visit = $_SESSION['last_visit_user'];
 
-			last_visit ($session_last_visit,$last_visit,$id);
+			last_visit ($session_last_visit, $last_visit, $id);
 
 			// The user hasn't fullfilled his profile.
 			if (empty($compte['birth_date']) AND empty($compte['title']) AND empty($compte['country']) AND empty($compte['about_me']) AND $compte['avatar'] == "icon50.png" AND empty($compte['city']))

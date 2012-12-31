@@ -40,7 +40,7 @@ if (is_numeric($id_comment) AND !empty($id_comment))
 			<div class="grey_post">
 				'.$txt_quote.'<br/>
 				<div class="footer_quote">
-				<a href="quote-'.$id_quote.'">#'.$id_quote.'</a>'; afficher_favori($id_quote,$is_favorite,$logged,$_SESSION['id']);date_et_auteur($auteur_id, $auteur, $date_quote);
+				<a href="quote-'.$id_quote.'">#'.$id_quote.'</a>'; afficher_favori($id_quote, $is_favorite, $logged, $_SESSION['id']);date_et_auteur($auteur_id, $auteur, $date_quote);
 			echo '</div>
 			</div>';
 			

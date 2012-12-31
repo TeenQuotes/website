@@ -79,7 +79,7 @@ if (empty($action))
 				<input type="text" class="signup" name="birth_date" value="'.$result['birth_date'].'" />
 				<br/><br/>
 				'.$choose_country.'<br/>';
-				select_country($result['country'],$other_countries,$common_choices); 
+				select_country($result['country'], $other_countries, $common_choices); 
 				echo '
 				<br/><br/>
 				'.$choose_city.'<br/><input type="text" class="signup" name="city" value="'.$result['city'].'" />

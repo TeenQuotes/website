@@ -78,7 +78,7 @@ if (empty($action))
 				<br/><br/>
 				<div class="colonne-gauche">'.$choose_birth.'</div><div class="colonne-milieu"><input type="text" class="signup" name="birth_date" value="'.$result['birth_date'].'" /></div>
 				<br/><br/>
-				<div class="colonne-gauche">'.$choose_country.'</div><div class="colonne-milieu">'; select_country($result['country'],$other_countries,$common_choices); echo '</div>
+				<div class="colonne-gauche">'.$choose_country.'</div><div class="colonne-milieu">'; select_country($result['country'], $other_countries, $common_choices); echo '</div>
 				<br/><br/>
 				<div class="colonne-gauche">'.$choose_city.'</div><div class="colonne-milieu"><input type="text" class="signup" name="city" value="'.$result['city'].'" /></div>
 				<br/><br/>

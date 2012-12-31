@@ -5,7 +5,7 @@ $action = $_GET['action'];
 if ($action == 'send')
 {
 	$username = strtolower(trim(htmlspecialchars(mysql_real_escape_string($_POST['username']))));
-	$username = str_replace(' ','',$username);
+	$username = str_replace(' ','', $username);
 	$pass1 = htmlspecialchars(mysql_real_escape_string($_POST['pass1']));
 	$pass2 = htmlspecialchars(mysql_real_escape_string($_POST['pass2']));
 	$pass_salt = sha1(strtoupper($username).':'.strtoupper($pass1));
