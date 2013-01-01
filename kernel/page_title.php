@@ -17,6 +17,8 @@ if (isset($_GET['id_user']))
 		echo '<meta name="description" content="'.$username_title.'\'s profile on '.$name_website.'. View his favorite quotes and his quotes." />';
 	}
 	echo "\r\n";
+	// Add a canonical URL
+	echo '<link rel="canonical" href="http://'.$domaine.'/user-'.$id_user.'" />';
 }
 elseif (isset($_GET['p']) AND (int) $_GET['p'] >= 2 AND !(preg_match('#members#', $_SERVER["SCRIPT_URI"])) AND !(preg_match('#random#', $_SERVER["SCRIPT_URI"])))
 {
@@ -33,6 +35,9 @@ elseif (isset($_GET['p']) AND (int) $_GET['p'] >= 2 AND !(preg_match('#members#'
 		echo '<meta name="description" content="'.$name_website.' : because our lives are filled full of beautiful sentences, and because some quotes are simply true. Your every day life moments."/>';
 	}
 	echo "\r\n";
+
+	// Add a canonical URL
+	echo '<link rel="canonical" href="http://'.$domaine.'/?p='.$page_index.'" />';
 }
 elseif (preg_match('#random#', $_SERVER["SCRIPT_URI"]))
 {
@@ -57,6 +62,8 @@ elseif (preg_match('#random#', $_SERVER["SCRIPT_URI"]))
 		echo '<meta name="description" content="Random quotes released on '.$name_website.'. Because some quotes are simply true. Your everyday life moments."/>';
 	}
 	echo "\r\n";
+	// Add a canonical URL
+	echo '<link rel="canonical" href="http://'.$domaine.'/?p='.$page_random.'" />';
 }
 elseif (isset($_GET['id_quote'])) 
 {
@@ -69,6 +76,9 @@ elseif (isset($_GET['id_quote']))
 	echo "\r\n";
 	echo '<meta name="description" content="'.$texte.'"/>';
 	echo "\r\n";
+
+	// Add a canonical URL
+	echo '<link rel="canonical" href="http://'.$domaine.'/quote-'.$id_quote.'" />';
 }
 elseif (isset($_GET['letter']) OR preg_match('#members#', $_SERVER["SCRIPT_URI"])) 
 {
@@ -89,6 +99,8 @@ elseif (isset($_GET['letter']) OR preg_match('#members#', $_SERVER["SCRIPT_URI"]
 		echo '<meta name="description" content="Members beginning with '.$lettre.' on '.$name_website.'. '.$name_website.' : because some quotes are simply true. Your everyday life moments." />';
 	}
 	echo "\r\n";
+	// Add a canonical URL
+	echo '<link rel="canonical" href="http://'.$domaine.'/members" />';
 }
 elseif ($php_self == 'contact')
 {
@@ -133,6 +145,8 @@ elseif ($php_self == 'apps')
 		echo '<meta name="description" content="'.$name_website.' : download our application for iOS and Android. Visit our mobile website right from your smartphone."/>';
 	}
 	echo "\r\n";
+	// Add a canonical URL
+	echo '<link rel="canonical" href="http://'.$domaine.'/apps" />';
 }
 elseif ($php_self == 'advertise')
 {
