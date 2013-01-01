@@ -102,7 +102,7 @@ else
 		
 		
 	if ($nombre_commentaires >= 1)
-	{ // affichage si seulement il y a des commentaires
+	{
 		$nb_messages_par_page = 10;
 
 		$display_page_top = display_page_top($nombre_commentaires, $nb_messages_par_page, 'p', $previous_page, $next_page);
