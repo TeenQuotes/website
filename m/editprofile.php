@@ -540,7 +540,7 @@ elseif ($action == "delete_account_cancel")
 		
 		if ($delete)
 		{
-			echo $succes.''.$account_not_deleted_successfully;
+			echo $succes.$account_not_deleted_successfully;
 			echo '<meta http-equiv="refresh" content="5;url=../" />';
 		}
 		else

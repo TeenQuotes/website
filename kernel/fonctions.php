@@ -19,8 +19,8 @@ if (isset($_GET['co']))
 	$pseudo = $_SESSION['username'];		
 	$passwd = $_SESSION['passwd'];
 
-	setcookie("Pseudo", $pseudo, time() + (((3600*24)*30)*12), null, '.'.$domaine.'', FALSE, TRUE);
-	setcookie("Pass", $passwd, time() + (((3600*24)*30)*12), null, '.'.$domaine.'', FALSE, TRUE);
+	setcookie("Pseudo", $pseudo, time() + (((3600*24)*30)*12), null, '.'.$domaine, FALSE, TRUE);
+	setcookie("Pass", $passwd, time() + (((3600*24)*30)*12), null, '.'.$domaine, FALSE, TRUE);
 
 	unset($_SESSION['passwd']);
 	// redirection
@@ -63,9 +63,9 @@ function deconnexion()
 	$_SESSION = array();
 	session_destroy();
 	// Delete the cookies
-	setcookie("Pseudo", "Yo", time()-4200, null, '.'.$domaine.'', FALSE, TRUE);
-	setcookie("Pass", "Yo", time()-4200, null, '.'.$domaine.'', FALSE, TRUE);
-	setcookie("PHPSESSID", "Yo", time()-4200, null, '.'.$domaine.'', FALSE, TRUE);
+	setcookie("Pseudo", "Yo", time()-4200, null, '.'.$domaine, FALSE, TRUE);
+	setcookie("Pass", "Yo", time()-4200, null, '.'.$domaine, FALSE, TRUE);
+	setcookie("PHPSESSID", "Yo", time()-4200, null, '.'.$domaine, FALSE, TRUE);
 	setcookie("Pass", "Yo", time()-4200);
 	setcookie("PHPSESSID", "Yo", time()-4200);
 	setcookie("Pseudo", "Yo", time()-4200);
@@ -488,7 +488,7 @@ function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redire
 			
 			for ($num_page = $page-$ecart_page;$num_page < $page;$num_page++)
 			{
-				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>'; 
+				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>'; 
 			}
 		}
 		else 
@@ -499,7 +499,7 @@ function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redire
 				{
 					$margin_index = ($num_page == '1') ?  ' no_margin_left' : '';
 				}
-				echo '<span class="page_bottom_number'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>'; 
+				echo '<span class="page_bottom_number'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>'; 
 			}
 		}
 	}
@@ -514,16 +514,16 @@ function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redire
 				{
 					$margin_index = ($num_page == '1') ?  ' no_margin_left' : '';
 				}
-				echo '<span class="page_bottom_number_active '.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>';
+				echo '<span class="page_bottom_number_active '.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>';
 			}
 			else
 			{
-				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>';
+				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>';
 			}
 		}
 
 		echo '<span class="gap_page" style="margin-top:'.$margin_middle.'">'.$gap_txt.'</span>';
-		echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$nombreDePages.''.$div_redirection.'">'.$nombreDePages.'</a></span>';
+		echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$nombreDePages.$div_redirection.'">'.$nombreDePages.'</a></span>';
 	}
 	else
 	{
@@ -531,11 +531,11 @@ function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redire
 		{
 			if ($num_page == $page)
 			{
-				echo '<span class="page_bottom_number_active'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>';
+				echo '<span class="page_bottom_number_active'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>';
 			}
 			else
 			{
-				echo '<span class="page_bottom_number'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.''.$div_redirection.'">'.$num_page.'</a></span>';
+				echo '<span class="page_bottom_number'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>';
 			}
 		}
 	}
@@ -543,7 +543,7 @@ function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redire
 	
 	if ($page < $nombreDePages)
 	{
-		echo '<span class="page_bottom'.$margin_index_right.'"><a href="?'.$nom_lien_page.'='.$nb_next_page.''.$div_redirection.'" title="'.$next_page.'">'.$next_page.'</a></span>';
+		echo '<span class="page_bottom'.$margin_index_right.'"><a href="?'.$nom_lien_page.'='.$nb_next_page.$div_redirection.'" title="'.$next_page.'">'.$next_page.'</a></span>';
 		$margin_done = TRUE;
 	}
 	if ($page > 1)
@@ -552,7 +552,7 @@ function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redire
 		{
 			$margin_index_right = '';
 		}
-		echo '<span class="page_bottom"><a href="?'.$nom_lien_page.'='.$nb_previous_page.''.$div_redirection.'" title="'.$previous_page.'">'.$previous_page.'</a></span>';
+		echo '<span class="page_bottom"><a href="?'.$nom_lien_page.'='.$nb_previous_page.$div_redirection.'" title="'.$previous_page.'">'.$previous_page.'</a></span>';
 	}
 
 	echo '<div class="clear"></div>';
@@ -594,7 +594,7 @@ function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_
 
 	if ($page < $nombreDePages)
 	{
-		echo '<span class="page'.$margin_page.$margin_right.'"><a href="?'.$lien.'='.$nb_next_page.''.$div_redirection.'" title="'.$next_page.'">'.$next_page.'</a></span>';
+		echo '<span class="page'.$margin_page.$margin_right.'"><a href="?'.$lien.'='.$nb_next_page.$div_redirection.'" title="'.$next_page.'">'.$next_page.'</a></span>';
 		$margin_done = TRUE;
 	}
 
@@ -605,7 +605,7 @@ function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_
 		{
 			$margin_right = '';
 		}
-		echo '<span class="page'.$margin_page.$margin_right.'"><a href="?'.$lien.'='.$nb_previous_page.''.$div_redirection.'" title="'.$previous_page.'">'.$previous_page.'</a></span>';
+		echo '<span class="page'.$margin_page.$margin_right.'"><a href="?'.$lien.'='.$nb_previous_page.$div_redirection.'" title="'.$previous_page.'">'.$previous_page.'</a></span>';
 	}
 	if ($nombreDePages != 1)
 	{
@@ -1205,7 +1205,7 @@ function MailPostedToday ($id_quote)
 				$message .= '<br/><span style="font-size:80%">Cet email a été envoyé à votre adresse ('.$email.') car vous êtes inscrit à la newsletter. Si vous souhaitez vous désinscrire, cliquez sur <a href="http://'.$domaine.'/newsletter.php?action=unsubscribe_everyday&email='.$email.'" target="_blank"> ce lien</a>.</span>.';
 			}
 
-			$mail = mail($email, ''.$email_subject.' - '.$today.'', $message, $headers);
+			$mail = mail($email, $email_subject.' - '.$today, $message, $headers);
 		}
 
 		$monfichier = fopen('../files/compteur_email_quotidien.txt', 'r+'); // Ouverture du fichier
