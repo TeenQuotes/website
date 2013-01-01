@@ -22,3 +22,5 @@ $others = "Autre";
 $top_members_ordered_by_nb_quotes_in_fav = "Top des membres en fonction du nombre de citations ajoutées dans les favoris";
 $quotes_in_fav = "citations dans les favoris";
 $total_nb_search = "Nombre total de recherches";
+$number_of_members = "Nombre de membres";
+$members_over_time = "Membres en fonction du temps";

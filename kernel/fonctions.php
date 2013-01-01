@@ -376,6 +376,36 @@ function create_stats ($language)
 	draw(data, {title:'".$total_nb_search." : ".$nb_search."'});
 	}
 
+	function members_over_time() {
+		 var data = google.visualization.arrayToDataTable([
+		 	['Date', '".$number_of_members."'],";
+	$timestamp = 1285884000;
+	$i = 1;
+	while ($timestamp < time())
+	{
+		$timestamp = strtotime("+1 month", $timestamp);
+
+		if ($timestamp < time())
+		{
+			$query = mysql_query("SELECT COUNT(id) AS nb_members FROM teen_quotes_account WHERE UNIX_TIMESTAMP(joindate) <= '".$timestamp."'");
+			$data = mysql_fetch_array($query);
+			$nb_members = $data['nb_members'];
+			$time_txt = date('m/y', $timestamp);
+			$graph_stats_js .= "['".$time_txt."', ".$nb_members."],";
+		}
+
+		$i++;
+	}
+
+	$graph_stats_js .= " 
+	]);
+	var options = {
+          title: '".$members_over_time."'
+        };
+    var chart = new google.visualization.LineChart(document.getElementById('members_time'));
+        chart.draw(data, options);
+    }
+
 	google.setOnLoadCallback(graph_quotes);
 	google.setOnLoadCallback(graph_empty_profile); 
 	google.setOnLoadCallback(graph_newsletter); 
@@ -383,6 +413,7 @@ function create_stats ($language)
 	google.setOnLoadCallback(top_user_favorite_quote);
 	google.setOnLoadCallback(graph_search);
 	google.setOnLoadCallback(location_signup);
+	google.setOnLoadCallback(members_over_time);
 	</script>
 	";
 	echo $graph_stats_js;
