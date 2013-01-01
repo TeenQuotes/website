@@ -10,9 +10,9 @@ if (empty($action))
 	<div class="post">
 		<h2><img src="http://'.$domaine.'/images/icones/mail.png" class="icone" />Contact</h2>
 		<div class="grey_post">
-			<img src="http://'.$domaine.'/images/icones/mail.png" class="icone" /> '.$about_website.' : <a href="mailto:support@teen-quotes.com">support@teen-quotes.com</a><br/>
+			<img src="http://'.$domaine.'/images/icones/mail.png" class="icone" /> '.$about_website.' <a href="mailto:support@teen-quotes.com">support@teen-quotes.com</a><br/>
 			<br/>
-			<img src="http://'.$domaine.'/images/icones/mail.png" class="icone" /> '.$about_twitter_account.' : <a href="mailto:contact@teen-quotes.com">contact@teen-quotes.com</a><br/>
+			<img src="http://'.$domaine.'/images/icones/mail.png" class="icone" /> '.$about_twitter_account.' <a href="mailto:contact@teen-quotes.com">contact@teen-quotes.com</a><br/>
 		</div>
 
 		<h2><img src="http://'.$domaine.'/images/icones/members.png" class="icone" />'.$team.'</h2>
