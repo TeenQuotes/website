@@ -11,8 +11,8 @@ Languages
 ------
 Teen Quotes is available in english and in french. I think that it's possible to add other languages with a few lines of code (and a lot of translation of course!)
 
-    - Teen Quotes (english): http://teen-quotes.com
-    - Kotado (french): http://kotado.fr
+- Teen Quotes (english): http://teen-quotes.com
+- Kotado (french): http://kotado.fr
 
 Copyright
 ---------
