@@ -850,10 +850,13 @@ function email_birthday()
 	}
 }
 
-function select_country($country, $other_countries, $common_choices)
+function select_country($country)
 {
+	// Grant acces to variables
+	global $common_choices, $other_countries;
+
 	$country = ucfirst($country);
-	$str= '
+	$str = '
 	<select name="country" style="width:197px;">
 		<optgroup label="'.$common_choices.'">
 			<option value="United States" selected="selected">United States</option> 
