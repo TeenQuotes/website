@@ -171,7 +171,10 @@ function captcha()
 	return $phrase;
 }
 
-function create_stats ($language) 
+// Update statistics.
+// Store the text in a database
+// This function is called by a cron task - see /cron.php, code = updatestats
+function update_stats ($language) 
 {
 	// Grant access to these variables
 	global $domain_en, $domain_fr;
@@ -227,9 +230,6 @@ function create_stats ($language)
 	$nb_search_query = mysql_fetch_array(mysql_query("SELECT SUM(value) AS nb_search FROM teen_quotes_search"));
 	$nb_search = $nb_search_query['nb_search'];
 	$graph_stats_js = "
-	<script type=\"text/javascript\" src=\"http://www.google.com/jsapi\"></script>
-	<script type=\"text/javascript\">google.load('visualization', '1', {packages: ['corechart']});</script>
-	<script type=\"text/javascript\">
 	function graph_quotes() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Quote');
@@ -413,10 +413,25 @@ function create_stats ($language)
 	google.setOnLoadCallback(top_user_favorite_quote);
 	google.setOnLoadCallback(graph_search);
 	google.setOnLoadCallback(location_signup);
-	google.setOnLoadCallback(members_over_time);
-	</script>
-	";
-	echo $graph_stats_js;
+	google.setOnLoadCallback(members_over_time);";
+
+	// Store it in the database
+	$query = mysql_query("UPDATE stats SET text_js = '".mysql_real_escape_string($graph_stats_js)."' WHERE id = 1");
+}
+
+// Display the JS for statistics - /statistics.php
+function display_stats () 
+{
+	$query = mysql_query("SELECT text_js, timestamp FROM stats WHERE id = 1");
+	$data = mysql_fetch_array($query);
+
+	echo "
+	<script type=\"text/javascript\" src=\"http://www.google.com/jsapi\"></script>
+	<script type=\"text/javascript\">google.load('visualization', '1', {packages: ['corechart']});</script>
+	<script type=\"text/javascript\">".$data['text_js']."</script>";
+
+	// Return the ISO 8601 timestamp
+	return date('c', strtotime($data['timestamp']));
 }
 
 function last_visit($session_last_visit, $last_visit, $id_account)

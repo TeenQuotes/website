@@ -9,6 +9,7 @@ echo '
 	<div class="bandeau_erreur hide_this">
 		'.$more_stats_email.'
 	</div>
+	'.$last_update.' <abbr class="timeago" title="'.$timestamp_last_update_stats.'"></abbr>
 	<h2>'.$quotes.'</h2>
 	<div id="graph_quotes" class="graph_stats"></div>
 	

@@ -45,13 +45,6 @@ else
 
 		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domaine; ?>/images/favicon.png"/>
 		<meta property="og:image" content="http://<?php echo $domaine; ?>/images/icon50.png" />
-		
-		<?php
-		if ($php_self == "statistics")
-			{
-			create_stats($language);
-			}
-		?>
 		<script>
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', <?php echo "'".$google_analytics_account."'"; ?>]);

@@ -24,3 +24,4 @@ $quotes_in_fav = "citations dans les favoris";
 $total_nb_search = "Nombre total de recherches";
 $number_of_members = "Nombre de membres";
 $members_over_time = "Membres en fonction du temps";
+$last_update = "Dernière mise à jour :";

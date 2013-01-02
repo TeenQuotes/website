@@ -52,7 +52,7 @@ else
 		<?php
 		if ($php_self == "statistics")
 		{
-			create_stats($language);
+			$timestamp_last_update_stats = display_stats($language);
 		}
 		?>
 		<script>

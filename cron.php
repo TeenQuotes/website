@@ -274,6 +274,11 @@ if ($_GET['secret'] == $cron_pass_secret)
 			$i++;
 		}
 	}
+	// Update statistics
+	elseif ($_GET['code'] == 'updatestats')
+	{
+		update_stats($language);
+	}
 
 	echo 'Hello World.';
 }
