@@ -206,11 +206,27 @@ function update_stats ($language)
 		}
 	}
 
-	$total_quotes = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes"));
-	$quotes_approved = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved= '1'"));
-	$quotes_rejected = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '-1'"));
-	$quotes_pending = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '0'"));
-	$quotes_queued = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2'"));
+	$query_quote = mysql_query("SELECT COUNT(id) AS total FROM teen_quotes_quotes GROUP BY approved ORDER BY approved ASC ");
+
+	$i = 0;
+	$total_quotes = 0;
+	$array_approved_quotes = array (
+		"quotes_rejected" 	=> NULL,
+		"quotes_pending" 	=> NULL,
+		"quotes_approved" 	=> NULL, 
+		"quotes_queued" 	=> NULL,
+		"total_quotes" 		=> NULL);
+
+	// Store the name of keys
+	$keys = array_keys($array_approved_quotes);
+
+	while ($data = mysql_fetch_array($query_quote))
+	{
+		$array_approved_quotes[$keys[$i]] = $data['total'];
+
+		$i++;
+		$array_approved_quotes['total_quotes'] += $data['total'];
+	}
 
 	$total_members = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account"));
 	$nb_empty_avatar = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE avatar = 'icon50.png'"));
@@ -235,18 +251,18 @@ function update_stats ($language)
 	data.addColumn('string', 'Quote');
 	data.addColumn('number', 'Status');
 	data.addRows(4);
-	data.setValue(0, 0, '".$approved." : ".$quotes_approved."');
-	data.setValue(0, 1, ".$quotes_approved.");
-	data.setValue(1, 0, '".$rejected." : ".$quotes_rejected."');
-	data.setValue(1, 1, ".$quotes_rejected.");
-	data.setValue(2, 0, '".$pending." : ".$quotes_pending."');
-	data.setValue(2, 1, ".$quotes_pending.");
-	data.setValue(3, 0, '".$waiting_to_be_posted." : ".$quotes_queued."');
-	data.setValue(3, 1, ".$quotes_queued.");
+	data.setValue(0, 0, '".$approved." : ".$array_approved_quotes['quotes_approved']."');
+	data.setValue(0, 1, ".$array_approved_quotes['quotes_approved'].");
+	data.setValue(1, 0, '".$rejected." : ".$array_approved_quotes['quotes_rejected']."');
+	data.setValue(1, 1, ".$array_approved_quotes['quotes_rejected'].");
+	data.setValue(2, 0, '".$pending." : ".$array_approved_quotes['quotes_pending']."');
+	data.setValue(2, 1, ".$array_approved_quotes['quotes_pending'].");
+	data.setValue(3, 0, '".$waiting_to_be_posted." : ".$array_approved_quotes['quotes_queued']."');
+	data.setValue(3, 1, ".$array_approved_quotes['quotes_queued'].");
 
 	// Create and draw the visualization.
 	new google.visualization.PieChart(document.getElementById('graph_quotes')).
-	draw(data, {title:'".$total_nb_quotes." : ".$total_quotes."'});
+	draw(data, {title:'".$total_nb_quotes." : ".$array_approved_quotes['total_quotes']."'});
 	}
 
 	function graph_empty_profile() {
@@ -306,7 +322,7 @@ function update_stats ($language)
 		$nb_fav = $donnees['nb_fav'];
 		$username = $donnees['username'];
 
-		$sum_fav_top_user = $sum_fav_top_user + $nb_fav;
+		$sum_fav_top_user += $nb_fav;
 		$graph_stats_js .="
 		data.setValue(".$i.", 0, '".$username." : ".$nb_fav."');
 		data.setValue(".$i.", 1, ".$nb_fav.");
@@ -358,7 +374,7 @@ function update_stats ($language)
 		$value = $donnees['value'];
 		$text = ucfirst($donnees['text']);
 
-		$sum_nb_search = $sum_nb_search + $value;
+		$sum_nb_search += $value;
 
 		$graph_stats_js .="
 		data.setValue(".$j.", 0, '".$text." : ".$value."');
