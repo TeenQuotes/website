@@ -828,12 +828,6 @@ img.apps {
 }
 .erreur_addquote {
 	margin:20px 0px;
-	background:#fff9d7;
-	border:1px solid #e2c822;
-	padding:10px 20px;
-	color:#333;
-	font-family:Helvetica;
-	font-size:11px
 }
 .bandeau_erreur {
 	margin:10px auto 20px auto;
@@ -843,6 +837,21 @@ img.apps {
 	color:#333;
 	font-family:Helvetica;
 	font-size:11px
+}
+.bandeau_infos {
+	margin:10px auto 20px auto;
+	padding:10px 20px;
+	background:#D9EDF7;
+	border:1px solid #BCE8F1;
+	color:#3C53BD;
+	font-family:Helvetica;
+	font-size:11px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	text-shadow: 0 2px 2px #CCC;
+}
+.bandeau_infos a {
+	color: #3A87AD !important;
 }
 .bandeau_succes {
 	color: #468847;
@@ -893,6 +902,11 @@ img.apps {
 	-moz-box-shadow:0 5px 5px #CCC;
 	-webkit-box-shadow:0 5px 5px #CCC;
 	box-shadow:0 5px 5px #CCC;
+}
+.light_shadow {
+	-moz-box-shadow: 0 3px 5px #CCC;
+	-wekbit-box-shadow: 0 3px 5px #CCC;
+	box-shadow: 0 3px 5px #CCC;
 }
 .no_shadow {
 	-moz-box-shadow:0 0 0 0 #FFF;

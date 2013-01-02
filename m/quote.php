@@ -67,9 +67,9 @@ else
 	else
 	{
 		echo '
-		<span class="erreur">'.$must_be_log.'</span><br/>
-		<br/>
-		';
+		<div class="bandeau_infos">
+			'.$must_be_log.'
+		</div>';
 	}
 		
 		

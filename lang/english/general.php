@@ -54,7 +54,7 @@ You know a quote that is not yet here? Build '.$name_website.' with us and <a hr
 
 $search_value_form = 'placeholder="A user, a quote..."';
 
-$must_be_log = "You must be logged in! <a href=\"signup?addcomment\" onClick=\"_gaq.push(['_trackEvent', 'signup', 'clic', 'Website - add a comment']);\" title=\"Sign up\">Click here</a> to signup";
+$must_be_log = "You must be logged in! <a href=\"signup?addcomment\" onClick=\"_gaq.push(['_trackEvent', 'signup', 'clic', 'Website - add a comment']);\" title=\"Sign up\">Click here</a> to signup :)";
 
 $profite_not_yet_fulffiled = '<div class= "profile_not_fullfilled">You have not filled out your profile, <a href= "../editprofile" title="Edit my profile" onClick="_gaq.push([\'_trackEvent\', \'bannerEditProfile\', \'clic\', \'Go to edit my profile\']);">click here</a><a onClick="hide_profile_not_fullfilled();return false;_gaq.push([\'_trackEvent\', \'bannerEditProfile\', \'clic\', \'Close banner\']);" class="hide right">Close</a></div>';
 

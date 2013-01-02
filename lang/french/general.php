@@ -54,7 +54,7 @@ Vous connaissez une citation qui ne se trouve pas encore sur le site ? Construis
 
 $search_value_form = 'placeholder="Citation, auteur..."';
 
-$must_be_log = "Vous devez être connecté ! <a href=\"signup?addcomment\" onClick=\"_gaq.push(['_trackEvent', 'signup', 'clic', 'Website - add a comment']);\" title=\"S'inscrire\">Cliquez ici</a> pour vous inscrire";
+$must_be_log = "Vous devez être connecté ! <a href=\"signup?addcomment\" onClick=\"_gaq.push(['_trackEvent', 'signup', 'clic', 'Website - add a comment']);\" title=\"S'inscrire\">Cliquez ici</a> pour vous inscrire :)";
 
 $profite_not_yet_fulffiled = '<div class="profile_not_fullfilled">Vous n\'avez pas encore rempli votre profil, <a href="../editprofile" title="Éditer mon profil" onClick="_gaq.push([\'_trackEvent\', \'bannerEditProfile\', \'clic\', \'Go to edit my profile\']);">cliquez ici pour éditer votre profil</a>.<a onClick="hide_profile_not_fullfilled();return false;_gaq.push([\'_trackEvent\', \'bannerEditProfile\', \'clic\', \'Close banner\']);" title="Fermer" class="hide right">Fermer</a></div>';
 

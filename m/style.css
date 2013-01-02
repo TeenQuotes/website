@@ -361,6 +361,15 @@ h1,h2,h3 {
 	font-family:Helvetica;
 	font-size:11px
 }
+.bandeau_infos {
+	margin:10px auto 20px auto;
+	padding:10px 20px;
+	background:#D9EDF7;
+	border:1px solid #BCE8F1;
+	color:#3C53BD;
+	font-family:Helvetica;
+	font-size:11px;
+}
 .clear {
 	clear:both;
 }
@@ -426,7 +435,10 @@ input.signup {
 	font-weight:600;
 	padding-left:30px;
 }
-.erreur_addquote,.download_app {
+.erreur_addquote {
+	margin:5px 0 8px 0;
+}
+.download_app {
 	margin:5px 0 8px 0;
 	background:#fff9d7;
 	border:1px solid #e2c822;
