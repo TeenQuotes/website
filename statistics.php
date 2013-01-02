@@ -1,6 +1,6 @@
 <?php 
 include 'header.php';
-include 'lang/'.$language.'/stats.php';
+include 'lang/'.$language.'/statistics.php';
 $query = mysql_query("UPDATE teen_quotes_settings SET value=value+1 WHERE param = 'clics_stats'");
 
 echo '

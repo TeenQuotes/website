@@ -187,22 +187,22 @@ function update_stats ($language)
 	{
 		if ($language == "english")
 		{
-			require 'lang/'.$language.'/stats.php';
+			require 'lang/'.$language.'/statistics.php';
 		}
 		else
 		{
-			require '../lang/'.$language.'/stats.php';
+			require '../lang/'.$language.'/statistics.php';
 		}
 	}
 	else
 	{
 		if ($language == "english")
 		{
-			require '../lang/'.$language.'/stats.php';
+			require '../lang/'.$language.'/statistics.php';
 		}
 		else
 		{
-			require 'lang/'.$language.'/stats.php';
+			require 'lang/'.$language.'/statistics.php';
 		}
 	}
 
