@@ -51,7 +51,14 @@ if (isDomainValidForAjax() AND $_SESSION['security_level'] >= 2)
 		$date_log = ''.$date.'-'.$jours_posted;
 
 		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '2' WHERE id = '".$id_quote."'");
-		$approve_quote_log = mysql_query("INSERT INTO approve_quotes (id_quote, id_user, quote_release) VALUES ('".$id_quote."', '".$author_id."', '".$date_log."')");
+		if ($edit != 'yes')
+		{
+			$approve_quote_log = mysql_query("INSERT INTO approve_quotes (id_quote, id_user, quote_release) VALUES ('".$id_quote."', '".$author_id."', '".$date_log."')");
+		}
+		else
+		{
+			$approve_quote_log = mysql_query("INSERT INTO approve_quotes (id_quote, id_user, quote_release, edit) VALUES ('".$id_quote."', '".$author_id."', '".$date_log."', '1')");
+		}
 
 		$waiting_moderation = mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id = '".$author_id."' AND approved = '0'");
 		$waiting_send = mysql_query("SELECT id FROM approve_quotes WHERE id_user = '".$author_id."' AND send = '0'");
