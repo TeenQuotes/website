@@ -42,11 +42,6 @@ if (isDomainValidForAjax() AND $_SESSION['security_level'] >= 2)
 		$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2'"));
 		$jours_posted = floor($nb_quote_awaiting_post / $nb_quote_released_per_day) + 1;
 		$date = date("d/m/Y", strtotime('+'.$jours_posted.' days'));
-			
-		if ($jours_posted > 1)
-		{
-			$days_quote_posted = $days_quote_posted.'s';
-		}
 
 		$date_log = ''.$date.'-'.$jours_posted;
 
@@ -70,6 +65,12 @@ if (isDomainValidForAjax() AND $_SESSION['security_level'] >= 2)
 		$name_author = $query_texte_quote['username'];
 
 		include '../lang/'.$language.'/admin.php';
+
+		// Singular or plural?
+		if ($jours_posted > 1)
+		{
+			$days_quote_posted .= 's';
+		}
 
 		// Delete the edit message if the quote was not edited
 		if ($edit != 'yes')

@@ -150,6 +150,7 @@ else
 
 				echo '<div class="grey_post">';
 					echo '<img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="user_avatar_members" /><a href="user-'.$id_user.'"><h2>'.$username_member;
+					
 					if (!empty($country) OR !empty($city))
 					{
 						echo '<span class="right">';
