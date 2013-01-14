@@ -235,8 +235,8 @@ function update_stats ($language)
 	$nb_favorite = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_favorite"));
 	$nb_members_has_favorite_quotes = mysql_num_rows(mysql_query("SELECT DISTINCT A.id FROM teen_quotes_account A, teen_quotes_favorite F WHERE A.id IN (F.id_user)"));
 	$nb_members_no_favorite_quotes = $total_members - $nb_members_has_favorite_quotes;
-	$nb_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletter"));
-	$nb_members_newsletter = mysql_num_rows(mysql_query("SELECT DISTINCT(a.id) FROM teen_quotes_account a, newsletters n WHERE a.email = n.email"));
+	$nb_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletters WHERE type = 'weekly'"));
+	$nb_members_newsletter = mysql_num_rows(mysql_query("SELECT DISTINCT(a.id) FROM teen_quotes_account a, newsletters n WHERE a.email = n.email AND n.type = 'weekly'"));
 	$nb_no_members_newsletter = $nb_newsletter - $nb_members_newsletter;
 
 	$query_location_signup = mysql_query("SELECT COUNT(*) as tot, location_signup FROM teen_quotes_account GROUP BY location_signup ORDER BY tot DESC");
