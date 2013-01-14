@@ -422,6 +422,49 @@ function update_stats ($language)
         chart.draw(data, options);
     }
 
+	function quotes_over_time() {
+		 var data = google.visualization.arrayToDataTable([
+		 	['Date', '".$unapproved_quotes."', '".$approved_quotes."', '".$txt_total_quotes."'],";
+	$timestamp = 1285884000;
+	$i = 1;
+	while ($timestamp < time())
+	{
+		$timestamp = strtotime("+1 month", $timestamp);
+
+		if ($timestamp < time())
+		{
+			$query = mysql_query("	SELECT COUNT(id) AS tot
+									FROM teen_quotes_quotes
+									WHERE approved <>  '2'
+									AND approved <>  '0'
+									AND UNIX_TIMESTAMP(timestamp_created) <= '".$timestamp."'
+									GROUP BY approved
+									ORDER BY approved ASC");
+			while ($data = mysql_fetch_array($query))
+			{
+				$nb_approved = $data['tot'];
+				$nb_tot += $nb_approved;
+			}
+
+			$nb_unapproved = $nb_tot - $nb_approved;
+			$time_txt = date('m/y', $timestamp);
+
+			$graph_stats_js .= "['".$time_txt."', ".$nb_unapproved.", ".$nb_approved.", ".$nb_tot."],";
+		}
+		$nb_tot = 0;
+		$i++;
+	}
+
+	$graph_stats_js .= " 
+	]);
+	var options = {
+          title: '".$quotes_over_time."'
+        };
+    var chart = new google.visualization.LineChart(document.getElementById('quotes_time'));
+        chart.draw(data, options);
+    }";
+
+    $graph_stats_js .= "
 	google.setOnLoadCallback(graph_quotes);
 	google.setOnLoadCallback(graph_empty_profile); 
 	google.setOnLoadCallback(graph_newsletter); 
@@ -429,7 +472,8 @@ function update_stats ($language)
 	google.setOnLoadCallback(top_user_favorite_quote);
 	google.setOnLoadCallback(graph_search);
 	google.setOnLoadCallback(location_signup);
-	google.setOnLoadCallback(members_over_time);";
+	google.setOnLoadCallback(members_over_time);
+	google.setOnLoadCallback(quotes_over_time);";
 
 	// Store it in the database
 	$query = mysql_query("UPDATE stats SET text_js = '".mysql_real_escape_string($graph_stats_js)."' WHERE id = 1");

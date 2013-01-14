@@ -25,3 +25,7 @@ $total_nb_search = "Nombre total de recherches";
 $number_of_members = "Nombre de membres";
 $members_over_time = "Membres en fonction du temps";
 $last_update = "Dernière mise à jour :";
+$unapproved_quotes = "Citations rejetées";
+$approved_quotes = "Citations approuvées";
+$txt_total_quotes = "Nombre total de citations";
+$quotes_over_time = "Citation en fonction du temps";

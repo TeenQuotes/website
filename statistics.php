@@ -12,6 +12,7 @@ echo '
 	'.$last_update.' <abbr class="timeago" title="'.$timestamp_last_update_stats.'"></abbr>
 	<h2>'.$quotes.'</h2>
 	<div id="graph_quotes" class="graph_stats"></div>
+	<div id="quotes_time" class="graph_stats"></div>
 	
 	<h2>'.$members.'</h2>
 	<div id="graph_empty_profile" class="graph_stats"></div>
