@@ -74,12 +74,12 @@ if ($_GET['secret'] == $cron_pass_secret)
 			$i = 0;
 			$txt_file = 'Newsletter on '.$today."\r\n\n";
 
-			$query = mysql_query("SELECT email, code FROM newsletter");
+			$query = mysql_query("SELECT email, code_unsubscribe FROM newsletters WHERE type = 'weekly'");
 
 			while ($donnees = mysql_fetch_array($query)) 
 			{
 				$email = $donnees['email'];
-				$code = $donnees['code'];
+				$code = $donnees['code_unsubscribe'];
 
 				if ($domaine == $domain_fr)
 				{

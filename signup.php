@@ -102,11 +102,12 @@ elseif ($action == "send")
 									$add = mysql_query("INSERT INTO teen_quotes_account (username, pass, email, ip, security_level, location_signup) VALUES ('$username', '$pass_salt', '$email', '$ip', '0', 'website')");
 									if ($newsletter_checkbox == '1')
 									{
-										$query_newsletter =mysql_query("INSERT INTO newsletter (email, code) VALUES ('$email','$code')");
+										$query_newsletter = mysql_query("INSERT INTO newsletters (email, code_unsubscribe, type) VALUES ('".$email."', '".$code."', 'weekly')");
 									}
 									if ($email_quote_today == '1')
 									{
-										$query = mysql_query("INSERT INTO teen_quotes_settings (param, value) VALUES ('email_quote_today', '$email')");
+										$code = caracteresAleatoires(5);
+										$query = mysql_query("INSERT INTO newsletters (email, code_unsubscribe, type) VALUES ('".$email."', '".$code."', 'daily')");
 									}
 									$message = ''.$email_message;
 									$mail = mail($email, $email_subject, $message, $headers);

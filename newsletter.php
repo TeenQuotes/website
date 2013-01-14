@@ -35,8 +35,8 @@ elseif ($action == "send") // SUBSCRIBE
 	$newsletter = htmlspecialchars($_POST['newsletter']);
 	$email_quote_today = htmlspecialchars($_POST['email_quote_today']);
 
-	$email_quote_today_num_rows = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'"));
-	$is_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletter where email = '$email'"));
+	$email_quote_today_num_rows = mysql_num_rows(mysql_query("SELECT id FROM newsletters WHERE email = '".$email."' AND type = 'daily'"));
+	$is_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletters WHERE email = '".$email."' AND type = 'weekly'"));
 
 	if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 	{
@@ -44,7 +44,7 @@ elseif ($action == "send") // SUBSCRIBE
 		if ($newsletter == '1' AND $is_newsletter == 0)
 		{
 			$code = caracteresAleatoires(5);
-			$query = mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");
+			$query = mysql_query("INSERT INTO newsletters (email, code_unsubscribe, type) VALUES ('".$email."','".$code."', 'weekly')");
 			if ($query) 
 			{
 				echo $succes_newsletter;
@@ -63,7 +63,8 @@ elseif ($action == "send") // SUBSCRIBE
 		// DAILY NEWSLETTER
 		if ($email_quote_today == '1' AND $email_quote_today_num_rows == 0)
 		{
-			$query = mysql_query("INSERT INTO teen_quotes_settings (param,value) VALUES ('email_quote_today','$email')");
+			$code = caracteresAleatoires(5);
+			$query = mysql_query("INSERT INTO newsletters (email, code_unsubscribe, type) VALUES ('".$email."', '".$code."', 'daily')");
 			if ($query) 
 			{
 				if ($notifications_succes != TRUE)
@@ -89,15 +90,15 @@ elseif ($action == "send") // SUBSCRIBE
 }	
 elseif ($action == "unsubscribe")  // DESINSCRIPTION
 { 
-	$email = htmlspecialchars($_GET['email']);
-	$code = htmlspecialchars($_GET['code']);
+	$email = mysql_real_escape_string($_GET['email']);
+	$code = mysql_real_escape_string($_GET['code']);
 
-	if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
+	if (!empty($email) AND !empty($code) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 	{
-		$num_rows = mysql_num_rows(mysql_query("SELECT id FROM newsletter WHERE email='$email' AND code='$code'")); 
+		$num_rows = mysql_num_rows(mysql_query("SELECT id FROM newsletters WHERE email = '".$email."' AND code_unsubscribe = '".$code."' AND type = 'weekly'")); 
 		if ($num_rows == 1) 
 		{
-			$query = mysql_query("DELETE FROM newsletter WHERE email='$email'");
+			$query = mysql_query("DELETE FROM newsletters WHERE email = '".$email."' AND code_unsubscribe = '".$code."' AND type = 'weekly'");
 			if ($query) 
 			{
 				echo $succes_unsuscribe;
@@ -119,15 +120,16 @@ elseif ($action == "unsubscribe")  // DESINSCRIPTION
 }	
 elseif ($action == "unsubscribe_everyday")  // DESINSCRIPTION
 { 
-	$email = htmlspecialchars($_GET['email']);
+	$email = mysql_real_escape_string($_GET['email']);
+	$code = mysql_real_escape_string($_GET['code']);
 
-	if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
+	if (!empty($email) AND !empty($code) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 	{
-		$num_rows = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'")); 
+		$num_rows = mysql_num_rows(mysql_query("SELECT id FROM newsletters WHERE email = '".$email."' AND code_unsubscribe = '".$code."' AND type = 'daily'")); 
 
 		if ($num_rows == 1) 
 		{
-			$query = mysql_query("DELETE FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'");
+			$query = mysql_query("DELETE FROM newsletters WHERE email = '".$email."' AND code_unsubscribe = '".$code."' AND type = 'daily'");
 			if ($query) 
 			{
 				echo $succes_unsuscribe_everyday;

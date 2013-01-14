@@ -87,7 +87,7 @@ elseif ($action == 'send')
 			$message .= "\r\n";
 			$message .= '------------------ Message sent from www.'.$domaine.' ------------------';
 			
-			if(mail("support@teen-quotes.com", stripslashes($sujet), stripslashes($message), $headers))
+			if(mail("antoine.augusti@gmail.com", stripslashes($sujet), stripslashes($message), $headers))
 			{ 
 				echo $succes.' '.$send_succes.' (<a href="mailto:'.$email.'">'.$email.'</a>)';
 			}

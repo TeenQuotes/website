@@ -6,8 +6,8 @@ $result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account where
 $pass1 = htmlspecialchars(mysql_real_escape_string($_POST['pass1']));
 $pass2 = htmlspecialchars(mysql_real_escape_string($_POST['pass2']));
 
-$email_quote_today_num_rows = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'"));
-$is_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletter where email = '$email'"));
+$email_quote_today_num_rows = mysql_num_rows(mysql_query("SELECT id FROM newsletters WHERE email = '".$email."' AND type = 'daily'"));
+$is_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletters WHERE email = '".$email."' AND type = 'weekly'"));
 $notification_comment_quote = $result['notification_comment_quote'];
 
 if ($action == "delete_account")
@@ -339,7 +339,7 @@ elseif ($action == "settings")
 		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 		{
 			$code = caracteresAleatoires(5);
-			$query=mysql_query("INSERT INTO newsletter (email,code) VALUES ('$email','$code')");
+			$query = mysql_query("INSERT INTO newsletters (email, code_unsubscribe, type) VALUES ('".$email."', '".$code."', 'weekly')");
 			if ($query) 
 			{
 				echo $settings_updated;
@@ -359,7 +359,7 @@ elseif ($action == "settings")
 	{
 		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 		{
-			$query = mysql_query("DELETE FROM newsletter WHERE email = '$email'");
+			$query = mysql_query("DELETE FROM newsletters WHERE email = '".$email."' AND type = 'weekly'");
 			if ($query) 
 			{
 				echo $settings_updated;
@@ -381,7 +381,8 @@ elseif ($action == "settings")
 	{
 		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 		{
-			$query = mysql_query("INSERT INTO teen_quotes_settings (param,value) VALUES ('email_quote_today','$email')");
+			$code = caracteresAleatoires(5);
+			$query = mysql_query("INSERT INTO newsletters (email, code_unsubscribe, type) VALUES ('".$email."', '".$code."', 'daily')");
 			if ($query) 
 			{
 				if ($notifications_succes != TRUE)
@@ -404,7 +405,7 @@ elseif ($action == "settings")
 	{
 		if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 		{
-			$query = mysql_query("DELETE FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '$email'");
+			$query = mysql_query("DELETE FROM newsletters WHERE email = '".$email."' AND type = 'daily'");
 			if ($query) 
 			{
 				if ($notifications_succes != TRUE)
@@ -596,11 +597,10 @@ elseif ($action == "delete_account_valide")
 			$delete_comments = mysql_query("DELETE FROM teen_quotes_comments WHERE auteur_id = '".$_SESSION['id']."'");
 			$delete_favorites = mysql_query("DELETE FROM teen_quotes_favorite WHERE id_user = '".$_SESSION['id']."'");
 			$delete_visitors = mysql_query("DELETE FROM teen_quotes_visitors WHERE id_visitor = '".$_SESSION['id']."'");
-			$delete_newsletter = mysql_query("DELETE FROM newsletter WHERE email = '".$_SESSION['email']."'");
-			$delete_newsletter_quotidienne = mysql_query("DELETE FROM teen_quotes_settings WHERE param = 'email_quote_today' AND value = '".$_SESSION['email']."'");
+			$delete_newsletter = mysql_query("DELETE FROM newsletters WHERE email = '".$_SESSION['email']."'");
 			$delete_account = mysql_query("DELETE FROM teen_quotes_account WHERE id = '".$_SESSION['id']."'");
 			
-			if ($delete_account AND $delete_newsletter_quotidienne AND $delete_visitors AND $delete_favorites AND $delete_comments AND $update_quote)
+			if ($delete_account AND $delete_visitors AND $delete_favorites AND $delete_comments AND $update_quote)
 			{
 				$update_statut = mysql_query("UPDATE delete_account SET statut = '1' WHERE code = '".$code."'");
 				echo $succes.' '.$account_deleted_successfully;

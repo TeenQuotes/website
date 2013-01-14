@@ -236,7 +236,7 @@ function update_stats ($language)
 	$nb_members_has_favorite_quotes = mysql_num_rows(mysql_query("SELECT DISTINCT A.id FROM teen_quotes_account A, teen_quotes_favorite F WHERE A.id IN (F.id_user)"));
 	$nb_members_no_favorite_quotes = $total_members - $nb_members_has_favorite_quotes;
 	$nb_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletter"));
-	$nb_members_newsletter = mysql_num_rows(mysql_query("SELECT a.id FROM teen_quotes_account a, newsletter n WHERE a.email = n.email"));
+	$nb_members_newsletter = mysql_num_rows(mysql_query("SELECT DISTINCT(a.id) FROM teen_quotes_account a, newsletters n WHERE a.email = n.email"));
 	$nb_no_members_newsletter = $nb_newsletter - $nb_members_newsletter;
 
 	$query_location_signup = mysql_query("SELECT COUNT(*) as tot, location_signup FROM teen_quotes_account GROUP BY location_signup ORDER BY tot DESC");
@@ -1252,22 +1252,24 @@ function MailPostedToday ($id_quote)
 
 		$today = date("d/m/Y");
 		$nb_email_send = 0;
-		$search_email = mysql_query("SELECT value FROM teen_quotes_settings WHERE param = 'email_quote_today'");
+		$search_email = mysql_query("SELECT email, code_unsubscribe FROM newsletters WHERE type = 'daily'");
 
 		while ($donnees = mysql_fetch_array($search_email))
 		{
-			$email = $donnees['value'];
+			$email = $donnees['email'];
+			$code = $donnees['code_unsubscribe'];
+
 			if ($domaine == $domain_en)
 			{
 				$email_subject = 'Quotes of the day';
 				$message = ''.$top_mail.'Here are the quotes posted today ('.$today.'):<br/><br/>'.$email_txt.$end_mail;
-				$message .= '<br/><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsubscribe, please follow <a href="http://'.$domaine.'/newsletter.php?action=unsubscribe_everyday&email='.$email.'" target="_blank"> this link</a>.</span>';
+				$message .= '<br/><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsubscribe, please follow <a href="http://'.$domaine.'/newsletter.php?action=unsubscribe_everyday&email='.$email.'&code='.$code.'" target="_blank"> this link</a>.</span>';
 			}
 			elseif ($domaine == $domain_fr)
 			{
 				$email_subject = 'Citations du jour';
 				$message = ''.$top_mail.'Voici les citations publiées aujourd\'hui ('.$today.') :<br/><br/>'.$email_txt.$end_mail;
-				$message .= '<br/><span style="font-size:80%">Cet email a été envoyé à votre adresse ('.$email.') car vous êtes inscrit à la newsletter. Si vous souhaitez vous désinscrire, cliquez sur <a href="http://'.$domaine.'/newsletter.php?action=unsubscribe_everyday&email='.$email.'" target="_blank"> ce lien</a>.</span>.';
+				$message .= '<br/><span style="font-size:80%">Cet email a été envoyé à votre adresse ('.$email.') car vous êtes inscrit à la newsletter. Si vous souhaitez vous désinscrire, cliquez sur <a href="http://'.$domaine.'/newsletter.php?action=unsubscribe_everyday&email='.$email.'&code='.$code.'" target="_blank"> ce lien</a>.</span>.';
 			}
 
 			$mail = mail($email, $email_subject.' - '.$today, $message, $headers);
