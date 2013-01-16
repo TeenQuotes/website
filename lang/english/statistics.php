@@ -29,3 +29,6 @@ $unapproved_quotes = "Unapproved quotes";
 $approved_quotes = "Approved quotes";
 $txt_total_quotes = "Total quotes";
 $quotes_over_time = "Quotes over time";
+$comments = "Comments";
+$comments_over_time = "Comments over time";
+$number_of_comments = "Number of comments";

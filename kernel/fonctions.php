@@ -462,9 +462,43 @@ function update_stats ($language)
         };
     var chart = new google.visualization.LineChart(document.getElementById('quotes_time'));
         chart.draw(data, options);
+    }
+
+    function comments_over_time() {
+		 var data = google.visualization.arrayToDataTable([
+		 	['Date', '".$number_of_comments."'],";
+	$timestamp = 1285884000;
+	while ($timestamp < time())
+	{
+		$timestamp = strtotime("+1 month", $timestamp);
+
+		if ($timestamp < time())
+		{
+			$query = mysql_query("	SELECT COUNT(id) AS tot
+									FROM teen_quotes_comments
+									WHERE UNIX_TIMESTAMP(timestamp_created) <= '".$timestamp."'");
+			while ($data = mysql_fetch_array($query))
+			{
+				$nb_tot = $data['tot'];
+			}
+
+			$time_txt = date('m/y', $timestamp);
+
+			$graph_stats_js .= "['".$time_txt."', ".$nb_tot."],";
+		}
+	}
+
+	$graph_stats_js .= " 
+	]);
+	var options = {
+          title: '".$comments_over_time."'
+        };
+    var chart = new google.visualization.LineChart(document.getElementById('graph_comments_time'));
+        chart.draw(data, options);
     }";
 
     $graph_stats_js .= "
+    google.setOnLoadCallback(comments_over_time);
 	google.setOnLoadCallback(graph_quotes);
 	google.setOnLoadCallback(graph_empty_profile); 
 	google.setOnLoadCallback(graph_newsletter); 

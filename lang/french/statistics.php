@@ -29,3 +29,6 @@ $unapproved_quotes = "Citations rejetées";
 $approved_quotes = "Citations approuvées";
 $txt_total_quotes = "Nombre total de citations";
 $quotes_over_time = "Citation en fonction du temps";
+$comments = "Commentaires";
+$comments_over_time = "Commentaires en fonction du temps";
+$number_of_comments = "Nombre de commentaires";
