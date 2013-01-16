@@ -47,7 +47,7 @@ else
 		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domaine; ?>/images/favicon.png"/>
 		<meta property="og:image" content="http://<?php echo $domaine; ?>/images/icon50.png" /> 
 		
-		<script src="//code.jquery.com/jquery-latest.min.js"></script>
+		<script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
 		
 		<?php
 		if ($php_self == "statistics")
