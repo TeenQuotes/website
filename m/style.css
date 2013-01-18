@@ -163,22 +163,6 @@ a .fb_share {
 	margin-top: 8px;
 	float: right;
 }
-span.icone_flags {
-	background:url('http://teen-quotes.com/images/icones/sprite_menu.png');
-	display:inline-block;
-	vertical-align:top;
-}
-span.icone_flags.english {
-	background-position:-15px 0;
-	height:14px;
-	margin-right:20px;
-	width:14px;
-}
-span.icone_flags.french {
-	background-position:-30px 0;
-	height:14px;
-	width:14px;
-}
 .bleu {
 	color:#374DA2;
 }

@@ -63,10 +63,10 @@ else
 <body>
 <div id="topbar">
 	<a href="../"><img src="http://<?php echo $domaine; ?>/images/logo_<?php echo $name_logo; ?>.png" height="30px" alt="Logo <?php echo $name_website; ?>" /></a>
-	<span id="flags">
+	<!--<span id="flags">
 		<a href="http://teen-quotes.com" title="View the english version"><span class="icone_flags english"></span></a>
 		<a href="http://kotado.fr" title="Voir la version française"><span class="icone_flags french"></span></a>
-	</span>
+	</span>-->
 </div><!-- END TOPBAR -->
 
 
