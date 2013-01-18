@@ -235,9 +235,13 @@ function update_stats ($language)
 	$nb_favorite = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_favorite"));
 	$nb_members_has_favorite_quotes = mysql_num_rows(mysql_query("SELECT DISTINCT A.id FROM teen_quotes_account A, teen_quotes_favorite F WHERE A.id IN (F.id_user)"));
 	$nb_members_no_favorite_quotes = $total_members - $nb_members_has_favorite_quotes;
-	$nb_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletters WHERE type = 'weekly'"));
-	$nb_members_newsletter = mysql_num_rows(mysql_query("SELECT DISTINCT(a.id) FROM teen_quotes_account a, newsletters n WHERE a.email = n.email AND n.type = 'weekly'"));
-	$nb_no_members_newsletter = $nb_newsletter - $nb_members_newsletter;
+	$nb_newsletter_query = mysql_query("SELECT COUNT(id) AS tot, type FROM newsletters GROUP BY type ASC");
+	while ($data = mysql_fetch_array($nb_newsletter_query))
+	{
+		$nb_newsletter[$data['type']] = $data['tot'];
+		$nb_newsletter['tot'] += $nb_newsletter[$data['type']];
+	}
+	
 
 	$query_location_signup = mysql_query("SELECT COUNT(*) as tot, location_signup FROM teen_quotes_account GROUP BY location_signup ORDER BY tot DESC");
 
@@ -285,14 +289,14 @@ function update_stats ($language)
 	data.addColumn('string', 'Profile');
 	data.addColumn('number', 'Status');
 	data.addRows(2);
-	data.setValue(0, 0, '".$visitors." : ".$nb_no_members_newsletter."');
-	data.setValue(0, 1, ".$nb_no_members_newsletter.");
-	data.setValue(1, 0, '".$members." : ".$nb_members_newsletter."');
-	data.setValue(1, 1, ".$nb_members_newsletter.");
+	data.setValue(0, 0, '".$daily_newsletter." : ".$nb_newsletter['daily']."');
+	data.setValue(0, 1, ".$nb_newsletter['daily'].");
+	data.setValue(1, 0, '".$weekly_newsletter." : ".$nb_newsletter['weekly']."');
+	data.setValue(1, 1, ".$nb_newsletter['weekly'].");
 
 	// Create and draw the visualization.
 	new google.visualization.PieChart(document.getElementById('graph_newsletter')).
-	draw(data, {title:'".$people_subscribed_newsletter." : ".$nb_newsletter."'});
+	draw(data, {title:'".$people_subscribed_newsletter." : ".$nb_newsletter['tot']."'});
 	}
 
 	function members_favorite_quote() {
@@ -938,7 +942,7 @@ function email_birthday()
 	$txt_file = 'Birthdays on '.$date_today."\r\n\n";
 
 	$query = mysql_query("SELECT username, email, birth_date FROM teen_quotes_account WHERE birth_date LIKE '$date_today'");
-	if (mysql_num_rows($query) >= '1')
+	if (mysql_num_rows($query) >= 1)
 	{
 		while ($donnees = mysql_fetch_array($query))
 		{
