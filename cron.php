@@ -279,6 +279,41 @@ if ($_GET['secret'] == $cron_pass_secret)
 	{
 		update_stats($language);
 	}
+	// New version of the appiOS
+	elseif ($_GET['code'] == 'updateapp')
+	{
+
+		$query = mysql_query("SELECT username, email FROM teen_quotes_account WHERE location_signup = 'appiOS'");
+		$i = 1;
+
+		while ($data = mysql_fetch_array($query))
+		{
+			$username = $data['username'];
+			$email = $data['email'];
+
+			$subject = "New version of the application";
+			$message = 'Hello <font color="#394DAC"><b>'.$username.'</b></font>,<br/>
+			<br/>
+			Thank you for using Teen Quotes everyday. We want to let you know that a new version of the application is out now on the Apple Store.<br/>
+			<br/>
+			This new version includes the following enhancements:<br/>
+			<ul>
+				<li>addition of a bubble on a quote if it had been commented.</li>
+				<li>correction of a bug related to comments.</li>
+				<li>some improvments.</li>
+			</ul>
+			You can update the Teen Quotes\' application right now from the Apple Store or you can go to <a href="'.$link_app_iphone.'">teen-quotes.com/apps</a>.<br/>
+			<br/>
+			We\'d love to hear from you: do not hesitate to contact us if you have any question or any idea at support@teen-quotes.com.<br/>
+			<br/>
+			Best regards,<br/>
+			<b>The Teen Quotes Team</b>';
+
+			mail($email, $subject, $top_mail.$message.$end_mail, $headers);
+			echo '<b>#'.$i.'</b> - '.$email.'<br/>';
+			$i++;
+		}
+	}
 
 	echo 'Hello World.';
 }
