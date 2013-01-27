@@ -155,9 +155,13 @@ a .fb_share {
 }
 .footer_quote {
 	font-size: 80%;
+	position: relative;
 }
 .grey_post .footer_quote {
 	font-size: 60%;
+}
+.edit_comment img {
+	margin-left: 10px;
 }
 #flags {
 	margin-top: 8px;
@@ -449,7 +453,9 @@ input.signup {
 }
 .favorite {
 	opacity:0.5;
-	margin-left:10px
+	position: absolute;
+	left: 80px;
+	top: -1px;
 }
 .favorite:hover {
 	opacity:1
@@ -493,4 +499,31 @@ ul.menu li a {
 	border:1px solid groove;
 	font-weight:400 !important;
 	padding: 2px 4px;
+}
+.box_nb_comments {
+	background: #3C53BD;
+	background: -moz-linear-gradient(top,#3C53BD 0%,#2A3A84 100%);
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#3C53BD),color-stop(100%,#2A3A84));
+	background: -webkit-linear-gradient(top,#3C53BD 0%,#2A3A84 100%);
+	background: -o-linear-gradient(top,#3C53BD 0%,#2A3A84 100%);
+	background: -ms-linear-gradient(top,#3C53BD 0%,#2A3A84 100%);
+	background: linear-gradient(to bottom,#3C53BD 0%,#2A3A84 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3c53bd',endColorstr='#2a3a84',GradientType=0);
+	width: 8px;
+	height: 8px;
+	padding: 3px;
+	display: inline-block;
+	text-align: center;
+	position: absolute;
+	left: 40px;
+	top: 2px;
+	color: #FFF;
+	-webkit-border-radius: 13px;
+	-moz-border-radius: 13px;
+	border-radius: 13px;
+	-moz-box-shadow: 0 1px 6px #888;
+	-webkit-box-shadow: 0 1px 6px #888;
+	box-shadow: 0 1px 6px #888;
+	line-height: 9px;
+	font-size: 9px;
 }

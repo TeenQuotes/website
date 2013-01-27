@@ -45,8 +45,10 @@ else
 ?>
 
 	<div class="post">
-		<?php echo $txt_quote; ?><br/><br/>
-		<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori($id_quote, $is_favorite, $logged);date_et_auteur($auteur_id, $auteur, $date_quote); ?>
+		<?php echo $txt_quote; ?><br/>
+		<div class="footer_quote">
+			<a href="quote-<?php echo $result['id']; ?>">#<?php echo $result['id']; ?></a><?php afficher_favori($id_quote, $is_favorite, $logged);date_et_auteur($auteur_id, $auteur, $date_quote); ?>
+		</div>
 	</div>
 	
 	<?php
@@ -87,7 +89,6 @@ else
 		{
 			$id_comment = $donnees['id'];
 			$id_auteur = $donnees['auteur_id'];
-			$query_avatar = $donnees['avatar'];
 			$avatar = $donnees['avatar'];
 			$texte_stripslashes = stripslashes($donnees['texte']);
 			
@@ -97,7 +98,7 @@ else
 				<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" alt="Avatar" /></a>'; 
 				if ($_SESSION['security_level'] >= 2 OR $id_auteur == $id)
 				{
-					echo '<span class="favorite">';
+					echo '<span class="edit_comment">';
 					if ($id_auteur == $id)
 					{
 						echo '<a href="editcomment-'.$id_comment.'"><img src="http://'.$domaine.'/images/icones/profil.png" class="mini_icone" /></a>';

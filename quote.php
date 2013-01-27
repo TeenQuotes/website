@@ -120,23 +120,23 @@ else
 			
 			echo '
 			<div class="grey_post">
-			'.$texte_stripslashes.'<br/><br/>
-			<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" alt="Avatar" /></a>'; 
-			if ($_SESSION['security_level'] >= 2 OR $id_auteur == $id)
-			{
-				echo '<span class="edit_comment">';
-				if ($id_auteur == $id)
+				'.$texte_stripslashes.'<br/><br/>
+				<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" alt="Avatar" /></a>'; 
+				if ($_SESSION['security_level'] >= 2 OR $id_auteur == $id)
 				{
-					echo '<a href="editcomment-'.$id_comment.'"><img src="http://'.$domaine.'/images/icones/profil.png" class="mini_icone" /></a>';
+					echo '<span class="edit_comment">';
+					if ($id_auteur == $id)
+					{
+						echo '<a href="editcomment-'.$id_comment.'"><img src="http://'.$domaine.'/images/icones/profil.png" class="mini_icone" /></a>';
+					}
+					if ($_SESSION['security_level'] >= '2')
+					{
+						echo '<a href="admin.php?action=delete_comment&id='.$id_comment.'"><img src="http://'.$domaine.'/images/icones/delete.png" class="mini_icone" /></a>';
+					}
+					echo '</span>';
 				}
-				if ($_SESSION['security_level'] >= '2')
-				{
-					echo '<a href="admin.php?action=delete_comment&id='.$id_comment.'"><img src="http://'.$domaine.'/images/icones/delete.png" class="mini_icone" /></a>';
-				}
-				echo '</span>';
-			}
 			
-			echo '<span class="right">'.$by.' <a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'">'.$donnees['auteur'].'</a> '.$on.' '.$donnees['date'].'</span><br/>
+				echo '<span class="right">'.$by.' <a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'">'.$donnees['auteur'].'</a> '.$on.' '.$donnees['date'].'</span><br/>
 			</div>';
 		}
 			

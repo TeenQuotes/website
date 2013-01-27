@@ -868,7 +868,7 @@ function displayQuote ($result, $page, $i, $type='random')
 		<div class="'.$class_div.'">
 			'.$txt_quote.'<br/>
 			<div class="footer_quote">
-				<a href="quote-'.$id_quote.'" title="Quote #'.$id_quote.'">#'.$id_quote.' - '; echo afficher_nb_comments ($nombre_commentaires).'</a>'; echo afficher_favori($id_quote, $is_favorite, $logged); echo date_et_auteur($auteur_id, $auteur, $date_quote).'
+				<a href="quote-'.$id_quote.'" title="Quote #'.$id_quote.'">#'.$id_quote; echo afficher_nb_comments ($nombre_commentaires).'</a>'; echo afficher_favori($id_quote, $is_favorite, $logged); echo date_et_auteur($auteur_id, $auteur, $date_quote).'
 			</div>
 		</div>';
 	}
@@ -1447,17 +1447,9 @@ function afficher_nb_comments ($nombre_commentaires)
 	// Mobile
 	else
 	{
-		if ($nombre_commentaires > 1)
+		if ($nombre_commentaires >= 1)
 		{
-			echo $nombre_commentaires.' '.$comments;
-		}
-		elseif ($nombre_commentaires == 1)
-		{
-			echo $nombre_commentaires.' '.$comment;
-		}
-		else
-		{
-			echo $no_comments;
+			echo '<span class="box_nb_comments">'.$nombre_commentaires.'</span>';
 		}
 	}
 }
