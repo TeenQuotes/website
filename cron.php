@@ -294,7 +294,7 @@ if ($_GET['secret'] == $cron_pass_secret)
 			$subject = "New version of the application";
 			$message = 'Hello <font color="#394DAC"><b>'.$username.'</b></font>,<br/>
 			<br/>
-			Thank you for using Teen Quotes everyday. We want to let you know that a new version of the application is out now on the Apple Store.<br/>
+			Thank you for using Teen Quotes everyday. We want to let you know that a new version of the application is out now on the App Store.<br/>
 			<br/>
 			This new version includes the following enhancements:<br/>
 			<ul>
@@ -302,7 +302,7 @@ if ($_GET['secret'] == $cron_pass_secret)
 				<li>correction of a bug related to comments.</li>
 				<li>some improvments.</li>
 			</ul>
-			You can update the Teen Quotes\' application right now from the Apple Store or you can go to <a href="'.$link_app_iphone.'">teen-quotes.com/apps</a>.<br/>
+			You can update the Teen Quotes\' application right now from the App Store or you can go to <a href="'.$link_app_iphone.'">teen-quotes.com/apps</a>.<br/>
 			<br/>
 			We\'d love to hear from you: do not hesitate to contact us if you have any question or any idea at support@teen-quotes.com.<br/>
 			<br/>
