@@ -1,5 +1,5 @@
 <?php
-$intro_txt = 'With more than 1,600,000 followers on Twitter, nearly 50,000 fans on Facebook and a powerful website, Teen Quotes is a really good opportunity for advertising.<br/>
+$intro_txt = 'With more than 1,900,000 followers on Twitter, nearly 70,000 fans on Facebook and a powerful website, Teen Quotes is a really good opportunity for advertising.<br/>
 <br/>
 We can manage your advertising campaign and make you gain visitors or followers. Please take a look at the following details.';
 
