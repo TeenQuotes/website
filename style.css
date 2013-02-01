@@ -477,7 +477,7 @@ h1,h2,h3 {
 	padding:10px;
 	color:#555;
 	background: url(/images/bg_quote.jpg) repeat-x center bottom, url(/images/bg_post_noise.png);
-	font-family:'Ubuntu';
+	font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
 	line-height:25px;
 	border-bottom:1px solid #CCC;
 	font-size:12px;
