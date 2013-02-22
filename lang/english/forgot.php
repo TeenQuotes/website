@@ -6,7 +6,7 @@ Forgot your login? Do not worry, do not cry right away, our super machine can re
 We only need one thing: the email address used when signing up! And you will be back with us in two short minutes. Cool, isn't it?<br/>
 <br/>
 For this, simply fill out the form below:<br/>";
-$email_adress = "Enter your email adress";
+$email_adress = "Enter your email address";
 $email_use_signup = "Please enter the email address used during registration";
 
 $change_succes1 = "
