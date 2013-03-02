@@ -1644,18 +1644,23 @@ function isDomainValidForAjax ()
 	return (preg_match('/'.$domain_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$domain_en.'/', $_SERVER['SERVER_NAME']));
 }
 
-function getRandomTooltip()
+function arrayToVar ($array)
 {
 	global $domaine, $name_website, $language;
+
+	$domain = $domaine;
+
+	return ${$array[1]};
+}
+
+function getRandomTooltip()
+{
+	global $language;
 
 	$query = mysql_query("SELECT * FROM tooltips ORDER BY RAND() LIMIT 0,1");
 	$data = mysql_fetch_array($query);
 
-	// We replace variables for each website
-	$search = array("%name_website%", "%domain%");
-	$replace = array($name_website, $domaine);
-	// Get the content in the proper language
-	$content = str_replace($search, $replace, $data[$language]);
+	$content = preg_replace_callback("#%([a-zA-Z_]+)%#isU", 'arrayToVar', $data[$language]);
 
 	return $content;
 }
