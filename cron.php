@@ -68,7 +68,8 @@ if ($_GET['secret'] == $cron_pass_secret)
 	{
 		if ($send_monday == "0" AND $day_letter == "Mon") 
 		{ 
-			$message = $top_mail.MailRandomQuote(15).$end_mail;
+			$tooltip = getRandomTooltip();
+			$message = $top_mail.MailRandomQuote(15).'<br/>'.$tooltip.'<br/>'.$end_mail;
 			
 			$today = date("d/m/Y");
 			$i = 0;

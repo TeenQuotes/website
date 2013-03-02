@@ -1307,6 +1307,8 @@ function MailPostedToday ($id_quote)
 
 	if (!empty($id_quote))
 	{
+		$tooltip = getRandomTooltip();
+
 		$id_quote = str_replace(',', '\',\'', $id_quote);
 		$query = mysql_query("SELECT q.id id, q.texte_english texte_english, q.date date, a.username auteur, q.auteur_id auteur_id FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.approved = '1' AND q.id IN ('".$id_quote."') AND q.auteur_id = a.id ORDER BY q.id DESC");
 
@@ -1331,6 +1333,9 @@ function MailPostedToday ($id_quote)
 
 			$email_txt.= '</div>';
 		}
+
+		// Add the tooltip at the end of the email
+		$email_txt .= '<br/>'.$tooltip.'<br/>';
 
 		$today = date("d/m/Y");
 		$nb_email_send = 0;
@@ -1639,6 +1644,21 @@ function isDomainValidForAjax ()
 	return (preg_match('/'.$domain_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$domain_en.'/', $_SERVER['SERVER_NAME']));
 }
 
+function getRandomTooltip()
+{
+	global $domaine, $name_website, $language;
+
+	$query = mysql_query("SELECT * FROM tooltips ORDER BY RAND() LIMIT 0,1");
+	$data = mysql_fetch_array($query);
+
+	// We replace variables for each website
+	$search = array("%name_website%", "%domain%");
+	$replace = array($name_website, $domaine);
+	// Get the content in the proper language
+	$content = str_replace($search, $replace, $data[$language]);
+
+	return $content;
+}
 
 function addMember ($username, $email, $passwordOne, $passwordConfirm)
 {
