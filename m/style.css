@@ -336,9 +336,9 @@ h1,h2,h3 {
 	padding:0px
 }
 .pub_footer {
-	width:100%;
+	width:320px;
 	padding:0px;
-	margin:4px 0 -12px 0;
+	margin:4px auto -12px auto;
 }
 .bandeau_erreur {
 	margin:0 auto 5px;
