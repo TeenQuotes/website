@@ -11,7 +11,7 @@ include 'lang/'.$language.'/edit_profile.php';
 
 echo '
 <div class="post">
-<h1><img src="http://'.$domaine.'/images/icones/mail.png" class="icone" />'.$newsletter.'</h1>
+<h1><img src="http://'.$domain.'/images/icones/mail.png" class="icone" />'.$newsletter.'</h1>
 ';
 if (empty($action)) 
 { 

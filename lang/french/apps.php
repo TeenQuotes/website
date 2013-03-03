@@ -23,7 +23,7 @@ Ne quittez plus jamais '.$name_website.'. Gratuite, facile à utiliser et rapide
 	<li>Ajoutez des citations à vos favoris.</li>
 	<li>Recherchez des utilisateurs ou des citations.</li>
 </ul>
-La version mobile est disponible à l\'adresse <b>m.'.$domaine.'</b> depuis votre smartphone !';
+La version mobile est disponible à l\'adresse <b>m.'.$domain.'</b> depuis votre smartphone !';
 
-$app_iphone_not_available = '<br/><img src="http://'.$domaine.'/images/icones/erreur.png" class="mini_icone" alt="Icone" />L\'application iPhone n\'est pas encore disponible.<br/>';
-$app_android_not_available = '<br/><img src="http://'.$domaine.'/images/icones/erreur.png" class="mini_icone" alt="Icone" />L\'application Android n\'est pas encore disponible.<br/>';
+$app_iphone_not_available = '<br/><img src="http://'.$domain.'/images/icones/erreur.png" class="mini_icone" alt="Icone" />L\'application iPhone n\'est pas encore disponible.<br/>';
+$app_android_not_available = '<br/><img src="http://'.$domain.'/images/icones/erreur.png" class="mini_icone" alt="Icone" />L\'application Android n\'est pas encore disponible.<br/>';

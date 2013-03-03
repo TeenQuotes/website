@@ -23,7 +23,7 @@ Do not ever leave '.$name_website.'. Free, easy to use and fast, the mobile webs
 	<li>Search for users and quotes.</li>
 </ul>
 <br/>
-The mobile website is available at <b>m.'.$domaine.'</b> right from your smartphone!';
+The mobile website is available at <b>m.'.$domain.'</b> right from your smartphone!';
 
-$app_iphone_not_available = '<br/><img src="http://'.$domaine.'/images/icones/erreur.png" class="mini_icone" alt="Icone" />The iPhone application is not yet available.<br/>';
-$app_android_not_available = '<br/><img src="http://'.$domaine.'/images/icones/erreur.png" class="mini_icone" alt="Icone" />The Android application is not yet available.<br/>';
+$app_iphone_not_available = '<br/><img src="http://'.$domain.'/images/icones/erreur.png" class="mini_icone" alt="Icone" />The iPhone application is not yet available.<br/>';
+$app_android_not_available = '<br/><img src="http://'.$domain.'/images/icones/erreur.png" class="mini_icone" alt="Icone" />The Android application is not yet available.<br/>';

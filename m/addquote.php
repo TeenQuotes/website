@@ -23,7 +23,7 @@ elseif ($action == "add_quote")
 {
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />'.$add_quote.'</h2>
+	<h2><img src="http://'.$domain.'/images/icones/add.png" class="icone" />'.$add_quote.'</h2>
 	';
 	
 	$texte_quote= ucfirst(htmlspecialchars(mysql_real_escape_string($_POST['texte_quote'])));

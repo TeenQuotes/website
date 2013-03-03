@@ -2,9 +2,9 @@
 function domaine()
 {
 	// Grant access to these variables
-	global $domaine, $name_website;
+	global $domain, $name_website;
 
-	return array($domaine, $name_website);
+	return array($domain, $name_website);
 }
 
 // Used for SQL balacing
@@ -13,14 +13,14 @@ require 'database.php';
 if (isset($_GET['co'])) 
 {
 	$data = domaine();
-	$domaine = $data[0];
+	$domain = $data[0];
 	$name_website = $data[1];
 
 	$pseudo = $_SESSION['username'];		
 	$passwd = $_SESSION['passwd'];
 
-	setcookie("Pseudo", $pseudo, time() + (((3600*24)*30)*12), null, '.'.$domaine, FALSE, TRUE);
-	setcookie("Pass", $passwd, time() + (((3600*24)*30)*12), null, '.'.$domaine, FALSE, TRUE);
+	setcookie("Pseudo", $pseudo, time() + (((3600*24)*30)*12), null, '.'.$domain, FALSE, TRUE);
+	setcookie("Pass", $passwd, time() + (((3600*24)*30)*12), null, '.'.$domain, FALSE, TRUE);
 
 	unset($_SESSION['passwd']);
 	// redirection
@@ -43,7 +43,7 @@ function deconnexion()
 	global $download_app;
 	
 	$data = domaine();
-	$domaine = $data[0];
+	$domain = $data[0];
 	$name_website = $data[1];
 
 	if (($_SESSION['security_level'] >= 2 OR $download_app) AND !isUrlMobile())
@@ -63,9 +63,9 @@ function deconnexion()
 	$_SESSION = array();
 	session_destroy();
 	// Delete the cookies
-	setcookie("Pseudo", "Yo", time()-4200, null, '.'.$domaine, FALSE, TRUE);
-	setcookie("Pass", "Yo", time()-4200, null, '.'.$domaine, FALSE, TRUE);
-	setcookie("PHPSESSID", "Yo", time()-4200, null, '.'.$domaine, FALSE, TRUE);
+	setcookie("Pseudo", "Yo", time()-4200, null, '.'.$domain, FALSE, TRUE);
+	setcookie("Pass", "Yo", time()-4200, null, '.'.$domain, FALSE, TRUE);
+	setcookie("PHPSESSID", "Yo", time()-4200, null, '.'.$domain, FALSE, TRUE);
 	setcookie("Pass", "Yo", time()-4200);
 	setcookie("PHPSESSID", "Yo", time()-4200);
 	setcookie("Pseudo", "Yo", time()-4200);
@@ -180,10 +180,10 @@ function update_stats ($language)
 	global $domain_en, $domain_fr;
 
 	$data = domaine();
-	$domaine = $data[0];
+	$domain = $data[0];
 	$name_website = $data[1];
 	
-	if ($domaine == $domain_en)
+	if ($domain == $domain_en)
 	{
 		if ($language == "english")
 		{
@@ -787,7 +787,7 @@ function is_quote_new($date_quote, $last_visit, $page, $compteur_quote)
 
 function display_individual_story ($data)
 {
-	global $tell_us_your_story, $tell_us_how_you_use, $domaine, $story;
+	global $tell_us_your_story, $tell_us_how_you_use, $domain, $story;
 
 	$id_story = $data['id_story'];
 	$txt_represent = $data['txt_represent'];
@@ -799,8 +799,8 @@ function display_individual_story ($data)
 
 	echo '
 	<div class="grey_post post_individual_story">
-		<h2 class="blue"><a href="//stories.'.$domaine.'/story/'.$id_story.'" title="'.$story.' '.$id_story.'">#'.$id_story.'</a> - <a href="//'.$domaine.'/user-'.$id_user_story.'" title="'.$username.'">'.$username_story.'</a><span class="right date_story">'.$date.'</span></h2>
-		<a href="//'.$domaine.'/user-'.$id_user_story.'" title="'.$username.'"><img src="//'.$domaine.'/images/avatar/'.$avatar_story.'" class="story_avatar avatar_individual_story fade_on_hover" alt="'.$username.'"/></a>
+		<h2 class="blue"><a href="//stories.'.$domain.'/story/'.$id_story.'" title="'.$story.' '.$id_story.'">#'.$id_story.'</a> - <a href="//'.$domain.'/user-'.$id_user_story.'" title="'.$username.'">'.$username_story.'</a><span class="right date_story">'.$date.'</span></h2>
+		<a href="//'.$domain.'/user-'.$id_user_story.'" title="'.$username.'"><img src="//'.$domain.'/images/avatar/'.$avatar_story.'" class="story_avatar avatar_individual_story fade_on_hover" alt="'.$username.'"/></a>
 		<div class="story_description no_limit_height">
 			<h3>'.$tell_us_your_story.'</h3>
 			<div class="dark_gray light_shadow tell_story">
@@ -880,7 +880,7 @@ function flush_quotes ()
 	include "config.php";
 
 	$data = domaine();
-	$domaine = $data[0];
+	$domain = $data[0];
 	$name_website = $data[1];
 
 	$date_quote = date("d/m/Y");
@@ -904,14 +904,14 @@ function flush_quotes ()
 
 		if ($approve_quote AND !empty($email_auteur)) 
 		{
-			if ($domaine == $domain_en)
+			if ($domain == $domain_en)
 			{
 				$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Your quote has been <font color="#394DAC"><b>approved</b></font> recently by a member of our team ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Congratulations !<br/><br/>Your quote is now visible on our website. You can share it or comment it if you want !<br/><br/><br/>If you want to see your quote, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">click here</a>.<br/><br/><br/>Sincerely,<br/><b>The Teen Quotes Team</b><br/><br/><br/><div style="border-top:1px dashed #CCCCCC"></div><br/><br/>VERSION FRANCAISE :<br/><br/>Bonjour <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Votre citation a été récemment <font color="#394DAC"><b>approuvée</b></font> par un membre de notre équipe ! <div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Congratulations !<br/><br/>Votre citation est maintenant visible sur Teen Quotes. Vous pouvez dès à présent la partager ou la commenter si vous le souhaitez !<br/><br/><br/>Si vous voulez voir votre citation, <a href="http://teen-quotes.com/quote-'.$id_quote.'" target="_blank">cliquez ici</a>.<br/><br/><br/>Cordialement,<br/><b>The Teen Quotes Team</b> '.$end_mail;
 				$mail = mail($email_auteur, "Quote approved", $message, $headers);
 			}
-			elseif ($domaine == $domain_fr)
+			elseif ($domain == $domain_fr)
 			{
-				$message = "$top_mail Bonjour <font color=\"#394DAC\"><b>$name_auteur</b></font> !<br/><br/>Votre citation a été récemment <font color=\"#394DAC\"><b>approuvée</b></font> par un membre de notre équipe ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br/><br/><a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">par <a href=\"http://".$domaine."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> le $date_quote</span></div>Congratulations !<br/><br/>Votre citation est maintenant visible sur Kotado. Vous pouvez dès à  présent la partager ou la commenter si vous le souhaitez !<br/><br/><br/>Si vous voulez voir votre citation, <a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">cliquez ici</a>.<br/><br/><br/>Cordialement,<br/><b>The Kotado Team</b><br/><br/><br/><div style=\"border-top:1px dashed #CCCCCC\"></div><br/><br/>ENGLISH VERSION :<br/><br/>Hello <font color=\"#394DAC\"><b>$name_auteur</b></font> !<br/><br/>Your quote has been <font color=\"#394DAC\"><b>approved</b></font> recently by a member of our team ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br/><br/><a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">by <a href=\"http://".$domaine."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> on $date_quote</span></div>Congratulations !<br/><br/>Your quote is now visible on our website. You can share it or comment it if you want !<br/><br/><br/>If you want to see your quote, <a href=\"http://".$domaine."/quote-$id_quote\" target=\"_blank\">click here</a>.<br/><br/><br/>Sincerely,<br/><b>The Kotado Team</b><br/><br/><br/>$end_mail";
+				$message = "$top_mail Bonjour <font color=\"#394DAC\"><b>$name_auteur</b></font> !<br/><br/>Votre citation a été récemment <font color=\"#394DAC\"><b>approuvée</b></font> par un membre de notre équipe ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br/><br/><a href=\"http://".$domain."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">par <a href=\"http://".$domain."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> le $date_quote</span></div>Congratulations !<br/><br/>Votre citation est maintenant visible sur Kotado. Vous pouvez dès à  présent la partager ou la commenter si vous le souhaitez !<br/><br/><br/>Si vous voulez voir votre citation, <a href=\"http://".$domain."/quote-$id_quote\" target=\"_blank\">cliquez ici</a>.<br/><br/><br/>Cordialement,<br/><b>The Kotado Team</b><br/><br/><br/><div style=\"border-top:1px dashed #CCCCCC\"></div><br/><br/>ENGLISH VERSION :<br/><br/>Hello <font color=\"#394DAC\"><b>$name_auteur</b></font> !<br/><br/>Your quote has been <font color=\"#394DAC\"><b>approved</b></font> recently by a member of our team ! <div style=\"background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px\">$texte_quote<br/><br/><a href=\"http://".$domain."/quote-$id_quote\" target=\"_blank\">#$id_quote</a><span style=\"float:right\">by <a href=\"http://".$domain."/user-$auteur_id\" target=\"_blank\">$name_auteur</a> on $date_quote</span></div>Congratulations !<br/><br/>Your quote is now visible on our website. You can share it or comment it if you want !<br/><br/><br/>If you want to see your quote, <a href=\"http://".$domain."/quote-$id_quote\" target=\"_blank\">click here</a>.<br/><br/><br/>Sincerely,<br/><b>The Kotado Team</b><br/><br/><br/>$end_mail";
 				$mail = mail($email_auteur, "Citation approuvée", $message, $headers);
 			}
 		}
@@ -933,7 +933,7 @@ function email_birthday()
 	include 'config.php';
 
 	$data = domaine();
-	$domaine = $data[0];
+	$domain = $data[0];
 	$name_website = $data[1];
 
 	$date_today = date("d/m");
@@ -950,7 +950,7 @@ function email_birthday()
 			$username = ucfirst($donnees['username']);
 			$age = age($donnees['birth_date']);
 
-			if ($domaine == $domain_en)
+			if ($domain == $domain_en)
 			{
 				$email_subject = 'Happy birthday '.$username.'!';
 				$email_message = $top_mail.'
@@ -963,7 +963,7 @@ function email_birthday()
 				Best regards,<br/>
 				The <b>'.$name_website.' Team</b>'.$end_mail;
 			}
-			elseif ($domaine == $domain_fr)
+			elseif ($domain == $domain_fr)
 			{
 				$email_subject = 'Joyeux anniversaire '.$username.' !';
 				$email_message = $top_mail.'
@@ -1267,7 +1267,7 @@ function MailRandomQuote ($nombre)
 	global $domain_en, $domain_fr;
 
 	$data = domaine();
-	$domaine = $data[0];
+	$domain = $data[0];
 	$name_website = $data[1];
 
 	$query = mysql_query('SELECT q.id, q.texte_english texte_english,q.date date, a.username auteur, q.auteur_id auteur_id FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.approved = 1 AND q.auteur_id = a.id ORDER BY RAND() LIMIT '.$nombre.'');
@@ -1282,13 +1282,13 @@ function MailRandomQuote ($nombre)
 
 		$email_txt.= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">';
 
-		if ($domaine == $domain_en)
+		if ($domain == $domain_en)
 		{
-			$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';	
+			$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domain.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domain.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';	
 		}
-		elseif ($domaine == $domain_fr)
+		elseif ($domain == $domain_fr)
 		{
-			$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> le '.$date.'</span></div>';
+			$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domain.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://'.$domain.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> le '.$date.'</span></div>';
 		}
 
 		$email_txt.= '</div>';
@@ -1302,7 +1302,7 @@ function MailPostedToday ($id_quote)
 	include "config.php";
 
 	$data = domaine();
-	$domaine = $data[0];
+	$domain = $data[0];
 	$name_website = $data[1];
 
 	if (!empty($id_quote))
@@ -1322,13 +1322,13 @@ function MailPostedToday ($id_quote)
 
 			$email_txt.= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">';
 
-			if ($domaine == $domain_en)
+			if ($domain == $domain_en)
 			{
-				$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';	
+				$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domain.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domain.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';	
 			}
-			elseif ($domaine == $domain_fr)
+			elseif ($domain == $domain_fr)
 			{
-				$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domaine.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://'.$domaine.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> le '.$date.'</span></div>';
+				$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domain.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://'.$domain.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> le '.$date.'</span></div>';
 			}
 
 			$email_txt.= '</div>';
@@ -1346,17 +1346,17 @@ function MailPostedToday ($id_quote)
 			$email = $donnees['email'];
 			$code = $donnees['code_unsubscribe'];
 
-			if ($domaine == $domain_en)
+			if ($domain == $domain_en)
 			{
 				$email_subject = 'Quotes of the day';
 				$message = ''.$top_mail.'Here are the quotes posted today ('.$today.'):<br/><br/>'.$email_txt.$end_mail;
-				$message .= '<br/><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsubscribe, please follow <a href="http://'.$domaine.'/newsletter.php?action=unsubscribe_everyday&email='.$email.'&code='.$code.'" target="_blank"> this link</a>.</span>';
+				$message .= '<br/><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsubscribe, please follow <a href="http://'.$domain.'/newsletter.php?action=unsubscribe_everyday&email='.$email.'&code='.$code.'" target="_blank"> this link</a>.</span>';
 			}
-			elseif ($domaine == $domain_fr)
+			elseif ($domain == $domain_fr)
 			{
 				$email_subject = 'Citations du jour';
 				$message = ''.$top_mail.'Voici les citations publiées aujourd\'hui ('.$today.') :<br/><br/>'.$email_txt.$end_mail;
-				$message .= '<br/><span style="font-size:80%">Cet email a été envoyé à votre adresse ('.$email.') car vous êtes inscrit à la newsletter. Si vous souhaitez vous désinscrire, cliquez sur <a href="http://'.$domaine.'/newsletter.php?action=unsubscribe_everyday&email='.$email.'&code='.$code.'" target="_blank"> ce lien</a>.</span>.';
+				$message .= '<br/><span style="font-size:80%">Cet email a été envoyé à votre adresse ('.$email.') car vous êtes inscrit à la newsletter. Si vous souhaitez vous désinscrire, cliquez sur <a href="http://'.$domain.'/newsletter.php?action=unsubscribe_everyday&email='.$email.'&code='.$code.'" target="_blank"> ce lien</a>.</span>.';
 			}
 
 			$mail = mail($email, $email_subject.' - '.$today, $message, $headers);
@@ -1375,17 +1375,17 @@ function cut_tweet ($chaine)
 	global $domain_en, $domain_fr;
 
 	$data = domaine();
-	$domaine = $data[0];
+	$domain = $data[0];
 	$name_website = $data[1];
 
 	$lg_max = 117;
 
-	if ($domaine == $domain_en)
+	if ($domain == $domain_en)
 	{
 		$longueur_max_ajout_twitter = 105;
 		$username_twitter = '@ohteenquotes';
 	}
-	elseif ($domaine == $domain_fr)
+	elseif ($domain == $domain_fr)
 	{
 		$longueur_max_ajout_twitter = 108;
 		$username_twitter = '@Kotado_';	
@@ -1497,12 +1497,12 @@ function share_fb_twitter ($id_quote, $txt_quote)
 	global $share;
 
 	$data = domaine();
-	$domaine = $data[0];
+	$domain = $data[0];
 	$name_website = $data[1];
 
 	$txt_tweet = cut_tweet($txt_quote);
-	$url_encode = urlencode('http://'.$domaine.'/quote-'.$id_quote.'');
-	echo '<div class="share_fb_twitter"><span class="fade_jquery"><iframe src="//www.facebook.com/plugins/like.php?href= '.$url_encode.'&amp;send=FALSE&amp;layout=button_count&amp;width=110&amp;show_faces=FALSE&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="TRUE"></iframe></span><span class="right fade_jquery"><a href="http://twitter.com/share?url=http://'.$domaine.'/quote-'.$id_quote.'&text='.$txt_tweet.'" class="twitter-share-button" data-count="none">Tweet</a></span></div>';
+	$url_encode = urlencode('http://'.$domain.'/quote-'.$id_quote.'');
+	echo '<div class="share_fb_twitter"><span class="fade_jquery"><iframe src="//www.facebook.com/plugins/like.php?href= '.$url_encode.'&amp;send=FALSE&amp;layout=button_count&amp;width=110&amp;show_faces=FALSE&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="TRUE"></iframe></span><span class="right fade_jquery"><a href="http://twitter.com/share?url=http://'.$domain.'/quote-'.$id_quote.'&text='.$txt_tweet.'" class="twitter-share-button" data-count="none">Tweet</a></span></div>';
 }
 
 function date_et_auteur ($auteur_id, $auteur, $date_quote) 
@@ -1545,10 +1545,10 @@ function nl2br_to_textarea ($texte)
 if (isset($_GET['mobile'])) 
 {
 	$data = domaine();
-	$domaine = $data[0];
+	$domain = $data[0];
 	$name_website = $data[1];
 
-	setcookie("mobile", 1 , time() + (((3600*24)*30)*12), null, '.'.$domaine.'', FALSE, TRUE);
+	setcookie("mobile", 1 , time() + (((3600*24)*30)*12), null, '.'.$domain.'', FALSE, TRUE);
 }
 
 function getSubDomain ()
@@ -1570,17 +1570,17 @@ function mobile_device_detect ()
 	
 	// Get the main domain
 	$data = domaine();
-	$domaine = $data[0];
+	$domain = $data[0];
 	$name_website = $data[1];
 
 	// Do not redirect when we hit a restricted subdomain
 	if (subDomainIsRestricted(getSubDomain()))
 	{
-		$redirect_mobile = 'http://m.'.$domaine.'/'.getSubDomain();
+		$redirect_mobile = 'http://m.'.$domain.'/'.getSubDomain();
 	}  
 	else
 	{
-		$redirect_mobile = 'http://m.'.$domaine.$_SERVER['REQUEST_URI'];
+		$redirect_mobile = 'http://m.'.$domain.$_SERVER['REQUEST_URI'];
 	}
 
 	// Grant access to the link for the iOS app and Android app
@@ -1647,9 +1647,7 @@ function isDomainValidForAjax ()
 
 function arrayToVar ($array)
 {
-	global $domaine, $name_website, $language;
-
-	$domain = $domaine;
+	global $domain, $name_website, $language;
 
 	return ${$array[1]};
 }

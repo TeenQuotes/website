@@ -8,8 +8,8 @@ if (preg_match('#[a-zA-Z]#', $_GET['p']))
 	exit;
 }
 
-// Go to the subdomain if we are in $domaine/stories
-if (preg_match($domaine.'/stories/', $_SERVER['SCRIPT_URI']) AND !preg_match("#stories#", $_SERVER['HTTP_HOST']))
+// Go to the subdomain if we are in $domain/stories
+if (preg_match($domain.'/stories/', $_SERVER['SCRIPT_URI']) AND !preg_match("#stories#", $_SERVER['HTTP_HOST']))
 {
 	header("Location: http://stories.teen-quotes.com");
 }
@@ -28,7 +28,7 @@ include '../kernel/connexion_cookie.php';
 ?>
 <!DOCTYPE html>
 <?php
-if ($domaine == $domain_fr)
+if ($domain == $domain_fr)
 {
 	echo '<html lang="fr">';
 }
@@ -46,18 +46,18 @@ else
 		<meta charset="utf-8" />
 		
 		<link href='//fonts.googleapis.com/css?family=Ubuntu:300|Gloria+Hallelujah|Open+Sans:300' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="//<?php echo $domaine; ?>/style.css" />
-		<link rel="stylesheet" href="//stories.<?php echo $domaine; ?>/style.css" />
-		<link rel="stylesheet" href="//<?php echo $domaine; ?>/uniform/uniform.css" />
+		<link rel="stylesheet" href="//<?php echo $domain; ?>/style.css" />
+		<link rel="stylesheet" href="//stories.<?php echo $domain; ?>/style.css" />
+		<link rel="stylesheet" href="//<?php echo $domain; ?>/uniform/uniform.css" />
 
-		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domaine; ?>/images/favicon.png"/>
-		<meta property="og:image" content="http://<?php echo $domaine; ?>/images/icon50.png" /> 
+		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domain; ?>/images/favicon.png"/>
+		<meta property="og:image" content="http://<?php echo $domain; ?>/images/icon50.png" /> 
 		
 		<script src="//code.jquery.com/jquery-latest.min.js"></script>
 		<script>
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', <?php echo "'".$google_analytics_account."'"; ?>]);
-		  _gaq.push(['_setDomainName', <?php echo "'".$domaine."'"; ?>]);
+		  _gaq.push(['_setDomainName', <?php echo "'".$domain."'"; ?>]);
 		  _gaq.push(['_setAllowHash', 'false']);
 		  _gaq.push(['_setSiteSpeedSampleRate', 100]);
 		  _gaq.push(['_trackPageview']);
@@ -73,7 +73,7 @@ else
 	<div id="header" class="shadow_header">
 		<div class="content">
 			<div id="logo">
-				<a href="/" title="<?php echo $name_website; ?>" class="fade_on_hover"><img src="//<?php echo $domaine; ?>/images/logo_<?php echo $name_logo; ?>.png" alt="<?php echo $name_website; ?>"/></a>
+				<a href="/" title="<?php echo $name_website; ?>" class="fade_on_hover"><img src="//<?php echo $domain; ?>/images/logo_<?php echo $name_logo; ?>.png" alt="<?php echo $name_website; ?>"/></a>
 				<span id="caption"><?php echo $website_caption; ?></span>
 			</div>
 		</div>

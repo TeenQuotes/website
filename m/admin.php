@@ -21,7 +21,7 @@ elseif (empty($action) AND $_SESSION['security_level'] >= '2')
 		
 	echo '
 	<div class="post">
-		<h2><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />Add a quote</h2>
+		<h2><img src="http://'.$domain.'/images/icones/add.png" class="icone" />Add a quote</h2>
 		<form action="?action=add_quote" method="post">
 			Enter the quote :<br/>
 			<textarea name="texte_quote" style="width:100%;height:50px"></textarea>
@@ -35,7 +35,7 @@ elseif (empty($action) AND $_SESSION['security_level'] >= '2')
 	</div>
 	
 	<div class="post">
-		<h2><img src="http://'.$domaine.'/images/icones/test.png" class="icone" />Approve Quotes</h2>
+		<h2><img src="http://'.$domain.'/images/icones/test.png" class="icone" />Approve Quotes</h2>
 		<div class="grey_post">
 		Number of citations waiting to be posted : '.$nb_quote_awaiting_post.' ('.$jours_posted.' '.$days_quote_posted .')
 		</div>
@@ -66,7 +66,7 @@ elseif (empty($action) AND $_SESSION['security_level'] >= '2')
 	</div>
 
 	<div class="post">
-		<h2><img src="http://'.$domaine.'/images/icones/about.png" class="icone" />Last comments</h2>
+		<h2><img src="http://'.$domain.'/images/icones/about.png" class="icone" />Last comments</h2>
 		<div class="grey_post">
 			<ul>';
 			$query = mysql_query("SELECT c.id id, c.id_quote id_quote, c.auteur_id auteur_id, c.texte texte, c.date date, a.username auteur FROM teen_quotes_comments c, teen_quotes_account a WHERE c.auteur_id = a.id ORDER BY c.id DESC LIMIT 0, 5");
@@ -97,7 +97,7 @@ elseif (empty($action) AND $_SESSION['security_level'] >= '2')
 	
 	echo '
 	<div class="post">
-		<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />Delete existing quotes</h2>
+		<h2><img src="http://'.$domain.'/images/icones/delete.png" class="icone" />Delete existing quotes</h2>
 		If you want to delete only one quote, just enter the ID.<br/>
 		If you want to delete quotes, you have to enter data like this : 100,200,300<br/>
 		<form action="?action=delete_existing_quote" method="post">
@@ -112,7 +112,7 @@ elseif ($action == "add_quote")
 {
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />Add a quote</h2>';
+	<h2><img src="http://'.$domain.'/images/icones/add.png" class="icone" />Add a quote</h2>';
 	
 	$texte_quote = htmlspecialchars(mysql_real_escape_string($_POST['texte_quote']));
 	$release_admin = htmlspecialchars(mysql_real_escape_string($_POST['release_admin']));
@@ -126,22 +126,22 @@ elseif ($action == "add_quote")
 
 		if ($release_admin == '1')
 		{
-			if ($domaine == $domain_en)
+			if ($domain == $domain_en)
 			{
 				$id_auteur_quote = 70;
 			}
-			elseif ($domaine == $domain_fr)
+			elseif ($domain == $domain_fr)
 			{
 				$id_auteur_quote = 3;
 			}
 		}
 		elseif ($release_unknown == '1')
 		{
-			if ($domaine == $domain_en)
+			if ($domain == $domain_en)
 			{
 				$id_auteur_quote = 1211;
 			}
-			elseif ($domaine == $domain_fr)
+			elseif ($domain == $domain_fr)
 			{
 				$id_auteur_quote = 35;
 			}
@@ -182,7 +182,7 @@ elseif ($action == "rate")
 {
 	echo '
 	<div class="post" id="approvequotes">
-	<h2><img src="http://'.$domaine.'/images/icones/test.png" class="icone" />Approve Quotes</h2>';
+	<h2><img src="http://'.$domain.'/images/icones/test.png" class="icone" />Approve Quotes</h2>';
 
 	$id_quote = mysql_real_escape_string($_GET['id']);
 	$approve = mysql_real_escape_string($_GET['approve']);
@@ -308,7 +308,7 @@ elseif ($action == "delete_comment")
 { 
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />Delete a comment</h2>';
+	<h2><img src="http://'.$domain.'/images/icones/delete.png" class="icone" />Delete a comment</h2>';
 	
 	$id_comment = htmlspecialchars($_GET['id']);
 
@@ -340,7 +340,7 @@ elseif ($action == "delete_comment")
 		Voici votre commentaire :
 		<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
 		'.$texte_comment.'<br/><br/>
-		<a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #394DAC;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username_comment.'</a> '.$on.' '.$date_comment.'</span><br/>
+		<a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domain.'/images/avatar/'.$avatar.'" style="border:2px solid #394DAC;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username_comment.'</a> '.$on.' '.$date_comment.'</span><br/>
 		</div>
 		Cordialement,<br/>
 		<b>The Teen Quotes Team</b>'.$end_mail;
@@ -357,7 +357,7 @@ elseif ($action == "delete_comment")
 		Here is your comment :
 		<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
 		'.$texte_comment.'<br/><br/>
-		<a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" style="border:2px solid #394DAC;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username_comment.'</a> '.$on.' '.$date_comment.'</span><br/>
+		<a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domain.'/images/avatar/'.$avatar.'" style="border:2px solid #394DAC;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">par <a href="http://teen-quotes.com/user-'.$id.'" title="'.$view_his_profile.'">'.$username_comment.'</a> '.$on.' '.$date_comment.'</span><br/>
 		</div>
 		Sincerely,<br/>
 		<b>The Teen Quotes Team</b>
@@ -377,7 +377,7 @@ elseif ($action == "edit")
 {
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />Edit a quote</h2>';
+	<h2><img src="http://'.$domain.'/images/icones/profil.png" class="icone" />Edit a quote</h2>';
 	
 	$id_quote = $_GET['id'];
 	
@@ -397,7 +397,7 @@ elseif ($action == "edit_quote")
 {
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />Edit a quote</h2>';
+	<h2><img src="http://'.$domain.'/images/icones/profil.png" class="icone" />Edit a quote</h2>';
 	$id_quote = $_POST['id_quote'];
 	$texte_quote = mysql_real_escape_string($_POST['texte_quote']);
 
@@ -414,7 +414,7 @@ elseif ($action == "edit_existing_quote")
 {
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />Edit an existing quote</h2>';
+	<h2><img src="http://'.$domain.'/images/icones/profil.png" class="icone" />Edit an existing quote</h2>';
 	$id_quote = $_POST['id_quote'];
 	$exist = mysql_num_rows(mysql_query("SELECT texte_english FROM teen_quotes_quotes WHERE id = '".$id_quote."' AND approved = '1'"));
 	if ($exist == '1')
@@ -451,7 +451,7 @@ elseif ($action == "edit_existing_quote_valide")
 {
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />Edit an existing quote</h2>';
+	<h2><img src="http://'.$domain.'/images/icones/profil.png" class="icone" />Edit an existing quote</h2>';
 	
 	$id_quote = $_POST['id_quote'];
 	$texte_quote = htmlspecialchars(mysql_real_escape_string($_POST['texte_quote']));
@@ -477,7 +477,7 @@ elseif ($action == "delete_existing_quote")
 	
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />Delete an existing quote</h2>';
+	<h2><img src="http://'.$domain.'/images/icones/delete.png" class="icone" />Delete an existing quote</h2>';
 	
 	if (is_numeric($id_quote) AND !empty($username) AND !empty($ip) AND !empty($id_quote))
 	{

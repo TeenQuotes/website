@@ -17,7 +17,7 @@ if ($_SESSION['logged'])
 {
 	echo '
 	<div class="post">
-		<h2><img src="http://'.$domaine.'/images/icones/refresh.png" class="icone" />'.$change_username.'</h2>
+		<h2><img src="http://'.$domain.'/images/icones/refresh.png" class="icone" />'.$change_username.'</h2>
 		';
 	if (empty($action))
 	{

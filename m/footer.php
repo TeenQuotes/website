@@ -27,7 +27,7 @@
 
 		<div id="footer">
 			<?php echo $name_website.' &copy; '.date("Y"); ?> 
-			<span class="right"><a href="http://<?php echo $domaine; ?>/<?php echo $php_self; ?>?mobile"><?php echo $full_website; ?></a> |
+			<span class="right"><a href="http://<?php echo $domain; ?>/<?php echo $php_self; ?>?mobile"><?php echo $full_website; ?></a> |
 			<a href="contact">Contact</a> |
 			<a href="legalterms"><?php echo $legal_terms; ?></a></span>
 		</div>

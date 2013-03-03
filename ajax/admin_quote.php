@@ -3,7 +3,7 @@ session_start();
 header("Access-Control-Allow-Origin: *");
 require "../kernel/config.php";
 
-if ($domaine == "kotado.fr")
+if ($domain == "kotado.fr")
 {
 	$language = "french";
 }

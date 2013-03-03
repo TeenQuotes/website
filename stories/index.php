@@ -7,7 +7,7 @@ include 'header.php';
 			{
 			?>
 				<h1><?php echo $tell_us_your_story.' <span class="blue">'.$username.'</span>!'; ?></h1>
-				<img src="//<?php echo $domaine; ?>/images/avatar/<?php echo $_SESSION['avatar']; ?>" class="story_avatar" title="<?php echo $username; ?>"/>
+				<img src="//<?php echo $domain; ?>/images/avatar/<?php echo $_SESSION['avatar']; ?>" class="story_avatar" title="<?php echo $username; ?>"/>
 				<div class="grey_post story_description">
 					<?php echo $story_description; ?>
 				</div>
@@ -48,7 +48,7 @@ include 'header.php';
 					<div class="right_form dark_gray_column light_shadow" style="height:180px">
 						<h2><?php echo $sign_up; ?></h2>
 						<p class="signup_text"><?php echo $create_account; ?></p>
-						<center><a href="//<?php echo $domaine; ?>/signup" class="bouton bouton-bleu" title="<?php echo $sign_up; ?>"><?php echo $sign_up; ?></a></center>
+						<center><a href="//<?php echo $domain; ?>/signup" class="bouton bouton-bleu" title="<?php echo $sign_up; ?>"><?php echo $sign_up; ?></a></center>
 					</div>
 					<div class="clear"></div>
 				</form>

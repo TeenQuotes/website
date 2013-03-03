@@ -57,7 +57,7 @@ else
 		if(empty($result['city'])) {$result['city'] = ''.$not_specified;}
 		if(empty($result['number_comments'])) {$result['number_comments'] = ''.$no_posted_comments;}
 		if(empty($result['avatar'])) {$result['avatar'] = "icon50.png";}
-		if($result['avatar'] =="http://".$domaine."/images/icon50.png") {$result['avatar'] = "icon50.png";}
+		if($result['avatar'] =="http://".$domain."/images/icon50.png") {$result['avatar'] = "icon50.png";}
 		
 		if ($result['birth_date'] != ''.$not_specified.'')
 		{
@@ -81,7 +81,7 @@ else
 		}
 			
 		echo '
-			<img src="http://'.$domaine.'/images/avatar/'.$result['avatar'].'" class="user_avatar" />
+			<img src="http://'.$domain.'/images/avatar/'.$result['avatar'].'" class="user_avatar" />
 			<h2>'.$result['username'].'<span class="right">'. $user_informations.'
 			';
 			if ($id == $_SESSION['id']) 

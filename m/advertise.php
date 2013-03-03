@@ -9,27 +9,27 @@ if (empty($action))
 {
 	echo '
 	<div class="post">
-		<h2><img src="http://'.$domaine.'/images/icones/business.png" class="icone" />'.$advertise.'</h2>
+		<h2><img src="http://'.$domain.'/images/icones/business.png" class="icone" />'.$advertise.'</h2>
 			<div class="grey_post">
 			'.$intro_txt.'
 			</div>
 
-		<h3><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$what_we_dont_do.'</h3>
+		<h3><img src="http://'.$domain.'/images/icones/delete.png" class="icone" />'.$what_we_dont_do.'</h3>
 			<div class="grey_post">
 			'.$what_we_dont_do_txt.'
 			</div>
 
-		<h3><img src="http://'.$domaine.'/images/icones/pricing.png" class="icone" />'.$pricing.'</h3>
+		<h3><img src="http://'.$domain.'/images/icones/pricing.png" class="icone" />'.$pricing.'</h3>
 			<div class="grey_post">
 			'.$pricing_txt.'
 			</div>
 
-		<h3><img src="http://'.$domaine.'/images/icones/infos.png" class="icone" />'.$payment.'</h3>
+		<h3><img src="http://'.$domain.'/images/icones/infos.png" class="icone" />'.$payment.'</h3>
 			<div class="grey_post">
 			'.$payment_txt.'
 			</div>
 
-		<h2><img src="http://'.$domaine.'/images/icones/mail.png" class="icone" />'.$contact_us_by_email.'</h2>
+		<h2><img src="http://'.$domain.'/images/icones/mail.png" class="icone" />'.$contact_us_by_email.'</h2>
 		<div class="grey_post">
 			<form action="?action=send" method="post"> 
 				'.$subject.' :<br/>
@@ -60,7 +60,7 @@ elseif ($action == 'send')
 {
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/business.png" class="icone" />'.$advertise.'</h2>';
+	<h2><img src="http://'.$domain.'/images/icones/business.png" class="icone" />'.$advertise.'</h2>';
 	
 	if(isset($_POST['sujet']))      $sujet = $_POST['sujet'];
 	else      $sujet = "";
@@ -90,7 +90,7 @@ elseif ($action == 'send')
 		if($_POST['captcha'] == $_SESSION['captcha'])
 		{
 		  
-			$headers ='From: "'.$nom.'"<no-reply@'.$domaine.'>'."\n";
+			$headers ='From: "'.$nom.'"<no-reply@'.$domain.'>'."\n";
 			$headers .='Reply-To: '.$email.''."\n";
 			$headers .= 'MIME-Version: 1.0' . "\r\n";
 			$headers .='Content-Type: text/plain; charset="iso-8859-1"'."\n";
@@ -102,7 +102,7 @@ elseif ($action == 'send')
 			$message .= 'Twitter\'s account : '.$twitter_account; 
 			$message .= "\r\n";
 			$message .= "\r\n";
-			$message .= '------------------ Message sent from www.'.$domaine.' ------------------';
+			$message .= '------------------ Message sent from www.'.$domain.' ------------------';
 			
 			if(mail("contact@teen-quotes.com", stripslashes($sujet), stripslashes($message), $headers))
 			{ 

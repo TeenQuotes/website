@@ -22,7 +22,7 @@ include 'kernel/connexion_cookie.php';
 ?>
 <!DOCTYPE html>
 <?php
-if ($domaine == $domain_fr)
+if ($domain == $domain_fr)
 {
 	echo '<html lang="fr">';
 }
@@ -41,11 +41,11 @@ else
 		<meta charset="utf-8" />
 		
 		<link href='//fonts.googleapis.com/css?family=Ubuntu:300|Gloria+Hallelujah|Open+Sans:300' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="//<?php echo $domaine; ?>/style.css" />
-		<link rel="stylesheet" href="//<?php echo $domaine; ?>/uniform/uniform.css" />
+		<link rel="stylesheet" href="//<?php echo $domain; ?>/style.css" />
+		<link rel="stylesheet" href="//<?php echo $domain; ?>/uniform/uniform.css" />
 
-		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domaine; ?>/images/favicon.png"/>
-		<meta property="og:image" content="http://<?php echo $domaine; ?>/images/icon50.png" /> 
+		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domain; ?>/images/favicon.png"/>
+		<meta property="og:image" content="http://<?php echo $domain; ?>/images/icon50.png" /> 
 		
 		<script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
 		
@@ -58,7 +58,7 @@ else
 		<script>
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', <?php echo "'".$google_analytics_account."'"; ?>]);
-		  _gaq.push(['_setDomainName', <?php echo "'".$domaine."'"; ?>]);
+		  _gaq.push(['_setDomainName', <?php echo "'".$domain."'"; ?>]);
 		  _gaq.push(['_setAllowHash', 'false']);
 		  _gaq.push(['_setSiteSpeedSampleRate', 100]);
 		  _gaq.push(['_trackPageview']);
@@ -74,7 +74,7 @@ else
 <div id="header">
 	<div class="content">
 		<div id="logo">
-			<a href="/" title="<?php echo $name_website; ?>" class="fade_on_hover"><img src="//<?php echo $domaine; ?>/images/logo_<?php echo $name_logo; ?>.png" alt="<?php echo $name_website; ?>"/></a>
+			<a href="/" title="<?php echo $name_website; ?>" class="fade_on_hover"><img src="//<?php echo $domain; ?>/images/logo_<?php echo $name_logo; ?>.png" alt="<?php echo $name_website; ?>"/></a>
 			<span id="caption"><?php echo $website_caption; ?></span>
 		</div>
 

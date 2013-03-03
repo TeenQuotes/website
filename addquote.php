@@ -7,7 +7,7 @@ if (empty($action))
 {
 	echo '
 	<div class="post">
-		<h1><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />'.$add_quote.'</h1>
+		<h1><img src="http://'.$domain.'/images/icones/add.png" class="icone" />'.$add_quote.'</h1>
 		
 		<div class="grey_post">
 			<form action="?action=add_quote" method="post">
@@ -27,7 +27,7 @@ elseif ($action == "add_quote")
 {
 	echo '
 	<div class="post">
-	<h1><img src="http://'.$domaine.'/images/icones/add.png" class="icone" />'.$add_quote.'</h1>
+	<h1><img src="http://'.$domain.'/images/icones/add.png" class="icone" />'.$add_quote.'</h1>
 	';
 
 	$texte_quote = ucfirst(htmlspecialchars(mysql_real_escape_string($_POST['texte_quote'])));

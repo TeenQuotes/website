@@ -8,7 +8,7 @@ $change_avatar_rules= "
 	<li>Your photo must be in JPG, PNG or GIF</li>
 	<li>Maximum size: 500 ko</li>
 </ul>
-<img src=\"http://".$domaine."/images/icones/infos.png\" class=\"mini_icone\"/>Your avatar will not appear on Google.<br/><br/>";
+<img src=\"http://".$domain."/images/icones/infos.png\" class=\"mini_icone\"/>Your avatar will not appear on Google.<br/><br/>";
 $select_photo= "Select your photo";
 $reset_avatar= "I want the default picture!";
 $choose_title = "<span class=\"bleu\">Title: </span> 
@@ -62,7 +62,7 @@ $characters = "letters";
 
 
 $email_subject_change_pass = "New password";
-$email_message_change_pass = "$top_mail Hello <font color=\"#394DAC\"><b>$username</b></font>!<br/><br/>You have recently change your password on ".$name_website.".<br/><br/>Your new credentials are:<br/><br/><li>Username: <font color=\"#394DAC\"><b>$username</b></font></li><li>Password: <font color=\"#394DAC\"><b>$pass1</b></font></li><br/>Keep precisely! You can login now by clicking on <a href=\"http://".$domaine."/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">this link</a>. <br/><br/>Sincerely,<br/><b>The ".$name_website." Team</b> $end_mail";
+$email_message_change_pass = "$top_mail Hello <font color=\"#394DAC\"><b>$username</b></font>!<br/><br/>You have recently change your password on ".$name_website.".<br/><br/>Your new credentials are:<br/><br/><li>Username: <font color=\"#394DAC\"><b>$username</b></font></li><li>Password: <font color=\"#394DAC\"><b>$pass1</b></font></li><br/>Keep precisely! You can login now by clicking on <a href=\"http://".$domain."/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">this link</a>. <br/><br/>Sincerely,<br/><b>The ".$name_website." Team</b> $end_mail";
 $change_pass_succes = $succes." Your password was changed successfully!<br/><br/><br/>Your login will be sent to your email address.";
 $password_short = "Your password is too short.";
 $password_not_same = "Passwords are not the same.";
@@ -89,7 +89,7 @@ $i_want_to_delete_my_account = "I want to delete my account";
 $email_subject_delete_account = "Delete your account";
 $email_message_delete_account = "".$top_mail." Hello ".$_SESSION['username'].",<br/>
 <br/>
-You want to delete your account on ".$name_website.". To confirm this request, you must click on <a href=\"http://".$domaine."/editprofile?action=delete_account_confirm&id=".$_SESSION['id']."&code=".$code."\">this link</a>.<br/>
+You want to delete your account on ".$name_website.". To confirm this request, you must click on <a href=\"http://".$domain."/editprofile?action=delete_account_confirm&id=".$_SESSION['id']."&code=".$code."\">this link</a>.<br/>
 <br/>
 ".$txt_delete_account."<br/>
 ".$end_mail."";

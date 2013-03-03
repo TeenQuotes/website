@@ -81,7 +81,7 @@ else
 
 	echo '
 	<div class="post slidedown">
-	<h2><img src="http://'.$domaine.'/images/icones/about.png" class="icone" alt="icone" />'.$comments_ucfirst; if ($nombre_commentaires > 1){echo '<span class="right">'.$nombre_commentaires.' '.$comment.'s</span>';}else{echo'<span class="right">'.$nombre_commentaires.' '.$comment.'</span>';}echo '</h2>';
+	<h2><img src="http://'.$domain.'/images/icones/about.png" class="icone" alt="icone" />'.$comments_ucfirst; if ($nombre_commentaires > 1){echo '<span class="right">'.$nombre_commentaires.' '.$comment.'s</span>';}else{echo'<span class="right">'.$nombre_commentaires.' '.$comment.'</span>';}echo '</h2>';
 	if ($_SESSION['logged']) 
 	{
 		echo '
@@ -121,17 +121,17 @@ else
 			echo '
 			<div class="grey_post">
 				'.$texte_stripslashes.'<br/><br/>
-				<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" alt="Avatar" /></a>'; 
+				<a href="user-'.$donnees['auteur_id'].'" title="'.$view_his_profile.'"><img src="http://'.$domain.'/images/avatar/'.$avatar.'" class="mini_user_avatar" alt="Avatar" /></a>'; 
 				if ($_SESSION['security_level'] >= 2 OR $id_auteur == $id)
 				{
 					echo '<span class="edit_comment">';
 					if ($id_auteur == $id)
 					{
-						echo '<a href="editcomment-'.$id_comment.'"><img src="http://'.$domaine.'/images/icones/profil.png" class="mini_icone" /></a>';
+						echo '<a href="editcomment-'.$id_comment.'"><img src="http://'.$domain.'/images/icones/profil.png" class="mini_icone" /></a>';
 					}
 					if ($_SESSION['security_level'] >= '2')
 					{
-						echo '<a href="admin.php?action=delete_comment&id='.$id_comment.'"><img src="http://'.$domaine.'/images/icones/delete.png" class="mini_icone" /></a>';
+						echo '<a href="admin.php?action=delete_comment&id='.$id_comment.'"><img src="http://'.$domain.'/images/icones/delete.png" class="mini_icone" /></a>';
 					}
 					echo '</span>';
 				}

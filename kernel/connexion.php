@@ -70,18 +70,18 @@ if (isset($_POST['connexion']) OR $method == 'get')
 			}
 			else
 			{
-				echo '<span class="error"><img src="http://'.$domaine.'/images/icones/alert.png" class="alerte" />'.$wrong_pass.'</span>';
+				echo '<span class="error"><img src="http://'.$domain.'/images/icones/alert.png" class="alerte" />'.$wrong_pass.'</span>';
 			}
 			
 		}
 		else
 		{
-			echo '<span class="error"><img src="http://'.$domaine.'/images/icones/alert.png" class="alerte" />'.$no_username.'</span>';
+			echo '<span class="error"><img src="http://'.$domain.'/images/icones/alert.png" class="alerte" />'.$no_username.'</span>';
 		}
 	}
 	else
 	{
-		echo '<span class="error"><img src="http://'.$domaine.'/images/icones/alert.png" class="alerte" />'.$not_filled.'</span>';
+		echo '<span class="error"><img src="http://'.$domain.'/images/icones/alert.png" class="alerte" />'.$not_filled.'</span>';
 	}
 }
 ?>

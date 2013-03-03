@@ -69,9 +69,9 @@ if (empty($action))
 {
 	echo '
 	<div class="post">
-		<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />'.$edit_profile.'</h2>
+		<h2><img src="http://'.$domain.'/images/icones/profil.png" class="icone" />'.$edit_profile.'</h2>
 		<div class="grey_post">
-			<img src="http://'.$domaine.'/images/avatar/'.$result['avatar'].'" class="user_avatar right" /></span>
+			<img src="http://'.$domain.'/images/avatar/'.$result['avatar'].'" class="user_avatar right" /></span>
 			<form action="?action=send" method="post">
 				'.$choose_title_m.'
 				<br/><br/>
@@ -95,7 +95,7 @@ if (empty($action))
 	</div>
 
 	<div class="post">
-		<h2><img src="http://'.$domaine.'/images/icones/outils.png" class="icone" />'.$settings.'</h2>
+		<h2><img src="http://'.$domain.'/images/icones/outils.png" class="icone" />'.$settings.'</h2>
 		<div class="grey_post">
 			<form action="?action=settings" method="post">
 				<input type="checkbox" id="input_newsletter" name="newsletter" value="1"'; if ($is_newsletter == '1') echo 'checked="checked"'; echo ' /><label for="input_newsletter">'.$i_want_newsletter.'</label><br/>
@@ -108,7 +108,7 @@ if (empty($action))
 	</div>
 
 	<div class="post">
-		<h2><img src="http://'.$domaine.'/images/icones/password.png" class="icone" />'.$change_password.'</h2>
+		<h2><img src="http://'.$domain.'/images/icones/password.png" class="icone" />'.$change_password.'</h2>
 		<div class="grey_post">
 			<form action="?action=change" method="post">
 				'.$new_password.'<br/>
@@ -125,7 +125,7 @@ if (empty($action))
 	</div>
 	
 	<div class="post">
-		<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
+		<h2><img src="http://'.$domain.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
 		<div class="grey_post">
 		'.$txt_delete_account.$confirm_delete_by_email.'
 			<form action="?action=delete_account" method="post">
@@ -141,7 +141,7 @@ elseif ($action == "send")
 
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />'.$edit_profile.'</h2>
+	<h2><img src="http://'.$domain.'/images/icones/profil.png" class="icone" />'.$edit_profile.'</h2>
 	';
 
 	$title = htmlspecialchars(mysql_real_escape_string($_POST['title']));
@@ -204,7 +204,7 @@ elseif ($action == "avatar")
 {
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h2>
+	<h2><img src="http://'.$domain.'/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h2>
 	';
 	$photo = $_FILES['photo']['name'];
 	$point = ".";
@@ -257,7 +257,7 @@ elseif ($action == "reset_avatar")
 	// RESET DE L'AVATAR 
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h2>
+	<h2><img src="http://'.$domain.'/images/icones/avatar.png" class="icone" />'.$change_avatar.'</h2>
 	';
 	$sql = "UPDATE teen_quotes_account SET avatar='icon50.png' WHERE id='$id'"; 
 	mysql_query($sql) or die('Erreur SQL !'.$sql.'<br/>'.mysql_error());
@@ -273,7 +273,7 @@ elseif ($action == "change")
 	//CHANGEMENT DE MOT DE PASSE
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />'.$change_password.'</h2>
+	<h2><img src="http://'.$domain.'/images/icones/profil.png" class="icone" />'.$change_password.'</h2>
 	';
 			
 	if ($pass1 == $pass2) 
@@ -310,7 +310,7 @@ elseif ($action == "settings")
 {
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/outils.png" class="icone" />'.$settings.'</h2>
+	<h2><img src="http://'.$domain.'/images/icones/outils.png" class="icone" />'.$settings.'</h2>
 	';
 	$comments_quote = htmlspecialchars($_POST['comments_quote']);
 	$newsletter = htmlspecialchars($_POST['newsletter']);
@@ -446,7 +446,7 @@ elseif ($action == "delete_account")
 {
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
+	<h2><img src="http://'.$domain.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
 	';
 	
 	if (!empty($_SESSION['id']) AND !empty($_SESSION['email']))
@@ -482,7 +482,7 @@ elseif ($action == "delete_account_confirm")
 {
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
+	<h2><img src="http://'.$domain.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
 	';
 	
 	$id_user = mysql_real_escape_string($_GET['id']);
@@ -529,7 +529,7 @@ elseif ($action == "delete_account_cancel")
 {
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
+	<h2><img src="http://'.$domain.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
 	';
 	
 	$code = mysql_real_escape_string($_POST['code']);
@@ -559,7 +559,7 @@ elseif ($action == "delete_account_valide")
 {
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
+	<h2><img src="http://'.$domain.'/images/icones/delete.png" class="icone" />'.$delete_account.'</h2>
 	';
 	
 	$code = mysql_real_escape_string($_POST['code']);
@@ -570,11 +570,11 @@ elseif ($action == "delete_account_valide")
 		$query = mysql_query("SELECT id FROM delete_account WHERE id_user = '".$_SESSION['id']."' AND code = '".$code."' AND statut = '0'");
 		if (mysql_num_rows($query) == 1)
 		{
-			if ($domaine == $domain_en)
+			if ($domain == $domain_en)
 			{
 				$update_quote = mysql_query("UPDATE teen_quotes_quotes SET auteur_id = '1211' AND auteur = 'Unknow' WHERE auteur_id = '".$_SESSION['id']."' AND approved IN ('0','1','2')");	
 			}
-			elseif ($domaine == $domain_fr)
+			elseif ($domain == $domain_fr)
 			{
 				$update_quote = mysql_query("UPDATE teen_quotes_quotes SET auteur_id = '35' AND auteur = 'Inconnu' WHERE auteur_id = '".$_SESSION['id']."' AND approved IN ('0','1','2')");
 			}

@@ -46,11 +46,11 @@
 					{
 						if (preg_match('/'.$domain_fr.'/', $_SERVER['SERVER_NAME']))
 						{	
-							$approved_quote_txt .= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://'.$domaine.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://'.$domaine.'user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Elle sera publiée le '.$date.' ('.$jours_posted.' '.$days_quote_posted.'), vous recevrez un email quand elle sera publiée sur le site.'.$edit_message;
+							$approved_quote_txt .= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://'.$domain.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://'.$domain.'user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Elle sera publiée le '.$date.' ('.$jours_posted.' '.$days_quote_posted.'), vous recevrez un email quand elle sera publiée sur le site.'.$edit_message;
 						}
 						elseif (preg_match('/'.$domain_en.'/', $_SERVER['SERVER_NAME']))
 						{
-							$approved_quote_txt .= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://'.$domaine.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domaine.'user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>It will be released on '.$date.' ('.$jours_posted.' '.$days_quote_posted .'), you will receive an email when it will be posted on the website.'.$edit_message;
+							$approved_quote_txt .= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://'.$domain.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domain.'user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>It will be released on '.$date.' ('.$jours_posted.' '.$days_quote_posted .'), you will receive an email when it will be posted on the website.'.$edit_message;
 						}
 
 						$nb_quote_approved++;
@@ -59,11 +59,11 @@
 					{
 						if (preg_match('/'.$domain_fr.'/', $_SERVER['SERVER_NAME']))
 						{
-							$unapproved_quote_txt .= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://'.$domaine.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://'.$domaine.'user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>';
+							$unapproved_quote_txt .= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://'.$domain.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://'.$domain.'user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>';
 						}
 						elseif (preg_match('/'.$domain_en.'/', $_SERVER['SERVER_NAME']))
 						{
-							$unapproved_quote_txt .= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://'.$domaine.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domaine.'user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>';
+							$unapproved_quote_txt .= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://'.$domain.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domain.'user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>';
 						}
 
 						$nb_quote_unapproved++;

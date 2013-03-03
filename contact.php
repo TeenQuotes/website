@@ -8,19 +8,19 @@ if (empty($action))
 {
 	echo '
 	<div class="post">
-		<h2><img src="http://'.$domaine.'/images/icones/mail.png" class="icone" />Contact</h2>
+		<h2><img src="http://'.$domain.'/images/icones/mail.png" class="icone" />Contact</h2>
 		<div class="grey_post">
-			<img src="http://'.$domaine.'/images/icones/mail.png" class="icone" /> '.$about_website.' <a href="mailto:support@teen-quotes.com">support@teen-quotes.com</a><br/>
+			<img src="http://'.$domain.'/images/icones/mail.png" class="icone" /> '.$about_website.' <a href="mailto:support@teen-quotes.com">support@teen-quotes.com</a><br/>
 			<br/>
-			<img src="http://'.$domaine.'/images/icones/mail.png" class="icone" /> '.$about_twitter_account.' <a href="mailto:contact@teen-quotes.com">contact@teen-quotes.com</a><br/>
+			<img src="http://'.$domain.'/images/icones/mail.png" class="icone" /> '.$about_twitter_account.' <a href="mailto:contact@teen-quotes.com">contact@teen-quotes.com</a><br/>
 		</div>
 
-		<h2><img src="http://'.$domaine.'/images/icones/members.png" class="icone" />'.$team.'</h2>
+		<h2><img src="http://'.$domain.'/images/icones/members.png" class="icone" />'.$team.'</h2>
 		<div class="grey_post">
 			'.$team_txt.'
 		</div>
 		
-		<h2><img src="http://'.$domaine.'/images/icones/mail.png" class="icone" />'.$contact_us_by_email.'</h2>
+		<h2><img src="http://'.$domain.'/images/icones/mail.png" class="icone" />'.$contact_us_by_email.'</h2>
 		<div class="grey_post">
 			<form action="contact?action=send" method="post"> 
 				'.$subject.' :<br/>
@@ -48,7 +48,7 @@ elseif ($action == 'send')
 {
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domaine.'/images/icones/mail.png" class="icone" />'.$contact_us_by_email.'</h2>';
+	<h2><img src="http://'.$domain.'/images/icones/mail.png" class="icone" />'.$contact_us_by_email.'</h2>';
 	
 	if(isset($_POST['sujet']))      $sujet = $_POST['sujet'];
 	else      $sujet = "";
@@ -75,7 +75,7 @@ elseif ($action == 'send')
 		if($_POST['captcha'] == $_SESSION['captcha'])
 		{
 		  
-			$headers ='From: "'.$nom.'"<no-reply@'.$domaine.'>'."\n";
+			$headers ='From: "'.$nom.'"<no-reply@'.$domain.'>'."\n";
 			$headers .='Reply-To: '.$email.''."\n";
 			$headers .= 'MIME-Version: 1.0' . "\r\n";
 			$headers .='Content-Type: text/plain; charset="iso-8859-1"'."\n";
@@ -85,7 +85,7 @@ elseif ($action == 'send')
 			 
 			$message .= "\r\n";
 			$message .= "\r\n";
-			$message .= '------------------ Message sent from www.'.$domaine.' ------------------';
+			$message .= '------------------ Message sent from www.'.$domain.' ------------------';
 			
 			if(mail("antoine.augusti@gmail.com", stripslashes($sujet), stripslashes($message), $headers))
 			{ 

@@ -7,7 +7,7 @@ $change_avatar_rules = "
 	<li>Votre photo doit être au format JPG, GIF ou PNG</li>
 	<li>La taille de votre photo ne doit pas excéder 500 ko</li>
 </ul>
-<img src=\"http://".$domaine."/images/icones/infos.png\" class=\"mini_icone\"/>Votre avatar n'apparaîtra pas sur Google.<br/><br";
+<img src=\"http://".$domain."/images/icones/infos.png\" class=\"mini_icone\"/>Votre avatar n'apparaîtra pas sur Google.<br/><br";
 $select_photo = "Sélectionnez votre photo";
 $edit_profile = "Modifier mon profil";
 $reset_avatar = "Je veux l'avatar par défaut !";
@@ -61,7 +61,7 @@ $new_password_repeat = "Répétez votre nouveau mot de passe";
 $characters = "caractères";
 
 $email_subject_change_pass = "Nouveau mot de passe";
-$email_message_change_pass = "$top_mail Bonjour <font color=\"#394DAC\"><b>$username</b></font> !<br/><br/>Vous venez de changer votre mot de passe sur ".$name_website.".<br/><br/>Vos nouveaux identifiants sont :<br/><br/><li>Pseudo : <font color=\"#394DAC\"><b>$username</b></font></li><li>Mot de passe : <font color=\"#394DAC\"><b>$pass2</b></font></li><br/>Gardez les précieusement ! Vous pouvez vous connecter dès maintenant en cliquant <a href=\"http://".$domaine."/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">sur ce lien</a>.<br/><br/>Cordialement,<br/><b>The ".$name_website." Team</b> $end_mail";
+$email_message_change_pass = "$top_mail Bonjour <font color=\"#394DAC\"><b>$username</b></font> !<br/><br/>Vous venez de changer votre mot de passe sur ".$name_website.".<br/><br/>Vos nouveaux identifiants sont :<br/><br/><li>Pseudo : <font color=\"#394DAC\"><b>$username</b></font></li><li>Mot de passe : <font color=\"#394DAC\"><b>$pass2</b></font></li><br/>Gardez les précieusement ! Vous pouvez vous connecter dès maintenant en cliquant <a href=\"http://".$domain."/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">sur ce lien</a>.<br/><br/>Cordialement,<br/><b>The ".$name_website." Team</b> $end_mail";
 $change_pass_succes = $succes." Votre mot de passe a été changé avec succès !<br/><br/><br/>Vos identifiants vous ont été envoyés sur votre adresse email.";
 $password_short = "Votre mot de passe est trop court.";
 $password_not_same = "Les mots de passe ne sont pas identiques.";
@@ -88,7 +88,7 @@ $i_want_to_delete_my_account = "Je veux supprimer mon compte";
 $email_subject_delete_account = "Suppression de votre compte";
 $email_message_delete_account = "".$top_mail." Bonjour ".$_SESSION['username'].",<br/>
 <br/>
-Vous voulez supprimer votre compte sur ".$name_website.". Pour confimer ce choix, vous devez cliquer sur <a href=\"http://".$domaine."/editprofile?action=delete_account_confirm&id=".$_SESSION['id']."&code=".$code."\">ce lien</a>.<br/>
+Vous voulez supprimer votre compte sur ".$name_website.". Pour confimer ce choix, vous devez cliquer sur <a href=\"http://".$domain."/editprofile?action=delete_account_confirm&id=".$_SESSION['id']."&code=".$code."\">ce lien</a>.<br/>
 <br/>
 ".$txt_delete_account."<br/>
 ".$end_mail."";

@@ -23,7 +23,7 @@ if (empty($action))
 {
 	echo '
 	<div class="post slidedown">
-		<h1><img src="http://'.$domaine.'/images/icones/signin.png" class="icone" alt="icone"/>'.$sign_up.'</h1>
+		<h1><img src="http://'.$domain.'/images/icones/signin.png" class="icone" alt="icone"/>'.$sign_up.'</h1>
 	';
 	if (isset($_GET['addquote'])) 
 	{
@@ -75,7 +75,7 @@ elseif ($action == "send")
 {
 	echo '
 	<div class="post">
-	<h1><img src="http://'.$domaine.'/images/icones/signin.png" class="icone" alt="icone"/>'.$sign_up.'</h1>
+	<h1><img src="http://'.$domain.'/images/icones/signin.png" class="icone" alt="icone"/>'.$sign_up.'</h1>
 	';
 
 	$code = caracteresAleatoires(5);

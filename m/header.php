@@ -22,7 +22,7 @@ include '../kernel/connexion_cookie.php';
 ?>
 <!DOCTYPE html>
 <?php
-if ($domaine == $domain_fr)
+if ($domain == $domain_fr)
 {
 	echo '<html lang="fr">';
 }
@@ -44,12 +44,12 @@ else
 		
 		<link rel="stylesheet" href="style.css" />
 
-		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domaine; ?>/images/favicon.png"/>
-		<meta property="og:image" content="http://<?php echo $domaine; ?>/images/icon50.png" />
+		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domain; ?>/images/favicon.png"/>
+		<meta property="og:image" content="http://<?php echo $domain; ?>/images/icon50.png" />
 		<script>
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', <?php echo "'".$google_analytics_account."'"; ?>]);
-		  _gaq.push(['_setDomainName', <?php echo "'".$domaine."'"; ?>]);
+		  _gaq.push(['_setDomainName', <?php echo "'".$domain."'"; ?>]);
 		  _gaq.push(['_setAllowHash', 'false']);
 		  _gaq.push(['_setSiteSpeedSampleRate', 100]);
 		  _gaq.push(['_trackPageview']);
@@ -63,7 +63,7 @@ else
 </head>
 <body>
 <div id="topbar">
-	<a href="../"><img src="http://<?php echo $domaine; ?>/images/logo_<?php echo $name_logo; ?>.png" height="30px" alt="Logo <?php echo $name_website; ?>" /></a>
+	<a href="../"><img src="http://<?php echo $domain; ?>/images/logo_<?php echo $name_logo; ?>.png" height="30px" alt="Logo <?php echo $name_website; ?>" /></a>
 	<!--<span id="flags">
 		<a href="http://teen-quotes.com" title="View the english version"><span class="icone_flags english"></span></a>
 		<a href="http://kotado.fr" title="Voir la version française"><span class="icone_flags french"></span></a>

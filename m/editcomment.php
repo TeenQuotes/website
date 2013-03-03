@@ -11,7 +11,7 @@ if ($action == 'send' AND is_numeric($_POST['id_comment']))
 
 echo '
 <div class="post">
-<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone" />'.$edit_comment.'</h2>
+<h2><img src="http://'.$domain.'/images/icones/profil.png" class="icone" />'.$edit_comment.'</h2>
 ';
 
 if (is_numeric($id_comment) AND !empty($id_comment))
@@ -48,7 +48,7 @@ if (is_numeric($id_comment) AND !empty($id_comment))
 			echo '
 			<div class="grey_post">
 				'.$texte_comment.'<br/><br/>
-				<a href="user-'.$id_auteur.'" title="'.$view_his_profile.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="mini_user_avatar" /></a>
+				<a href="user-'.$id_auteur.'" title="'.$view_his_profile.'"><img src="http://'.$domain.'/images/avatar/'.$avatar.'" class="mini_user_avatar" /></a>
 				<span class="right">'.$by.' <a href="user-'.$id_auteur.'" title="'.$view_his_profile.'">'.$auteur_comment.'</a> '.$on.' '.$date.'</span><br/>
 			</div>';
 			

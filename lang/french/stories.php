@@ -22,4 +22,4 @@ $create_account = "To create an account on ".$name_website." and be able to acce
 $your_stories = "Your stories";
 $story_do_not_exist = "<div class=\"bandeau_erreur\">We're sorry, this story doesn't exist!</div>";
 $add_your_story = "Add your story!";
-$stories_not_available_mobile = "<div class=\"bandeau_erreur\">We're sorry, but ".$name_website." stories is not available for mobile. Please visit <a href=\"http://stories.".$domaine."\" title=\"Stories\">stories.".$domaine."</a> from your computer.</div>";
+$stories_not_available_mobile = "<div class=\"bandeau_erreur\">We're sorry, but ".$name_website." stories is not available for mobile. Please visit <a href=\"http://stories.".$domain."\" title=\"Stories\">stories.".$domain."</a> from your computer.</div>";

@@ -18,7 +18,7 @@ else
 	{	
 		echo '
 		<div class="post">
-			<h2><img src="http://'.$domaine.'/images/icones/mobile.png" class="icone" />'.$applications.'</h2>
+			<h2><img src="http://'.$domain.'/images/icones/mobile.png" class="icone" />'.$applications.'</h2>
 			<div class="grey_post">
 				'.$text_applications;
 	}
@@ -26,7 +26,7 @@ else
 	{
 		echo '
 		<div class="post">
-			<h2><img src="http://'.$domaine.'/images/icones/mobile.png" class="icone" />'.$signed_out_go_mobile.'</h2>
+			<h2><img src="http://'.$domain.'/images/icones/mobile.png" class="icone" />'.$signed_out_go_mobile.'</h2>
 			<div class="grey_post">
 				'.$text_applications;
 	}
@@ -34,7 +34,7 @@ else
 	{
 		echo '
 		<div class="post">
-			<h2><img src="http://'.$domaine.'/images/icones/mobile.png" class="icone" />'.$signed_out_go_mobile.'</h2>
+			<h2><img src="http://'.$domain.'/images/icones/mobile.png" class="icone" />'.$signed_out_go_mobile.'</h2>
 			<div class="img_mobile_website"></div>
 			<div class="grey_post div_presentation_mobile_website">
 				'.$text_mobile_website.'

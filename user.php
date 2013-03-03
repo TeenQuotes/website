@@ -85,7 +85,7 @@ else
 		if(empty($result['city'])) {$result['city'] = ''.$not_specified;}
 		if(empty($result['number_comments'])) {$result['number_comments'] = ''.$no_posted_comments;}
 		if(empty($result['avatar'])) {$result['avatar'] = "icon50.png";}
-		if($result['avatar'] =="http://".$domaine."/images/icon50.png") {$result['avatar'] = "icon50.png";}
+		if($result['avatar'] =="http://".$domain."/images/icon50.png") {$result['avatar'] = "icon50.png";}
 		
 		if ($result['birth_date'] != "$not_specified")
 		{
@@ -104,12 +104,12 @@ else
 		{
 			echo '
 			<div class="bandeau_erreur hide_this">
-				<img src="http://'.$domaine.'/images/icones/infos.png" class="mini_plus_icone" alt="icone">'.$profile_hidden_self.'
+				<img src="http://'.$domain.'/images/icones/infos.png" class="mini_plus_icone" alt="icone">'.$profile_hidden_self.'
 			</div>';
 		}
 			
 		echo '
-			<img src="http://'.$domaine.'/images/avatar/'.$result['avatar'].'" class="user_avatar" />
+			<img src="http://'.$domain.'/images/avatar/'.$result['avatar'].'" class="user_avatar" />
 			<h2>'.$result['username'].'<span class="right">'. $user_informations.'
 			';
 			if($id == $_SESSION['id']) 
@@ -172,7 +172,7 @@ else
 					$id_visitor = $reponse_visiteur['id_visitor'];
 					$username_visitor = $reponse_visiteur['username_visitor'];
 					
-					echo '<a href="user-'.$id_visitor.'" title="'.$username_visitor.'"><img src="http://'.$domaine.'/images/avatar/'.$avatar.'" class="user_avatar_last_visitors" alt="'.$username_visitor.'"/></a>';
+					echo '<a href="user-'.$id_visitor.'" title="'.$username_visitor.'"><img src="http://'.$domain.'/images/avatar/'.$avatar.'" class="user_avatar_last_visitors" alt="'.$username_visitor.'"/></a>';
 				}
 				echo '
 				</div>
@@ -216,7 +216,7 @@ else
 		// CITATIONS FAVORITES
 		echo '
 		<div class="post" id="fav_quotes">
-		<h2><img src="http://'.$domaine.'/images/icones/heart_big.png" class="icone" alt="icone">'.$favorite_quotes.'</h2>
+		<h2><img src="http://'.$domain.'/images/icones/heart_big.png" class="icone" alt="icone">'.$favorite_quotes.'</h2>
 		';
 		
 		if($nb_favorite_quotes >= 1)
@@ -301,7 +301,7 @@ else
 		echo '
 		<div class="clear"></div>
 		<div class="post" id="user_quotes">
-		<h2><img src="http://'.$domaine.'/images/icones/profil.png" class="icone">'.$user_quotes.'</h2>
+		<h2><img src="http://'.$domain.'/images/icones/profil.png" class="icone">'.$user_quotes.'</h2>
 		';
 			
 		if($nb_quotes_approved >= 1)

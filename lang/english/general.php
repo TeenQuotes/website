@@ -63,6 +63,6 @@ $back_home = "Back to home";
 $log_me = "Log me";
 $log_out = "Log out";
 
-$download_iphone_app = '<div class= "download_app"><img src="http://'.$domaine.'/images/icones/download.gif" alt="Icone" class="mini_icone" />You can download the '.$name_website.'\'s application for your iPhone / iPod touch <a href= "'.$link_app_iphone.'" title="iOS" onClick="_gaq.push([\'_trackEvent\', \'appiOS\', \'clic\', \'Mobile - banner iOS - redirect iTunes\']);">here</a>.<span class="right"><a href="?hide_download_app" title="Close">Close</a></span></div>';
-$download_android_app = '<div class= "download_app"><img src="http://'.$domaine.'/images/icones/download.gif" alt="Icone" class="mini_icone" />You can download the '.$name_website.'\'s application for your Android <a href= "'.$link_app_android.'">here</a>.<span class="right"><a href="?hide_download_app" title="Close">Close</a></span></div>';
+$download_iphone_app = '<div class= "download_app"><img src="http://'.$domain.'/images/icones/download.gif" alt="Icone" class="mini_icone" />You can download the '.$name_website.'\'s application for your iPhone / iPod touch <a href= "'.$link_app_iphone.'" title="iOS" onClick="_gaq.push([\'_trackEvent\', \'appiOS\', \'clic\', \'Mobile - banner iOS - redirect iTunes\']);">here</a>.<span class="right"><a href="?hide_download_app" title="Close">Close</a></span></div>';
+$download_android_app = '<div class= "download_app"><img src="http://'.$domain.'/images/icones/download.gif" alt="Icone" class="mini_icone" />You can download the '.$name_website.'\'s application for your Android <a href= "'.$link_app_android.'">here</a>.<span class="right"><a href="?hide_download_app" title="Close">Close</a></span></div>';
 ?>

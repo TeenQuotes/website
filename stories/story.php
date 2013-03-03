@@ -21,7 +21,7 @@ echo '
 	
 	echo '
 	<br/>
-	<center><a href="//stories.'.$domaine.'" class="bouton bouton-bleu" title="'.$add_your_story.'">'.$add_your_story.'</a></center>
+	<center><a href="//stories.'.$domain.'" class="bouton bouton-bleu" title="'.$add_your_story.'">'.$add_your_story.'</a></center>
 </div>';
 
 include 'footer.php';

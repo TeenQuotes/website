@@ -1,7 +1,7 @@
 <?php 
 $statistics = "Statistics";
 $other_stats = "Other stats";
-$more_stats_email = '<img src="http://'.$domaine.'/images/icones/infos.png" class="mini_plus_icone" /> If you want more stats, leave us a message at <a href="mailto:support@teen-quotes.com">support@teen-quotes.com</a><br/>';
+$more_stats_email = '<img src="http://'.$domain.'/images/icones/infos.png" class="mini_plus_icone" /> If you want more stats, leave us a message at <a href="mailto:support@teen-quotes.com">support@teen-quotes.com</a><br/>';
 
 $approved = "Approved";
 $rejected = "Rejected";
