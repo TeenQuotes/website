@@ -49,7 +49,7 @@ $i_want_comment_quotes = "I want to receive an email when a comment will be post
 			
 			
 			
-$edit_succes = "$succes Your profile has been changed successfully!<br/><br/><br/>&raquo; <a href=\"../\">Back to home</a><br/><br/>";
+$edit_succes = $succes." Your profile has been changed successfully!<br/><br/><br/>&raquo; <a href=\"../\">Back to home</a><br/><br/>";
 $description_long = "<span class=\"erreur\">Your description of yourself is too long!</span>$lien_retour";
 $not_completed = "<span class=\"erreur\">You have not completed all the form!</span>$lien_retour";
 $wrong_birth_date = "<span class=\"erreur\">Please enter a valid birth date (DD/MM/YYYY)!</span>";
@@ -63,17 +63,17 @@ $characters = "letters";
 
 $email_subject_change_pass = "New password";
 $email_message_change_pass = "$top_mail Hello <font color=\"#394DAC\"><b>$username</b></font>!<br/><br/>You have recently change your password on ".$name_website.".<br/><br/>Your new credentials are:<br/><br/><li>Username: <font color=\"#394DAC\"><b>$username</b></font></li><li>Password: <font color=\"#394DAC\"><b>$pass1</b></font></li><br/>Keep precisely! You can login now by clicking on <a href=\"http://".$domaine."/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">this link</a>. <br/><br/>Sincerely,<br/><b>The ".$name_website." Team</b> $end_mail";
-$change_pass_succes = "$succes Your password was changed successfully!<br/><br/><br/>Your login will be sent to your email address.";
+$change_pass_succes = $succes." Your password was changed successfully!<br/><br/><br/>Your login will be sent to your email address.";
 $password_short = "Your password is too short.";
 $password_not_same = "Passwords are not the same.";
 
-$change_avatar_succes = "$succes Your photo has been updated successfully!<br/><br/><br/>You will be redirected in a moment";
+$change_avatar_succes = $succes." Your photo has been updated successfully!<br/><br/><br/>You will be redirected in a moment";
 
 $photo_extra_size = "The size of your photo is too big! The maximum is 500 ko!";
 $bad_extension = "Your photo must be in JPG, PNG or GIF!";
 $select_a_file = "Please select a file!";
 	
-$settings_updated = "$succes Your options have been updated successfully!";
+$settings_updated = $succes." Your options have been updated successfully!";
 
 $delete_account = "Delete my account";
 $txt_delete_account = "By deleting your account on ".$name_website.", will be deleted:<br/>

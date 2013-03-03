@@ -27,4 +27,4 @@ $see_you_soon = "À bientôt sur $name_website!<br/><br/>Cordialement,<br/><b>Th
 $no_account = "Aucun compte n'existe avec cette adresse email";
 $email_not_valid = "Veuillez entre une adresse email valide";
 $email_subject = "Récupération de mot de passe";
-$its_ok = "$succes Vos nouveaux identifiants vous ont été envoyé par email<br/><br/><br/>Vérifiez votre boîte de réception !";
+$its_ok = $succes." Vos nouveaux identifiants vous ont été envoyé par email<br/><br/><br/>Vérifiez votre boîte de réception !";

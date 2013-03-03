@@ -28,4 +28,4 @@ $see_you_soon = "See you soon on $name_website!<br/><br/>Best regards,<br/><b>Th
 $no_account = "No account exists with that email address";
 $email_not_valid = "Please enter a valid email address";
 $email_subject = "Password recovery";
-$its_ok = "$succes Your new credentials have been sent to you by email<br/><br/><br/>Check your inbox!";
+$its_ok = $succes." Your new credentials have been sent to you by email<br/><br/><br/>Check your inbox!";

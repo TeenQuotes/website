@@ -1,9 +1,13 @@
 <?php 
 include 'header.php';
+
+$email = mysql_real_escape_string($_GET['email']);
+$code = mysql_real_escape_string($_GET['code']);
+$action = htmlspecialchars($_GET['action']);
+
 include 'lang/'.$language.'/newsletter.php';
 include 'lang/'.$language.'/signup.php';
 include 'lang/'.$language.'/edit_profile.php';
-$action = htmlspecialchars($_GET['action']);
 
 echo '
 <div class="post">
@@ -89,10 +93,7 @@ elseif ($action == "send") // SUBSCRIBE
 	}
 }	
 elseif ($action == "unsubscribe")  // DESINSCRIPTION
-{ 
-	$email = mysql_real_escape_string($_GET['email']);
-	$code = mysql_real_escape_string($_GET['code']);
-
+{
 	if (!empty($email) AND !empty($code) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 	{
 		$num_rows = mysql_num_rows(mysql_query("SELECT id FROM newsletters WHERE email = '".$email."' AND code_unsubscribe = '".$code."' AND type = 'weekly'")); 
@@ -101,7 +102,7 @@ elseif ($action == "unsubscribe")  // DESINSCRIPTION
 			$query = mysql_query("DELETE FROM newsletters WHERE email = '".$email."' AND code_unsubscribe = '".$code."' AND type = 'weekly'");
 			if ($query) 
 			{
-				echo $succes_unsuscribe;
+				echo $succes_unsubscribe;
 			}
 			else 
 			{
@@ -119,10 +120,7 @@ elseif ($action == "unsubscribe")  // DESINSCRIPTION
 	}
 }	
 elseif ($action == "unsubscribe_everyday")  // DESINSCRIPTION
-{ 
-	$email = mysql_real_escape_string($_GET['email']);
-	$code = mysql_real_escape_string($_GET['code']);
-
+{
 	if (!empty($email) AND !empty($code) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 	{
 		$num_rows = mysql_num_rows(mysql_query("SELECT id FROM newsletters WHERE email = '".$email."' AND code_unsubscribe = '".$code."' AND type = 'daily'")); 
@@ -132,7 +130,7 @@ elseif ($action == "unsubscribe_everyday")  // DESINSCRIPTION
 			$query = mysql_query("DELETE FROM newsletters WHERE email = '".$email."' AND code_unsubscribe = '".$code."' AND type = 'daily'");
 			if ($query) 
 			{
-				echo $succes_unsuscribe_everyday;
+				echo $succes_unsubscribe_everyday;
 			}
 			else 
 			{

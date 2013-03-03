@@ -49,7 +49,7 @@ $i_want_comment_quotes = "Je veux recevoir un email quand un commentaire sera po
 			
 			
 			
-$edit_succes = "$succes Votre profil a été modifié avec succès !<br/><br/><br/>&raquo; <a href=\"../\">Retour à l'accueil</a><br/><br/>";
+$edit_succes = $succes." Votre profil a été modifié avec succès !<br/><br/><br/>&raquo; <a href=\"../\">Retour à l'accueil</a><br/><br/>";
 $description_long = "<span class=\"erreur\">Votre description de vous-même est trop longue !</span>$lien_retour";
 $not_completed = "<span class=\"erreur\">Vous n'avez pas complété tout le formulaire !</span>$lien_retour";
 $wrong_birth_date = "<span class=\"erreur\"> Merci d'entrer une date de naissance valide (JJ/MM/AAAA) !</span>";
@@ -62,17 +62,17 @@ $characters = "caractères";
 
 $email_subject_change_pass = "Nouveau mot de passe";
 $email_message_change_pass = "$top_mail Bonjour <font color=\"#394DAC\"><b>$username</b></font> !<br/><br/>Vous venez de changer votre mot de passe sur ".$name_website.".<br/><br/>Vos nouveaux identifiants sont :<br/><br/><li>Pseudo : <font color=\"#394DAC\"><b>$username</b></font></li><li>Mot de passe : <font color=\"#394DAC\"><b>$pass2</b></font></li><br/>Gardez les précieusement ! Vous pouvez vous connecter dès maintenant en cliquant <a href=\"http://".$domaine."/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">sur ce lien</a>.<br/><br/>Cordialement,<br/><b>The ".$name_website." Team</b> $end_mail";
-$change_pass_succes = "$succes Votre mot de passe a été changé avec succès !<br/><br/><br/>Vos identifiants vous ont été envoyés sur votre adresse email.";
+$change_pass_succes = $succes." Votre mot de passe a été changé avec succès !<br/><br/><br/>Vos identifiants vous ont été envoyés sur votre adresse email.";
 $password_short = "Votre mot de passe est trop court.";
 $password_not_same = "Les mots de passe ne sont pas identiques.";
-$change_avatar_succes = "$succes Votre avatar a été mis à jour avec succès !<br/><br/><br/>Vous allez être redirigé dans un instant...";
+$change_avatar_succes = $succes." Votre avatar a été mis à jour avec succès !<br/><br/><br/>Vous allez être redirigé dans un instant...";
 
 
 $photo_extra_size = "La taille de votre photo est trop grande ! Le maximum est de 500 ko !";
 $bad_extension = "Votre photo doit être au format JPG, GIF ou PNG !";
 $select_a_file = "Merci de sélectionner une image !";
 
-$settings_updated = "$succes Vos options ont été mises à jour avec succès !";
+$settings_updated = $succes." Vos options ont été mises à jour avec succès !";
 
 $delete_account = "Supprimer mon compte";
 $txt_delete_account = "En supprimant votre compte sur ".$name_website.", seront supprimés :<br/>
