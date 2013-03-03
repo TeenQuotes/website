@@ -431,6 +431,8 @@ function update_stats ($language)
 		 	['Date', '".$unapproved_quotes."', '".$approved_quotes."', '".$txt_total_quotes."'],";
 	$timestamp = 1285884000;
 	$i = 1;
+	$array_quotes_over_time = array();
+
 	while ($timestamp < time())
 	{
 		$timestamp = strtotime("+1 month", $timestamp);
@@ -453,6 +455,9 @@ function update_stats ($language)
 			$nb_unapproved = $nb_tot - $nb_approved;
 			$time_txt = date('m/y', $timestamp);
 
+			// Store it in an array, so we can draw percentages later
+			$array_quotes_over_time[$i] = $time_txt.':'.$nb_unapproved.":".$nb_approved;
+
 			$graph_stats_js .= "['".$time_txt."', ".$nb_unapproved.", ".$nb_approved.", ".$nb_tot."],";
 		}
 		$nb_tot = 0;
@@ -462,9 +467,33 @@ function update_stats ($language)
 	$graph_stats_js .= " 
 	]);
 	var options = {
-          title: '".$quotes_over_time."'
+          title: '".$quotes_over_time."',
+          series: {0:{color:'red'}, 1:{color:'green'}, 2:{color:'blue'}}
         };
     var chart = new google.visualization.LineChart(document.getElementById('quotes_time'));
+        chart.draw(data, options);
+    }
+
+    function quotes_over_time_percentage() {
+		 var data = google.visualization.arrayToDataTable([
+		 	['Date', '".$unapproved_quotes."', '".$approved_quotes."', '".$txt_total_quotes."'],";
+
+	for ($i = 1; $i <= count($array_quotes_over_time); $i++)
+	{
+		// Extract data from the array
+		list($time_txt, $nb_unapproved, $nb_approved) = explode(":", $array_quotes_over_time[$i]);
+		$nb_tot = $nb_unapproved + $nb_approved;
+
+		$graph_stats_js .= "['".$time_txt."', ".floor($nb_unapproved/$nb_tot*100).", ".floor($nb_approved/$nb_tot*100).", 100],";
+	}
+
+	$graph_stats_js .= " 
+	]);
+	var options = {
+          title: '".$quotes_over_time." (%)',
+          series: {0:{color:'red'}, 1:{color:'green'}, 2:{color:'blue', areaOpacity:0.1}}
+        };
+    var chart = new google.visualization.AreaChart(document.getElementById('quotes_time_percentage'));
         chart.draw(data, options);
     }
 
@@ -511,7 +540,8 @@ function update_stats ($language)
 	google.setOnLoadCallback(graph_search);
 	google.setOnLoadCallback(location_signup);
 	google.setOnLoadCallback(members_over_time);
-	google.setOnLoadCallback(quotes_over_time);";
+	google.setOnLoadCallback(quotes_over_time);
+	google.setOnLoadCallback(quotes_over_time_percentage);";
 
 	// Store it in the database
 	$query = mysql_query("UPDATE stats SET text_js = '".mysql_real_escape_string($graph_stats_js)."' WHERE id = 1");
