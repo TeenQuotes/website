@@ -2,8 +2,8 @@
 
 			<div id="right" <?php if ($_SERVER['PHP_SELF']=='/index.php') {echo "style=\"margin-top:35px\"";} ?>>
 			
-				<div id="lancement_app_ios" class="fade_on_hover">
-					<a href="<?php echo $link_app_iphone; ?>" onClick="_gaq.push(['_trackEvent', 'appiOS', 'clic', 'Website - sidebar right']);" title="App iOS"></a>
+				<div id="lancement_app_ios">
+					<a href="<?php echo $link_app_iphone; ?>" <?php hint('top', $apps_hint); ?> onClick="_gaq.push(['_trackEvent', 'appiOS', 'clic', 'Website - sidebar right']);" title="App iOS"></a>
 				</div>
 				
 				<div class="post">
@@ -21,22 +21,28 @@
 					<?php 
 					include 'lang/'.$language.'/connexion.php';
 					require 'kernel/connexion.php'; ?>
+
 					<form action="?action=connexion" method="post">
 						<span class="icone_login member"></span><input type="text" name="pseudo" placeholder="<?php echo $username_form; ?>" class="input_right_connexion_form"/>
 						<span class="icone_login password"></span><input type="password" name="pass" placeholder="<?php echo $password_form; ?>" class="input_right_connexion_form"/>
 						<span class="right margin_log_me"><input type="submit" name="connexion" class="submit" value="<?php echo $log_me; ?>"/></span>
 						<div class="clear"></div>
 					</form>
-					<span class="right"><a href="signup?menuright" onClick="_gaq.push(['_trackEvent', 'signup', 'clic', 'Website - right menu']);" title="<?php echo $sign_up; ?>"><?php echo $sign_up; ?></a> | <a href="forgot" title="<?php echo $forget; ?>"> <?php echo $forget; ?></a></span><br/>
+
+					<span class="right">
+						<a href="signup?menuright" <?php hint('top', $sign_up_hint); ?> onClick="_gaq.push(['_trackEvent', 'signup', 'clic', 'Website - right menu']);"><?php echo $sign_up; ?></a>
+						 | 
+						<a href="forgot"> <?php echo $forget; ?></a>
+					</span><br/>
 				</div>
 				<?php } else { ?>
-				<div class="post">
+				<div class="post" id="logged_box">
 					<?php
 					if ($domain == $domain_en)
 					{
 					?>
 						<div class="title"><span class="icone_login member"></span><?php echo $my_account; ?></div>
-						<?php echo $connected_as; ?> <a href="user-<?php echo $_SESSION['id'] ?>" title="<?php echo $my_profile; ?>"><?php echo $username; ?></a><br/>
+						<?php echo $connected_as; ?> <a href="user-<?php echo $_SESSION['id'] ?>" <?php hint('right', $my_profile_hint); ?>><?php echo $username; ?></a><br/>
 						<br/>
 						<form action="?deconnexion" method="post">
 							<input type="submit" value="<?php echo $logout; ?>" />
@@ -111,15 +117,11 @@
 			</div>
 		</div><!-- END FOOTER -->
 
-		<?php mysql_close(); ?>
+			<?php 
+				mysql_close();
+			?>
 		
 			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-			<?php 
-			if ($php_self == "search")
-			{
-				echo '<script src="http://static.augusti.fr/js/scroll.js"></script>';
-			}
-			?>
 			<script src="//<?php echo $domain; ?>/scrypt.min.js"></script>
 	</body>
 </html>

@@ -42,7 +42,6 @@ else
 		
 		<link href='//fonts.googleapis.com/css?family=Ubuntu:300|Gloria+Hallelujah|Open+Sans:300' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="//<?php echo $domain; ?>/style.css" />
-		<link rel="stylesheet" href="//<?php echo $domain; ?>/uniform/uniform.css" />
 
 		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domain; ?>/images/favicon.png"/>
 		<meta property="og:image" content="http://<?php echo $domain; ?>/images/icon50.png" /> 
@@ -92,17 +91,17 @@ else
 	{ 
 	?>
 		<a href="/" class="menu" title="<?php echo $home; ?>"><span class="icone_menu home"></span><?php echo $home; ?></a>
-		<a href="/signup?topbar" onClick="_gaq.push(['_trackEvent', 'signup', 'clic', 'Website - topbar']);" class="menu" title="<?php echo $sign_up; ?>"><span class="icone_menu signin"></span><?php echo $sign_up; ?></a>
+		<a href="/signup?topbar" onClick="_gaq.push(['_trackEvent', 'signup', 'clic', 'Website - topbar']);" class="menu"><span class="icone_menu signin"></span><span <?php hint('bottom', $sign_up_hint); ?>><?php echo $sign_up; ?></span></a>
 		<a href="/members" class="menu" title="<?php echo $members; ?>"><span class="icone_menu members"></span><?php echo $members; ?></a>
 		<a href="/random" class="menu" title="<?php echo $random_quote; ?>"><span class="icone_menu random"></span><?php echo $random_quote; ?></a>
 		<a href="/newsletter" class="menu" title="<?php echo $newsletter; ?>"><span class="icone_menu newsletter"></span>Newsletter</a>
-		<a href="/signup?addquote" onClick="_gaq.push(['_trackEvent', 'signup', 'clic', 'Website - addquote']);" class="menu" title="<?php echo $add_a_quote; ?>"><span class="icone_menu add"></span><?php echo $add_a_quote; ?></a>
+		<a href="/signup?addquote" onClick="_gaq.push(['_trackEvent', 'signup', 'clic', 'Website - addquote']);" class="menu"><span class="icone_menu add"></span><span <?php hint('bottom', $add_a_quote_hint); ?>><?php echo $add_a_quote; ?></span></a>
 		<?php
 		// APPLICATIONS
 		if ($download_app == TRUE OR $_SESSION['security_level'] >= '2')
 		{
 		?>
-			<a href="/apps" onClick="_gaq.push(['_trackEvent', 'appiOS', 'clic', 'Website - menu topbar']);" class="menu" title="<?php echo $apps; ?>"><span class="icone_menu apps"></span><?php echo $apps; ?></a>
+			<a href="/apps" onClick="_gaq.push(['_trackEvent', 'appiOS', 'clic', 'Website - menu topbar']);" class="menu" title="<?php echo $apps; ?>"><span class="icone_menu apps"></span><span <?php hint('bottom', $apps_hint); ?>><?php echo $apps; ?></span></a>
 		<?php
 		}
 	}
@@ -110,16 +109,16 @@ else
 	{
 	?>
 		<a href="/" class="menu" title="<?php echo $home; ?>"><span class="icone_menu home"></span><?php echo $home; ?></a>
-		<a href="/user-<?php echo $id; ?>" class="menu" title="<?php echo $my_profile; ?>"><span class="icone_menu profile"></span><?php echo $my_profile; ?></a>
+		<a href="/user-<?php echo $id; ?>" class="menu"><span class="icone_menu profile"></span><span <?php hint('bottom', $my_profile_hint); ?>><?php echo $my_profile; ?></span></a>
 		<a href="/members" class="menu" title="<?php echo $members; ?>"><span class="icone_menu members"></span><?php echo $members; ?></a>
 		<a href="/random" class="menu" title="<?php echo $random_quote; ?>"><span class="icone_menu random"></span><?php echo $random_quote; ?></a>
-		<a href="/addquote" class="menu" title="<?php echo $add_a_quote; ?>"><span class="icone_menu add"></span><?php echo $add_a_quote; ?></a>
+		<a href="/addquote" class="menu"><span class="icone_menu add"></span><span <?php hint('bottom', $add_a_quote_hint); ?>><?php echo $add_a_quote; ?></span></a>
 		<?php
 		// APPLICATIONS
 		if ($download_app == TRUE OR $_SESSION['security_level'] >= '2')
 		{
 		?>
-			<a href="/apps" onClick="_gaq.push(['_trackEvent', 'appiOS', 'clic', 'Website - menu topbar']);" class="menu" title="<?php echo $apps; ?>"><span class="icone_menu apps"></span><?php echo $apps; ?></a>
+			<a href="/apps" onClick="_gaq.push(['_trackEvent', 'appiOS', 'clic', 'Website - menu topbar']);" class="menu"><span class="icone_menu apps"></span><span <?php hint('bottom', $apps_hint); ?>><?php echo $apps; ?></span></a>
 		<?php
 		}
 

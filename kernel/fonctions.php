@@ -1694,6 +1694,25 @@ function getRandomTooltip()
 	return $content;
 }
 
+function hint ($position, $txt, $type=FALSE, $return=FALSE)
+{
+	$class = $position;
+
+	if ($type != FALSE)
+	{
+		$class .= ' hint--'.$type;
+	}
+
+	if (!$return)
+	{
+		echo 'class="hint--'.$class.'" data-hint="'.$txt.'"';
+	}
+	else
+	{
+		return 'class="hint--'.$class.'" data-hint="'.$txt.'"';
+	}
+}
+
 function addMember ($username, $email, $passwordOne, $passwordConfirm)
 {
 	global $language;

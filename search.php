@@ -94,7 +94,7 @@ else
 
 				if ($num_rows_quote >= 1 AND $num_rows_members >= 1)
 				{
-					echo '<h3><a href="#quotes"><img src="http://'.$domain.'/images/icones/profil.png" class="icone">'.$quotes.'</a><span class="right"><a href="#members"><img src="http://'.$domain.'/images/icones/staff.png" class="icone">'.$members.'</span></a></h3>';
+					echo '<h3><img src="http://'.$domain.'/images/icones/profil.png" class="icone"><a href="#quotes">'.$quotes.'</a><span class="right"><img src="http://'.$domain.'/images/icones/staff.png" class="icone"><a href="#members">'.$members.'</span></a></h3>';
 				}
 			echo '</div>';
 		echo '</div>';
