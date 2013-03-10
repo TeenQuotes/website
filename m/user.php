@@ -147,59 +147,42 @@ else
 			$nombreDePages = $display_page_top[1];
 			$page = $display_page_top[2];
 	
-			$reponse = mysql_query("SELECT DISTINCT id_quote FROM teen_quotes_favorite WHERE id_user = '".$id."' ORDER BY id DESC LIMIT ".$premierMessageAafficher." ,  ".$nb_messages_par_page."");
-			while ($resultat = mysql_fetch_array($reponse))
-			{
-				$id_quote_fav = $resultat['id_quote'];
-				$id_visitor = $_SESSION['id'];
+			$fav_part = '';
+			$id_visitor = $_SESSION['id'];
 
-				if ($logged AND $id_visitor != $id)
+			if ($logged AND $id_visitor != $id)
+			{
+				$fav_part = " ,(SELECT COUNT(*) FROM teen_quotes_favorite f WHERE q.id = f.id_quote AND f.id_user = ".$id_visitor.") AS is_favorite";
+			}
+
+			$sql_txt = 
+			"SELECT f.id fav_id, q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, COUNT(c.id) nb_comments, a.username auteur$fav_part
+			FROM teen_quotes_quotes q
+
+			LEFT JOIN teen_quotes_favorite f
+			ON f.id_quote = q.id
+
+			LEFT JOIN teen_quotes_comments c
+			ON c.id_quote = q.id
+
+			LEFT JOIN teen_quotes_account a
+			ON a.id = q.auteur_id
+
+			WHERE f.id_user = $id
+			GROUP BY q.id
+			ORDER BY f.id DESC LIMIT $premierMessageAafficher, $nb_messages_par_page";
+			
+			$reponse = mysqL_query($sql_txt);
+
+			while ($donnees = mysql_fetch_array($reponse))
+			{
+				// Obviously this quote is in its favorites
+				if ($id_visitor == $id)
 				{
-					$donnees = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur,
-															(SELECT COUNT(*)
-															FROM teen_quotes_comments c
-															WHERE q.id = c.id_quote) AS nb_comments,
-															(SELECT COUNT(*)
-															FROM teen_quotes_favorite f
-															WHERE q.id = f.id_quote AND f.id_user = '$id_visitor') AS is_favorite
-															FROM teen_quotes_quotes q, teen_quotes_account a 
-															WHERE q.auteur_id = a.id AND q.id = '$id_quote_fav'"));
+					$donnees['is_favorite'] = 1;
 				}
-				else
-				{
-					$donnees = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur,
-															(SELECT COUNT(*)
-															FROM teen_quotes_comments c
-															WHERE q.id = c.id_quote) AS nb_comments
-															FROM teen_quotes_quotes q, teen_quotes_account a 
-															WHERE q.auteur_id = a.id AND q.id = '$id_quote_fav'"));
-				}
-				 
-				$id_quote = $donnees['id'];
-				$txt_quote = $donnees['texte_english'];
-				$auteur_id = $donnees['auteur_id'];
-				$auteur = $donnees['auteur']; 
-				$date_quote = $donnees['date'];
-				$nombre_commentaires = $donnees['nb_comments'];
-				
-				if ($logged AND $id_visitor != $id)
-				{
-					$is_favorite = $donnees['is_favorite'];
-				}
-				elseif ($id_visitor == $id)
-				{
-					$is_favorite = '1';
-				}
-				?>
-		
-				<div class="grey_post">
-					<?php echo $donnees['texte_english']; ?><br/>
-					<div class="footer_quote">
-						<a href="quote-<?php echo $id_quote_fav; ?>">#<?php echo $id_quote_fav; afficher_nb_comments ($nombre_commentaires); ?></a><?php afficher_favori($id_quote, $is_favorite, $logged, $_SESSION['id']); date_et_auteur($auteur_id, $auteur, $date_quote); ?>
-					</div>
-				</div>
-				<?php 
-				$i++;
+
+				displayQuote($donnees, $page, 0, 'user');
 			}
 				
 			display_page_bottom($page, $nombreDePages, 'page_fav', '#fav_quotes', $previous_page, $next_page);
