@@ -61,7 +61,7 @@ $new_password_repeat = "Répétez votre nouveau mot de passe";
 $characters = "caractères";
 
 $email_subject_change_pass = "Nouveau mot de passe";
-$email_message_change_pass = "$top_mail Bonjour <font color=\"#394DAC\"><b>$username</b></font> !<br/><br/>Vous venez de changer votre mot de passe sur ".$name_website.".<br/><br/>Vos nouveaux identifiants sont :<br/><br/><li>Pseudo : <font color=\"#394DAC\"><b>$username</b></font></li><li>Mot de passe : <font color=\"#394DAC\"><b>$pass2</b></font></li><br/>Gardez les précieusement ! Vous pouvez vous connecter dès maintenant en cliquant <a href=\"http://".$domain."/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">sur ce lien</a>.<br/><br/>Cordialement,<br/><b>The ".$name_website." Team</b> $end_mail";
+$email_message_change_pass = "$top_mail Bonjour <font color=\"#394DAC\"><b>$username</b></font> !<br/><br/>Vous venez de changer votre mot de passe sur ".$name_website.".<br/><br/>Vos nouveaux identifiants sont :<br/><br/><li>Pseudo : <font color=\"#394DAC\"><b>$username</b></font></li><li>Mot de passe : <font color=\"#394DAC\"><b>$pass2</b></font></li><br/>Gardez les précieusement ! Vous pouvez vous connecter dès maintenant en cliquant <a href=\"http://".$domain."/connexion.php?method=get&pseudo=$username&password=$pass_hash\" target=\"_blank\">sur ce lien</a>.<br/><br/>Cordialement,<br/><b>The ".$name_website." Team</b> $end_mail";
 $change_pass_succes = $succes." Votre mot de passe a été changé avec succès !<br/><br/><br/>Vos identifiants vous ont été envoyés sur votre adresse email.";
 $password_short = "Votre mot de passe est trop court.";
 $password_not_same = "Les mots de passe ne sont pas identiques.";

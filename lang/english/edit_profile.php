@@ -62,7 +62,7 @@ $characters = "letters";
 
 
 $email_subject_change_pass = "New password";
-$email_message_change_pass = "$top_mail Hello <font color=\"#394DAC\"><b>$username</b></font>!<br/><br/>You have recently change your password on ".$name_website.".<br/><br/>Your new credentials are:<br/><br/><li>Username: <font color=\"#394DAC\"><b>$username</b></font></li><li>Password: <font color=\"#394DAC\"><b>$pass1</b></font></li><br/>Keep precisely! You can login now by clicking on <a href=\"http://".$domain."/connexion.php?method=get&pseudo=$username&password=$pass\" target=\"_blank\">this link</a>. <br/><br/>Sincerely,<br/><b>The ".$name_website." Team</b> $end_mail";
+$email_message_change_pass = "$top_mail Hello <font color=\"#394DAC\"><b>$username</b></font>!<br/><br/>You have recently change your password on ".$name_website.".<br/><br/>Your new credentials are:<br/><br/><li>Username: <font color=\"#394DAC\"><b>$username</b></font></li><li>Password: <font color=\"#394DAC\"><b>$pass1</b></font></li><br/>Keep precisely! You can login now by clicking on <a href=\"http://".$domain."/connexion.php?method=get&pseudo=$username&password=$pass_hash\" target=\"_blank\">this link</a>. <br/><br/>Sincerely,<br/><b>The ".$name_website." Team</b> $end_mail";
 $change_pass_succes = $succes." Your password was changed successfully!<br/><br/><br/>Your login will be sent to your email address.";
 $password_short = "Your password is too short.";
 $password_not_same = "Passwords are not the same.";

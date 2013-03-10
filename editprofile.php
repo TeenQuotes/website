@@ -5,6 +5,7 @@ $id_user = $_SESSION['id'];
 $result = mysql_fetch_array(mysql_query("SELECT * FROM teen_quotes_account where id = '$id_user'"));
 $pass1 = htmlspecialchars(mysql_real_escape_string($_POST['pass1']));
 $pass2 = htmlspecialchars(mysql_real_escape_string($_POST['pass2']));
+$pass_hash = sha1(strtoupper($username).':'.strtoupper($pass1));
 
 $email_quote_today_num_rows = mysql_num_rows(mysql_query("SELECT id FROM newsletters WHERE email = '".$email."' AND type = 'daily'"));
 $is_newsletter = mysql_num_rows(mysql_query("SELECT id FROM newsletters WHERE email = '".$email."' AND type = 'weekly'"));
@@ -297,13 +298,12 @@ elseif ($action == "change")
 	{
 		if (strlen($pass1) >= 5)
 		{
-			$pass = sha1(strtoupper($username).':'.strtoupper($pass1));
-			$query = mysql_query("UPDATE teen_quotes_account SET pass = '$pass' WHERE id = '$id'") or die ('Erreur : '.mysql_error());
+			$query = mysql_query("UPDATE teen_quotes_account SET pass = '$pass_hash' WHERE id = '$id'") or die ('Erreur : '.mysql_error());
 			$mail = mail($email, $email_subject_change_pass, $email_message_change_pass, $headers); 
 			if ($query AND $mail)
 			{
 				echo $change_pass_succes;
-				echo '<meta http-equiv="refresh" content="3;url=connexion.php?method=get&pseudo='.$username.'&password='.$pass.'" />';
+				echo '<meta http-equiv="refresh" content="3;url=connexion.php?method=get&pseudo='.$username.'&password='.$pass_hash.'" />';
 			}
 			else 
 			{
