@@ -849,8 +849,6 @@ function display_individual_story ($data)
 // TO DO : user.php && /m/user.php
 function displayQuote ($result, $page, $i, $type='random')
 {
-	// Antoine : I don't know why but we have to do multiple echos. Keep it like this.
-
 	// Grant access
 	global $last_visit;
 
