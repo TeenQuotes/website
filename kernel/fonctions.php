@@ -868,7 +868,7 @@ function displayQuote ($result, $page, $i, $type='random')
 	}
 
 	// Special class for search and user
-	$class_div = ($type == 'search' OR $type == 'user') ? 'grey_post' : 'post';
+	$class_div = (in_array($type, array('search', 'user'))) ? 'grey_post' : 'post';
 
 	// DESKTOP
 	if (!$is_mobile)
