@@ -748,6 +748,9 @@ a.letters_members {
 	box-shadow:inset 0 1px 0 white,0 1px 0 #CCC;
 	margin-right:7px
 }
+a.letters_members:hover {
+	border: 1px solid #CCC;
+}
 .grey_post {
 	background:url(/images/dark_gray.png) center;
 	border:1px solid #CCC;
