@@ -85,19 +85,19 @@ elseif ($action == "send")
 		if (usernameIsValid($username)) 
 		{
 			$test = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_account WHERE username = '$username'"));
-			if($test == 0) 
+			if ($test == 0) 
 			{
-				if($pass1 == $pass2)
+				if ($pass1 == $pass2)
 				{
-					if(strlen($pass1) >= 6)
+					if (strlen($pass1) >= 6)
 					{
 						// Salt
-						if(strlen($email) >= 6)
+						if (strlen($email) >= 6)
 						{          
-							if(preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email))
+							if (preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email))
 							{
 								$test = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_account WHERE email = '$email'"));
-								if($test == 0)
+								if ($test == 0)
 								{
 									$add = mysql_query("INSERT INTO teen_quotes_account (username, pass, email, ip, security_level, location_signup) VALUES ('$username', '$pass_salt', '$email', '$ip', '0', 'website')");
 									if ($newsletter_checkbox == '1')
@@ -111,7 +111,7 @@ elseif ($action == "send")
 									}
 									$message = ''.$email_message;
 									$mail = mail($email, $email_subject, $message, $headers);
-									if($add)
+									if ($add)
 									{
 										echo $signup_succes;
 										echo '<meta http-equiv="refresh" content="10;url=connexion.php?method=get&pseudo='.$username.'&password='.$pass_salt.'" />';

@@ -50,7 +50,7 @@ if ($_SESSION['logged'])
 		{
 			if ((usernameIsValid($username_old) == FALSE) AND (usernameIsValid($new_username) == TRUE))
 			{
-				if(($pass1 == $pass2) AND (strlen($pass1) >= '6'))
+				if (($pass1 == $pass2) AND (strlen($pass1) >= '6'))
 				{
 					$passwd = sha1(strtoupper($new_username).':'.strtoupper($pass1));
 					$sql = "UPDATE  `teen_quotes_account` SET  `username` =  '$new_username', `pass` = '$passwd' WHERE  `teen_quotes_account`.`id` = '$session_id' LIMIT 1;";

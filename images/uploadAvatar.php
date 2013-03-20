@@ -25,7 +25,7 @@ $requete = "UPDATE teen_quotes_account SET avatar = \"".htmlspecialchars(mysql_r
 echo "<br/>".$requete."<br/>";
 $update = mysql_query($requete);
 
-if($update)
+if ($update)
 	echo "Update réussi";
 else
 	echo "Update raté";

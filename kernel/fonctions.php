@@ -1736,9 +1736,9 @@ function addMember ($username, $email, $passwordOne, $passwordConfirm)
 	 * PASSWORD
 	 */
 
-	if(strlen($passwordOne) < 6)//If password is too short
+	if (strlen($passwordOne) < 6)//If password is too short
 		array_push($errors, $password_short);
-	else if($passwordOne != $passwordConfirm && $passwordConfirm != "")//If passwords doesn't match
+	else if ($passwordOne != $passwordConfirm && $passwordConfirm != "")//If passwords doesn't match
 		array_push($errors, $password_not_same);
 		
 	/*
@@ -1746,23 +1746,23 @@ function addMember ($username, $email, $passwordOne, $passwordConfirm)
 	 */
 
 	$numberOfEmail = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_account WHERE email = '$email'"));
-	if(strlen($email) < 6 || !preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email))
+	if (strlen($email) < 6 || !preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email))
 		array_push($errors, $email_incorrect);
-	else if($numberOfEmail != 0)
+	else if ($numberOfEmail != 0)
 		array_push($errors, $email_taken);
 
 	/*
 	 * ADD MEMBER TO DATABASE
 	 */
 
-	if(count($errors) == 0)
+	if (count($errors) == 0)
 	{
 		$ip = $_SERVER["REMOTE_ADDR"];//IP
 		$pass = sha1(strtoupper($username).':'.strtoupper($passwordOne));//PASS
 
 		$add = mysql_query("INSERT INTO teen_quotes_account (username, pass, email, ip, security_level, location_signup) VALUES ('$username', '$pass', '$email', '$ip', '0', 'website')");
 		
-		if(!$add)
+		if (!$add)
 			array_push($errors, $error);
 	}
 

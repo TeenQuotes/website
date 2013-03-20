@@ -81,7 +81,7 @@ if (isDomainValidForAjax() AND $_SESSION['security_level'] >= 2)
 		// We have only one quote to approve	
 		if ($approve_quote AND mysql_num_rows($waiting_moderation) == 0 AND mysql_num_rows($waiting_send) == 1) 
 		{	
-			if(preg_match('/'.$domain_fr.'/', $_SERVER['SERVER_NAME']))
+			if (preg_match('/'.$domain_fr.'/', $_SERVER['SERVER_NAME']))
 			{
 				$message = ''.$top_mail.' Bonjour <font color="#394DAC"><b>'.$name_author.'</b></font> !<br/><br/>Votre citation a été <font color="#394DAC"><b>approuvée</b></font> récemment par un membre de notre équipe. Elle sera publiée le <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted.'), vous recevrez un email quand elle sera publiée sur le site.<br/><br/>Voici votre citation :<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://kotado.fr/user-'.$author_id.'" target="_blank">'.$name_author.'</a> le '.$date_quote.'</span></div>'.$edit_message.'<br/><br/>Cordialement,<br/><b>L\'équipe de Kotado</b>'.$end_mail;
 			}
@@ -122,7 +122,7 @@ if (isDomainValidForAjax() AND $_SESSION['security_level'] >= 2)
 			// Only one quote has been unapproved
 			if (mysql_num_rows($waiting_moderation) == 0 AND mysql_num_rows($waiting_send) == 1)
 			{
-				if(preg_match('/'.$domain_fr.'/', $_SERVER['SERVER_NAME']))
+				if (preg_match('/'.$domain_fr.'/', $_SERVER['SERVER_NAME']))
 				{
 					$message = ''.$top_mail.'Bonjour <font color="#394DAC"><b>'.$name_author.'</b></font> !<br/><br/>Votre citation a été <font color="#394DAC"><b>rejetée</b></font> récemment par un membre de notre équipe...<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://kotado.fr/user-'.$author_id.'" target="_blank">'.$name_author.'</a> le '.$date_quote.'</span></div>'.$quotes_unapproved_singular.$quotes_unapproved_reasons.'Cordialement,<br/><b>The Kotado Team</b>'.$end_mail;
 				}

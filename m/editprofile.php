@@ -40,15 +40,15 @@ include '../lang/'.$language.'/newsletter.php';
 include '../lang/'.$language.'/signup.php';
 
 
-if(empty($result['birth_date'])) 
+if (empty($result['birth_date'])) 
 {
 	$result['birth_date'] = NULL;
 }
-if(empty($result['title']))
+if (empty($result['title']))
 {
 	$result['title'] = NULL;
 }
-if(empty($result['about_me']))
+if (empty($result['about_me']))
 {
 	$result['about_me'] = NULL;
 }
@@ -56,11 +56,11 @@ else
 {
 	$result['about_me'] = nl2br_to_textarea($result['about_me']);
 }
-if(empty($result['country']))
+if (empty($result['country']))
 {
 	$result['country'] = NULL;
 }
-if(empty($result['city']))
+if (empty($result['city']))
 {
 	$result['city'] = NULL;
 }
@@ -101,7 +101,7 @@ if (empty($action))
 			<form action="?action=settings" method="post">
 				<input type="checkbox" id="input_newsletter" name="newsletter" value="1"'; if ($is_newsletter == '1') echo 'checked="checked"'; echo ' /><label for="input_newsletter">'.$i_want_newsletter.'</label><br/>
 				<input type="checkbox" id="input_email_quote_today" name="email_quote_today" value="1"'; if ($email_quote_today_num_rows == '1') echo 'checked="checked"'; echo ' /><label for="input_email_quote_today">'.$i_want_email_quote_today.'</label><br/>
-				<input type="checkbox" id="input_comments_quote" name="comments_quote" value="1"'; if($notification_comment_quote == '1') echo 'checked="checked"'; echo ' /><label for="input_comments_quote">'.$i_want_comment_quotes.'</label><br/>
+				<input type="checkbox" id="input_comments_quote" name="comments_quote" value="1"'; if ($notification_comment_quote == '1') echo 'checked="checked"'; echo ' /><label for="input_comments_quote">'.$i_want_comment_quotes.'</label><br/>
 				<br/>
 				<center><p><input type="submit" value="Okay" class="submit" /></p></center>
 			</form>
@@ -153,7 +153,7 @@ elseif ($action == "send")
 	$hide_profile = htmlspecialchars(mysql_real_escape_string($_POST['hide_profile']));
 				
 				
-	if((!empty($title) OR !empty($birth_date) OR !empty($country) OR !empty($city) OR !empty($about_me)) OR !empty($hide_profile))
+	if ((!empty($title) OR !empty($birth_date) OR !empty($country) OR !empty($city) OR !empty($about_me)) OR !empty($hide_profile))
 	{
 		if ($hide_profile == "No") 
 		{

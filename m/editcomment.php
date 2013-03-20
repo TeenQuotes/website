@@ -62,7 +62,7 @@ if (is_numeric($id_comment) AND !empty($id_comment))
 				<center><p><input type="submit" value="'.$edit_my_comment.'" class="submit" /></p></center>
 			</form>';
 		}
-		elseif($action == 'send')
+		elseif ($action == 'send')
 		{
 			$new_texte = htmlspecialchars(mysql_real_escape_string($_POST['texte_comment']));
 			if (!empty($new_texte))

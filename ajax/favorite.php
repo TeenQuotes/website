@@ -27,7 +27,7 @@ if (isDomainValidForAjax())
 		$query = mysql_query("INSERT INTO teen_quotes_favorite (id_quote, id_user) VALUES ('$id_quote','$id')");
 		$update_fav = mysql_query("UPDATE teen_quotes_quotes SET nb_fav=nb_fav+1 WHERE id = '$id_quote'");
 		 
-		if($query AND $update_fav)
+		if ($query AND $update_fav)
 		{
 			echo $add_succes;
 		} 

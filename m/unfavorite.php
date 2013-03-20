@@ -13,7 +13,7 @@ $update_fav = mysql_query('UPDATE teen_quotes_quotes SET nb_fav = nb_fav-1 WHERE
 
 echo '
 <div class="post">';
-	if($query) 
+	if ($query) 
 	{
 		echo $delete_succes;
 		echo '<meta http-equiv="refresh" content="2;url=quote-'.$id_quote.'" />';

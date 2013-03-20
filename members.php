@@ -18,13 +18,13 @@ echo '</div>';
 // $lettre in header.php
 $retour = mysql_query("SELECT COUNT(*) AS nb_membre FROM teen_quotes_account WHERE username LIKE '$lettre%' AND hide_profile = '0'");
 $donnees = mysql_fetch_array($retour);
-$totalDesMembres = $donnees['nb_membre'];
+$members_total = $donnees['nb_membre'];
 
-if ($totalDesMembres > 0) 
+if ($members_total > 0) 
 {
 	$nb_messages_par_page = 10;
 
-	$display_page_top = display_page_top($totalDesMembres, $nb_messages_par_page, 'p', $previous_page, $next_page, NULL, TRUE);
+	$display_page_top = display_page_top($members_total, $nb_messages_par_page, 'p', $previous_page, $next_page, NULL, TRUE);
 	$premierMessageAafficher = $display_page_top[0];
 	$nombreDePages = $display_page_top[1];
 	$page = $display_page_top[2];
@@ -84,7 +84,7 @@ if ($totalDesMembres > 0)
 		echo '</div>';
 		
 		$j++;
-	}  // END WHILE
+	} // END WHILE
 
 	echo '</div>';
 	

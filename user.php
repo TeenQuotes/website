@@ -78,14 +78,14 @@ else
 		$nb_comments = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_comments WHERE auteur_id = '".$id."'"));
 		$nb_quotes_added_to_favorite = mysql_num_rows(mysql_query("SELECT F.id FROM teen_quotes_favorite F, teen_quotes_quotes Q WHERE F.id_quote = Q.id AND Q.auteur_id = '".$id."'"));
 		
-		if(empty($result['birth_date'])) {$result['birth_date'] = ''.$not_specified;}
-		if(empty($result['title'])) {$result['title'] = ''.$not_specified;}
-		if(empty($result['about_me'])) {$result['about_me'] = ''.$no_description;}
-		if(empty($result['country'])) {$result['country'] = ''.$not_specified;}
-		if(empty($result['city'])) {$result['city'] = ''.$not_specified;}
-		if(empty($result['number_comments'])) {$result['number_comments'] = ''.$no_posted_comments;}
-		if(empty($result['avatar'])) {$result['avatar'] = "icon50.png";}
-		if($result['avatar'] =="http://".$domain."/images/icon50.png") {$result['avatar'] = "icon50.png";}
+		if (empty($result['birth_date'])) {$result['birth_date'] = ''.$not_specified;}
+		if (empty($result['title'])) {$result['title'] = ''.$not_specified;}
+		if (empty($result['about_me'])) {$result['about_me'] = ''.$no_description;}
+		if (empty($result['country'])) {$result['country'] = ''.$not_specified;}
+		if (empty($result['city'])) {$result['city'] = ''.$not_specified;}
+		if (empty($result['number_comments'])) {$result['number_comments'] = ''.$no_posted_comments;}
+		if (empty($result['avatar'])) {$result['avatar'] = "icon50.png";}
+		if ($result['avatar'] =="http://".$domain."/images/icon50.png") {$result['avatar'] = "icon50.png";}
 		
 		if ($result['birth_date'] != "$not_specified")
 		{
@@ -112,7 +112,7 @@ else
 			<img src="http://'.$domain.'/images/avatar/'.$result['avatar'].'" class="user_avatar" />
 			<h2>'.$result['username'].'<span class="right">'. $user_informations.'
 			';
-			if($id == $_SESSION['id']) 
+			if ($id == $_SESSION['id']) 
 			{
 			    echo ' - <a class="submit" href="editprofile">'.$edit.'</a>';
 			}
@@ -286,7 +286,7 @@ else
 		<h2><img src="http://'.$domain.'/images/icones/profil.png" class="icone">'.$user_quotes.'</h2>
 		';
 			
-		if($nb_quotes_approved >= 1)
+		if ($nb_quotes_approved >= 1)
 		{
 			$nb_messages_par_page = 5;
 

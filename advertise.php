@@ -62,32 +62,32 @@ elseif ($action == 'send')
 	<div class="post">
 	<h2><img src="http://'.$domain.'/images/icones/business.png" class="icone" />'.$advertise.'</h2>';
 	
-	if(isset($_POST['sujet']))      $sujet = $_POST['sujet'];
+	if (isset($_POST['sujet']))      $sujet = $_POST['sujet'];
 	else      $sujet = "";
 
 	if (isset ($_POST ['copie'])) $copie = TRUE; 
 	else $copie = FALSE; 
 
-	if(isset($_POST['message']))      $message = $_POST['message'];
+	if (isset($_POST['message']))      $message = $_POST['message'];
 	else      $message = "";
 
-	if(isset($_POST['twitter_account']))      $twitter_account = $_POST['twitter_account'];
+	if (isset($_POST['twitter_account']))      $twitter_account = $_POST['twitter_account'];
 	else      $twitter_account = "";
 
-	if(isset($_POST['email']) && preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $_POST['email']))     $email = $_POST['email'];
+	if (isset($_POST['email']) && preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $_POST['email']))     $email = $_POST['email'];
 	else      $email = "";
 
 
-	if(isset($_POST['nom']))      $nom = $_POST['nom'];
+	if (isset($_POST['nom']))      $nom = $_POST['nom'];
 	else      $nom = "";
 	
-	if(empty($sujet) OR empty($message) OR empty($email) OR empty($nom) OR empty($twitter_account))
+	if (empty($sujet) OR empty($message) OR empty($email) OR empty($nom) OR empty($twitter_account))
 	{ 
 		echo '<div class="bandeau_erreur">'.$input_empty.'</div>'.$lien_retour;
 	}
 	else      
 	{
-		if($_POST['captcha'] == $_SESSION['captcha'])
+		if ($_POST['captcha'] == $_SESSION['captcha'])
 		{
 		  
 			$headers ='From: "'.$nom.'"<no-reply@'.$domain.'>'."\n";
@@ -104,7 +104,7 @@ elseif ($action == 'send')
 			$message .= "\r\n";
 			$message .= '------------------ Message sent from www.'.$domain.' ------------------';
 			
-			if(mail("contact@teen-quotes.com", stripslashes($sujet), stripslashes($message), $headers))
+			if (mail("antoine.augusti@gmail.com", stripslashes($sujet), stripslashes($message), $headers))
 			{ 
 				echo $succes.' '.$send_succes.' (<a href="mailto:'.$email.'">'.$email.'</a>)';
 			}

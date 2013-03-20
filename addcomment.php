@@ -44,7 +44,7 @@ if (!empty($id_quote) AND !empty($texte))
 				</div>
 				Voici le commentaire :
 				<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
-				'.$texte_comment.'<br/><br/>
+					'.$texte_comment.'<br/><br/>
 				<a href="http://kotado.fr/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domain.'/images/avatar/'.$avatar.'" style="border:2px solid #394DAC;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">'.$by.' <a href="http://'.$domain.'/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br/>
 				</div>
 				'.$end_mail;
@@ -54,16 +54,16 @@ if (!empty($id_quote) AND !empty($texte))
 				$comment_added_mail = '
 				'.$top_mail.' 
 				Hello '.$auteur.',<br/><br/>
-				A comment has been added on your quote :
+				A comment has been added on your quote:
 				<br/>
 				<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
 					'.$txt_quote.'<br/><br/>
 					<a href="http://'.$domain.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">'.$by.' <a href="http://'.$domain.'/user-'.$auteur_id.'" target="_blank" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_posted.'</span>
 				</div>
-				Here is the comment :
+				Here is the comment:
 				<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">
-				'.$texte_comment.'<br/><br/>
-				<a href="http://'.$domain.'/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domain.'/images/avatar/'.$avatar.'" style="border:2px solid #394DAC;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">'.$by.' <a href="http://'.$domain.'/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br/>
+					'.$texte_comment.'<br/><br/>
+					<a href="http://'.$domain.'/user-'.$id.'" title="'.$view_his_profile.'"><img src="http://'.$domain.'/images/avatar/'.$avatar.'" style="border:2px solid #394DAC;float:left;height:20px;margin-right:5px;margin-top:-10px;width:20px" /></a><span style="float:right">'.$by.' <a href="http://'.$domain.'/user-'.$id.'" title="'.$view_his_profile.'">'.$username.'</a> '.$on.' '.$date.'</span><br/>
 				</div>
 				'.$end_mail;
 			}

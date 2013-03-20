@@ -9,7 +9,7 @@ if (preg_match('#[a-zA-Z]#', $_GET['p']))
 }
 
 // INCLUSION DES FICHIERS
-// Does the SQL replication works or not
+// Does the SQL replication works or not?
 require 'files/replication.php';
 require 'kernel/config.php';
 $db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
@@ -123,7 +123,7 @@ else
 		}
 
 		// ADMIN PANEL
-		if($_SESSION['security_level'] >= '2') 
+		if ($_SESSION['security_level'] >= '2') 
 		{ 
 		?>
 			
@@ -140,7 +140,7 @@ else
 </div><!-- END MENU -->
 
 <?php
-if($_SESSION['profile_not_fullfilled'] == TRUE AND $_SERVER['PHP_SELF'] == '/index.php')
+if ($_SESSION['profile_not_fullfilled'] == TRUE AND $_SERVER['PHP_SELF'] == '/index.php')
 {
 	echo $profite_not_yet_fulffiled;
 }

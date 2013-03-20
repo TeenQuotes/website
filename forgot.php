@@ -31,7 +31,7 @@ elseif ($action == "send")
 	
 	$email = mysql_real_escape_string($_POST['email']);
 
-	if(preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email))
+	if (preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email))
 	{
 		$test = mysql_num_rows(mysql_query("SELECT * FROM teen_quotes_account WHERE email='$email'"));
 		if ($test == 1)
@@ -46,7 +46,7 @@ elseif ($action == "send")
 			$message = "$top_mail $change_succes1 <font color=\"#394DAC\"><b>$username</b></font> $change_succes2 <font color=\"#394DAC\"><b>$newpass</b></font> $change_succes3 <a href=\"http://$domain/connexion.php?method=get&pseudo=$username&password=$passwd\" target=\"_blank\">$this_link</a>. $see_you_soon $end_mail";
 			$mail = mail($email, "$email_subject", $message, $headers); 
 			
-			if($update_pass AND $mail) 
+			if ($update_pass AND $mail) 
 			{
 				echo $its_ok;
 			}

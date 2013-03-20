@@ -2,6 +2,7 @@
 include "header.php";
 $action = mysql_real_escape_string($_GET['action']);
 include '../lang/'.$language.'/addquote.php';
+
 if (empty($action)) 
 {
 	echo '
@@ -23,10 +24,9 @@ elseif ($action == "add_quote")
 {
 	echo '
 	<div class="post">
-	<h2><img src="http://'.$domain.'/images/icones/add.png" class="icone" />'.$add_quote.'</h2>
-	';
+	<h2><img src="http://'.$domain.'/images/icones/add.png" class="icone" />'.$add_quote.'</h2>';
 	
-	$texte_quote= ucfirst(htmlspecialchars(mysql_real_escape_string($_POST['texte_quote'])));
+	$texte_quote = ucfirst(htmlspecialchars(mysql_real_escape_string($_POST['texte_quote'])));
 	$texte_quote = str_replace(array("\r", "\n"," dont "," im "," Im ",'´', " cant "), array('','',' don\'t ',' I\'m ',' I\'m ','\'','can\'t'), $texte_quote);
 	$date = date("d/m/Y");
 
@@ -35,7 +35,7 @@ elseif ($action == "add_quote")
 		$submitted_today = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id = '$id' AND date = '$date'"));
 		if ($submitted_today < $nb_quote_released_per_day )
 		{
-			if (is_quote_exist($texte_quote) == FALSE) 
+			if (!is_quote_exist($texte_quote)) 
 			{
 				if (!empty($username) AND !empty($id))
 				{

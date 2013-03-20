@@ -10,6 +10,7 @@ elseif (empty($action) AND $_SESSION['security_level'] >= '2')
 {
 	$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2'"));
 	$jours_posted = floor($nb_quote_awaiting_post / $nb_quote_released_per_day); 
+	
 	if ($nb_quote_awaiting_post % $nb_quote_released_per_day != 0)
 	{
 		$jours_posted = $jours_posted + 1;
@@ -37,7 +38,7 @@ elseif (empty($action) AND $_SESSION['security_level'] >= '2')
 	<div class="post">
 		<h2><img src="http://'.$domain.'/images/icones/test.png" class="icone" />Approve Quotes</h2>
 		<div class="grey_post">
-		Number of citations waiting to be posted : '.$nb_quote_awaiting_post.' ('.$jours_posted.' '.$days_quote_posted .')
+			Number of citations waiting to be posted : '.$nb_quote_awaiting_post.' ('.$jours_posted.' '.$days_quote_posted .')
 		</div>
 	';
 	$query = mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND approved = '0' ORDER BY id ASC");
@@ -121,30 +122,22 @@ elseif ($action == "add_quote")
 
 	if (strlen($texte_quote) >= 30 AND ($release_admin != '1' OR $release_unknown != '1')) 
 	{
-
-		$id_auteur_quote = $id; // Cas général, l'administrateur est l'auteur de la nouvelle quote
+		// Default: the author is the current administrator
+		$id_auteur_quote = $id;
 
 		if ($release_admin == '1')
 		{
 			if ($domain == $domain_en)
-			{
 				$id_auteur_quote = 70;
-			}
 			elseif ($domain == $domain_fr)
-			{
 				$id_auteur_quote = 3;
-			}
 		}
 		elseif ($release_unknown == '1')
 		{
 			if ($domain == $domain_en)
-			{
 				$id_auteur_quote = 1211;
-			}
 			elseif ($domain == $domain_fr)
-			{
 				$id_auteur_quote = 35;
-			}
 		}
 
 		$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2'"));
@@ -152,9 +145,7 @@ elseif ($action == "add_quote")
 		$date = date("d/m/Y", strtotime('+'.$jours_posted.' days'));
 			
 		if ($jours_posted > 1)
-		{
 			$days_quote_posted = $days_quote_posted.'s';
-		}
 
 		$date_log = ''.$date.'-'.$jours_posted;
 
@@ -169,14 +160,10 @@ elseif ($action == "add_quote")
 			echo '<meta http-equiv="refresh" content="0;url=admin" />';
 		}
 		else 
-		{
 			echo '<h2>'.$error.'</h2> '.$lien_retour;
-		}
 	}
-	else 
-	{
-		echo '<h2>'.$error.' : too short</h2> '.$lien_retour;
-	}	
+	else
+		echo '<h2>'.$error.' : too short</h2> '.$lien_retour;	
 }
 elseif ($action == "rate") 
 {

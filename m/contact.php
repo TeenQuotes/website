@@ -35,7 +35,7 @@ if (empty($action))
 				echo captcha();echo ' =<br/>
 				<input type="text" name="captcha" size="20" maxlength="30"><br/> 
 				<br/>
-				<textarea style="width:100%;height:50px" name="message" value="'.$enter_your_message_here.'" onblur="javascript:if(this.value==\'\'){this.value=\''.$enter_your_message_here.'\'}" onFocus="javascript:if(this.value==\''.$enter_your_message_here.'\'){this.value=\'\'}"/>'.$enter_your_message_here.'</textarea><br/> 
+				<textarea style="width:100%;height:50px" name="message" value="'.$enter_your_message_here.'" onblur="javascript:if (this.value==\'\'){this.value=\''.$enter_your_message_here.'\'}" onFocus="javascript:if (this.value==\''.$enter_your_message_here.'\'){this.value=\'\'}"/>'.$enter_your_message_here.'</textarea><br/> 
 				<br/> 
 				'.$copie_of_this_email.' : <input type="checkbox" value="1" name="copie" checked/> 
 				<center><input type="submit" name="submit" class="submit" value="'.$send.'"></center> 
@@ -50,29 +50,29 @@ elseif ($action == 'send')
 	<div class="post">
 	<h2><img src="http://'.$domain.'/images/icones/mail.png" class="icone" />'.$contact_us_by_email.'</h2>';
 	
-	if(isset($_POST['sujet']))      $sujet = $_POST['sujet'];
+	if (isset($_POST['sujet']))      $sujet = $_POST['sujet'];
 	else      $sujet = "";
 
 	if (isset ($_POST ['copie'])) $copie = TRUE; 
 	else $copie = FALSE; 
 
-	if(isset($_POST['message']))      $message = $_POST['message'];
+	if (isset($_POST['message']))      $message = $_POST['message'];
 	else      $message = "";
 
-	if(isset($_POST['email']) && preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $_POST['email']))     $email = $_POST['email'];
+	if (isset($_POST['email']) && preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $_POST['email']))     $email = $_POST['email'];
 	else      $email = "";
 
 
-	if(isset($_POST['nom']))      $nom = $_POST['nom'];
+	if (isset($_POST['nom']))      $nom = $_POST['nom'];
 	else      $nom = "";
 	
-	if(empty($sujet) OR empty($message) OR empty($email) OR empty($nom))
+	if (empty($sujet) OR empty($message) OR empty($email) OR empty($nom))
 	{ 
 		echo '<div class="bandeau_erreur">'.$input_empty.'</div>'.$lien_retour;
 	}
 	else      
 	{
-		if($_POST['captcha'] == $_SESSION['captcha'])
+		if ($_POST['captcha'] == $_SESSION['captcha'])
 		{
 		  
 			$headers ='From: "'.$nom.'"<no-reply@'.$domain.'>'."\n";
@@ -87,7 +87,7 @@ elseif ($action == 'send')
 			$message .= "\r\n";
 			$message .= '------------------ Message sent from www.'.$domain.' ------------------';
 			
-			if(mail("antoine.augusti@gmail.com", stripslashes($sujet), stripslashes($message), $headers))
+			if (mail("antoine.augusti@gmail.com", stripslashes($sujet), stripslashes($message), $headers))
 			{ 
 				echo $succes.' '.$send_succes.' (<a href="mailto:'.$email.'">'.$email.'</a>)';
 			}

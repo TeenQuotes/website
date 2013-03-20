@@ -89,10 +89,10 @@ else
 			<li><a href="user-<?php echo $id; ?>" title="<?php echo $my_profile; ?>"><?php echo $my_profile; ?></a></li>
 			<li><a href="random" title="<?php echo $random_quote_m; ?>"><?php echo $random_quote_m; ?></a></li>
 			<li><a href="searchform" title="<?php echo $search; ?>"><?php echo $search; ?></a></li>
-			<?php if($is_newsletter == "0") { ?><li><a href="newsletter">Newsletter</a></li><?php } ?>
+			<?php if ($is_newsletter == "0") { ?><li><a href="newsletter">Newsletter</a></li><?php } ?>
 			<li><a href="addquote" title="<?php echo $add_a_quote; ?>"><?php echo $add_a_quote; ?></a></li>
 			<li><a href="?deconnexion" title="<?php echo $log_out; ?>"><?php echo $logout; ?></a></li>
-			<?php if($_SESSION['security_level'] >='2') { ?><li><a href="admin" title="Admin">Admin</a></li><?php } ?>
+			<?php if ($_SESSION['security_level'] >='2') { ?><li><a href="admin" title="Admin">Admin</a></li><?php } ?>
 			<?php }	?>
 		</ul>
 	<div class="clear"></div>

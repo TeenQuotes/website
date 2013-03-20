@@ -39,7 +39,7 @@ elseif ($action == "add_quote")
 		$submitted_today = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id = '$id' AND date = '$date'"));
 		if ($submitted_today < $nb_quote_released_per_day)
 		{
-			if (is_quote_exist($texte_quote) == FALSE) 
+			if (!is_quote_exist($texte_quote)) 
 			{
 				if (!empty($username) AND !empty($id))
 				{

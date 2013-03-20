@@ -1,7 +1,7 @@
 <?php
 $page_include = htmlspecialchars($_GET['page']);
 
-if(empty($page_include))
+if (empty($page_include))
 {
 	$page_include = "index";
 }

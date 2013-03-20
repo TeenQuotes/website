@@ -1,25 +1,21 @@
 <?php 
 include 'header.php';
 include 'lang/'.$language.'/admin.php';
-$action = $_GET['action'];
 
-if ($_SESSION['security_level'] < '2') 
-{
+$action = htmlspecialchars($_GET['action']);
+
+if ($_SESSION['security_level'] < '2')
 	echo '<meta http-equiv="refresh" content="0; url=error.php?erreur=403">';
-} 
+
 elseif (empty($action) AND $_SESSION['security_level'] >= '2') 
 {
 	$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2'"));
 	$jours_posted = floor($nb_quote_awaiting_post / $nb_quote_released_per_day);
 
 	if ($nb_quote_awaiting_post % $nb_quote_released_per_day != 0)
-	{
 		$jours_posted = $jours_posted + 1;
-	}
 	if ($jours_posted > 1)
-	{
 		$days_quote_posted = $days_quote_posted.'s';
-	}
 		
 	$query = mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND approved = '0' ORDER BY id ASC");
 	$awaitingModerationCount = mysql_num_rows($query);
@@ -102,37 +98,6 @@ elseif (empty($action) AND $_SESSION['security_level'] >= '2')
 		</form>
 	</div>';
 	
-	/*
-	echo '
-	<div class="post">
-		<h1><img src="http://teen-quotes.com/images/icones/translate.png" class="icone" />Translate quote</h1>';
-	$nb_quotes_translate = mysql_num_rows(mysql_query("SELECT id, texte_".$second_language." FROM teen_quotes_quotes WHERE texte_".$second_language."= '' AND approved = '1'"));
-	echo $nb_quotes_translate.' quotes are waiting to be translated.';
-	
-	$donnees = mysql_fetch_array(mysql_query("SELECT id, texte_".$language." AS txt FROM teen_quotes_quotes WHERE texte_".$second_language."= '' AND approved = '1' ORDER BY RAND() LIMIT 0, 1"));
-	$texte_quote = $donnees['txt'];
-	$id_quote = $donnees['id'];
-	
-	echo '
-		<div class="grey_post translate_quote" data-id="'.$id_quote.'">
-		<form name="contact" action="">  
-			<div class="grey_post">
-			<b>#'.$id_quote.'</b> '.$texte_quote.'
-			</div>
-			<input type="hidden" name="id_quote" id="id_quote" value="'.$id_quote.'">
-			<input type="hidden" name="language_source" id="language_source" value="'.$language.'">
-			<input type="hidden" name="language_translate" id="language_translate" value="'.$second_language.'">
-			
-			<div class="grey_post">
-			<textarea name="texte_quote_translate" id="texte_quote_translate" style="height:50px;width:600px;"></textarea>
-			</div>
-			<center><input type="submit" class="submit" id="submit_translate"></center>
-		</form>
-		</div>
-	</div>
-	';
-	*/
-	
 	echo '
 	<div class="post">
 		<h1><img src="http://'.$domain.'/images/icones/delete.png" class="icone" />Delete existing quotes</h1>
@@ -149,7 +114,7 @@ elseif ($action == "add_quote")
 {
 	echo '
 	<div class="post">
-	<h1><img src="http://'.$domain.'/images/icones/add.png" class="icone" />Add a quote</h1>';
+	<h2><img src="http://'.$domain.'/images/icones/add.png" class="icone" />Add a quote</h2>';
 	
 	$texte_quote = htmlspecialchars(mysql_real_escape_string($_POST['texte_quote']));
 	$release_admin = htmlspecialchars(mysql_real_escape_string($_POST['release_admin']));
@@ -158,30 +123,22 @@ elseif ($action == "add_quote")
 
 	if (strlen($texte_quote) >= 30 AND ($release_admin != '1' OR $release_unknown != '1')) 
 	{
-
-		$id_auteur_quote = $id; // Cas général, l'administrateur est l'auteur de la nouvelle quote
+		// Default: the author is the current administrator
+		$id_auteur_quote = $id;
 
 		if ($release_admin == '1')
 		{
 			if ($domain == $domain_en)
-			{
 				$id_auteur_quote = 70;
-			}
 			elseif ($domain == $domain_fr)
-			{
 				$id_auteur_quote = 3;
-			}
 		}
 		elseif ($release_unknown == '1')
 		{
 			if ($domain == $domain_en)
-			{
 				$id_auteur_quote = 1211;
-			}
 			elseif ($domain == $domain_fr)
-			{
 				$id_auteur_quote = 35;
-			}
 		}
 
 		$nb_quote_awaiting_post = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE approved = '2'"));
@@ -189,9 +146,7 @@ elseif ($action == "add_quote")
 		$date = date("d/m/Y", strtotime('+'.$jours_posted.' days'));
 			
 		if ($jours_posted > 1)
-		{
 			$days_quote_posted = $days_quote_posted.'s';
-		}
 
 		$date_log = ''.$date.'-'.$jours_posted;
 
@@ -199,21 +154,17 @@ elseif ($action == "add_quote")
 		$id_quote = mysql_insert_id();
 
 		$approve_quote_log = mysql_query("INSERT INTO approve_quotes (id_quote, id_user, quote_release) VALUES ('".$id_quote."', '".$id_auteur_quote."', '".$date_log."')");
-			
+		
 		if ($query) 
 		{
 			echo $succes.' <a href="../admin">Add anoter one</a>';
 			echo '<meta http-equiv="refresh" content="0;url=admin" />';
 		}
 		else 
-		{
 			echo '<h2>'.$error.'</h2> '.$lien_retour;
-		}
 	}
-	else 
-	{
-		echo '<h2>'.$error.' : too short</h2> '.$lien_retour;
-	}	
+	else
+		echo '<h2>'.$error.' : too short</h2> '.$lien_retour;	
 }
 elseif ($action == "rate") 
 {
@@ -253,45 +204,33 @@ elseif ($action == "rate")
 		$date = date("d/m/Y", strtotime('+'.$jours_posted.' days'));
 			
 		if ($jours_posted > 1)
-		{
 			$days_quote_posted = $days_quote_posted.'s';
-		}
 
 		$date_log = ''.$date.'-'.$jours_posted;
 
 		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '2' WHERE id = '".$id_quote."'");
 		
 		if ($edit == 'yes')
-		{
 			$approve_quote_log = mysql_query("INSERT INTO approve_quotes (id_quote, id_user, edit, quote_release) VALUES ('".$id_quote."', '".$auteur_id."', '1', '".$date_log."')");
-		}
 		else
-		{
 			$approve_quote_log = mysql_query("INSERT INTO approve_quotes (id_quote, id_user, quote_release) VALUES ('".$id_quote."', '".$auteur_id."', '".$date_log."')");
-		}
 
 		$waiting_moderation = mysql_query("SELECT id FROM teen_quotes_quotes WHERE auteur_id = '".$auteur_id."' AND approved = '0'");
 		$waiting_send = mysql_query("SELECT id FROM approve_quotes WHERE id_user = '".$auteur_id."' AND send = '0'");
 
-
-		
 		if ($approve_quote AND mysql_num_rows($waiting_moderation) == 0 AND mysql_num_rows($waiting_send) == 1)
 		{	
 			if ($language == "french")
 			{
 				if ($edit != 'yes')
-				{
 					$edit_message = '';
-				}
 
 				$message = ''.$top_mail.' Bonjour <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Votre citation a été <font color="#394DAC"><b>approuvée</b></font> récemment par un membre de notre équipe. Elle sera publiée le <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted.'), vous recevrez un email quand elle sera publiée sur le site.'.$edit_message.'<br/><br/>Voici votre citation :<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://kotado.fr/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>Cordialement,<br/><b>L\'équipe de Kotado</b>'.$end_mail;
 			}
 			else
 			{
 				if ($edit != 'yes')
-				{
 					$edit_message = '';
-				}
 
 				$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_auteur.'</b></font>!<br/><br/>Your quote has been <font color="#394DAC"><b>approved</b></font> recently by a member of our team. It will be released on <b>'.$date.'</b> ('.$jours_posted.' '.$days_quote_posted .'), you will receive an email when it will be posted on the website.'.$edit_message.'<br/><br/>Here is your quote :<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>Sincerely,<br/><b>The Teen Quotes Team</b>'.$end_mail;
 			}
@@ -331,13 +270,9 @@ elseif ($action == "rate")
 			if (mysql_num_rows($waiting_moderation) == 0 AND mysql_num_rows($waiting_send) == 1)
 			{
 				if ($language == "french")
-				{
 					$message = ''.$top_mail.'Bonjour <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Votre citation a été <font color="#394DAC"><b>rejetée</b></font> récemment par un membre de notre équipe...<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://kotado.fr" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://kotado.fr/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> le '.$date_quote.'</span></div>'.$quotes_unapproved_singular.$quotes_unapproved_reasons.'Cordialement,<br/><b>The Kotado Team</b>'.$end_mail;
-				}
 				else
-				{
 					$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_auteur.'</b></font> !<br/><br/>Your quote has been <font color="#394DAC"><b>rejected</b></font> recently by a member of our team...<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$auteur_id.'" target="_blank">'.$name_auteur.'</a> on '.$date_quote.'</span></div>'.$quotes_unapproved_singular.$quotes_unapproved_reasons.'Sincerely,<br/><b>The Teen Quotes Team</b>'.$end_mail;
-				}
 
 				$mail = mail($email_auteur, $quote_rejected, $message, $headers); 
 				echo $succes.' The author has been notified successfully !';
@@ -458,9 +393,7 @@ elseif ($action == "edit_quote")
 	$id_auteur = $id_auteur_query['auteur_id'];
 
 	if ($update_quote)
-	{
 		echo '<meta http-equiv="refresh" content="0;url=admin.php?action=rate&id='.$id_quote.'&approve=yes&auteur='.$id_auteur.'&edit=yes" />';
-	}
 }
 elseif ($action == "edit_existing_quote")
 {
@@ -496,9 +429,7 @@ elseif ($action == "edit_existing_quote")
 		</form>';
 	}
 	else
-	{
 		echo '<h2>'.$error.'</h2> That quote doesn\'t exist ! '.$lien_retour;
-	}
 }
 elseif ($action == "edit_existing_quote_valide")
 {
@@ -516,10 +447,8 @@ elseif ($action == "edit_existing_quote_valide")
 		echo $succes.' Your quote has been edited !';
 		echo '<meta http-equiv="refresh" content="2;url=admin" />';
 	}
-	else 
-	{
+	else
 		echo '<h2>'.$error.'</h2> '.$lien_retour;
-	}
 }
 elseif ($action == "delete_existing_quote")
 {
@@ -534,7 +463,7 @@ elseif ($action == "delete_existing_quote")
 	
 	if (is_numeric($id_quote) AND !empty($username) AND !empty($ip) AND !empty($id_quote))
 	{
-		// Il n'y a qu'une seule quote à supprimer
+		// There is only one quote to delete
 		$delete_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '-1' WHERE id = '".$id_quote."'");
 		$delete_fav_quote = mysql_query("DELETE FROM teen_quotes_favorite WHERE id_quote = '".$id_quote."'");
 		
@@ -548,14 +477,10 @@ elseif ($action == "delete_existing_quote")
 				echo '<meta http-equiv="refresh" content="1;url=admin" />';
 			}
 			else
-			{
 				echo '<h2>'.$error.'</h2> 1'.$lien_retour;
-			}
 		}
 		else
-		{
 			echo '<h2>'.$error.'</h2> 2'.$lien_retour;
-		}
 	}
 	elseif (preg_match('/,/', $id_quote) AND !preg_match('/%/', $id_quote) AND !empty($username) AND !empty($ip) AND !empty($id_quote)) // REGEX à vérifier
 	{
@@ -573,14 +498,10 @@ elseif ($action == "delete_existing_quote")
 				echo '<meta http-equiv="refresh" content="1;url=admin" />';
 			}
 			else
-			{
 				echo '<h2>'.$error.'</h2> '.$lien_retour;
-			}
 		}
 		else
-		{
 			echo '<h2>'.$error.'</h2> '.$lien_retour;
-		}
 	}
 }
 echo '</div>';
