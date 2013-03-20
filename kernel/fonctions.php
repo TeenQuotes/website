@@ -855,17 +855,16 @@ function displayQuote ($result, $page, $i, $type='random')
 	$is_mobile = isUrlMobile();
 
 	// Variables from the array
-	$id_quote = $result['id'];
-	$txt_quote = $result['texte_english'];
-	$auteur_id = $result['auteur_id'];
-	$auteur = $result['auteur']; 
-	$date_quote = $result['date'];
+	$id_quote            = $result['id'];
+	$txt_quote           = $result['texte_english'];
+	$auteur_id           = $result['auteur_id'];
+	$auteur              = $result['auteur']; 
+	$date_quote          = $result['date'];
 	$nombre_commentaires = $result['nb_comments'];
-	$logged = $_SESSION['logged'];
+	$logged              = $_SESSION['logged'];
+
 	if ($logged)
-	{
 		$is_favorite = $result['is_favorite'];
-	}
 
 	// Special class for search and user
 	$class_div = (in_array($type, array('search', 'user'))) ? 'grey_post' : 'post';
@@ -876,9 +875,7 @@ function displayQuote ($result, $page, $i, $type='random')
 		echo '
 		<div class="'.$class_div.'">';
 			if ($type == 'index')
-			{
 				is_quote_new($date_quote, $last_visit, $page, $i);
-			}
 		
 		echo 
 			$txt_quote.'<br/>
