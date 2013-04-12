@@ -103,4 +103,3 @@ elseif (preg_match('/'.$domain_en.'/', $_SERVER['SERVER_NAME']))
 
 // Send the final mail
 $mail = mail($email_auteur, $email_subject_moderate_quote, $final_mail, $headers);
-mail('antoine.augusti@gmail.com', $email_subject_moderate_quote, $final_mail, $headers);
