@@ -29,14 +29,11 @@ if (isDomainValidForAjax())
 			$query = mysql_query("INSERT INTO stories (id_user, txt_represent, txt_frequence) VALUES ('".$id_user."', '".$usage."', '".$frequence."')");
 
 			if ($query)
-			{
 				$code = 1;
-			}
+
 		}
 		else
-		{
 			$code = 2;
-		}
 	}
 
 	// Return code for JS

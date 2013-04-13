@@ -12,30 +12,21 @@ $id = mysql_real_escape_string($_POST['id_user']);
 
 if (isDomainValidForAjax())
 {
-
 	$verif_quote = mysql_fetch_assoc(mysql_query('SELECT COUNT(*) AS nb FROM teen_quotes_favorite WHERE id_quote = '.$id_quote.' AND id_user = '.$id.''));
 
-	if (empty($id_quote))
-	{
-		echo 'Erreur id !';
-	}
+	if (empty($id_quote) OR empty($id) OR !is_numeric($id_quote) OR !is_numeric($id))
+		echo 'Id error!';
 	elseif ($verif_quote['nb'] == 0 OR $_SESSION['logged'] == FALSE OR $_SESSION['id'] != $id)
-	{
-		echo 'Error during the verification of the owner of the account.';
-	} 
+		echo 'Error during the verification of the owner of the account.'; 
 	else
 	{
 		$query = mysql_query('DELETE FROM teen_quotes_favorite WHERE id_quote = '.$id_quote.' AND id_user = '.$id.'');
 		$update_fav = mysql_query('UPDATE teen_quotes_quotes SET nb_fav = nb_fav-1 WHERE id = '.$id_quote.'');
 		 
-		if ($query) 
-		{
+		if ($query AND $update_fav)
 			echo $delete_succes;
-		}
 		else
-		{
 			echo '<h2>'.$error.'</h2>';
-		}
 	}
 }
 ?>
