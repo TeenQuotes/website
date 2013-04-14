@@ -38,7 +38,7 @@ if (isDomainValidForAjax() AND $_SESSION['security_level'] >= 2)
 		$jours_posted = floor($nb_quote_awaiting_post / $nb_quote_released_per_day) + 1;
 		$date = date("d/m/Y", strtotime('+'.$jours_posted.' days'));
 
-		$date_log = ''.$date.'-'.$jours_posted;
+		$date_log = $date.'-'.$jours_posted;
 
 		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '2' WHERE id = '".$id_quote."'");
 		if ($edit != 'yes')
@@ -111,7 +111,7 @@ if (isDomainValidForAjax() AND $_SESSION['security_level'] >= 2)
 					$message = ''.$top_mail.' Hello <font color="#394DAC"><b>'.$name_author.'</b></font>!<br/><br/>Your quote has been <font color="#394DAC"><b>rejected</b></font> recently by a member of our team...<br/><div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:30px 10px">'.$texte_quote.'<br/><br/><a href="http://teen-quotes.com" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://teen-quotes.com/user-'.$author_id.'" target="_blank">'.$name_author.'</a> on '.$date_quote.'</span></div>'.$quotes_unapproved_singular.$quotes_unapproved_reasons.'Sincerely,<br/><b>The Teen Quotes Team</b>'.$end_mail;
 
 				$mail = mail($email_author, $quote_rejected, $message, $headers);
-				mail('antoine.augusti@gmail.com', $quote_rejected, $message, $headers);
+
 				$update_send = mysql_query("UPDATE approve_quotes SET send = '1' WHERE id_quote = '".$id_quote."' AND id_user = '".$author_id."' LIMIT 1");
 			}
 			// Many quotes have been unapproved

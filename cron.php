@@ -6,22 +6,18 @@ require "kernel/fonctions.php";
 if ($_GET['secret'] == $cron_pass_secret)
 {
 	// Connect to SQL master unless we want to ping the slave
-	if ($_GET['code'] == 'pingslave' OR $_GET['code'] == 'checkslaveupdate') 
-	{
+	if ($_GET['code'] == 'pingslave' OR $_GET['code'] == 'checkslaveupdate')
 		sql_connect(TRUE, TRUE);
-	}
 	else
-	{
 		sql_connect();
-	}
 
-	$timestamp = time();
-	$hour = date("H");
-	$day = date("d");
+	$timestamp  = time();
+	$hour       = date("H");
+	$day        = date("d");
 	// From 'Mon' to 'Sun'
 	$day_letter = date("D");
-	$year = date("Y");
-	$month = date("m");
+	$year       = date("Y");
+	$month      = date("m");
 
 	// Look if the newsletter has been posted
 	if ($_GET['code'] == 'monday' OR $_GET['code'] == 'tuesday')
@@ -57,9 +53,7 @@ if ($_GET['secret'] == $cron_pass_secret)
 		if ($hour >= 21 AND $hour <= 22)
 		{
 			if ($compteur_quote_posted_today == '1')
-			{
 				$update = mysql_query("UPDATE config SET compteur_quote_posted_today = '0' WHERE id = '1'");
-			}
 		}
 	}
 
@@ -83,13 +77,9 @@ if ($_GET['secret'] == $cron_pass_secret)
 				$code = $donnees['code_unsubscribe'];
 
 				if ($domain == $domain_fr)
-				{
 					$unsubscribe= '<br/><span style="font-size:80%">Cet email a été envoyé à votre adresse ('.$email.') car vous êtes inscrit à la newsletter. Si vous souhaitez vous désinscrire, cliquez sur <a href="http://kotado.fr/newsletter.php?action=unsubscribe&email='.$email.'&code='.$code.'" target="_blank">ce lien</a>.</span>.';
-				}
 				else
-				{
 					$unsubscribe = '<br/><span style="font-size:80%">This email was adressed to you ('.$email.') because you are subscribed to our newsletter. If you want to unsubscribe, please follow <a href="http://teen-quotes.com/newsletter.php?action=unsubscribe&email='.$email.'&code='.$code.'" target="_blank">this link</a>.</span>';
-				}
 				
 				$mail = mail ($email, "Newsletter", $message.$unsubscribe, $headers);
 
@@ -108,9 +98,7 @@ if ($_GET['secret'] == $cron_pass_secret)
 			$update = mysql_query("UPDATE config SET send_mail_monday = '1' WHERE id = '1'");
 		}
 		else
-		{
 			echo 'Newsletter already sent.<br/>';
-		}
 	}
 
 	// Reset newsletter
@@ -123,9 +111,7 @@ if ($_GET['secret'] == $cron_pass_secret)
 			mail('antoine.augusti@gmail.com', 'Reset done', '', $headers);
 		}
 		else
-		{
 			echo 'No reset.<br/>';
-		}
 	}
 
 	// Try to connect to the slave. If it fails, alert with an email. (1 mn)
@@ -166,7 +152,6 @@ if ($_GET['secret'] == $cron_pass_secret)
 			// If the replication was disabled, enable it
 			if (strpos($content_file, "FALSE"))
 			{
-				
 				$txt_to_write = "TRUE";
 				$do = TRUE;
 				$message = $top_mail.' The slave has been ENABLED.'.$end_mail;
@@ -185,7 +170,7 @@ if ($_GET['secret'] == $cron_pass_secret)
 		}
 
 		// Check if we need to write or not
-		if ($do == TRUE)
+		if ($do)
 		{
 			// New content of the file
 			// WARNING: Do no touch the indentation!
@@ -277,9 +262,7 @@ if ($_GET['secret'] == $cron_pass_secret)
 	}
 	// Update statistics
 	elseif ($_GET['code'] == 'updatestats')
-	{
 		update_stats($language);
-	}
 	// New version of the appiOS
 	elseif ($_GET['code'] == 'updateapp')
 	{
