@@ -439,20 +439,25 @@ function update_stats ($language)
 
 		if ($timestamp < time())
 		{
-			$query = mysql_query("	SELECT COUNT(id) AS tot
+			$query = mysql_query("	SELECT COUNT(id) AS tot, approved
 									FROM teen_quotes_quotes
-									WHERE approved <>  '2'
-									AND approved <>  '0'
+									WHERE approved <>  0
 									AND UNIX_TIMESTAMP(timestamp_created) <= '".$timestamp."'
 									GROUP BY approved
 									ORDER BY approved ASC");
+			
+			$nb_approved = 0;
 			while ($data = mysql_fetch_array($query))
 			{
-				$nb_approved = $data['tot'];
-				$nb_tot += $nb_approved;
-			}
+				// approved = '-1'
+				if ($data['approved'] == -1)
+					$nb_unapproved = $data['tot'];
+				// approved = '1' OR approved = '2'
+				elseif ($data['approved'] == 1 OR $data['approved'] == 2)
+					$nb_approved += $data['tot'];
 
-			$nb_unapproved = $nb_tot - $nb_approved;
+			}
+			$nb_tot = $nb_unapproved + $nb_approved;
 			$time_txt = date('m/y', $timestamp);
 
 			// Store it in an array, so we can draw percentages later
@@ -460,7 +465,6 @@ function update_stats ($language)
 
 			$graph_stats_js .= "['".$time_txt."', ".$nb_unapproved.", ".$nb_approved.", ".$nb_tot."],";
 		}
-		$nb_tot = 0;
 		$i++;
 	}
 
