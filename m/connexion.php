@@ -33,10 +33,10 @@ if (isset($_POST['connexion']) OR $method == 'get')
 				$compte = mysql_fetch_array($query_base);
 
 				if (empty($compte['birth_date']) AND empty($compte['title']) AND empty($compte['country']) AND empty($compte['about_me']) AND $compte['avatar'] == "icon50.png" AND empty($compte['city']))
-					$_SESSION['profile_not_fullfilled'] = TRUE;
+					$_SESSION['profile_not_fullfilled'] = true;
 				
 				// Session variables
-				$_SESSION['logged']         = TRUE;
+				$_SESSION['logged']         = true;
 				$_SESSION['id']             = $compte['id'];										
 				$_SESSION['security_level'] = $compte['security_level'];
 				$_SESSION['email']          = $compte['email'];
@@ -44,7 +44,7 @@ if (isset($_POST['connexion']) OR $method == 'get')
 				$_SESSION['passwd']         = $passwd;
 				$_SESSION['username']       = $compte['username'];
 
-				if (usernameIsValid(strtolower($_SESSION['username'])) == FALSE)
+				if (usernameIsValid(strtolower($_SESSION['username'])) == false)
 					echo '<meta http-equiv="refresh" content="0; url=changeusername">';
 				else
 				{

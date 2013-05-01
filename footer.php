@@ -14,7 +14,7 @@
 					</form>
 				</div>
 			
-				<?php if ($_SESSION['logged'] != TRUE) { ?>
+				<?php if ($_SESSION['logged'] != true) { ?>
 				
 				<div class="post">
 					<div class="title"><span class="icone_login signin"></span><?php echo $sign_in; ?></div>

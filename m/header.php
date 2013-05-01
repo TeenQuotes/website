@@ -76,7 +76,7 @@ else
 <div id="wrapper"><!-- START WRAPPER -->
 	<div id="menu_content">
 		<ul class="menu">
-		<?php if ($_SESSION['logged'] != TRUE) { ?>
+		<?php if ($_SESSION['logged'] != true) { ?>
 			<li><a href="/"><?php echo $home; ?></a></li>
 			<li><a href="signup?topbar" title="<?php echo $sign_up; ?>" onClick="_gaq.push(['_trackEvent', 'signup', 'clic', 'Mobile - topbar']);"><?php echo $sign_up; ?></a></li>
 			<li><a href="signin" title="<?php echo $sign_in; ?>"><?php echo $sign_in; ?></a></li>
@@ -101,15 +101,15 @@ else
 <div class="clear" style="height:10px"></div>
 
 <?php
-if ($download_app == TRUE OR $_SESSION['security_level'] > 0)
+if ($download_app == true OR $_SESSION['security_level'] > 0)
 {
 	/*
-	if (((mb_eregi('ipod', $user_agent) OR mb_eregi('iphone', $user_agent)) AND $link_app_iphone != '#' AND $_SESSION['hide_download_app'] != TRUE) OR ((mb_eregi('ipod', $user_agent) OR mb_eregi('iphone', $user_agent)) AND $_SESSION['security_level'] > '0' AND $_SESSION['hide_download_app'] != TRUE))
+	if (((mb_eregi('ipod', $user_agent) OR mb_eregi('iphone', $user_agent)) AND $link_app_iphone != '#' AND $_SESSION['hide_download_app'] != true) OR ((mb_eregi('ipod', $user_agent) OR mb_eregi('iphone', $user_agent)) AND $_SESSION['security_level'] > '0' AND $_SESSION['hide_download_app'] != true))
 	{
 		echo $download_iphone_app;
 	}
 	*/
-	if ((mb_eregi('android', $user_agent) AND $link_app_android != '#' AND $_SESSION['hide_download_app'] != TRUE) OR (mb_eregi('android', $user_agent) AND $_SESSION['security_level'] > '0' AND $_SESSION['hide_download_app'] != TRUE))
+	if ((mb_eregi('android', $user_agent) AND $link_app_android != '#' AND $_SESSION['hide_download_app'] != true) OR (mb_eregi('android', $user_agent) AND $_SESSION['security_level'] > '0' AND $_SESSION['hide_download_app'] != true))
 	{
 		echo $download_android_app;
 	}

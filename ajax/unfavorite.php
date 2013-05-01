@@ -16,7 +16,7 @@ if (isDomainValidForAjax())
 
 	if (empty($id_quote) OR empty($id) OR !is_numeric($id_quote) OR !is_numeric($id))
 		echo 'Id error!';
-	elseif ($verif_quote['nb'] == 0 OR $_SESSION['logged'] == FALSE OR $_SESSION['id'] != $id)
+	elseif ($verif_quote['nb'] == 0 OR $_SESSION['logged'] == false OR $_SESSION['id'] != $id)
 		echo 'Error during the verification of the owner of the account.'; 
 	else
 	{

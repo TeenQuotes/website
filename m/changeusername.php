@@ -21,7 +21,7 @@ if ($_SESSION['logged'])
 		';
 	if (empty($action))
 	{
-		if (usernameIsValid($_SESSION['username']) == FALSE)
+		if (usernameIsValid($_SESSION['username']) == false)
 		{
 			echo $text_change_username;
 			echo '
@@ -54,7 +54,7 @@ if ($_SESSION['logged'])
 	{
 		if (!empty($username_old) AND !empty($new_username))
 		{
-			if ((usernameIsValid($username_old) == FALSE) AND (usernameIsValid($new_username) == TRUE))
+			if ((usernameIsValid($username_old) == false) AND (usernameIsValid($new_username) == true))
 			{
 				if (($pass1 == $pass2) AND (strlen($pass1) >= 6))
 				{

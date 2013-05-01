@@ -132,7 +132,7 @@ else
 			</div>';
 		}
 			
-		display_page_bottom($page, $nombreDePages, 'p', NULL, $previous_page, $next_page);
+		display_page_bottom($page, $nombreDePages, 'p', null, $previous_page, $next_page);
 			
 		echo '<div class="clear"></div>';
 	}

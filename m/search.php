@@ -101,7 +101,7 @@ else
 
 				while ($result = mysql_fetch_array($resultatsQuotes))
 				{
-					displayQuote($result, NULL, NULL, 'search');
+					displayQuote($result, null, null, 'search');
 				}
 			echo '</div>';
 		}

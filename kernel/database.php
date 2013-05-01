@@ -5,7 +5,7 @@ function sql_connect ($slave=false, $force=false)
 	global $host, $user, $pass, $replication, $freq, $host_slave, $user_slave, $pass_slave, $domain, $domain_en;
 	$db_name = $user;
 
-	if (($slave == TRUE AND $replication == TRUE AND date(s) % $freq == 0 AND $domain == $domain_en) OR $force == TRUE)
+	if (($slave == true AND $replication == true AND date(s) % $freq == 0 AND $domain == $domain_en) OR $force == true)
 	{
 		$host = $host_slave;
 		$user = $user_slave;

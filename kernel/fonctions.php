@@ -19,8 +19,8 @@ if (isset($_GET['co']))
 	$pseudo = $_SESSION['username'];		
 	$passwd = $_SESSION['passwd'];
 
-	setcookie("Pseudo", $pseudo, time() + (((3600*24)*30)*12), null, '.'.$domain, FALSE, TRUE);
-	setcookie("Pass", $passwd, time() + (((3600*24)*30)*12), null, '.'.$domain, FALSE, TRUE);
+	setcookie("Pseudo", $pseudo, time() + (((3600*24)*30)*12), null, '.'.$domain, false, true);
+	setcookie("Pass", $passwd, time() + (((3600*24)*30)*12), null, '.'.$domain, false, true);
 
 	unset($_SESSION['passwd']);
 	// redirection
@@ -57,9 +57,9 @@ function deconnexion()
 	$_SESSION = array();
 	session_destroy();
 	// Delete the cookies
-	setcookie("Pseudo", "Yo", time()-4200, null, '.'.$domain, FALSE, TRUE);
-	setcookie("Pass", "Yo", time()-4200, null, '.'.$domain, FALSE, TRUE);
-	setcookie("PHPSESSID", "Yo", time()-4200, null, '.'.$domain, FALSE, TRUE);
+	setcookie("Pseudo", "Yo", time()-4200, null, '.'.$domain, false, true);
+	setcookie("Pass", "Yo", time()-4200, null, '.'.$domain, false, true);
+	setcookie("PHPSESSID", "Yo", time()-4200, null, '.'.$domain, false, true);
 	setcookie("Pass", "Yo", time()-4200);
 	setcookie("PHPSESSID", "Yo", time()-4200);
 	setcookie("Pseudo", "Yo", time()-4200);
@@ -80,7 +80,7 @@ function deconnexion()
 	
 if (isset($_GET['hide_download_app'])) 
 {
-	$_SESSION['hide_download_app'] = TRUE;
+	$_SESSION['hide_download_app'] = true;
 	?>
 	<script language="JavaScript">
 	<!--
@@ -92,7 +92,7 @@ if (isset($_GET['hide_download_app']))
 
 if (isset($_GET['show_download_app'])) 
 {
-	$_SESSION['hide_download_app'] = FALSE;
+	$_SESSION['hide_download_app'] = false;
 	?>
 	<script language="JavaScript">
 	<!--
@@ -109,16 +109,15 @@ function caracteresAleatoires($nombreDeCaracteres)
 	srand((double)microtime()*1000000);
 
 	for ($i = 0; $i < $nombreDeCaracteres; $i++)
-	{
-		$string .= $chaine[rand()%strlen($chaine)]; 
-	}
+		$string .= $chaine[rand()%strlen($chaine)];
 
 	return $string;
 }
 
 function microtime_float() 
 { 
-	list($usec, $sec) = explode(" ", microtime()); 
+	list($usec, $sec) = explode(" ", microtime());
+
 	return ((float)$usec + (float)$sec); 
 }
 
@@ -126,7 +125,8 @@ $time_start = microtime_float();
 
 function number_space ($number) 
 {
-	$number_space = number_format($number, 0, ',', ' '); // Arrondi et espaces sur les milliers
+	// Round and spaces on thousands
+	$number_space = number_format($number, 0, ',', ' ');
 
 	return $number_space;
 }
@@ -168,7 +168,7 @@ function captcha()
 // Update statistics.
 // Store the text in a database
 // This function is called by a cron task - see /cron.php, code = updatestats
-function update_stats ($language) 
+function update_stats($language) 
 {
 	// Grant access to these variables
 	global $domain_en, $domain_fr;
@@ -197,11 +197,11 @@ function update_stats ($language)
 	$i = 0;
 	$total_quotes = 0;
 	$array_approved_quotes = array (
-		"quotes_rejected" 	=> NULL,
-		"quotes_pending" 	=> NULL,
-		"quotes_approved" 	=> NULL, 
-		"quotes_queued" 	=> NULL,
-		"total_quotes" 		=> NULL);
+		"quotes_rejected" 	=> null,
+		"quotes_pending" 	=> null,
+		"quotes_approved" 	=> null, 
+		"quotes_queued" 	=> null,
+		"total_quotes" 		=> null);
 
 	// Store the name of keys
 	$keys = array_keys($array_approved_quotes);
@@ -538,7 +538,7 @@ function update_stats ($language)
 }
 
 // Display the JS for statistics - /statistics.php
-function display_stats () 
+function display_stats() 
 {
 	$query = mysql_query("SELECT text_js, timestamp FROM stats WHERE id = 1");
 	$data = mysql_fetch_array($query);
@@ -581,20 +581,16 @@ function age($naiss)
 		if ($mois == $today['mois']) 
 		{
 			if ($jour > $today['jour'])
-			{
-				$annees--;
-			}	
+				$annees--;	
 		}
 		else
-		{
 			$annees--;
-		}
 	}
 
 	return $annees;
 }
 
-function date_est_valide ($date)
+function date_est_valide($date)
 {
 	if (preg_match("#[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}#", $date))
 	{
@@ -604,23 +600,21 @@ function date_est_valide ($date)
 
 		return checkdate($mois, $jour, $annee);
 	}
-	else
-	{	
-		return FALSE;
-	}
+	else	
+		return false;
 }
 
-function usernameIsValid ($username)
+function usernameIsValid($username)
 {
 	return (preg_match("#^[a-z0-9_]+$#", $username));
 }
   
-function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redirection, $previous_page, $next_page, $index = FALSE)
+function display_page_bottom($page, $nombreDePages, $nom_lien_page, $div_redirection, $previous_page, $next_page, $index = false)
 {
 	$nb_next_page     = $page + 1;
 	$nb_previous_page = $page - 1;
 
-	if ($index == TRUE)
+	if ($index)
 	{
 		$margin_middle = '-7px;color:#CCC';
 		$margin_index = ' no_margin_left';
@@ -657,7 +651,7 @@ function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redire
 		{
 			for ($num_page = 1;$num_page <= $page-1;$num_page++)
 			{
-				if ($index == TRUE)
+				if ($index == true)
 					$margin_index = ($num_page == '1') ?  ' no_margin_left' : '';
 				echo '<span class="page_bottom_number'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>'; 
 			}
@@ -670,7 +664,7 @@ function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redire
 		{
 			if ($num_page == $page)
 			{
-				if ($index == TRUE)
+				if ($index == true)
 					$margin_index = ($num_page == '1') ?  ' no_margin_left' : '';
 
 				echo '<span class="page_bottom_number_active '.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>';
@@ -697,11 +691,11 @@ function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redire
 	if ($page < $nombreDePages)
 	{
 		echo '<span class="page_bottom'.$margin_index_right.'"><a href="?'.$nom_lien_page.'='.$nb_next_page.$div_redirection.'" title="'.$next_page.'">'.$next_page.'</a></span>';
-		$margin_done = TRUE;
+		$margin_done = true;
 	}
 	if ($page > 1)
 	{
-		if ($margin_done == TRUE)
+		if ($margin_done == true)
 			$margin_index_right = '';
 
 		echo '<span class="page_bottom"><a href="?'.$nom_lien_page.'='.$nb_previous_page.$div_redirection.'" title="'.$previous_page.'">'.$previous_page.'</a></span>';
@@ -710,7 +704,7 @@ function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redire
 	echo '<div class="clear"></div>';
 }
 	
-function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_page, $next_page, $div_redirection = NULL, $margin = FALSE)
+function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_page, $next_page, $div_redirection = null, $margin = false)
 {
 	$nombreDePages = floor($nb_messages / $nb_messages_par_page);
 
@@ -739,7 +733,7 @@ function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_
 	if ($page < $nombreDePages)
 	{
 		echo '<span class="page'.$margin_page.$margin_right.'"><a href="?'.$lien.'='.$nb_next_page.$div_redirection.'" title="'.$next_page.'">'.$next_page.'</a></span>';
-		$margin_done = TRUE;
+		$margin_done = true;
 	}
 
 	if ($page > 1)
@@ -863,7 +857,7 @@ function displayQuote ($result, $page, $i, $type='random')
 	}
 }
 
-// POST DES $nb_quote_released_per_day QUOTES DU JOUR
+// Publish $nb_quote_released_per_day quotes of the day
 function flush_quotes ()
 {
 	include "config.php";
@@ -912,9 +906,7 @@ function flush_quotes ()
 	$ids_quotes_posted_today = substr($ids_quotes_posted_today, 0, strlen($ids_quotes_posted_today)-1);
 
 	if ($affected_rows >= 1)
-	{
 		MailPostedToday($ids_quotes_posted_today);
-	}
 }
 	
 function email_birthday()
@@ -1264,21 +1256,17 @@ function MailRandomQuote ($nombre)
 	while($donnees = mysql_fetch_array($query)) 
 	{
 		$txt_quote = $donnees['texte_english'];
-		$id_quote = $donnees['id'];
-		$auteur = $donnees['auteur'];
+		$id_quote  = $donnees['id'];
+		$auteur    = $donnees['auteur'];
 		$auteur_id = $donnees['auteur_id'];
-		$date = $donnees['date'];
+		$date      = $donnees['date'];
 
 		$email_txt.= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">';
 
 		if ($domain == $domain_en)
-		{
 			$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domain.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domain.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';	
-		}
 		elseif ($domain == $domain_fr)
-		{
 			$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domain.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://'.$domain.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> le '.$date.'</span></div>';
-		}
 
 		$email_txt.= '</div>';
 	}
@@ -1304,21 +1292,17 @@ function MailPostedToday ($id_quote)
 		while ($donnees = mysql_fetch_array($query)) 
 		{
 			$txt_quote = $donnees['texte_english'];
-			$id_quote = $donnees['id'];
-			$auteur = $donnees['auteur'];
+			$id_quote  = $donnees['id'];
+			$auteur    = $donnees['auteur'];
 			$auteur_id = $donnees['auteur_id'];
-			$date = $donnees['date'];
+			$date      = $donnees['date'];
 
 			$email_txt.= '<div style="background:#f5f5f5;border:1px solid #e5e5e5;padding:10px;margin:20px 5px">';
 
 			if ($domain == $domain_en)
-			{
 				$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domain.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">by <a href="http://'.$domain.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> on '.$date.'</span></div>';	
-			}
 			elseif ($domain == $domain_fr)
-			{
 				$email_txt.= ''.$txt_quote.'<br/><div style="font-size:90%;margin-top:5px"><a href="http://'.$domain.'/quote-'.$id_quote.'" target="_blank">#'.$id_quote.'</a><span style="float:right">par <a href="http://'.$domain.'/user-'.$auteur_id.'" target="_blank">'.$auteur.'</a> le '.$date.'</span></div>';
-			}
 
 			$email_txt.= '</div>';
 		}
@@ -1358,7 +1342,7 @@ function MailPostedToday ($id_quote)
 	}
 }
 
-function cut_tweet ($chaine)
+function cut_tweet($chaine)
 {
 	// Grant access to these variables
 	global $domain_en, $domain_fr;
@@ -1385,7 +1369,7 @@ function cut_tweet ($chaine)
 		$chaine = substr($chaine, 0, $lg_max);
 		$last_space = strrpos($chaine, " "); 
 
-		// On ajoute ... à la suite de cet espace    
+		// After the space, add ...   
 		$chaine = substr($chaine, 0, $last_space);
 		$chaine .= '...';
 	}
@@ -1400,7 +1384,7 @@ function cut_tweet ($chaine)
 	return $chaine;
 }
 
-function cut_comment ($chaine)
+function cut_comment($chaine)
 {
 	$lg_max = 100;
 
@@ -1409,19 +1393,17 @@ function cut_comment ($chaine)
 		$chaine1 = substr($chaine, 0, $lg_max);
 		$last_space = strrpos($chaine1, " "); 
 
-		// On ajoute ... à la suite de cet espace    
+		// After the space, add ...   
 		$chaine1 = substr($chaine1, 0, $last_space);
 		$chaine1 .= '...';
 
 		return $chaine1;
 	}
 	else
-	{
 		return $chaine;
-	}
 }
 
-function afficher_nb_comments ($nombre_commentaires)
+function afficher_nb_comments($nombre_commentaires)
 {
 	// Grant access to variables for lang
 	global $comments, $comment, $no_comments;
@@ -1430,25 +1412,19 @@ function afficher_nb_comments ($nombre_commentaires)
 	if (!isUrlMobile())
 	{
 		if ($nombre_commentaires >= 1)
-		{
 			echo '<span class="box_nb_comments">'.$nombre_commentaires.'</span>';
-		}
 		else
-		{
-			echo '<span class="no_comments">'.$no_comments.'</span>';
-		}	
+			echo '<span class="no_comments">'.$no_comments.'</span>';	
 	}
 	// Mobile
 	else
 	{
 		if ($nombre_commentaires >= 1)
-		{
 			echo '<span class="box_nb_comments">'.$nombre_commentaires.'</span>';
-		}
 	}
 }
 
-function afficher_favori ($id_quote, $is_favorite, $logged, $id_user=0) 
+function afficher_favori($id_quote, $is_favorite, $logged, $id_user=0) 
 {
 	// Grant access to variables for language
 	global $add_favorite, $unfavorite;
@@ -1456,26 +1432,18 @@ function afficher_favori ($id_quote, $is_favorite, $logged, $id_user=0)
 	// Desktop
 	if (!isUrlMobile())
 	{
-		if ($logged == TRUE AND $is_favorite == '0') 
-		{
+		if ($logged AND $is_favorite == '0') 
 			echo '<span class="favorite fade_jquery" data-id ="'.$id_quote.'"><a href="" onclick="favorite('.$id_quote.','.$id_user.');return false;" title="'.$add_favorite.'"><span class="heart_fav on"></span></a></span>';
-		}
-		elseif ($logged == TRUE AND $is_favorite == '1')
-		{
+		elseif ($logged AND $is_favorite == '1')
 			echo '<span class="favorite fade_jquery" data-id ="'.$id_quote.'"><a href="" onclick="unfavorite('.$id_quote.','.$id_user.'); return false;" title="'.$unfavorite.'"><span class="heart_fav off"></span></a></span>';
-		}
 	}
 	// Mobile
 	else
 	{
-		if ($logged == TRUE AND $is_favorite == '0') 
-		{
+		if ($logged AND $is_favorite == '0')
 			echo '<span class="favorite"><a href="favorite-'.$id_quote.'" title="'.$add_favorite.'"><span class="heart_fav on"></span></a></span>';
-		}
-		elseif ($logged == TRUE AND $is_favorite == '1')
-		{
+		elseif ($logged AND $is_favorite == '1')
 			echo '<span class="favorite"><a href="unfavorite-'.$id_quote.'" title="'.$unfavorite.'"><span class="heart_fav off"></span></a></span>';
-		}
 	}
 
 }
@@ -1491,7 +1459,8 @@ function share_fb_twitter ($id_quote, $txt_quote)
 
 	$txt_tweet = cut_tweet($txt_quote);
 	$url_encode = urlencode('http://'.$domain.'/quote-'.$id_quote.'');
-	echo '<div class="share_fb_twitter"><span class="fade_jquery"><iframe src="//www.facebook.com/plugins/like.php?href= '.$url_encode.'&amp;send=FALSE&amp;layout=button_count&amp;width=110&amp;show_faces=FALSE&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="TRUE"></iframe></span><span class="right fade_jquery"><a href="http://twitter.com/share?url=http://'.$domain.'/quote-'.$id_quote.'&text='.$txt_tweet.'" class="twitter-share-button" data-count="none">Tweet</a></span></div>';
+
+	echo '<div class="share_fb_twitter"><span class="fade_jquery"><iframe src="//www.facebook.com/plugins/like.php?href= '.$url_encode.'&amp;send=false&amp;layout=button_count&amp;width=110&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="true"></iframe></span><span class="right fade_jquery"><a href="http://twitter.com/share?url=http://'.$domain.'/quote-'.$id_quote.'&text='.$txt_tweet.'" class="twitter-share-button" data-count="none">Tweet</a></span></div>';
 }
 
 function date_et_auteur ($auteur_id, $auteur, $date_quote) 
@@ -1501,15 +1470,11 @@ function date_et_auteur ($auteur_id, $auteur, $date_quote)
 
 	// Desktop
 	if (!isUrlMobile())
-	{
 		echo '<span class="right">'.$by.' <a href="user-'.$auteur_id.'" title="'.$view_his_profile.'">'.$auteur.'</a> '.$on.' '.$date_quote.'</span><br/>';
-	}
 	// Mobile
 	else
-	{
 		// Spaces are IN the link for touchscreen (easier to click)
 		echo '<span class="right">'.$by.'<a href="user-'.$auteur_id.'" title="'.$view_his_profile.'"> '.$auteur.' </a>'.$on.' '.$date_quote.'</span><br/>';
-	}
 }
 
 function is_quote_exist ($txt_quote) 
@@ -1537,15 +1502,15 @@ if (isset($_GET['mobile']))
 	$domain = $data[0];
 	$name_website = $data[1];
 
-	setcookie("mobile", 1 , time() + (((3600*24)*30)*12), null, '.'.$domain.'', FALSE, TRUE);
+	setcookie("mobile", 1 , time() + (((3600*24)*30)*12), null, '.'.$domain.'', false, true);
 }
 
-function getSubDomain ()
+function getSubDomain()
 {
-	return strstr($_SERVER['HTTP_HOST'], '.', TRUE);
+	return strstr($_SERVER['HTTP_HOST'], '.', true);
 }
 
-function subDomainIsRestricted ($subDomain)
+function subDomainIsRestricted($subDomain)
 {
 	$restricted_sub_domains = array(
 		"stories");
@@ -1564,32 +1529,24 @@ function mobile_device_detect ()
 
 	// Do not redirect when we hit a restricted subdomain
 	if (subDomainIsRestricted(getSubDomain()))
-	{
-		$redirect_mobile = 'http://m.'.$domain.'/'.getSubDomain();
-	}  
+		$redirect_mobile = 'http://m.'.$domain.'/'.getSubDomain();  
 	else
-	{
 		$redirect_mobile = 'http://m.'.$domain.$_SERVER['REQUEST_URI'];
-	}
 
 	// Grant access to the link for the iOS app and Android app
 	global $link_app_iphone, $link_app_android;
 
 	// Force enter in the switch
-	switch (TRUE) 
+	switch (true) 
 	{
 		case (mb_eregi('ipod', $user_agent)||mb_eregi('iphone', $user_agent)); // we find the words iphone or ipod in the user agent
-			if (preg_match('#apps#', $_SERVER['REQUEST_URI']) AND $link_app_iphone != '#') 
-			{
+			if (preg_match('#apps#', $_SERVER['REQUEST_URI']) AND $link_app_iphone != '#')
 				$redirect_mobile = $link_app_iphone;
-			}
 		break; // break out and skip the rest if we've had a match on the iphone or ipod
 
 		case (mb_eregi('android', $user_agent));  // we find android in the user agent
-			if (preg_match('#apps#', $_SERVER['REQUEST_URI']) AND $link_app_android != '#') 
-			{
+			if (preg_match('#apps#', $_SERVER['REQUEST_URI']) AND $link_app_android != '#')
 				$redirect_mobile = $link_app_android;
-			}
 		break; // break out and skip the rest if we've had a match on android
 
 		default;
@@ -1616,18 +1573,18 @@ function isUrlMobile()
 }
 
 // Alias of isUrlMobile()
-function isMobile ()
+function isMobile()
 {
 	return isUrlMobile();
 }
 
 // Opposite of isUrlMobile()
-function isDesktop ()
+function isDesktop()
 {
 	return !isUrlMobile();
 }
 
-function isDomainValidForAjax ()
+function isDomainValidForAjax()
 {
 	global $domain_fr, $domain_en;
 	
@@ -1653,11 +1610,11 @@ function getRandomTooltip()
 	return $content;
 }
 
-function hint ($position, $txt, $type=FALSE, $return=FALSE)
+function hint ($position, $txt, $type=false, $return=false)
 {
 	$class = $position;
 
-	if ($type != FALSE)
+	if ($type != false)
 		$class .= ' hint--'.$type;
 
 	if (!$return)

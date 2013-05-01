@@ -53,8 +53,8 @@ elseif ($action == 'send')
 	if (isset($_POST['sujet']))      $sujet = $_POST['sujet'];
 	else      $sujet = "";
 
-	if (isset ($_POST ['copie'])) $copie = TRUE; 
-	else $copie = FALSE; 
+	if (isset ($_POST ['copie'])) $copie = true; 
+	else $copie = false; 
 
 	if (isset($_POST['message']))      $message = $_POST['message'];
 	else      $message = "";
@@ -100,7 +100,7 @@ elseif ($action == 'send')
 			$message .= "\r\n";
 			$message .= "------------------ This is the copy of your message ------------------";
 
-			if ($copie == TRUE AND mail($email, stripslashes($sujet), stripslashes($message), "$headers"))
+			if ($copie == true AND mail($email, stripslashes($sujet), stripslashes($message), "$headers"))
 			{
 				echo '<br/><br/>'.$copy_sent;
 			}

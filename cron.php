@@ -7,7 +7,7 @@ if ($_GET['secret'] == $cron_pass_secret)
 {
 	// Connect to SQL master unless we want to ping the slave
 	if ($_GET['code'] == 'pingslave' OR $_GET['code'] == 'checkslaveupdate')
-		sql_connect(TRUE, TRUE);
+		sql_connect(true, true);
 	else
 		sql_connect();
 
@@ -119,7 +119,7 @@ if ($_GET['secret'] == $cron_pass_secret)
 	{
 		$ping = mysql_ping();
 
-		if ($ping == FALSE)
+		if ($ping == false)
 		{
 			$object = 'SQL slave down';
 			$message = $top_mail.'The SQL slave appears to be down. Check its status NOW!'.$end_mail;
@@ -133,27 +133,27 @@ if ($_GET['secret'] == $cron_pass_secret)
 	// Try to connect to the slave. If it fails, disable SQL replication (15 mns)
 	elseif ($_GET['code'] == 'checkslaveupdate')
 	{
-		$do = FALSE;
+		$do = false;
 		
 		// Check the current content of the file
 		$content_file = file_get_contents("files/replication.php");
 		// Ping the slave
 		$ping = mysql_ping();
 		// Check if everything is ok
-		if ($ping == TRUE)
+		if ($ping == true)
 		{
 			$query = mysql_query("SHOW SLAVE STATUS");
 			$data = mysql_fetch_array($query);
 		}
 		
 		// The slave answers
-		if ($ping == TRUE AND $data['Slave_IO_State'] == 'Waiting for master to send event' AND $data['Slave_IO_Running'] == 'Yes' AND $data['Slave_SQL_Running'] == 'Yes')
+		if ($ping == true AND $data['Slave_IO_State'] == 'Waiting for master to send event' AND $data['Slave_IO_Running'] == 'Yes' AND $data['Slave_SQL_Running'] == 'Yes')
 		{
 			// If the replication was disabled, enable it
-			if (strpos($content_file, "FALSE"))
+			if (strpos($content_file, "false"))
 			{
-				$txt_to_write = "TRUE";
-				$do = TRUE;
+				$txt_to_write = "true";
+				$do = true;
 				$message = $top_mail.' The slave has been ENABLED.'.$end_mail;
 			}
 		}
@@ -161,10 +161,10 @@ if ($_GET['secret'] == $cron_pass_secret)
 		else
 		{
 			// If the replication was enabled, disable it
-			if (strpos($content_file, "TRUE"))
+			if (strpos($content_file, "true"))
 			{
-				$txt_to_write = "FALSE";
-				$do = TRUE;
+				$txt_to_write = "false";
+				$do = true;
 				$message = $top_mail.' The slave has been DISABLED.<br/><br/>Debug: ping state: '.$ping.'<br/><br/>'.$data.$end_mail;
 			}
 		}

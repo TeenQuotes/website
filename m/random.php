@@ -39,7 +39,7 @@ while ($result = mysql_fetch_array($reponse))
 	displayQuote ($result, $page, $i, 'random');
 } 
 	
-display_page_bottom($page, $nombreDePages, 'p', NULL, $previous_page, $next_page);
+display_page_bottom($page, $nombreDePages, 'p', null, $previous_page, $next_page);
 
 include "footer.php"; 
 ?>

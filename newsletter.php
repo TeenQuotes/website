@@ -53,7 +53,7 @@ elseif ($action == "send")
 			if ($query) 
 			{
 				echo $succes_newsletter;
-				$notifications_succes = TRUE;
+				$notifications_succes = true;
 			}
 			else
 				echo $error.' '.$lien_retour;	
@@ -68,10 +68,10 @@ elseif ($action == "send")
 			$query = mysql_query("INSERT INTO newsletters (email, code_unsubscribe, type) VALUES ('".$email."', '".$code."', 'daily')");
 			if ($query) 
 			{
-				if ($notifications_succes != TRUE)
+				if ($notifications_succes != true)
 				{
 					echo $succes_newsletter;
-					$notifications_succes = TRUE;
+					$notifications_succes = true;
 				}
 			}
 			else 

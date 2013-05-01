@@ -82,7 +82,7 @@ else
 <div id="menu">
 	<div class="content">	
 	<?php 
-	if ($_SESSION['logged'] != TRUE) 
+	if ($_SESSION['logged'] != true) 
 	{
 	?>
 		<a href="/" class="menu" title="<?php echo $home; ?>"><span class="icone_menu home"></span><?php echo $home; ?></a>
@@ -93,7 +93,7 @@ else
 		<a href="/signup?addquote" onClick="_gaq.push(['_trackEvent', 'signup', 'clic', 'Website - addquote']);" class="menu"><span class="icone_menu add"></span><span <?php hint('bottom', $add_a_quote_hint); ?>><?php echo $add_a_quote; ?></span></a>
 		<?php
 		// APPLICATIONS
-		if ($download_app == TRUE OR $_SESSION['security_level'] >= '2') :
+		if ($download_app == true OR $_SESSION['security_level'] >= '2') :
 		?>
 			<a href="/apps" onClick="_gaq.push(['_trackEvent', 'appiOS', 'clic', 'Website - menu topbar']);" class="menu" title="<?php echo $apps; ?>"><span class="icone_menu apps"></span><span <?php hint('bottom', $apps_hint); ?>><?php echo $apps; ?></span></a>
 		<?php
@@ -109,7 +109,7 @@ else
 		<a href="/addquote" class="menu"><span class="icone_menu add"></span><span <?php hint('bottom', $add_a_quote_hint); ?>><?php echo $add_a_quote; ?></span></a>
 		<?php
 		// APPLICATIONS
-		if ($download_app == TRUE OR $_SESSION['security_level'] >= '2') :
+		if ($download_app == true OR $_SESSION['security_level'] >= '2') :
 		?>
 			<a href="/apps" onClick="_gaq.push(['_trackEvent', 'appiOS', 'clic', 'Website - menu topbar']);" class="menu"><span class="icone_menu apps"></span><span <?php hint('bottom', $apps_hint); ?>><?php echo $apps; ?></span></a>
 		<?php
@@ -133,7 +133,7 @@ else
 
 <?php
 // Should we display "Fill your profile please?"
-if ($_SESSION['profile_not_fullfilled'] == TRUE AND $_SERVER['PHP_SELF'] == '/index.php')
+if ($_SESSION['profile_not_fullfilled'] == true AND $_SERVER['PHP_SELF'] == '/index.php')
 	echo $profite_not_yet_fulffiled;
 ?>
 

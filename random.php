@@ -6,7 +6,7 @@ $logged = $_SESSION['logged'];
 $donnees = mysql_fetch_array(mysql_query("SELECT COUNT(*) AS nb_messages FROM teen_quotes_quotes WHERE approved = '1'"));
 $nb_messages_par_page = 10;
 
-$display_page_top = display_page_top($donnees['nb_messages'], $nb_messages_par_page, 'p', $previous_page, $next_page, NULL, TRUE);
+$display_page_top = display_page_top($donnees['nb_messages'], $nb_messages_par_page, 'p', $previous_page, $next_page, null, true);
 $premierMessageAafficher = $display_page_top[0];
 $nombreDePages           = $display_page_top[1];
 $page                    = $display_page_top[2];
@@ -40,6 +40,6 @@ while ($result = mysql_fetch_array($reponse))
 	$i++;
 }
 	
-display_page_bottom($page, $nombreDePages, 'p', NULL, $previous_page, $next_page, TRUE);
+display_page_bottom($page, $nombreDePages, 'p', null, $previous_page, $next_page, true);
 
 include "footer.php";

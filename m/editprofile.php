@@ -42,15 +42,15 @@ include '../lang/'.$language.'/signup.php';
 
 if (empty($result['birth_date'])) 
 {
-	$result['birth_date'] = NULL;
+	$result['birth_date'] = null;
 }
 if (empty($result['title']))
 {
-	$result['title'] = NULL;
+	$result['title'] = null;
 }
 if (empty($result['about_me']))
 {
-	$result['about_me'] = NULL;
+	$result['about_me'] = null;
 }
 else
 {
@@ -58,11 +58,11 @@ else
 }
 if (empty($result['country']))
 {
-	$result['country'] = NULL;
+	$result['country'] = null;
 }
 if (empty($result['city']))
 {
-	$result['city'] = NULL;
+	$result['city'] = null;
 }
 
 // FORMULAIRE
@@ -138,7 +138,7 @@ if (empty($action))
 }
 elseif ($action == "send") 
 {
-	$error_form = FALSE;
+	$error_form = false;
 
 	echo '
 	<div class="post">
@@ -169,18 +169,18 @@ elseif ($action == "send")
 			}
 			else
 			{
-				$error_form = TRUE;
+				$error_form = true;
 				echo $wrong_birth_date.' '.$lien_retour;
 			}
 		}
 		else
 		{
-			$error_form = TRUE;
+			$error_form = true;
 			echo $description_long;
 		}
 
 		// Update the profile
-		if ($error_form == FALSE)
+		if ($error_form == false)
 		{
 			$query = mysql_query("UPDATE teen_quotes_account SET title = '$title', birth_date = '$birth_date', country = '$country', city = '$city', about_me = '$about_me', hide_profile = '$hide_profile' WHERE id = '$id'");
 		}
@@ -327,7 +327,7 @@ elseif ($action == "settings")
 			if ($query) 
 			{
 				echo $settings_updated;
-				$notifications_succes = TRUE;
+				$notifications_succes = true;
 			}
 			else 
 			{
@@ -347,7 +347,7 @@ elseif ($action == "settings")
 			if ($query) 
 			{
 				echo $settings_updated;
-				$notifications_succes = TRUE;
+				$notifications_succes = true;
 			}
 			else 
 			{
@@ -369,10 +369,10 @@ elseif ($action == "settings")
 			$query = mysql_query("INSERT INTO newsletters (email, code_unsubscribe, type) VALUES ('".$email."', '".$code."', 'daily')");
 			if ($query) 
 			{
-				if ($notifications_succes != TRUE)
+				if ($notifications_succes != true)
 				{
 					echo $settings_updated;
-					$notifications_succes = TRUE;
+					$notifications_succes = true;
 				}
 			}
 			else 
@@ -392,10 +392,10 @@ elseif ($action == "settings")
 			$query = mysql_query("DELETE FROM newsletters WHERE email = '".$email."' AND type = 'daily'");
 			if ($query) 
 			{
-				if ($notifications_succes != TRUE)
+				if ($notifications_succes != true)
 					{
 						echo $settings_updated;
-						$notifications_succes = TRUE;
+						$notifications_succes = true;
 					}
 			}
 			else 
@@ -415,7 +415,7 @@ elseif ($action == "settings")
 		$query = mysql_query("UPDATE teen_quotes_account SET notification_comment_quote = '1' WHERE id = '$id_user'");
 		if ($query)
 		{
-			if ($notifications_succes != TRUE)
+			if ($notifications_succes != true)
 			{
 				echo $settings_updated;
 			}
@@ -430,7 +430,7 @@ elseif ($action == "settings")
 		$query = mysql_query("UPDATE teen_quotes_account SET notification_comment_quote = '0' WHERE id = '$id_user'");
 		if ($query)
 		{
-			if ($notifications_succes != TRUE)
+			if ($notifications_succes != true)
 			{
 				echo $settings_updated;
 			}

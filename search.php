@@ -96,7 +96,7 @@ else
 				<h2><img src="http://'.$domain.'/images/icones/profil.png" class="icone">'.$quotes.'<span class="right" style="font-size:90%;padding-top:5px">'.$num_rows_quote; echo ' '.$results; if ($num_rows_quote > 1){echo"s";} if ($num_rows_quote > 15){echo ' '.$max_result;} echo '</span></h2>';
 
 				while ($result = mysql_fetch_array($resultatsQuotes))
-					displayQuote($result, NULL, NULL, 'search');
+					displayQuote($result, null, null, 'search');
 			echo '</div>';
 		}
 		// Members result

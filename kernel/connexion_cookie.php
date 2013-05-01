@@ -1,12 +1,12 @@
 <?php
 // If the user is logged and one of his sessions variables is empty, disconnect the user
-if ($_SESSION['logged'] == TRUE AND (empty($_SESSION['id']) OR empty($_SESSION['username']) OR empty($_SESSION['email']) OR empty($_SESSION['avatar'])))
+if ($_SESSION['logged'] == true AND (empty($_SESSION['id']) OR empty($_SESSION['username']) OR empty($_SESSION['email']) OR empty($_SESSION['avatar'])))
 {
 	deconnexion();
 }
 
 // If the cookies Pseudo / Pass exist and the user is not logged
-if (isset($_COOKIE['Pseudo']) AND isset($_COOKIE['Pass']) AND $_SESSION['logged'] == FALSE)
+if (isset($_COOKIE['Pseudo']) AND isset($_COOKIE['Pass']) AND $_SESSION['logged'] == false)
 {
 	$pseudo = mysql_real_escape_string($_COOKIE['Pseudo']);
 	$pass = mysql_real_escape_string($_COOKIE['Pass']);
@@ -25,7 +25,7 @@ if (isset($_COOKIE['Pseudo']) AND isset($_COOKIE['Pass']) AND $_SESSION['logged'
 			$compte = mysql_fetch_array($query_base);
 
 			// Store session values
-			$_SESSION['logged'] = TRUE;
+			$_SESSION['logged'] = true;
 			$_SESSION['id'] = $compte['id'];										
 			$_SESSION['security_level'] = $compte['security_level'];									
 			$_SESSION['username'] = $compte['username'];
@@ -44,14 +44,14 @@ if (isset($_COOKIE['Pseudo']) AND isset($_COOKIE['Pass']) AND $_SESSION['logged'
 			// The user hasn't fullfilled his profile.
 			if (empty($compte['birth_date']) AND empty($compte['title']) AND empty($compte['country']) AND empty($compte['about_me']) AND $compte['avatar'] == "icon50.png" AND empty($compte['city']))
 			{
-				$_SESSION['profile_not_fullfilled'] = TRUE;
+				$_SESSION['profile_not_fullfilled'] = true;
 			}
 		}
 	}
 }
 
 // If the user is logged, set variables
-if ($_SESSION['logged'] == TRUE)
+if ($_SESSION['logged'] == true)
 {
 	$username = $_SESSION['username'];
 	$id = $_SESSION['id'];
@@ -59,13 +59,13 @@ if ($_SESSION['logged'] == TRUE)
 	$session_last_visit = $_SESSION['last_visit_user'];
 
 	// Force the user to rename if he hasn't a valid username
-	if (usernameIsValid(strtolower($_SESSION['username'])) == FALSE AND $php_self != 'changeusername')
+	if (usernameIsValid(strtolower($_SESSION['username'])) == false AND $php_self != 'changeusername')
 	{
 		echo '<meta http-equiv="refresh" content="0;url=changeusername">';
 	}
 
 	// The username is valid if it's only in lowercases. Store the username in lowercases
-	if (isset($_COOKIE['Pseudo']) AND usernameIsValid(strtolower($_SESSION['username'])) == TRUE AND usernameIsValid($_SESSION['username']) == FALSE)
+	if (isset($_COOKIE['Pseudo']) AND usernameIsValid(strtolower($_SESSION['username'])) == true AND usernameIsValid($_SESSION['username']) == false)
 	{
 		$_SESSION['username'] = strtolower($_SESSION['username']);
 	}
