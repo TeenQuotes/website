@@ -1,8 +1,8 @@
 <?php 
 include 'header.php';
 
-$email = mysql_real_escape_string($_GET['email']);
-$code = mysql_real_escape_string($_GET['code']);
+$email  = mysql_real_escape_string($_GET['email']);
+$code   = mysql_real_escape_string($_GET['code']);
 $action = htmlspecialchars($_GET['action']);
 
 include 'lang/'.$language.'/newsletter.php';
@@ -32,11 +32,12 @@ if (empty($action))
 		</form>
 	</div>';
 }
-	
-elseif ($action == "send") // SUBSCRIBE
+
+// Subscribe
+elseif ($action == "send")
 { 
-	$email = htmlspecialchars($_POST['email']);
-	$newsletter = htmlspecialchars($_POST['newsletter']);
+	$email             = htmlspecialchars($_POST['email']);
+	$newsletter        = htmlspecialchars($_POST['newsletter']);
 	$email_quote_today = htmlspecialchars($_POST['email_quote_today']);
 
 	$email_quote_today_num_rows = mysql_num_rows(mysql_query("SELECT id FROM newsletters WHERE email = '".$email."' AND type = 'daily'"));
@@ -44,7 +45,7 @@ elseif ($action == "send") // SUBSCRIBE
 
 	if (!empty($email) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 	{
-		// WEEKLY NEWSLETTER
+		// Weekly newsletter
 		if ($newsletter == '1' AND $is_newsletter == 0)
 		{
 			$code = caracteresAleatoires(5);
@@ -54,17 +55,13 @@ elseif ($action == "send") // SUBSCRIBE
 				echo $succes_newsletter;
 				$notifications_succes = TRUE;
 			}
-			else 
-			{
-				echo $error.' '.$lien_retour;
-			}	
+			else
+				echo $error.' '.$lien_retour;	
 		}
 		elseif ($is_newsletter == 1) 
-		{
 			echo $already_subscribe.$lien_retour;
-		}
 			
-		// DAILY NEWSLETTER
+		// Daily newsletter
 		if ($email_quote_today == '1' AND $email_quote_today_num_rows == 0)
 		{
 			$code = caracteresAleatoires(5);
@@ -78,21 +75,16 @@ elseif ($action == "send") // SUBSCRIBE
 				}
 			}
 			else 
-			{
 				echo $error.' '.$lien_retour;
-			}
 		}
 		elseif ($email_quote_today_num_rows == 1)
-		{
 			echo $already_subscribe.$lien_retour;
-		}
 	}
 	else 
-	{
 			echo '<span class="erreur">'.$email_incorrect.'</span>'.$lien_retour;
-	}
-}	
-elseif ($action == "unsubscribe")  // DESINSCRIPTION
+}
+// Unsubscribe from the weekly newsletter
+elseif ($action == "unsubscribe")
 {
 	if (!empty($email) AND !empty($code) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 	{
@@ -101,25 +93,18 @@ elseif ($action == "unsubscribe")  // DESINSCRIPTION
 		{
 			$query = mysql_query("DELETE FROM newsletters WHERE email = '".$email."' AND code_unsubscribe = '".$code."' AND type = 'weekly'");
 			if ($query) 
-			{
 				echo $succes_unsubscribe;
-			}
 			else 
-			{
 				echo $error;
-			}
 		}
 		else
-		{
 			echo $not_subscribe;
-		}
 	}
 	else 
-	{
 		echo $error;
-	}
 }	
-elseif ($action == "unsubscribe_everyday")  // DESINSCRIPTION
+// Unsubscribe from the daily newsletter
+elseif ($action == "unsubscribe_everyday")
 {
 	if (!empty($email) AND !empty($code) AND preg_match("#[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$#", $email)) 
 	{
@@ -128,25 +113,16 @@ elseif ($action == "unsubscribe_everyday")  // DESINSCRIPTION
 		if ($num_rows == 1) 
 		{
 			$query = mysql_query("DELETE FROM newsletters WHERE email = '".$email."' AND code_unsubscribe = '".$code."' AND type = 'daily'");
-			if ($query) 
-			{
+			if ($query)
 				echo $succes_unsubscribe_everyday;
-			}
 			else 
-			{
 				echo $error;
-			}
 		}
 		else
-		{
 			echo $not_subscribe;
-		}
 	}
 	else 
-	{
 		echo $error;
-	}
 }	
 echo '</div>';
 include "footer.php";
-?>

@@ -23,13 +23,9 @@ include 'kernel/connexion_cookie.php';
 <!DOCTYPE html>
 <?php
 if ($domain == $domain_fr)
-{
 	echo '<html lang="fr">';
-}
 else
-{
 	echo '<html lang="en">';
-}
 ?>
 <head>
 <?php 
@@ -50,9 +46,8 @@ else
 		
 		<?php
 		if ($php_self == "statistics")
-		{
+			// Used by statistics.php
 			$timestamp_last_update_stats = display_stats($language);
-		}
 		?>
 		<script>
 		  var _gaq = _gaq || [];
@@ -88,7 +83,7 @@ else
 	<div class="content">	
 	<?php 
 	if ($_SESSION['logged'] != TRUE) 
-	{ 
+	{
 	?>
 		<a href="/" class="menu" title="<?php echo $home; ?>"><span class="icone_menu home"></span><?php echo $home; ?></a>
 		<a href="/signup?topbar" onClick="_gaq.push(['_trackEvent', 'signup', 'clic', 'Website - topbar']);" class="menu"><span class="icone_menu signin"></span><span <?php hint('bottom', $sign_up_hint); ?>><?php echo $sign_up; ?></span></a>
@@ -98,12 +93,11 @@ else
 		<a href="/signup?addquote" onClick="_gaq.push(['_trackEvent', 'signup', 'clic', 'Website - addquote']);" class="menu"><span class="icone_menu add"></span><span <?php hint('bottom', $add_a_quote_hint); ?>><?php echo $add_a_quote; ?></span></a>
 		<?php
 		// APPLICATIONS
-		if ($download_app == TRUE OR $_SESSION['security_level'] >= '2')
-		{
+		if ($download_app == TRUE OR $_SESSION['security_level'] >= '2') :
 		?>
 			<a href="/apps" onClick="_gaq.push(['_trackEvent', 'appiOS', 'clic', 'Website - menu topbar']);" class="menu" title="<?php echo $apps; ?>"><span class="icone_menu apps"></span><span <?php hint('bottom', $apps_hint); ?>><?php echo $apps; ?></span></a>
 		<?php
-		}
+		endif;
 	}
 	else
 	{
@@ -115,21 +109,19 @@ else
 		<a href="/addquote" class="menu"><span class="icone_menu add"></span><span <?php hint('bottom', $add_a_quote_hint); ?>><?php echo $add_a_quote; ?></span></a>
 		<?php
 		// APPLICATIONS
-		if ($download_app == TRUE OR $_SESSION['security_level'] >= '2')
-		{
+		if ($download_app == TRUE OR $_SESSION['security_level'] >= '2') :
 		?>
 			<a href="/apps" onClick="_gaq.push(['_trackEvent', 'appiOS', 'clic', 'Website - menu topbar']);" class="menu"><span class="icone_menu apps"></span><span <?php hint('bottom', $apps_hint); ?>><?php echo $apps; ?></span></a>
 		<?php
-		}
+		endif;
 
 		// ADMIN PANEL
-		if ($_SESSION['security_level'] >= '2') 
-		{ 
+		if ($_SESSION['security_level'] >= '2') :
 		?>
 			
 			<a href="/admin" class="menu" title="Admin"><span class="icone_menu admin"></span>Admin <?php if ($citations_awaiting_approval > 0){echo '- '.$citations_awaiting_approval;} ?></a>
 		<?php
-		}
+		endif;
 	}
 	?>
 		<span class="right">
@@ -140,10 +132,9 @@ else
 </div><!-- END MENU -->
 
 <?php
+// Should we display "Fill your profile please?"
 if ($_SESSION['profile_not_fullfilled'] == TRUE AND $_SERVER['PHP_SELF'] == '/index.php')
-{
 	echo $profite_not_yet_fulffiled;
-}
 ?>
 
 <div id="content">

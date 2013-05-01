@@ -8,8 +8,8 @@ $nb_messages_par_page = 10;
 
 $display_page_top = display_page_top($donnees['nb_messages'], $nb_messages_par_page, 'p', $previous_page, $next_page, NULL, TRUE);
 $premierMessageAafficher = $display_page_top[0];
-$nombreDePages = $display_page_top[1];
-$page = $display_page_top[2];
+$nombreDePages           = $display_page_top[1];
+$page                    = $display_page_top[2];
 
 if ($logged)
 {
@@ -42,5 +42,4 @@ while ($result = mysql_fetch_array($reponse))
 	
 display_page_bottom($page, $nombreDePages, 'p', NULL, $previous_page, $next_page, TRUE);
 
-include "footer.php"; 
-?>
+include "footer.php";

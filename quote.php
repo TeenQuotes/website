@@ -6,10 +6,8 @@ $id_quote = mysql_real_escape_string($_GET['id_quote']);
 $logged = $_SESSION['logged'];
 $exist_quote = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE id = '$id_quote' AND approved = '1'"));
 
-if ($exist_quote == 0 OR empty($id_quote)) 
-{
+if ($exist_quote == 0 OR empty($id_quote))
 	echo '<meta http-equiv="refresh" content="0; url=error.php?erreur=404">';
-}
 
 if ($logged)
 {
@@ -33,15 +31,13 @@ else
 											WHERE q.auteur_id = a.id AND q.id = '$id_quote'"));
 }
 
-	$txt_quote = $result['texte_english'];
-	$auteur_id = $result['auteur_id'];
-	$auteur = $result['auteur']; 
+	$txt_quote  = $result['texte_english'];
+	$auteur_id  = $result['auteur_id'];
+	$auteur     = $result['auteur']; 
 	$date_quote = $result['date'];
 	$nombre_commentaires = $result['nb_comments'];
 	if ($logged)
-	{
 		$is_favorite = $result['is_favorite'];
-	}
 ?>
 
 	<div class="post">
@@ -126,13 +122,9 @@ else
 				{
 					echo '<span class="edit_comment">';
 					if ($id_auteur == $id)
-					{
 						echo '<a href="editcomment-'.$id_comment.'"><img src="http://'.$domain.'/images/icones/profil.png" class="mini_icone" /></a>';
-					}
 					if ($_SESSION['security_level'] >= '2')
-					{
 						echo '<a href="admin.php?action=delete_comment&id='.$id_comment.'"><img src="http://'.$domain.'/images/icones/delete.png" class="mini_icone" /></a>';
-					}
 					echo '</span>';
 				}
 			
@@ -144,8 +136,9 @@ else
 			
 		echo '<div class="clear"></div>';
 	}
+	// No comments
 	else 
-	{ // NO COMMENTS
+	{ 
 		echo '
 		<div class="bandeau_erreur">
 			'.$no_comments.'
@@ -155,5 +148,4 @@ else
 
 echo '</div>';
 
-include 'footer.php'; 
-?>
+include 'footer.php';

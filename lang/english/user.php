@@ -16,11 +16,11 @@ $years_old = 'years old';
 $no_posted_comments = "This user has not posted comments yet.";
 $no_description = "This user has not yet fulfilled its description.";
 $user_quotes = "Quotes";
-$fav_quote = "Favorite Quotes";
+$fav_quote = "Favorite quotes";
 $favorite_quotes = "Favorite quotes";
-$no_fav_quotes = "This user has no favorite quotes yet";
+$no_fav_quotes = "This user has no favorite quotes yet.";
 
 $hide_profile = "Sorry but this member has decided to hide his profile";
 $profile_hidden_self = "Your profile is currently hidden. Only you can see your profile.";
-$no_quotes = "This user has not posted quotes yet";
+$no_quotes = "This user has not posted quotes yet.";
 ?>

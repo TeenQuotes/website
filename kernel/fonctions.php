@@ -47,17 +47,11 @@ function deconnexion()
 	$name_website = $data[1];
 
 	if (($_SESSION['security_level'] >= 2 OR $download_app) AND !isUrlMobile())
-	{
 		$link = '../apps?action=disconnect';
-	}
-	elseif (!isUrlMobile())
-	{	
+	elseif (!isUrlMobile())	
 		$link = '../apps?action=mobile';
-	}
 	else
-	{
 		$link = '../';
-	}
 
 	// Destroy the session
 	$_SESSION = array();
@@ -70,10 +64,10 @@ function deconnexion()
 	setcookie("PHPSESSID", "Yo", time()-4200);
 	setcookie("Pseudo", "Yo", time()-4200);
 
-	$pseudo = NULL;
-	$id = NULL;
-	$email = NULL;
-	$username = NULL;
+	$pseudo   = null;
+	$id       = null;
+	$email    = null;
+	$username = null;
 
 	?>
 	<script language="JavaScript">
@@ -186,24 +180,16 @@ function update_stats ($language)
 	if ($domain == $domain_en)
 	{
 		if ($language == "english")
-		{
 			require 'lang/'.$language.'/statistics.php';
-		}
 		else
-		{
 			require '../lang/'.$language.'/statistics.php';
-		}
 	}
 	else
 	{
 		if ($language == "english")
-		{
 			require '../lang/'.$language.'/statistics.php';
-		}
 		else
-		{
 			require 'lang/'.$language.'/statistics.php';
-		}
 	}
 
 	$query_quote = mysql_query("SELECT COUNT(id) AS total FROM teen_quotes_quotes GROUP BY approved ORDER BY approved ASC ");
@@ -581,12 +567,12 @@ function last_visit($session_last_visit, $last_visit, $id_account)
 
 function age($naiss)  
 {
-	$jour = substr($naiss, 0, 2);
-	$mois = substr($naiss, 3, 2);
+	$jour  = substr($naiss, 0, 2);
+	$mois  = substr($naiss, 3, 2);
 	$annee = substr($naiss, 6, 4);
 
-	$today['mois'] = date('n');
-	$today['jour'] = date('j');
+	$today['mois']  = date('n');
+	$today['jour']  = date('j');
 	$today['annee'] = date('Y');
 	$annees = $today['annee'] - $annee;
 
@@ -612,8 +598,8 @@ function date_est_valide ($date)
 {
 	if (preg_match("#[0-9]{2}[\/][0-9]{2}[\/][0-9]{4}#", $date))
 	{
-		$jour = substr($date, 0, 2);
-		$mois = substr($date, 3, 2);
+		$jour  = substr($date, 0, 2);
+		$mois  = substr($date, 3, 2);
 		$annee = substr($date, 6, 4);
 
 		return checkdate($mois, $jour, $annee);
@@ -631,7 +617,7 @@ function usernameIsValid ($username)
   
 function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redirection, $previous_page, $next_page, $index = FALSE)
 {
-	$nb_next_page = $page + 1;
+	$nb_next_page     = $page + 1;
 	$nb_previous_page = $page - 1;
 
 	if ($index == TRUE)
@@ -665,18 +651,14 @@ function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redire
 			echo '<span class="page_bottom_number'.$margin_index.'"><a href="?'.$nom_lien_page.'=1">1</a></span> <span class="gap_page" style="margin-top:'.$margin_middle.'">'.$gap_txt.'</span>';
 			
 			for ($num_page = $page-$ecart_page;$num_page < $page;$num_page++)
-			{
 				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>'; 
-			}
 		}
 		else 
 		{
 			for ($num_page = 1;$num_page <= $page-1;$num_page++)
 			{
 				if ($index == TRUE)
-				{
 					$margin_index = ($num_page == '1') ?  ' no_margin_left' : '';
-				}
 				echo '<span class="page_bottom_number'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>'; 
 			}
 		}
@@ -689,15 +671,12 @@ function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redire
 			if ($num_page == $page)
 			{
 				if ($index == TRUE)
-				{
 					$margin_index = ($num_page == '1') ?  ' no_margin_left' : '';
-				}
+
 				echo '<span class="page_bottom_number_active '.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>';
 			}
 			else
-			{
 				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>';
-			}
 		}
 
 		echo '<span class="gap_page" style="margin-top:'.$margin_middle.'">'.$gap_txt.'</span>';
@@ -708,13 +687,9 @@ function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redire
 		for ($num_page = $page;$num_page <= $nombreDePages;$num_page++)
 		{
 			if ($num_page == $page)
-			{
 				echo '<span class="page_bottom_number_active'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>';
-			}
 			else
-			{
 				echo '<span class="page_bottom_number'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>';
-			}
 		}
 	}
 
@@ -727,9 +702,8 @@ function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redire
 	if ($page > 1)
 	{
 		if ($margin_done == TRUE)
-		{
 			$margin_index_right = '';
-		}
+
 		echo '<span class="page_bottom"><a href="?'.$nom_lien_page.'='.$nb_previous_page.$div_redirection.'" title="'.$previous_page.'">'.$previous_page.'</a></span>';
 	}
 
@@ -738,28 +712,20 @@ function display_page_bottom ($page, $nombreDePages, $nom_lien_page, $div_redire
 	
 function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_page, $next_page, $div_redirection = NULL, $margin = FALSE)
 {
-	$nombreDePages = ceil($nb_messages / $nb_messages_par_page);
+	$nombreDePages = floor($nb_messages / $nb_messages_par_page);
 
 	if ($nombreDePages <= 0)
-	{
 		$nombreDePages = 1;
-	}
 	
 	if (isset($_GET[$lien]))
-	{
 		$page = mysql_real_escape_string($_GET[$lien]);
-	}
 	else 
-	{
 		$page = 1; 
-	}
 
 	if ($page > $nombreDePages) 
-	{
 		$page = $nombreDePages;
-	}
 
-	$nb_next_page = $page + 1;
+	$nb_next_page     = $page + 1;
 	$nb_previous_page = $page - 1;
 
 	// Special margins
@@ -780,15 +746,11 @@ function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_
 	{
 		// If the margin was already set, do no add a margin again
 		if ($margin_done)
-		{
 			$margin_right = '';
-		}
 		echo '<span class="page'.$margin_page.$margin_right.'"><a href="?'.$lien.'='.$nb_previous_page.$div_redirection.'" title="'.$previous_page.'">'.$previous_page.'</a></span>';
 	}
 	if ($nombreDePages != 1)
-	{
 		echo '<br/>';
-	}
 
 	$premierMessageAafficher = ($page - 1) * $nb_messages_par_page;
 
@@ -802,34 +764,32 @@ function is_quote_new($date_quote, $last_visit, $page, $compteur_quote)
 	$yesterday_timestamp = mktime(0, 0, 0, date("m"), date("d")-1, date("Y"));
 	$yesterday = date("d/m/Y", $yesterday_timestamp);
 
-	$jour = substr($date_quote, 0, 2);
-	$mois = substr($date_quote, 3, 2);
+	$jour  = substr($date_quote, 0, 2);
+	$mois  = substr($date_quote, 3, 2);
 	$annee = substr($date_quote, 6, 4);
 	$timestamp_date_quote = mktime(0, 0, 0, $mois, $jour, $annee); 
 
-	$jour_last_visit = substr($last_visit, 0, 2);
-	$mois_last_visit = substr($last_visit, 3, 2);
+	$jour_last_visit  = substr($last_visit, 0, 2);
+	$mois_last_visit  = substr($last_visit, 3, 2);
 	$annee_last_visit = substr($last_visit, 6, 4);
 	$timestamp_last_visit = mktime(0, 0, 0, $mois_last_visit, $jour_last_visit, $annee_last_visit); 
 
 
 	if ($date_quote == $yesterday OR ($timestamp_last_visit != '943916400' AND $timestamp_date_quote > $timestamp_last_visit) OR ($page == '1' AND $compteur_quote < $nb_quote_released_per_day))
-	{
 		echo '<span class="icone_new_quote hide_this"></span>';
-	}
 }
 
 function display_individual_story ($data)
 {
 	global $tell_us_your_story, $tell_us_how_you_use, $domain, $story;
 
-	$id_story = $data['id_story'];
-	$txt_represent = $data['txt_represent'];
-	$txt_frequence = $data['txt_frequence'];
-	$date = date(('d/m/Y'), strtotime($data['date']));
+	$id_story       = $data['id_story'];
+	$txt_represent  = $data['txt_represent'];
+	$txt_frequence  = $data['txt_frequence'];
+	$date           = date(('d/m/Y'), strtotime($data['date']));
 	$username_story = $data['username'];
-	$id_user_story = $data['id_user'];
-	$avatar_story = $data['avatar'];
+	$id_user_story  = $data['id_user'];
+	$avatar_story   = $data['avatar'];
 
 	echo '
 	<div class="grey_post post_individual_story">
@@ -923,11 +883,11 @@ function flush_quotes ()
 		$id_quote = $result['id_quote'];
 
 		$query_texte_quote = mysql_fetch_array(mysql_query("SELECT q.texte_english texte_english,q.date date, q.auteur_id auteur_id, a.username username, a.email email FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.auteur_id = a.id AND q.id = '".$id_quote."'"));
-		$texte_quote = $query_texte_quote['texte_english'];
-		$date_quote = $query_texte_quote['date'];
-		$auteur_id = $query_texte_quote['auteur_id'];
+		$texte_quote  = $query_texte_quote['texte_english'];
+		$date_quote   = $query_texte_quote['date'];
+		$auteur_id    = $query_texte_quote['auteur_id'];
 		$email_auteur = $query_texte_quote['email'];
-		$name_auteur = $query_texte_quote['username'];
+		$name_auteur  = $query_texte_quote['username'];
 
 		$approve_quote = mysql_query("UPDATE teen_quotes_quotes SET approved = '1' WHERE id = '".$id_quote."'");
 
@@ -1650,7 +1610,7 @@ if (empty($_COOKIE['mobile']) AND !isUrlMobile() AND !isset($_GET['mobile']))
 	mobile_device_detect();
 }
 
-function isUrlMobile ()
+function isUrlMobile()
 {
 	return (preg_match('#http://m\.#', $_SERVER['SCRIPT_URI']));
 }
@@ -1674,7 +1634,7 @@ function isDomainValidForAjax ()
 	return (preg_match('/'.$domain_fr.'/', $_SERVER['SERVER_NAME']) OR preg_match('/'.$domain_en.'/', $_SERVER['SERVER_NAME']));
 }
 
-function arrayToVar ($array)
+function arrayToVar($array)
 {
 	global $domain, $name_website, $language;
 
@@ -1698,18 +1658,12 @@ function hint ($position, $txt, $type=FALSE, $return=FALSE)
 	$class = $position;
 
 	if ($type != FALSE)
-	{
 		$class .= ' hint--'.$type;
-	}
 
 	if (!$return)
-	{
 		echo 'class="hint--'.$class.'" data-hint="'.$txt.'"';
-	}
 	else
-	{
 		return 'class="hint--'.$class.'" data-hint="'.$txt.'"';
-	}
 }
 
 function addMember ($username, $email, $passwordOne, $passwordConfirm)
