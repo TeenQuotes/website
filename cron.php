@@ -119,7 +119,7 @@ if ($_GET['secret'] == $cron_pass_secret)
 	{
 		$ping = mysql_ping();
 
-		if ($ping == false)
+		if (!$ping)
 		{
 			$object = 'SQL slave down';
 			$message = $top_mail.'The SQL slave appears to be down. Check its status NOW!'.$end_mail;
@@ -140,14 +140,14 @@ if ($_GET['secret'] == $cron_pass_secret)
 		// Ping the slave
 		$ping = mysql_ping();
 		// Check if everything is ok
-		if ($ping == true)
+		if ($ping)
 		{
 			$query = mysql_query("SHOW SLAVE STATUS");
 			$data = mysql_fetch_array($query);
 		}
 		
 		// The slave answers
-		if ($ping == true AND $data['Slave_IO_State'] == 'Waiting for master to send event' AND $data['Slave_IO_Running'] == 'Yes' AND $data['Slave_SQL_Running'] == 'Yes')
+		if ($ping AND $data['Slave_IO_State'] == 'Waiting for master to send event' AND $data['Slave_IO_Running'] == 'Yes' AND $data['Slave_SQL_Running'] == 'Yes')
 		{
 			// If the replication was disabled, enable it
 			if (strpos($content_file, "false"))
