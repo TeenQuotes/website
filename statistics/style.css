@@ -1,0 +1,232 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section
+{
+	display: block;
+}
+body
+{
+	line-height: 1;
+}
+ol, ul
+{
+	list-style: none;
+}
+blockquote, q
+{
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after
+{
+	content: '';
+	content: none;
+}
+table
+{
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+body
+{
+	background: url(/images/bg.png);
+	font-family: 'Lato', serif;
+	font-size: 15px;
+	font-weight: 300;
+	color: #333;
+	line-height: 20px;
+}
+#header
+{
+	background:url(http://teen-quotes.com/images/bg_header.jpg);
+	display:block;
+	height:60px;
+}
+#header .content
+{
+	width:920px;
+	margin:0 auto;
+	padding:15px 0;
+}
+#header .content #logo
+{
+	float:left;
+	margin:0;
+	position: relative;
+}
+#header .content #logo a
+{
+	font-family:"Open Sans";
+	font-size:25px;
+	color:#FFF;
+	font-weight:normal;
+	display:block;
+	height:30px;
+	text-decoration:none;
+	letter-spacing:2px;
+}
+#header .content #logo a img
+{
+	height:30px;
+	margin-right:15px;
+	vertical-align:-8px;
+}
+#header .content #logo a:hover img
+{
+	opacity:0.6;
+}
+#header .content #logo span#caption
+{
+	font-size:12px;
+	font-family:'Lato';
+	margin:-3px 0 0 130px;
+	color:#FFF;
+	float:left;
+}
+#content
+{
+	width: 920px;
+	padding: 15px;
+	background: #FFF;
+	margin: 0 auto;
+}
+#chart
+{
+	margin: 20px auto 60px auto;
+	padding: 10px 15px;
+	background: #F1F1F1;
+}
+#chart h1
+{
+	font-family: 'Lato';
+	font-weight: 300;
+	font-size: 25px;
+	margin:-10px -15px;
+	background: #4081BD;
+	padding: 10px 20px;
+	font-style: italic;
+	color: #FFF;
+	border-bottom: 1px solid #CCC;
+}
+.chartObject
+{
+	padding: 10px 0;
+	height: 500px;
+}
+.explanation
+{
+	margin: 0 30px 30px 30px;
+	padding: 10px 15px 10px 20px;
+	background: url(/images/noise-gray.png);
+	border-left: 3px solid #CCC;
+	text-align: justify;
+	line-height: 25px;
+}
+.explanation h3
+{
+	font-size: 18px;
+	font-family: 'Lato';
+	font-weight: 400;
+	background: #64992c;
+	color: #FFF;
+	margin: -10px -15px -10px -23px;
+	padding: 5px 20px;
+	margin-bottom: 10px;
+}
+.floatRight
+{
+	float: right;
+}
+#footer
+{
+	margin-top:50px;
+	font-size:13px;
+	display:block;
+	text-shadow:0 1px 0 rgba(255,255,255,.6);
+	background: #F1F1F1;
+	font-weight:normal;
+	height:222px;
+	border-top: 1px solid #FFF;
+}
+#footer .content
+{
+	width:920px;
+	margin:0 auto;
+	padding:15px 0 30px 0;
+	line-height:22px;
+	font-family:'Open Sans';
+	font-size:12px;
+}
+#footer .content a
+{
+	color:#888;
+	text-decoration:none;
+}
+#footer .content a:hover
+{
+	border-bottom:1px dashed #888;
+	text-decoration:none;
+}
+#footer .content .left
+{
+	float:left;
+	width:400px;
+	margin-right:25px;
+	text-align:justify;
+}
+#footer .content .right
+{
+	float:right;
+	width:180px;
+}
+#footer .content .right #caption_footer
+{
+	font-family:'Lato';
+	text-shadow:0 1px 0 white;
+}
+#footer .content .right #caption_footer #eiffel-tower
+{
+	background:url(http://teen-quotes.com/images/tour.png);
+	display:inline-block;
+	height:21px;
+	width:10px;
+	margin-left:10px;
+	vertical-align:-5px;
+}
+#footer a
+{
+color:rgb(60,83,189);
+	text-decoration:none;
+	cursor:pointer;
+}
+#footer a:hover
+{
+	border-bottom:1px dashed rgb(60,83,189);
+	text-decoration:none !important;
+}

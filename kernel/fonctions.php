@@ -176,7 +176,11 @@ function update_stats($language)
 	$data = domaine();
 	$domain = $data[0];
 	$name_website = $data[1];
-	
+
+	require 'lang/french/statistics.php';
+
+	/*
+	Language of stats based on language
 	if ($domain == $domain_en)
 	{
 		if ($language == "english")
@@ -190,7 +194,7 @@ function update_stats($language)
 			require '../lang/'.$language.'/statistics.php';
 		else
 			require 'lang/'.$language.'/statistics.php';
-	}
+	}*/
 
 	$query_quote = mysql_query("SELECT COUNT(id) AS total FROM teen_quotes_quotes GROUP BY approved ORDER BY approved ASC ");
 
@@ -250,7 +254,13 @@ function update_stats($language)
 	data.setValue(3, 0, '".$waiting_to_be_posted." : ".$array_approved_quotes['quotes_queued']."');
 	data.setValue(3, 1, ".$array_approved_quotes['quotes_queued'].");
 
-	// Create and draw the visualization.
+	var formatter = new google.visualization.NumberFormat(
+	{
+		groupingSymbol: ' ',
+		fractionDigits: 0
+	});
+	formatter.format(data, 1);
+
 	new google.visualization.PieChart(document.getElementById('graph_quotes')).
 	draw(data, {title:'".$total_nb_quotes." : ".$array_approved_quotes['total_quotes']."'});
 	}
@@ -265,7 +275,6 @@ function update_stats($language)
 	data.setValue(1, 0, '".$profile_fullfilled." : ".$nb_members_empty_profile."');
 	data.setValue(1, 1, ".$nb_members_empty_profile.");
 
-	// Create and draw the visualization.
 	new google.visualization.PieChart(document.getElementById('graph_empty_profile')).
 	draw(data, {title:'".$total_nb_members." : ".$total_members."'});
 	}
@@ -280,7 +289,6 @@ function update_stats($language)
 	data.setValue(1, 0, '".$weekly_newsletter." : ".$nb_newsletter['weekly']."');
 	data.setValue(1, 1, ".$nb_newsletter['weekly'].");
 
-	// Create and draw the visualization.
 	new google.visualization.PieChart(document.getElementById('graph_newsletter')).
 	draw(data, {title:'".$people_subscribed_newsletter." : ".$nb_newsletter['tot']."'});
 	}
@@ -295,7 +303,6 @@ function update_stats($language)
 	data.setValue(1, 0, '".$members_without_fav_quotes." : ".$nb_members_no_favorite_quotes."');
 	data.setValue(1, 1, ".$nb_members_no_favorite_quotes.");
 
-	// Create and draw the visualization.
 	new google.visualization.PieChart(document.getElementById('members_favorite_quote')).
 	draw(data, {title:'".$members_and_fav_quotes."'});
 	}
@@ -324,7 +331,6 @@ function update_stats($language)
 	data.setValue(".$i.", 0, '".$others." : ".$reste_nb_favorite."');
 	data.setValue(".$i.", 1, ".$reste_nb_favorite.");
 
-	// Create and draw the visualization.
 	new google.visualization.PieChart(document.getElementById('top_user_favorite_quote')).
 	draw(data, {title:'".$top_members_ordered_by_nb_quotes_in_fav." (".$nb_favorite." ".$quotes_in_fav.")'});
 	}
@@ -346,7 +352,13 @@ function update_stats($language)
 		$i++;
 	}
 	$graph_stats_js .= "
-	// Create and draw the visualization.
+	var formatter = new google.visualization.NumberFormat(
+	{
+		groupingSymbol: ' ',
+		fractionDigits: 0
+	});
+	formatter.format(data, 1);
+
 	new google.visualization.PieChart(document.getElementById('graph_location_signup')).
 	draw(data, {title:'".$location_signup."'});
 	}
@@ -376,8 +388,13 @@ function update_stats($language)
 	$graph_stats_js .="
 	data.setValue(".$i.", 0, '".$others." : ".$reste_nb_search."');
 	data.setValue(".$i.", 1, ".$reste_nb_search.");
+	var formatter = new google.visualization.NumberFormat(
+	{
+		groupingSymbol: ' ',
+		fractionDigits: 0
+	});
+	formatter.format(data, 1);
 
-	// Create and draw the visualization.
 	new google.visualization.PieChart(document.getElementById('graph_search')).
 	draw(data, {title:'".$total_nb_search." : ".$nb_search."'});
 	}
@@ -408,6 +425,14 @@ function update_stats($language)
 	var options = {
           title: '".$members_over_time."'
         };
+
+    var formatter = new google.visualization.NumberFormat(
+	{
+		groupingSymbol: ' ',
+		fractionDigits: 0
+	});
+	formatter.format(data, 1); // Apply formatter to second column
+
     var chart = new google.visualization.LineChart(document.getElementById('members_time'));
         chart.draw(data, options);
     }
@@ -460,6 +485,15 @@ function update_stats($language)
           title: '".$quotes_over_time."',
           series: {0:{color:'red'}, 1:{color:'green'}, 2:{color:'blue'}}
         };
+    var formatter = new google.visualization.NumberFormat(
+	{
+		groupingSymbol: ' ',
+		fractionDigits: 0
+	});
+	formatter.format(data, 1); 
+	formatter.format(data, 2); 
+	formatter.format(data, 3); 
+
     var chart = new google.visualization.LineChart(document.getElementById('quotes_time'));
         chart.draw(data, options);
     }
@@ -501,9 +535,7 @@ function update_stats($language)
 									FROM teen_quotes_comments
 									WHERE UNIX_TIMESTAMP(timestamp_created) <= '".$timestamp."'");
 			while ($data = mysql_fetch_array($query))
-			{
 				$nb_tot = $data['tot'];
-			}
 
 			$time_txt = date('m/y', $timestamp);
 
@@ -516,6 +548,13 @@ function update_stats($language)
 	var options = {
           title: '".$comments_over_time."'
         };
+    var formatter = new google.visualization.NumberFormat(
+	{
+		groupingSymbol: ' ',
+		fractionDigits: 0
+	});
+	formatter.format(data, 1); // Apply formatter to second column
+
     var chart = new google.visualization.LineChart(document.getElementById('graph_comments_time'));
         chart.draw(data, options);
     }";
@@ -550,6 +589,14 @@ function display_stats()
 
 	// Return the ISO 8601 timestamp
 	return date('c', strtotime($data['timestamp']));
+}
+
+function statsDatabase()
+{
+	$query = mysql_query("SELECT text_js, timestamp FROM stats WHERE id = 1");
+	$data = mysql_fetch_array($query);
+
+	echo '<script>'.$data['text_js'].'</script>';
 }
 
 function last_visit($session_last_visit, $last_visit, $id_account)
@@ -1513,7 +1560,7 @@ function getSubDomain()
 function subDomainIsRestricted($subDomain)
 {
 	$restricted_sub_domains = array(
-		"stories");
+		"stories", "statistics");
 
 	return (in_array($subDomain, $restricted_sub_domains));
 }
@@ -1621,6 +1668,15 @@ function hint ($position, $txt, $type=false, $return=false)
 		echo 'class="hint--'.$class.'" data-hint="'.$txt.'"';
 	else
 		return 'class="hint--'.$class.'" data-hint="'.$txt.'"';
+}
+
+function insertConnexion($type, $id_user=null)
+{
+	if ($id_user === null)
+		$id_user = $_SESSION['id'];
+
+	if (!empty($id_user))
+		mysql_query("INSERT INTO connexions_log (id_user, type) VALUES ('".$id_user."', '".$type."')");
 }
 
 function addMember ($username, $email, $passwordOne, $passwordConfirm)
