@@ -49,6 +49,8 @@ if (isset($_POST['connexion']) OR $method == 'get')
 				$_SESSION['passwd'] = $passwd;
 				$_SESSION['username'] = $compte['username'];
 
+				insertConnexion('credentialsWeb');
+
 				// Force the user to rename if he hasn't a valid username
 				if (usernameIsValid(strtolower($_SESSION['username'])) == false)
 				{
