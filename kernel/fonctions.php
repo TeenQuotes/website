@@ -173,28 +173,11 @@ function update_stats($language)
 	// Grant access to these variables
 	global $domain_en, $domain_fr;
 
-	$data = domaine();
-	$domain = $data[0];
+	$data         = domaine();
+	$domain       = $data[0];
 	$name_website = $data[1];
 
-	require 'lang/french/statistics.php';
-
-	/*
-	Language of stats based on language
-	if ($domain == $domain_en)
-	{
-		if ($language == "english")
-			require 'lang/'.$language.'/statistics.php';
-		else
-			require '../lang/'.$language.'/statistics.php';
-	}
-	else
-	{
-		if ($language == "english")
-			require '../lang/'.$language.'/statistics.php';
-		else
-			require 'lang/'.$language.'/statistics.php';
-	}*/
+	require 'lang/'.$language.'/statistics.php';
 
 	$query_quote = mysql_query("SELECT COUNT(id) AS total FROM teen_quotes_quotes GROUP BY approved ORDER BY approved ASC ");
 
@@ -628,30 +611,22 @@ function update_stats($language)
 	google.setOnLoadCallback(users_ages);";
 
 	// Store it in the database
-	$query = mysql_query("UPDATE stats SET text_js = '".mysql_real_escape_string($graph_stats_js)."' WHERE id = 1");
+	$query = mysql_query("UPDATE stats SET text_js_".$language." = '".mysql_real_escape_string($graph_stats_js)."' WHERE id = 1");
 }
 
-// Display the JS for statistics - /statistics.php
-function display_stats() 
+function display_stats($language=null) 
 {
-	$query = mysql_query("SELECT text_js, timestamp FROM stats WHERE id = 1");
+	// Default language value
+	if (is_null($language))
+		$language = 'english';
+
+	$query = mysql_query("SELECT text_js_".$language." as js_stats, timestamp FROM stats WHERE id = 1");
 	$data = mysql_fetch_array($query);
 
-	echo "
-	<script type=\"text/javascript\" src=\"http://www.google.com/jsapi\"></script>
-	<script type=\"text/javascript\">google.load('visualization', '1', {packages: ['corechart']});</script>
-	<script type=\"text/javascript\">".$data['text_js']."</script>";
+	echo "<script type=\"text/javascript\">".$data['js_stats']."</script>";
 
 	// Return the ISO 8601 timestamp
 	return date('c', strtotime($data['timestamp']));
-}
-
-function statsDatabase()
-{
-	$query = mysql_query("SELECT text_js, timestamp FROM stats WHERE id = 1");
-	$data = mysql_fetch_array($query);
-
-	echo '<script>'.$data['text_js'].'</script>';
 }
 
 function last_visit($session_last_visit, $last_visit, $id_account)

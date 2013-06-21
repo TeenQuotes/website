@@ -37,7 +37,7 @@ else
 		<meta name="robots" content="all"/>
 		<meta charset="utf-8" />
 		
-		<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700|Roboto:400,300,700' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=Lato:300,400,700|Roboto:400,300,700' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="//statistics.<?php echo $domain; ?>/style.css" />
 
 		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domain; ?>/images/favicon.png"/>
@@ -46,7 +46,7 @@ else
 		<script src="//code.jquery.com/jquery-latest.min.js"></script>
 		<script src="https://www.google.com/jsapi"></script>
 		<script src="/js/charts.js"></script>
-		<?php statsDatabase(); ?>
+		<?php display_stats($language); ?>
 		<script>
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', <?php echo "'".$google_analytics_account."'"; ?>]);

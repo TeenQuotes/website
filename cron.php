@@ -262,7 +262,10 @@ if ($_GET['secret'] == CRON_PASS_SECRET)
 	}
 	// Update statistics
 	elseif ($_GET['code'] == 'updatestats')
+	{
 		update_stats($language);
+		update_stats($second_language);
+	}
 	// New version of the appiOS
 	elseif ($_GET['code'] == 'updateapp')
 	{

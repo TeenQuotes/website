@@ -42,13 +42,8 @@ else
 		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domain; ?>/images/favicon.png"/>
 		<meta property="og:image" content="http://<?php echo $domain; ?>/images/icon50.png" /> 
 		
-		<script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
-		
-		<?php
-		if ($php_self == "statistics")
-			// Used by statistics.php
-			$timestamp_last_update_stats = display_stats($language);
-		?>
+		<script src="//code.jquery.com/jquery-1.8.0.min.js"></script>
+
 		<script>
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', <?php echo "'".$google_analytics_account."'"; ?>]);
