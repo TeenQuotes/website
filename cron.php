@@ -2,8 +2,8 @@
 require "kernel/config.php";
 require "kernel/fonctions.php";
 
-// $cron_pass_secret in /kernel/config.php
-if ($_GET['secret'] == $cron_pass_secret)
+// CRON_PASS_SECRET in /kernel/config.php
+if ($_GET['secret'] == CRON_PASS_SECRET)
 {
 	// Connect to SQL master unless we want to ping the slave
 	if ($_GET['code'] == 'pingslave' OR $_GET['code'] == 'checkslaveupdate')

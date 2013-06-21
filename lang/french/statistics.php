@@ -2,11 +2,12 @@
 $statistics = "Statistiques";
 $other_stats = "Autres statistiques";
 $more_stats_email = '<img src="http://'.$domain.'/images/icones/infos.png" class="mini_plus_icone" />Si vous voulez plus de statistiques, envoyez-nous un email à <a href="mailto:support@teen-quotes.com">support@teen-quotes.com</a><br/>';
+$description_statistics  = "Statistiques à propos de l'utilisation de Teen Quotes et des comptes créés.";
 
 $approved = "Approuvées";
 $rejected = "Rejetées";
 $pending = "En attente de modération";
-$waiting_to_be_posted = 'En attente';
+$waiting_to_be_posted = 'En attente de publication';
 $total_nb_quotes = "Nombre total de citations";
 $profile_not_fullfilled = "Profil incomplet";
 $profile_fullfilled = "Profil rempli";
@@ -28,7 +29,7 @@ $last_update = "Dernière mise à jour :";
 $unapproved_quotes = "Citations rejetées";
 $approved_quotes = "Citations approuvées";
 $txt_total_quotes = "Nombre total de citations";
-$quotes_over_time = "Citation en fonction du temps";
+$quotes_over_time = "Citations en fonction du temps";
 $comments = "Commentaires";
 $comments_over_time = "Commentaires en fonction du temps";
 $number_of_comments = "Nombre de commentaires";

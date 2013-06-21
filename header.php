@@ -13,16 +13,16 @@ if (preg_match('#[a-zA-Z]#', $_GET['p']))
 require 'files/replication.php';
 require 'kernel/config.php';
 $db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
-mysql_select_db($user, $db)  or die('Erreur de selection '.mysql_error()); 
-require 'kernel/fonctions.php';
-require 'lang/'.$language.'/general.php';
-include 'lang/'.$language.'/connexion.php';
+mysql_select_db($user, $db)  or die('Erreur de selection '.mysql_error());
 
+require 'kernel/fonctions.php';
+include 'lang/'.$language.'/general.php';
+include 'lang/'.$language.'/connexion.php';
 include 'kernel/connexion_cookie.php';
 ?>
 <!DOCTYPE html>
 <?php
-if ($domain == $domain_fr)
+if ($language == "french")
 	echo '<html lang="fr">';
 else
 	echo '<html lang="en">';

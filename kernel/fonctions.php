@@ -245,13 +245,13 @@ function update_stats($language)
 	data.addColumn('string', 'Quote');
 	data.addColumn('number', 'Status');
 	data.addRows(4);
-	data.setValue(0, 0, '".$approved." : ".$array_approved_quotes['quotes_approved']."');
+	data.setValue(0, 0, '".$approved."');
 	data.setValue(0, 1, ".$array_approved_quotes['quotes_approved'].");
-	data.setValue(1, 0, '".$rejected." : ".$array_approved_quotes['quotes_rejected']."');
+	data.setValue(1, 0, '".$rejected."');
 	data.setValue(1, 1, ".$array_approved_quotes['quotes_rejected'].");
-	data.setValue(2, 0, '".$pending." : ".$array_approved_quotes['quotes_pending']."');
+	data.setValue(2, 0, '".$pending."');
 	data.setValue(2, 1, ".$array_approved_quotes['quotes_pending'].");
-	data.setValue(3, 0, '".$waiting_to_be_posted." : ".$array_approved_quotes['quotes_queued']."');
+	data.setValue(3, 0, '".$waiting_to_be_posted."');
 	data.setValue(3, 1, ".$array_approved_quotes['quotes_queued'].");
 
 	var formatter = new google.visualization.NumberFormat(
@@ -262,7 +262,7 @@ function update_stats($language)
 	formatter.format(data, 1);
 
 	new google.visualization.PieChart(document.getElementById('graph_quotes')).
-	draw(data, {title:'".$total_nb_quotes." : ".$array_approved_quotes['total_quotes']."'});
+	draw(data, {title:'".$total_nb_quotes." : ".number_space($array_approved_quotes['total_quotes'])."'});
 	}
 
 	function graph_empty_profile() {
@@ -270,13 +270,13 @@ function update_stats($language)
 	data.addColumn('string', 'Profile');
 	data.addColumn('number', 'Status');
 	data.addRows(2);
-	data.setValue(0, 0, '".$profile_not_fullfilled." : ".$nb_empty_avatar."');
+	data.setValue(0, 0, '".$profile_not_fullfilled."');
 	data.setValue(0, 1, ".$nb_empty_avatar.");
-	data.setValue(1, 0, '".$profile_fullfilled." : ".$nb_members_empty_profile."');
+	data.setValue(1, 0, '".$profile_fullfilled."');
 	data.setValue(1, 1, ".$nb_members_empty_profile.");
 
 	new google.visualization.PieChart(document.getElementById('graph_empty_profile')).
-	draw(data, {title:'".$total_nb_members." : ".$total_members."'});
+	draw(data, {title:'".$total_nb_members." : ".number_space($total_members)."'});
 	}
 
 	function graph_newsletter() {
@@ -290,7 +290,7 @@ function update_stats($language)
 	data.setValue(1, 1, ".$nb_newsletter['weekly'].");
 
 	new google.visualization.PieChart(document.getElementById('graph_newsletter')).
-	draw(data, {title:'".$people_subscribed_newsletter." : ".$nb_newsletter['tot']."'});
+	draw(data, {title:'".$people_subscribed_newsletter." : ".number_space($nb_newsletter['tot'])."'});
 	}
 
 	function members_favorite_quote() {
@@ -346,7 +346,7 @@ function update_stats($language)
 		$location_signup_device = $donnees['location_signup'];
 		$nb = $donnees['tot'];
 		$graph_stats_js .= "
-		data.setValue(".$i.", 0, '".$location_signup_device." : ".$nb."');
+		data.setValue(".$i.", 0, '".$location_signup_device."');
 		data.setValue(".$i.", 1, ".$nb.");
 		";
 		$i++;

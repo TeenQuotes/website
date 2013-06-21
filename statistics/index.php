@@ -2,11 +2,6 @@
 ini_set('session.cookie_domain', '.teen-quotes.com');
 session_start();
 header('Content-type: text/html; charset=utf-8');
-if (preg_match('#[a-zA-Z]#', $_GET['p']))
-{
-	header("Location: /");
-	exit;
-}
 
 // Go to the subdomain if we are in $domain/statistics
 if (preg_match($domain.'/statistics/', $_SERVER['SCRIPT_URI']) AND !preg_match("#statistics#", $_SERVER['HTTP_HOST']))
@@ -20,23 +15,23 @@ if (preg_match($domain.'/statistics/', $_SERVER['SCRIPT_URI']) AND !preg_match("
 require '../files/replication.php';
 require '../kernel/config.php';
 $db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
-mysql_select_db($user, $db)  or die('Erreur de selection '.mysql_error()); 
+mysql_select_db($user, $db)  or die('Erreur de selection '.mysql_error());
+
 require '../kernel/fonctions.php';
 require '../lang/'.$language.'/general.php';
-include '../lang/'.$language.'/stories.php';
-include '../lang/'.$language.'/connexion.php';
+include '../lang/'.$language.'/statistics.php';
 include '../kernel/connexion_cookie.php';
 ?>
 <!DOCTYPE html>
 <?php
-if ($domain == $domain_fr)
+if ($language == "french")
 	echo '<html lang="fr">';
 else
 	echo '<html lang="en">';
 ?>
 <head>
 		<title><?php echo $name_website; ?> - Statistics</title>
-		<meta name="description" content="<?php echo $description_stories; ?>"/>
+		<meta name="description" content="<?php echo $description_statistics; ?>"/>
 		<meta name="author" content="Antoine Augusti"/> 
 		<meta name="revisit-after" content="1 day"/>
 		<meta name="robots" content="all"/>
@@ -70,7 +65,7 @@ else
 <body>
 	<div id="header">
 		<div class="content">
-			<div id="logo">
+			<div id="logo" class="animated rotateInDownRight">
 				<a href="/" title="<?php echo $name_website; ?>" class="fade_on_hover"><img src="//<?php echo $domain; ?>/images/logo_<?php echo $name_logo; ?>.png" alt="<?php echo $name_website; ?>"/></a>
 				<span id="caption"><?php echo $website_caption; ?></span>
 			</div>
@@ -78,7 +73,7 @@ else
 	</div><!-- END HEADER -->
 
 	<div id="content">
-		<div id="chart">
+		<div id="chart" class="animated rotateInDownLeft">
 			<h1>Visiteurs de Teen Quotes</h1>
 			<div id="geoMap" class="chartObject"></div>
 			<div id="pieGeo" class="chartObject"></div>
@@ -126,7 +121,7 @@ else
 
 			<div class="right">
 				<?php
-				echo $name_website.' &copy; '.date("Y");
+					echo $name_website.' &copy; '.date("Y");
 				?>
 				<br/>
 				<br/>
@@ -141,5 +136,6 @@ else
 			<div class="clear"></div>
 		</div>
 	</div><!-- END FOOTER -->
+
 </body>
 </html>

@@ -226,18 +226,7 @@ function drawMapGeo()
 		},
 		legend:
 		{
-			numberFormat: '#,###',
-			textStyle:
-			{
-				fontName: 'Open Sans'
-			}
-		},
-		tooltip:
-		{
-			textStyle:
-			{
-				fontName: 'Open Sans'
-			}
+			numberFormat: '#,###'
 		}
 	};
 
@@ -466,8 +455,7 @@ function drawPieGeo()
 	]);
 
 	var options = {
-		title: 'Visites de Teen Quotes',
-		height: 400
+		title: 'Visites de Teen Quotes'
 	};
 
 	var formatter = new google.visualization.NumberFormat(
@@ -491,7 +479,6 @@ function drawSexUsers()
 
 	var options = {
 		title: 'Sexe des utilisateurs de Teen Quotes',
-		height: 400,
 		colors: ['#3366CC', '#EF7BB8']
 	};
 

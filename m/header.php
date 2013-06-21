@@ -22,14 +22,10 @@ include '../kernel/connexion_cookie.php';
 ?>
 <!DOCTYPE html>
 <?php
-if ($domain == $domain_fr)
-{
+if ($language == "french")
 	echo '<html lang="fr">';
-}
 else
-{
 	echo '<html lang="en">';
-}
 ?>
 <head>
 <?php 
