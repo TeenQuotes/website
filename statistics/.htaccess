@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteRule ^fr$ /index.php?fr [L,QSA]
+RewriteRule ^en$ /index.php?en [L,QSA]

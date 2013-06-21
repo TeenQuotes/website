@@ -14,6 +14,18 @@ if (preg_match($domain.'/statistics/', $_SERVER['SCRIPT_URI']) AND !preg_match("
 // Does the SQL replication works or not
 require '../files/replication.php';
 require '../kernel/config.php';
+
+if (isset($_GET['fr']))
+{
+	$language = 'french';
+	$second_language = 'english';
+}
+else
+{
+	$language = 'english';
+	$second_language = 'french';
+}
+
 $db = mysql_connect($host, $user, $pass)  or die('Erreur de connexion '.mysql_error());
 mysql_select_db($user, $db)  or die('Erreur de selection '.mysql_error());
 
@@ -68,6 +80,9 @@ else
 			<div id="logo" class="animated rotateInDownRight">
 				<a href="/" title="<?php echo $name_website; ?>" class="fade_on_hover"><img src="//<?php echo $domain; ?>/images/logo_<?php echo $name_logo; ?>.png" alt="<?php echo $name_website; ?>"/></a>
 				<span id="caption"><?php echo $website_caption; ?></span>
+			</div>
+			<div id="flags_translate">
+				<a href="/<?php echo substr($second_language, 0, 2); ?>"><span class="<?php echo substr($second_language, 0, 2); ?>"></span></a>
 			</div>
 		</div>
 	</div><!-- END HEADER -->

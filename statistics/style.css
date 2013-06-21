@@ -230,6 +230,27 @@ color:rgb(60,83,189);
 	border-bottom:1px dashed rgb(60,83,189);
 	text-decoration:none !important;
 }
+#flags_translate
+{
+	float: right;
+}
+#flags_translate a span.en, #flags_translate a span.fr
+{
+	width: 24px;
+	height: 24px;
+	vertical-align: middle;
+	display: inline-block;
+	cursor: pointer;
+	background: url(/images/sprite.png);
+}
+#flags_translate a span.en
+{
+	background-position: 0 0;
+}
+#flags_translate a span.fr
+{
+	background-position: -24px 0;
+}
 .animated{-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;-o-animation-fill-mode:both;animation-fill-mode:both;-webkit-animation-duration:1s;-moz-animation-duration:1s;-ms-animation-duration:1s;-o-animation-duration:1s;animation-duration:1s;}.animated.hinge{-webkit-animation-duration:2s;-moz-animation-duration:2s;-ms-animation-duration:2s;-o-animation-duration:2s;animation-duration:2s;}@-webkit-keyframes bounceInDown {
 	0% {
 		opacity: 0;
