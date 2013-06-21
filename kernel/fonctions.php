@@ -431,7 +431,7 @@ function update_stats($language)
 		groupingSymbol: ' ',
 		fractionDigits: 0
 	});
-	formatter.format(data, 1); // Apply formatter to second column
+	formatter.format(data, 1);
 
     var chart = new google.visualization.LineChart(document.getElementById('members_time'));
         chart.draw(data, options);
@@ -517,6 +517,16 @@ function update_stats($language)
           title: '".$quotes_over_time." (%)',
           series: {0:{color:'red'}, 1:{color:'green'}, 2:{color:'blue', areaOpacity:0.1}}
         };
+
+    var formatter = new google.visualization.NumberFormat(
+	{
+		suffix: '%',
+		fractionDigits: 0
+	});
+	formatter.format(data, 1);
+	formatter.format(data, 2);
+	formatter.format(data, 3);
+
     var chart = new google.visualization.AreaChart(document.getElementById('quotes_time_percentage'));
         chart.draw(data, options);
     }
@@ -553,11 +563,55 @@ function update_stats($language)
 		groupingSymbol: ' ',
 		fractionDigits: 0
 	});
-	formatter.format(data, 1); // Apply formatter to second column
+	formatter.format(data, 1);
 
     var chart = new google.visualization.LineChart(document.getElementById('graph_comments_time'));
         chart.draw(data, options);
     }";
+
+    // Fetching age data for users
+    $query = mysql_query("SELECT birth_date FROM teen_quotes_account WHERE birth_date <> ''");
+	$age = array();
+
+	while ($data = mysql_fetch_array($query))
+	{
+		$username = $data['username'];
+		$ageValue = age($data['birth_date']);
+
+		// Delete strange values
+		if ($ageValue >= 5 AND $ageValue <= 80)
+			$age[$ageValue]++;
+
+		$i++;
+	}
+
+    $graph_stats_js .= "
+    function users_ages() {
+        var data = google.visualization.arrayToDataTable([
+          ['".$age_legend."', '".$nb_of_users."'],";
+          foreach($age as $key => $value)
+		  {
+			$graph_stats_js .= '['.$key.', '.$value.'],';
+		  }
+	$graph_stats_js .= "
+        ]);
+
+        var options = {
+          title: '".$age_of_users."',
+          hAxis: {title: '".$age_of_users."'}
+        };
+
+        var formatter = new google.visualization.NumberFormat(
+		{
+			groupingSymbol: ' ',
+			fractionDigits: 0
+		});
+		formatter.format(data, 1);
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('users_ages'));
+        chart.draw(data, options);
+      }
+      ";
 
     $graph_stats_js .= "
     google.setOnLoadCallback(comments_over_time);
@@ -570,7 +624,8 @@ function update_stats($language)
 	google.setOnLoadCallback(location_signup);
 	google.setOnLoadCallback(members_over_time);
 	google.setOnLoadCallback(quotes_over_time);
-	google.setOnLoadCallback(quotes_over_time_percentage);";
+	google.setOnLoadCallback(quotes_over_time_percentage);
+	google.setOnLoadCallback(users_ages);";
 
 	// Store it in the database
 	$query = mysql_query("UPDATE stats SET text_js = '".mysql_real_escape_string($graph_stats_js)."' WHERE id = 1");

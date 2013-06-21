@@ -98,6 +98,7 @@ else
 		<div id="chart">
 			<h1>Les comptes sur Teen Quotes</h1>
 			<div id="members_time" class="chartObject"></div>
+			<div id="users_ages" class="chartObject"></div>
 			<div id="graph_empty_profile" class="chartObject"></div>
 		</div>
 
