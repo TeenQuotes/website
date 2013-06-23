@@ -1712,6 +1712,23 @@ function arrayToVar($array)
 	return ${$array[1]};
 }
 
+function generateTrad ($lang, $languageFile)
+{
+	global $name_website;
+	require $languageFile;
+	$string = "";
+
+	if (is_array($lang))
+	{
+		foreach ($lang as $lg) 
+		{
+			$string .= "var ".$lg." = '".${$lg}."';";
+		}
+		return $string;
+	}
+
+	return false;
+}
 function getRandomTooltip()
 {
 	global $language;

@@ -33,6 +33,7 @@ require '../kernel/fonctions.php';
 require '../lang/'.$language.'/general.php';
 include '../lang/'.$language.'/statistics.php';
 include '../kernel/connexion_cookie.php';
+include 'js/lang.php';
 ?>
 <!DOCTYPE html>
 <?php
@@ -57,6 +58,7 @@ else
 		
 		<script src="//code.jquery.com/jquery-latest.min.js"></script>
 		<script src="https://www.google.com/jsapi"></script>
+		<script><?php echo $lang_js_charts; ?></script>
 		<script src="/js/charts.js"></script>
 		<?php display_stats($language); ?>
 		<script>
@@ -89,7 +91,7 @@ else
 
 	<div id="content">
 		<div id="chart" class="animated rotateInDownLeft">
-			<h1>Visiteurs de Teen Quotes</h1>
+			<h1><?php echo $domain_visitors; ?></h1>
 			<div id="geoMap" class="chartObject"></div>
 			<div id="pieGeo" class="chartObject"></div>
 			<div class="explanation">
@@ -104,27 +106,27 @@ else
 		</div><!-- END LES VISITEURS DE TEEN QUOTES -->
 
 		<div id="chart">
-			<h1>Les citations</h1>		
+			<h1><?php echo $the_quotes; ?></h1>		
 			<div id="graph_quotes" class="chartObject"></div>
 			<div id="quotes_time" class="chartObject"></div>
 			<div id="quotes_time_percentage" class="chartObject"></div>
 		</div>
 		
 		<div id="chart">
-			<h1>Les comptes sur Teen Quotes</h1>
+			<h1><?php echo $domain_accounts; ?></h1>
 			<div id="members_time" class="chartObject"></div>
 			<div id="users_ages" class="chartObject"></div>
 			<div id="graph_empty_profile" class="chartObject"></div>
 		</div>
 
 		<div id="chart">
-			<h1>Les commentaires</h1>
+			<h1><?php echo $the_comments; ?></h1>
 			<div id="graph_comments_time" class="chartObject"></div>
 			<div id="comments_length" class="chartObject"></div>
 		</div>
 
 		<div id="chart">
-			<h1>Source de création des comptes</h1>
+			<h1><?php echo $type_registration; ?></h1>
 			<div id="graph_location_signup" class="chartObject"></div>
 		</div>
 

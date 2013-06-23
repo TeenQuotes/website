@@ -218,7 +218,7 @@ function drawMapGeo()
 	]);
 
 	var options = {
-		title: 'Visites de Teen Quotes',
+		title: '' + domain_visits + '',
 		colorAxis:
 		{
 			minValue: 0,
@@ -455,7 +455,7 @@ function drawPieGeo()
 	]);
 
 	var options = {
-		title: 'Visites de Teen Quotes'
+		title: '' + domain_visits + ''
 	};
 
 	var formatter = new google.visualization.NumberFormat(
@@ -463,7 +463,7 @@ function drawPieGeo()
 		groupingSymbol: ' ',
 		fractionDigits: 0
 	});
-	formatter.format(data, 1); // Apply formatter to second column
+	formatter.format(data, 1);
 
 	var chart = new google.visualization.PieChart(document.getElementById('pieGeo'));
 	chart.draw(data, options);
@@ -478,7 +478,7 @@ function drawSexUsers()
 	]);
 
 	var options = {
-		title: 'Sexe des utilisateurs de Teen Quotes',
+		title: '' + sex_users + '',
 		colors: ['#3366CC', '#EF7BB8']
 	};
 
@@ -487,7 +487,7 @@ function drawSexUsers()
 		groupingSymbol: ' ',
 		fractionDigits: 0
 	});
-	formatter.format(data, 1); // Apply formatter to second column
+	formatter.format(data, 1);
 
 	var chart = new google.visualization.PieChart(document.getElementById('sexUsers'));
 	chart.draw(data, options);
