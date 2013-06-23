@@ -8,13 +8,25 @@ if (preg_match($domain.'/statistics/', $_SERVER['SCRIPT_URI']) AND !preg_match("
 {
 	header('Status: 301 Moved Permanently', false, 301);  
 	header("Location: http://statistics.teen-quotes.com");
+	exit();
 }
+
+// Try to detect language from browser setting
+if (!isset($_GET['fr']) AND !isset($_GET['en']))
+{
+	if (substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) == "fr")
+		header("Location: http://statistics.teen-quotes.com/fr");
+	else
+		header("Location: http://statistics.teen-quotes.com/en");
+}
+
 
 // Include all the files
 // Does the SQL replication works or not
 require '../files/replication.php';
 require '../kernel/config.php';
 
+// Switch language if the user wants it
 if (isset($_GET['fr']))
 {
 	$language = 'french';
@@ -50,8 +62,8 @@ else
 		<meta name="robots" content="all"/>
 		<meta charset="utf-8" />
 		
-		<link href='//fonts.googleapis.com/css?family=Lato:300,400,700|Roboto:400,300,700' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="//statistics.<?php echo $domain; ?>/style.css" />
+		<link href="//fonts.googleapis.com/css?family=Lato:300,400,700|Roboto:400,300,700" rel="stylesheet" type="text/css">
+		<link href="//statistics.<?php echo $domain; ?>/style.css" rel="stylesheet" type="text/css"/>
 
 		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domain; ?>/images/favicon.png"/>
 		<meta property="og:image" content="http://<?php echo $domain; ?>/images/icon50.png" /> 
