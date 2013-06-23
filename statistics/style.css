@@ -221,7 +221,7 @@ body
 }
 #footer a
 {
-color:rgb(60,83,189);
+	color:rgb(60,83,189);
 	text-decoration:none;
 	cursor:pointer;
 }
