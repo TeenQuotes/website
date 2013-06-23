@@ -564,8 +564,6 @@ function update_stats($language)
 		// Delete strange values
 		if ($ageValue >= 5 AND $ageValue <= 80)
 			$age[$ageValue]++;
-
-		$i++;
 	}
 
     $graph_stats_js .= "
@@ -596,6 +594,44 @@ function update_stats($language)
       }
       ";
 
+    // Fetching comments length
+    $query = mysql_query("SELECT COUNT( * ) AS nb, LENGTH(texte) AS length FROM teen_quotes_comments GROUP BY LENGTH(texte) ORDER BY  `nb` DESC ");
+	$comment_length_array = array();
+
+	while ($data = mysql_fetch_array($query))
+	{
+		$comment_length_array[$data['length']] = $data['nb'];
+	}
+
+	$graph_stats_js .= "
+    function comments_length() {
+        var data = google.visualization.arrayToDataTable([
+          ['".$comment_length."', '".$nb_comments."'],";
+          foreach($comment_length_array as $key => $value)
+		  {
+			$graph_stats_js .= '['.$key.', '.$value.'],';
+		  }
+	$graph_stats_js .= "
+        ]);
+
+        var options = {
+          title: '".$comments_length."',
+          hAxis: {title: '".$comment_length."'}
+        };
+
+        var formatter = new google.visualization.NumberFormat(
+		{
+			groupingSymbol: ' ',
+			fractionDigits: 0,
+			suffix: ' / ".array_sum($comment_length_array)."'
+		});
+		formatter.format(data, 1);
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('comments_length'));
+        chart.draw(data, options);
+      }
+      ";
+
     $graph_stats_js .= "
     google.setOnLoadCallback(comments_over_time);
 	google.setOnLoadCallback(graph_quotes);
@@ -608,7 +644,8 @@ function update_stats($language)
 	google.setOnLoadCallback(members_over_time);
 	google.setOnLoadCallback(quotes_over_time);
 	google.setOnLoadCallback(quotes_over_time_percentage);
-	google.setOnLoadCallback(users_ages);";
+	google.setOnLoadCallback(users_ages);
+	google.setOnLoadCallback(comments_length);";
 
 	// Store it in the database
 	$query = mysql_query("UPDATE stats SET text_js_".$language." = '".mysql_real_escape_string($graph_stats_js)."' WHERE id = 1");

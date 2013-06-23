@@ -36,3 +36,6 @@ $number_of_comments                      = "Nombre de commentaires";
 $age_of_users                            = "Âge des utilisateurs";
 $age_legend                              = "Age";
 $nb_of_users                             = "Nombre d\'utilisateurs";
+$comment_length                          = "Taille du commentaire";
+$nb_comments                             = "Nombre de commentaires";
+$comments_length                         = "Répartitition des tailles des commentaires";

@@ -36,3 +36,6 @@ $number_of_comments                      = "Number of comments";
 $age_of_users                            = "Age of users";
 $age_legend                              = "Age";
 $nb_of_users                             = "Number of users";
+$comment_length                          = "Comment length";
+$nb_comments                             = "Number of comments";
+$comments_length                         = "Comments' length";

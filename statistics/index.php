@@ -120,6 +120,7 @@ else
 		<div id="chart">
 			<h1>Les commentaires</h1>
 			<div id="graph_comments_time" class="chartObject"></div>
+			<div id="comments_length" class="chartObject"></div>
 		</div>
 
 		<div id="chart">
