@@ -60,7 +60,7 @@ else
 		<script src="https://www.google.com/jsapi"></script>
 		<script><?php echo $lang_js_charts; ?></script>
 		<script src="/js/charts.js"></script>
-		<?php display_stats($language); ?>
+		<?php $timestamp_last_update_stats = display_stats($language); ?>
 		<script>
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', <?php echo "'".$google_analytics_account."'"; ?>]);
@@ -84,12 +84,14 @@ else
 				<span id="caption"><?php echo $website_caption; ?></span>
 			</div>
 			<div id="flags_translate">
-				<a href="/<?php echo substr($second_language, 0, 2); ?>"><span class="<?php echo substr($second_language, 0, 2); ?>"></span></a>
+				<a href="/<?php echo substr($second_language, 0, 2); ?>" <?php hint('bottom', $change_language); ?>><span class="<?php echo substr($second_language, 0, 2); ?>"></span></a>
 			</div>
 		</div>
 	</div><!-- END HEADER -->
 
 	<div id="content">
+		<?php echo $last_update ?> <abbr class="timeago" title="<?php echo $timestamp_last_update_stats; ?>"></abbr>.
+
 		<div id="chart" class="animated rotateInDownLeft">
 			<h1><?php echo $domain_visitors; ?></h1>
 			<div id="geoMap" class="chartObject"></div>
@@ -155,6 +157,6 @@ else
 			<div class="clear"></div>
 		</div>
 	</div><!-- END FOOTER -->
-
+<script src="/js/timeago-<?php echo $language; ?>.js"></script>
 </body>
 </html>

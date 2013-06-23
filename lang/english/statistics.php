@@ -46,3 +46,4 @@ $domain_accounts                         = "Accounts on ".$name_website;
 $the_comments                            = "The comments";
 $type_registration                       = "Type of registration";
 $sex_users                               = "Users\' sex";
+$change_language                         = "Je parle Français s'il vous plait !";
