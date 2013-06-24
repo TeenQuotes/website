@@ -112,6 +112,7 @@ else
 				<h3>D'où viennent les données ?</h3>
 				Les données proviennent des visites sur le site web ou le site mobile depuis la création de Teen Quotes. Les visites depuis l'application iPhone / iTouch ne sont pas incluses. 
 			</div>
+			<div id="drawVisitsTechnology" class="chartObject"></div>
 			<div id="sexUsers" class="chartObject"></div>
 			<div class="explanation">
 				<h3>D'où viennent les données ?</h3>

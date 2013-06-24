@@ -7,7 +7,7 @@ google.load('visualization', '1',
 function drawMapGeo()
 {
 	var data = google.visualization.arrayToDataTable([
-		['Pays', 'Visites'],
+		['' + pays_txt + '', '' + visits_txt + ''],
 		['United States', 710295],
 		['Canada', 79054],
 		['United Kingdom', 71119],
@@ -235,7 +235,7 @@ function drawMapGeo()
 		groupingSymbol: ' ',
 		fractionDigits: 0
 	});
-	formatter.format(data, 1); // Apply formatter to second column
+	formatter.format(data, 1);
 
 	var chart = new google.visualization.GeoChart(document.getElementById('geoMap'));
 	chart.draw(data, options);
@@ -244,7 +244,7 @@ function drawMapGeo()
 function drawPieGeo()
 {
 	var data = google.visualization.arrayToDataTable([
-		['Pays', 'Visites'],
+		['' + pays_txt + '', '' + visits_txt + ''],
 		['United States', 710295],
 		['Canada', 79054],
 		['United Kingdom', 71119],
@@ -472,7 +472,7 @@ function drawPieGeo()
 function drawSexUsers()
 {
 	var data = google.visualization.arrayToDataTable([
-		['Sexe', 'Nombre'],
+		['' + sex_txt + '', '' + number_txt + ''],
 		['Hommes', 2963],
 		['Femmes', 33805],
 	]);
@@ -493,6 +493,57 @@ function drawSexUsers()
 	chart.draw(data, options);
 }
 
+function drawVisitsTechnology()
+{
+	var data = google.visualization.arrayToDataTable([
+		['' + period + '', '' + mobile_txt + '', '' + no_mobile_txt + '', '' + appios_txt + ''],
+		['05/2011', 684, 1524, 0],
+		['06/2011', 6148, 13297, 0],
+		['07/2011', 9020, 18356, 0],
+		['08/2011', 8894, 19139, 0],
+		['09/2011', 8910, 19477, 0],
+		['10/2011', 10982, 24155, 0],
+		['11/2011', 12667, 24801, 0],
+		['12/2011', 17941, 26672, 0],
+		['01/2012', 22157, 31751, 0],
+		['02/2012', 24046, 31527, 0],
+		['03/2012', 31423, 37124, 0],
+		['04/2012', 34050, 43155, 0],
+		['05/2012', 31699, 40160, 0],
+		['06/2012', 32404, 38536, 0],
+		['07/2012', 33311, 38621, 0],
+		['08/2012', 29827, 34213, 0],
+		['09/2012', 25805, 29311, 0],
+		['10/2012', 26725, 28440, 0],
+		['11/2012', 21474, 25522, 20531],
+		['12/2012', 24686, 25017, 55345],
+		['01/2012', 23387, 26578, 57977],
+		['02/2012', 19043, 22132, 45693],
+		['03/2012', 21615, 26568, 44810],
+		['04/2012', 17892, 22157, 39975],
+		['05/2012', 16617, 22885, 35953],
+	]);
+
+	var options = {
+		title: '' + users_technology + ''
+	};
+
+	var formatter = new google.visualization.NumberFormat(
+	{
+		groupingSymbol: ' ',
+		fractionDigits: 0,
+		suffix: ' visites'
+	});
+	formatter.format(data, 1);
+	formatter.format(data, 2);
+	formatter.format(data, 3);
+
+	var chart = new google.visualization.ColumnChart(document.getElementById('drawVisitsTechnology'));
+	chart.draw(data, options);
+}
+
+
 google.setOnLoadCallback(drawMapGeo);
 google.setOnLoadCallback(drawPieGeo);
 google.setOnLoadCallback(drawSexUsers);
+google.setOnLoadCallback(drawVisitsTechnology);
