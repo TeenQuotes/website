@@ -96,7 +96,7 @@ else
 				<span id="caption"><?php echo $website_caption; ?></span>
 			</div>
 			<div id="flags_translate">
-				<a href="/<?php echo substr($second_language, 0, 2); ?>" <?php hint('bottom', $change_language); ?>><span class="<?php echo substr($second_language, 0, 2); ?>"></span></a>
+				<a href="/<?php echo substr($second_language, 0, 2); ?>" <?php hint('bottom', $change_language); ?> onClick="_gaq.push(['_trackEvent', 'translateStats', 'clic', '<?php echo $second_language; ?>']);"><span class="<?php echo substr($second_language, 0, 2); ?>"></span></a>
 			</div>
 		</div>
 	</div><!-- END HEADER -->
