@@ -7,7 +7,7 @@ google.load('visualization', '1',
 function drawMapGeo()
 {
 	var data = google.visualization.arrayToDataTable([
-		['' + pays_txt + '', '' + visits_txt + ''],
+		[pays_txt, visits_txt],
 		['United States', 710295],
 		['Canada', 79054],
 		['United Kingdom', 71119],
@@ -218,7 +218,7 @@ function drawMapGeo()
 	]);
 
 	var options = {
-		title: '' + domain_visits + '',
+		title: domain_visits,
 		colorAxis:
 		{
 			minValue: 0,
@@ -244,7 +244,7 @@ function drawMapGeo()
 function drawPieGeo()
 {
 	var data = google.visualization.arrayToDataTable([
-		['' + pays_txt + '', '' + visits_txt + ''],
+		[pays_txt, visits_txt],
 		['United States', 710295],
 		['Canada', 79054],
 		['United Kingdom', 71119],
@@ -455,7 +455,7 @@ function drawPieGeo()
 	]);
 
 	var options = {
-		title: '' + domain_visits + ''
+		title: domain_visits
 	};
 
 	var formatter = new google.visualization.NumberFormat(
@@ -472,13 +472,13 @@ function drawPieGeo()
 function drawSexUsers()
 {
 	var data = google.visualization.arrayToDataTable([
-		['' + sex_txt + '', '' + number_txt + ''],
+		[sex_txt, number_txt],
 		['Hommes', 2963],
 		['Femmes', 33805],
 	]);
 
 	var options = {
-		title: '' + sex_users + '',
+		title: sex_users,
 		colors: ['#3366CC', '#EF7BB8']
 	};
 
@@ -496,7 +496,7 @@ function drawSexUsers()
 function drawVisitsTechnology()
 {
 	var data = google.visualization.arrayToDataTable([
-		['' + period + '', '' + mobile_txt + '', '' + no_mobile_txt + '', '' + appios_txt + ''],
+		[period, mobile_txt, no_mobile_txt, appios_txt],
 		['05/2011', 684, 1524, 0],
 		['06/2011', 6148, 13297, 0],
 		['07/2011', 9020, 18356, 0],
@@ -525,7 +525,7 @@ function drawVisitsTechnology()
 	]);
 
 	var options = {
-		title: '' + users_technology + ''
+		title: users_technology
 	};
 
 	var formatter = new google.visualization.NumberFormat(
@@ -545,8 +545,8 @@ function drawVisitsTechnology()
 function drawVisitsDuration()
 {
 	var data = new google.visualization.DataTable();
-	data.addColumn('string', '' + months_txt + '');
-	data.addColumn('datetime', '' + duration_txt + '');
+	data.addColumn('string', months_txt);
+	data.addColumn('datetime', duration_txt);
 	data.addRows([
 		['05/2011', new Date(0, 0, 0, 0, 5, 48)],
 		['06/2011', new Date(0, 0, 0, 0, 5, 19)],
@@ -576,7 +576,7 @@ function drawVisitsDuration()
 	]);
 
 	var options = {
-		title: '' + visits_duration + ''
+		title: visits_duration
 	};
 
 	var formatter = new google.visualization.DateFormat(
