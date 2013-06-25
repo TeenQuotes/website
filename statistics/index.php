@@ -62,7 +62,7 @@ else
 		<meta name="robots" content="all"/>
 		<meta charset="utf-8" />
 		
-		<link href="//fonts.googleapis.com/css?family=Lato:300,400,700|Roboto:400,300,700" rel="stylesheet" type="text/css">
+		<link href="//fonts.googleapis.com/css?family=Lato:300,400|Roboto:300,400" rel="stylesheet" type="text/css">
 		<link href="//statistics.<?php echo $domain; ?>/style.css" rel="stylesheet" type="text/css"/>
 
 		<link rel="shortcut icon" type="image/x-icon" href="http://<?php echo $domain; ?>/images/favicon.png"/>
@@ -176,6 +176,21 @@ else
 			<div class="clear"></div>
 		</div>
 	</div><!-- END FOOTER -->
+<script>
+$("#flags_translate a").click(function()
+{
+	var href = $(this).attr('href');
+	$("body").addClass("animated");
+	$("body").addClass("hinge");
+
+	setTimeout(function()
+	{
+		window.location = href
+	}, 2200);
+	
+	return false;
+});
+</script>
 <script src="/js/timeago-<?php echo $language; ?>.js"></script>
 </body>
 </html>
