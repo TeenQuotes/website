@@ -10,6 +10,7 @@ RewriteRule ^members-([A-Z]+)$ members.php?letter=$1 [L,QSA]
 RewriteRule ^favorite-([0-9]+)$ favorite.php?id_quote=$1 [L,QSA]
 RewriteRule ^unfavorite-([0-9]+)$ unfavorite.php?id_quote=$1 [L,QSA]
 RewriteRule ^([a-z]+)$ $1.php [L,QSA]
+RewriteRule ^error/[403|404|500|503]$ /error.php?erreur=$1 [L,QSA]
 
 redirect 301 /favicon.ico http://teen-quotes.com/images/favicon.gif 
 
