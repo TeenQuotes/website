@@ -165,6 +165,14 @@ function captcha()
 	return $phrase;
 }
 
+function days_between_timestamps($date)
+{
+	$your_date = strtotime($date);
+	$datediff = time() - $your_date;
+
+	return floor($datediff / (60*60*24));
+}
+
 // Update statistics.
 // Store the text in a database
 // This function is called by a cron task - see /cron.php, code = updatestats
@@ -223,333 +231,344 @@ function update_stats($language)
 	$nb_search_query = mysql_fetch_array(mysql_query("SELECT SUM(value) AS nb_search FROM teen_quotes_search"));
 	$nb_search = $nb_search_query['nb_search'];
 	$graph_stats_js = "
-	function graph_quotes() {
-	var data = new google.visualization.DataTable();
-	data.addColumn('string', 'Quote');
-	data.addColumn('number', 'Status');
-	data.addRows(4);
-	data.setValue(0, 0, '".$approved."');
-	data.setValue(0, 1, ".$array_approved_quotes['quotes_approved'].");
-	data.setValue(1, 0, '".$rejected."');
-	data.setValue(1, 1, ".$array_approved_quotes['quotes_rejected'].");
-	data.setValue(2, 0, '".$pending."');
-	data.setValue(2, 1, ".$array_approved_quotes['quotes_pending'].");
-	data.setValue(3, 0, '".$waiting_to_be_posted."');
-	data.setValue(3, 1, ".$array_approved_quotes['quotes_queued'].");
-
-	var formatter = new google.visualization.NumberFormat(
+	function graph_quotes() 
 	{
-		groupingSymbol: ' ',
-		fractionDigits: 0
-	});
-	formatter.format(data, 1);
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'Quote');
+		data.addColumn('number', 'Status');
+		data.addRows(4);
+		data.setValue(0, 0, '".$approved."');
+		data.setValue(0, 1, ".$array_approved_quotes['quotes_approved'].");
+		data.setValue(1, 0, '".$rejected."');
+		data.setValue(1, 1, ".$array_approved_quotes['quotes_rejected'].");
+		data.setValue(2, 0, '".$pending."');
+		data.setValue(2, 1, ".$array_approved_quotes['quotes_pending'].");
+		data.setValue(3, 0, '".$waiting_to_be_posted."');
+		data.setValue(3, 1, ".$array_approved_quotes['quotes_queued'].");
 
-	new google.visualization.PieChart(document.getElementById('graph_quotes')).
-	draw(data, {title:'".$total_nb_quotes." : ".number_space($array_approved_quotes['total_quotes'])."'});
+		var formatter = new google.visualization.NumberFormat(
+		{
+			groupingSymbol: ' ',
+			fractionDigits: 0
+		});
+		formatter.format(data, 1);
+
+		new google.visualization.PieChart(document.getElementById('graph_quotes')).
+		draw(data, {title:'".$total_nb_quotes." : ".number_space($array_approved_quotes['total_quotes'])."'});
 	}
 
-	function graph_empty_profile() {
-	var data = new google.visualization.DataTable();
-	data.addColumn('string', 'Profile');
-	data.addColumn('number', 'Status');
-	data.addRows(2);
-	data.setValue(0, 0, '".$profile_not_fullfilled."');
-	data.setValue(0, 1, ".$nb_empty_avatar.");
-	data.setValue(1, 0, '".$profile_fullfilled."');
-	data.setValue(1, 1, ".$nb_members_empty_profile.");
-
-	new google.visualization.PieChart(document.getElementById('graph_empty_profile')).
-	draw(data, {title:'".$total_nb_members." : ".number_space($total_members)."'});
-	}
-
-	function graph_newsletter() {
-	var data = new google.visualization.DataTable();
-	data.addColumn('string', 'Profile');
-	data.addColumn('number', 'Status');
-	data.addRows(2);
-	data.setValue(0, 0, '".$daily_newsletter." : ".$nb_newsletter['daily']."');
-	data.setValue(0, 1, ".$nb_newsletter['daily'].");
-	data.setValue(1, 0, '".$weekly_newsletter." : ".$nb_newsletter['weekly']."');
-	data.setValue(1, 1, ".$nb_newsletter['weekly'].");
-
-	new google.visualization.PieChart(document.getElementById('graph_newsletter')).
-	draw(data, {title:'".$people_subscribed_newsletter." : ".number_space($nb_newsletter['tot'])."'});
-	}
-
-	function members_favorite_quote() {
-	var data = new google.visualization.DataTable();
-	data.addColumn('string', 'Profile');
-	data.addColumn('number', 'Status');
-	data.addRows(2);
-	data.setValue(0, 0, '".$members_with_fav_quotes." : ".$nb_members_has_favorite_quotes."');
-	data.setValue(0, 1, ".$nb_members_has_favorite_quotes.");
-	data.setValue(1, 0, '".$members_without_fav_quotes." : ".$nb_members_no_favorite_quotes."');
-	data.setValue(1, 1, ".$nb_members_no_favorite_quotes.");
-
-	new google.visualization.PieChart(document.getElementById('members_favorite_quote')).
-	draw(data, {title:'".$members_and_fav_quotes."'});
-	}
-
-	function top_user_favorite_quote() {
-	var data = new google.visualization.DataTable();
-	data.addColumn('string', 'Profile');
-	data.addColumn('number', 'Status');
-	data.addRows(21);";
-	$i = 0;
-	$sum_fav_top_user = 0;
-	while ($donnees = mysql_fetch_array($query_top_user_favorite))
+	function graph_empty_profile()
 	{
-		$nb_fav = $donnees['nb_fav'];
-		$username = $donnees['username'];
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'Profile');
+		data.addColumn('number', 'Status');
+		data.addRows(2);
+		data.setValue(0, 0, '".$profile_not_fullfilled."');
+		data.setValue(0, 1, ".$nb_empty_avatar.");
+		data.setValue(1, 0, '".$profile_fullfilled."');
+		data.setValue(1, 1, ".$nb_members_empty_profile.");
 
-		$sum_fav_top_user += $nb_fav;
+		new google.visualization.PieChart(document.getElementById('graph_empty_profile')).
+		draw(data, {title:'".$total_nb_members." : ".number_space($total_members)."'});
+	}
+
+	function graph_newsletter() 
+	{
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'Profile');
+		data.addColumn('number', 'Status');
+		data.addRows(2);
+		data.setValue(0, 0, '".$daily_newsletter." : ".$nb_newsletter['daily']."');
+		data.setValue(0, 1, ".$nb_newsletter['daily'].");
+		data.setValue(1, 0, '".$weekly_newsletter." : ".$nb_newsletter['weekly']."');
+		data.setValue(1, 1, ".$nb_newsletter['weekly'].");
+
+		new google.visualization.PieChart(document.getElementById('graph_newsletter')).
+		draw(data, {title:'".$people_subscribed_newsletter." : ".number_space($nb_newsletter['tot'])."'});
+	}
+
+	function members_favorite_quote() 
+	{
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'Profile');
+		data.addColumn('number', 'Status');
+		data.addRows(2);
+		data.setValue(0, 0, '".$members_with_fav_quotes." : ".$nb_members_has_favorite_quotes."');
+		data.setValue(0, 1, ".$nb_members_has_favorite_quotes.");
+		data.setValue(1, 0, '".$members_without_fav_quotes." : ".$nb_members_no_favorite_quotes."');
+		data.setValue(1, 1, ".$nb_members_no_favorite_quotes.");
+
+		new google.visualization.PieChart(document.getElementById('members_favorite_quote')).
+		draw(data, {title:'".$members_and_fav_quotes."'});
+	}
+
+	function top_user_favorite_quote()
+	{
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'Profile');
+		data.addColumn('number', 'Status');
+		data.addRows(21);";
+		$i = 0;
+		$sum_fav_top_user = 0;
+		while ($donnees = mysql_fetch_array($query_top_user_favorite))
+		{
+			$nb_fav = $donnees['nb_fav'];
+			$username = $donnees['username'];
+
+			$sum_fav_top_user += $nb_fav;
+			$graph_stats_js .="
+			data.setValue(".$i.", 0, '".$username." : ".$nb_fav."');
+			data.setValue(".$i.", 1, ".$nb_fav.");
+			";
+			$i++;
+		}
+		$reste_nb_favorite = $nb_favorite -  $sum_fav_top_user;
 		$graph_stats_js .="
-		data.setValue(".$i.", 0, '".$username." : ".$nb_fav."');
-		data.setValue(".$i.", 1, ".$nb_fav.");
-		";
-		$i++;
-	}
-	$reste_nb_favorite = $nb_favorite -  $sum_fav_top_user;
-	$graph_stats_js .="
-	data.setValue(".$i.", 0, '".$others." : ".$reste_nb_favorite."');
-	data.setValue(".$i.", 1, ".$reste_nb_favorite.");
+		data.setValue(".$i.", 0, '".$others." : ".$reste_nb_favorite."');
+		data.setValue(".$i.", 1, ".$reste_nb_favorite.");
 
-	new google.visualization.PieChart(document.getElementById('top_user_favorite_quote')).
-	draw(data, {title:'".$top_members_ordered_by_nb_quotes_in_fav." (".$nb_favorite." ".$quotes_in_fav.")'});
+		new google.visualization.PieChart(document.getElementById('top_user_favorite_quote')).
+		draw(data, {title:'".$top_members_ordered_by_nb_quotes_in_fav." (".$nb_favorite." ".$quotes_in_fav.")'});
 	}
 
-	function location_signup() {
-	var data = new google.visualization.DataTable();
-	data.addColumn('string', 'Profile');
-	data.addColumn('number', 'Status');
-	data.addRows(5);";
-	$i = 0;
-	while($donnees = mysql_fetch_array($query_location_signup))
+	function location_signup() 
 	{
-		$location_signup_device = $donnees['location_signup'];
-		$nb = $donnees['tot'];
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'Profile');
+		data.addColumn('number', 'Status');
+		data.addRows(5);";
+		$i = 0;
+		while($donnees = mysql_fetch_array($query_location_signup))
+		{
+			$location_signup_device = $donnees['location_signup'];
+			$nb = $donnees['tot'];
+			$graph_stats_js .= "
+			data.setValue(".$i.", 0, '".$location_signup_device."');
+			data.setValue(".$i.", 1, ".$nb.");
+			";
+			$i++;
+		}
 		$graph_stats_js .= "
-		data.setValue(".$i.", 0, '".$location_signup_device."');
-		data.setValue(".$i.", 1, ".$nb.");
-		";
-		$i++;
-	}
-	$graph_stats_js .= "
-	var formatter = new google.visualization.NumberFormat(
-	{
-		groupingSymbol: ' ',
-		fractionDigits: 0
-	});
-	formatter.format(data, 1);
+		var formatter = new google.visualization.NumberFormat(
+		{
+			groupingSymbol: ' ',
+			fractionDigits: 0
+		});
+		formatter.format(data, 1);
 
-	new google.visualization.PieChart(document.getElementById('graph_location_signup')).
-	draw(data, {title:'".$location_signup."'});
+		new google.visualization.PieChart(document.getElementById('graph_location_signup')).
+		draw(data, {title:'".$location_signup."'});
 	}
 
 
-	function graph_search() {
-	var data = new google.visualization.DataTable();
-	data.addColumn('string', 'Profile');
-	data.addColumn('number', 'Status');
-	data.addRows(21);";
-	$j = 0;
-	$sum_nb_search = 0;
-	while ($donnees = mysql_fetch_array($query_search))
+	function graph_search()
 	{
-		$value = $donnees['value'];
-		$text = ucfirst($donnees['text']);
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'Profile');
+		data.addColumn('number', 'Status');
+		data.addRows(21);";
+		$j = 0;
+		$sum_nb_search = 0;
+		while ($donnees = mysql_fetch_array($query_search))
+		{
+			$value = $donnees['value'];
+			$text = ucfirst($donnees['text']);
 
-		$sum_nb_search += $value;
+			$sum_nb_search += $value;
 
+			$graph_stats_js .="
+			data.setValue(".$j.", 0, '".$text." : ".$value."');
+			data.setValue(".$j.", 1, ".$value.");
+			";
+			$j++;
+		}
+		$reste_nb_search = $nb_search - $sum_nb_search;
 		$graph_stats_js .="
-		data.setValue(".$j.", 0, '".$text." : ".$value."');
-		data.setValue(".$j.", 1, ".$value.");
-		";
-		$j++;
-	}
-	$reste_nb_search = $nb_search - $sum_nb_search;
-	$graph_stats_js .="
-	data.setValue(".$i.", 0, '".$others." : ".$reste_nb_search."');
-	data.setValue(".$i.", 1, ".$reste_nb_search.");
-	var formatter = new google.visualization.NumberFormat(
-	{
-		groupingSymbol: ' ',
-		fractionDigits: 0
-	});
-	formatter.format(data, 1);
-
-	new google.visualization.PieChart(document.getElementById('graph_search')).
-	draw(data, {title:'".$total_nb_search." : ".$nb_search."'});
-	}
-
-	function members_over_time() {
-		 var data = google.visualization.arrayToDataTable([
-		 	['Date', '".$number_of_members."'],";
-	$timestamp = 1285884000;
-	$i = 1;
-	while ($timestamp < time())
-	{
-		$timestamp = strtotime("+1 month", $timestamp);
-
-		if ($timestamp < time())
+		data.setValue(".$i.", 0, '".$others." : ".$reste_nb_search."');
+		data.setValue(".$i.", 1, ".$reste_nb_search.");
+		var formatter = new google.visualization.NumberFormat(
 		{
-			$query = mysql_query("SELECT COUNT(id) AS nb_members FROM teen_quotes_account WHERE UNIX_TIMESTAMP(joindate) <= '".$timestamp."'");
-			$data = mysql_fetch_array($query);
-			$nb_members = $data['nb_members'];
-			$time_txt = date('m/y', $timestamp);
-			$graph_stats_js .= "['".$time_txt."', ".$nb_members."],";
-		}
+			groupingSymbol: ' ',
+			fractionDigits: 0
+		});
+		formatter.format(data, 1);
 
-		$i++;
+		new google.visualization.PieChart(document.getElementById('graph_search')).
+		draw(data, {title:'".$total_nb_search." : ".$nb_search."'});
 	}
 
-	$graph_stats_js .= " 
-	]);
-	var options = {
-          title: '".$members_over_time."'
-        };
-
-    var formatter = new google.visualization.NumberFormat(
+	function members_over_time()
 	{
-		groupingSymbol: ' ',
-		fractionDigits: 0
-	});
-	formatter.format(data, 1);
-
-    var chart = new google.visualization.LineChart(document.getElementById('members_time'));
-        chart.draw(data, options);
-    }
-
-	function quotes_over_time() {
-		 var data = google.visualization.arrayToDataTable([
-		 	['Date', '".$unapproved_quotes."', '".$approved_quotes."', '".$txt_total_quotes."'],";
-	$timestamp = 1285884000;
-	$i = 1;
-	$array_quotes_over_time = array();
-
-	while ($timestamp < time())
-	{
-		$timestamp = strtotime("+1 month", $timestamp);
-
-		if ($timestamp < time())
+			 var data = google.visualization.arrayToDataTable([
+			 	['Date', '".$number_of_members."'],";
+		$timestamp = 1285884000;
+		$i = 1;
+		while ($timestamp < time())
 		{
-			$query = mysql_query("	SELECT COUNT(id) AS tot, approved
-									FROM teen_quotes_quotes
-									WHERE approved <>  0
-									AND UNIX_TIMESTAMP(timestamp_created) <= '".$timestamp."'
-									GROUP BY approved
-									ORDER BY approved ASC");
-			
-			$nb_approved = 0;
-			while ($data = mysql_fetch_array($query))
+			$timestamp = strtotime("+1 month", $timestamp);
+
+			if ($timestamp < time())
 			{
-				// approved = '-1'
-				if ($data['approved'] == -1)
-					$nb_unapproved = $data['tot'];
-				// approved = '1' OR approved = '2'
-				elseif ($data['approved'] == 1 OR $data['approved'] == 2)
-					$nb_approved += $data['tot'];
-
+				$query = mysql_query("SELECT COUNT(id) AS nb_members FROM teen_quotes_account WHERE UNIX_TIMESTAMP(joindate) <= '".$timestamp."'");
+				$data = mysql_fetch_array($query);
+				$nb_members = $data['nb_members'];
+				$time_txt = date('m/y', $timestamp);
+				$graph_stats_js .= "['".$time_txt."', ".$nb_members."],";
 			}
-			$nb_tot = $nb_unapproved + $nb_approved;
-			$time_txt = date('m/y', $timestamp);
 
-			// Store it in an array, so we can draw percentages later
-			$array_quotes_over_time[$i] = $time_txt.':'.$nb_unapproved.":".$nb_approved;
-
-			$graph_stats_js .= "['".$time_txt."', ".$nb_unapproved.", ".$nb_approved.", ".$nb_tot."],";
+			$i++;
 		}
-		$i++;
-	}
 
-	$graph_stats_js .= " 
-	]);
-	var options = {
-          title: '".$quotes_over_time."',
-          series: {0:{color:'red'}, 1:{color:'green'}, 2:{color:'blue'}}
-        };
-    var formatter = new google.visualization.NumberFormat(
-	{
-		groupingSymbol: ' ',
-		fractionDigits: 0
-	});
-	formatter.format(data, 1); 
-	formatter.format(data, 2); 
-	formatter.format(data, 3); 
+		$graph_stats_js .= " 
+		]);
+		var options = {
+	          title: '".$members_over_time."'
+	        };
 
-    var chart = new google.visualization.LineChart(document.getElementById('quotes_time'));
-        chart.draw(data, options);
-    }
-
-    function quotes_over_time_percentage() {
-		 var data = google.visualization.arrayToDataTable([
-		 	['Date', '".$unapproved_quotes."', '".$approved_quotes."', '".$txt_total_quotes."'],";
-
-	for ($i = 1; $i <= count($array_quotes_over_time); $i++)
-	{
-		// Extract data from the array
-		list($time_txt, $nb_unapproved, $nb_approved) = explode(":", $array_quotes_over_time[$i]);
-		$nb_tot = $nb_unapproved + $nb_approved;
-
-		$graph_stats_js .= "['".$time_txt."', ".floor($nb_unapproved/$nb_tot*100).", ".floor($nb_approved/$nb_tot*100).", 100],";
-	}
-
-	$graph_stats_js .= " 
-	]);
-	var options = {
-          title: '".$quotes_over_time." (%)',
-          series: {0:{color:'red'}, 1:{color:'green'}, 2:{color:'blue', areaOpacity:0.1}}
-        };
-
-    var formatter = new google.visualization.NumberFormat(
-	{
-		suffix: '%',
-		fractionDigits: 0
-	});
-	formatter.format(data, 1);
-	formatter.format(data, 2);
-	formatter.format(data, 3);
-
-    var chart = new google.visualization.AreaChart(document.getElementById('quotes_time_percentage'));
-        chart.draw(data, options);
-    }
-
-    function comments_over_time() {
-		 var data = google.visualization.arrayToDataTable([
-		 	['Date', '".$number_of_comments."'],";
-	$timestamp = 1285884000;
-	while ($timestamp < time())
-	{
-		$timestamp = strtotime("+1 month", $timestamp);
-
-		if ($timestamp < time())
+	    var formatter = new google.visualization.NumberFormat(
 		{
-			$query = mysql_query("	SELECT COUNT(id) AS tot
-									FROM teen_quotes_comments
-									WHERE UNIX_TIMESTAMP(timestamp_created) <= '".$timestamp."'");
-			while ($data = mysql_fetch_array($query))
-				$nb_tot = $data['tot'];
+			groupingSymbol: ' ',
+			fractionDigits: 0
+		});
+		formatter.format(data, 1);
 
-			$time_txt = date('m/y', $timestamp);
+	    var chart = new google.visualization.LineChart(document.getElementById('members_time'));
+	        chart.draw(data, options);
+    }
 
-			$graph_stats_js .= "['".$time_txt."', ".$nb_tot."],";
-		}
-	}
-
-	$graph_stats_js .= " 
-	]);
-	var options = {
-          title: '".$comments_over_time."'
-        };
-    var formatter = new google.visualization.NumberFormat(
+	function quotes_over_time()
 	{
-		groupingSymbol: ' ',
-		fractionDigits: 0
-	});
-	formatter.format(data, 1);
+		var data = google.visualization.arrayToDataTable([
+		['Date', '".$unapproved_quotes."', '".$approved_quotes."', '".$txt_total_quotes."'],";
+		$timestamp = 1285884000;
+		$i = 1;
+		$array_quotes_over_time = array();
 
-    var chart = new google.visualization.LineChart(document.getElementById('graph_comments_time'));
-        chart.draw(data, options);
+		while ($timestamp < time())
+		{
+			$timestamp = strtotime("+1 month", $timestamp);
+
+			if ($timestamp < time())
+			{
+				$query = mysql_query("	SELECT COUNT(id) AS tot, approved
+										FROM teen_quotes_quotes
+										WHERE approved <>  0
+										AND UNIX_TIMESTAMP(timestamp_created) <= '".$timestamp."'
+										GROUP BY approved
+										ORDER BY approved ASC");
+				
+				$nb_approved = 0;
+				while ($data = mysql_fetch_array($query))
+				{
+					// approved = '-1'
+					if ($data['approved'] == -1)
+						$nb_unapproved = $data['tot'];
+					// approved = '1' OR approved = '2'
+					elseif ($data['approved'] == 1 OR $data['approved'] == 2)
+						$nb_approved += $data['tot'];
+
+				}
+				$nb_tot = $nb_unapproved + $nb_approved;
+				$time_txt = date('m/y', $timestamp);
+
+				// Store it in an array, so we can draw percentages later
+				$array_quotes_over_time[$i] = $time_txt.':'.$nb_unapproved.":".$nb_approved;
+
+				$graph_stats_js .= "['".$time_txt."', ".$nb_unapproved.", ".$nb_approved.", ".$nb_tot."],";
+			}
+			$i++;
+		}
+
+		$graph_stats_js .= " 
+		]);
+		var options = {
+	          title: '".$quotes_over_time."',
+	          series: {0:{color:'red'}, 1:{color:'green'}, 2:{color:'blue'}}
+	        };
+	    var formatter = new google.visualization.NumberFormat(
+		{
+			groupingSymbol: ' ',
+			fractionDigits: 0
+		});
+		formatter.format(data, 1); 
+		formatter.format(data, 2); 
+		formatter.format(data, 3); 
+
+	    var chart = new google.visualization.LineChart(document.getElementById('quotes_time'));
+	        chart.draw(data, options);
+    }
+
+    function quotes_over_time_percentage()
+    {
+		var data = google.visualization.arrayToDataTable([
+		['Date', '".$unapproved_quotes."', '".$approved_quotes."', '".$txt_total_quotes."'],";
+
+		for ($i = 1; $i <= count($array_quotes_over_time); $i++)
+		{
+			// Extract data from the array
+			list($time_txt, $nb_unapproved, $nb_approved) = explode(":", $array_quotes_over_time[$i]);
+			$nb_tot = $nb_unapproved + $nb_approved;
+
+			$graph_stats_js .= "['".$time_txt."', ".floor($nb_unapproved/$nb_tot*100).", ".floor($nb_approved/$nb_tot*100).", 100],";
+		}
+
+		$graph_stats_js .= " 
+		]);
+		var options = {
+	          title: '".$quotes_over_time." (%)',
+	          series: {0:{color:'red'}, 1:{color:'green'}, 2:{color:'blue', areaOpacity:0.1}}
+	        };
+
+	    var formatter = new google.visualization.NumberFormat(
+		{
+			suffix: '%',
+			fractionDigits: 0
+		});
+		formatter.format(data, 1);
+		formatter.format(data, 2);
+		formatter.format(data, 3);
+
+	    var chart = new google.visualization.AreaChart(document.getElementById('quotes_time_percentage'));
+	        chart.draw(data, options);
+    }
+
+    function comments_over_time()
+    {
+		var data = google.visualization.arrayToDataTable([
+		['Date', '".$number_of_comments."'],";
+		$timestamp = 1285884000;
+		while ($timestamp < time())
+		{
+			$timestamp = strtotime("+1 month", $timestamp);
+
+			if ($timestamp < time())
+			{
+				$query = mysql_query("	SELECT COUNT(id) AS tot
+										FROM teen_quotes_comments
+										WHERE UNIX_TIMESTAMP(timestamp_created) <= '".$timestamp."'");
+				while ($data = mysql_fetch_array($query))
+					$nb_tot = $data['tot'];
+
+				$time_txt = date('m/y', $timestamp);
+
+				$graph_stats_js .= "['".$time_txt."', ".$nb_tot."],";
+			}
+		}
+
+		$graph_stats_js .= " 
+		]);
+		var options = {
+	          title: '".$comments_over_time."'
+	        };
+	    var formatter = new google.visualization.NumberFormat(
+		{
+			groupingSymbol: ' ',
+			fractionDigits: 0
+		});
+		formatter.format(data, 1);
+
+	    var chart = new google.visualization.LineChart(document.getElementById('graph_comments_time'));
+	        chart.draw(data, options);
     }";
 
     // Fetching age data for users
@@ -567,7 +586,8 @@ function update_stats($language)
 	}
 
     $graph_stats_js .= "
-    function users_ages() {
+    function users_ages()
+    {
         var data = google.visualization.arrayToDataTable([
           ['".$age_legend."', '".$nb_of_users."'],";
           foreach($age as $key => $value)
@@ -591,8 +611,7 @@ function update_stats($language)
 
         var chart = new google.visualization.ColumnChart(document.getElementById('users_ages'));
         chart.draw(data, options);
-      }
-      ";
+    }";
 
     // Fetching comments length
     $query = mysql_query("SELECT COUNT( * ) AS nb, LENGTH(texte) AS length FROM teen_quotes_comments GROUP BY LENGTH(texte) ORDER BY  `nb` DESC ");
@@ -604,7 +623,8 @@ function update_stats($language)
 	}
 
 	$graph_stats_js .= "
-    function comments_length() {
+    function comments_length()
+    {
         var data = google.visualization.arrayToDataTable([
           ['".$comment_length."', '".$nb_comments."'],";
           foreach($comment_length_array as $key => $value)
@@ -629,13 +649,13 @@ function update_stats($language)
 
         var chart = new google.visualization.ColumnChart(document.getElementById('comments_length'));
         chart.draw(data, options);
-      }
-      ";
+    }";
     // Fetching sign up methods
     $query = mysql_query("SELECT param, value FROM  `teen_quotes_settings` WHERE param LIKE 'signup_%'");
     
     $graph_stats_js .= "
-    function sign_up_methods() {
+    function sign_up_methods()
+    {
     	var data = google.visualization.arrayToDataTable([
     	    ['".$sign_up_method."', '".$number_txt."'],";
     	while ($data = mysql_fetch_array($query))
@@ -658,8 +678,7 @@ function update_stats($language)
 
         var chart = new google.visualization.PieChart(document.getElementById('sign_up_methods'));
         chart.draw(data, options);
-      }
-      ";
+    }";
 
     $graph_stats_js .= "
     google.setOnLoadCallback(comments_over_time);
