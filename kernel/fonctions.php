@@ -631,6 +631,35 @@ function update_stats($language)
         chart.draw(data, options);
       }
       ";
+    // Fetching sign up methods
+    $query = mysql_query("SELECT param, value FROM  `teen_quotes_settings` WHERE param LIKE 'signup_%'");
+    
+    $graph_stats_js .= "
+    function sign_up_methods() {
+    	var data = google.visualization.arrayToDataTable([
+    	    ['".$sign_up_method."', '".$number_txt."'],";
+    	while ($data = mysql_fetch_array($query))
+    	{
+    		$graph_stats_js .= '[\''.${$data['param']}.'\', '.$data['value'].'],';
+    	}
+    $graph_stats_js .= "
+        ]);
+
+        var options = {
+          title: '".$sign_up_methods."'
+        };
+
+        var formatter = new google.visualization.NumberFormat(
+		{
+			groupingSymbol: ' ',
+			fractionDigits: 0,
+		});
+		formatter.format(data, 1);
+
+        var chart = new google.visualization.PieChart(document.getElementById('sign_up_methods'));
+        chart.draw(data, options);
+      }
+      ";
 
     $graph_stats_js .= "
     google.setOnLoadCallback(comments_over_time);
@@ -645,7 +674,8 @@ function update_stats($language)
 	google.setOnLoadCallback(quotes_over_time);
 	google.setOnLoadCallback(quotes_over_time_percentage);
 	google.setOnLoadCallback(users_ages);
-	google.setOnLoadCallback(comments_length);";
+	google.setOnLoadCallback(comments_length);
+	google.setOnLoadCallback(sign_up_methods);";
 
 	// Store it in the database
 	$query = mysql_query("UPDATE stats SET text_js_".$language." = '".mysql_real_escape_string($graph_stats_js)."' WHERE id = 1");

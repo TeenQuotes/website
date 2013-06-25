@@ -143,6 +143,7 @@ else
 		<div id="chart">
 			<h1><?php echo $type_registration; ?></h1>
 			<div id="graph_location_signup" class="chartObject"></div>
+			<div id="sign_up_methods" class="chartObject"></div>
 		</div>
 
 	</div><!-- END CONTENT -->
