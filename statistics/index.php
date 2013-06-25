@@ -125,11 +125,14 @@ else
 			<div id="graph_quotes" class="chartObject"></div>
 			<div id="quotes_time" class="chartObject"></div>
 			<div id="quotes_time_percentage" class="chartObject"></div>
+			<div id="days_between_signup_post_quote" class="chartObject"></div>
+			<div id="nb_quotes_submitted_user" class="chartObject"></div>
 		</div>
 		
 		<div id="chart">
 			<h1><?php echo $domain_accounts; ?></h1>
 			<div id="members_time" class="chartObject"></div>
+			<div id="members_time_exp" class="chartObject"></div>
 			<div id="users_ages" class="chartObject"></div>
 			<div id="graph_empty_profile" class="chartObject"></div>
 		</div>
@@ -137,6 +140,7 @@ else
 		<div id="chart">
 			<h1><?php echo $the_comments; ?></h1>
 			<div id="graph_comments_time" class="chartObject"></div>
+			<div id="graph_comments_time_exp" class="chartObject"></div>
 			<div id="comments_length" class="chartObject"></div>
 		</div>
 

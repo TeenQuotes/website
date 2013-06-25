@@ -165,10 +165,15 @@ function captcha()
 	return $phrase;
 }
 
-function days_between_timestamps($date)
+function days_between_dates($date, $ref=null)
 {
+	if (is_null($ref))
+		$ref = time();
+	else
+		$ref = strtotime($ref);
+
 	$your_date = strtotime($date);
-	$datediff = time() - $your_date;
+	$datediff = abs($ref - $your_date);
 
 	return floor($datediff / (60*60*24));
 }
@@ -422,8 +427,8 @@ function update_stats($language)
 		$graph_stats_js .= " 
 		]);
 		var options = {
-	          title: '".$members_over_time."'
-	        };
+			title: '".$members_over_time."'
+		};
 
 	    var formatter = new google.visualization.NumberFormat(
 		{
@@ -433,7 +438,58 @@ function update_stats($language)
 		formatter.format(data, 1);
 
 	    var chart = new google.visualization.LineChart(document.getElementById('members_time'));
-	        chart.draw(data, options);
+	    chart.draw(data, options);
+    }
+
+    function members_over_time_exp()
+	{
+			 var data = google.visualization.arrayToDataTable([
+			 	['Date', '".$number_of_members."'],";
+		$timestamp = 1285884000;
+		$i = 1;
+		while ($timestamp < time())
+		{
+			$timestamp = strtotime("+1 month", $timestamp);
+
+			if ($timestamp < time())
+			{
+				$query = mysql_query("SELECT COUNT(id) AS nb_members FROM teen_quotes_account WHERE UNIX_TIMESTAMP(joindate) <= '".$timestamp."'");
+				$data = mysql_fetch_array($query);
+				$nb_members = $data['nb_members'];
+				$time_txt = date('m/y', $timestamp);
+				$graph_stats_js .= "[".$i.", ".$nb_members."],";
+			}
+
+			$i++;
+		}
+
+		$graph_stats_js .= " 
+		]);
+		var options = {
+			title: '".$members_over_time."',
+			hAxis: {title: '".$months_txt."'},
+			trendlines:
+			{
+				0:
+				{
+					type: 'exponential',
+					visibleInLegend: true,
+					color: 'orange',
+					opacity: '0.5',
+					labelInLegend: '".$exponential_regression."'
+				}
+			}
+		};
+
+	    var formatter = new google.visualization.NumberFormat(
+		{
+			groupingSymbol: ' ',
+			fractionDigits: 0
+		});
+		formatter.format(data, 1);
+
+	    var chart = new google.visualization.LineChart(document.getElementById('members_time_exp'));
+	    chart.draw(data, options);
     }
 
 	function quotes_over_time()
@@ -482,8 +538,8 @@ function update_stats($language)
 		$graph_stats_js .= " 
 		]);
 		var options = {
-	          title: '".$quotes_over_time."',
-	          series: {0:{color:'red'}, 1:{color:'green'}, 2:{color:'blue'}}
+			title: '".$quotes_over_time."',
+			series: {0:{color:'red'}, 1:{color:'green'}, 2:{color:'blue'}},
 	        };
 	    var formatter = new google.visualization.NumberFormat(
 		{
@@ -569,6 +625,60 @@ function update_stats($language)
 
 	    var chart = new google.visualization.LineChart(document.getElementById('graph_comments_time'));
 	        chart.draw(data, options);
+    }
+
+    function comments_over_time_exp()
+    {
+		var data = google.visualization.arrayToDataTable([
+		['Date', '".$number_of_comments."'],";
+		$timestamp = 1285884000;
+		$i = 1;
+		while ($timestamp < time())
+		{
+			$timestamp = strtotime("+1 month", $timestamp);
+
+			if ($timestamp < time())
+			{
+				$query = mysql_query("	SELECT COUNT(id) AS tot
+										FROM teen_quotes_comments
+										WHERE UNIX_TIMESTAMP(timestamp_created) <= '".$timestamp."'");
+				while ($data = mysql_fetch_array($query))
+					$nb_tot = $data['tot'];
+
+				$time_txt = date('m/y', $timestamp);
+
+				$graph_stats_js .= "[".$i.", ".$nb_tot."],";
+			}
+
+			$i++;
+		}
+
+		$graph_stats_js .= " 
+		]);
+		var options = {
+	        title: '".$comments_over_time."',
+	        hAxis: {title: '".$months_txt."'},
+			trendlines:
+			{
+				0:
+				{
+					type: 'exponential',
+					visibleInLegend: true,
+					color: 'orange',
+					opacity: '0.5',
+					labelInLegend: '".$exponential_regression."'
+				}
+			}
+	        };
+	    var formatter = new google.visualization.NumberFormat(
+		{
+			groupingSymbol: ' ',
+			fractionDigits: 0
+		});
+		formatter.format(data, 1);
+
+	    var chart = new google.visualization.LineChart(document.getElementById('graph_comments_time_exp'));
+	        chart.draw(data, options);
     }";
 
     // Fetching age data for users
@@ -650,6 +760,7 @@ function update_stats($language)
         var chart = new google.visualization.ColumnChart(document.getElementById('comments_length'));
         chart.draw(data, options);
     }";
+
     // Fetching sign up methods
     $query = mysql_query("SELECT param, value FROM  `teen_quotes_settings` WHERE param LIKE 'signup_%'");
     
@@ -680,8 +791,97 @@ function update_stats($language)
         chart.draw(data, options);
     }";
 
+    $array_days_between_signup_post_quote = array();
+	$array_nb_quotes_submitted = array();
+
+	// Find every users that have already submitted a quote
+	$users = mysql_query("SELECT id, joindate FROM teen_quotes_account WHERE id IN (SELECT DISTINCT auteur_id FROM teen_quotes_quotes)");
+	while ($data = mysql_fetch_array($users)) 
+	{
+		$joindate = $data['joindate'];
+		$id       = $data['id'];
+
+		// Count days between signup and first quote submission
+		$query_quote_min = mysql_query("SELECT timestamp_created FROM teen_quotes_quotes WHERE auteur_id = ".$id." ORDER BY id ASC LIMIT 0,1");
+		$data = mysql_fetch_array($query_quote_min);
+		$timestamp_created = $data['timestamp_created'];
+
+		$days = days_between_dates($joindate, $timestamp_created);
+		$array_days_between_signup_post_quote[$days]++;
+
+		// Count quotes submitted by each users
+		$query_count_quote = mysql_query("SELECT COUNT(id) as count_quote FROM teen_quotes_quotes WHERE auteur_id = ".$id."");
+		$data = mysql_fetch_array($query_count_quote);
+		$count_quote = $data['count_quote'];
+		
+		$array_nb_quotes_submitted[$count_quote]++;
+
+	}
+	// Sort arrays
+	arsort($array_days_between_signup_post_quote);
+	arsort($array_nb_quotes_submitted);
+
+	$graph_stats_js .= "
+    function days_between_signup_post_quote()
+    {
+        var data = google.visualization.arrayToDataTable([
+          ['".$days_between_signup_post_quote."', '".$nb_users_txt."'],";
+          foreach($array_days_between_signup_post_quote as $key => $value)
+		  {
+			$graph_stats_js .= '[\''.$key.'\', '.$value.'],';
+		  }
+	$graph_stats_js .= "
+        ]);
+
+        var options = {
+          title: '".$days_between_signup_post_quote."',
+          hAxis: {title: '".$days_between_signup_post_quote."'}
+        };
+
+        var formatter = new google.visualization.NumberFormat(
+		{
+			groupingSymbol: ' ',
+			fractionDigits: 0,
+			suffix: ' ".$users_txt."'
+		});
+		formatter.format(data, 1);
+
+        var chart = new google.visualization.PieChart(document.getElementById('days_between_signup_post_quote'));
+        chart.draw(data, options);
+    }";
+
+    $graph_stats_js .= "
+    function nb_quotes_submitted_user()
+    {
+        var data = google.visualization.arrayToDataTable([
+          ['".$nb_quotes_submitted_user."', '".$nb_users_txt."'],";
+          foreach($array_nb_quotes_submitted as $key => $value)
+		  {
+			$graph_stats_js .= '[\''.$key.'\', '.$value.'],';
+		  }
+	$graph_stats_js .= "
+        ]);
+
+        var options = {
+          title: '".$nb_quotes_submitted_user."',
+          hAxis: {title: '".$nb_quotes_submitted_user."'}
+        };
+
+        var formatter = new google.visualization.NumberFormat(
+		{
+			groupingSymbol: ' ',
+			fractionDigits: 0,
+			suffix: ' ".$users_txt."'
+		});
+		formatter.format(data, 1);
+
+        var chart = new google.visualization.PieChart(document.getElementById('nb_quotes_submitted_user'));
+        chart.draw(data, options);
+    }";
+
     $graph_stats_js .= "
     google.setOnLoadCallback(comments_over_time);
+    google.setOnLoadCallback(comments_over_time_exp);
 	google.setOnLoadCallback(graph_quotes);
 	google.setOnLoadCallback(graph_empty_profile); 
 	google.setOnLoadCallback(graph_newsletter); 
@@ -690,11 +890,14 @@ function update_stats($language)
 	google.setOnLoadCallback(graph_search);
 	google.setOnLoadCallback(location_signup);
 	google.setOnLoadCallback(members_over_time);
+	google.setOnLoadCallback(members_over_time_exp);
 	google.setOnLoadCallback(quotes_over_time);
 	google.setOnLoadCallback(quotes_over_time_percentage);
 	google.setOnLoadCallback(users_ages);
 	google.setOnLoadCallback(comments_length);
-	google.setOnLoadCallback(sign_up_methods);";
+	google.setOnLoadCallback(sign_up_methods);
+	google.setOnLoadCallback(days_between_signup_post_quote);
+	google.setOnLoadCallback(nb_quotes_submitted_user);";
 
 	// Store it in the database
 	$query = mysql_query("UPDATE stats SET text_js_".$language." = '".mysql_real_escape_string($graph_stats_js)."' WHERE id = 1");
