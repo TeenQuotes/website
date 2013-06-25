@@ -584,12 +584,6 @@ function drawVisitsDuration()
 		pattern: 'mm:ss'
 	});
 	formatter.format(data, 1);
-	
-	var formatter = new google.visualization.NumberFormat(
-	{
-		suffix: ' (mm:ss)'
-	});
-	formatter.format(data, 1);
 
 	var chart = new google.visualization.LineChart(document.getElementById('drawVisitsDuration'));
 	chart.draw(data, options);
