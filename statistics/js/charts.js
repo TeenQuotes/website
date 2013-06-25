@@ -542,8 +542,61 @@ function drawVisitsTechnology()
 	chart.draw(data, options);
 }
 
+function drawVisitsDuration()
+{
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', '' + months_txt + '');
+	data.addColumn('datetime', '' + duration_txt + '');
+	data.addRows([
+		['05/2011', new Date(0, 0, 0, 0, 5, 48)],
+		['06/2011', new Date(0, 0, 0, 0, 5, 19)],
+		['07/2011', new Date(0, 0, 0, 0, 4, 54)],
+		['08/2011', new Date(0, 0, 0, 0, 5, 16)],
+		['09/2011', new Date(0, 0, 0, 0, 5, 05)],
+		['10/2011', new Date(0, 0, 0, 0, 5, 42)],
+		['11/2011', new Date(0, 0, 0, 0, 5, 55)],
+		['12/2011', new Date(0, 0, 0, 0, 5, 00)],
+		['01/2012', new Date(0, 0, 0, 0, 5, 03)],
+		['02/2012', new Date(0, 0, 0, 0, 6, 00)],
+		['03/2012', new Date(0, 0, 0, 0, 6, 03)],
+		['04/2012', new Date(0, 0, 0, 0, 6, 02)],
+		['05/2012', new Date(0, 0, 0, 0, 5, 58)],
+		['06/2012', new Date(0, 0, 0, 0, 5, 50)],
+		['07/2012', new Date(0, 0, 0, 0, 5, 38)],
+		['08/2012', new Date(0, 0, 0, 0, 5, 10)],
+		['09/2012', new Date(0, 0, 0, 0, 5, 04)],
+		['10/2012', new Date(0, 0, 0, 0, 4, 59)],
+		['11/2012', new Date(0, 0, 0, 0, 4, 22)],
+		['12/2012', new Date(0, 0, 0, 0, 4, 18)],
+		['01/2012', new Date(0, 0, 0, 0, 4, 22)],
+		['02/2012', new Date(0, 0, 0, 0, 4, 18)],
+		['03/2012', new Date(0, 0, 0, 0, 4, 26)],
+		['04/2012', new Date(0, 0, 0, 0, 4, 58)],
+		['05/2012', new Date(0, 0, 0, 0, 5, 40)],
+	]);
+
+	var options = {
+		title: '' + visits_duration + ''
+	};
+
+	var formatter = new google.visualization.DateFormat(
+	{
+		pattern: 'mm:ss'
+	});
+	formatter.format(data, 1);
+	
+	var formatter = new google.visualization.NumberFormat(
+	{
+		suffix: ' (mm:ss)'
+	});
+	formatter.format(data, 1);
+
+	var chart = new google.visualization.LineChart(document.getElementById('drawVisitsDuration'));
+	chart.draw(data, options);
+}
 
 google.setOnLoadCallback(drawMapGeo);
 google.setOnLoadCallback(drawPieGeo);
 google.setOnLoadCallback(drawSexUsers);
 google.setOnLoadCallback(drawVisitsTechnology);
+google.setOnLoadCallback(drawVisitsDuration);

@@ -69,3 +69,5 @@ $users_txt                               = "users";
 $nb_quotes_submitted_user                = "Number of quotes submitted by users who submitted at least one quote";
 $months_txt                              = "Number of months after the launching";
 $exponential_regression                  = "Exponential regression";
+$visits_duration                         = "Average visit duration per user";
+$duration_txt                            = "Average visit duration";

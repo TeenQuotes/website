@@ -1974,7 +1974,15 @@ function generateTrad ($lang, $languageFile)
 	{
 		foreach ($lang as $lg) 
 		{
-			$string .= "var ".$lg." = '".${$lg}."';";
+			$trad = ${$lg};
+
+			if (!empty($trad))
+				$string .= "var ".$lg." = '".$trad."';";
+			else
+			{
+				echo 'Translate error! '.$lg;
+				die();
+			}
 		}
 		return $string;
 	}

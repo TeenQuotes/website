@@ -69,3 +69,5 @@ $users_txt                               = "utilisateurs";
 $nb_quotes_submitted_user                = "Nombre de citations soumises par les utilisateurs ayant soumis au moins une citation";
 $months_txt                              = "Nombre de mois depuis la création";
 $exponential_regression                  = "Régression exponentielle";
+$visits_duration                         = "Durée moyenne de visite par utilisateur";
+$duration_txt                            = "Durée moyenne de visite";
