@@ -180,8 +180,7 @@ else
 $("#flags_translate a").click(function()
 {
 	var href = $(this).attr('href');
-	$("body").addClass("animated");
-	$("body").addClass("hinge");
+	$("body").fadeOut(2000);
 
 	setTimeout(function()
 	{
