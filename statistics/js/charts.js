@@ -532,7 +532,7 @@ function drawVisitsTechnology()
 	{
 		groupingSymbol: ' ',
 		fractionDigits: 0,
-		suffix: ' visites'
+		suffix: ' ' + visits_txt.toLowerCase()
 	});
 	formatter.format(data, 1);
 	formatter.format(data, 2);
