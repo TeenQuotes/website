@@ -71,3 +71,6 @@ $months_txt                              = "Number of months after the launching
 $exponential_regression                  = "Exponential regression";
 $visits_duration                         = "Average visit duration per user";
 $duration_txt                            = "Average visit duration";
+$data_provenance                         = "Where does the data come from?";
+$sex_data_provenance                     = "The data are based on information collected on all users of the iPhone / iTouch application and from users who were not registered from the iOS application that specified their gender in their profile.";
+$visits_provenance                       = "The data come from visits to the website or the mobile site since the founding. Visits from the iPhone / iTouch application are not included.";

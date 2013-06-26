@@ -109,15 +109,15 @@ else
 			<div id="geoMap" class="chartObject"></div>
 			<div id="pieGeo" class="chartObject"></div>
 			<div class="explanation">
-				<h3>D'où viennent les données ?</h3>
-				Les données proviennent des visites sur le site web ou le site mobile depuis la création de Teen Quotes. Les visites depuis l'application iPhone / iTouch ne sont pas incluses. 
+				<h3><?php echo $data_provenance; ?></h3>
+				<?php echo $visits_provenance; ?>
 			</div>
 			<div id="drawVisitsTechnology" class="chartObject"></div>
 			<div id="drawVisitsDuration" class="chartObject"></div>
 			<div id="sexUsers" class="chartObject"></div>
 			<div class="explanation">
-				<h3>D'où viennent les données ?</h3>
-				Les données proviennent des informations recueillies sur tous les utilisateurs de l'application iPhone / iTouch et des utilisateurs ne s'étant pas inscrits depuis l'application ayant renseigné leur sexe dans le profil de leur compte Teen Quotes.
+				<h3><?php echo $data_provenance; ?></h3>
+				<?php echo $sex_data_provenance; ?>
 			</div>
 		</div><!-- END LES VISITEURS DE TEEN QUOTES -->
 
@@ -128,7 +128,7 @@ else
 			<div id="quotes_time_percentage" class="chartObject"></div>
 			<div id="days_between_signup_post_quote" class="chartObject"></div>
 			<div id="nb_quotes_submitted_user" class="chartObject"></div>
-		</div>
+		</div><!-- END LES QUOTES -->
 		
 		<div id="chart">
 			<h1><?php echo $domain_accounts; ?></h1>
@@ -136,20 +136,20 @@ else
 			<div id="members_time_exp" class="chartObject"></div>
 			<div id="users_ages" class="chartObject"></div>
 			<div id="graph_empty_profile" class="chartObject"></div>
-		</div>
+		</div><!-- END LES COMPTES -->
 
 		<div id="chart">
 			<h1><?php echo $the_comments; ?></h1>
 			<div id="graph_comments_time" class="chartObject"></div>
 			<div id="graph_comments_time_exp" class="chartObject"></div>
 			<div id="comments_length" class="chartObject"></div>
-		</div>
+		</div><!-- END LES COMMENTAIRES -->
 
 		<div id="chart">
 			<h1><?php echo $type_registration; ?></h1>
 			<div id="graph_location_signup" class="chartObject"></div>
 			<div id="sign_up_methods" class="chartObject"></div>
-		</div>
+		</div><!-- END LES METHODES D'INSCRIPTION -->
 
 	</div><!-- END CONTENT -->
 

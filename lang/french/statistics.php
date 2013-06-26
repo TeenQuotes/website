@@ -71,3 +71,6 @@ $months_txt                              = "Nombre de mois depuis la création";
 $exponential_regression                  = "Régression exponentielle";
 $visits_duration                         = "Durée moyenne de visite par utilisateur";
 $duration_txt                            = "Durée moyenne de visite";
+$data_provenance                         = "D'où viennent les données ?";
+$sex_data_provenance                     = "Les données proviennent des informations recueillies sur tous les utilisateurs de l'application iPhone / iTouch et des utilisateurs ne s'étant pas inscrits depuis l'application ayant renseigné leur sexe dans le profil de leur compte ".$name_website;
+$visits_provenance                       = "Les données proviennent des visites sur le site web ou le site mobile depuis la création. Les visites depuis l'application iPhone / iTouch ne sont pas incluses.";
