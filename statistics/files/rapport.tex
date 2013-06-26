@@ -1,0 +1,139 @@
+\documentclass{report}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+% Pour utiliser le signe €
+\usepackage{eurosym}
+% Pour pouvoir insérer des images
+\usepackage{graphicx}
+\graphicspath{images/}
+% Pour pouvoir insérer des hyperliens
+\usepackage[hyphens]{url}
+\usepackage{hyperref}
+% Suppression des marges supplémentaires sur les bords
+\usepackage{fullpage}
+
+% On ne veut pas afficher le mot 'Chapitre' avant chaque chapitre
+\usepackage{titlesec}
+\titleformat{\chapter}[hang]{\bf\huge}{\thechapter}{2pc}{}
+
+% Coloration syntaxique
+\usepackage{listings}
+\lstset{ 
+	language=PHP,
+	numbers=left,
+	showstringspaces=false, 
+	tabsize=4,
+	breaklines=true,
+	extendedchars=true,
+	literate={é}{{\'e}}1 {à}{{\'a}}1 {è}{{\`e}}1 {ç}{{\c c}}1
+}
+%----------------------- %
+% -- Cheat sheet -------- %
+
+% Alignement
+%\begin {flushleft}
+%\begin {center}
+%\begin {flushright}
+
+% Listes
+% \begin{itemize}
+% \begin{description}
+% \begin{enumerate}
+% 	\item Numéro 1
+% 	\item Numéro 2
+% \end{enumerate}
+% \\
+% \newpage
+
+% Mise en forme des caractères
+% \normalfont{} ou \begin{rm}
+% \textbf{} ou \begin{bf}
+% \textit{} ou \begin{it}
+% \textsc{} ou \begin{sc}
+% Emphase (sémantique)
+% \emph{}
+
+% Citations et code brut
+% \quote Pour une ligne isolée
+% \quotation Pour un bloc
+% \verb Pour du code
+% \lstlisting Pour du code coloré
+
+% URL
+% \url{http://www.site.org/}
+% ------------------------------------ %
+
+
+% ------------------------------------ %
+% -- METADONNÉES DU DOCUMENT --------- %
+% Utilisées pour générer la page de garde
+\title{
+		Projet Final de M8\\
+		Étude de Teen Quotes
+}
+\author{
+	Antoine \textsc{Augusti}, 
+}
+\date{Juin 2013}
+
+\begin{document}
+
+	% Génération de la page de garde
+	\maketitle
+
+	% Génération de la table des matières
+	\tableofcontents
+
+	% ///////////////////////////////////////////////////////// %
+	% /// Introduction //////////////////////////////////////// %
+	\chapter{Introduction}
+	% ------------------------------------------- %
+	% -- Teen Quotes, qu'est-ce que c'est ? ----- %
+	\section{Teen Quotes, qu'est-ce que c'est ?}
+	Teen Quotes est une plateforme regroupant des citations décrivant le quotidien des adolescents. L'adolescence est une période difficile à gérer dans la vie et les adolescents ont souvent besoin d'échanger autour de sujets qui les préoccupent : leurs amis, l'amour, les études, leurs déceptions, leurs expériences. Teen Quotes répond à ce besoin en proposant à toute personne possédant un compte de pouvoir partager son impression en écrivant une courte citation. Cette citation sera ensuite acceptée (modifiée légèrement ou non) pour publication ou rejetée. Actuellement, cinq nouvelles citations sont publiées tous les jours à 0h (heure française) sur Teen Quotes.\\
+
+	L'interface de Teen Quotes est proposée par défaut en anglais. L'interface est également disponible en français pour ceux qui le désirent et une version en français par défaut existe (elle se nomme Kotado). Toutefois, la version française de Teen Quotes ayant moins de succès que la version originale, j'ai choisi d'orienter mon projet de M8 vers cette version anglaise.\\
+
+	Teen Quotes a été lancé en mai 2011, après quelques mois de développement que j'ai mené seul. Aujourd'hui Teen Quotes possède une version web pour les ordinateurs, une version optimisée pour les smartphones (depuis navigateur) ainsi qu'une application iPhone / iTouch que l'on peut télécharger depuis l'App Store d'Apple. Plus de 1,5 million de personnes ont visité Teen Quotes, depuis l'une des versions que nous proposons.\\
+
+	Je me suis également associé depuis deux ans à une jeune femme philippine (parlant anglais) qui tient le compte Twitter de Teen Quotes (\href{http://twitter.com/ohteenquotes}{\textit{@ohteenquotes}}) comptant actuellement plus de 2 millions de followers. Nous essayons ensemble d'avoir une convergence vers tous les supports où Teen Quotes est présent (Twitter, Facebook, site web, site mobile, application iPhone / iTouch) pour agrandir notre masse d'utilisateurs.
+
+	% ---------------------------------------------------- %
+	% -- Et moi, je peux avoir accès à Teen Quotes ? ----- %
+	\section{Et moi, je peux avoir accès à Teen Quotes ?}
+	Bien évidemment ! Teen Quotes est ouvert à tout le monde et mon but est que le plus de monde possible rejoigne l'aventure. Teen Quotes peut être consulté grâce aux moyens suivants :
+	\vspace{10px}
+	\begin{itemize}
+		\item Site web : \url{http://teen-quotes.com}
+		\item Site mobile \footnote{Lien à visiter depuis un smartphone ou une tablette. La redirection vers la version mobile est automatique quand on tente de visiter le site classique depuis un smartphone ou une tablette.} : \url{http://m.teen-quotes.com}
+		\item Application iPhone / iTouch \footnote{Lien à visiter depuis un iPhone ou un iTouch pour lancer le téléchargement de l'application !} : \url{http://teen-quotes.com/apps}
+	\end{itemize}
+
+	% ---------------------------------------------------- %
+	% -- Des données oui, mais des données à jour -------- %
+	\section{Des données oui, mais des données à jour}
+	Teen Quotes enregistre plus de \textbf{4 000 visites par jour}. Les bases de données de Teen Quotes enregistrent environ \textbf{30 000 requêtes par heure}. Avec un tel volume de données, difficile de se contenter d'une étude statistique figée, obslète une semaine plus tard car les données ne sont plus du tout les mêmes. Teen Quotes est vivant, évolue en permanence : l'étude statistique de Teen Quotes doit s'adapter en conséquence.\\
+
+	En réponse à ce défi, j'ai décidé d'orienter mon projet de M8 vers une étude statistique évolutive, qui se renouvelle en permanence et qui a pour ambition de donner des informations correctes et précises en quasi temps réel. Pour répondre à ce besoin, quoi de mieux que de proposer une étude en ligne ? Facile à consulter : il suffit d'un navigateur web.
+
+	% Comment ça fonctionne ?
+	\subsection{Comment ça fonctionne ?}
+	L'idée était donc de créer une partie du site de Teen Quotes dédiée aux statistiques : affichage de graphiques et informations sur les données. Les données sont recalculées 3 fois par heure (soit toutes les 20 minutes si vous suivez !). La réflexion suivie pour arriver à ceci a donc été la suivante :
+	\vspace{10px}
+	\begin{enumerate}
+		\item Quelles sont les données que je veux afficher ?
+		\item Comment est-ce que je peux récupérer ces données ? Sont-elles enregistrées dans mes bases de données ou sur un service externe (Google Analytics \footnote{Google Analytics fournit une analyse d'audience pour le site web classique et le site web mobile}, Flurry \footnote{Flurry fournit des données sur les utilisateurs de l'application iPhone / iTouch}) ?
+		\item Comment faut-il rassembler les données ? Comment donner du sens aux données brutes ? Comment les formater ?
+		\item Comment proposer un affichage agréable et lisible pour donner sens aux données récupérées ?
+		\item Comment automatiser tout ce processus pour pouvoir effectuer une mise à jour des informations toutes les 20 minutes ?
+	\end{enumerate}
+	\vspace{10px}
+	Le résultat final est visible à l'adresse \url{http://statistics.teen-quotes.com} et est disponible en anglais (dans un souci d'intérêt pour le public visé par Teen Quotes !) et en français. Je vous invite fortement à vous rendre à cette adresse, la suite du rapport expliquant en détail chaque graphique affiché sur cette page.\\
+
+	Des précisions techniques seront apportées au fur et à mesure du rapport pour vous faire une idée de comment est réalisée cette page.
+% Fin du document
+\end{document}
