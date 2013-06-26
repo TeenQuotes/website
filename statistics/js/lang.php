@@ -15,6 +15,8 @@ $arrayTrad = array
  	"visits_duration",
  	"months_txt",
  	"duration_txt",
+ 	"os_txt",
+ 	"os_mobile_txt",
 );
 
 $lang_js_charts = generateTrad($arrayTrad, '../lang/'.$language.'/statistics.php');

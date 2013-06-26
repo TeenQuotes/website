@@ -113,6 +113,7 @@ else
 				<?php echo $visits_provenance; ?>
 			</div>
 			<div id="drawVisitsTechnology" class="chartObject"></div>
+			<div id="drawMobileOS" class="chartObject"></div>
 			<div id="drawVisitsDuration" class="chartObject"></div>
 			<div id="sexUsers" class="chartObject"></div>
 			<div class="explanation">

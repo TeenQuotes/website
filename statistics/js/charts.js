@@ -233,7 +233,8 @@ function drawMapGeo()
 	var formatter = new google.visualization.NumberFormat(
 	{
 		groupingSymbol: ' ',
-		fractionDigits: 0
+		fractionDigits: 0,
+		suffix: ' ' + visits_txt.toLowerCase()
 	});
 	formatter.format(data, 1);
 
@@ -461,7 +462,8 @@ function drawPieGeo()
 	var formatter = new google.visualization.NumberFormat(
 	{
 		groupingSymbol: ' ',
-		fractionDigits: 0
+		fractionDigits: 0,
+		suffix: ' ' + visits_txt.toLowerCase()
 	});
 	formatter.format(data, 1);
 
@@ -589,8 +591,54 @@ function drawVisitsDuration()
 	chart.draw(data, options);
 }
 
+function drawMobileOS()
+{
+	var data = google.visualization.arrayToDataTable([
+		[os_txt, visits_txt],
+		['iOS', 181669],
+		['Android', 168923],
+		['iPhone', 68737],
+		['iPod', 54705],
+		['BlackBerry', 52965],
+		['Samsung', 2517],
+		['Windows Phone', 1915],
+		['(not set)', 1079],
+		['Nokia', 507],
+		['SymbianOS', 481],
+		['Windows', 427],
+		['iPad', 359],
+		['LG', 195],
+		['Series40', 129],
+		['Nintendo 3DS', 70],
+		['Sony', 64],
+		['Firefox OS', 50],
+		['MOT', 38],
+		['LGE', 34],
+		['Danger Hiptop', 23],
+		['Bada', 8],
+		['PalmOS', 3],
+		['Playstation Vita', 3],
+	]);
+
+	var options = {
+		title: os_mobile_txt
+	};
+
+	var formatter = new google.visualization.NumberFormat(
+	{
+		groupingSymbol: ' ',
+		fractionDigits: 0,
+		suffix: ' ' + visits_txt.toLowerCase()
+	});
+	formatter.format(data, 1);
+
+	var chart = new google.visualization.PieChart(document.getElementById('drawMobileOS'));
+	chart.draw(data, options);
+}
+
 google.setOnLoadCallback(drawMapGeo);
 google.setOnLoadCallback(drawPieGeo);
 google.setOnLoadCallback(drawSexUsers);
 google.setOnLoadCallback(drawVisitsTechnology);
+google.setOnLoadCallback(drawMobileOS);
 google.setOnLoadCallback(drawVisitsDuration);
