@@ -104,7 +104,7 @@ else
 	<div id="content">
 		<?php echo $last_update ?> <abbr class="timeago" title="<?php echo $timestamp_last_update_stats; ?>"></abbr>.
 
-		<div id="chart" class="animated rotateInDownLeft">
+		<div class="chart" class="animated rotateInDownLeft">
 			<h1><?php echo $domain_visitors; ?></h1>
 			<div id="geoMap" class="chartObject"></div>
 			<div id="pieGeo" class="chartObject"></div>
@@ -121,7 +121,7 @@ else
 			</div>
 		</div><!-- END LES VISITEURS DE TEEN QUOTES -->
 
-		<div id="chart">
+		<div class="chart">
 			<h1><?php echo $the_quotes; ?></h1>		
 			<div id="graph_quotes" class="chartObject"></div>
 			<div id="quotes_time" class="chartObject"></div>
@@ -130,7 +130,7 @@ else
 			<div id="nb_quotes_submitted_user" class="chartObject"></div>
 		</div><!-- END LES QUOTES -->
 		
-		<div id="chart">
+		<div class="chart">
 			<h1><?php echo $domain_accounts; ?></h1>
 			<div id="members_time" class="chartObject"></div>
 			<div id="members_time_exp" class="chartObject"></div>
@@ -138,14 +138,14 @@ else
 			<div id="graph_empty_profile" class="chartObject"></div>
 		</div><!-- END LES COMPTES -->
 
-		<div id="chart">
+		<div class="chart">
 			<h1><?php echo $the_comments; ?></h1>
 			<div id="graph_comments_time" class="chartObject"></div>
 			<div id="graph_comments_time_exp" class="chartObject"></div>
 			<div id="comments_length" class="chartObject"></div>
 		</div><!-- END LES COMMENTAIRES -->
 
-		<div id="chart">
+		<div class="chart">
 			<h1><?php echo $type_registration; ?></h1>
 			<div id="graph_location_signup" class="chartObject"></div>
 			<div id="sign_up_methods" class="chartObject"></div>

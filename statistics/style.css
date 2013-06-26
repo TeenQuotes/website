@@ -116,13 +116,16 @@ body
 	background: #FFF;
 	margin: 0 auto;
 }
-#chart
+.chart
 {
 	margin: 20px auto 60px auto;
 	padding: 10px 15px;
 	background: #F1F1F1;
+	-webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+	box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
-#chart h1
+.chart h1
 {
 	font-family: 'Lato';
 	font-weight: 300;
