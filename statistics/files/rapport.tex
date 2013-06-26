@@ -147,7 +147,7 @@
 	\vspace{10px}
 	Le résultat final est visible à l'adresse \url{http://statistics.teen-quotes.com} et est disponible en anglais (dans un souci d'intérêt pour le public visé par Teen Quotes !) et en français. Je vous invite fortement à vous rendre à cette adresse, la suite du rapport expliquant en détail chaque graphique affiché sur cette page.\\
 
-	Des précisions techniques seront apportées au fur et à mesure du rapport pour vous faire une idée de comment est réalisée cette page.
+	Des précisions techniques seront apportées au fur et à mesure du rapport pour vous faire une idée de comment est réalisée cette page. Programme alléchant, non ? Allez hop, en voiture, plongeons-nous dans les données !
 
 	% ///////////////////////////// %
 	% /// Halte ! Qui va là ? ///// %
@@ -218,5 +218,33 @@
 	En regardant ce diagramme, on pourrait penser que iOS est juste devant Android, sans une grande longueur d'avance. La subtilité réside dans le fait que le système d'exploitation des iPhone et iTouch est en réalité iOS : ces appareils annonçaient un nom différent il n'y a pas encore si longtemps. Il faut donc ajouter les pourcentages attribués aux systèmes d'exploitation iPhone et iTouch à iOS.\\
 
 	Au final, on arrive à 57,1 \% des appareils mobiles sous iOS contre 31,6 \% des appareils mobiles sous Android. L'explication est donc là : \textbf{pour proposer une application qui répondait le plus aux attentes de nos visiteurs il fallait créer une application pour iOS}.
+	\newpage
+	% ---------------------------------------------- %
+	% -- On ne passe pas assez de temps ensemble --- %
+	\section{On ne passe pas assez de temps ensemble}
+	Plus un visiteur reste longtemps, plus je suis content. J'aime bien quand les visiteurs prennent le temps de lire plusieurs citations voire plusieurs pages de citations ! Le top de mon bonheur étant bien sûr la création d'un compte voire même le remplissage d'un profil. Le comble du bonheur... Mais je m'éloigne du sujet il me semble : la durée moyenne de visite d'un visiteur de Teen Quotes.\\
+
+	Observons donc l'évolution de la durée de visite moyenne d'un visiteur par mois depuis la création de Teen Quotes.
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=500px]{images/dureeVisite.png}
+		\caption{Durée de visite moyenne d'un visiteur.}
+	\end{figure}
+	On remarque immédiatement que la durée moyenne de visite la plus basse est de plus de 4 minutes et 15 secondes. C'est une excellente moyenne pour un site web ! Bonne nouvelle : Teen Quotes arrive à retenir les visiteurs pendant plusieurs minutes. N'oublions pas que plus de 40 \% des visites sont réalisées depuis un appareil mobile où la durée d'attention est généralement réduite.\\
+
+	On remarque que les données sont assez éparpillées : il y a un écart de quasiment 2 minutes entre la valeur minimale et la valeur maximale ! Et 2 minutes de durée de visite en moyenne de différence sur une période d'un mois, c'est beaucoup. Je n'ai pas encore trouvé d'explication à ces écarts, je tâcherai de surveiller particulièrement ceci à l'avenir.
+
+	% ------------------------------------- %
+	% -- C'est un garçon ou une fille ? --- %
+	\section{C'est un garçon ou une fille ?}
+	J'ai bien peur d'avoir accouché de plusieurs million de filles. Enfin pas vraiment moi, mais plutôt Teen Quotes ! La connaissance de l'audience passe aussi par le genre des visiteurs : on ne proposera pas les mêmes citations à un public majoritairement féminin que masculin. Il est donc primordial de savoir quelle est la proportition de femmes et d'hommes dans notre audience.\\
+
+	Les données proviennent des informations recueillies sur tous les utilisateurs de l'application iPhone / iTouch et des utilisateurs ne s'étant pas inscrits depuis l'application ayant renseigné leur sexe dans le profil de leur compte Teen Quotes. En effet, Flurry permet de connaître le sexe de l'utilisateur grâce aux informations de son compte Apple alors qu'il n'y a pas de moyen technique permettant d'identifier le sexe d'un visiteur naviguant sur le web !
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=300px]{images/sexeUtilisateurs.png}
+		\caption{Proportion d'hommes et de femmes visitant Teen Quotes.}
+	\end{figure}
+	Wahou, c'est un non-match : il y a un paquet de filles. En y réfléchissant ceci peut se comprendre : les filles ont général plus besoin de se confier et de s'identifier que les garçons lors de la période de l'adolescence. Ça tombe bien, c'est exactement ce pourquoi a été créé Teen Quotes ! En plein dans le mille.
 % Fin du document
 \end{document}
