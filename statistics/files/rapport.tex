@@ -15,7 +15,8 @@
 \usepackage{hyperref}
 % Suppression des marges supplémentaires sur les bords
 \usepackage{fullpage}
-
+% Forcer l'affichage des figures à un endroit précis
+\usepackage{here}
 % On ne veut pas afficher le mot 'Chapitre' avant chaque chapitre
 \usepackage{titlesec}
 \titleformat{\chapter}[hang]{\bf\huge}{\thechapter}{2pc}{}
@@ -126,7 +127,7 @@
 	\vspace{10px}
 	\begin{enumerate}
 		\item Quelles sont les données que je veux afficher ?
-		\item Comment est-ce que je peux récupérer ces données ? Sont-elles enregistrées dans mes bases de données ou sur un service externe (Google Analytics \footnote{Google Analytics fournit une analyse d'audience pour le site web classique et le site web mobile}, Flurry \footnote{Flurry fournit des données sur les utilisateurs de l'application iPhone / iTouch}) ?
+		\item Comment est-ce que je peux récupérer ces données ? Sont-elles enregistrées dans mes bases de données ou sur un service externe (Google Analytics \footnote{Google Analytics fournit une analyse d'audience pour le site web classique et le site web mobile.}, Flurry \footnote{Flurry fournit des données sur les utilisateurs de l'application iPhone / iTouch.}) ?
 		\item Comment faut-il rassembler les données ? Comment donner du sens aux données brutes ? Comment les formater ?
 		\item Comment proposer un affichage agréable et lisible pour donner sens aux données récupérées ?
 		\item Comment automatiser tout ce processus pour pouvoir effectuer une mise à jour des informations toutes les 20 minutes ?
@@ -135,5 +136,47 @@
 	Le résultat final est visible à l'adresse \url{http://statistics.teen-quotes.com} et est disponible en anglais (dans un souci d'intérêt pour le public visé par Teen Quotes !) et en français. Je vous invite fortement à vous rendre à cette adresse, la suite du rapport expliquant en détail chaque graphique affiché sur cette page.\\
 
 	Des précisions techniques seront apportées au fur et à mesure du rapport pour vous faire une idée de comment est réalisée cette page.
-% Fin du document
+
+	% ///////////////////////////// %
+	% /// Qui vient chez nous ? /// %
+	\chapter{Qui vient chez nous ?}
+	Quand nous avons décidé de lancer Teen Quotes, nous ne savions qu'une chose : il fallait que le site soit en anglais pour toucher le plus de monde possible à travers le globe. Partout dans le monde où il y avait un accès à Internet et où les gens parlaient anglais, nous devions pouvoir être accessibles.\\
+
+	Nous n'avions pas une population cible précise et pas de préférence particulière pour un ou des pays. La communication n'a jamais été orientée vers une quelconque culture ou un quelconque continent. Les statistiques obtenues sont donc une régulation naturelle des flux vers Teen Quotes.
+
+	% ------------------------------------------ %
+	% -- Où habites-tu petit visiteur ? -------- %
+	\section{Où habites-tu petit visiteur ?}
+	La première chose à déterminer est la localisation géographique de connexion des visiteurs pour accéder à Teen Quotes. Ceci nous permet d'avoir en notre possession plusieurs informations importantes :
+	\vspace{10px}
+	\begin{itemize}
+		\item Une connaissance de notre audience dans l'éventualité de s'orienter plus vers un pays ou un continent pour des opérations futures.
+		\item Un besoin d'optimisation technique vers les pays de grande audience : nos serveurs sont en France mais très peu de visiteurs visitent Teen Quotes depuis la France.
+	\end{itemize}
+	\vspace{10px}
+	Les données de localisation des visites sont données par Google Analytics pour le site web et le site pour mobiles. Les données de localisation pour l'application iPhone / iTouch sont fournies par Flurry. Flurry se contente de donner des informations au niveau des continents alors que Google Analytics est capable de déterminer la localisation au niveau des villes de taille moyenne (Rouen par exemple). Dans un souci de respect de la vie privée des utilisateurs, on se limite à une localisation au niveau de la ville moyenne la plus proche de son lieu de connexion.\\
+
+	On s'intéresse à la totalité des visites de Teen Quotes depuis la création en mai 2011 jusqu'en juin 2013 : on compte donc des personnes en double, forcément. Toutefois il est impossible de faire autrement : les visiteurs peuvent se déplacer géographiquement, changer d'adresse IP... La seule solution pour éviter les doublons serait de ne s'intéresser qu'aux visites de personnes authentifiées sur Teen Quotes, ce qui nous priverait d'une bonne partie des données.\\
+
+	Comme on souhaite s'intéresser aux visites par pays, on ne retient que les données de localisation du site web et du site optimisé pour mobiles en laissant de côté les données de localisation de l'application iPhone / iTouch qui a été lancée en novembre 2012.
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=400px]{images/visitesMondialesCarte.png}
+		\caption{Visites depuis la création de Teen Quotes représentées sur une carte mondiale.}
+	\end{figure}
+	On a appliqué un dégradé de bleu pour symboliser le nombre de visites : le bleu foncé représentant le pays avec le plus de visiteurs.\\
+	De cette carte on peut tirer l'analyse suivante :
+	\vspace{10px}
+	\begin{itemize}
+		\item Quasiment tous les pays du monde sont coloriés en bleu : c'est-à-dire qu'il y a eu au moins une visite depuis 211 pays ou États\footnote{On obtient ce chiffre en regardant la liste des pays qui ont enregistré au moins une visite, et non en les comptant sur la carte !} dans le monde. Les pays grisés sont majoritairement situés en Afrique : l'absence de visites depuis ces pays peut s'expliquer par le faible taux d'accès à Internet pour les particuliers.
+		\item Les visites depuis les États-Unis ont l'air très majoritaires, à tel point qu'il est difficile de voir une différence pour les autres visites tant les écarts sont grands entre le pays le plus visité et les autres.
+	\end{itemize}
+	\vspace{10px}
+	Pour mieux visualiser le poids de chaque poids, représentons les visites sur un diagramme circulaire.
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=250px]{images/visitesMondialesCamembert.png}
+		\caption{Visites depuis la création de Teen Quotes représentées sur un diagramme circulaire.}
+	\end{figure}
+% Fin du do\cument
 \end{document}
