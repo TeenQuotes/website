@@ -21,6 +21,18 @@
 \usepackage{titlesec}
 \titleformat{\chapter}[hang]{\bf\huge}{\thechapter}{2pc}{}
 
+% Pour les en-têtes et pieds de page
+\usepackage{fancyhdr}
+\renewcommand{\headrulewidth}{0pt}
+\lhead{} 
+\chead{} 
+\rhead{} 
+\renewcommand{\footrulewidth}{0pt}
+\lfoot{Antoine Augusti} 
+\cfoot{\thepage} 
+\rfoot{statistics.teen-quotes.com} 
+\pagestyle{fancy}
+
 % Coloration syntaxique
 \usepackage{listings}
 \lstset{ 
