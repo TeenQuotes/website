@@ -817,9 +817,9 @@ function update_stats($language)
 		$array_nb_quotes_submitted[$count_quote]++;
 
 	}
-	// Sort arrays
-	arsort($array_days_between_signup_post_quote);
-	arsort($array_nb_quotes_submitted);
+	// Sort arrays (ascending sort, by keys)
+	ksort($array_days_between_signup_post_quote);
+	ksort($array_nb_quotes_submitted);
 
 	$sum_value = 0;
 
