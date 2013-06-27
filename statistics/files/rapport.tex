@@ -318,10 +318,40 @@
 	Interprétons ceci maintenant :
 	\vspace{10px}
 	\begin{itemize}
-		\item Constant sans appel : une écrasante majorité des gens ayant soumis des citations le font pour la première fois moins de 24 heures après avoir créé leur compte sur Teen Quotes. Notre hypothèse se confirme : la création du compte est bien souvent motivée par l'envie de soumettre une citation.
+		\item Constant sans appel : une écrasante majorité des utilisateurs ayant soumis des citations le font pour la première fois moins de 24 heures après avoir créé leur compte sur Teen Quotes. Notre hypothèse se confirme : la création du compte est bien souvent motivée par l'envie de soumettre une citation.
 		\item Au delà de 5 jours d'écarts entre l'inscription et la soumission de la première quote, on retrouve très peu de comptes : à chaque fois moins de 20 comptes sont concernés.  
 	\end{itemize}
 	\vspace{10px}
 	Le détail des données est disponible sur \url{http://statistics.teen-quotes.com}. Il est intéressant de regarder les valeurs précises car il est difficile de se rendre compte de l'importance des cas hors épure sur le graphique présenté ci-dessus.
+
+	% ------------------------------------------- %
+	% -- Petits floodeurs ou gros floodeurs ? --- %
+	\section{Petits floodeurs ou gros floodeurs ?}
+	On rappelle la définition d'un \textit{floodeur} d'après Wikipédia.
+	\begin{quote}
+		\textit{Flood} est un anglicisme désignant une inondation, illustrant ainsi le flux de données ininterrompu et excessif transitant sur le réseau, provoquant alors des dégâts. Il a donné un verbe, \textit{flooder}, et la personne qui \textit{floode} est un \textit{floodeur}.
+	\end{quote}
+
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=450px]{images/citationsSoumisesParUtilisateur.png}
+		\caption{Nombre de citations soumises par les utilisateurs ayant soumis au moins une citation.}
+	\end{figure}
+	Le processus pour obtenir les données nécessaires à l'obtention de ce graphique est très similaire au processus précédent.
+	\vspace{10px}
+	\begin{enumerate}
+		\item On détermine tous les comptes ayant soumis au moins une quote. Pour chaque compte trouvé, on enregistre sa date d'inscription à Teen Quotes.
+		\item Pour chaque compte trouvé précédemment, on compte le nombre de citations soumises.
+		\item On enregistre dans une grande matrice le nombre de citations soumises et le nombre de comptes ayant ce nombre de citations.
+	\end{enumerate}
+	\vspace{10px}
+	J'ai choisi de ne pas éliminer les points aberrants ici pour se rendre compte de la différence énorme entre l'épure des données et les points limites. Une fois de plus, le détail des données est disponible sur \url{http://statistics.teen-quotes.com}. Il est intéressant de regarder les valeurs précises car il est difficile de se rendre compte de l'importance des cas hors épure sur le graphique présenté ci-dessus.
+	Interprétons ceci maintenant :
+	\vspace{10px}
+	\begin{itemize}
+		\item Une écrasante majorité des gens ayant soumis des citations en soumettent moins de 5.
+		\item Au delà de 10 citations soumises, on retrouve très peu de comptes : à chaque fois moins de 20 comptes sont concernés. La valeur maxime (493 citations soumises !) est attribuée à mon compte. Ceci s'explique par le fait que j'ai beaucoup contribué à remplir la base de données au lancement du site pour avoir un premier contenu sur Teen Quotes. 
+	\end{itemize}
+	\vspace{10px}
 % Fin du document
 \end{document}

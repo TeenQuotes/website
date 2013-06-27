@@ -871,7 +871,7 @@ function update_stats($language)
           foreach($array_nb_quotes_submitted as $key => $value)
 		  {
 			// Do not count strange data
-			if ($value >= 5)
+			if ($value >= 1)
 			{
 				$graph_stats_js .= '[\''.$key.'\', '.$value.'],';
 				$sum_value += $value;
