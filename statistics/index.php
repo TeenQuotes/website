@@ -146,6 +146,7 @@ else
 			<div id="graph_comments_time" class="chartObject"></div>
 			<div id="graph_comments_time_exp" class="chartObject"></div>
 			<div id="comments_length" class="chartObject"></div>
+			<div id="comments_length_table" class="chartObject table"></div>
 		</div><!-- END LES COMMENTAIRES -->
 
 		<div class="chart">
