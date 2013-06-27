@@ -821,6 +821,8 @@ function update_stats($language)
 	arsort($array_days_between_signup_post_quote);
 	arsort($array_nb_quotes_submitted);
 
+	$sum_value = 0;
+
 	$graph_stats_js .= "
     function days_between_signup_post_quote()
     {
@@ -828,7 +830,12 @@ function update_stats($language)
           ['".$days_between_signup_post_quote."', '".$nb_users_txt."'],";
           foreach($array_days_between_signup_post_quote as $key => $value)
 		  {
-			$graph_stats_js .= '[\''.$key.'\', '.$value.'],';
+			// Do not count strange data
+			if ($value >= 5)
+			{
+				$graph_stats_js .= '[\''.$key.'\', '.$value.'],';
+				$sum_value += $value;
+			}
 		  }
 	$graph_stats_js .= "
         ]);
@@ -842,13 +849,19 @@ function update_stats($language)
 		{
 			groupingSymbol: ' ',
 			fractionDigits: 0,
-			suffix: ' ".$users_txt."'
+			suffix: ' / ".number_space($sum_value)." ".$users_txt."'
 		});
 		formatter.format(data, 1);
 
-        var chart = new google.visualization.PieChart(document.getElementById('days_between_signup_post_quote'));
+        var chart = new google.visualization.ColumnChart(document.getElementById('days_between_signup_post_quote'));
         chart.draw(data, options);
+
+        var table = new google.visualization.Table(document.getElementById('days_between_signup_post_quote_table'));
+        table.draw(data, options);
     }";
+
+    // Reset
+    $sum_value = 0;
 
     $graph_stats_js .= "
     function nb_quotes_submitted_user()
@@ -857,7 +870,12 @@ function update_stats($language)
           ['".$nb_quotes_submitted_user."', '".$nb_users_txt."'],";
           foreach($array_nb_quotes_submitted as $key => $value)
 		  {
-			$graph_stats_js .= '[\''.$key.'\', '.$value.'],';
+			// Do not count strange data
+			if ($value >= 5)
+			{
+				$graph_stats_js .= '[\''.$key.'\', '.$value.'],';
+				$sum_value += $value;
+			}
 		  }
 	$graph_stats_js .= "
         ]);
@@ -871,12 +889,15 @@ function update_stats($language)
 		{
 			groupingSymbol: ' ',
 			fractionDigits: 0,
-			suffix: ' ".$users_txt."'
+			suffix: ' / ".number_space($sum_value)." ".$users_txt."'
 		});
 		formatter.format(data, 1);
 
-        var chart = new google.visualization.PieChart(document.getElementById('nb_quotes_submitted_user'));
+        var chart = new google.visualization.ColumnChart(document.getElementById('nb_quotes_submitted_user'));
         chart.draw(data, options);
+
+        var table = new google.visualization.Table(document.getElementById('nb_quotes_submitted_user_table'));
+        table.draw(data, options);
     }";
 
     $graph_stats_js .= "

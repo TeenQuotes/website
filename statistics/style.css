@@ -142,6 +142,14 @@ body
 	padding: 10px 0;
 	height: 450px;
 }
+.table
+{
+	overflow-y: scroll;
+	border: 1px solid #CCC;
+	margin-bottom: 20px;
+	margin-top: -20px;
+	border-top: 0px solid #FFF;
+}
 .explanation
 {
 	margin: 0 30px 30px 30px;

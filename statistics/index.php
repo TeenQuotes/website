@@ -128,7 +128,9 @@ else
 			<div id="quotes_time" class="chartObject"></div>
 			<div id="quotes_time_percentage" class="chartObject"></div>
 			<div id="days_between_signup_post_quote" class="chartObject"></div>
+			<div id="days_between_signup_post_quote_table" class="chartObject table"></div>
 			<div id="nb_quotes_submitted_user" class="chartObject"></div>
+			<div id="nb_quotes_submitted_user_table" class="chartObject table"></div>
 		</div><!-- END LES QUOTES -->
 		
 		<div class="chart">

@@ -1,6 +1,6 @@
 google.load('visualization', '1',
 {
-	'packages': ['geochart', 'corechart'],
+	'packages': ['geochart', 'corechart', 'table'],
 	'language': 'fr_FR'
 });
 
