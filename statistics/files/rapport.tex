@@ -27,7 +27,7 @@
 \lhead{} 
 \chead{} 
 \rhead{} 
-\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.1pt}
 \lfoot{Antoine Augusti} 
 \cfoot{\thepage} 
 \rfoot{statistics.teen-quotes.com} 
@@ -299,5 +299,29 @@
 	% -- Vous allez vite en besogne --- %
 	\section{Vous allez vite en besogne}
 	Un jour, j'ai eu une super idée : j'ai voulu savoir combien de temps après leur inscription les utilisateurs qui ont soumis des quotes ont soumis leur première quote. Il faut savoir que 40 \% des utilisateurs possédant un compte sur Teen Quotes ont déjà soumis au moins une quote. Il semblerait donc qu'une motivation importante pour créer un compte soit celle de pouvoir soumettre une quote. Vérifions ceci !
+
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=450px]{images/inscriptionSoumissionQuote.png}
+		\caption{Nombre de jours entre l'inscription et la première soumission d'une citation.}
+	\end{figure}
+	Pour obtenir les données nécessaires à la construction de ce graphique, voici l'idée suivie par l'algorithme :
+	\vspace{10px}
+	\begin{enumerate}
+		\item On détermine tous les comptes ayant soumis au moins une quote. Pour chaque compte trouvé, on enregistre sa date d'inscription à Teen Quotes.
+		\item Pour chaque compte trouvé précédemment, on détermine la première citation soumise.
+		\item On calcule le nombre de jours entre la soumission de la première quote et la date de création du compte.
+		\item On enregistre dans une grande matrice le nombre de jours entre l'inscription et la première soumission de quote et le nombre de comptes ayant ce nombre de jours.
+		\item On élimine les lignes où il y a moins de 5 comptes qui ont soumis des citations au bout d'un nombre X de jours (que l'on note comme points aberrants).
+	\end{enumerate}
+	\vspace{10px}
+	Interprétons ceci maintenant :
+	\vspace{10px}
+	\begin{itemize}
+		\item Constant sans appel : une écrasante majorité des gens ayant soumis des citations le font pour la première fois moins de 24 heures après avoir créé leur compte sur Teen Quotes. Notre hypothèse se confirme : la création du compte est bien souvent motivée par l'envie de soumettre une citation.
+		\item Au delà de 5 jours d'écarts entre l'inscription et la soumission de la première quote, on retrouve très peu de comptes : à chaque fois moins de 20 comptes sont concernés.  
+	\end{itemize}
+	\vspace{10px}
+	Le détail des données est disponible sur \url{http://statistics.teen-quotes.com}. Il est intéressant de regarder les valeurs précises car il est difficile de se rendre compte de l'importance des cas hors épure sur le graphique présenté ci-dessus.
 % Fin du document
 \end{document}
