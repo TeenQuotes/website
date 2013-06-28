@@ -227,6 +227,13 @@ function update_stats($language)
 		$nb_newsletter[$data['type']] = $data['tot'];
 		$nb_newsletter['tot'] += $nb_newsletter[$data['type']];
 	}
+
+	$query_hide_profile = mysql_query("SELECT COUNT( id ) nb, hide_profile FROM teen_quotes_account GROUP BY hide_profile");
+	$hide_profile_array = array();
+	while ($data = mysql_fetch_array($query_hide_profile))
+	{
+		$hide_profile_array[$data['hide_profile']] = $data['nb'];
+	}
 	
 
 	$query_location_signup = mysql_query("SELECT COUNT(*) as tot, location_signup FROM teen_quotes_account GROUP BY location_signup ORDER BY tot DESC");
@@ -266,7 +273,7 @@ function update_stats($language)
 	{
 		var data = new google.visualization.DataTable();
 		data.addColumn('string', 'Profile');
-		data.addColumn('number', 'Status');
+		data.addColumn('number', 'Number');
 		data.addRows(2);
 		data.setValue(0, 0, '".$avatar_not_fullfilled."');
 		data.setValue(0, 1, ".$nb_empty_avatar.");
@@ -275,6 +282,32 @@ function update_stats($language)
 
 		new google.visualization.PieChart(document.getElementById('graph_empty_profile')).
 		draw(data, {title:'".$total_nb_members." : ".number_space($total_members)."'});
+	}
+
+	function graph_hide_profile()
+	{
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'Profile');
+		data.addColumn('number', 'Number');
+		data.addRows(2);
+		data.setValue(0, 0, '".$public_profile."');
+		data.setValue(0, 1, ".$hide_profile_array[0].");
+		data.setValue(1, 0, '".$private_profile."');
+		data.setValue(1, 1, ".$hide_profile_array[1].");
+
+		var options = {
+			title: '".$privacy_and_users."'
+		};
+
+		var formatter = new google.visualization.NumberFormat(
+		{
+			groupingSymbol: ' ',
+			fractionDigits: 0
+		});
+		formatter.format(data, 1);
+
+		new google.visualization.PieChart(document.getElementById('graph_hide_profile')).
+		draw(data, options);
 	}
 
 	function graph_newsletter() 
@@ -914,6 +947,7 @@ function update_stats($language)
     google.setOnLoadCallback(comments_over_time_exp);
 	google.setOnLoadCallback(graph_quotes);
 	google.setOnLoadCallback(graph_empty_profile); 
+	google.setOnLoadCallback(graph_hide_profile); 
 	google.setOnLoadCallback(graph_newsletter); 
 	google.setOnLoadCallback(members_favorite_quote); 
 	google.setOnLoadCallback(top_user_favorite_quote);

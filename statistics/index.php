@@ -131,6 +131,8 @@ else
 			<div id="days_between_signup_post_quote_table" class="chartObject table"></div>
 			<div id="nb_quotes_submitted_user" class="chartObject"></div>
 			<div id="nb_quotes_submitted_user_table" class="chartObject table"></div>
+			<div id="members_favorite_quote" class="chartObject"></div>
+			<div id="top_user_favorite_quote" class="chartObject"></div>
 		</div><!-- END LES QUOTES -->
 		
 		<div class="chart">
@@ -140,6 +142,7 @@ else
 			<div id="users_ages" class="chartObject"></div>
 			<div id="users_ages_table" class="chartObject table"></div>
 			<div id="graph_empty_profile" class="chartObject"></div>
+			<div id="graph_hide_profile" class="chartObject"></div>
 		</div><!-- END LES COMPTES -->
 
 		<div class="chart">

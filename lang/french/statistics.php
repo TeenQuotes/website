@@ -76,3 +76,6 @@ $sex_data_provenance                     = "Les données proviennent des informa
 $visits_provenance                       = "Les données proviennent des visites sur le site web ou le site mobile depuis la création. Les visites depuis l'application iPhone / iTouch ne sont pas incluses.";
 $os_txt                                  = "Système d\'exploitation";
 $os_mobile_txt                           = "Visites en fonction des systèmes d\'exploitation des mobiles";
+$public_profile                          = "Profil public";
+$private_profile                         = "Profil privé";
+$privacy_and_users                       = "Vie privée à propos des utilisateurs";
