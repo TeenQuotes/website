@@ -33,6 +33,11 @@
 \rfoot{\href{http://statistics.teen-quotes.com}{statistics.teen-quotes.com}} 
 \pagestyle{fancy}
 
+% Pour forcer l'affichage des en-têtes et pieds de page sur les premières pages des chapitres
+\makeatletter
+\let\ps@plain\ps@fancy
+\makeatother
+
 % Pour barrer du texte
 \newlength{\textlarg}
 \newcommand{\barre}[1]{%
@@ -533,6 +538,55 @@
 		
 	Encore une fois, le détail des données est disponible sur \url{http://statistics.teen-quotes.com}. Il est intéressant de regarder le tableau des différentes valeurs obtenu, tant l'ensemble des valeurs est grand.
 	
+	% /////////////////////////////////////////// %
+	% /// Technologies utilisées //////////////// %
+	\chapter{Technologies utilisées}
+	Un bon projet ne se fait pas sans bonne technologie, avec des langages de programmation puissants et des outils performants.\\
+
+	Voici la liste des langages de programmation utilisés :
+	\vspace{10px}
+	\begin{itemize}
+		\item \texttt{PHP} : logique métier.
+		\item \texttt{SQL} : accès aux données dans les bases de données.
+		\item \texttt{HTML} : interface homme-machine, structure hiérarchique du .contenu.
+		\item \texttt{CSS} : mise en forme / design des contenus web.
+		\item \texttt{JavaScript} : amélioration de l'expérience utilisateur.
+		\item \LaTeX\ : rédaction du présent rapport.
+	\end{itemize}
+	\vspace{10px}
+
+	Logiciels, bibliothèques et API\footnote{En informatique une interface de programmation (API pour \textit{Application Programming Interface}) est un ensemble normalisé de classes, des méthodes ou des fonctions qui sert de façade par laquelle un logiciel offre des services à d'autres logiciels. Elle est offerte par une bibliothèque logicielle ou un service web, le plus souvent accompagnée d'une description qui spécifie comment des programmes consommateurs peuvent se servir des fonctionnalités du programme fournisseur.}s utilisés :
+	\vspace{10px}
+	\begin{itemize}
+		\item \texttt{Facebook API} : intégration d'outils de partage pour le réseau social.
+		\item \texttt{Twitter API} : intégration d'outils de partage pour le réseau social.
+		\item \texttt{CloudFlare} : CDN\footnote{Un \textit{Content Delivery Network} (CDN) est constitué d’ordinateurs reliés en réseau à travers Internet et qui coopèrent afin de mettre à disposition du contenu ou des données (généralement du contenu multimédia volumineux) à des utilisateurs.}, mise en cache des contenus, serveurs DNS.
+		\item \texttt{MySQL} : système de gestion de bases de données.
+		\item \texttt{Apache} : serveur HTTP utilisé pour le contenu non statique.
+		\item \texttt{Nginx} : serveur web et proxy inverse utilisé sur le CDN.
+		\item \texttt{Git} : gestionnaire de versions.
+		\item \texttt{jQuery} :  bibliothèque JavaScript libre qui porte sur l'interaction entre JavaScript (comprenant Ajax) et HTML, et a pour but de simplifier des commandes communes de JavaScript.
+		\item \texttt{Google Analytics} : outil d'analyse d'audience pour contenus web.
+		\item \texttt{Flurry} : outil d'analyse d'audience pour applications iOS.
+		\item \texttt{Google Chart API} : création de graphiques à partir de données calculées. Les graphiques sont calculées dans le navigateur de l'utilisateur final.
+		\item \texttt{animate.css} : bibliothèque CSS pour les animations proposées sur Teen Quotes.
+		\item \texttt{uniform.css} : bibliothèque CSS / JavaScript pour avoir des formulaires uniformisés sur Teen Quotes.
+		\item \texttt{timeago.js} : plugin jQuery pour la gestion des dates relatives.
+	\end{itemize}
+	
+	% /////////////////////////////// %
+	% /// Ressources //////////////// %
+	\chapter{Ressources}
+	Teen Quotes est un projet open-source, c'est-à-dire que le code source de Teen Quotes est consultable et redistribuable sous les mêmes conditions de cette licence. Le code source de l'application iOS n'est pas placé sous cette licence et n'est pas consultable.\\
+
+	\begin{itemize}
+		\item Répertoire GitHub de Teen Quotes : \url{https://github.com/AntoineAug/Teen-Quotes/}
+		\item Liste des changements effectués sur Teen Quotes : \url{https://github.com/AntoineAug/Teen-Quotes/commits/master}
+		\item Fichiers spécifiques à la réalisation de ce rapport : \url{https://github.com/AntoineAug/Teen-Quotes/tree/master/statistics}
+		\item Calcul des statistiques à intervalle de temps régulier : voir les fichiers \texttt{kernel/fonctions.php} entre les lignes 184 et 934 (fonction \texttt{update\_stats}) et \texttt{cron.php}.
+	\end{itemize}
+
+	\paragraph{Remarque :} plus de 4 000 lignes de code ont été nécessaires pour réaliser les graphiques présentés dans ce rapport et le partie web dédiée à l'affichage des statistiques. 
 
 % Fin du document
 \end{document}
