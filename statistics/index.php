@@ -138,6 +138,7 @@ else
 			<div id="members_time" class="chartObject"></div>
 			<div id="members_time_exp" class="chartObject"></div>
 			<div id="users_ages" class="chartObject"></div>
+			<div id="users_ages_table" class="chartObject table"></div>
 			<div id="graph_empty_profile" class="chartObject"></div>
 		</div><!-- END LES COMPTES -->
 

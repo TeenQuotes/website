@@ -268,9 +268,9 @@ function update_stats($language)
 		data.addColumn('string', 'Profile');
 		data.addColumn('number', 'Status');
 		data.addRows(2);
-		data.setValue(0, 0, '".$profile_not_fullfilled."');
+		data.setValue(0, 0, '".$avatar_not_fullfilled."');
 		data.setValue(0, 1, ".$nb_empty_avatar.");
-		data.setValue(1, 0, '".$profile_fullfilled."');
+		data.setValue(1, 0, '".$avatar_fullfilled."');
 		data.setValue(1, 1, ".$nb_members_empty_profile.");
 
 		new google.visualization.PieChart(document.getElementById('graph_empty_profile')).
@@ -694,6 +694,8 @@ function update_stats($language)
 		if ($ageValue >= 5 AND $ageValue <= 80)
 			$age[$ageValue]++;
 	}
+	// Sort arrays (ascending sort, by keys)
+	ksort($age);
 
     $graph_stats_js .= "
     function users_ages()
@@ -715,12 +717,16 @@ function update_stats($language)
         var formatter = new google.visualization.NumberFormat(
 		{
 			groupingSymbol: ' ',
-			fractionDigits: 0
+			fractionDigits: 0,
+			suffix: ' / ".array_sum($age)." ".$users_txt."'
 		});
 		formatter.format(data, 1);
 
         var chart = new google.visualization.ColumnChart(document.getElementById('users_ages'));
         chart.draw(data, options);
+
+        var table = new google.visualization.Table(document.getElementById('users_ages_table'));
+        table.draw(data, options);
     }";
 
     // Fetching comments length
@@ -760,7 +766,7 @@ function update_stats($language)
         var chart = new google.visualization.ColumnChart(document.getElementById('comments_length'));
         chart.draw(data, options);
 
-        var table = new google.visualization.Table(document.getElementById('comments_length_table'));
+        var table = new google.visualization.Table(document.getElementById('comments_length'));
         table.draw(data, options);
     }";
 
