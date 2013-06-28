@@ -766,7 +766,7 @@ function update_stats($language)
         var chart = new google.visualization.ColumnChart(document.getElementById('comments_length'));
         chart.draw(data, options);
 
-        var table = new google.visualization.Table(document.getElementById('comments_length'));
+        var table = new google.visualization.Table(document.getElementById('comments_length_table'));
         table.draw(data, options);
     }";
 
