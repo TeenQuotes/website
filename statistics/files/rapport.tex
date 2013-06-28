@@ -33,6 +33,12 @@
 \rfoot{\href{http://statistics.teen-quotes.com}{statistics.teen-quotes.com}} 
 \pagestyle{fancy}
 
+% Pour barrer du texte
+\newlength{\textlarg}
+\newcommand{\barre}[1]{%
+   \settowidth{\textlarg}{#1}
+   #1\hspace{-\textlarg}\rule[0.5ex]{\textlarg}{0.5pt}}
+
 % Coloration syntaxique
 \usepackage{listings}
 \lstset{ 
@@ -129,7 +135,7 @@
 	% ---------------------------------------------------- %
 	% -- Des données oui, mais des données à jour -------- %
 	\section{Des données oui, mais des données à jour}
-	Teen Quotes enregistre plus de \textbf{4 000 visites par jour}. Les bases de données de Teen Quotes enregistrent environ \textbf{30 000 requêtes par heure}. Avec un tel volume de données, difficile de se contenter d'une étude statistique figée, obslète une semaine plus tard car les données ne sont plus du tout les mêmes. Teen Quotes est vivant, évolue en permanence : l'étude statistique de Teen Quotes doit s'adapter en conséquence.\\
+	Teen Quotes enregistre plus de \textbf{4 000 visites par jour}. Les bases de données de Teen Quotes enregistrent environ \textbf{30 000 requêtes par heure}. Avec un tel volume de données, difficile de se contenter d'une étude statistique figée, obsolète une semaine plus tard car les données ne sont plus du tout les mêmes. Teen Quotes est vivant, évolue en permanence : l'étude statistique de Teen Quotes doit s'adapter en conséquence.\\
 
 	En réponse à ce défi, j'ai décidé d'orienter mon projet de M8 vers une étude statistique évolutive, qui se renouvelle en permanence et qui a pour ambition de donner des informations correctes et précises en quasi temps réel. Pour répondre à ce besoin, quoi de mieux que de proposer une étude en ligne ? Facile à consulter : il suffit d'un navigateur web.
 
@@ -353,5 +359,45 @@
 		\item Au delà de 10 citations soumises, on retrouve très peu de comptes : à chaque fois moins de 20 comptes sont concernés. La valeur maximale (493 citations soumises !) est attribuée à mon compte. Ceci s'explique par le fait que j'ai beaucoup contribué à remplir la base de données au lancement du site pour avoir un premier contenu sur Teen Quotes. 
 	\end{itemize}
 	\vspace{10px}
+
+	% /////////////////////////////////////////// %
+	% /// Les utilisateurs sont nos amis //////// %
+	\chapter{Les utilisateurs sont nos amis}
+	Intéressons-nous maintenant au coeur de ce qui compose Teen Quotes : \barre{du code !} les comptes \mbox{d'utilisateurs}. 
+
+	% --------------------------------------- %
+	% -- Plus on est de fous, plus on rit --- %
+	\section{Plus on est de fous, plus on rit}
+	Dans un premier temps observons l'évolution du nombre de comptes créés sur Teen Quotes au cours du temps. Pour faire ceci, l'algorithme suivi est le suivant :
+	\vspace{10px}
+	\begin{enumerate}
+		\item On définit une variable correspond au 1er jour du mois de la création de Teen Quotes.
+		\item On incrémente cette variable symbolisant le temps d'un mois, et on compte dans la table des comptes de Teen Quotes combien de comptes ont été créés avec une date d'inscription inférieure à celle-ci.
+		\item On répète le processus jusqu'au premier du mois courant en enregistrant dans une matrice à chaque étape la date à laquelle on s'intéresse et le nombre de comptes s'étant inscrits avant cette date. 
+	\end{enumerate}
+	\vspace{10px}
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=450px]{images/membresTemps.png}
+		\caption{Création de comptes utilisateurs en fonction du temps.}
+	\end{figure}
+	Sur ce graphique on a représenté la période de développement entre novembre 2010 et mai 2011. Sans surprise le nombre d'inscriptions pour cette période est quasiment nul et correspond à quelques "privilégiés" qui ont eu accès à Teen Quotes avant le lancement en mai 2011.
+
+	De mai 2011 à novembre 2012 on observe une croissance quasi linéaire pour la création de comptes.
+
+	De novembre 2012 jusqu'à juin 2013 on observe une croissance se rapprochant d'une exponentielle, ralentie vers les derniers mois. Cette croissance fulgurante coïncide à la sortie de l'application iPhone / iTouch.\\
+
+	Tentons d'appliquer une régression pour se rapprocher de cette courbe. De toute évidence, il est inutile de tenter de modéliser la totalité de la courbe par modèle linéaire. Tentons une régression exponentielle de la forme $e^{ax + b}$.
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=450px]{images/membresRegression.png}
+		\caption{Création de comptes utilisateurs en fonction du temps.}
+	\end{figure}
+	Comme on ne peut pas faire une régression avec comme abscisse des dates au format (MM/AA), on va transformer l'abscisse en indiquant le nombre de mois depuis la création de Teen Quotes.\\
+	La meilleure régression exponentielle est donnée par :
+	\[y = e^{0,249x + 2,093}\]
+	Soit des coefficients :
+	\[\widehat{a} = 0,249\]
+	\[\widehat{b} = 2,093\]
 % Fin du document
 \end{document}
