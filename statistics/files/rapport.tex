@@ -42,9 +42,10 @@
 % Coloration syntaxique
 \usepackage{listings}
 \lstset{ 
-	language=PHP,
-	numbers=left,
-	showstringspaces=false, 
+	language=SQL,
+	numbers=none,
+	showstringspaces=false,
+	keywordstyle=\color{blue},
 	tabsize=4,
 	breaklines=true,
 	extendedchars=true,
@@ -376,6 +377,13 @@
 		\item On répète le processus jusqu'au premier du mois courant en enregistrant dans une matrice à chaque étape la date à laquelle on s'intéresse et le nombre de comptes s'étant inscrits avant cette date. 
 	\end{enumerate}
 	\vspace{10px}
+	La requête SQL\footnote{SQL (sigle de \textit{Structured Query Language}, en français langage de requête structurée) est un langage informatique normalisé servant à effectuer des opérations sur des bases de données relationnelles. La partie langage de manipulation de données de SQL permet de rechercher, d'ajouter, de modifier ou de supprimer des données dans les bases de données relationnelles.} qu'il faut exécuter à chaque tour de boucle est la suivante :
+	\begin{lstlisting}
+		SELECT COUNT(id) AS nb_members 
+		FROM teen_quotes_account 
+		WHERE UNIX_TIMESTAMP(joindate) <= '$timestamp_calcule'
+	\end{lstlisting}
+	où la variable \texttt{\$timestamp\_calcule} est la date calculée au format timestamp\footnote{La valeur représentant la date et l'heure est appelée timestamp (de l'anglais \textit{time}, « heure » et \textit{stamp}, marquage par un timbre ou un tampon) ou tout simplement « horodatage ». Il peut s'agir d'une séquence de caractères (groupe date-heure) représentant la date et l'heure sous une forme intelligible. En informatique, ce type de format est souvent utilisé dans les journaux d'événements. Un timestamp peut aussi désigner un compteur numérique représentant une quantité de temps écoulée depuis un instant de référence, comme dans le système de l'heure Unix. Le timestamp se distingue alors de la date et de l'heure entendues comme un ensemble de valeurs année/mois/jour et heure/minute/seconde, la conversion pouvant se faire de l'un à l'autre.} UNIX.
 	\begin{figure}[H]
 		\center
 		\includegraphics[width=450px]{images/membresTemps.png}
@@ -491,6 +499,39 @@
 	Soit les coefficients suivants :
 	\[\widehat{a} = 0,158\]
 	\[\widehat{b} = 1,885\]
+
+	% ----------------------------------------------------------- %
+	% -- Un petit mot vaut mieux qu'un long discours ------------ %
+	\section{Un petit mot vaut mieux qu'un long discours}
+	Qu'est-ce qui est mieux : la briéveté d'un commentaire court ou le développement d'une idée contenue dans un commentaire plus long ? Il n'y a pas de bonne ou de mauvaise réponse, chacun se fera son propre avis. Observons comment se comportent les visiteurs de Teen Quotes dès qu'ils prennent \barre{leur plume} leur clavier pour écrire des mots.\\
+
+	Voici la requête SQL qui nous permet de récupérer une matrice contenant les différentes longueurs des commentaires et le nombre de commentaires qui font chaque longueur trouvée.
+
+	\begin{lstlisting}
+		SELECT COUNT(*) AS nb, LENGTH(texte) AS length
+		FROM teen_quotes_comments 
+		GROUP BY LENGTH(texte)
+		ORDER BY `nb` DESC
+	\end{lstlisting}
+
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=470px]{images/tailleCommentaires.png}
+		\caption{Taille des commentaires en nombre de caractères sur Teen Quotes.}
+	\end{figure}
+
+	On remarque immédiatement que les utilisateurs se sont entendus pour écrire des commentaires courts, voire très courts. Difficile d'exprimer une idée forte en moins de 20 caractères ! Notons que la taille du commentaire le plus long sur Teen Quotes est de 411 caractères, ce qui n'est pas un commentaire si long en soi.\\
+
+	Allons plus loin et tentons de savoir combien de commentaires utilisent au moins le mot \textit{true}, en reprenant le slogan de Teen Quotes : \textit{Because some quotes are simply true}. La requête SQL est la suivante :
+	\begin{lstlisting}
+		SELECT COUNT(id) 
+		FROM teen_quotes_comments
+		WHERE text LIKE '%true%'
+	\end{lstlisting}
+	On obtient 327 commentaires, soit 20 \% des commentaires à l'heure où j'écris ce rapport ! On ne peut pas dire que le niveau de langue soit très développé dans les commentaires sur Teen Quotes.\\
+		
+	Encore une fois, le détail des données est disponible sur \url{http://statistics.teen-quotes.com}. Il est intéressant de regarder le tableau des différentes valeurs obtenu, tant l'ensemble des valeurs est grand.
+	
 
 % Fin du document
 \end{document}
