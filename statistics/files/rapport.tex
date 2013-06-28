@@ -399,5 +399,29 @@
 	Soit des coefficients :
 	\[\widehat{a} = 0,249\]
 	\[\widehat{b} = 2,093\]
+
+	% --------------------------------------- %
+	% -- Déclinez votre âge je vous prie ---- %
+	\section{Déclinez votre âge je vous prie}
+	Intéressons-nous maintenant à l'âge des utilisateurs. Notre audience cible est les adolescents (c'est pour ça que l'on s'appelle \textbf{Teen} Quotes). Vérifions immédiatement si c'est bien le public visé qui visite Teen Quotes.\\
+
+	Pour obtenir les données, l'algorithme suivi est le suivant :
+	\vspace{10px}
+	\begin{enumerate}
+		\item On détermine tous les utilisateurs ayant renseigné leur date de naissance
+		\item Pour chaque utilisateur on calcule son âge à la date actuelle.
+		\item On enregistre dans une matrice l'âge et le nombre de comptes qui ont cet âge à la date actuelle.
+	\end{enumerate}
+	\vspace{10px}
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=450px]{images/ageUtilisateurs.png}
+		\caption{Âge des utilisateurs de Teen Quotes.}
+	\end{figure}
+	On remarque immédiatement que l'âge des utilisateurs de Teen Quotes suit une loi normale, centrée entre 14 et 15 ans. 84 \% des utilisateurs de Teen Quotes ont entre 12 et 18 ans. Bonne nouvelle, l'audience visée est bien celle qui visite Teen Quotes !\\
+
+	Comme d'habitude, le détail des données est disponible sur \url{http://statistics.teen-quotes.com}. Il est intéressant de regarder les valeurs précises car il est difficile de se rendre compte de l'importance des cas hors épure sur le graphique présenté ci-dessus.
+	
+	On peut tenter d'expliquer les cas lointains (plus de 50 ans) par des personnes d'un âge plus avancé qui s'identifient également aux citations publiées ou par des saisies incorrectes d'utilisateurs qui souhaitent modifier leur âge (ou qui se sont trompés).
 % Fin du document
 \end{document}
