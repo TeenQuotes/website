@@ -396,7 +396,7 @@
 	Comme on ne peut pas faire une régression avec comme abscisse des dates au format (MM/AA), on va transformer l'abscisse en indiquant le nombre de mois depuis la création de Teen Quotes.\\
 	La meilleure régression exponentielle est donnée par :
 	\[y = e^{0,249x + 2,093}\]
-	Soit des coefficients :
+	Soit les coefficients suivants :
 	\[\widehat{a} = 0,249\]
 	\[\widehat{b} = 2,093\]
 
@@ -447,5 +447,50 @@
 	Il est temps d'en venir à un autre sujet important de Teen Quotes : les commentaires. Les commentaires sont stratégiques car ils représentent une partie du degré d'interaction des utilisateurs.
 
 	Des utilisateurs qui commentent beaucoup sont des utilisateurs qui intéragissent avec Teen Quotes. L'objectif avec les commentaires est de pousser les utilisateurs à naviguer entre les quotes pour suivre les discussions, voire à revenir dans quelques heures ou quelques jours pour voir si la discussion a avancé.
+
+	% ------------------------------------------------------------ %
+	% -- Les mots s'envolent, mais les écrits restent ------------ %
+	\section{Les mots s'envolent, mais les écrits restent}
+	À la même manière que pour les comptes, intéressons-nous au nombre de commentaires qui ont été postés au cours du temps. L'algorithme suivi pour récupérer les données est le même que précédemment, sauf qu'on s'intéresse cette fois-ci aux commentaires et non aux comptes.\\
+
+	Comme précédemment, on représente les quelques mois de développement qui ont précédé le lancement de Teen Quotes.
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=450px]{images/commentairesTemps.png}
+		\caption{Commentaires postés en fonction du temps sur Teen Quotes.}
+	\end{figure}
+	Ho ! Je connais cette courbe, elle ressemble étrangement à celle que l'on a obtenu précédemment quand on représentait le nombre de comptes au cours du temps. On retrouve les mêmes tendances pour les mêmes périodes :
+	\vspace{10px}
+	\begin{itemize}
+		\item Une stagnation du nombre de commentaires durant la période de développement (novembre 2010 - mai 2011)
+		\item Une augmentation quasi linéaire du nombre de commentaires entre mai 2011 et novembre 2012.
+		\item Une croissance exponentielle du nombre de commentaires, qui semble moins ralentie que la croissance du nombre de comptes à partir de novembre 2012, lors de la sortie de l'application iPhone / iTouch.
+	\end{itemize}
+	\vspace{10px}
+	Par ailleurs, cette croissance du nombre de commentaires à partir du mois novembre 2012 coïncide avec un changement d'interface qui a été bénéfique au nombre de commentaires postés. Précédemment, lorsqu'il y avait des commentaires sur une citation, il était indiqué le nombre de commentaire avec un petite texte.\\
+
+	Nous avons choisi maintenant d'indiquer le nombre de commentaires dans une bulle bleue qui se remarque dès qu'il y avait au moins un commentaire et de garder l'affichage discret quand il n'y a pas de commentaires sur une citation. Nous avons attendu la sortie de l'application iPhone / iTouch pour mettre en production ce changement pour garder une interface unie sur la version classique, la version optimisée pour les mobiles et l'application iOS (les mises à jour d'une application étant beaucoup moins faciles à réaliser que sur les autres plateformes).
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=470px]{images/quoteCommentaires.png}
+		\caption{Une quote avec 3 commentaires sur la version classique.}
+	\end{figure}
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=470px]{images/quoteSansCommentaires.png}
+		\caption{Une quote sans commentaires sur la version classique.}
+	\end{figure}
+	Tentons de réaliser une régression exponentielle sur la courbe obtenue.
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=450px]{images/commentairesRegression.png}
+		\caption{Commentaires postés en fonction du temps sur Teen Quotes.}
+	\end{figure}
+	La meilleure régression exponentielle ($e^{ax + b}$) est donnée par :
+	\[y = e^{0,158x + 1,885}\]
+	Soit les coefficients suivants :
+	\[\widehat{a} = 0,158\]
+	\[\widehat{b} = 1,885\]
+
 % Fin du document
 \end{document}
