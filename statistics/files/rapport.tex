@@ -104,7 +104,6 @@
 	Antoine \textsc{Augusti}, 
 }
 \date{Juin 2013}
-
 \begin{document}
 
 	% Génération de la page de garde
@@ -552,7 +551,35 @@
 	On obtient 327 commentaires, soit 20 \% des commentaires à l'heure où j'écris ce rapport ! On ne peut pas dire que le niveau de langue soit très développé dans les commentaires sur Teen Quotes.\\
 		
 	Encore une fois, le détail des données est disponible sur \url{http://statistics.teen-quotes.com}. Il est intéressant de regarder le tableau des différentes valeurs obtenues, tant l'ensemble des valeurs est grand.
-	
+
+	% /////////////////////////////////////////// %
+	% /// Créer un compte : mode d'emploi /////// %
+	\chapter{Créer un compte : mode d'emploi}
+	Nous avons vu précédemment que, de temps en temps, des visiteurs créaient des comptes sur Teen Quotes. Mais comment en sont-ils arrivés jusqu'à là ? OK, nous n'allons pas nous plaindre, mais il serait bien d'en savoir un petit peu plus sur le processus qui a amené un visiteur à franchir le pas de la création d'un compte.
+
+	% ----------------------------------------------------- %
+	% -- Encore une histoire de lieu d'inscription -------- %
+	\section{Encore une histoire de lieu d'inscription}
+	La première question que l'on se pose naturellement est le lieu d'inscription de l'utilisateur. Combien de visiteurs créent un compte depuis l'application iOS ? Depuis le site classique ? Depuis le site web mobile ?\\
+
+	Il est facile de connaître la réponse à cette question : il suffit d'enregistrer dans une colonne d'où a été effectuée la requête quand on insère une nouvelle ligne dans la table des comptes lors d'une inscription. La requête SQL pour récupérer les données est la suivante :
+	\begin{lstlisting}
+		SELECT COUNT(*) AS tot, location_signup
+		FROM teen_quotes_account 
+		GROUP BY location_signup 
+		ORDER BY tot DESC
+	\end{lstlisting}
+	Représentons ceci sur un diagramme circulaire :
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=300px]{images/lieuInscription.png}
+		\caption{Lieux d'inscription des utilisateurs à Teen Quotes.}
+	\end{figure}
+	Les résultats sont étonnants : alors que l'application iOS est sortie en novembre 2012, \textbf{plus de 66 \% du total des comptes ont été créés depuis celle-ci}.\\
+
+	L'application, développée initialement pour répondre aux usages des visiteurs de Teen Quotes (une grande partie d'entre eux utilisant un mobile sous iOS) a eu un autre effet : nous avons réussi à capter d'autres visiteurs, qui n'étaient pas réceptifs aux médias où nous étions disponibles auparavant (web et web mobile). Ce public, utilisateur d'applications, est plus intéressé par une application native sous iOS que par un accès à une version mobile ou depuis un ordinateur.\\
+
+	Ceci confirme bien que notre objectif est important : nous n'arriverons pas à faire converger toutes les personnes intéressées par le concept de Teen Quotes vers un seul média. Il est donc nécessaire de proposer plusieurs moyens de suivre et de participer à Teen Quotes (réseaux sociaux, site web, web mobile, applications) pour pouvoir agrandir notre base d'utilisateurs.
 	% /////////////////////////////////////////// %
 	% /// Technologies utilisées //////////////// %
 	\chapter{Technologies utilisées}
@@ -598,6 +625,7 @@
 		\item Répertoire GitHub de Teen Quotes : \url{https://github.com/AntoineAug/Teen-Quotes/}
 		\item Liste des changements effectués sur Teen Quotes : \url{https://github.com/AntoineAug/Teen-Quotes/commits/master}
 		\item Fichiers spécifiques à la réalisation de ce rapport : \url{https://github.com/AntoineAug/Teen-Quotes/tree/master/statistics}
+		\item Disponibilité de Teen Quotes : \url{http://uptime.teen-quotes.com/}
 		\item Calcul des statistiques à intervalle de temps régulier : voir les fichiers \texttt{kernel/fonctions.php} entre les lignes 184 et 968 (fonction \texttt{update\_stats}) et \texttt{cron.php}.
 	\end{itemize}
 
@@ -605,7 +633,7 @@
 
 	\begin{figure}[H]
 		\center
-		\includegraphics[width=270px]{images/promoApp.png}
+		\includegraphics[width=250px]{images/promoApp.png}
 		\caption{Image de promotion utilisée lors de la sortie de l'application iOS de Teen Quotes.}
 	\end{figure}
 
