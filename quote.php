@@ -31,10 +31,10 @@ else
 											WHERE q.auteur_id = a.id AND q.id = '$id_quote'"));
 }
 
-	$txt_quote  = $result['texte_english'];
-	$auteur_id  = $result['auteur_id'];
-	$auteur     = $result['auteur']; 
-	$date_quote = $result['date'];
+	$txt_quote           = $result['texte_english'];
+	$auteur_id           = $result['auteur_id'];
+	$auteur              = $result['auteur']; 
+	$date_quote          = $result['date'];
 	$nombre_commentaires = $result['nb_comments'];
 	if ($logged)
 		$is_favorite = $result['is_favorite'];
@@ -49,28 +49,28 @@ else
 	</div>
 	
 	<?php
-	if ($show_pub == '1')
+	if ($show_pub)
 	{
 		echo '
 		<div class="pub">
-		<script type="text/javascript"><!--
-		google_ad_client = "ca-pub-8130906994953193";
-		/* Page quote */
-		google_ad_slot = "8219438641";
-		google_ad_width = 468;
-		google_ad_height = 60;
-		//-->
-		</script>
-		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-		<script type="text/javascript"><!--
-		google_ad_client = "ca-pub-8130906994953193";
-		/* Page quote 2 */
-		google_ad_slot = "4669557053";
-		google_ad_width = 234;
-		google_ad_height = 60;
-		//-->
-		</script>
-		<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+			<script type="text/javascript"><!--
+			google_ad_client = "ca-pub-8130906994953193";
+			/* Page quote */
+			google_ad_slot = "8219438641";
+			google_ad_width = 468;
+			google_ad_height = 60;
+			//-->
+			</script>
+			<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+			<script type="text/javascript"><!--
+			google_ad_client = "ca-pub-8130906994953193";
+			/* Page quote 2 */
+			google_ad_slot = "4669557053";
+			google_ad_width = 234;
+			google_ad_height = 60;
+			//-->
+			</script>
+			<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 		</div>';
 	}
 	$comments_ucfirst = ucfirst($comments);

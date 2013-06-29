@@ -6,7 +6,7 @@
 		<div class="clear"></div>
 		
 		<?php 
-		if ($show_pub == '1')
+		if ($show_pub)
 		{
 			echo '
 			<div class="pub_footer">

@@ -41,28 +41,28 @@ else
 		</div>
 		';
 		
-		if ($show_pub == '1')
+		if ($show_pub)
 		{
 			echo '
 			<div class="pub">
-			<script type="text/javascript"><!--
-			google_ad_client = "ca-pub-8130906994953193";
-			/* Page quote */
-			google_ad_slot = "8219438641";
-			google_ad_width = 468;
-			google_ad_height = 60;
-			//-->
-			</script>
-			<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-			<script type="text/javascript"><!--
-			google_ad_client = "ca-pub-8130906994953193";
-			/* Page quote 2 */
-			google_ad_slot = "4669557053";
-			google_ad_width = 234;
-			google_ad_height = 60;
-			//-->
-			</script>
-			<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+				<script type="text/javascript"><!--
+				google_ad_client = "ca-pub-8130906994953193";
+				/* Page quote */
+				google_ad_slot = "8219438641";
+				google_ad_width = 468;
+				google_ad_height = 60;
+				//-->
+				</script>
+				<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+				<script type="text/javascript"><!--
+				google_ad_client = "ca-pub-8130906994953193";
+				/* Page quote 2 */
+				google_ad_slot = "4669557053";
+				google_ad_width = 234;
+				google_ad_height = 60;
+				//-->
+				</script>
+				<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 			</div>
 			';
 		}
@@ -93,9 +93,7 @@ else
 			$age = '('.$age.' '.$years_old.')';
 		}
 		else
-		{
 			$age = '';
-		}
 		
 		echo '<div class="post">
 		<div class="grey_post margin_profile_user">';
@@ -112,10 +110,8 @@ else
 			<img src="http://'.$domain.'/images/avatar/'.$result['avatar'].'" class="user_avatar" />
 			<h2>'.$result['username'].'<span class="right">'. $user_informations.'
 			';
-			if ($id == $_SESSION['id']) 
-			{
+			if ($id == $_SESSION['id'])
 			    echo ' - <a class="submit" href="editprofile">'.$edit.'</a>';
-			}
 			echo '</span></h2>';
 			echo '
 			<div class="cadre_infos_profil">
@@ -123,39 +119,26 @@ else
 				<span class="bleu">'.$birth_date.' :</span> '. $result['birth_date'].' '.$age.'<br/>';
 
 				if ($result['country'] != $not_specified)
-				{
 					echo '<span class="bleu">'.$country.' :</span> <a href="search?country='.$result['country'].'" class="link_grey" title="'.$search.' '.$result['country'].'">'.$result['country'].'</a><br/>';
-				}
 				else
-				{
 					echo '<span class="bleu">'.$country.' :</span> '. $result['country'].'<br/>';
-				}
 
 				if ($result['city'] != $not_specified)
-				{
 					echo '<span class="bleu">'.$city.' :</span> <a href="search?city='.$result['city'].'" class="link_grey" title="'.$search.' '.$result['city'].'">'. $result['city'].'</a><br/>';
-				}
 				else
-				{
 					echo '<span class="bleu">'.$city.' :</span> '. $result['city'].'<br/>';
-				}
 
 				echo '
 				<span class="bleu">'.$fav_quote.' :</span> '. $nb_favorite_quotes.'<br/>
 				<span class="bleu">'.$number_comments.' :</span> '. $nb_comments.'<br/>
 				<span class="bleu">'.$number_quotes.' :</span> '.$nb_quotes_approved.' '.$validees.' '.$nb_quotes_submited.' '.$soumises.'<br/>';
 				if ($nb_quotes_approved > 0)
-				{
-					echo '
-					<span class="bleu">'.$added_on_favorites.' :</span> '.$nb_quotes_added_to_favorite.'<br/>
-					';
-				}
+					echo '<span class="bleu">'.$added_on_favorites.' :</span> '.$nb_quotes_added_to_favorite.'<br/>';
 			echo '
 			</div>
 			<div class="clear"></div>
 			<h3>'.$about_user.' '.$result['username'].'</h3>
-			'.$result['about_me'].'
-			';
+			'.$result['about_me'];
 			
 		// DERNIERS VISITEURS DU PROFIL
 		$query_visiteur = mysql_query("SELECT DISTINCT V.id_visitor id_visitor, A.username username_visitor, A.avatar avatar FROM teen_quotes_visitors V, teen_quotes_account A WHERE V.id_visitor = A.id AND V.id_user='".$id."' ORDER BY V.id DESC LIMIT 0,10"); 
@@ -181,37 +164,34 @@ else
 			</div>';
 		}
 		else
-		{
 			echo '</div>';
-		}
 			
 		echo '</div>';
 		
-			if ($show_pub == '1')
+			if ($show_pub)
 			{
 				echo
 				'
 				<div class="pub">
-				<script type="text/javascript"><!--
-				google_ad_client = "ca-pub-8130906994953193";
-				/* Page quote */
-				google_ad_slot = "8219438641";
-				google_ad_width = 468;
-				google_ad_height = 60;
-				//-->
-				</script>
-				<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-				<script type="text/javascript"><!--
-				google_ad_client = "ca-pub-8130906994953193";
-				/* Page quote 2 */
-				google_ad_slot = "4669557053";
-				google_ad_width = 234;
-				google_ad_height = 60;
-				//-->
-				</script>
-				<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-				</div>
-				';
+					<script type="text/javascript"><!--
+					google_ad_client = "ca-pub-8130906994953193";
+					/* Page quote */
+					google_ad_slot = "8219438641";
+					google_ad_width = 468;
+					google_ad_height = 60;
+					//-->
+					</script>
+					<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+					<script type="text/javascript"><!--
+					google_ad_client = "ca-pub-8130906994953193";
+					/* Page quote 2 */
+					google_ad_slot = "4669557053";
+					google_ad_width = 234;
+					google_ad_height = 60;
+					//-->
+					</script>
+					<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+				</div>';
 			} 
 		// CITATIONS FAVORITES
 		echo '
@@ -232,9 +212,7 @@ else
 			$id_visitor = $_SESSION['id'];
 
 			if ($logged AND $id_visitor != $id)
-			{
 				$fav_part = " ,(SELECT COUNT(*) FROM teen_quotes_favorite f WHERE q.id = f.id_quote AND f.id_user = ".$id_visitor.") AS is_favorite";
-			}
 
 			$sql_txt = 
 			"SELECT f.id fav_id, q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, COUNT(c.id) nb_comments, a.username auteur$fav_part
@@ -259,9 +237,7 @@ else
 			{
 				// Obviously this quote is in its favorites
 				if ($id_visitor == $id)
-				{
 					$donnees['is_favorite'] = 1;
-				}
 
 				displayQuote($donnees, $page, 0, 'user');
 			}
@@ -321,16 +297,14 @@ else
 
 			while ($result = mysql_fetch_array($reponse))
 			{
-				$id_quote = $result['id'];
-				$txt_quote = $result['texte_english'];
-				$auteur_id = $result['auteur_id'];
-				$auteur = $result['auteur']; 
-				$date_quote = $result['date'];
+				$id_quote            = $result['id'];
+				$txt_quote           = $result['texte_english'];
+				$auteur_id           = $result['auteur_id'];
+				$auteur              = $result['auteur']; 
+				$date_quote          = $result['date'];
 				$nombre_commentaires = $result['nb_comments'];
 				if ($logged)
-				{
 					$is_favorite = $result['is_favorite'];
-				}
 				
 				$id_user_co = $_SESSION['id'];
 				?>

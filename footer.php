@@ -67,7 +67,7 @@
 				<?php } ?>
 				
 				<?php 
-				if ($show_pub == '1')
+				if ($show_pub)
 				{
 					echo
 					'
