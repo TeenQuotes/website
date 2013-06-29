@@ -79,3 +79,11 @@ $os_mobile_txt                           = "Visites en fonction des systèmes d\
 $public_profile                          = "Profil public";
 $private_profile                         = "Profil privé";
 $privacy_and_users                       = "Vie privée à propos des utilisateurs";
+$only_web_and_web_mobile                 = "Les données ne proviennent que de la version classique et de la version optimisée pour les mobiles de ".$name_website.".";
+$data_quotes_time                        = "On ne compte pas les citations en attente de publication ou dans la file d'attente. On ne compte que les citations qui ont déjà été publiées ou qui ont été déjà refusées.";
+$data_signup_post_quote                  = "On ne garde que les utilisateurs qui ont soumis au moins une citation.";
+$data_signup_post_quote_least_five       = "On ne garde que les utilisateurs qui ont soumis au moins une citation. On ne garde pas les données quand il y a moins de 5 utilisateurs qui ont soumis une citation X jours après leur inscription.";
+$info_about_data                         = "Informations à propos des données";
+$data_age_strange_values                 = "L'âge est calculé par rapport à la date de naissance des utilisateurs qui l'ont renseignée et à la date du jour. On ne conserve que les âges entre 5 et 80 ans.";
+$before_reading                          = "Avant de lire";
+$before_reading_text                     = "Les données présentées ici ne contiennent aucune information personnelle. Les graphiques ci-dessous sont construits directement dans votre navigateur en utilisant <a href=\"https://developers.google.com/chart/\">l'API Google Chart</a>.<br/><br/>Une étude de ces données peut être lue <a href=\"/files/rapport.pdf\" onClick=\"_gaq.push(['_trackEvent', 'rapportStats', 'clic', 'DL']);\" target=\"_blank\">en cliquant ici</a>. Si vous avez des questions, n'hésitez pas à <a href=\"//".$domain."/contact\">nous contacter</a>.";

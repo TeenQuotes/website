@@ -103,10 +103,18 @@ else
 
 	<div id="content">
 		<?php echo $last_update ?> <abbr class="timeago" title="<?php echo $timestamp_last_update_stats; ?>"></abbr>.
+		<div class="before_reading">
+			<h1><?php echo $before_reading; ?></h1>
+			<p><?php echo $before_reading_text; ?></p>
+		</div>
 
-		<div class="chart" class="animated rotateInDownLeft">
+		<div class="chart">
 			<h1><?php echo $domain_visitors; ?></h1>
 			<div id="geoMap" class="chartObject"></div>
+			<div class="explanation">
+				<h3><?php echo $data_provenance; ?></h3>
+				<?php echo $visits_provenance; ?>
+			</div>
 			<div id="pieGeo" class="chartObject"></div>
 			<div class="explanation">
 				<h3><?php echo $data_provenance; ?></h3>
@@ -114,7 +122,15 @@ else
 			</div>
 			<div id="drawVisitsTechnology" class="chartObject"></div>
 			<div id="drawMobileOS" class="chartObject"></div>
+			<div class="explanation">
+				<h3><?php echo $data_provenance; ?></h3>
+				<?php echo $only_web_and_web_mobile; ?>
+			</div>
 			<div id="drawVisitsDuration" class="chartObject"></div>
+			<div class="explanation">
+				<h3><?php echo $data_provenance; ?></h3>
+				<?php echo $only_web_and_web_mobile; ?>
+			</div>
 			<div id="sexUsers" class="chartObject"></div>
 			<div class="explanation">
 				<h3><?php echo $data_provenance; ?></h3>
@@ -126,11 +142,35 @@ else
 			<h1><?php echo $the_quotes; ?></h1>		
 			<div id="graph_quotes" class="chartObject"></div>
 			<div id="quotes_time" class="chartObject"></div>
+			<div class="explanation">
+				<h3><?php echo $info_about_data; ?></h3>
+				<?php echo $data_quotes_time; ?>
+			</div>
 			<div id="quotes_time_percentage" class="chartObject"></div>
+			<div class="explanation">
+				<h3><?php echo $info_about_data; ?></h3>
+				<?php echo $data_quotes_time; ?>
+			</div>
 			<div id="days_between_signup_post_quote" class="chartObject"></div>
+			<div class="explanation">
+				<h3><?php echo $info_about_data; ?></h3>
+				<?php echo $data_signup_post_quote_least_five; ?>
+			</div>
 			<div id="days_between_signup_post_quote_table" class="chartObject table"></div>
+			<div class="explanation">
+				<h3><?php echo $info_about_data; ?></h3>
+				<?php echo $data_signup_post_quote_least_five; ?>
+			</div>
 			<div id="nb_quotes_submitted_user" class="chartObject"></div>
+			<div class="explanation">
+				<h3><?php echo $info_about_data; ?></h3>
+				<?php echo $data_signup_post_quote; ?>
+			</div>
 			<div id="nb_quotes_submitted_user_table" class="chartObject table"></div>
+			<div class="explanation">
+				<h3><?php echo $info_about_data; ?></h3>
+				<?php echo $data_signup_post_quote; ?>
+			</div>
 			<div id="members_favorite_quote" class="chartObject"></div>
 			<div id="top_user_favorite_quote" class="chartObject"></div>
 		</div><!-- END LES QUOTES -->
@@ -140,7 +180,15 @@ else
 			<div id="members_time" class="chartObject"></div>
 			<div id="members_time_exp" class="chartObject"></div>
 			<div id="users_ages" class="chartObject"></div>
+			<div class="explanation">
+				<h3><?php echo $info_about_data; ?></h3>
+				<?php echo $data_age_strange_values; ?>
+			</div>
 			<div id="users_ages_table" class="chartObject table"></div>
+			<div class="explanation">
+				<h3><?php echo $info_about_data; ?></h3>
+				<?php echo $data_age_strange_values; ?>
+			</div>
 			<div id="graph_empty_profile" class="chartObject"></div>
 			<div id="graph_hide_profile" class="chartObject"></div>
 		</div><!-- END LES COMPTES -->
@@ -157,6 +205,10 @@ else
 			<h1><?php echo $type_registration; ?></h1>
 			<div id="graph_location_signup" class="chartObject"></div>
 			<div id="sign_up_methods" class="chartObject"></div>
+			<div class="explanation">
+				<h3><?php echo $data_provenance; ?></h3>
+				<?php echo $only_web_and_web_mobile; ?>
+			</div>
 		</div><!-- END LES METHODES D'INSCRIPTION -->
 
 	</div><!-- END CONTENT -->

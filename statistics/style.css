@@ -116,6 +116,52 @@ body
 	background: #FFF;
 	margin: 0 auto;
 }
+.before_reading
+{
+	margin: 20px auto 60px auto;
+	padding: 10px 15px;
+	background: #FFF;
+	-webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+	box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+.before_reading h1
+{
+	font-family: 'Lato';
+	font-weight: 300;
+	font-size: 25px;
+	margin:-10px -15px 10px -15px;
+	background: #FF6600;
+	padding: 10px 20px;
+	font-style: italic;
+	color: #FFF;
+	border-bottom: 1px solid #CCC;
+}
+.before_reading a
+{
+	-moz-transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+    text-decoration: none;
+    color: #4081BD;
+    padding: 2px;
+    -webkit-box-shadow: inset 0 100px 0 0 #FFF;
+    -moz-box-shadow: inset 0 100px 0 0 #FFF;
+    -o-box-shadow: inset 0 100px 0 0 #FFF;
+    box-shadow: inset 0 100px 0 0 #FFF;
+	background: #4081BD;
+}
+.before_reading a:hover
+{
+	box-shadow: inset 0 0 0 0 #FFF;
+	color: #FFF;
+}
+.before_reading p
+{
+	line-height: 25px;
+	text-align: justify;
+}
 .chart
 {
 	margin: 20px auto 60px auto;
@@ -191,7 +237,7 @@ body
 	margin:0 auto;
 	padding:15px 0 30px 0;
 	line-height:22px;
-	font-family:'Open Sans';
+	font-family:"Open Sans", sans-serif;
 	font-size:12px;
 }
 #footer .content a
