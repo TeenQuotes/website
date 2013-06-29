@@ -580,6 +580,40 @@
 	L'application, développée initialement pour répondre aux usages des visiteurs de Teen Quotes (une grande partie d'entre eux utilisant un mobile sous iOS) a eu un autre effet : nous avons réussi à capter d'autres visiteurs, qui n'étaient pas réceptifs aux médias où nous étions disponibles auparavant (web et web mobile). Ce public, utilisateur d'applications, est plus intéressé par une application native sous iOS que par un accès à une version mobile ou depuis un ordinateur.\\
 
 	Ceci confirme bien que notre objectif est important : nous n'arriverons pas à faire converger toutes les personnes intéressées par le concept de Teen Quotes vers un seul média. Il est donc nécessaire de proposer plusieurs moyens de suivre et de participer à Teen Quotes (réseaux sociaux, site web, web mobile, applications) pour pouvoir agrandir notre base d'utilisateurs.
+
+	% ------------------------------------------- %
+	% -- Comment êtes-vous arrivés ici ? -------- %
+	\section{Comment êtes-vous arrivés ici ?}
+	Concentrons-nous maintenant au site web et au site mobile. Pourquoi sur ceux-ci ? Car il est beaucoup plus facile techniquement de mettre en place des outils d'analyse personnalisés. Nous allons chercher à savoir comment les utilisateurs peuvent arriver sur la page d'inscription.\\
+
+	Plusieurs chemins menant vers la page d'inscription sont possibles :
+	\vspace{10px}
+	\begin{itemize}
+		\item L'utilisateur a cliqué sur le lien menant vers l'inscription dans le menu placé en haut.
+		\item L'utilisateur a cliqué sur le lien menant vers l'inscription placé en bas du formulaire de connexion, placé sur la droite du site.
+		\item L'utilisateur voulait ajouter une citation et a été redirigé vers la page d'inscription.
+		\item L'utilisateur voulait ajouter un commentaire et a été redirigé vers la page d'inscription.
+		\item L'utilisateur a accédé directement à la page d'inscription ou il ne rentre dans aucun des cas précédents.
+	\end{itemize}
+	\vspace{10px}
+	\paragraph{Explication supplémentaire :}nous avons choisi de mettre le lien d'ajout d'une citation, même si le visiteur n'était pas connecté car nous avons vu précédemment que la motivation première pour créer un compte était l'envie d'ajouter une citation. En conséquence, on place un lien qui semble méner à l'ajout d'une citation, qui redirige en réalité vers l'inscription, pour essayer de créer l'envie de s'inscrire de l'utilisateur.\\
+
+	Les détails techniques pour détecter les différents chemins d'inscription ne seront pas détaillés ici\footnote{Voir le chapitre \ref{chap:ressources} « Ressources » page \pageref{chap:ressources} pour plus d'informations.}.\\
+
+	Sans plus attendre, présentons les résultats :
+	\begin{figure}[H]
+		\center
+		\includegraphics[width=300px]{images/methodesDInscription.png}
+		\caption{Méthodes d'inscription des utilisateurs à Teen Quotes (web et web mobile).}
+	\end{figure}
+	Interprétons immédiatement les résultats obtenus :
+	\vspace{10px}
+	\begin{itemize}
+		\item Les résultats confirment notre impression : autant d'utilisateurs sont arrivés sur la page d'inscription en souhaitant ajouter une citation qu'en souhaitant s'inscrire de leur plein gré (en cliquant sur le lien dans la barre de menu placée en haut).
+		\item On remarque également qu'aucune méthode n'est manifestement minoritaire : il était donc important de proposer plusieurs possibilités pour arriver finalement à la page d'inscription.
+	\end{itemize}
+	\vspace{10px}
+	 
 	% /////////////////////////////////////////// %
 	% /// Technologies utilisées //////////////// %
 	\chapter{Technologies utilisées}
@@ -619,6 +653,7 @@
 	% /////////////////////////////// %
 	% /// Ressources //////////////// %
 	\chapter{Ressources}
+	\label{chap:ressources}
 	Teen Quotes est un projet open-source, c'est-à-dire que le code source de Teen Quotes est consultable et redistribuable sous les mêmes conditions de cette licence. Le code source de l'application iOS n'est pas placé sous cette licence et n'est pas consultable.\\
 
 	\begin{itemize}
