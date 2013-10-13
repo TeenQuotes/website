@@ -25,20 +25,20 @@ if (isset($_COOKIE['Pseudo']) AND isset($_COOKIE['Pass']) AND $_SESSION['logged'
 			$compte = mysql_fetch_array($query_base);
 
 			// Store session values
-			$_SESSION['logged'] = true;
-			$_SESSION['id'] = $compte['id'];										
+			$_SESSION['logged']         = true;
+			$_SESSION['id']             = $compte['id'];										
 			$_SESSION['security_level'] = $compte['security_level'];									
-			$_SESSION['username'] = $compte['username'];
-			$_SESSION['email'] = $compte['email'];
-			$_SESSION['avatar'] = $compte['avatar'];
+			$_SESSION['username']       = $compte['username'];
+			$_SESSION['email']          = $compte['email'];
+			$_SESSION['avatar']         = $compte['avatar'];
 
 			insertConnexion('cookie');
 
 			// Set variables
-			$username = $_SESSION['username'];
-			$id = $_SESSION['id'];
-			$email = $compte['email'];
-			$last_visit = $compte['last_visit'];
+			$username           = $_SESSION['username'];
+			$id                 = $_SESSION['id'];
+			$email              = $compte['email'];
+			$last_visit         = $compte['last_visit'];
 			$session_last_visit = $_SESSION['last_visit_user'];
 
 			last_visit ($session_last_visit, $last_visit, $id);

@@ -103,8 +103,8 @@ else
 
 		$display_page_top = display_page_top($nombre_commentaires, $nb_messages_par_page, 'p', $previous_page, $next_page);
 		$premierMessageAafficher = $display_page_top[0];
-		$nombreDePages = $display_page_top[1];
-		$page = $display_page_top[2];
+		$nombreDePages           = $display_page_top[1];
+		$page                    = $display_page_top[2];
 		
 		$commentaires = mysql_query("SELECT c.id id, c.auteur_id auteur_id, c.texte texte, c.date date, a.username auteur, a.avatar avatar FROM teen_quotes_comments c, teen_quotes_account a WHERE c.auteur_id = a.id AND c.id_quote = '$id_quote' ORDER BY c.id ASC LIMIT $premierMessageAafficher ,  $nb_messages_par_page");
 		while ($donnees = mysql_fetch_array ($commentaires))

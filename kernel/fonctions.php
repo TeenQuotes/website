@@ -12,8 +12,8 @@ require 'database.php';
 
 if (isset($_GET['co'])) 
 {
-	$data = domaine();
-	$domain = $data[0];
+	$data         = domaine();
+	$domain       = $data[0];
 	$name_website = $data[1];
 
 	$pseudo = $_SESSION['username'];		
@@ -42,8 +42,8 @@ function deconnexion()
 {
 	global $download_app;
 	
-	$data = domaine();
-	$domain = $data[0];
+	$data         = domaine();
+	$domain       = $data[0];
 	$name_website = $data[1];
 
 	if (($_SESSION['security_level'] >= 2 OR $download_app) AND !isUrlMobile())
@@ -1039,10 +1039,10 @@ function usernameIsValid($username)
 	return (preg_match("#^[a-z0-9_]+$#", $username));
 }
   
-function display_page_bottom($page, $nombreDePages, $nom_lien_page, $div_redirection, $previous_page, $next_page, $index = false)
+function display_page_bottom($page, $numberOfPages, $nom_lien_page, $divRedirection, $previousPage, $nextPage, $index = false)
 {
-	$nb_next_page     = $page + 1;
-	$nb_previous_page = $page - 1;
+	$nb_nextPage     = $page + 1;
+	$nb_previousPage = $page - 1;
 
 	if ($index)
 	{
@@ -1074,83 +1074,83 @@ function display_page_bottom($page, $nombreDePages, $nom_lien_page, $div_redirec
 		{
 			echo '<span class="page_bottom_number'.$margin_index.'"><a href="?'.$nom_lien_page.'=1">1</a></span> <span class="gap_page" style="margin-top:'.$margin_middle.'">'.$gap_txt.'</span>';
 			
-			for ($num_page = $page-$ecart_page;$num_page < $page;$num_page++)
-				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>'; 
+			for ($num_page = $page - $ecart_page; $num_page < $page; $num_page++)
+				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.$divRedirection.'">'.$num_page.'</a></span>'; 
 		}
 		else 
 		{
-			for ($num_page = 1;$num_page <= $page-1;$num_page++)
+			for ($num_page = 1;$num_page <= $page - 1; $num_page++)
 			{
 				if ($index == true)
-					$margin_index = ($num_page == '1') ?  ' no_margin_left' : '';
-				echo '<span class="page_bottom_number'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>'; 
+					$margin_index = ($num_page == 1) ?  ' no_margin_left' : '';
+				echo '<span class="page_bottom_number'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$divRedirection.'">'.$num_page.'</a></span>'; 
 			}
 		}
 	}
 
-	if ($page <= $nombreDePages-4)
+	if ($page <= $numberOfPages-4)
 	{
-		for ($num_page = $page;$num_page <= $page+$ecart_page;$num_page++)
+		for ($num_page = $page;$num_page <= $page + $ecart_page; $num_page++)
 		{
 			if ($num_page == $page)
 			{
 				if ($index == true)
-					$margin_index = ($num_page == '1') ?  ' no_margin_left' : '';
+					$margin_index = ($num_page == 1) ?  ' no_margin_left' : '';
 
-				echo '<span class="page_bottom_number_active '.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>';
+				echo '<span class="page_bottom_number_active '.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$divRedirection.'">'.$num_page.'</a></span>';
 			}
 			else
-				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>';
+				echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$num_page.$divRedirection.'">'.$num_page.'</a></span>';
 		}
 
 		echo '<span class="gap_page" style="margin-top:'.$margin_middle.'">'.$gap_txt.'</span>';
-		echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$nombreDePages.$div_redirection.'">'.$nombreDePages.'</a></span>';
+		echo '<span class="page_bottom_number"><a href="?'.$nom_lien_page.'='.$numberOfPages.$divRedirection.'">'.$numberOfPages.'</a></span>';
 	}
 	else
 	{
-		for ($num_page = $page;$num_page <= $nombreDePages;$num_page++)
+		for ($num_page = $page; $num_page <= $numberOfPages; $num_page++)
 		{
 			if ($num_page == $page)
-				echo '<span class="page_bottom_number_active'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>';
+				echo '<span class="page_bottom_number_active'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$divRedirection.'">'.$num_page.'</a></span>';
 			else
-				echo '<span class="page_bottom_number'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$div_redirection.'">'.$num_page.'</a></span>';
+				echo '<span class="page_bottom_number'.$margin_index.'"><a href="?'.$nom_lien_page.'='.$num_page.$divRedirection.'">'.$num_page.'</a></span>';
 		}
 	}
 
 	
-	if ($page < $nombreDePages)
+	if ($page < $numberOfPages)
 	{
-		echo '<span class="page_bottom'.$margin_index_right.'"><a href="?'.$nom_lien_page.'='.$nb_next_page.$div_redirection.'" title="'.$next_page.'">'.$next_page.'</a></span>';
-		$margin_done = true;
+		echo '<span class="page_bottom'.$margin_index_right.'"><a href="?'.$nom_lien_page.'='.$nb_nextPage.$divRedirection.'" title="'.$nextPage.'">'.$nextPage.'</a></span>';
+		$marginDone = true;
 	}
 	if ($page > 1)
 	{
-		if ($margin_done == true)
+		if ($marginDone == true)
 			$margin_index_right = '';
 
-		echo '<span class="page_bottom"><a href="?'.$nom_lien_page.'='.$nb_previous_page.$div_redirection.'" title="'.$previous_page.'">'.$previous_page.'</a></span>';
+		echo '<span class="page_bottom"><a href="?'.$nom_lien_page.'='.$nb_previousPage.$divRedirection.'" title="'.$previousPage.'">'.$previousPage.'</a></span>';
 	}
 
 	echo '<div class="clear"></div>';
 }
 	
-function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_page, $next_page, $div_redirection = null, $margin = false)
+function display_page_top($nbPosts, $nbPostsPerPage, $link, $previousPage, $nextPage, $divRedirection = null, $margin = false)
 {
-	$nombreDePages = floor($nb_messages / $nb_messages_par_page);
+	$numberOfPages = ceil($nbPosts / $nbPostsPerPage);
 
-	if ($nombreDePages <= 0)
-		$nombreDePages = 1;
+	if ($numberOfPages <= 0)
+		$numberOfPages = 1;
 	
-	if (isset($_GET[$lien]))
-		$page = mysql_real_escape_string($_GET[$lien]);
+	if (isset($_GET[$link]))
+		$page = mysql_real_escape_string($_GET[$link]);
 	else 
 		$page = 1; 
 
-	if ($page > $nombreDePages) 
-		$page = $nombreDePages;
+	if ($page > $numberOfPages) 
+		$page = $numberOfPages;
 
-	$nb_next_page     = $page + 1;
-	$nb_previous_page = $page - 1;
+	$nb_nextPage     = $page + 1;
+	$nb_previousPage = $page - 1;
 
 	// Special margins
 	$page_index = '';
@@ -1160,25 +1160,25 @@ function display_page_top($nb_messages, $nb_messages_par_page, $lien, $previous_
 		$margin_right = ' no_margin_right';
 	}
 
-	if ($page < $nombreDePages)
+	if ($page < $numberOfPages)
 	{
-		echo '<span class="page'.$margin_page.$margin_right.'"><a href="?'.$lien.'='.$nb_next_page.$div_redirection.'" title="'.$next_page.'">'.$next_page.'</a></span>';
-		$margin_done = true;
+		echo '<span class="page'.$margin_page.$margin_right.'"><a href="?'.$link.'='.$nb_nextPage.$divRedirection.'" title="'.$nextPage.'">'.$nextPage.'</a></span>';
+		$marginDone = true;
 	}
 
 	if ($page > 1)
 	{
 		// If the margin was already set, do no add a margin again
-		if ($margin_done)
+		if ($marginDone)
 			$margin_right = '';
-		echo '<span class="page'.$margin_page.$margin_right.'"><a href="?'.$lien.'='.$nb_previous_page.$div_redirection.'" title="'.$previous_page.'">'.$previous_page.'</a></span>';
+		echo '<span class="page'.$margin_page.$margin_right.'"><a href="?'.$link.'='.$nb_previousPage.$divRedirection.'" title="'.$previousPage.'">'.$previousPage.'</a></span>';
 	}
-	if ($nombreDePages != 1)
+	if ($numberOfPages != 1)
 		echo '<br/>';
 
-	$premierMessageAafficher = ($page - 1) * $nb_messages_par_page;
+	$firstMessageToDisplay = ($page - 1) * $nbPostsPerPage;
 
-	return array($premierMessageAafficher, $nombreDePages, $page);
+	return array($firstMessageToDisplay, $numberOfPages, $page);
 }
 	
 function is_quote_new($date_quote, $last_visit, $page, $compteur_quote)
@@ -1203,7 +1203,7 @@ function is_quote_new($date_quote, $last_visit, $page, $compteur_quote)
 		echo '<span class="icone_new_quote hide_this"></span>';
 }
 
-function display_individual_story ($data)
+function display_individual_story($data)
 {
 	global $tell_us_your_story, $tell_us_how_you_use, $domain, $story;
 
@@ -1235,7 +1235,7 @@ function display_individual_story ($data)
 }
 
 // TO DO : user.php && /m/user.php
-function displayQuote ($result, $page, $i, $type='random')
+function displayQuote($result, $page, $i, $type='random')
 {
 	// Grant access
 	global $last_visit;
@@ -1268,7 +1268,7 @@ function displayQuote ($result, $page, $i, $type='random')
 		echo 
 			$txt_quote.'<br/>
 			<div class="footer_quote">
-				<a href="quote-'.$id_quote.'" title="Quote #'.$id_quote.'">#'.$id_quote; echo afficher_nb_comments ($nombre_commentaires).'</a>'; echo afficher_favori($id_quote, $is_favorite, $logged, $_SESSION['id']); echo date_et_auteur ($auteur_id, $auteur, $date_quote).'
+				<a href="quote-'.$id_quote.'" title="Quote #'.$id_quote.'">#'.$id_quote; echo afficher_nb_comments($nombre_commentaires).'</a>'; echo afficher_favori($id_quote, $is_favorite, $logged, $_SESSION['id']); echo date_et_auteur($auteur_id, $auteur, $date_quote).'
 			</div>
 			'.share_fb_twitter ($id_quote, $txt_quote).'
 		</div>';
@@ -1281,19 +1281,19 @@ function displayQuote ($result, $page, $i, $type='random')
 		<div class="'.$class_div.'">
 			'.$txt_quote.'<br/>
 			<div class="footer_quote">
-				<a href="quote-'.$id_quote.'" title="Quote #'.$id_quote.'">#'.$id_quote; echo afficher_nb_comments ($nombre_commentaires).'</a>'; echo afficher_favori($id_quote, $is_favorite, $logged); echo date_et_auteur($auteur_id, $auteur, $date_quote).'
+				<a href="quote-'.$id_quote.'" title="Quote #'.$id_quote.'">#'.$id_quote; echo afficher_nb_comments($nombre_commentaires).'</a>'; echo afficher_favori($id_quote, $is_favorite, $logged); echo date_et_auteur($auteur_id, $auteur, $date_quote).'
 			</div>
 		</div>';
 	}
 }
 
 // Publish $nb_quote_released_per_day quotes of the day
-function flush_quotes ()
+function flush_quotes()
 {
 	include "config.php";
 
-	$data = domaine();
-	$domain = $data[0];
+	$data         = domaine();
+	$domain       = $data[0];
 	$name_website = $data[1];
 
 	$date_quote = date("d/m/Y");
@@ -1343,8 +1343,8 @@ function email_birthday()
 {
 	include 'config.php';
 
-	$data = domaine();
-	$domain = $data[0];
+	$data         = domaine();
+	$domain       = $data[0];
 	$name_website = $data[1];
 
 	$date_today = date("d/m");
@@ -1677,11 +1677,11 @@ function MailRandomQuote ($nombre)
 	// Grant access to these variables
 	global $domain_en, $domain_fr;
 
-	$data = domaine();
-	$domain = $data[0];
+	$data         = domaine();
+	$domain       = $data[0];
 	$name_website = $data[1];
 
-	$query = mysql_query('SELECT q.id, q.texte_english texte_english,q.date date, a.username auteur, q.auteur_id auteur_id FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.approved = 1 AND q.auteur_id = a.id ORDER BY RAND() LIMIT '.$nombre.'');
+	$query = mysql_query('SELECT q.id, q.texte_english texte_english,q.date date, a.username auteur, q.auteur_id auteur_id FROM teen_quotes_quotes q, teen_quotes_account a WHERE q.approved = 1 AND q.auteur_id = a.id ORDER BY RAND() LIMIT '.$nombre);
 
 	while($donnees = mysql_fetch_array($query)) 
 	{
@@ -1708,8 +1708,8 @@ function MailPostedToday ($id_quote)
 {
 	include "config.php";
 
-	$data = domaine();
-	$domain = $data[0];
+	$data         = domaine();
+	$domain       = $data[0];
 	$name_website = $data[1];
 
 	if (!empty($id_quote))
@@ -1767,7 +1767,7 @@ function MailPostedToday ($id_quote)
 
 		$monfichier = fopen('../files/compteur_email_quotidien.txt', 'r+'); // Ouverture du fichier
 		fseek($monfichier, 0); // On remet le curseur au début du fichier
-		fputs($monfichier, ''.$today.' : '.$nb_email_send.''); // On écrit le nouveau nombre de pages vues
+		fputs($monfichier, ''.$today.' : '.$nb_email_send); // On écrit le nouveau nombre de pages vues
 		fclose($monfichier);
 	}
 }
@@ -1777,8 +1777,8 @@ function cut_tweet($chaine)
 	// Grant access to these variables
 	global $domain_en, $domain_fr;
 
-	$data = domaine();
-	$domain = $data[0];
+	$data         = domaine();
+	$domain       = $data[0];
 	$name_website = $data[1];
 
 	$lg_max = 117;
@@ -1883,12 +1883,12 @@ function share_fb_twitter ($id_quote, $txt_quote)
 	// Grant access to variable for lang
 	global $share;
 
-	$data = domaine();
-	$domain = $data[0];
+	$data         = domaine();
+	$domain       = $data[0];
 	$name_website = $data[1];
 
 	$txt_tweet = cut_tweet($txt_quote);
-	$url_encode = urlencode('http://'.$domain.'/quote-'.$id_quote.'');
+	$url_encode = urlencode('http://'.$domain.'/quote-'.$id_quote);
 
 	echo '<div class="share_fb_twitter"><span class="fade_jquery"><iframe src="//www.facebook.com/plugins/like.php?href= '.$url_encode.'&amp;send=false&amp;layout=button_count&amp;width=110&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="true"></iframe></span><span class="right fade_jquery"><a href="http://twitter.com/share?url=http://'.$domain.'/quote-'.$id_quote.'&text='.$txt_tweet.'" class="twitter-share-button" data-count="none">Tweet</a></span></div>';
 }
@@ -1928,11 +1928,11 @@ function nl2br_to_textarea ($texte)
 // Set a cookie to force the desktop view
 if (isset($_GET['mobile'])) 
 {
-	$data = domaine();
-	$domain = $data[0];
+	$data         = domaine();
+	$domain       = $data[0];
 	$name_website = $data[1];
 
-	setcookie("mobile", 1 , time() + (((3600*24)*30)*12), null, '.'.$domain.'', false, true);
+	setcookie("mobile", 1 , time() + (((3600*24)*30)*12), null, '.'.$domain, false, true);
 }
 
 function getSubDomain()
@@ -1948,13 +1948,13 @@ function subDomainIsRestricted($subDomain)
 	return (in_array($subDomain, $restricted_sub_domains));
 }
 
-function mobile_device_detect ()
+function mobile_device_detect()
 {
 	$user_agent = $_SERVER['HTTP_USER_AGENT'];
 	
 	// Get the main domain
-	$data = domaine();
-	$domain = $data[0];
+	$data         = domaine();
+	$domain       = $data[0];
 	$name_website = $data[1];
 
 	// Do not redirect when we hit a restricted subdomain
@@ -1986,7 +1986,7 @@ function mobile_device_detect ()
 	// If we detect a mobile, do the redirection
 	if (preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $user_agent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($user_agent,0,4)))
 	{
-		header('Location: '.$redirect_mobile.'');
+		header('Location: '.$redirect_mobile);
 		exit();
 	}
 
