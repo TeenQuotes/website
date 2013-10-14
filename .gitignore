@@ -10,6 +10,7 @@
 *sublime*
 sftp-config*
 specialmail.php
+/rest/config.php
 /statistics/files/*.out
 /statistics/files/*.log
 /statistics/files/*.gz
