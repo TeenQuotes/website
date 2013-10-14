@@ -1672,7 +1672,7 @@ function select_country($country)
 }
 
 
-function MailRandomQuote ($nombre) 
+function MailRandomQuote($nombre) 
 {
 	// Grant access to these variables
 	global $domain_en, $domain_fr;
@@ -1704,7 +1704,7 @@ function MailRandomQuote ($nombre)
 	return $email_txt;
 }
 	
-function MailPostedToday ($id_quote) 
+function MailPostedToday($id_quote) 
 {
 	include "config.php";
 
@@ -1878,7 +1878,7 @@ function afficher_favori($id_quote, $is_favorite, $logged, $id_user=0)
 
 }
 
-function share_fb_twitter ($id_quote, $txt_quote) 
+function share_fb_twitter($id_quote, $txt_quote) 
 {
 	// Grant access to variable for lang
 	global $share;
@@ -1893,7 +1893,7 @@ function share_fb_twitter ($id_quote, $txt_quote)
 	echo '<div class="share_fb_twitter"><span class="fade_jquery"><iframe src="//www.facebook.com/plugins/like.php?href= '.$url_encode.'&amp;send=false&amp;layout=button_count&amp;width=110&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:110px; height:21px;" allowTransparency="true"></iframe></span><span class="right fade_jquery"><a href="http://twitter.com/share?url=http://'.$domain.'/quote-'.$id_quote.'&text='.$txt_tweet.'" class="twitter-share-button" data-count="none">Tweet</a></span></div>';
 }
 
-function date_et_auteur ($auteur_id, $auteur, $date_quote) 
+function date_et_auteur($auteur_id, $auteur, $date_quote) 
 {
 	// Grant access to variables for lang
 	global $on, $by, $view_his_profile;
@@ -1907,7 +1907,7 @@ function date_et_auteur ($auteur_id, $auteur, $date_quote)
 		echo '<span class="right">'.$by.'<a href="user-'.$auteur_id.'" title="'.$view_his_profile.'"> '.$auteur.' </a>'.$on.' '.$date_quote.'</span><br/>';
 }
 
-function is_quote_exist ($txt_quote) 
+function is_quote_exist($txt_quote) 
 {
 	$txt_quote_cut = cut_tweet($txt_quote);
 	$quote_exist = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_quotes WHERE texte_english LIKE '%$txt_quote_cut%' AND approved = '1'"));
@@ -1915,7 +1915,7 @@ function is_quote_exist ($txt_quote)
 	return ($quote_exist >= 1);
 }
 
-function nl2br_to_textarea ($texte) 
+function nl2br_to_textarea($texte) 
 {
 	$line_break = PHP_EOL;
 	$patterns = array("/(<br>|<br \/>|<br\/>)\s*/i","/(\r\n|\r|\n)/");
@@ -2028,7 +2028,7 @@ function arrayToVar($array)
 	return ${$array[1]};
 }
 
-function generateTrad ($lang, $languageFile)
+function generateTrad($lang, $languageFile)
 {
 	global $name_website;
 	require $languageFile;
@@ -2065,7 +2065,7 @@ function getRandomTooltip()
 	return $content;
 }
 
-function hint ($position, $txt, $type=false, $return=false)
+function hint($position, $txt, $type=false, $return=false)
 {
 	$class = $position;
 
@@ -2087,7 +2087,7 @@ function insertConnexion($type, $id_user=null)
 		mysql_query("INSERT INTO connexions_log (id_user, type) VALUES ('".$id_user."', '".$type."')");
 }
 
-function addMember ($username, $email, $passwordOne, $passwordConfirm)
+function addMember($username, $email, $passwordOne, $passwordConfirm)
 {
 	global $language;
 	include 'lang/'.$language.'/signup.php';
