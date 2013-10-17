@@ -35,7 +35,7 @@ else
 							AND q.approved =  '1'
 							WHERE q.approved =  '1'
 							GROUP BY q.id
-							ORDER BY RAND() LIMIT $premierMessageAafficher, $nbPostsPerPage");
+							ORDER BY RAND() DESC LIMIT $premierMessageAafficher, $nbPostsPerPage");
 }
 while ($result = mysql_fetch_array($reponse))
 {
