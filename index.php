@@ -27,7 +27,7 @@ if ($logged)
 }
 else
 {
-	$reponse = mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date DATE, a.username auteur, COUNT( c.id ) nb_comments
+	$reponse = mysql_query("SELECT q.texte_english texte_english, q.id id, q.auteur_id auteur_id, q.date date, a.username auteur, COUNT( c.id ) nb_comments
 							FROM teen_quotes_quotes q
 							LEFT JOIN teen_quotes_comments c ON q.id = c.id_quote
 							AND q.approved =  '1'
