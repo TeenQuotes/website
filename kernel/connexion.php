@@ -1,8 +1,7 @@
 <?php
-$pseudo = mysql_real_escape_string($_POST['pseudo']);
+$pseudo   = mysql_real_escape_string($_POST['pseudo']);
 $password = mysql_real_escape_string($_POST['pass']);
-
-$method = htmlspecialchars($_GET['method']);
+$method   = htmlspecialchars($_GET['method']);
 
 if ($method == 'get')
 {
@@ -21,13 +20,9 @@ if (isset($_POST['connexion']) OR $method == 'get')
 		if ($retour_nb_pseudo == 1)
 		{				
 			if ($method == 'get')
-			{
 				$passwd = $password;
-			}
 			else
-			{
 				$passwd = sha1(strtoupper($pseudo).':'.strtoupper($password));
-			}
 				
 			$sha = mysql_num_rows(mysql_query("SELECT id FROM teen_quotes_account WHERE `pass` = '$passwd' AND `username` = '$pseudo'"));
 			if ($sha == 1)
@@ -35,9 +30,7 @@ if (isset($_POST['connexion']) OR $method == 'get')
 				$compte = mysql_fetch_array($query_base);
 
 				if (empty($compte['birth_date']) AND empty($compte['title']) AND empty($compte['country']) AND empty($compte['about_me']) AND $compte['avatar'] == "icon50.png" AND empty($compte['city']))
-				{
 					$_SESSION['profile_not_fullfilled'] = true;
-				}
 				
 				// Store session values
 				$_SESSION['logged'] = true;
@@ -53,37 +46,28 @@ if (isset($_POST['connexion']) OR $method == 'get')
 
 				// Force the user to rename if he hasn't a valid username
 				if (usernameIsValid(strtolower($_SESSION['username'])) == false)
-				{
 					echo '<meta http-equiv="refresh" content="0; url=changeusername">';
-				}
 				else
 				{
-				
-				// Redirect
-				// We redirect to ../?co because we will store the $_SESSION['passwd'] in $_COOKIE['Pass']
-				?>
-				<script language="JavaScript">
-				<!--
-				window.location.href="../?co"
-				//-->
-				</script>
-				<?php
+					// Redirect
+					// We redirect to ../?co because we will store the $_SESSION['passwd'] in $_COOKIE['Pass']
+					?>
+					<script language="JavaScript">
+					<!--
+						window.location.href="../?co"
+					//-->
+					</script>
+					<?php
 				}
 			}
 			else
-			{
 				echo '<span class="error"><img src="http://'.$domain.'/images/icones/alert.png" class="alerte" />'.$wrong_pass.'</span>';
-			}
 			
 		}
 		else
-		{
 			echo '<span class="error"><img src="http://'.$domain.'/images/icones/alert.png" class="alerte" />'.$no_username.'</span>';
-		}
 	}
 	else
-	{
 		echo '<span class="error"><img src="http://'.$domain.'/images/icones/alert.png" class="alerte" />'.$not_filled.'</span>';
-	}
 }
 ?>
