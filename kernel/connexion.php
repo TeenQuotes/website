@@ -54,7 +54,7 @@ if (isset($_POST['connexion']) OR $method == 'get')
 					?>
 					<script language="JavaScript">
 					<!--
-						window.location.href="../?co"
+					window.location.href="../?co"
 					//-->
 					</script>
 					<?php

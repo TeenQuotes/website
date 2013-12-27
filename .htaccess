@@ -14,10 +14,10 @@ RewriteRule ^error/[403|404|500|503]$ /error.php?erreur=$1 [L,QSA]
 
 redirect 301 /favicon.ico http://teen-quotes.com/images/favicon.gif 
 
-ErrorDocument 403 /error/403
-ErrorDocument 404 /error/404
-ErrorDocument 500 /error/500
-ErrorDocument 503 /error/503
+ErrorDocument 404 /error.php?erreur=404
+ErrorDocument 403 /error.php?erreur=403
+ErrorDocument 500 /down
+ErrorDocument 503 /down
 
 
 # BEGIN Expire headers

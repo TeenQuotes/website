@@ -192,7 +192,7 @@ if ($_GET['secret'] == CRON_PASS_SECRET)
 	}
 
 	// Send the mail for Christmas
-	elseif ($_GET['code'] == 'christmas' AND $month == 12 AND $day == 25)
+	elseif ($_GET['code'] == 'christmas' AND $month == 12 AND $day == 24)
 	{
 		$query = mysql_query("SELECT username, email FROM teen_quotes_account");
 		$i = 1;
@@ -226,6 +226,9 @@ if ($_GET['secret'] == CRON_PASS_SECRET)
 		$query = mysql_query("SELECT username, email FROM teen_quotes_account");
 		$i = 1;
 
+		$newYear = date("Y");
+		$oldYear = date("Y") - 1;
+
 		while ($data = mysql_fetch_array($query))
 		{
 			$username = $data['username'];
@@ -237,18 +240,7 @@ if ($_GET['secret'] == CRON_PASS_SECRET)
 			<br/>
 			New is the year, new are the hopes and the aspirations. New is the resolution, new are the spirits and forever our warm wishes are for you. Have a promising and fulfilling new year!
 			<br/><br/>
-			The entire team of Teen Quotes wish you a Happy New Year!<br/>
-			<br/>
-			2012 was a really interesting year for Teen Quotes:<br/>
-			<ul>
-				<li>We launched our new design.</li>
-				<li>We launched the Teen Quotes <b>iOS application</b>: <a href="http://teen-quotes.com/apps" title="App iOS">teen-quotes.com/apps</a>.</li>
-				<li>As of mid-December, <b>Teen Quotes is now optimized for tablets</b>! Just browse <a href="http://teen-quotes.com">teen-quotes.com</a>.</li>
-				<li>We will reach very soon <b>2,000,000 followers</b> on Twitter! Follow <a href="http://twitter.com/ohteenquotes">@ohteenquotes</a>.</li>
-				<li>We read a lot of wonderful quotes!</li>
-				<li>And many more things...</li>
-			</ul>
-			We hope 2013 will be more awesome than 2012 for you!<br/>
+			The entire team of Teen Quotes wish you a Happy New Year! We hope '.$newYear.' will be more awesome than '.$oldYear.' for you!<br/>
 			<br/>
 			We\'re looking forward to see you soon on Teen Quotes!
 			<br/><br/>
