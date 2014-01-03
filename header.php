@@ -63,7 +63,6 @@ else
 <div id="header">
 	<div class="content">
 		<div id="logo">
-			<div id="christmas_hat"></div>
 			<a href="/" title="<?php echo $name_website; ?>" class="fade_on_hover"><img src="//<?php echo $domain; ?>/images/logo_<?php echo $name_logo; ?>.png" alt="<?php echo $name_website; ?>"/></a>
 			<span id="caption"><?php echo $website_caption; ?></span>
 		</div>
