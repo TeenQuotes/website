@@ -5,7 +5,7 @@ class Quote extends Eloquent {
 	/**
 	* Adding customs attributes to the object
 	*/
-	protected $appends = array('total_favorites', 'total_comments', 'is_favorite_for_current_user');
+	protected $appends = array('has_favorites', 'total_favorites', 'has_comments', 'total_comments', 'is_favorite_for_current_user');
 
 	public function user()
 	{
@@ -22,14 +22,25 @@ class Quote extends Eloquent {
 		return $this->hasMany('FavoriteQuote');
 	}
 
+
 	public function getTotalCommentsAttribute()
 	{
 		return $this->hasMany('Comment')->count();    
 	}
 
+	public function getHasFavoritesAttribute()
+	{
+		return ($this->total_favorites > 0);
+	}
+
 	public function getTotalFavoritesAttribute()
 	{
 		return $this->hasMany('FavoriteQuote')->count();    
+	}
+
+	public function getHasCommentsAttribute()
+	{
+		return ($this->total_comments > 0);
 	}
 
 	public function getIsFavoriteForCurrentUserAttribute()
