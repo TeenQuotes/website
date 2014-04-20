@@ -20,7 +20,7 @@ class CreateQuotesTable extends Migration {
 			$table->string('content', 500);
 			$table->integer('user_id')->unsigned()->index();
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-			$table->tinyInteger('approved')->default(1);
+			$table->tinyInteger('approved')->default(0);
 			$table->timestamps();
 		});
 	}
