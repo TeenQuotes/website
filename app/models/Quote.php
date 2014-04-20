@@ -5,7 +5,7 @@ class Quote extends Eloquent {
 	/**
 	* Adding customs attributes to the object
 	*/
-	protected $appends = array('total_favorites', 'total_comments', 'is_favorite');
+	protected $appends = array('total_favorites', 'total_comments', 'is_favorite_for_current_user');
 
 	public function user()
 	{
@@ -32,7 +32,7 @@ class Quote extends Eloquent {
 		return $this->hasMany('FavoriteQuote')->count();    
 	}
 
-	public function getIsFavoriteAttribute()
+	public function getIsFavoriteForCurrentUserAttribute()
 	{
 		if (Auth::check()) {
 			$countFavorite = FavoriteQuote::where('quote_id', '=', $this->id)->where('user_id', '=', Auth::user()->id)->count();
