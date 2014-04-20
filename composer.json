@@ -7,7 +7,8 @@
 		"laravel/framework": "4.1.*"
 	},
 	"require-dev": {
-    	"way/generators": "2.*"
+    	"way/generators": "2.*",
+    	"fzaninotto/faker": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
