@@ -3,9 +3,20 @@
 class Quote extends Eloquent {
 	protected $fillable = [];
 	/**
-	* Adding customs attributes to the object
-	*/
+	 * Adding customs attributes to the object
+	 * @var array
+	 */
 	protected $appends = array('has_favorites', 'total_favorites', 'has_comments', 'total_comments', 'is_favorite_for_current_user');
+
+	/**
+	 * The validation rules
+	 * @var array
+	 */
+	public static $rules = [
+		'content' => 'required|min:50|max:300',
+		'user_id' => 'required|exists:users,id',
+		'approved' => 'between:-1,2',
+	]; 
 
 	public function user()
 	{
@@ -76,4 +87,5 @@ class Quote extends Eloquent {
 	{
 		return $query->where('approved', '=', '2');
 	}
+
 }
