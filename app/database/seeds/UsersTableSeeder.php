@@ -51,7 +51,7 @@ class UsersTableSeeder extends Seeder {
 					'notification_comment_quote' => 1,
 					'last_visit' => $faker->dateTimeThisYear(),
 				]);
-				$this->command->info('Admin account : #42 - mulshan - 1234');
+				$this->command->info('Admin account : #42 - antoineaugusti - 1234');
 			}
 		}
 
