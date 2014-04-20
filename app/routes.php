@@ -13,5 +13,7 @@
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	Auth::attempt(array('login' => 'antoineaugusti', 'password' => '1234'));
+	
+	return Quote::published()->with('comments')->with('user')->with('favorites')->with('favorites.user')->orderBy('created_at', 'DESC')->get();
 });
