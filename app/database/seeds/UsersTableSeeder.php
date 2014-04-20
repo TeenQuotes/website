@@ -23,7 +23,7 @@ class UsersTableSeeder extends Seeder {
 					'email' => $faker->email,
 					'ip' => $faker->ipv4,
 					'birthdate' => $faker->date('Y-m-d', 'now'),
-					'gender' => 'M',
+					'gender' => $faker->randomElement(array('M', 'W')),
 					'country' => $faker->country,
 					'city' => $faker->city,
 					'avatar' => 'icon50.png',
