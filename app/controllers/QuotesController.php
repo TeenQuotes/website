@@ -18,9 +18,11 @@ class QuotesController extends \BaseController {
 			$quotes = Quote::published()->with('user')->orderBy(DB::raw('RAND()'))->paginate(10);
 
 		$data = [
-			'quotes' => $quotes,
-			'pageTitle' => 'Homepage',
-			'colors' => Quote::getRandomColors(),
+			'quotes'          => $quotes,
+			'pageTitle'       => 'Homepage',
+			'colors'          => Quote::getRandomColors(),
+			'pageTitle'       => Lang::get('quotes.'.Route::currentRouteName().'PageTitle'),
+			'pageDescription' => Lang::get('quotes.'.Route::currentRouteName().'PageDescription'),
 		];
 
 		return View::make('quotes.index', $data);
