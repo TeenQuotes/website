@@ -1,0 +1,51 @@
+@import "compass/css3";
+
+$imagesFolder:"/assets/images/";
+$lightBlue:#2980B9;
+
+.navbar-default {
+	background: $lightBlue;
+	border-color: #FFF;
+
+	.navbar-nav > li > a {
+		@include transition-property(all);
+  		@include transition-duration(0.2s);
+  		@include transition-timing-function(linear);
+	}
+
+	.navbar-nav > li > a:hover, .navbar-toggle:hover, .navbar-toggle:focus {
+		background: #FFF;
+		color: $lightBlue;
+	}
+
+	.navbar-toggle .icon-bar {
+		background-color: white;
+	}
+
+	.navbar-toggle:hover .icon-bar, .navbar-toggle:focus .icon-bar {
+		background-color: $lightBlue;
+	}
+
+	.navbar-collapse {
+		border-color: lighten($lightBlue, 10%);
+	}
+}
+
+.navbar-fixed-top {
+	.logo {
+		background:url($imagesFolder + 'logo.png');
+		width: 195px;
+		height: 30px;
+		display: block;
+		margin: 12px 10px 0 0;
+		float: left;
+	}
+
+	.twitter-follow-button {
+		margin-top: 15px;
+	}
+
+	.navbar-nav > li > a > i.fa {
+		margin-right: 10px;
+	}
+}

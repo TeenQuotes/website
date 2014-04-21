@@ -20,5 +20,5 @@ Route::get('/', function()
 
 Route::get('/home', function()
 {
-	return View::make('home');
+	return View::make('home', array('pageTitle' => 'Hello'));
 });
