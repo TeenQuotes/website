@@ -36,6 +36,31 @@ class Quote extends Eloquent {
 		}
 	}
 
+	public function textTweet()
+	{
+		$content = $this->content;
+		$maxLength = 117;
+		$maxLengthAddTwitterUsername = 105;
+		$TwitterUsername = '@ohteenquotes';
+
+		if (strlen($content) > $maxLength)  {
+			$content = substr($content, 0, $maxLength);
+			$last_space = strrpos($content, " "); 
+
+			// After the space, add ...   
+			$content = substr($content, 0, $last_space);
+			$content .= '...';
+		}
+		elseif (strlen($content) <= $maxLengthAddTwitterUsername) {
+			$content .= ' '.$TwitterUsername;
+		}
+
+		$search = array ('%', ' ', '"');
+		$replace = array('%25', '%20', '%34');
+		
+		return str_replace($search, $replace, $content);
+	}
+
 	public function user()
 	{
 		return $this->belongsTo('User', 'user_id', 'id');
