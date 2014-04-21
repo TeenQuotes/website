@@ -15,10 +15,15 @@ Route::get('/', function()
 {
 	Auth::attempt(array('login' => 'antoineaugusti', 'password' => '1234'));
 	
-	return Quote::published()->with('comments')->with('user')->with('favorites')->with('favorites.user')->orderBy('created_at', 'DESC')->get();
-});
+	$quotes = Quote::published()->with('comments')->with('user')->with('favorites')->with('favorites.user')->orderBy('created_at', 'DESC')->paginate(10);
+	$colors = Quote::$colors;
+	shuffle($colors);
 
-Route::get('/home', function()
-{
-	return View::make('home', array('pageTitle' => 'Hello'));
+	$data = [
+		'quotes' => $quotes,
+		'pageTitle' => 'Homepage',
+		'colors' => $colors,
+	];
+	
+	return View::make('home', $data);
 });
