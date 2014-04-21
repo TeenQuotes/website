@@ -11,19 +11,11 @@
 |
 */
 
-Route::get('/', function()
-{
-	Auth::attempt(array('login' => 'antoineaugusti', 'password' => '1234'));
-	
-	$quotes = Quote::published()->with('comments')->with('user')->with('favorites')->with('favorites.user')->orderBy('created_at', 'DESC')->paginate(10);
-	$colors = Quote::$colors;
-	shuffle($colors);
+Route::get('/', array('as' => 'home', 'uses' => 'QuotesController@index'));
 
-	$data = [
-		'quotes' => $quotes,
-		'pageTitle' => 'Homepage',
-		'colors' => $colors,
-	];
-	
-	return View::make('home', $data);
-});
+/* --- USERS --- */
+Route::resource('users', 'UsersController', array('only' => array('index', 'show')));
+
+/* --- QUOTES --- */
+Route::get('/random', array('as' => 'random', 'uses' => 'QuotesController@index'));
+Route::resource('quotes', 'QuotesController', array('only' => array('index', 'show')));
