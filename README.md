@@ -4,6 +4,14 @@ This is the source code for the next release of Teen Quotes, using the awesome P
 # What is Teen Quotes?
 Teen Quotes: because some quotes are simply true. Teen Quotes describes your daily life and feelings in a few words that you can share with your acquaintances.
 
+# How to run?
+Update database configuration in `app/config/database.php` and then run:
+
+    $ composer install
+    $ php artisan migrate
+    $ php artisan db:seed
+    $ php artisan serve
+
 ## Who did this?
 **Antoine AUGUSTI** - http://www.antoine-augusti.fr
 
