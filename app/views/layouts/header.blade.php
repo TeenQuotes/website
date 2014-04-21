@@ -26,10 +26,10 @@
 			<div class="navbar-collapse collapse" id="navbar-main">
 				<ul class="nav navbar-nav">
 					<li>
-						<a href="/"><i class="fa fa-user"></i> {{ Lang::get('layout.login') }}</a>
+						<a href="{{URL::route('home')}}"><i class="fa fa-user"></i> {{ Lang::get('layout.login') }}</a>
 					</li>
 					<li>
-						<a href="/"><i class="fa fa-random"></i>{{ Lang::get('layout.randomQuotes') }}</a>
+						<a href="{{URL::route('random')}}"><i class="fa fa-random"></i>{{ Lang::get('layout.randomQuotes') }}</a>
 					</li>
 					<li>
 						<a href="/"><i class="fa fa-comment"></i>{{ Lang::get('layout.addQuote') }}</a>
