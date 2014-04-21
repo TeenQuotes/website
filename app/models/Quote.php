@@ -13,14 +13,22 @@ class Quote extends Eloquent {
 	 * @var array
 	 */
 	public static $rules = [
-	'content' => 'required|min:50|max:300',
-	'user_id' => 'required|exists:users,id',
-	'approved' => 'between:-1,2',
+		'content' => 'required|min:50|max:300',
+		'user_id' => 'required|exists:users,id',
+		'approved' => 'between:-1,2',
 	];
 
 	public static $colors = [
-	'#27ae60', '#16a085', '#d35400', '#e74c3c', '#8e44ad', '#F9690E', '#2c3e50', '#f1c40f', '#65C6BB', '#E08283'
+		'#27ae60', '#16a085', '#d35400', '#e74c3c', '#8e44ad', '#F9690E', '#2c3e50', '#f1c40f', '#65C6BB', '#E08283'
 	];
+
+	public static function getRandomColors()
+	{
+		$colors = self::$colors;
+		shuffle($colors);
+
+		return $colors;
+	}
 
 	public function user()
 	{
