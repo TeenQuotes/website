@@ -2,10 +2,11 @@
 
 $imagesFolder:"/assets/images/";
 $lightBlue:#2980B9;
+$red:#e74c3c;
 
 .navbar-default {
 	background: $lightBlue;
-	border-color: #FFF;
+	border: 0;
 
 	.navbar-nav > li > a {
 		@include transition-property(all);
@@ -48,4 +49,23 @@ $lightBlue:#2980B9;
 	.navbar-nav > li > a > i.fa {
 		margin-right: 10px;
 	}
+}
+
+.container.under-navbar {
+	margin-top: 70px;
+
+	.text-center {
+		text-align: center;
+	}
+}
+
+.quote {
+	background: $red;
+	width: 100%;
+	padding: 20px;
+	color: white;
+	font-size:1em;
+	line-height: 1.5em;
+	margin-bottom: 25px;
+	border-bottom: 7px solid darken($red, 10%);
 }
