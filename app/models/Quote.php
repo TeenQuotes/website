@@ -24,10 +24,16 @@ class Quote extends Eloquent {
 
 	public static function getRandomColors()
 	{
-		$colors = self::$colors;
-		shuffle($colors);
+		if (Session::has('quotesColors') AND !empty(Session::get('quotesColors')))
+			return Session::get('quotesColors');
+		else {
+			$colors = self::$colors;
+			shuffle($colors);
 
-		return $colors;
+			Session::put('quotesColors', $colors);
+
+			return $colors;
+		}
 	}
 
 	public function user()

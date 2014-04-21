@@ -5,4 +5,5 @@ return array (
 	"randomQuotes" => "Random quotes",
 	"addQuote"     => "Add your quote",
 	"apps"         => "Apps",
+	"byAuthor"     => "by",
 );

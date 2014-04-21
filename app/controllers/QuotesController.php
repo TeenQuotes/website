@@ -3,7 +3,7 @@
 class QuotesController extends \BaseController {
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a bunch of quotes
 	 *
 	 * @return Response
 	 */
@@ -16,6 +16,10 @@ class QuotesController extends \BaseController {
 			$quotes = Quote::published()->with('user')->orderBy('created_at', 'DESC')->paginate(10);
 		else
 			$quotes = Quote::published()->with('user')->orderBy(DB::raw('RAND()'))->paginate(10);
+
+		// Handle not found
+		if (is_null($quotes))
+			return Response::view('errors.missing', array(), 404);
 
 		$data = [
 			'quotes'          => $quotes,
@@ -56,7 +60,19 @@ class QuotesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+
+		$quote = Quote::find($id);
+		
+		// Handle not found
+		if (is_null($quote))
+			return Response::view('errors.missing', array(), 404);
+
+		$data = [
+			'quote'  => $quote,
+			'colors' => Quote::getRandomColors(),
+		];
+
+		return View::make('quotes.show', $data);
 	}
 
 	/**

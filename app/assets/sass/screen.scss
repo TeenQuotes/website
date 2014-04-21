@@ -1,18 +1,28 @@
 @import "compass/css3";
+@import url(http://fonts.googleapis.com/css?family=Belgrano);
 
 $imagesFolder:"/assets/images/";
 $lightBlue:#2980B9;
 $red:#e74c3c;
 
+body {
+	text-rendering: optimizeLegibility;
+}
+
+.transition {
+	@include transition-property(all);
+  	@include transition-duration(0.3s);
+  	@include transition-timing-function(ease-in-out);
+}
+
+.badge {
+	@include border-radius(0px);
+	background: #95a5a6;
+}
+
 .navbar-default {
 	background: $lightBlue;
 	border: 0;
-
-	.navbar-nav > li > a {
-		@include transition-property(all);
-  		@include transition-duration(0.2s);
-  		@include transition-timing-function(linear);
-	}
 
 	.navbar-nav > li > a:hover, .navbar-toggle:hover, .navbar-toggle:focus {
 		background: #FFF;
@@ -64,8 +74,47 @@ $red:#e74c3c;
 	width: 100%;
 	padding: 20px;
 	color: white;
-	font-size:1em;
+	font-size:1.1em;
 	line-height: 1.5em;
 	margin-bottom: 25px;
-	border-bottom: 7px solid darken($red, 10%);
+	border-bottom: 5px solid darken($red, 10%);
+	@include hyphens(auto);
+
+	.quotes-info {
+		margin-top: 10px;
+	}
+
+	.link-author-profile {
+		color: white;
+		font-family: 'Belgrano', serif;
+		font-weight: 400;
+		text-decoration: none;
+		font-size: 1.2em;
+		font-style: italic;
+		float: right;
+		background:transparent;
+		padding: 2px 5px;
+	}
+
+	.fb-like {
+		margin-left: 10px;
+	}
+
+	.comments-count {
+		color: white;
+		text-decoration: none;
+	}
+
+	.link-author-profile:hover, .badge:hover {
+		background: white;
+		color: $lightBlue;
+	}
+
+	.badge:hover {
+		background: #FFF !important;
+	}
+
+	.nb-comments {
+		margin: 0 5px 0 10px;
+	}
 }

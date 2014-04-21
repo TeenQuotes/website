@@ -26,20 +26,20 @@
 			<div class="navbar-collapse collapse" id="navbar-main">
 				<ul class="nav navbar-nav">
 					<li>
-						<a href="{{URL::route('home')}}"><i class="fa fa-user"></i> {{ Lang::get('layout.login') }}</a>
+						<a class="transition" href="{{URL::route('home')}}"><i class="fa fa-user"></i> {{ Lang::get('layout.login') }}</a>
 					</li>
 					<li>
-						<a href="{{URL::route('random')}}"><i class="fa fa-random"></i>{{ Lang::get('layout.randomQuotes') }}</a>
+						<a class="transition" href="{{URL::route('random')}}"><i class="fa fa-random"></i>{{ Lang::get('layout.randomQuotes') }}</a>
 					</li>
 					<li>
-						<a href="/"><i class="fa fa-comment"></i>{{ Lang::get('layout.addQuote') }}</a>
+						<a class="transition" href="/"><i class="fa fa-comment"></i>{{ Lang::get('layout.addQuote') }}</a>
 					</li>
 					<li>
-						<a href="/"><i class="fa fa-mobile fa-lg"></i>{{ Lang::get('layout.apps') }}</a>
+						<a class="transition" href="/"><i class="fa fa-mobile fa-lg"></i>{{ Lang::get('layout.apps') }}</a>
 					</li>
 				</ul>
 
-				<ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
+				<ul class="nav navbar-nav navbar-right hidden-sm hidden-xs hidden-md">
 					<li>
 						<a href="http://twitter.com/ohteenquotes" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @ohteenquotes</a>
 					</li>
