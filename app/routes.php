@@ -17,3 +17,8 @@ Route::get('/', function()
 	
 	return Quote::published()->with('comments')->with('user')->with('favorites')->with('favorites.user')->orderBy('created_at', 'DESC')->get();
 });
+
+Route::get('/home', function()
+{
+	return View::make('home');
+});

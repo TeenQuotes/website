@@ -8,4 +8,3 @@ composer.lock
 Thumbs.db
 public/assets/css/*.css
 .sass-cache
-Gemfile.lock
