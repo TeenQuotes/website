@@ -29,7 +29,7 @@
 					<div class="col-sm-10">
 						{{ Form::text('login', Input::old('login'), array('class' => 'form-control', 'id' => 'login-signup')) }}
 						<div id="login-awesome">
-							<i class="fa fa-smile-o"></i>{{Lang::get('auth.loginAwesome') }}
+							<span>{{Lang::get('auth.loginAwesome') }}</span><i class="fa fa-thumbs-up"></i>
 						</div>
 						@if (!empty($errors->first('login')))
 							{{ TextTools::warningTextForm($errors->first('login')) }}
@@ -54,7 +54,7 @@
 					{{ Form::label('password', Lang::get('auth.password'), array('class' => 'col-sm-2 control-label')) }}
 
 					<div class="col-sm-10">
-						{{ Form::password('password', array('class' => 'form-control')) }}
+						{{ Form::password('password', array('class' => 'form-control', 'id' => 'password')) }}
 						@if (!empty($errors->first('password')))
 							{{ TextTools::warningTextForm($errors->first('password')) }}
 						@endif
@@ -64,7 +64,7 @@
 				<!-- Submit button -->
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						{{ Form::submit(Lang::get('auth.signupButton'), array('class' => 'animated fadeInUp btn btn-primary btn-lg')) }}
+						{{ Form::submit(Lang::get('auth.signupButton'), array('class' => 'transition animated fadeInUp btn btn-primary btn-lg', 'id' => 'submit-form')) }}
 					</div>
 				</div>
 			</div>

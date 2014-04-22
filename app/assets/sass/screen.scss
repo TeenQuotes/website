@@ -35,6 +35,10 @@ body {
 	color: $red;
 }
 
+.green {
+	color: $green;
+}
+
 .navbar-default {
 	background: $topbarColor;
 	border: 0;
@@ -95,6 +99,25 @@ body {
 	}
 }
 
+#signin-page {
+	h1 {
+		margin-bottom: 15px;
+
+		> i.fa {
+			margin-right: 15px;
+		}
+	}
+
+	.signin-text {
+		margin-bottom: 10px;
+	}
+
+	#listener-wants-account {
+		margin:-20px;
+		padding: 20px;
+	}
+}
+
 #signup-page {
 	.signup-advantages {
 		ul {
@@ -129,7 +152,7 @@ body {
 
 		i.fa {
 			color:$green;
-			margin-right: 15px;
+			margin-left: 15px;
 		}
 
 	}

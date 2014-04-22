@@ -31,6 +31,10 @@
 						<li>
 							<a class="transition" href="{{URL::route('signin')}}"><i class="fa fa-user"></i> {{ Lang::get('layout.login') }}</a>
 						</li>
+					@else
+						<li>
+							<a class="transition" href="{{URL::route('logout')}}"><i class="fa fa-sign-out"></i> {{ Lang::get('layout.logout') }}</a>
+						</li>
 					@endif
 
 					<!-- RANDOM QUOTES -->
