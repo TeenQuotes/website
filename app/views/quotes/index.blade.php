@@ -1,16 +1,14 @@
+@extends('layouts/page')
 <?php
 $i = 0;
 ?>
-@include('layouts/header')
-<div class="container under-navbar">
+@section('content')
 	@foreach ($quotes as $quote)
-		@include('layouts.singleQuote', array('quote'=> $quote))
+		@include('layouts.singleQuote', array(compact($quote)))
 	<?php $i++ ?>	
 	@endforeach
-</div>
 
-<div class="text-center">
-	{{ $quotes->links() }}
-</div>
-
-@include('layouts/footer')
+	<div class="text-center">
+		{{ $quotes->links() }}
+	</div>
+@stop
