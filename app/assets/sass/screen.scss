@@ -1,5 +1,5 @@
 @import "compass/css3";
-@import url(http://fonts.googleapis.com/css?family=Belgrano);
+@import url(http://fonts.googleapis.com/css?family=Belgrano|Open+Sans:300);
 
 $imagesFolder:"/assets/images/";
 $lightBlue:#2980B9;
@@ -7,6 +7,11 @@ $red:#e74c3c;
 
 body {
 	text-rendering: optimizeLegibility;
+}
+
+.btn-primary {
+	background-color: $lightBlue;
+	border-color: $lightBlue;
 }
 
 .transition {
@@ -67,6 +72,46 @@ body {
 	.navbar-nav > li > a > i.fa {
 		margin-right: 10px;
 	}
+}
+
+.heart-row {
+	margin: 10px 0 20px 0;
+
+	.heart-container {
+		text-align: center;
+
+		.fa {
+			color: $red;
+			display: inline-block;
+	    	width: 100%;
+		}
+	}
+}
+
+.signup-advantages {
+	ul {
+		list-style: none;
+		padding: 0;
+
+		li {
+			font-weight: 300;
+			font-family: 'Open Sans', sans-serif;
+			margin: 15px 0 20px 15px;
+			font-size: 1.4em;
+
+
+			b {
+				font-weight: 400;
+			}
+		}
+		li:nth-child(even) {
+			text-align: right;
+		}
+	}
+}
+
+.signup-text {
+	margin-bottom: 10px;
 }
 
 .container.under-navbar {

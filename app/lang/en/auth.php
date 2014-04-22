@@ -13,4 +13,5 @@ return array(
 	'signupButton'      => "I'm a cool kid!",
 	'signupText'        => 'To create an account on Teen Quotes and be able to access all the advantages that come with it, fill in the form below, your account will be created in an instant!',
 	'signupSuccessfull' => 'Hi :login! Your account has been created :)',
+	'signupAdvantages'  => '<li><b>Share your thoughts</b> and write a quote!</li><li>Store your <b>favorites quotes</b></li><li><b>Comment</b> on quotes</li>',
 );
