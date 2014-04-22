@@ -27,7 +27,10 @@
 					{{ Form::label('login', Lang::get('auth.login'), array('class' => 'col-sm-2 control-label')) }}
 
 					<div class="col-sm-10">
-						{{ Form::text('login', Input::old('login'), array('class' => 'form-control')) }}
+						{{ Form::text('login', Input::old('login'), array('class' => 'form-control', 'id' => 'login-signup')) }}
+						<div id="login-awesome">
+							<i class="fa fa-smile-o"></i>{{Lang::get('auth.loginAwesome') }}
+						</div>
 						@if (!empty($errors->first('login')))
 							{{ TextTools::warningTextForm($errors->first('login')) }}
 						@endif

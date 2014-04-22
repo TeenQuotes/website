@@ -4,6 +4,7 @@
 $imagesFolder:"/assets/images/";
 $lightBlue:#2980B9;
 $red:#e74c3c;
+$green:#2ecc71;
 
 body {
 	text-rendering: optimizeLegibility;
@@ -117,6 +118,18 @@ body {
 
 .signup-text {
 	margin-bottom: 10px;
+}
+
+#login-awesome {
+	display: none;
+	color:$green;
+	margin: 10px 15px 0 15px;
+
+	i.fa {
+		color:$green;
+		margin-right: 15px;
+	}
+
 }
 
 .container.under-navbar {
