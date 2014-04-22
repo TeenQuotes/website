@@ -20,6 +20,10 @@ body {
 	background: #95a5a6;
 }
 
+.form-horizontal .control-label {
+	margin-bottom: 10px;
+}
+
 .red {
 	color: $red;
 }
