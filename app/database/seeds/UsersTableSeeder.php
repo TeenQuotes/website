@@ -37,7 +37,7 @@ class UsersTableSeeder extends Seeder {
 			else {
 				User::create([
 					'login' => 'antoineaugusti',
-					'password' => Hash::make("1234"),
+					'password' => Hash::make("123456"),
 					'email' => $faker->email,
 					'security_level' => 1,
 					'ip' => $faker->ipv4,
@@ -51,7 +51,7 @@ class UsersTableSeeder extends Seeder {
 					'notification_comment_quote' => 1,
 					'last_visit' => $faker->dateTimeThisYear(),
 				]);
-				$this->command->info('Admin account : #42 - antoineaugusti - 1234');
+				$this->command->info('Admin account : #42 - antoineaugusti - 123456');
 			}
 		}
 
