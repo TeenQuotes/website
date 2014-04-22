@@ -23,7 +23,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * The validation rules
 	 * @var array
 	 */
-	public static $rules = [
+	public static $rulesSignup = [
 		'login' => 'required|unique:users,login|min:3|max:20',
 		'password' => 'required|min:6',
 		'email' => 'required|email',
@@ -36,6 +36,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'about_me' => 'max:500',
 		'hide_profile' => 'in:0,1',
 		'notification_comment_quote' => 'in:0,1',
+	];
+
+	public static $rulesSignin = [
+		'login' => 'required|exists:users,login|min:3|max:20',
+		'password' => 'required|min:6',
 	]; 
 
 	public function comments()
