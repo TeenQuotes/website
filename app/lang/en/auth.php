@@ -5,8 +5,12 @@ return array(
 	'passwordInvalid'   => 'Your password is invalid.',
 	'login'             => 'Login',
 	'password'          => 'Password',
+	'emailAddress'      => 'Email address',
 	'loginButton'       => 'Login',
 	'logoutSuccessfull' => 'You have been logged. See you soon :login :)',
 	'logoutNotLoggedIn' => 'Try to log in first!',
 	'requireLoggedIn'   => 'Oops, you need to be logged in!',
+	'signupButton'      => "I'm a cool kid!",
+	'signupText'        => 'To create an account on Teen Quotes and be able to access all the advantages that come with it, fill in the form below, your account will be created in an instant!',
+	'signupSuccessfull' => 'Hi :login! Your account has been created :)',
 );

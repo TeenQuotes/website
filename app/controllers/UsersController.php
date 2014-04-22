@@ -8,6 +8,16 @@ class UsersController extends \BaseController {
     }
 
     /**
+	 * Displays the signup form
+	 *
+	 * @return Response
+	 */
+	public function getSignup()
+    {
+    	Return View::make('auth.signup');
+    }
+
+    /**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
@@ -34,7 +44,36 @@ class UsersController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$data = [
+			'login'    => Input::get('login'),
+			'password' => Input::get('password'),
+			'email'    => Input::get('email'),
+		];
+
+		$validator = Validator::make($data, User::$rulesSignup);
+
+		// Check if the form validates with success.
+		if ($validator->passes()) {
+			
+			// Store the user
+			$user = new User;
+			$user->login = $data['login'];
+			$user->email = $data['email'];
+			$user->password = Hash::make($data['password']);
+			$user->ip = $_SERVER['REMOTE_ADDR'];
+			$user->last_visit = Carbon::now()->toDateTimeString();
+			$user->save();
+
+			// Log the user
+			Auth::login($user);
+
+			// TODO : send an email
+			
+			return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', array('login' => $data['login'])));
+		}
+
+		// Something went wrong.
+		return Redirect::route('signup')->withErrors($validator)->withInput(Input::except('password'));
 	}
 
 	/**

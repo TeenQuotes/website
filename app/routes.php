@@ -19,7 +19,7 @@ Route::get('logout', array('as' => 'logout', 'uses' => 'AuthController@getLogout
 Route::post('signin', 'AuthController@postSignin');
 
 /* --- USERS --- */
-Route::get("/signup", array("before" => "guest", "uses" => "UsersController@getSignup"));
+Route::get("/signup", array("as" => "signup", "before" => "guest", "uses" => "UsersController@getSignup"));
 Route::resource('users', 'UsersController', array('only' => array('index', 'show', 'store')));
 
 /* --- QUOTES --- */

@@ -1,0 +1,50 @@
+@extends('layouts/page')
+@section('content')
+	{{Lang::get('auth.signupText')}}
+	{{ Form::open(array('url' => URL::route('users.store'), 'class' => 'form-horizontal')) }}
+
+		<!-- Login -->
+		<div class="form-group {{{ $errors->has('login') ? 'error' : '' }}}">
+			{{ Form::label('login', Lang::get('auth.login'), array('class' => 'col-sm-2 control-label')) }}
+
+			<div class="col-sm-10">
+				{{ Form::text('login', Input::old('login'), array('class' => 'form-control')) }}
+				@if (!empty($errors->first('login')))
+					{{ TextTools::warningTextForm($errors->first('login')) }}
+				@endif
+			</div>
+		</div>
+
+		<!-- Email address -->
+		<div class="form-group {{{ $errors->has('email') ? 'error' : '' }}}">
+			{{ Form::label('email', Lang::get('auth.emailAddress'), array('class' => 'col-sm-2 control-label')) }}
+
+			<div class="col-sm-10">
+				{{ Form::text('email', Input::old('email'), array('class' => 'form-control')) }}
+				@if (!empty($errors->first('email')))
+					{{ TextTools::warningTextForm($errors->first('email')) }}
+				@endif
+			</div>
+		</div>
+
+		<!-- Password -->
+		<div class="form-group {{{ $errors->has('password') ? 'error' : '' }}}">
+			{{ Form::label('password', Lang::get('auth.password'), array('class' => 'col-sm-2 control-label')) }}
+
+			<div class="col-sm-10">
+				{{ Form::password('password', array('class' => 'form-control')) }}
+				@if (!empty($errors->first('password')))
+					{{ TextTools::warningTextForm($errors->first('password')) }}
+				@endif
+			</div>
+		</div>
+
+		<!-- Submit button -->
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				{{ Form::submit(Lang::get('auth.signupButton'), array('class' => 'btn btn-primary btn-lg')) }}
+			</div>
+		</div>
+
+	{{ Form::close() }}
+@stop
