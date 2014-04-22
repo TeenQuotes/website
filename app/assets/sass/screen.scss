@@ -63,7 +63,12 @@ body {
 		display: block;
 		margin: 12px 10px 0 0;
 		float: left;
+
+		@media screen and (max-width: 768px) {
+			margin-left: 10px;
+		}
 	}
+
 
 	.twitter-follow-button {
 		margin-top: 15px;
@@ -115,7 +120,11 @@ body {
 }
 
 .container.under-navbar {
-	margin-top: 70px;
+	margin-top: 100px;
+
+	@media screen and (max-width: 768px) {
+		margin-top: 70px;
+	}
 
 	.text-center {
 		text-align: center;
