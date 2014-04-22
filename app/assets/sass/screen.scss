@@ -59,8 +59,8 @@ body {
 
 .navbar-fixed-top {
 	.logo {
-		background:url($imagesFolder + 'logo.png');
-		width: 195px;
+		background:url($imagesFolder + 'logo.png') no-repeat;
+		width: 200px;
 		height: 30px;
 		display: block;
 		margin: 12px 10px 0 0;
