@@ -2,7 +2,12 @@
 
 class UsersController extends \BaseController {
 
-	/**
+	public function __construct()
+    {
+        $this->beforeFilter('guest', array('on' => 'store'));
+    }
+
+    /**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response

@@ -19,7 +19,8 @@ Route::get('logout', array('as' => 'logout', 'uses' => 'AuthController@getLogout
 Route::post('signin', 'AuthController@postSignin');
 
 /* --- USERS --- */
-Route::resource('users', 'UsersController', array('only' => array('index', 'show')));
+Route::get("/signup", array("before" => "guest", "uses" => "UsersController@getSignup"));
+Route::resource('users', 'UsersController', array('only' => array('index', 'show', 'store')));
 
 /* --- QUOTES --- */
 Route::get('/random', array('as' => 'random', 'uses' => 'QuotesController@index'));
