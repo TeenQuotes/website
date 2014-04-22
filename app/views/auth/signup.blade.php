@@ -39,7 +39,7 @@
 					{{ Form::label('email', Lang::get('auth.emailAddress'), array('class' => 'col-sm-2 control-label')) }}
 
 					<div class="col-sm-10">
-						{{ Form::text('email', Input::old('email'), array('class' => 'form-control')) }}
+						{{ Form::email('email', Input::old('email'), array('class' => 'form-control')) }}
 						@if (!empty($errors->first('email')))
 							{{ TextTools::warningTextForm($errors->first('email')) }}
 						@endif
