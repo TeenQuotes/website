@@ -26,7 +26,7 @@ class AuthController extends \BaseController {
 	public function postSignin()
 	{
 		$data = [
-			'login' => Input::get('login'),
+			'login'    => Input::get('login'),
 			'password' => Input::get('password'),
 		];
 
