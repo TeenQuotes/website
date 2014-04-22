@@ -1,7 +1,7 @@
 @extends('layouts/page')
 @section('content')
 	<div class="row">
-		<div class="col-md-6 col-md-push-6">
+		<div class="animated fadeInRight col-md-6 col-md-push-6">
 			<div class="row heart-row">
 				<div class="col-xs-4"></div>
 				<div class="col-xs-4">
@@ -16,7 +16,7 @@
 			</div>
 		</div>
 
-		<div class="col-md-6 col-md-pull-6">
+		<div class="animated fadeInLeft col-md-6 col-md-pull-6">
 			<div class="signup-text">
 				{{Lang::get('auth.signupText')}}
 			</div>
@@ -61,7 +61,7 @@
 				<!-- Submit button -->
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						{{ Form::submit(Lang::get('auth.signupButton'), array('class' => 'btn btn-primary btn-lg')) }}
+						{{ Form::submit(Lang::get('auth.signupButton'), array('class' => 'animated fadeInUp btn btn-primary btn-lg')) }}
 					</div>
 				</div>
 			</div>
