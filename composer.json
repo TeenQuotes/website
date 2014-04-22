@@ -5,7 +5,8 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.1.*",
-		"fitztrev/laravel-html-minify": "dev-master"
+		"fitztrev/laravel-html-minify": "dev-master",
+		"nesbot/Carbon": "*"
 	},
 	"require-dev": {
     	"way/generators": "2.*",
