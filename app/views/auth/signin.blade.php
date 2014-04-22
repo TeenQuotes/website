@@ -9,9 +9,7 @@
 			<div class="col-sm-10">
 				{{ Form::text('login', Input::old('login'), array('class' => 'form-control')) }}
 				@if (!empty($errors->first('login')))
-				<div class="error-form animated shake">
-					<i class="fa fa-warning red"></i>{{ $errors->first('login') }}
-				</div>
+					{{ TextTools::warningTextForm($errors->first('login')) }}
 				@endif
 			</div>
 		</div>
@@ -23,9 +21,7 @@
 			<div class="col-sm-10">
 				{{ Form::password('password', array('class' => 'form-control')) }}
 				@if (!empty($errors->first('password')))
-					<div class="error-form animated shake">
-						<i class="fa fa-warning red"></i>{{ $errors->first('password') }}
-					</div>
+					{{ TextTools::warningTextForm($errors->first('password')) }}
 				@endif
 			</div>
 		</div>
