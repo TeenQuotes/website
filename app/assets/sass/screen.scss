@@ -5,6 +5,7 @@ $imagesFolder:"/assets/images/";
 $lightBlue:#2980B9;
 $red:#e74c3c;
 $green:#2ecc71;
+$topbarColor:#22313F;
 
 body {
 	text-rendering: optimizeLegibility;
@@ -35,12 +36,12 @@ body {
 }
 
 .navbar-default {
-	background: $lightBlue;
+	background: $topbarColor;
 	border: 0;
 
 	.navbar-nav > li > a:hover, .navbar-toggle:hover, .navbar-toggle:focus {
 		background: #FFF;
-		color: $lightBlue;
+		color: $topbarColor;
 	}
 
 	.navbar-toggle .icon-bar {
@@ -48,11 +49,11 @@ body {
 	}
 
 	.navbar-toggle:hover .icon-bar, .navbar-toggle:focus .icon-bar {
-		background-color: $lightBlue;
+		background-color: $topbarColor;
 	}
 
 	.navbar-collapse {
-		border-color: lighten($lightBlue, 10%);
+		border-color: lighten($topbarColor, 10%);
 	}
 }
 
@@ -94,42 +95,44 @@ body {
 	}
 }
 
-.signup-advantages {
-	ul {
-		list-style: none;
-		padding: 0;
+#signup-page {
+	.signup-advantages {
+		ul {
+			list-style: none;
+			padding: 0;
 
-		li {
-			font-weight: 300;
-			font-family: 'Open Sans', sans-serif;
-			margin: 15px 0 20px 15px;
-			font-size: 1.4em;
+			li {
+				font-weight: 300;
+				font-family: 'Open Sans', sans-serif;
+				margin: 15px 0 20px 15px;
+				font-size: 1.4em;
 
 
-			b {
-				font-weight: 400;
+				b {
+					font-weight: 400;
+				}
+			}
+			li:nth-child(even) {
+				text-align: right;
 			}
 		}
-		li:nth-child(even) {
-			text-align: right;
-		}
 	}
-}
 
-.signup-text {
-	margin-bottom: 10px;
-}
+	.signup-text {
+		margin-bottom: 10px;
+	}
 
-#login-awesome {
-	display: none;
-	color:$green;
-	margin: 10px 15px 0 15px;
-
-	i.fa {
+	#login-awesome {
+		display: none;
 		color:$green;
-		margin-right: 15px;
-	}
+		margin: 10px 15px 0 15px;
 
+		i.fa {
+			color:$green;
+			margin-right: 15px;
+		}
+
+	}
 }
 
 .container.under-navbar {

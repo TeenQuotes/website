@@ -1,6 +1,6 @@
 @extends('layouts/page')
 @section('content')
-	<div class="row">
+	<div id="signup-page" class="row">
 		<div class="animated fadeInRight col-md-6 col-md-push-6">
 			<div class="row heart-row">
 				<div class="col-xs-4"></div>
