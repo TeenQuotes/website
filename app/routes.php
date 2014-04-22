@@ -13,9 +13,12 @@
 
 Route::get('/', array('as' => 'home', 'uses' => 'QuotesController@index'));
 
-/* --- USERS --- */
+/* --- AUTH --- */
 Route::get('signin', array('as' => 'signin', 'uses' => 'AuthController@getSignin'));
+Route::get('logout', array('as' => 'logout', 'uses' => 'AuthController@getLogout'));
 Route::post('signin', 'AuthController@postSignin');
+
+/* --- USERS --- */
 Route::resource('users', 'UsersController', array('only' => array('index', 'show')));
 
 /* --- QUOTES --- */

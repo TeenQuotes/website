@@ -33,16 +33,28 @@ class AuthController extends \BaseController {
 		$validator = Validator::make($data, User::$rulesSignin);
 
 		// Check if the form validates with success.
-		if ($validator->passes())
-		{
+		if ($validator->passes()) {
 			// Try to log the user in.
-			if (Auth::attempt($data))
-				return Redirect::to('')->with('success', Lang::get('auth.logginSuccessfull'));
+			if (Auth::attempt($data, true))
+				return Redirect::intended('/')->with('success', Lang::get('auth.logginSuccessfull', array('login' => $data['login'])));
 			else
 				return Redirect::route('signin')->withErrors(array('password' => Lang::get('auth.passwordInvalid')))->withInput(Input::except('password'));
 		}
 
 		// Something went wrong.
 		return Redirect::route('signin')->withErrors($validator)->withInput(Input::except('password'));
+	}
+
+	public function getLogout()
+	{
+		if (Auth::check()) {
+			$login = Auth::user()->login;
+			Auth::logout();
+			
+			return Redirect::route('home')->with('success', Lang::get('auth.logoutSuccessfull', array('login' => $login)));
+		}
+		else
+			return Redirect::route('home')->with('warning', Lang::get('auth.logoutNotLoggedIn'));
+
 	}
 }

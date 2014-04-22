@@ -9,8 +9,6 @@ class QuotesController extends \BaseController {
 	 */
 	public function index()
 	{
-		Auth::logout();
-
 		// Random quotes or not?
 		if (Route::currentRouteName() != 'random')
 			$quotes = Quote::published()->with('user')->orderBy('created_at', 'DESC')->paginate(10);
