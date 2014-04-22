@@ -9,7 +9,7 @@ class QuotesController extends \BaseController {
 	 */
 	public function index()
 	{
-		Auth::attempt(array('login' => 'antoineaugusti', 'password' => '1234'));
+		Auth::logout();
 
 		// Random quotes or not?
 		if (Route::currentRouteName() != 'random')

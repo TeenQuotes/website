@@ -14,6 +14,8 @@
 Route::get('/', array('as' => 'home', 'uses' => 'QuotesController@index'));
 
 /* --- USERS --- */
+Route::get('signin', array('as' => 'signin', 'uses' => 'AuthController@getSignin'));
+Route::post('signin', 'AuthController@postSignin');
 Route::resource('users', 'UsersController', array('only' => array('index', 'show')));
 
 /* --- QUOTES --- */

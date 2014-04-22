@@ -20,6 +20,10 @@ body {
 	background: #95a5a6;
 }
 
+.red {
+	color: $red;
+}
+
 .navbar-default {
 	background: $lightBlue;
 	border: 0;
@@ -66,6 +70,14 @@ body {
 
 	.text-center {
 		text-align: center;
+	}
+}
+
+.error-form {
+	margin: 10px 0 0 20px;
+
+	i.fa {
+		margin-right: 15px;
 	}
 }
 
