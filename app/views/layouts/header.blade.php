@@ -18,15 +18,18 @@
 		<div class="container">
 			<div class="navbar-header">
 				<a href="../" class="logo"></a>
+
+				<!-- NAVBAR TOGGLE FOR MOBILES -->
 				<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
 			</div>
+			
 			<div class="navbar-collapse collapse" id="navbar-main">
 				<ul class="nav navbar-nav">
-					<!-- LOGIN -->
+					<!-- LOGIN / LOGOUT -->
 					@if (Auth::guest())
 						<li>
 							<a class="transition" href="{{URL::route('signin')}}"><i class="fa fa-user"></i> {{ Lang::get('layout.login') }}</a>
@@ -53,6 +56,7 @@
 					</li>
 				</ul>
 
+				<!-- TWITTER FOLLOW BUTTON -->
 				<ul class="nav navbar-nav navbar-right hidden-sm hidden-xs hidden-md">
 					<li>
 						<a href="http://twitter.com/ohteenquotes" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @ohteenquotes</a>
