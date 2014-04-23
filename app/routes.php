@@ -26,3 +26,6 @@ Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'store'
 Route::get('/random', ['as' => 'random', 'uses' => 'QuotesController@index']);
 Route::get('/addquote', ['as' => 'addquote', 'before' => 'auth', 'uses' => 'QuotesController@getAddQuote']);
 Route::resource('quotes', 'QuotesController', ['only' => ['index', 'show', 'store']]);
+
+/* --- COMMENTS --- */
+Route::resource('comments', 'CommentsController', ['only' => ['store']]);

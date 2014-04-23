@@ -143,14 +143,6 @@ body {
 		margin-bottom: 10px;
 	}
 
-	#countLetters {
-		margin: 15x 0 0 10px;
-
-		i.fa {
-			margin-right: 10px;
-		}
-	}
-
 	ul {
 		list-style: none;
 		padding: 0;
@@ -311,6 +303,22 @@ body {
 		}
 	}
 
+}
+
+#title-comments, #title-add-comment {
+	margin: 2em 0 1em 0;
+
+	i.fa {
+		margin-right: 20px;
+	}
+}
+
+#countLetters {
+	margin: 15x 0 0 10px;
+
+	i.fa {
+		margin-right: 10px;
+	}
 }
 
 .comment {

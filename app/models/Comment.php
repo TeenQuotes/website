@@ -7,9 +7,8 @@ class Comment extends Eloquent {
 	 * The validation rules
 	 * @var array
 	 */
-	public static $rules = [
+	public static $rulesAdd = [
 		'content' => 'required|min:10|max:500',
-		'user_id' => 'required|exists:users,id',
 		'quote_id' => 'required|exists:quotes,id',
 	];  
 

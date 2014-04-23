@@ -38,9 +38,10 @@ $(document).ready(function() {
 		$("#wants-account").removeClass("animated shake");
 	});
 
-	// Add a quote characters counter
 	$('#countLetters').css("display", "none");
-	$('#submit-quote').attr('disabled','disabled');
+	$('#submit-quote, #submit-comment').attr('disabled','disabled');
+	
+	// Add a quote character's counter
 	$('#content-quote').keyup(function() {
 		var nbCaracters = $(this).val().length;
 		if (nbCaracters < 50)
@@ -65,7 +66,34 @@ $(document).ready(function() {
 		if ($('#countLetters').is(":hidden") && nbCaracters >= 1) {
 			$('#countLetters').fadeIn("slow")
 		}
-	})
+	});
+
+	// Add a comment character's counter
+	$('#content-comment').keyup(function() {
+		var nbCaracters = $(this).val().length;
+		if (nbCaracters < 10)
+			var msg = '<i class="fa fa-meh-o"></i> It\'s a bit short!';
+		else
+			var msg = '<i class="fa fa-smile-o"></i> It seems nice!';
+
+		$('#countLetters').html(msg);
+		if (nbCaracters >= 10) {
+			$('#countLetters').addClass("green");
+			$('#countLetters').removeClass("orange");
+			$('input[type="submit"]').removeAttr('disabled');
+		} else {
+			$('input[type="submit"]').attr('disabled','disabled');
+			$('#countLetters').addClass("orange");
+			$('#countLetters').removeClass("green")
+		}
+
+		if ($('#countLetters').is(":visible") && nbCaracters == 0) {
+			$('#countLetters').fadeOut("slow")
+		}
+		if ($('#countLetters').is(":hidden") && nbCaracters >= 1) {
+			$('#countLetters').fadeIn("slow")
+		}
+	});
 });
 
 // Auto remove for alerts after 5s
