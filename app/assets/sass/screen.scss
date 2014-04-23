@@ -256,7 +256,7 @@ body {
 		margin-top: 10px;
 
 		@media screen and (max-width: 768px) {
-			font-size: 0.9em;
+				font-size: 0.9em;
 		}
 
 		.link-author-profile {
@@ -269,6 +269,10 @@ body {
 			float: right;
 			background:transparent;
 			padding: 2px 5px;
+
+			@media screen and (max-width: 768px) {
+				font-size: 0.9em;
+			}
 		}
 
 		.float-left {
