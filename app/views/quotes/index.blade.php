@@ -4,7 +4,7 @@ $i = 0;
 ?>
 @section('content')
 	@foreach ($quotes as $quote)
-		@include('quotes.singleQuote', array(compact($quote)))
+		@include('quotes.singleQuote', compact($quote))
 	<?php $i++ ?>	
 	@endforeach
 
