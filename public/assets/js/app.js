@@ -109,7 +109,7 @@ function doneTypingLoginSignup() {
 	}
 	timeoutReference = null;
 
-	$("#login-awesome span").text($('input#login-signup').val() + "? " + $("#login-awesome span").text());
+	$("#login-awesome span").text($('input#login-signup').val() + "? ");
 	$("#login-awesome").fadeIn(500);
 }
 
