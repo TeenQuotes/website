@@ -10,8 +10,8 @@
 	</div>
 
 	<!-- COMMENT'S INFO -->
-	<div class="row">
-		<div class="col-xs-offset-3 col-sm-offset-3 col-md-offset-2 col-lg-offset-1 col-xs-4 col-sm-4 col-md-3 col-lg-2">
+	<div class="row comment-info">
+		<div class="date-comment col-xs-offset-3 col-sm-offset-3 col-md-offset-2 col-lg-offset-1 col-xs-4 col-sm-4 col-md-3 col-lg-2">
 			{{ $comment->created_at->diffForHumans() }}
 		</div>
 		<div class="col-xs-5 col-sm-5 col-md-7 col-lg-9">

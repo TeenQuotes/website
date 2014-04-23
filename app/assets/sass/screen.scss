@@ -334,25 +334,35 @@ body {
 		border-right: 1px solid darken($lightGray, 10%);
 	}
 
-	.link-author-name {
-		color: darken($lightGray, 50%);
-		font-family: 'Belgrano', serif;
-		font-weight: 400;
-		text-decoration: none;
-		font-style: italic;
-		float: right;
-		background:transparent;
-		padding: 2px 5px;
-
+	.comment-info {
+		margin-top: 10px;
 		@media screen and (max-width: 768px) {
 			font-size: 0.9em;
 		}
 
-	} 
+		.date-comment {
+			@media screen and (max-width: 768px) {
+				font-size: 0.9em;
+				margin-top: 3px;
+			}
+		}
 
-	.link-author-name:hover {
-		background: white;
-		color: darken($lightGray, 50%);
+		.link-author-name {
+			color: darken($lightGray, 50%);
+			font-family: 'Belgrano', serif;
+			font-weight: 400;
+			text-decoration: none;
+			font-style: italic;
+			float: right;
+			background:transparent;
+			padding: 2px 5px;
+		} 
+
+		.link-author-name:hover {
+			background: white;
+			color: darken($lightGray, 50%);
+		}
 	}
+
 
 }
