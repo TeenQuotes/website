@@ -243,7 +243,6 @@ body {
 	margin-bottom: 25px;
 	border-bottom: 5px solid darken($red, 10%);
 	text-align: justify;
-	@include border-radius(3px);
 	@include hyphens(auto);
 
 	.quotes-info {
