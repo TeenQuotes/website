@@ -14,7 +14,12 @@ class UsersController extends \BaseController {
 	 */
 	public function getSignup()
 	{
-		return View::make('auth.signup');
+		$data = [
+			'pageTitle'       => Lang::get('auth.signupPageTitle'),
+			'pageDescription' => Lang::get('auth.signupPageDescription'),
+		];
+
+		return View::make('auth.signup', $data);
 	}
 
 	/**

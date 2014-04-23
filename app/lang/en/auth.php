@@ -21,4 +21,8 @@ return array(
 	'dontOwnAccountYet'       => "So you don't have an account yet? Not cool...<br/><br/>This is your lucky day, in 1 minute you'll have one! You just have to click the fancy button below.<br/><br/>",
 	'wantsAnAccount'          => "I want an account!",
 	'pleasureSeeYouAgain'     => "What a pleasure to see you again!",
+	'signinPageTitle'         => 'Log in | Teen Quotes',
+	'signinPageDescription'   => 'Log in to your account and enter in your space on Teen Quotes.',
+	'signupPageTitle'         => 'Create an account | Teen Quotes',
+	'signupPageDescription'   => 'Create an account and access to all the advantages that come with it in a minute.',
 );

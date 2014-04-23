@@ -26,7 +26,6 @@ class QuotesController extends \BaseController {
 
 		$data = [
 			'quotes'          => $quotes,
-			'pageTitle'       => 'Homepage',
 			'colors'          => Quote::getRandomColors(),
 			'pageTitle'       => Lang::get('quotes.'.Route::currentRouteName().'PageTitle'),
 			'pageDescription' => Lang::get('quotes.'.Route::currentRouteName().'PageDescription'),
@@ -62,7 +61,12 @@ class QuotesController extends \BaseController {
 	 */
 	public function getAddQuote()
 	{
-		return View::make('quotes.addquote');
+		$data = [
+			'pageTitle'       => Lang::get('quotes.addquotePageTitle'),
+			'pageDescription' => Lang::get('quotes.addquotePageDescription'),
+		];
+
+		return View::make('quotes.addquote', $data);
 	}
 
 	/**

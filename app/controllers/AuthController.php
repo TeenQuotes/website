@@ -15,7 +15,12 @@ class AuthController extends \BaseController {
 			return Redirect::route('home')->with('success', Lang::get('auth.alreadyLoggedIn'));
 		}
 
-		return View::make('auth.signin');
+		$data = [
+			'pageTitle'       => Lang::get('auth.signinPageTitle'),
+			'pageDescription' => Lang::get('auth.signinPageDescription'),
+		];
+
+		return View::make('auth.signin', $data);
 	}
 
 	/**
