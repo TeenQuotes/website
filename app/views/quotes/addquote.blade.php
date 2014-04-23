@@ -15,7 +15,7 @@
 					{{ Form::label('quote', Lang::get('quotes.yourQuote'), array('class' => 'col-sm-2 control-label')) }}
 
 					<div class="col-sm-10">
-						{{ Form::textarea('quote', Input::old('quote'), array('class' => 'form-control', 'id' => 'content-quote')) }}
+						{{ Form::textarea('quote', Input::old('quote'), array('class' => 'form-control', 'id' => 'content-quote', 'rows' => '3')) }}
 						<span id="countLetters" class="orange">0 characters</span>
 						@if (!empty($errors->first('quote')))
 							{{ TextTools::warningTextForm($errors->first('quote')) }}
