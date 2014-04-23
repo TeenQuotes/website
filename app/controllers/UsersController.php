@@ -3,21 +3,21 @@
 class UsersController extends \BaseController {
 
 	public function __construct()
-    {
-        $this->beforeFilter('guest', array('on' => 'store'));
-    }
+	{
+		$this->beforeFilter('guest', array('on' => 'store'));
+	}
 
-    /**
+	/**
 	 * Displays the signup form
 	 *
 	 * @return Response
 	 */
 	public function getSignup()
-    {
-    	Return View::make('auth.signup');
-    }
+	{
+		return View::make('auth.signup');
+	}
 
-    /**
+	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
