@@ -9,9 +9,10 @@
 	{{ HTML::style('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css'); }}
 	{{ HTML::style('//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.0/animate.min.css'); }}
 	{{ HTML::style('assets/css/screen.css'); }}
+	<link rel="shortcut icon" href="assets/images/favicon.png"/>
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
+	<![endif]-->
 </head>
 <body>
 	<div class="navbar navbar-default navbar-fixed-top">
