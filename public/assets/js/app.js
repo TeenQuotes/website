@@ -3,7 +3,6 @@ $(document).ready(function() {
 	$('.social-buttons').delay(2000).animate({
 		opacity: 1
 	}, 1000);
-	$('.alert').delay(3000).fadeOut(1000);
 
 	// Signup view
 	$('input#login-signup').keypress(function() {
@@ -35,12 +34,13 @@ $(document).ready(function() {
 	$("#listener-wants-account").mouseenter(function() {
 		$("#wants-account").addClass("animated shake");
 	})
-		.mouseleave(function() {
-			$("#wants-account").removeClass("animated shake");
-		});
+	.mouseleave(function() {
+		$("#wants-account").removeClass("animated shake");
+	});
 
 	// Add a quote characters counter
 	$('#countLetters').css("display", "none");
+	$('#submit-quote').attr('disabled','disabled');
 	$('#content-quote').keyup(function() {
 		var nbCaracters = $(this).val().length;
 		if (nbCaracters < 50)
@@ -51,11 +51,14 @@ $(document).ready(function() {
 		$('#countLetters').html(msg);
 		if (nbCaracters >= 50) {
 			$('#countLetters').addClass("green");
-			$('#countLetters').removeClass("orange")
+			$('#countLetters').removeClass("orange");
+			$('input[type="submit"]').removeAttr('disabled');
 		} else {
+			$('input[type="submit"]').attr('disabled','disabled');
 			$('#countLetters').addClass("orange");
 			$('#countLetters').removeClass("green")
 		}
+
 		if ($('#countLetters').is(":visible") && nbCaracters == 0) {
 			$('#countLetters').fadeOut("slow")
 		}
@@ -64,6 +67,13 @@ $(document).ready(function() {
 		}
 	})
 });
+
+// Auto remove for alerts after 5s
+window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+    });
+}, 5000);
 
 function doneTypingLoginSignup() {
 	if (!timeoutReference) {
