@@ -2,8 +2,12 @@
 $colorQuote = $colors[$i];
 $colorBorderQuote = Quote::adjustBrightness($colors[$i], -30);
 $colorBubbleComments = Quote::adjustBrightness($colorQuote, 100);
+if ($i % 2 == 1)
+	$transition = 'fadeInRight';
+else
+	$transition = 'fadeInLeft';
 ?>
-<div class="quote" style="background-color:<?= $colorQuote; ?>;border-bottom-color:<?= $colorBorderQuote; ?>">
+<div class="quote animated <?= $transition; ?>" style="background-color:<?= $colorQuote; ?>;border-bottom-color:<?= $colorBorderQuote; ?>">
 	{{ $quote->content}}
 	
 	<div class="row quotes-info">
