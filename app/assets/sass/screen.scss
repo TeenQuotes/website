@@ -249,6 +249,7 @@ body {
 	line-height: 1.5em;
 	margin-bottom: 25px;
 	border-bottom: 5px solid darken($red, 10%);
+	text-align: justify;
 	@include hyphens(auto);
 
 	.quotes-info {
@@ -265,6 +266,10 @@ body {
 		float: right;
 		background:transparent;
 		padding: 2px 5px;
+
+		@media screen and (max-width: 768px) {
+			font-size: 0.9em;
+		}
 	}
 
 	.float-left {
@@ -287,6 +292,10 @@ body {
 	.comments-count {
 		color: white;
 		text-decoration: none;
+
+		@media screen and (max-width: 768px) {
+			font-size: 0.9em;
+		}
 	}
 
 	.link-author-profile:hover, .badge:hover {
