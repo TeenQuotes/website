@@ -4,6 +4,7 @@
 $imagesFolder:"/assets/images/";
 $lightBlue:#2980B9;
 $red:#e74c3c;
+$orange:#ff7518;
 $green:#2ecc71;
 $topbarColor:#22313F;
 
@@ -37,6 +38,10 @@ body {
 
 .green {
 	color: $green;
+}
+
+.orange {
+	color: $orange;
 }
 
 .alert-warning {
@@ -121,6 +126,57 @@ body {
 	#listener-wants-account {
 		margin:-20px;
 		padding: 20px;
+	}
+}
+
+#addquote-page {
+	h1 {
+		margin-bottom: 15px;
+
+		> i.fa {
+			margin-right: 15px;
+		}
+	}
+
+	.addquote-text {
+		margin-bottom: 10px;
+	}
+
+	#countLetters {
+		margin: 15x 0 0 10px;
+
+		i.fa {
+			margin-right: 10px;
+		}
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
+
+		li {
+			font-weight: 300;
+			font-family: 'Open Sans', sans-serif;
+			margin: 15px 0 20px 15px;
+			font-size: 1.4em;
+
+
+			b {
+				font-weight: 400;
+			}
+		}
+		li:nth-child(even) {
+			text-align: right;
+		}
+	}
+
+	.notice-email {
+		margin-top: 15px;
+
+		i.fa {
+			color: $lightBlue;
+			margin-right: 10px;
+		}
 	}
 }
 

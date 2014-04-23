@@ -2,6 +2,11 @@
 
 class QuotesController extends \BaseController {
 
+	public function __construct()
+	{
+		$this->beforeFilter('auth', array('on' => 'store'));
+	}
+
 	/**
 	 * Display a bunch of quotes
 	 *
@@ -48,6 +53,16 @@ class QuotesController extends \BaseController {
 	public function store()
 	{
 		//
+	}
+
+	/**
+	 * Display the form to add a quote
+	 *
+	 * @return Response
+	 */
+	public function getAddQuote()
+	{
+		return View::make('quotes.addquote');
 	}
 
 	/**

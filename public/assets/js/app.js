@@ -35,9 +35,34 @@ $(document).ready(function() {
 	$("#listener-wants-account").mouseenter(function() {
 		$("#wants-account").addClass("animated shake");
 	})
-	.mouseleave(function() {
-		$("#wants-account").removeClass("animated shake");
-	});
+		.mouseleave(function() {
+			$("#wants-account").removeClass("animated shake");
+		});
+
+	// Add a quote characters counter
+	$('#countLetters').css("display", "none");
+	$('#content-quote').keyup(function() {
+		var nbCaracters = $(this).val().length;
+		if (nbCaracters < 50)
+			var msg = '<i class="fa fa-meh-o"></i> It\'s a bit short!';
+		else
+			var msg = '<i class="fa fa-smile-o"></i> It\'s going to be a great quote!';
+
+		$('#countLetters').html(msg);
+		if (nbCaracters >= 50) {
+			$('#countLetters').addClass("green");
+			$('#countLetters').removeClass("orange")
+		} else {
+			$('#countLetters').addClass("orange");
+			$('#countLetters').removeClass("green")
+		}
+		if ($('#countLetters').is(":visible") && nbCaracters == 0) {
+			$('#countLetters').fadeOut("slow")
+		}
+		if ($('#countLetters').is(":hidden") && nbCaracters >= 1) {
+			$('#countLetters').fadeIn("slow")
+		}
+	})
 });
 
 function doneTypingLoginSignup() {
