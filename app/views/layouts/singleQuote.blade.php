@@ -12,11 +12,13 @@ else
 	
 	<div class="row quotes-info">
 		<!-- COMMENTS -->
-		<div class="col-md-2 col-xs-4">
-			<a href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}"><span class="badge transition" style="background:<?= $colorBorderQuote; ?>">#{{$quote->id}}</span></a>
+		<div class="col-md-2 col-xs-3">
+			<a class="hidden-sm hidden-xs" href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}"><span class="badge transition" style="background:<?= $colorBorderQuote; ?>">#{{$quote->id}}</span></a>
 			
 			@if ($quote->has_comments)
 				<a href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}" class="comments-count"><i class="fa fa-comment nb-comments" style="color:<?= $colorBubbleComments ?>"></i>{{ $quote->total_comments }}</a>
+			@else
+				<a class="hidden-md hidden-lg" href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}"><span class="badge transition" style="background:<?= $colorBorderQuote; ?>">#{{$quote->id}}</span></a>
 			@endif
 		</div>
 		
@@ -40,7 +42,7 @@ else
 		</div>
 		
 		<!-- AUTHOR -->
-		<div class="col-md-4 col-xs-6">
+		<div class="col-md-4 col-xs-7">
 			<a href="{{ URL::action('UsersController@show', ['id' => $quote->user->login]) }}" class="transition link-author-profile">{{$quote->user->login}}</a>
 		</div>
 	</div>
