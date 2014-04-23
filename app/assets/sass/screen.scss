@@ -241,7 +241,7 @@ body {
 	font-size:1.1em;
 	line-height: 1.5em;
 	margin-bottom: 25px;
-	border-bottom: 5px solid darken($red, 10%);
+	border-bottom: 3px solid darken($red, 10%);
 	text-align: justify;
 	@include hyphens(auto);
 
