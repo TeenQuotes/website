@@ -13,4 +13,5 @@ return array (
 	'noticeByEmail'           => 'Your quote will then be approved or rejected by our team, you will be informed by email.',
 	'addquotePageTitle'       => 'Add a quote | Teen Quotes',
 	'addquotePageDescription' => 'Speak your mind and share your thoughts with the world. Add a quote right now!',
+	'quoteAddedSuccessfull'   => 'Your quote has been added :login! You\'ll get an email soon.',
 );

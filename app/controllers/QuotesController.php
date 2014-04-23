@@ -51,7 +51,28 @@ class QuotesController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$data = [
+			'content'    => Input::get('content'),
+		];
+
+		$validator = Validator::make($data, Quote::$rulesAdd);
+
+		// Check if the form validates with success.
+		if ($validator->passes()) {
+			
+			// Store the quote
+			$quote = new Quote;
+			$quote->content = $data['content'];
+
+			$user = Auth::user();
+			$login = $user->login;
+			$user->quotes()->save($quote);
+
+			return Redirect::route('home')->with('success', Lang::get('quotes.quoteAddedSuccessfull', array('login' => $login)));
+		}
+
+		// Something went wrong.
+		return Redirect::route('addquote')->withErrors($validator)->withInput(Input::all());
 	}
 
 	/**

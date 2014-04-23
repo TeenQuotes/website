@@ -11,14 +11,14 @@
 				</div>
 
 				<!-- Quote's content -->
-				<div class="form-group {{{ $errors->has('quote') ? 'error' : '' }}}">
-					{{ Form::label('quote', Lang::get('quotes.yourQuote'), array('class' => 'col-sm-2 control-label')) }}
+				<div class="form-group {{{ $errors->has('content') ? 'error' : '' }}}">
+					{{ Form::label('content', Lang::get('quotes.yourQuote'), array('class' => 'col-sm-2 control-label')) }}
 
 					<div class="col-sm-10">
-						{{ Form::textarea('quote', Input::old('quote'), array('class' => 'form-control', 'id' => 'content-quote', 'rows' => '3')) }}
+						{{ Form::textarea('content', Input::old('content'), array('class' => 'form-control', 'id' => 'content-quote', 'rows' => '3')) }}
 						<span id="countLetters" class="orange">0 characters</span>
-						@if (!empty($errors->first('quote')))
-							{{ TextTools::warningTextForm($errors->first('quote')) }}
+						@if (!empty($errors->first('content')))
+							{{ TextTools::warningTextForm($errors->first('content')) }}
 						@endif
 					</div>
 				</div>
@@ -26,7 +26,7 @@
 				<!-- Submit button -->
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						{{ Form::submit(Lang::get('quotes.submitMyQuote'), array('class' => 'transition btn btn-primary btn-lg', 'id' => 'submit-form')) }}
+						{{ Form::submit(Lang::get('quotes.submitMyQuote'), array('class' => 'transition btn btn-primary btn-lg', 'id' => 'submit-quote')) }}
 					</div>
 				</div>
 			{{ Form::close() }}

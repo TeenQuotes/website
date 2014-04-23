@@ -12,10 +12,8 @@ class Quote extends Eloquent {
 	 * The validation rules
 	 * @var array
 	 */
-	public static $rules = [
-		'content' => 'required|min:50|max:300',
-		'user_id' => 'required|exists:users,id',
-		'approved' => 'between:-1,2',
+	public static $rulesAdd = [
+		'content' => 'required|min:50|max:300|unique:quotes,content',
 	];
 
 	public static $colors = [
