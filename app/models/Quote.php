@@ -52,11 +52,8 @@ class Quote extends Eloquent {
 		elseif (strlen($content) <= $maxLengthAddTwitterUsername) {
 			$content .= ' '.$TwitterUsername;
 		}
-
-		$search = array ('%', ' ', '"');
-		$replace = array('%25', '%20', '%34');
 		
-		return str_replace($search, $replace, $content);
+		return $content;
 	}
 
 	public function user()
