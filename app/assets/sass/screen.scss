@@ -7,6 +7,7 @@ $red:#e74c3c;
 $orange:#ff7518;
 $green:#2ecc71;
 $topbarColor:#22313F;
+$lightGray:#ecf0f1;
 
 body {
 	text-rendering: optimizeLegibility;
@@ -308,6 +309,50 @@ body {
 		.nb-comments {
 			margin: 0 5px 0 10px;
 		}
+	}
+
+}
+
+.comment {
+	background: $lightGray;
+	padding:15px 15px 10px 15px;
+	margin-bottom: 5px;
+	border-bottom: 3px solid darken($lightGray, 10%);
+
+	.column {
+		float:none;
+    	display:inline-block;
+    	vertical-align:middle;
+    	margin-right:-4px;
+
+		.avatar {
+			max-height: 100px;
+		}
+	}
+
+	.column-avatar {
+		border-right: 1px solid darken($lightGray, 10%);
+	}
+
+	.link-author-name {
+		color: darken($lightGray, 50%);
+		font-family: 'Belgrano', serif;
+		font-weight: 400;
+		text-decoration: none;
+		font-style: italic;
+		float: right;
+		background:transparent;
+		padding: 2px 5px;
+
+		@media screen and (max-width: 768px) {
+			font-size: 0.9em;
+		}
+
+	} 
+
+	.link-author-name:hover {
+		background: white;
+		color: darken($lightGray, 50%);
 	}
 
 }

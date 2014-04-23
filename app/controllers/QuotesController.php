@@ -108,6 +108,7 @@ class QuotesController extends \BaseController {
 		$data = [
 			'quote'  => $quote,
 			'colors' => Quote::getRandomColors(),
+			'comments' => Comment::with('user')->where('quote_id', '=', $quote->id)->orderBy('created_at', 'asc')->get(),
 		];
 
 		return View::make('quotes.show', $data);
