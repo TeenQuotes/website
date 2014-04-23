@@ -11,17 +11,18 @@
 |
 */
 
-Route::get('/', array('as' => 'home', 'uses' => 'QuotesController@index'));
+Route::get('/', ['as' => 'home', 'uses' => 'QuotesController@index']);
 
 /* --- AUTH --- */
-Route::get('signin', array('as' => 'signin', 'uses' => 'AuthController@getSignin'));
-Route::get('logout', array('as' => 'logout', 'uses' => 'AuthController@getLogout'));
+Route::get('signin', ['as' => 'signin', 'uses' => 'AuthController@getSignin']);
+Route::get('logout', ['as' => 'logout', 'uses' => 'AuthController@getLogout']);
 Route::post('signin', 'AuthController@postSignin');
 
 /* --- USERS --- */
-Route::get("/signup", array("as" => "signup", "before" => "guest", "uses" => "UsersController@getSignup"));
-Route::resource('users', 'UsersController', array('only' => array('index', 'show', 'store')));
+Route::get("/signup", ["as" => "signup", "before" => "guest", "uses" => "UsersController@getSignup"]);
+Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'store']]);
 
 /* --- QUOTES --- */
-Route::get('/random', array('as' => 'random', 'uses' => 'QuotesController@index'));
-Route::resource('quotes', 'QuotesController', array('only' => array('index', 'show')));
+Route::get('/random', ['as' => 'random', 'uses' => 'QuotesController@index']);
+Route::get('/addquote', ['as' => 'addquote', 'before' => 'auth', 'uses' => 'QuotesController@getAddQuote']);
+Route::resource('quotes', 'QuotesController', ['only' => ['index', 'show', 'store']]);

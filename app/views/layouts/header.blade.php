@@ -47,7 +47,7 @@
 
 					<!-- ADD QUOTE -->
 					<li>
-						<a class="transition" href="/"><i class="fa fa-comment"></i>{{ Lang::get('layout.addQuote') }}</a>
+						<a class="transition" href="{{URL::route('addquote')}}"><i class="fa fa-comment"></i>{{ Lang::get('layout.addQuote') }}</a>
 					</li>
 
 					<!-- APPS -->

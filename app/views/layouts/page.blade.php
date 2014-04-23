@@ -11,7 +11,7 @@
 	@if(Session::has('warning'))
 		<div class="animated flipInX alert alert-warning alert-dismissable">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			{{ Session::get('warning') }}
+			<i class="fa fa-meh-o"></i> {{ Session::get('warning') }}
 		</div>
 	@endif
 	@yield('content')

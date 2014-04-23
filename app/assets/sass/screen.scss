@@ -39,6 +39,12 @@ body {
 	color: $green;
 }
 
+.alert-warning {
+	i.fa {
+		margin-right: 15px;
+	}
+}
+
 .navbar-default {
 	background: $topbarColor;
 	border: 0;

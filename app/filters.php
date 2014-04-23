@@ -35,8 +35,12 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest())
-		return Redirect::guest('signin')->with('warning', Lang::get('auth.requireLoggedIn'));
+	if (Auth::guest()) {
+		if (Route::currentRouteName() == 'addquote')
+			return Redirect::guest('signin')->with('warning', Lang::get('auth.requireLoggedInAddQuote'));
+		else
+			return Redirect::guest('signin')->with('warning', Lang::get('auth.requireLoggedIn'));
+	}
 });
 
 
