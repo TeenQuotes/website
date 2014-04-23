@@ -254,60 +254,56 @@ body {
 
 	.quotes-info {
 		margin-top: 10px;
-	}
-
-	.link-author-profile {
-		color: white;
-		font-family: 'Belgrano', serif;
-		font-weight: 400;
-		text-decoration: none;
-		font-size: 1.2em;
-		font-style: italic;
-		float: right;
-		background:transparent;
-		padding: 2px 5px;
 
 		@media screen and (max-width: 768px) {
 			font-size: 0.9em;
 		}
-	}
 
-	.float-left {
-		float: left;
-	}
-
-	.social-buttons {
-		opacity: 0;
-
-		.fb-like {
-			margin-left: 10px;
+		.link-author-profile {
+			color: white;
+			font-family: 'Belgrano', serif;
+			font-weight: 400;
+			text-decoration: none;
+			font-size: 1.2em;
+			font-style: italic;
+			float: right;
+			background:transparent;
+			padding: 2px 5px;
 		}
 
-		.twitter-share-button {
-			margin: 3px 0 0px 50px;
+		.float-left {
+			float: left;
+		}
+
+		.social-buttons {
+			opacity: 0;
+
+			.fb-like {
+				margin-left: 10px;
+			}
+
+			.twitter-share-button {
+				margin: 3px 0 0px 50px;
+			}
+		}
+
+		.comments-count {
+			color: white;
+			text-decoration: none;
+		}
+
+		.link-author-profile:hover, .badge:hover {
+			background: white;
+			color: $lightBlue;
+		}
+
+		.badge:hover {
+			background: #FFF !important;
+		}
+
+		.nb-comments {
+			margin: 0 5px 0 10px;
 		}
 	}
 
-
-	.comments-count {
-		color: white;
-		text-decoration: none;
-
-		@media screen and (max-width: 768px) {
-			font-size: 0.9em;
-		}
-	}
-
-	.link-author-profile:hover, .badge:hover {
-		background: white;
-		color: $lightBlue;
-	}
-
-	.badge:hover {
-		background: #FFF !important;
-	}
-
-	.nb-comments {
-		margin: 0 5px 0 10px;
-	}
 }
