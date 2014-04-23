@@ -29,14 +29,10 @@
 			
 			<div class="navbar-collapse collapse" id="navbar-main">
 				<ul class="nav navbar-nav">
-					<!-- LOGIN / LOGOUT -->
+					<!-- LOGIN -->
 					@if (Auth::guest())
 						<li>
 							<a class="transition" href="{{URL::route('signin')}}"><i class="fa fa-user"></i> {{ Lang::get('layout.login') }}</a>
-						</li>
-					@else
-						<li>
-							<a class="transition" href="{{URL::route('logout')}}"><i class="fa fa-sign-out"></i> {{ Lang::get('layout.logout') }}</a>
 						</li>
 					@endif
 
@@ -54,6 +50,13 @@
 					<li>
 						<a class="transition" href="/"><i class="fa fa-mobile fa-lg"></i>{{ Lang::get('layout.apps') }}</a>
 					</li>
+
+					<!-- LOGOUT -->
+					@if (Auth::check())
+						<li>
+							<a class="transition" href="{{URL::route('logout')}}"><i class="fa fa-sign-out"></i> {{ Lang::get('layout.logout') }}</a>
+						</li>
+					@endif
 				</ul>
 
 				<!-- TWITTER FOLLOW BUTTON -->
