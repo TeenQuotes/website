@@ -37,20 +37,19 @@ class Quote extends Eloquent {
 	public function textTweet()
 	{
 		$content = $this->content;
-		$maxLength = 117;
-		$maxLengthAddTwitterUsername = 105;
-		$TwitterUsername = '@ohteenquotes';
+		$maxLength = 118;
+		$twitterUsername = Lang::get('layout.twitterUsername');
+		$maxLengthAddTwitterUsername = $maxLength - strlen($twitterUsername);
 
 		if (strlen($content) > $maxLength)  {
 			$content = substr($content, 0, $maxLength);
-			$last_space = strrpos($content, " "); 
+			$lastSpace = strrpos($content, " "); 
 
-			// After the space, add ...   
-			$content = substr($content, 0, $last_space);
-			$content .= '...';
+			// After the space, add ..
+			$content = substr($content, 0, $lastSpace).'..';
 		}
 		elseif (strlen($content) <= $maxLengthAddTwitterUsername) {
-			$content .= ' '.$TwitterUsername;
+			$content .= ' '.$twitterUsername;
 		}
 		
 		return $content;
