@@ -7,11 +7,21 @@ $i = rand(0, count($colors) - 1);
 	@include('quotes.singleQuote', compact($quote))
 
 	<h2 id="title-comments"><i class="fa fa-comments"></i><span class="green">{{ Lang::get('comments.comments') }}</span></h2>
+		@if (!$quote->has_comments)
+			<div class="alert alert-info no-hide">
+				{{ Lang::get('comments.noCommentsYet')}}
+			</div>
+		@endif
 	@foreach ($comments as $comment)
 		@include('comments.singleComment', compact($comment))
 	@endforeach
 	
 	@if (Auth::check())
 		@include('comments.addComment', compact($quote))
+	@else
+		{{ Lang::get('auth.dontOwnAccountYet') }}
+		<div class="text-center" id="listener-wants-account">
+			<a href="{{URL::route('signup')}}" class="transition btn btn-success btn-lg" id="wants-account">{{Lang::get('auth.wantsAnAccount')}}</a>
+		</div>
 	@endif
 @stop

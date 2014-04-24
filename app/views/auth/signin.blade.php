@@ -45,7 +45,7 @@
 		<!-- CALL TO SIGN UP -->
 		<div class="animated fadeInRight col-md-6">
 			<h1 class="red">{{ Lang::get('auth.wantToBeCool') }}</h1>
-			{{Lang::get('auth.dontOwnAccountYet')}}
+			{{ Lang::get('auth.dontOwnAccountYet') }}
 			<div class="text-center" id="listener-wants-account">
 				<a href="{{URL::route('signup')}}" class="transition btn btn-success btn-lg" id="wants-account">{{Lang::get('auth.wantsAnAccount')}}</a>
 			</div>
