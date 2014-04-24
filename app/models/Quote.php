@@ -37,7 +37,7 @@ class Quote extends Eloquent {
 	public function textTweet()
 	{
 		$content = $this->content;
-		$maxLength = 118;
+		$maxLength = 115;
 		$twitterUsername = Lang::get('layout.twitterUsername');
 		$maxLengthAddTwitterUsername = $maxLength - strlen($twitterUsername);
 
