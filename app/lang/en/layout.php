@@ -8,4 +8,6 @@ return array (
 	"apps"            => "Apps",
 	"byAuthor"        => "by",
 	"twitterUsername" => '@ohteenquotes',
+	"domain"          => 'teen-quotes.com',
+	'IDAppiOS'        => 'id577239995',
 );

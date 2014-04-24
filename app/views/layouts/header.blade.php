@@ -10,6 +10,11 @@
 	{{ HTML::style('//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.0/animate.min.css'); }}
 	{{ HTML::style('assets/css/screen.css'); }}
 	<link rel="shortcut icon" href="assets/images/favicon.png"/>
+
+	<!-- TWITTER CARD FOR SINGLE QUOTE -->
+	@if (Route::currentRouteName() == 'quotes.show')
+		@include('layouts.twitterCard', compact($quote))
+	@endif
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->

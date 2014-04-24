@@ -34,6 +34,30 @@ class Quote extends Eloquent {
 		}
 	}
 
+	/**
+	 * @brief Return the text for the Twitter Card. Displayed on single quote page.
+	 * @return The text for the Twitter Card
+	 */
+	public function textTwitterCard()
+	{
+		$content = $this->content;
+		$maxLength = 180;
+
+		if (strlen($content) > $maxLength)  {
+			$content = substr($content, 0, $maxLength);
+			$lastSpace = strrpos($content, " "); 
+
+			// After the space, add ..
+			$content = substr($content, 0, $lastSpace).'..';
+		}
+		
+		return $content;
+	}
+
+	/**
+	 * @brief The text that will be tweeted. Given to the Twitter sharer.
+	 * @return The text for the Twitter sharer
+	 */
 	public function textTweet()
 	{
 		$content = $this->content;
