@@ -11,7 +11,7 @@ else
 	
 	<div class="row quotes-info">
 		<!-- COMMENTS -->
-		<div class="col-md-3 col-xs-2">
+		<div class="col-md-3 col-sm-3 col-xs-2">
 			<a class="hidden-sm hidden-xs" href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}"><span class="badge transition" style="background:<?= $darkColorQuote; ?>">#{{{ $quote->id }}}</span></a>
 			
 			<!-- Has comments -->
@@ -27,7 +27,7 @@ else
 		</div>
 		
 		<!-- FAVORITE -->
-		<div class="col-md-3 col-xs-2 favorite-links">
+		<div class="col-md-3 col-sm-2 col-xs-2 favorite-links">
 			@if (Auth::check())
 				@if ($quote->is_favorite_for_current_user)
 					<button data-url="{{URL::route('unfavorite', array($quote->id), true)}}" data-id="{{ $quote->id }}" data-type="unfavorite" class="badge transition favorite-action" style="background:<?= $darkColorQuote; ?>"><i class="fa fa-heart-o"></i></button>
@@ -38,12 +38,12 @@ else
 		</div>
 		
 		<!-- AUTHOR -->
-		<div class="col-md-5 col-xs-5">
+		<div class="col-md-5 col-sm-5 col-xs-5">
 			<a href="{{ URL::action('UsersController@show', ['id' => $quote->user->login]) }}" class="transition link-author-profile">{{{ $quote->user->login }}}</a>
 		</div>
 
 		<!-- SOCIAL BUTTONS -->
-		<div class="col-md-1 col-xs-3 social-buttons">
+		<div class="col-md-1 col-sm-2 col-xs-3 social-buttons">
 			<a href="https://www.facebook.com/sharer.php?u={{URL::route('quotes.show', array($quote->id), true)}}" class="transition" style="background:<?= $darkColorQuote ?>" target="_blank"><i class="fa fa-facebook"></i></a>
 			<a href="https://twitter.com/home?status={{{ $quote->textTweet() }}}" class="transition" style="background:<?= $darkColorQuote ?>" target="_blank"><i class="fa fa-twitter"></i></a>
 		</div>

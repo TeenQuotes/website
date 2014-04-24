@@ -88,6 +88,21 @@ body {
 		@media screen and (max-width: 768px) {
 			margin-left: 10px;
 		}
+
+		@media screen and (min-width: 320px) and (max-width: 992px) {
+			width: 150px;
+			height: 23px;
+			margin-left: 35px;
+			background-size: contain;
+			margin-top: 15px;
+		}
+	}
+
+	.container {
+		@media screen and (max-width: 992px) {
+			padding-right: 0px;
+			padding-left: 0px;
+		}
 	}
 
 
@@ -273,7 +288,7 @@ body {
 
 		.social-buttons {
 			opacity: 0;
-
+			
 			a {
 				width: 24px;
 				height: 24px;
