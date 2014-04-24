@@ -311,12 +311,12 @@ body {
 			@media screen and (max-width: 768px) {
 				padding: 0 5px;
 			}
-			
+
 			.favorite-action {
 				border: 0;
 				outline: none;
 
-				&:hover i.fa {
+				&:hover i.fa-heart, &:hover i.fa-heart-o {
 					color: $red !important;
 				}
 			}
