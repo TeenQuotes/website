@@ -247,9 +247,10 @@ body {
 
 	.quotes-info {
 		margin-top: 10px;
+		font-size: 0.9em;
 
 		@media screen and (max-width: 768px) {
-				font-size: 0.9em;
+			font-size: 0.7em;
 		}
 
 		.link-author-profile {
@@ -257,15 +258,10 @@ body {
 			font-family: 'Belgrano', serif;
 			font-weight: 400;
 			text-decoration: none;
-			font-size: 1.2em;
 			font-style: italic;
 			float: right;
 			background:transparent;
 			padding: 2px 5px;
-
-			@media screen and (max-width: 768px) {
-				font-size: 0.9em;
-			}
 		}
 
 		.float-left {
@@ -275,12 +271,34 @@ body {
 		.social-buttons {
 			opacity: 0;
 
-			.fb-like {
-				margin-left: 10px;
+			a {
+				width: 24px;
+				height: 24px;
+				color: white;
+				display: inline-block;
+				text-align: center;
+
+				@media screen and (max-width: 768px) {
+					width: 18px;
+					height: 18px;
+				}
+
+			}
+			
+			a:hover i.fa-facebook {
+				color: #4862A3;
 			}
 
-			.twitter-share-button {
-				margin: 3px 0 0px 50px;
+			a:hover i.fa-twitter {
+				color: #55ACEE;
+			}
+
+			a:first-child {
+				margin-right: 5px;
+				
+				@media screen and (max-width: 768px) {
+					margin-right: 3px;
+				}
 			}
 		}
 
@@ -289,13 +307,9 @@ body {
 			text-decoration: none;
 		}
 
-		.link-author-profile:hover, .badge:hover {
-			background: white;
+		.link-author-profile:hover, .badge:hover, .social-buttons a:hover {
+			background: white !important;
 			color: $lightBlue;
-		}
-
-		.badge:hover {
-			background: #FFF !important;
 		}
 
 		.nb-comments {

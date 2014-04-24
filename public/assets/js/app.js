@@ -1,6 +1,6 @@
 var timeoutReference;
 $(document).ready(function() {
-	$('.social-buttons').delay(2000).animate({
+	$('.social-buttons').delay(500).animate({
 		opacity: 1
 	}, 1000);
 

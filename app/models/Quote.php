@@ -52,7 +52,7 @@ class Quote extends Eloquent {
 			$content .= ' '.$twitterUsername;
 		}
 		
-		return $content;
+		return urlencode($content.' '.URL::route('quotes.show', array($this->id), true));
 	}
 
 	public function user()
