@@ -154,7 +154,7 @@ $(document).ready(function() {
 
 // Auto remove for alerts after 5s
 window.setTimeout(function() {
-	$(".alert").fadeTo(500, 0).slideUp(500, function() {
+	$(".alert:not(.no-hide)").fadeTo(500, 0).slideUp(500, function() {
 		$(this).remove();
 	});
 }, 5000);
