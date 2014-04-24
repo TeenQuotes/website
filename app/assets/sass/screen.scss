@@ -27,6 +27,9 @@ body {
 .badge {
 	@include border-radius(0px);
 	background: #95a5a6;
+	@media screen and (max-width: 768px) {
+		font-size: inherit;
+	}
 }
 
 .form-horizontal .control-label {
