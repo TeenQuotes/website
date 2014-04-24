@@ -302,15 +302,26 @@ body {
 			}
 		}
 
-		.favorite-action {
-			border: 0;
-			outline: none;
-		}
-
 		.link-author-profile:hover, .badge:hover, .social-buttons a:hover {
 			background: white !important;
 			color: $lightBlue;
 		}
+
+		.favorite-links {
+			@media screen and (max-width: 768px) {
+				padding: 0 5px;
+			}
+			
+			.favorite-action {
+				border: 0;
+				outline: none;
+
+				&:hover i.fa {
+					color: $red !important;
+				}
+			}
+		}
+
 
 		.nb-comments {
 			margin: 0 5px 0 10px;

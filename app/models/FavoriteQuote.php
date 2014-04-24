@@ -5,9 +5,14 @@ class FavoriteQuote extends Eloquent {
 	
 	protected $fillable = [];
 
-	public static $rulesFavorite = [
+	public static $rulesAddFavorite = [
 		'quote_id' => 'required|exists:quotes,id',
 		'user_id' => 'required|exists:users,id',
+	];
+
+	public static $rulesRemoveFavorite = [
+		'quote_id' => 'required|exists:quotes,id|exists:favorite_quotes,quote_id',
+		'user_id' => 'required|exists:users,id|exists:favorite_quotes,user_id',
 	];
 
 	public function user()

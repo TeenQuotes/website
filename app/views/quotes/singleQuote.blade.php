@@ -11,18 +11,23 @@ else
 	
 	<div class="row quotes-info">
 		<!-- COMMENTS -->
-		<div class="col-md-3 col-xs-3">
+		<div class="col-md-3 col-xs-2">
 			<a class="hidden-sm hidden-xs" href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}"><span class="badge transition" style="background:<?= $darkColorQuote; ?>">#{{{ $quote->id }}}</span></a>
 			
+			<!-- Has comments -->
 			@if ($quote->has_comments)
-				<a href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}" class="badge" style="background:<?= $darkColorQuote ?>">{{{ Lang::choice('quotes.commentComments', $quote->total_comments, array('nb' => $quote->total_comments)) }}}</a>
+				<a href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}" class="badge hidden-xs hidden-sm" style="background:<?= $darkColorQuote ?>">{{{ Lang::choice('quotes.commentComments', $quote->total_comments, array('nb' => $quote->total_comments)) }}}</a>
+
+				<a href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}" class="badge hidden-md hidden-lg" style="background:<?= $darkColorQuote ?>"><i class="fa fa-comment"></i> {{{ $quote->total_comments }}}</a>
+			
+			<!-- No comments -->
 			@else
 				<a class="hidden-md hidden-lg" href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}"><span class="badge transition" style="background:<?= $darkColorQuote; ?>">#{{{ $quote->id }}}</span></a>
 			@endif
 		</div>
 		
 		<!-- FAVORITE -->
-		<div class="col-md-3 col-xs-2">
+		<div class="col-md-3 col-xs-2 favorite-links">
 			@if (Auth::check())
 				@if ($quote->is_favorite_for_current_user)
 					<button data-url="{{URL::route('unfavorite', array($quote->id), true)}}" data-id="{{ $quote->id }}" data-type="unfavorite" class="badge transition favorite-action" style="background:<?= $darkColorQuote; ?>"><i class="fa fa-heart-o"></i></button>
@@ -38,7 +43,7 @@ else
 		</div>
 
 		<!-- SOCIAL BUTTONS -->
-		<div class="col-md-1 col-xs-2 social-buttons">
+		<div class="col-md-1 col-xs-3 social-buttons">
 			<a href="https://www.facebook.com/sharer.php?u={{URL::route('quotes.show', array($quote->id), true)}}" class="transition" style="background:<?= $darkColorQuote ?>" target="_blank"><i class="fa fa-facebook"></i></a>
 			<a href="https://twitter.com/home?status={{{ $quote->textTweet() }}}" class="transition" style="background:<?= $darkColorQuote ?>" target="_blank"><i class="fa fa-twitter"></i></a>
 		</div>
