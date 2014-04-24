@@ -17,7 +17,7 @@ class FavoritesController extends \BaseController {
 				'user_id'  => $user->id,
 			];
 
-			$validator = Validator::make($data, FavoriteQuote::$rulesFavorite);
+			$validator = Validator::make($data, FavoriteQuote::$rulesAddFavorite);
 
 			// Check if the form validates with success.
 			if ($validator->passes()) {
@@ -44,8 +44,9 @@ class FavoritesController extends \BaseController {
 				return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
 		}
 		// It was not an Ajax call
+		// FIXME: what to do here?
 		else
-			return Redirect::route('addquote')->withErrors($validator)->withInput(Input::all());
+			return Redirect::route('route');
 	}
 
 	/**
@@ -54,8 +55,41 @@ class FavoritesController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($quote_id)
 	{
-		//
+		if (Request::ajax()) {		
+			
+			$user = Auth::user();
+			$data = [
+				'quote_id' => $quote_id,
+				'user_id'  => $user->id,
+			];
+
+			$validator = Validator::make($data, FavoriteQuote::$rulesRemoveFavorite);
+
+			// Check if the form validates with success.
+			if ($validator->passes()) {
+				
+				$favorite = FavoriteQuote::where('quote_id', '=' , $data['quote_id'])->where('user_id', '=' , $data['user_id'])->first();
+				
+				// Oops, the quote was not labeled as favorite
+				if (is_null($favorite)) {
+					return Response::json(['success' => false, 'notFound' => true]);
+				}
+				else {
+					$favorite->delete();
+
+					return Response::json(['success' => true], 200);
+				}
+				
+			}
+			// Errors
+			else
+				return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
+		}
+		// It was not an Ajax call
+		// FIXME: what to do here?
+		else
+			return Redirect::route('route');
 	}
 }
