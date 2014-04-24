@@ -39,7 +39,7 @@ else
 		<!-- SOCIAL BUTTONS -->
 		<div class="col-md-1 col-xs-2 social-buttons">
 			<a href="https://www.facebook.com/sharer.php?u={{URL::route('quotes.show', array($quote->id), true)}}" class="transition" style="background:<?= $colorBorderQuote ?>"><i class="fa fa-facebook"></i></a>
-			<a href="https://twitter.com/share?text={{{ $quote->textTweet() }}}" class="transition" style="background:<?= $colorBorderQuote ?>"><i class="fa fa-twitter"></i></a>
+			<a href="https://twitter.com/home?status={{{ $quote->textTweet() }}}" class="transition" style="background:<?= $colorBorderQuote ?>"><i class="fa fa-twitter"></i></a>
 		</div>
 	</div>
 </div>
