@@ -34,13 +34,13 @@ $(document).ready(function() {
 	$("#listener-wants-account").mouseenter(function() {
 		$("#wants-account").addClass("animated shake");
 	})
-	.mouseleave(function() {
-		$("#wants-account").removeClass("animated shake");
-	});
+		.mouseleave(function() {
+			$("#wants-account").removeClass("animated shake");
+		});
 
 	$('#countLetters').css("display", "none");
-	$('#submit-quote, #submit-comment').attr('disabled','disabled');
-	
+	$('#submit-quote, #submit-comment').attr('disabled', 'disabled');
+
 	// Add a quote character's counter
 	$('#content-quote').keyup(function() {
 		var nbCaracters = $(this).val().length;
@@ -55,7 +55,7 @@ $(document).ready(function() {
 			$('#countLetters').removeClass("orange");
 			$('input[type="submit"]').removeAttr('disabled');
 		} else {
-			$('input[type="submit"]').attr('disabled','disabled');
+			$('input[type="submit"]').attr('disabled', 'disabled');
 			$('#countLetters').addClass("orange");
 			$('#countLetters').removeClass("green")
 		}
@@ -82,7 +82,7 @@ $(document).ready(function() {
 			$('#countLetters').removeClass("orange");
 			$('input[type="submit"]').removeAttr('disabled');
 		} else {
-			$('input[type="submit"]').attr('disabled','disabled');
+			$('input[type="submit"]').attr('disabled', 'disabled');
 			$('#countLetters').addClass("orange");
 			$('#countLetters').removeClass("green")
 		}
@@ -94,13 +94,69 @@ $(document).ready(function() {
 			$('#countLetters').fadeIn("slow")
 		}
 	});
+
+	// Favorite / Unfavorite
+	$('button.favorite-action').click(function() {
+		var otherType, otherIcon, url, type, id_quote, iconValidation;
+		url = $(this).attr('data-url');
+		type = $(this).attr('data-type');
+		id_quote = $(this).attr('data-id');
+
+		$.ajax({
+			type: 'post',
+			cache: false,
+			url: $(this).attr('data-url'),
+			dataType: 'json',
+			data: {},
+			success: function(data) {
+				// Errors
+				if (data.success == false) {
+					var arr = data.errors;
+					$.each(arr, function(index, value) {
+						if (value.length != 0) {
+							$("#validation-errors").append('<div class="alert alert-error"><strong>' + value + '</strong><div>');
+						}
+					});
+				// Success
+				} else {
+					if (type == "favorite") {
+						otherType = "unfavorite";
+						otherIcon = "fa-heart-o";
+						iconValidation = "fa-thumbs-up green";
+					} else {
+						otherType = "favorite";
+						otherIcon = "fa-heart";
+						iconValidation = "fa-times red";
+					}
+
+
+					$(".favorite-action[data-id=" + id_quote + "]").attr('data-url', url.replace(type, otherType));
+					$(".favorite-action[data-id=" + id_quote + "]").attr('data-type', otherType);
+
+					$(".favorite-action[data-id=" + id_quote + "]").hide().html("<span class='hide_this' data-id=" + id_quote + "><i class='fa " + iconValidation + "'></i></span><span class='show_this' data-id=" + id_quote + "><i class='fa " + otherIcon + "'></i></span>").fadeIn(1000);
+					$(".favorite-action[data-id=" + id_quote + "]").css("opacity", "0.5");
+					$(".show_this[data-id=" + id_quote + "]").hide().delay(3000).fadeIn(1000);
+					$(".hide_this[data-id=" + id_quote + "]").delay(2000).fadeOut(1000)
+				}
+			},
+			error: function(xhr, textStatus, thrownError) {
+				console.log(xhr);
+				console.log(textStatus);
+				console.log(thrownError);
+				console.log(xhr.responseText);
+				alert('Something went to wrong. Please try again later.');
+			}
+		});
+
+		return false;
+	});
 });
 
 // Auto remove for alerts after 5s
 window.setTimeout(function() {
-    $(".alert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove(); 
-    });
+	$(".alert").fadeTo(500, 0).slideUp(500, function() {
+		$(this).remove();
+	});
 }, 5000);
 
 function doneTypingLoginSignup() {

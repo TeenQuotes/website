@@ -23,10 +23,12 @@ else
 		
 		<!-- FAVORITE -->
 		<div class="col-md-3 col-xs-2">
-			@if ($quote->is_favorite_for_current_user)
-				<span class="badge">favorite</span>
-			@else
-				<span class="badge">no favorite</span>
+			@if (Auth::check())
+				@if ($quote->is_favorite_for_current_user)
+					<button data-url="{{URL::route('unfavorite', array($quote->id), true)}}" data-id="{{ $quote->id }}" data-type="unfavorite" class="badge transition favorite-action" style="background:<?= $darkColorQuote; ?>"><i class="fa fa-heart-o"></i></button>
+				@else
+					<button data-url="{{URL::route('favorite', array($quote->id), true)}}" data-id="{{ $quote->id }}" data-type="favorite" class="badge transition favorite-action" style="background:<?= $darkColorQuote; ?>"><i class="fa fa-heart"></i></button>
+				@endif
 			@endif
 		</div>
 		

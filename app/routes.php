@@ -10,6 +10,7 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+Route::pattern('quote_id', '[0-9]+');
 
 Route::get('/', ['as' => 'home', 'uses' => 'QuotesController@index']);
 
@@ -29,3 +30,7 @@ Route::resource('quotes', 'QuotesController', ['only' => ['index', 'show', 'stor
 
 /* --- COMMENTS --- */
 Route::resource('comments', 'CommentsController', ['only' => ['store']]);
+
+/* --- FAVORITE --- */
+Route::post('/favorite/{quote_id}', ['as' => 'favorite', 'before' => 'auth', 'uses' => 'FavoritesController@store']);
+Route::post('/unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth', 'uses' => 'FavoritesController@destroy']);
