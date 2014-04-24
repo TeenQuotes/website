@@ -19,6 +19,8 @@ $i = rand(0, count($colors) - 1);
 	@if (Auth::check())
 		@include('comments.addComment', compact($quote))
 	@else
+		<h2 id="title-add-comment"><i class="fa fa-pencil-square-o"></i><span class="red">{{ Lang::get('comments.addComment')}}</span></h2>
+
 		{{ Lang::get('auth.dontOwnAccountYet') }}
 		<div class="text-center" id="listener-wants-account">
 			<a href="{{URL::route('signup')}}" class="transition btn btn-success btn-lg" id="wants-account">{{Lang::get('auth.wantsAnAccount')}}</a>
