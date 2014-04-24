@@ -1,24 +1,23 @@
 <?php
 $colorQuote = $colors[$i];
-$colorBorderQuote = Quote::adjustBrightness($colors[$i], -30);
-$colorBubbleComments = Quote::adjustBrightness($colorQuote, 100);
+$darkColorQuote = Quote::adjustBrightness($colors[$i], -30);
 if ($i % 2 == 1)
 	$transition = 'fadeInRight';
 else
 	$transition = 'fadeInLeft';
 ?>
-<div class="quote animated <?= $transition; ?>" style="background-color:<?= $colorQuote; ?>;border-bottom-color:<?= $colorBorderQuote; ?>">
+<div class="quote animated <?= $transition; ?>" style="background-color:<?= $colorQuote; ?>;border-bottom-color:<?= $darkColorQuote; ?>">
 	{{{ $quote->content }}}
 	
 	<div class="row quotes-info">
 		<!-- COMMENTS -->
 		<div class="col-md-3 col-xs-3">
-			<a class="hidden-sm hidden-xs" href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}"><span class="badge transition" style="background:<?= $colorBorderQuote; ?>">#{{{ $quote->id }}}</span></a>
+			<a class="hidden-sm hidden-xs" href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}"><span class="badge transition" style="background:<?= $darkColorQuote; ?>">#{{{ $quote->id }}}</span></a>
 			
 			@if ($quote->has_comments)
-				<a href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}" class="badge" style="background:<?= $colorBorderQuote ?>">{{{ Lang::choice('quotes.commentComments', $quote->total_comments, array('nb' => $quote->total_comments)) }}}</a>
+				<a href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}" class="badge" style="background:<?= $darkColorQuote ?>">{{{ Lang::choice('quotes.commentComments', $quote->total_comments, array('nb' => $quote->total_comments)) }}}</a>
 			@else
-				<a class="hidden-md hidden-lg" href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}"><span class="badge transition" style="background:<?= $colorBorderQuote; ?>">#{{{ $quote->id }}}</span></a>
+				<a class="hidden-md hidden-lg" href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}"><span class="badge transition" style="background:<?= $darkColorQuote; ?>">#{{{ $quote->id }}}</span></a>
 			@endif
 		</div>
 		
@@ -38,8 +37,8 @@ else
 
 		<!-- SOCIAL BUTTONS -->
 		<div class="col-md-1 col-xs-2 social-buttons">
-			<a href="https://www.facebook.com/sharer.php?u={{URL::route('quotes.show', array($quote->id), true)}}" class="transition" style="background:<?= $colorBorderQuote ?>"><i class="fa fa-facebook"></i></a>
-			<a href="https://twitter.com/home?status={{{ $quote->textTweet() }}}" class="transition" style="background:<?= $colorBorderQuote ?>"><i class="fa fa-twitter"></i></a>
+			<a href="https://www.facebook.com/sharer.php?u={{URL::route('quotes.show', array($quote->id), true)}}" class="transition" style="background:<?= $darkColorQuote ?>" target="_blank"><i class="fa fa-facebook"></i></a>
+			<a href="https://twitter.com/home?status={{{ $quote->textTweet() }}}" class="transition" style="background:<?= $darkColorQuote ?>" target="_blank"><i class="fa fa-twitter"></i></a>
 		</div>
 	</div>
 </div>
