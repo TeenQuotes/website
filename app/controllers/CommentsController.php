@@ -51,7 +51,7 @@ class CommentsController extends \BaseController {
 			$comment->user_id = Auth::user()->id;
 			$comment->save();
 
-			// If we have the number of comments in the cache, increment it
+			// If we have the number of comments in cache, increment it
 			if (Cache::has(Quote::$cacheNameNbComments.$data['quote_id']))
 				Cache::increment(Quote::$cacheNameNbComments.$data['quote_id']);
 

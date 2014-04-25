@@ -26,6 +26,12 @@ class Quote extends Eloquent {
 	 * @var string
 	 */
 	public static $cacheNameNbComments = 'nb_comments_';
+
+	/**
+	 * @brief The name of the key to store in cache. Describes the number of favorites for a given quote.
+	 * @var string
+	 */
+	public static $cacheNameNbFavorites = 'nb_favorites_';
 	
 	/**
 	 * @brief The name of the key to store in cache. Describes the quotes for a given page.
@@ -134,7 +140,10 @@ class Quote extends Eloquent {
 
 	public function getTotalFavoritesAttribute()
 	{
-		return $this->hasMany('FavoriteQuote')->count();    
+		return Cache::rememberForever(self::$cacheNameNbFavorites.$this->id, function()
+		{
+			return $this->hasMany('FavoriteQuote')->count();    
+		});
 	}
 
 	public function getHasCommentsAttribute()

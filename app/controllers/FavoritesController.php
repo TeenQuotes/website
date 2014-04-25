@@ -45,6 +45,10 @@ class FavoritesController extends \BaseController {
 					if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']))
 						Cache::forget(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']);
 
+					// If we have the number of favorites in cache, increment it
+					if (Cache::has(Quote::$cacheNameNbFavorites.$data['quote_id']))
+						Cache::increment(Quote::$cacheNameNbFavorites.$data['quote_id']);
+
 					return Response::json(['success' => true], 200);
 				}
 				
