@@ -121,4 +121,5 @@ return array(
 
 	),
 
+	'log' => false,
 );
