@@ -10,4 +10,5 @@ return array (
 	"twitterUsername" => '@ohteenquotes',
 	"domain"          => 'teen-quotes.com',
 	'IDAppiOS'        => 'id577239995',
+	'catchphrase'     => 'Because some quotes are simply true'
 );

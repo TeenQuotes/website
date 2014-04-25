@@ -8,6 +8,7 @@ $orange:#ff7518;
 $green:#2ecc71;
 $topbarColor:#22313F;
 $lightGray:#ecf0f1;
+$blueGray:#39556e;
 
 body {
 	text-rendering: optimizeLegibility;
@@ -60,7 +61,7 @@ body {
 
 	.navbar-nav > li > a:hover, .navbar-toggle:hover, .navbar-toggle:focus {
 		background: #FFF;
-		color: $topbarColor;
+		color: $blueGray;
 	}
 
 	.navbar-toggle .icon-bar {
@@ -416,4 +417,35 @@ body {
 	}
 
 
+}
+
+#wrap {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -60px;
+}
+
+#push, footer {
+	height: 60px;
+}
+
+footer {
+	background: $topbarColor;
+	color: lighten($topbarColor, 25%);
+	margin-top: 20px;
+
+	.container {
+		padding-top: 20px;
+	}
+
+	.right {
+		text-align: right;
+		font-family: 'Belgrano', serif;
+		font-style: italic;
+
+		i.fa {
+			margin-right: 15px;
+		}
+	}
 }
