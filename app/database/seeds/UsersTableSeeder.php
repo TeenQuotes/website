@@ -38,7 +38,7 @@ class UsersTableSeeder extends Seeder {
 				User::create([
 					'login' => 'antoineaugusti',
 					'password' => Hash::make("123456"),
-					'email' => $faker->email,
+					'email' => 'antoine.augusti@gmail.com',
 					'security_level' => 1,
 					'ip' => $faker->ipv4,
 					'birthdate' => $faker->date('Y-m-d', 'now'),
