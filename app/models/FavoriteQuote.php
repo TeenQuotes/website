@@ -15,6 +15,8 @@ class FavoriteQuote extends Eloquent {
 		'user_id' => 'required|exists:users,id|exists:favorite_quotes,user_id',
 	];
 
+	public static $cacheNameFavoritesForUser = 'favorites_quotes_for_user_';
+
 	public function user()
 	{
 		return $this->belongsTo('User');
@@ -23,5 +25,13 @@ class FavoriteQuote extends Eloquent {
 	public function quote()
 	{
 		return $this->belongsTo('Quote');
+	}
+
+	public function scopeCurrentUser($query)
+	{
+		if (!Auth::check())
+			throw new NotAllowedException("Can't get favorites quotes for a guest user!");
+
+		return $query->where('user_id', '=', Auth::id());
 	}
 }

@@ -144,10 +144,17 @@ class Quote extends Eloquent {
 
 	public function isFavoriteForCurrentUser()
 	{
+		// Try to get information from cache
 		if (Auth::check()) {
-			$countFavorite = FavoriteQuote::where('quote_id', '=', $this->id)->where('user_id', '=', Auth::user()->id)->count();
+			// Time for cache
+			$expiresAt = Carbon::now()->addMinutes(10);			
 
-			return ($countFavorite === 1);
+			$favoriteQuotes = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.Auth::id(), $expiresAt, function()
+			{
+				return FavoriteQuote::currentUser()->select('quote_id')->get()->lists('quote_id');
+			});
+
+			return in_array($this->id, $favoriteQuotes);
 		}
 		
 		return false;

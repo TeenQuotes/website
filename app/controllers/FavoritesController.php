@@ -22,10 +22,16 @@ class FavoritesController extends \BaseController {
 			// Check if the form validates with success.
 			if ($validator->passes()) {
 				
-				$favorite = FavoriteQuote::where('quote_id', '=' , $data['quote_id'])->where('user_id', '=' , $data['user_id'])->first();
-				
+				// Try to find if the user has a this quote in favorite from cache
+				if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']))
+					$alreadyFavorite = in_array($data['quote_id'], Cache::get(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']));
+				else {
+					$favorite = FavoriteQuote::where('quote_id', '=' , $data['quote_id'])->where('user_id', '=' , $data['user_id'])->first();
+					$alreadyFavorite = !is_null($favorite);
+				}
+								
 				// Oops, the quote was already in its favorite
-				if (!is_null($favorite)) {
+				if ($alreadyFavorite) {
 					return Response::json(['success' => false, 'alreadyFavorite' => true]);
 				}
 				else {
@@ -34,6 +40,10 @@ class FavoritesController extends \BaseController {
 					$favorite->user_id = $data['user_id'];
 					$favorite->quote_id = $data['quote_id'];
 					$favorite->save();
+
+					// Delete the cache
+					if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']))
+						Cache::forget(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']);
 
 					return Response::json(['success' => true], 200);
 				}
@@ -70,14 +80,26 @@ class FavoritesController extends \BaseController {
 			// Check if the form validates with success.
 			if ($validator->passes()) {
 				
-				$favorite = FavoriteQuote::where('quote_id', '=' , $data['quote_id'])->where('user_id', '=' , $data['user_id'])->first();
-				
+				// Try to find if the user has a this quote in favorite from cache
+				if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']))
+					$quoteIsFavorite = in_array($data['quote_id'], Cache::get(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']));
+				else {
+					$favorite = FavoriteQuote::where('quote_id', '=' , $data['quote_id'])->where('user_id', '=' , $data['user_id'])->first();
+					$quoteIsFavorite = !is_null($favorite);
+				}
+
 				// Oops, the quote was not labeled as favorite
-				if (is_null($favorite)) {
+				if (!$quoteIsFavorite) {
 					return Response::json(['success' => false, 'notFound' => true]);
 				}
 				else {
-					$favorite->delete();
+					
+					// Delete the FavoriteQuote from database
+					FavoriteQuote::where('quote_id', '=' , $data['quote_id'])->where('user_id', '=' , $data['user_id'])->delete();
+
+					// Delete the cache
+					if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']))
+						Cache::forget(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']);
 
 					return Response::json(['success' => true], 200);
 				}
