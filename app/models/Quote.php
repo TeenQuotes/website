@@ -230,5 +230,4 @@ class Quote extends Eloquent {
 
 		return '#'.$r_hex.$g_hex.$b_hex;
 	}
-
 }

@@ -15,4 +15,5 @@ return array (
 	'addquotePageDescription' => 'Speak your mind and share your thoughts with the world. Add a quote right now!',
 	'quoteAddedSuccessfull'   => 'Your quote has been added :login! You\'ll get an email soon.',
 	'commentComments'         => '{1} :nb comment| [2,Inf] :nb comments',
+	'singleQuotePageTitle'    => 'Quote #:id | '.Lang::get('layout.nameWebsite'),
 );

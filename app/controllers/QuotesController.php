@@ -128,9 +128,11 @@ class QuotesController extends \BaseController {
 			return Response::view('errors.missing', array(), 404);
 
 		$data = [
-			'quote'  => $quote,
-			'colors' => Quote::getRandomColors(),
-			'comments' => Comment::with('user')->where('quote_id', '=', $quote->id)->orderBy('created_at', 'asc')->get(),
+			'quote'           => $quote,
+			'colors'          => Quote::getRandomColors(),
+			'comments'        => Comment::with('user')->where('quote_id', '=', $quote->id)->orderBy('created_at', 'asc')->get(),
+			'pageTitle'       => Lang::get('quotes.singleQuotePageTitle', array('id' => $id)),
+			'pageDescription' => $quote->content,
 		];
 
 		return View::make('quotes.show', $data);
