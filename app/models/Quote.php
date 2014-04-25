@@ -2,11 +2,12 @@
 
 class Quote extends Eloquent {
 	protected $fillable = [];
+	
 	/**
 	 * Adding customs attributes to the object
 	 * @var array
 	 */
-	protected $appends = array('has_favorites', 'total_favorites', 'has_comments', 'total_comments', 'is_favorite_for_current_user');
+	protected $appends = array('has_favorites', 'total_favorites', 'has_comments', 'total_comments');
 
 	/**
 	 * The validation rules
@@ -19,6 +20,30 @@ class Quote extends Eloquent {
 	public static $colors = [
 		'#27ae60', '#16a085', '#d35400', '#e74c3c', '#8e44ad', '#F9690E', '#2c3e50', '#f1c40f', '#65C6BB', '#E08283'
 	];
+
+	/**
+	 * @brief The name of the key to store in cache. Describes the number of comments for a given quote.
+	 * @var string
+	 */
+	public static $cacheNameNbComments = 'nb_comments_';
+	
+	/**
+	 * @brief The name of the key to store in cache. Describes the quotes for a given page.
+	 * @var string
+	 */
+	public static $cacheNameQuotesPage = 'quotes_homepage_';
+	
+	/**
+	 * @brief The name of the key to store in cache. Describes the quotes for a given "random" page.
+	 * @var string
+	 */
+	public static $cacheNameRandomPage = 'quotes_random_';
+	
+	/**
+	 * @brief The name of the key to store in cache. Describes the number of quotes that have been published.
+	 * @var string
+	 */
+	public static $cacheNameNumberComments = 'nb_quotes_published'; 
 
 	public static function getRandomColors()
 	{
@@ -94,10 +119,12 @@ class Quote extends Eloquent {
 		return $this->hasMany('FavoriteQuote');
 	}
 
-
 	public function getTotalCommentsAttribute()
-	{
-		return $this->hasMany('Comment')->count();    
+	{	
+		return Cache::rememberForever(self::$cacheNameNbComments.$this->id, function()
+		{
+			return $this->hasMany('Comment')->count();
+		});  
 	}
 
 	public function getHasFavoritesAttribute()
@@ -115,18 +142,15 @@ class Quote extends Eloquent {
 		return ($this->total_comments > 0);
 	}
 
-	public function getIsFavoriteForCurrentUserAttribute()
+	public function isFavoriteForCurrentUser()
 	{
 		if (Auth::check()) {
 			$countFavorite = FavoriteQuote::where('quote_id', '=', $this->id)->where('user_id', '=', Auth::user()->id)->count();
 
-			if ($countFavorite === 0)
-				return false;
-			else
-				return true;
+			return ($countFavorite === 1);
 		}
-		else
-			return false;
+		
+		return false;
 	}
 
 	public function scopeWaiting($query)

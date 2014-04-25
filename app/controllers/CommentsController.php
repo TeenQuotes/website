@@ -51,6 +51,10 @@ class CommentsController extends \BaseController {
 			$comment->user_id = Auth::user()->id;
 			$comment->save();
 
+			// If we have the number of comments in the cache, increment it
+			if (Cache::has(Quote::$cacheNameNbComments.$data['quote_id']))
+				Cache::increment(Quote::$cacheNameNbComments.$data['quote_id']);
+
 			return Redirect::action('QuotesController@show',  ['id' => $data['quote_id']])->with('success', Lang::get('comments.commentAddedSuccessfull'));
 		}
 

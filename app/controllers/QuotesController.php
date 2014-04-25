@@ -7,6 +7,8 @@ class QuotesController extends \BaseController {
 		$this->beforeFilter('auth', array('on' => 'store'));
 	}
 
+	protected static $nbQuotesPerPage = 10;
+
 	/**
 	 * Display a bunch of quotes
 	 *
@@ -14,11 +16,30 @@ class QuotesController extends \BaseController {
 	 */
 	public function index()
 	{
+		// Page number for quotes
+		$pageNumber = Input::get('page', 1);
+
+		// Time to store quotes
+		$expiresAt = Carbon::now()->addMinutes(1);
+
+		$numberQuotesPublished = Cache::remember(Quote::$cacheNameNumberComments, $expiresAt, function()
+		{
+			return Quote::published()->count();;
+		});
+
 		// Random quotes or not?
-		if (Route::currentRouteName() != 'random')
-			$quotes = Quote::published()->with('user')->orderBy('created_at', 'DESC')->paginate(10);
-		else
-			$quotes = Quote::published()->with('user')->orderBy(DB::raw('RAND()'))->paginate(10);
+		if (Route::currentRouteName() != 'random') {
+			$quotes = Cache::remember(Quote::$cacheNameQuotesPage.$pageNumber, $expiresAt, function()
+			{
+				return Quote::published()->with('user')->orderBy('created_at', 'DESC')->paginate(self::$nbQuotesPerPage)->getItems();
+			});
+		}
+		else {
+			$quotes = Cache::remember(Quote::$cacheNameRandomPage.$pageNumber, $expiresAt, function()
+			{
+				return Quote::published()->with('user')->orderBy(DB::raw('RAND()'))->paginate(self::$nbQuotesPerPage)->getItems();
+			});
+		}
 
 		// Handle not found
 		if (is_null($quotes))
@@ -29,6 +50,7 @@ class QuotesController extends \BaseController {
 			'colors'          => Quote::getRandomColors(),
 			'pageTitle'       => Lang::get('quotes.'.Route::currentRouteName().'PageTitle'),
 			'pageDescription' => Lang::get('quotes.'.Route::currentRouteName().'PageDescription'),
+			'paginator'       => Paginator::make($quotes, $numberQuotesPublished, self::$nbQuotesPerPage),
 		];
 
 		return View::make('quotes.index', $data);

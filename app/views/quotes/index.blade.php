@@ -9,6 +9,6 @@ $i = 0;
 	@endforeach
 
 	<div class="text-center">
-		{{ $quotes->links() }}
+		{{ $paginator->links() }}
 	</div>
 @stop
