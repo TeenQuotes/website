@@ -23,6 +23,10 @@ Route::post('signin', 'AuthController@postSignin');
 Route::get("/signup", ["as" => "signup", "before" => "guest", "uses" => "UsersController@getSignup"]);
 Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'store']]);
 
+/* --- PASSWORD REMINDER --- */
+Route::get('/password/remind', ['as' => 'passwordReminder', 'before' => 'guest', 'uses' => 'RemindersController@getRemind']);
+Route::controller('password', 'RemindersController');
+
 /* --- QUOTES --- */
 Route::get('/random', ['as' => 'random', 'uses' => 'QuotesController@index']);
 Route::get('/addquote', ['as' => 'addquote', 'before' => 'auth', 'uses' => 'QuotesController@getAddQuote']);

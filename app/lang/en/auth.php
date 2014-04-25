@@ -25,4 +25,7 @@ return array(
 	'signinPageDescription'   => 'Log in to your account and enter in your space on Teen Quotes.',
 	'signupPageTitle'         => 'Create an account | Teen Quotes',
 	'signupPageDescription'   => 'Create an account and access to all the advantages that come with it in a minute.',
+	'resetMyPassword'         => 'Reset my password!',
+	'iveLostMyPassword'       => "I've lost my password!",
+	'lostCheerUp'             => "Don't worry, we are here to help! We deal with issues like this everyday. Our robots will take care of you, just your enter email address bellow and check your inbox!",
 );
