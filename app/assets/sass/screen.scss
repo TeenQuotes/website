@@ -435,8 +435,19 @@ footer {
 	color: lighten($topbarColor, 25%);
 	margin-top: 20px;
 
+	@media screen and (max-width: 768px) {
+		font-size: .8em;
+	}
+
 	.container {
-		padding-top: 20px;
+		padding-top: 15px;
+	}
+
+	.col-xs-6 {
+		float:none;
+		display:inline-block;
+		vertical-align:middle;
+		margin-right:-4px;
 	}
 
 	.right {

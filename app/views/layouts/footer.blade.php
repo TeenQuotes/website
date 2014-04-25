@@ -3,15 +3,15 @@
 	
 	<footer>
 		<div class="container">
-
 			<div class="row">
 				<div class="col-xs-6">
-					{{ Lang::get('layout.nameWebsite') }}. {{ Lang::get('layout.catchphrase') }}.
+					<span class="hidden-xs">{{ Lang::get('layout.nameWebsite') }}. </span>{{ Lang::get('layout.catchphrase') }}.
 				</div>
 
 				<div class="col-xs-6 right">
 					<i class="fa fa-hospital-o"></i> Designed in France
 				</div>
+			</div>
 		</div>
 	</footer><!-- END FOOTER -->
 
