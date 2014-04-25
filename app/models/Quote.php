@@ -127,6 +127,10 @@ class Quote extends Eloquent {
 
 	public function getTotalCommentsAttribute()
 	{	
+		// If the quote is not published, obviously we have no comments
+		if ($this->approved != 2)
+			return 0;
+
 		return Cache::rememberForever(self::$cacheNameNbComments.$this->id, function()
 		{
 			return $this->hasMany('Comment')->count();
@@ -140,6 +144,10 @@ class Quote extends Eloquent {
 
 	public function getTotalFavoritesAttribute()
 	{
+		// If the quote is not published, obviously we have no favorites
+		if ($this->approved != 2)
+			return 0;
+
 		return Cache::rememberForever(self::$cacheNameNbFavorites.$this->id, function()
 		{
 			return $this->hasMany('FavoriteQuote')->count();    
