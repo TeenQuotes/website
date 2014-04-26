@@ -24,7 +24,7 @@
 		<div class="navbar navbar-default navbar-fixed-top">
 			<div class="container">
 				<div class="navbar-header">
-					<a href="../" class="logo"></a>
+					<a href="{{ URL::route('home') }}" class="logo"></a>
 
 					<!-- NAVBAR TOGGLE FOR MOBILES -->
 					<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
