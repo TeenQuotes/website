@@ -10,6 +10,10 @@ $topbarColor:#22313F;
 $lightGray:#ecf0f1;
 $blueGray:#39556e;
 
+html, body {
+	height: 100%;
+}
+
 body {
 	text-rendering: optimizeLegibility;
 }
@@ -47,6 +51,10 @@ body {
 
 .orange {
 	color: $orange;
+}
+
+.light-blue {
+	color: $lightBlue;
 }
 
 .alert-warning, .alert-success {
@@ -252,10 +260,10 @@ body {
 }
 
 .container.under-navbar {
-	margin-top: 100px;
+	padding-top: 100px;
 
 	@media screen and (max-width: 768px) {
-		margin-top: 70px;
+		padding-top: 70px;
 	}
 
 	.text-center {
@@ -438,21 +446,40 @@ body {
 
 }
 
-#wrap {
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
-	margin: 0 auto -60px;
+#user-profile {
+	> h2 {
+		margin-bottom: 15px;
+		color: $orange;
+
+		> i.fa {
+			margin-right: 15px;
+			color: $red;
+		}
+	}
+
+	.quote {
+		padding: 15px 15px 10px 15px;
+		color: white;
+		font-size: 1em;
+		line-height: 1.3em;
+		margin-bottom: 15px;
+	}
 }
 
-#push, footer {
-	height: 60px;
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by its height */
+  margin: 0 auto -60px;
+  /* Pad bottom by footer height */
+  padding: 0 0 60px;
 }
 
 footer {
+	height: 60px;
 	background: $topbarColor;
 	color: lighten($topbarColor, 25%);
-	margin-top: 20px;
 
 	@media screen and (max-width: 768px) {
 		font-size: .8em;

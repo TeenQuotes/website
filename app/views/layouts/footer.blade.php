@@ -1,6 +1,4 @@
-		<div id="push"></div>
 	</div><!-- END WRAP -->
-	
 	<footer>
 		<div class="container">
 			<div class="row">
