@@ -10,6 +10,7 @@ class UsersTableSeeder extends Seeder {
 		User::truncate();
 		DB::statement('SET FOREIGN_KEY_CHECKS = 1'); 
 
+		Eloquent::unguard();
 		$faker = Faker::create();
 
 		$this->command->info('Seeding Users table using Faker...');
@@ -18,7 +19,7 @@ class UsersTableSeeder extends Seeder {
 			// Random user
 			if ($index != 42) {
 				User::create([
-					'login' => $faker->userName,
+					'login' => $faker->bothify('?????##'),
 					'password' => Hash::make("1234"),
 					'email' => $faker->email,
 					'ip' => $faker->ipv4,

@@ -10,7 +10,6 @@ class QuotesTableSeeder extends Seeder {
 		Quote::truncate();
 		DB::statement('SET FOREIGN_KEY_CHECKS = 1'); 
 
-		// We need to unguard to assign dates
 		Eloquent::unguard();
 		$faker = Faker::create();
 

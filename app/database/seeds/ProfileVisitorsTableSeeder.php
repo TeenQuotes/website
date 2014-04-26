@@ -10,6 +10,7 @@ class ProfileVisitorsTableSeeder extends Seeder {
 		ProfileVisitor::truncate();
 		DB::statement('SET FOREIGN_KEY_CHECKS = 1'); 
 
+		Eloquent::unguard();
 		$faker = Faker::create();
 
 		$this->command->info('Seeding ProfileVisitor table using Faker...');

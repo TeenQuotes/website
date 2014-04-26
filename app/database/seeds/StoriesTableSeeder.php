@@ -10,6 +10,7 @@ class StoriesTableSeeder extends Seeder {
 		Story::truncate();
 		DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
+		Eloquent::unguard();
 		$faker = Faker::create();
 
 		$this->command->info('Seeding Stories table using Faker...');
