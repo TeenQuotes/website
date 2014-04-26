@@ -13,12 +13,15 @@ class FavoriteQuotesTableSeeder extends Seeder {
 		$faker = Faker::create();
 
 		$this->command->info('Seeding FavoriteQuote table using Faker...');
+		$i = 1;
 		foreach(range(1, 400) as $index)
 		{
 			FavoriteQuote::create([
-				'quote_id' => $faker->randomNumber(1, 250),
+				'quote_id' => $faker->randomNumber(150, 250),
 				'user_id' => $faker->randomNumber(1, 100),
 			]);
+
+			$i++;
 		}
 	}
 
