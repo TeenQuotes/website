@@ -34,4 +34,6 @@ return array(
 	'welcomeBackPasswordChanged'   => 'Welcome back :login! Your password has been changed.',
 	'resetCheerUp'                 => "Okay, in a minute this incident will be closed and your account will be back to you. Confirm your email address, enter a new password and you'll be ready to go!",
 	'changeMyPasswordButton'       => 'Change my password',
+	'iHaveAnAccount'               => 'I have an account!',
+	'mustBeLoggedToAddcooment'     => "Oops, you can't post a comment if you don't have an account!<br/><br/>Fortunately, this is not very difficult. Psst, if I were you, I would click on one of these buttons below.<br/><br/>",
 );

@@ -21,9 +21,14 @@ $i = rand(0, count($colors) - 1);
 	@else
 		<h2 id="title-add-comment"><i class="fa fa-pencil-square-o"></i><span class="red">{{ Lang::get('comments.addComment')}}</span></h2>
 
-		{{ Lang::get('auth.dontOwnAccountYet') }}
-		<div class="text-center" id="listener-wants-account">
-			<a href="{{URL::route('signup')}}" class="transition btn btn-success btn-lg" id="wants-account">{{Lang::get('auth.wantsAnAccount')}}</a>
+		{{ Lang::get('auth.mustBeLoggedToAddcooment') }}
+		<div class="row">
+			<div class="text-center col-xs-6">
+				<a href="{{URL::route('signin')}}" class="transition btn btn-warning btn-lg" id="wants-account">{{Lang::get('auth.iHaveAnAccount')}}</a>
+			</div>
+			<div class="text-center col-xs-6">
+				<a href="{{URL::route('signup')}}" class="transition btn btn-success btn-lg" id="wants-account">{{Lang::get('auth.wantsAnAccount')}}</a>
+			</div>
 		</div>
 	@endif
 @stop

@@ -7,7 +7,7 @@ class UsersController extends \BaseController {
 		$this->beforeFilter('guest', array('on' => 'store'));
 	}
 
-	protected static $nbQuotesPerPage = 10;
+	protected static $nbQuotesPerPage = 5;
 
 	/**
 	 * Displays the signup form
@@ -127,6 +127,9 @@ class UsersController extends \BaseController {
 			$paginator = Paginator::make($quotes, count($arrayIDFavoritesQuotesForUser), self::$nbQuotesPerPage);
 			// FIXME: could be prettier
 			$paginator->setBaseUrl('/users/'.$user->login.'/fav');
+
+			// Fix the type of quotes we will display
+			$type = 'favorites';
 		}
 		// ---- We want to display the published quotes of the user
 		else {
@@ -149,14 +152,18 @@ class UsersController extends \BaseController {
 
 			// Build the associated paginator
 			$paginator = Paginator::make($quotes, $numberQuotesPublishedForUser, self::$nbQuotesPerPage);
-		}
 
+			// Fix the type of quotes we will display
+			$type = 'published';
+		}
+		
 		$data = [
 			'quotes'          => $quotes,
-			'colors'          => Quote::getRandomColors(),
+			'colors'          => Quote::getRandomColors(true),
 			'pageTitle'       => Lang::get('quotes.'.Route::currentRouteName().'PageTitle'),
 			'pageDescription' => Lang::get('quotes.'.Route::currentRouteName().'PageDescription'),
 			'paginator'       => $paginator,
+			'type'            => $type,
 		];
 
 		return View::make('users.show', $data);
