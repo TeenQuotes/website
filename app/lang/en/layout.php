@@ -10,5 +10,6 @@ return array (
 	"twitterUsername" => '@ohteenquotes',
 	"domain"          => 'teen-quotes.com',
 	'IDAppiOS'        => 'id577239995',
-	'catchphrase'     => 'Because some quotes are simply true'
+	'downloadLinkiOS' => 'https://itunes.apple.com/us/app/teen-quotes/id577239995',
+	'catchphrase'     => 'Because some quotes are simply true',
 );
