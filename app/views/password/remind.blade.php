@@ -2,7 +2,7 @@
 
 @section('content')
 	<div id="reset-password" class="row animated fadeInUp">
-		<!-- ADD A QUOTE -->
+		<!-- RESET A PASSWORD -->
 		{{ Form::open(array('url' => URL::action('RemindersController@postRemind'), 'class' => 'form-horizontal')) }}
 
 			<h1><i class="fa fa-lock"></i><span class="red">{{ Lang::get('auth.iveLostMyPassword')}}</span></h1>
@@ -10,7 +10,7 @@
 				{{ Lang::get('auth.lostCheerUp') }}
 			</div>
 
-			<!-- Quote's content -->
+			<!-- Email address -->
 			<div class="form-group">
 				{{ Form::label('email', Lang::get('auth.emailAddress'), array('class' => 'col-sm-2 control-label')) }}
 
