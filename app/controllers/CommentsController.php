@@ -40,9 +40,10 @@ class CommentsController extends \BaseController {
 		];
 
 		$validator = Validator::make($data, Comment::$rulesAdd);
+		$quote = Quote::find($data['quote_id']);
 
 		// Check if the form validates with success.
-		if ($validator->passes()) {
+		if ($validator->passes() AND !is_null($quote) AND $quote->isPublished()) {
 			
 			// Store the comment
 			$comment = new Comment;
