@@ -99,8 +99,8 @@ body {
 		}
 	}
 
-	.container {
-		@media screen and (max-width: 992px) {
+	> .container {
+		@media screen and (min-width: 768px) and (max-width: 992px) {
 			padding-right: 0px;
 			padding-left: 0px;
 		}
@@ -150,6 +150,9 @@ body {
 }
 
 #reset-password {
+	margin-left: 0;
+	margin-right: 0;
+
 	h1 {
 		margin-bottom: 15px;
 
