@@ -29,5 +29,5 @@ return array(
 	'iveLostMyPassword'       => "I've lost my password!",
 	'lostCheerUp'             => "Don't worry, we are here to help! We deal with issues like this everyday. Our robots will take care of you, just your enter email address bellow and check your inbox!",
 	'heyEmail'                => 'Hey!',
-	'askedResetPasswordEmail' => "You've just asked to reset your password on ".Lang::get('auth.nameWebsite')." and we are here to help!<br/><br/>Click the link, complete the form and you will be out of trouble in a minute:",
+	'askedResetPasswordEmail' => "You've just asked to reset your password on Teen Quotes and we are here to help!<br/><br/>Click the link, complete the form and you will be out of trouble in a minute:",
 );
