@@ -170,6 +170,14 @@ body {
 		margin-bottom: 10px;
 	}
 
+	h1 {
+		margin-bottom: 15px;
+
+		> i.fa {
+			margin-right: 15px;
+		}
+	}
+
 	ul {
 		list-style: none;
 		padding: 0;
