@@ -24,7 +24,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var array
 	 */
 	public static $rulesEdit = [
-		'login' => 'required|unique:users,login|min:3|max:20',
+		'login' => 'required|alpha_dash|unique:users,login|min:3|max:20',
 		'password' => 'required|min:6',
 		'email' => 'required|unique:users,email|email',
 		'ip' => 'ip',
@@ -39,13 +39,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	];
 
 	public static $rulesSignup = [
-		'login' => 'required|unique:users,login|min:3|max:20',
+		'login' => 'required|alpha_dash|unique:users,login|min:3|max:20',
 		'password' => 'required|min:6',
 		'email' => 'required|email|unique:users,email',
 	];
 
 	public static $rulesSignin = [
-		'login' => 'required|exists:users,login|min:3|max:20',
+		'login' => 'required|alpha_dash|exists:users,login|min:3|max:20',
 		'password' => 'required|min:6',
 	]; 
 
