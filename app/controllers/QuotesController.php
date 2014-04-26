@@ -24,7 +24,7 @@ class QuotesController extends \BaseController {
 
 		$numberQuotesPublished = Cache::remember(Quote::$cacheNameNumberComments, $expiresAt, function()
 		{
-			return Quote::published()->count();;
+			return Quote::published()->count();
 		});
 
 		// Random quotes or not?

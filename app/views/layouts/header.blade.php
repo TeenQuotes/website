@@ -5,10 +5,10 @@
 	<title>{{ isset($pageTitle) ? $pageTitle : Lang::get('layout.nameWebsite') }}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="{{isset($pageDescription) ? $pageDescription : ''}}">
-	{{ HTML::style('//netdna.bootstrapcdn.com/bootswatch/3.1.1/cosmo/bootstrap.min.css'); }}
-	{{ HTML::style('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css'); }}
-	{{ HTML::style('//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.0/animate.min.css'); }}
-	{{ HTML::style('assets/css/screen.css'); }}
+	{{ HTML::style('//netdna.bootstrapcdn.com/bootswatch/3.1.1/cosmo/bootstrap.min.css') }}
+	{{ HTML::style('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css') }}
+	{{ HTML::style('//cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.0/animate.min.css') }}
+	{{ HTML::style('assets/css/screen.css') }}
 	<link rel="shortcut icon" href="/assets/images/favicon.png"/>
 
 	<!-- TWITTER CARD FOR SINGLE QUOTE -->
