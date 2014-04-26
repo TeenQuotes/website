@@ -49,7 +49,7 @@ class QuotesController extends \BaseController {
 			});
 		}
 
-		// Handle not found
+		// FIXME: Handle not found
 		if (is_null($quotes))
 			return Response::view('errors.missing', array(), 404);
 
