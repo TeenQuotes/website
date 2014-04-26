@@ -11,4 +11,3 @@
 			</div>
 
 			<div style="padding:10px">
-				@yield('content')
