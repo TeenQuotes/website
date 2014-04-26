@@ -47,7 +47,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public static $rulesSignin = [
 		'login' => 'required|alpha_dash|exists:users,login|min:3|max:20',
 		'password' => 'required|min:6',
-	]; 
+	];
+
+	public static $cacheNameForPublished = 'quotes_published_'; 
+	public static $cacheNameForFavorited = 'quotes_favorited_'; 
+	public static $cacheNameForNumberQuotesPublished = 'number_quotes_published_'; 
 
 	public function comments()
 	{
@@ -81,7 +85,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function favoriteQuotes()
     {
-        return $this->belongsToMany('Quote', 'favorite_quotes');
+        return $this->belongsToMany('Quote', 'favorite_quotes')->with('user')->orderBy('favorite_quotes.id', 'DESC');
     }
 
 	/**

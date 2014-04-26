@@ -31,13 +31,21 @@ class QuotesController extends \BaseController {
 		if (Route::currentRouteName() != 'random') {
 			$quotes = Cache::remember(Quote::$cacheNameQuotesPage.$pageNumber, $expiresAt, function()
 			{
-				return Quote::published()->with('user')->orderBy('created_at', 'DESC')->paginate(self::$nbQuotesPerPage)->getItems();
+				return Quote::published()
+					->with('user')
+					->orderDescending()
+					->paginate(self::$nbQuotesPerPage)
+					->getItems();
 			});
 		}
 		else {
 			$quotes = Cache::remember(Quote::$cacheNameRandomPage.$pageNumber, $expiresAt, function()
 			{
-				return Quote::published()->with('user')->orderBy(DB::raw('RAND()'))->paginate(self::$nbQuotesPerPage)->getItems();
+				return Quote::published()
+					->with('user')
+					->random()
+					->paginate(self::$nbQuotesPerPage)
+					->getItems();
 			});
 		}
 

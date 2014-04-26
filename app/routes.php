@@ -11,6 +11,8 @@
 |
 */
 Route::pattern('quote_id', '[0-9]+');
+Route::pattern('user_id', '[a-zA-Z0-9_]+');
+Route::pattern('fav', 'fav');
 
 Route::get('/', ['as' => 'home', 'uses' => 'QuotesController@index']);
 
@@ -21,7 +23,8 @@ Route::post('signin', 'AuthController@postSignin');
 
 /* --- USERS --- */
 Route::get("/signup", ["as" => "signup", "before" => "guest", "uses" => "UsersController@getSignup"]);
-Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'store']]);
+Route::get('/users/{user_id}/{fav?}', ['as' => 'users.show', 'uses' => 'UsersController@show']);
+Route::resource('users', 'UsersController', ['only' => ['index', 'store']]);
 
 /* --- PASSWORD REMINDER --- */
 // Adding this route just to have a named route to the password reminder page

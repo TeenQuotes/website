@@ -125,6 +125,11 @@ class Quote extends Eloquent {
 		return $this->hasMany('FavoriteQuote');
 	}
 
+	public function favorite()
+	{
+		return $this->hasOne('FavoriteQuote', 'quote_id', 'id');
+	}
+
 	public function getTotalCommentsAttribute()
 	{	
 		// If the quote is not published, obviously we have no comments
@@ -164,7 +169,7 @@ class Quote extends Eloquent {
 		// Try to get information from cache
 		if (Auth::check()) {
 			// Time for cache
-			$expiresAt = Carbon::now()->addMinutes(10);			
+			$expiresAt = Carbon::now()->addMinutes(10);
 
 			$favoriteQuotes = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.Auth::id(), $expiresAt, function()
 			{
@@ -195,6 +200,26 @@ class Quote extends Eloquent {
 	public function scopePublished($query)
 	{
 		return $query->where('approved', '=', '2');
+	}
+
+	public function scopeForUser($query, $user)
+	{
+		return $query->where('user_id', '=', $user->id);
+	}
+
+	public function scopeOrderDescending($query)
+	{
+		return $query->orderBy('created_at', 'DESC');
+	}
+
+	public function scopeRandom($query)
+	{
+		return $query->orderBy(DB::raw('RAND()'));
+	}
+
+	public function isPublished()
+	{
+		return ($this->approved == 2);
 	}
 
 	/**

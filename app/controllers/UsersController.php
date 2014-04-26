@@ -7,6 +7,8 @@ class UsersController extends \BaseController {
 		$this->beforeFilter('guest', array('on' => 'store'));
 	}
 
+	protected static $nbQuotesPerPage = 10;
+
 	/**
 	 * Displays the signup form
 	 *
@@ -84,14 +86,81 @@ class UsersController extends \BaseController {
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param string $user_id The id or the login of the user
+	 * @param string $fav If it's not false, we will display the favorite quotes of the
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($user_id, $fav = false)
 	{
-		$user = User::where('login', $id)->orWhere('id', $id)->first();
+		// Page number for quotes
+		$pageNumber = Input::get('page', 1);
 
-		return $user->login;
+		// Time to store quotes in cache
+		$expiresAt = Carbon::now()->addMinutes(10);
+		
+		// Get the user
+		$user = User::where('login', $user_id)->orWhere('id', $user_id)->first();
+
+		// TODO: handle this error
+		if (is_null($user))
+			App::abort(404, 'User not found');
+
+
+		// ---- We want to display the favorites quotes of the user
+		if ($fav != false) {
+			
+			$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$user->id, $expiresAt, function() use ($user)
+			{
+				return FavoriteQuote::forUser($user)->select('quote_id')->get()->lists('quote_id');
+			});
+
+			// Fetch the quotes
+			$quotes = Cache::remember(User::$cacheNameForFavorited.$user->id.'_'.$pageNumber, $expiresAt, function() use ($user)
+			{
+				return Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
+					->with('user')
+					->orderDescending()
+					->paginate(self::$nbQuotesPerPage)
+					->getItems();
+			});
+
+			// Build the associated paginator
+			$paginator = Paginator::make($quotes, count($arrayIDFavoritesQuotesForUser), self::$nbQuotesPerPage);
+			// FIXME: could be prettier
+			$paginator = setBaseUrl('users/'.$user->login.'/fav');
+		}
+		// ---- We want to display the published quotes of the user
+		else {
+			// Fetch the quotes
+			$quotes = Cache::remember(User::$cacheNameForPublished.$user->id.'_'.$pageNumber, $expiresAt, function() use ($user)
+			{
+				return Quote::forUser($user)
+					->published()
+					->orderDescending()
+					->paginate(self::$nbQuotesPerPage)
+					->getItems();
+			});
+
+			$numberQuotesPublishedForUser = Cache::remember(User::$cacheNameForNumberQuotesPublished.$user->id, $expiresAt, function() use ($user)
+			{
+				return Quote::forUser($user)
+					->published()
+					->count();
+			});
+
+			// Build the associated paginator
+			$paginator = Paginator::make($quotes, $numberQuotesPublishedForUser, self::$nbQuotesPerPage);
+		}
+
+		$data = [
+			'quotes'          => $quotes,
+			'colors'          => Quote::getRandomColors(),
+			'pageTitle'       => Lang::get('quotes.'.Route::currentRouteName().'PageTitle'),
+			'pageDescription' => Lang::get('quotes.'.Route::currentRouteName().'PageDescription'),
+			'paginator'       => $paginator,
+		];
+
+		return $data;
 	}
 
 	/**
