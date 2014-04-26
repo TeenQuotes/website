@@ -105,7 +105,6 @@ class UsersController extends \BaseController {
 		if (is_null($user))
 			App::abort(404, 'User not found');
 
-
 		// ---- We want to display the favorites quotes of the user
 		if ($fav != false) {
 			
@@ -115,7 +114,7 @@ class UsersController extends \BaseController {
 			});
 
 			// Fetch the quotes
-			$quotes = Cache::remember(User::$cacheNameForFavorited.$user->id.'_'.$pageNumber, $expiresAt, function() use ($user)
+			$quotes = Cache::remember(User::$cacheNameForFavorited.$user->id.'_'.$pageNumber, $expiresAt, function() use ($user, $arrayIDFavoritesQuotesForUser)
 			{
 				return Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
 					->with('user')
@@ -127,7 +126,7 @@ class UsersController extends \BaseController {
 			// Build the associated paginator
 			$paginator = Paginator::make($quotes, count($arrayIDFavoritesQuotesForUser), self::$nbQuotesPerPage);
 			// FIXME: could be prettier
-			$paginator = setBaseUrl('users/'.$user->login.'/fav');
+			$paginator->setBaseUrl('/users/'.$user->login.'/fav');
 		}
 		// ---- We want to display the published quotes of the user
 		else {
@@ -160,7 +159,7 @@ class UsersController extends \BaseController {
 			'paginator'       => $paginator,
 		];
 
-		return $data;
+		return View::make('users.show', $data);
 	}
 
 	/**
