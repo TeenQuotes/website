@@ -10,14 +10,15 @@ class FavoriteQuotesTableSeeder extends Seeder {
 		FavoriteQuote::truncate();
 		DB::statement('SET FOREIGN_KEY_CHECKS = 1'); 
 
+		Eloquent::unguard();
 		$faker = Faker::create();
 
 		$this->command->info('Seeding FavoriteQuote table using Faker...');
 		$i = 1;
-		foreach(range(1, 400) as $index)
+		foreach(range(1, 2000) as $index)
 		{
 			FavoriteQuote::create([
-				'quote_id' => $faker->randomNumber(150, 250),
+				'quote_id' => $faker->randomNumber(150, 750),
 				'user_id' => $faker->randomNumber(1, 100),
 			]);
 

@@ -17,7 +17,7 @@ class QuotesTableSeeder extends Seeder {
 		$this->command->info('Seeding Quotes table using Faker...');
 		$i = 1;
 		$date = Carbon::createFromDate(2011, 12, 1);
-		foreach(range(1, 250) as $index)
+		foreach(range(1, 750) as $index)
 		{
 			// Generate 50 quotes for each approved value
 			// between -1 and 2
