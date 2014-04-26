@@ -41,7 +41,7 @@ class AuthController extends \BaseController {
 		if ($validator->passes()) {
 			// Try to log the user in.
 			if (Auth::attempt($data, true))
-				return Redirect::intended('/')->with('success', Lang::get('auth.logginSuccessfull', array('login' => $data['login'])));
+				return Redirect::intended('/')->with('success', Lang::get('auth.loginSuccessfull', array('login' => $data['login'])));
 			else
 				return Redirect::route('signin')->withErrors(array('password' => Lang::get('auth.passwordInvalid')))->withInput(Input::except('password'));
 		}

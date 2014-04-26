@@ -1,7 +1,7 @@
 <?php
 return array(
 	'alreadyLoggedIn'              => 'You are already logged in.',
-	'logginSuccessfull'            => 'Hi :login! Nice to see you :)',
+	'loginSuccessfull'             => 'Hi :login! Nice to see you :)',
 	'passwordInvalid'              => 'Your password is invalid.',
 	'login'                        => 'Login',
 	'password'                     => 'Password',
@@ -31,4 +31,7 @@ return array(
 	'heyEmail'                     => 'Hey!',
 	'askedResetPasswordEmail'      => "You've just asked to reset your password on Teen Quotes and we are here to help!<br/><br/>Click the link, complete the form and you will be out of trouble in a minute:",
 	'passwordReminderEmailSubject' => 'Password reminder',
+	'welcomeBackPasswordChanged'   => 'Welcome back :login! Your password has been changed.',
+	'resetCheerUp'                 => "Okay, in a minute this incident will be closed and your account will be back to you. Confirm your email address, enter a new password and you'll be ready to go!",
+	'changeMyPasswordButton'       => 'Change my password',
 );

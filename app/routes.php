@@ -24,6 +24,7 @@ Route::get("/signup", ["as" => "signup", "before" => "guest", "uses" => "UsersCo
 Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'store']]);
 
 /* --- PASSWORD REMINDER --- */
+// Adding this route just to have a named route to the password reminder page
 Route::get('/password/remind', ['as' => 'passwordReminder', 'before' => 'guest', 'uses' => 'RemindersController@getRemind']);
 Route::controller('password', 'RemindersController');
 

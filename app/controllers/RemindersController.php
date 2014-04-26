@@ -2,6 +2,11 @@
 
 class RemindersController extends Controller {
 
+	public function __construct()
+	{
+		$this->beforeFilter('guest');
+	}
+
 	/**
 	 * Display the password reminder view.
 	 *
@@ -54,15 +59,24 @@ class RemindersController extends Controller {
 	 */
 	public function postReset()
 	{
-		$credentials = Input::only(
-			'email', 'password', 'password_confirmation', 'token'
-		);
+		
+		// Here we don't use password_confirmation but we keep it 
+		// to call the reset function
+		$credentials = [
+			'email'                 => Input::get('email'),
+			'token'                 => Input::get('token'),
+			'password'              => Input::get('password'),
+			'password_confirmation' => Input::get('password')
+		];
 
 		$response = Password::reset($credentials, function($user, $password)
 		{
+			// Update the password in database
 			$user->password = Hash::make($password);
-
 			$user->save();
+
+			// Log in the user
+			Auth::login($user);
 		});
 
 		switch ($response)
@@ -70,11 +84,10 @@ class RemindersController extends Controller {
 			case Password::INVALID_PASSWORD:
 			case Password::INVALID_TOKEN:
 			case Password::INVALID_USER:
-				return Redirect::back()->with('error', Lang::get($response));
+				return Redirect::back()->with('warning', Lang::get($response))->withInput(Input::only('email', 'token'));
 
 			case Password::PASSWORD_RESET:
-				return Redirect::to('/');
+				return Redirect::route('home')->with('success', Lang::get('auth.welcomeBackPasswordChanged', array('login' => Auth::user()->login)));
 		}
 	}
-
 }
