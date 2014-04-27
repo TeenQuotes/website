@@ -2,14 +2,22 @@
 
 class FavoriteQuote extends Eloquent {
 	protected $table = 'favorite_quotes';
-	
+
 	protected $fillable = [];
 
+	/**
+	 * The validation rules when adding a favorite quote
+	 * @var array
+	 */
 	public static $rulesAddFavorite = [
 		'quote_id' => 'required|exists:quotes,id',
 		'user_id' => 'required|exists:users,id',
 	];
 
+	/**
+	 * The validation rules when deleting a favorite quote
+	 * @var array
+	 */
 	public static $rulesRemoveFavorite = [
 		'quote_id' => 'required|exists:quotes,id|exists:favorite_quotes,quote_id',
 		'user_id' => 'required|exists:users,id|exists:favorite_quotes,user_id',
@@ -27,6 +35,12 @@ class FavoriteQuote extends Eloquent {
 		return $this->belongsTo('Quote');
 	}
 
+	/**
+	 * Get the FavoriteQuote for the current user
+	 * @throws NotAllowedException when calling this when the visitor is not logged in
+	 * @param  $query
+	 * @return query object
+	 */
 	public function scopeCurrentUser($query)
 	{
 		if (!Auth::check())

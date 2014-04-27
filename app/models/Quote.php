@@ -2,7 +2,7 @@
 
 class Quote extends Eloquent {
 	protected $fillable = [];
-	
+
 	/**
 	 * Adding customs attributes to the object
 	 * @var array
@@ -17,10 +17,18 @@ class Quote extends Eloquent {
 		'content' => 'required|min:50|max:300|unique:quotes,content',
 	];
 
+	/**
+	 * The colors that will be used for quotes on the random page / homepage
+	 * @var array
+	 */
 	public static $colors = [
 		'#27ae60', '#16a085', '#d35400', '#e74c3c', '#8e44ad', '#F9690E', '#2c3e50', '#f1c40f', '#65C6BB', '#E08283'
 	];
 
+	/**
+	 * The colors that will be used for quotes on the profile page
+	 * @var array
+	 */
 	public static $colorsProfile = [
 		'#5C97BF', '#2574A9', '#3A539B', '#1E8BC3', '#19B5FE', '#89C4F4', '#3498DB', '#52B3D9'
 	];
@@ -36,24 +44,24 @@ class Quote extends Eloquent {
 	 * @var string
 	 */
 	public static $cacheNameNbFavorites = 'nb_favorites_';
-	
+
 	/**
 	 * @brief The name of the key to store in cache. Describes the quotes for a given page.
 	 * @var string
 	 */
 	public static $cacheNameQuotesPage = 'quotes_homepage_';
-	
+
 	/**
 	 * @brief The name of the key to store in cache. Describes the quotes for a given "random" page.
 	 * @var string
 	 */
 	public static $cacheNameRandomPage = 'quotes_random_';
-	
+
 	/**
 	 * @brief The name of the key to store in cache. Describes the number of quotes that have been published.
 	 * @var string
 	 */
-	public static $cacheNameNumberComments = 'nb_quotes_published'; 
+	public static $cacheNameNumberComments = 'nb_quotes_published';
 
 	public static function getRandomColors($profile = false)
 	{
@@ -94,12 +102,12 @@ class Quote extends Eloquent {
 
 		if (strlen($content) > $maxLength)  {
 			$content = substr($content, 0, $maxLength);
-			$lastSpace = strrpos($content, " "); 
+			$lastSpace = strrpos($content, " ");
 
 			// After the space, add ..
 			$content = substr($content, 0, $lastSpace).'..';
 		}
-		
+
 		return $content;
 	}
 
@@ -116,7 +124,7 @@ class Quote extends Eloquent {
 
 		if (strlen($content) > $maxLength)  {
 			$content = substr($content, 0, $maxLength);
-			$lastSpace = strrpos($content, " "); 
+			$lastSpace = strrpos($content, " ");
 
 			// After the space, add ..
 			$content = substr($content, 0, $lastSpace).'..';
@@ -124,7 +132,7 @@ class Quote extends Eloquent {
 		elseif (strlen($content) <= $maxLengthAddTwitterUsername) {
 			$content .= ' '.$twitterUsername;
 		}
-		
+
 		return urlencode($content.' '.URL::route('quotes.show', array($this->id), true));
 	}
 
@@ -149,7 +157,7 @@ class Quote extends Eloquent {
 	}
 
 	public function getTotalCommentsAttribute()
-	{	
+	{
 		// If the quote is not published, obviously we have no comments
 		if ($this->approved != 2)
 			return 0;
@@ -157,7 +165,7 @@ class Quote extends Eloquent {
 		return Cache::rememberForever(self::$cacheNameNbComments.$this->id, function()
 		{
 			return $this->hasMany('Comment')->count();
-		});  
+		});
 	}
 
 	public function getHasFavoritesAttribute()
@@ -173,7 +181,7 @@ class Quote extends Eloquent {
 
 		return Cache::rememberForever(self::$cacheNameNbFavorites.$this->id, function()
 		{
-			return $this->hasMany('FavoriteQuote')->count();    
+			return $this->hasMany('FavoriteQuote')->count();
 		});
 	}
 
@@ -196,7 +204,7 @@ class Quote extends Eloquent {
 
 			return in_array($this->id, $favoriteQuotes);
 		}
-		
+
 		return false;
 	}
 
@@ -264,7 +272,7 @@ class Quote extends Eloquent {
 
     	// Adjust number of steps and keep it inside 0 to 255
 		$r = max(0, min(255,$r + $steps));
-		$g = max(0, min(255,$g + $steps));  
+		$g = max(0, min(255,$g + $steps));
 		$b = max(0, min(255,$b + $steps));
 
 		$r_hex = str_pad(dechex($r), 2, '0', STR_PAD_LEFT);

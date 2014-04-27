@@ -20,7 +20,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $hidden = array('password', 'ip');
 
 	/**
-	 * The validation rules
+	 * The validation rules when editing a profile
 	 * @var array
 	 */
 	public static $rulesEdit = [
@@ -38,20 +38,42 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'notification_comment_quote' => 'in:0,1',
 	];
 
+	/**
+	 * The validation rules when signing up
+	 * @var array
+	 */
 	public static $rulesSignup = [
 		'login' => 'required|alpha_dash|unique:users,login|min:3|max:20',
 		'password' => 'required|min:6',
 		'email' => 'required|email|unique:users,email',
 	];
 
+	/**
+	 * The validation rules when signing in
+	 * @var array
+	 */
 	public static $rulesSignin = [
 		'login' => 'required|alpha_dash|exists:users,login|min:3|max:20',
 		'password' => 'required|min:6',
 	];
 
-	public static $cacheNameForPublished = 'quotes_published_'; 
-	public static $cacheNameForFavorited = 'quotes_favorited_'; 
-	public static $cacheNameForNumberQuotesPublished = 'number_quotes_published_'; 
+	/**
+	 * The name of the key to store in cache. Describes quotes published by a user
+	 * @var array
+	 */
+	public static $cacheNameForPublished = 'quotes_published_';
+
+	/**
+	 * The name of the key to store in cache. Describes quotes favorited by a user
+	 * @var array
+	 */
+
+	public static $cacheNameForFavorited = 'quotes_favorited_';
+	/**
+	 * The name of the key to store in cache. Describes the number of quotes published by a user
+	 * @var array
+	 */
+	public static $cacheNameForNumberQuotesPublished = 'number_quotes_published_';
 
 	public function comments()
 	{
@@ -148,5 +170,4 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return $this->email;
 	}
-
 }

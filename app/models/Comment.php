@@ -4,7 +4,7 @@ class Comment extends Eloquent {
 	protected $fillable = [];
 
 	/**
-	 * The validation rules
+	 * The validation rules when adding a comment
 	 * @var array
 	 */
 	public static $rulesAdd = [
@@ -13,7 +13,7 @@ class Comment extends Eloquent {
 	];
 
 	public static $cacheNameQuotesPage = 'quotes_homepage_';
-	  
+
 
 	public function user()
 	{
