@@ -23,6 +23,12 @@ body {
 	border-color: $lightBlue;
 }
 
+@mixin element-transition {
+	@include transition-property(all);
+  	@include transition-duration(0.3s);
+  	@include transition-timing-function(ease-in-out);
+}
+
 .transition {
 	@include transition-property(all);
   	@include transition-duration(0.3s);
@@ -154,6 +160,24 @@ body {
 	#listener-wants-account {
 		margin:-20px;
 		padding: 20px;
+	}
+
+	.dont-remember-password {
+		text-align: right;
+		margin-top: 15px;
+
+		a {
+			color: $orange;
+			padding:2px 4px;
+			background: transparent;
+			@include element-transition;
+
+			&:hover {
+				background: $lightBlue;
+				color: white;
+				text-decoration: none;
+			}
+		}
 	}
 }
 
@@ -290,6 +314,10 @@ body {
 	text-align: justify;
 	@include hyphens(auto);
 
+	a, button {
+		 @include element-transition;
+	}
+
 	.quotes-info {
 		margin-top: 10px;
 		font-size: 0.9em;
@@ -366,13 +394,7 @@ body {
 				}
 			}
 		}
-
-
-		.nb-comments {
-			margin: 0 5px 0 10px;
-		}
 	}
-
 }
 
 #title-comments, #title-add-comment {
@@ -441,8 +463,6 @@ body {
 			color: darken($lightGray, 50%);
 		}
 	}
-
-
 }
 
 #user-profile {
