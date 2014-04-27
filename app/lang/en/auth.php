@@ -36,4 +36,5 @@ return array(
 	'changeMyPasswordButton'       => 'Change my password',
 	'iHaveAnAccount'               => 'I have an account!',
 	'mustBeLoggedToAddcooment'     => "Oops, you can't post a comment if you don't have an account!<br/><br/>Fortunately, this is not very difficult. Psst, if I were you, I would click on one of these buttons below.<br/><br/>",
+	'dontRememberPassword'         => "I don't remember my password!",
 );
