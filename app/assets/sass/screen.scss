@@ -170,9 +170,8 @@ body {
 	}
 
 	.relax-text {
-		margin-bottom: 10px;
+		margin-bottom: 20px;
 	}
-	
 }
 
 #addquote-page {
@@ -316,7 +315,7 @@ body {
 
 		.social-buttons {
 			opacity: 0;
-			
+
 			a {
 				width: 24px;
 				height: 24px;
@@ -330,7 +329,7 @@ body {
 				}
 
 			}
-			
+
 			a:hover i.fa-facebook {
 				color: #4862A3;
 			}
@@ -341,7 +340,7 @@ body {
 
 			a:first-child {
 				margin-right: 5px;
-				
+
 				@media screen and (max-width: 768px) {
 					margin-right: 3px;
 				}
@@ -435,7 +434,7 @@ body {
 			float: right;
 			background:transparent;
 			padding: 2px 5px;
-		} 
+		}
 
 		.link-author-name:hover {
 			background: white;
