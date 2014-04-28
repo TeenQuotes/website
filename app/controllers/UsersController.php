@@ -61,7 +61,7 @@ class UsersController extends \BaseController {
 
 		// Check if the form validates with success.
 		if ($validator->passes()) {
-			
+
 			// Store the user
 			$user = new User;
 			$user->login = $data['login'];
@@ -75,7 +75,7 @@ class UsersController extends \BaseController {
 			Auth::login($user);
 
 			// TODO : send an email
-			
+
 			return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', array('login' => $data['login'])));
 		}
 
@@ -97,7 +97,7 @@ class UsersController extends \BaseController {
 
 		// Time to store quotes in cache
 		$expiresAt = Carbon::now()->addMinutes(10);
-		
+
 		// Get the user
 		$user = User::where('login', $user_id)->orWhere('id', $user_id)->first();
 
@@ -107,7 +107,7 @@ class UsersController extends \BaseController {
 
 		// ---- We want to display the favorites quotes of the user
 		if ($fav != false) {
-			
+
 			$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$user->id, $expiresAt, function() use ($user)
 			{
 				return FavoriteQuote::forUser($user)->select('quote_id')->get()->lists('quote_id');
@@ -156,12 +156,12 @@ class UsersController extends \BaseController {
 			// Fix the type of quotes we will display
 			$type = 'published';
 		}
-		
+
 		$data = [
 			'quotes'          => $quotes,
 			'colors'          => Quote::getRandomColors(true),
-			'pageTitle'       => Lang::get('quotes.'.Route::currentRouteName().'PageTitle'),
-			'pageDescription' => Lang::get('quotes.'.Route::currentRouteName().'PageDescription'),
+			'pageTitle'       => Lang::get('users.profilePageTitle', array('login' => $user->login)),
+			'pageDescription' => Lang::get('users.profilePageDescription', array('login' => $user->login)),
 			'paginator'       => $paginator,
 			'type'            => $type,
 		];
