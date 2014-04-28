@@ -13,7 +13,8 @@
 
 	<!-- TWITTER CARD FOR SINGLE QUOTE -->
 	@if (Route::currentRouteName() == 'quotes.show')
-		@include('layouts.twitterCard', compact($quote))
+		@include('layouts.twitterCard')
+		@include('layouts.facebookOpenGraph')
 	@endif
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -33,7 +34,7 @@
 						<span class="icon-bar"></span>
 					</button>
 				</div>
-				
+
 				<div class="navbar-collapse collapse" id="navbar-main">
 					<ul class="nav navbar-nav">
 						<!-- LOGIN -->
