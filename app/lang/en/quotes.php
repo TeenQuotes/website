@@ -1,4 +1,4 @@
-<?php 
+<?php
 return array (
 	'homePageTitle'           => 'Teen Quotes | Because some quotes are simply true',
 	'homePageDescription'     => 'Teen Quotes : because our lives are filled full of beautiful sentences, and because some quotes are simply true. Your every day life moments.',
@@ -13,7 +13,7 @@ return array (
 	'noticeByEmail'           => 'Your quote will then be approved or rejected by our team, you will be informed by email.',
 	'addquotePageTitle'       => 'Add a quote | Teen Quotes',
 	'addquotePageDescription' => 'Speak your mind and share your thoughts with the world. Add a quote right now!',
-	'quoteAddedSuccessfull'   => 'Your quote has been added :login! You\'ll get an email soon.',
+	'quoteAddedSuccessfull'   => 'Your quote has been submitted :login! You\'ll get an email soon.',
 	'commentComments'         => '{1} :nb comment| [2,Inf] :nb comments',
 	'singleQuotePageTitle'    => 'Quote #:id | '.Lang::get('layout.nameWebsite'),
 );
