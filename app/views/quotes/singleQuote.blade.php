@@ -39,7 +39,9 @@ else
 
 		<!-- AUTHOR -->
 		<div class="col-md-5 col-sm-5 col-xs-5">
-			<a href="{{ URL::action('UsersController@show', ['id' => $quote->user->login]) }}" class="link-author-profile">{{{ $quote->user->login }}}</a>
+			@if (!(isset($hideAuthor) AND $hideAuthor))
+				<a href="{{ URL::action('UsersController@show', ['id' => $quote->user->login]) }}" class="link-author-profile">{{{ $quote->user->login }}}</a>
+			@endif
 		</div>
 
 		<!-- SOCIAL BUTTONS -->
