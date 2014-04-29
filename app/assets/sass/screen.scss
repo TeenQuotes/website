@@ -220,6 +220,10 @@ body {
 	h1 {
 		margin-bottom: 15px;
 
+		span {
+			color: $red;
+		}
+
 		> i.fa {
 			margin-right: 15px;
 		}
@@ -256,27 +260,46 @@ body {
 }
 
 #signup-page {
-	.signup-advantages {
-		ul {
-			list-style: none;
-			padding: 0;
+	h1 {
+		margin-bottom: 15px;
 
-			li {
-				font-weight: 300;
-				font-family: 'Open Sans', sans-serif;
-				margin: 15px 0 20px 15px;
-				font-size: 1.4em;
+		span {
+			color: $red;
+		}
+
+		> i.fa {
+			margin-right: 15px;
+		}
+	}
+
+	.col-md-push-6 {
+		@media screen and (min-width: 970px) {
+			margin-top: 75px;
+		}
+
+		.signup-advantages {
+			ul {
+				list-style: none;
+				padding: 0;
+
+				li {
+					font-weight: 300;
+					font-family: 'Open Sans', sans-serif;
+					margin: 15px 0 20px 15px;
+					font-size: 1.4em;
 
 
-				b {
-					font-weight: 400;
+					b {
+						font-weight: 400;
+					}
 				}
-			}
-			li:nth-child(even) {
-				text-align: right;
+				li:nth-child(even) {
+					text-align: right;
+				}
 			}
 		}
 	}
+
 
 	.signup-text {
 		margin-bottom: 10px;

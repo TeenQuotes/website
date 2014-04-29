@@ -5,7 +5,7 @@
 		<div class="animated fadeInLeft col-md-6">
 			{{ Form::open(array('url' => URL::route('signin'), 'class' => 'form-horizontal')) }}
 
-				<h1><i class="fa fa-user"></i><span class="red">{{ Lang::get('auth.welcomeBack')}}</span></h1>
+				<h1><i class="fa fa-user"></i><span>{{ Lang::get('auth.welcomeBack')}}</span></h1>
 				<div class="signin-text">
 					{{ Lang::get('auth.pleasureSeeYouAgain') }}
 				</div>
