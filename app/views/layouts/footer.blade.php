@@ -7,7 +7,7 @@
 				</div>
 
 				<div class="col-xs-6 right">
-					<i class="fa fa-hospital-o"></i> Designed in France
+					{{ HTML::image('/assets/images/eiffelTower.png', 'Eiffel Tower') }} Designed in France
 				</div>
 			</div>
 		</div>
