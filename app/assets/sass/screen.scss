@@ -10,6 +10,17 @@ $topbarColor:#22313F;
 $lightGray:#ecf0f1;
 $blueGray:#39556e;
 
+@mixin background-image-retina($file, $type, $width, $height) {
+  background-image: url($file + '.' + $type);
+
+  @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
+    & {
+      background-image: url($file + '@2x.' + $type);
+      -webkit-background-size: $width $height;
+    }
+  }
+}
+
 html, body {
 	height: 100%;
 }
@@ -93,7 +104,9 @@ body {
 
 .navbar-fixed-top {
 	.logo {
-		background:url($imagesFolder + 'logo.png') no-repeat;
+
+		@include background-image-retina($imagesFolder + 'logo', 'png', 200px, 30px);
+		background-repeat: no-repeat;
 		width: 200px;
 		height: 30px;
 		display: block;
