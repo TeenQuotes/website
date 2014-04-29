@@ -81,20 +81,22 @@ class QuotesController extends \BaseController {
 	 */
 	public function store()
 	{
+		$user = Auth::user();
+
 		$data = [
-			'content'    => Input::get('content'),
+			'content'              => Input::get('content'),
+			'quotesSubmittedToday' => Quote::createdToday()->forUser($user)->count(),
 		];
 
 		$validator = Validator::make($data, Quote::$rulesAdd);
 
 		// Check if the form validates with success.
 		if ($validator->passes()) {
-			
+
 			// Store the quote
 			$quote = new Quote;
 			$quote->content = $data['content'];
 
-			$user = Auth::user();
 			$login = $user->login;
 			$user->quotes()->save($quote);
 
@@ -130,7 +132,7 @@ class QuotesController extends \BaseController {
 	{
 
 		$quote = Quote::find($id);
-		
+
 		// Handle not found
 		if (is_null($quote))
 			return Response::view('errors.missing', array(), 404);

@@ -14,7 +14,8 @@ class Quote extends Eloquent {
 	 * @var array
 	 */
 	public static $rulesAdd = [
-		'content' => 'required|min:50|max:300|unique:quotes,content',
+		'content'              => 'required|min:50|max:300|unique:quotes,content',
+		'quotesSubmittedToday' => 'required|integer|between:0,5',
 	];
 
 	/**
@@ -206,6 +207,11 @@ class Quote extends Eloquent {
 		}
 
 		return false;
+	}
+
+	public function scopeCreatedToday($query)
+	{
+		return $query->whereBetween('created_at', array(Carbon::today(), Carbon::today()->addDay()));
 	}
 
 	public function scopeWaiting($query)

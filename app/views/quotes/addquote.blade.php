@@ -20,6 +20,9 @@
 						@if (!empty($errors->first('content')))
 							{{ TextTools::warningTextForm($errors->first('content')) }}
 						@endif
+						@if (!empty($errors->first('quotesSubmittedToday')))
+							{{ TextTools::warningTextForm($errors->first('quotesSubmittedToday')) }}
+						@endif
 					</div>
 				</div>
 

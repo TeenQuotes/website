@@ -83,8 +83,8 @@ return array(
 	*/
 
 	'custom' => array(
-		'attribute-name' => array(
-			'rule-name' => 'custom-message',
+		'quotesSubmittedToday' => array(
+			'between' => "You have submitted enough quotes for today, check back tomorrow!",
 		),
 	),
 
