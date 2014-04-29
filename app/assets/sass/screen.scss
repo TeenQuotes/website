@@ -495,7 +495,13 @@ body {
 		font-size: 1em;
 		line-height: 1.3em;
 		margin-bottom: 15px;
+
+		.quotes-info .social-buttons a {
+			width: 19px;
+			height: 19px;
+		}
 	}
+
 }
 
 #wrap {
