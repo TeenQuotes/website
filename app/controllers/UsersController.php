@@ -4,7 +4,8 @@ class UsersController extends \BaseController {
 
 	public function __construct()
 	{
-		$this->beforeFilter('guest', array('on' => 'store'));
+		$this->beforeFilter('guest', array('only' => 'store'));
+		$this->beforeFilter('auth', array('only' => 'edit'));
 	}
 
 	protected static $nbQuotesPerPage = 5;
@@ -177,12 +178,17 @@ class UsersController extends \BaseController {
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  string $id The login or the ID of the user
 	 * @return Response
 	 */
 	public function edit($id)
 	{
-		//
+		$userLogin = User::whereLogin($id)->orWhere('id', $id)->first()->login;
+
+		if ($userLogin != Auth::user()->login)
+			App::abort(401, 'Refused');
+		else
+			return View::make('users.edit');
 	}
 
 	/**
