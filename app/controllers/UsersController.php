@@ -74,7 +74,11 @@ class UsersController extends \BaseController {
 			// Log the user
 			Auth::login($user);
 
-			// TODO : send an email
+			// Send the welcome email
+			Mail::send('emails.welcome', $data, function($m) use($data)
+			{
+				$m->to($data['email'], $data['login'])->subject(Lang::get('auth.subjectWelcomeEmail'));
+			});
 
 			return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', array('login' => $data['login'])));
 		}

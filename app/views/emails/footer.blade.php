@@ -1,5 +1,7 @@
 				<br/><br/>
-				<div style="border-top:1px solid #CCCCCC">
+				{{ Lang::get('auth.teamFooterEmail') }}<br/>
+				<br/>
+				<div style="padding-bottom:10px;border-top:1px solid #CCCCCC">
 					<br/>
 					<img src="{{ Lang::get('email.iconWebsite') }}" style="margin:0 10px 5px 15px;vertical-align:middle;height:20px;width:20px;"/>Website: <a href="http://teen-quotes.com" title="Website">{{ Lang::get('layout.domain') }}</a><br/>
 					<img src="{{ Lang::get('email.iconApp') }}" style="margin:0 10px 5px 15px;vertical-align:middle;height:20px;width:20px;"/>iOS application: <a href="{{ Lang::get('layout.downloadLinkiOS') }}" title="iPhone">{{ Lang::get('layout.domain') }}/apps</a><br/>

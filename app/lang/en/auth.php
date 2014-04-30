@@ -38,4 +38,8 @@ return array(
 	'mustBeLoggedToAddcooment'     => "Oops, you can't post a comment if you don't have an account!<br/><br/>Fortunately, this is not very difficult. Psst, if I were you, I would click on one of these buttons below.<br/><br/>",
 	'dontRememberPassword'         => "I don't remember my password!",
 	'createYourAccount'            => 'Create your account',
+	'subjectWelcomeEmail'          => 'Welcome!',
+	'welcomeEmailWithUsername'     => 'Welcome :login!',
+	'bodyWelcomeEmail'             => "We are excited to welcome you on board! With your account you are now able to submit quotes, add quotes to your favorites and comment on quotes. And a lot more!<br/><br/>Don't forget to fill out your profile as soon as you can so that everyone will see that you're awesome! You can do so by following this link :linkEditProfile <br/><br/>See you soon on Teen Quotes :login!",
+	'teamFooterEmail' => 'The Teen Quotes Team.'
 );
