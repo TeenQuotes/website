@@ -1,5 +1,6 @@
 <?php
 
+// TODO : update config
 return array(
 
 	/*
