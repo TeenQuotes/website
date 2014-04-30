@@ -160,9 +160,11 @@ body {
 #signin-page {
 	h1 {
 		margin-bottom: 15px;
+		color: $red;
 
 		> i.fa {
 			margin-right: 15px;
+			color: black;
 		}
 	}
 
