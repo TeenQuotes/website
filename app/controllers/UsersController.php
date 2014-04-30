@@ -168,7 +168,7 @@ class UsersController extends \BaseController {
 			'pageDescription' => Lang::get('users.profilePageDescription', array('login' => $user->login)),
 			'paginator'       => $paginator,
 			'type'            => $type,
-			'hideAuthor' => ($type == 'published')
+			'hideAuthor'      => ($type == 'published')
 		];
 
 		return View::make('users.show', $data);
