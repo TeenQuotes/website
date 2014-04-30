@@ -13,7 +13,7 @@ class CreateUsersTable extends Migration {
 	public function up()
 	{
 		Schema::dropIfExists('users');
-		
+
 		Schema::create('users', function(Blueprint $table) {
 			$table->engine = "InnoDB";
 			$table->increments('id');
@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration {
 			$table->string('ip');
 			$table->date('birthdate')->nullable();
 			$table->enum('gender', array('M', 'W'))->nullable();
-			$table->string('country')->nullable();
+			$table->string('country')->references('id')->on('countries')->onDelete('cascade')->nullable()->default(null);
 			$table->string('city')->nullable();
 			$table->string('avatar')->default('icon50.png');
 			$table->string('about_me', 500)->nullable();
