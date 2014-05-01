@@ -40,28 +40,28 @@
 						<!-- LOGIN -->
 						@if (Auth::guest())
 							<li>
-								<a class="transition" href="{{URL::route('signin')}}"><i class="fa fa-user"></i> {{ Lang::get('layout.login') }}</a>
+								<a href="{{URL::route('signin')}}"><i class="fa fa-user"></i> {{ Lang::get('layout.login') }}</a>
 							</li>
 						<!-- MY PROFILE -->
 						@else
 							<li>
-								<a class="transition" href="{{URL::route('users.show', Auth::user()->login)}}"><i class="fa fa-user"></i> {{ Lang::get('layout.myProfile') }}</a>
+								<a href="{{URL::route('users.show', Auth::user()->login)}}"><i class="fa fa-user"></i> {{ Lang::get('layout.myProfile') }}</a>
 							</li>
 						@endif
 
 						<!-- RANDOM QUOTES -->
 						<li>
-							<a class="transition" href="{{URL::route('random')}}"><i class="fa fa-random"></i>{{ Lang::get('layout.randomQuotes') }}</a>
+							<a href="{{URL::route('random')}}"><i class="fa fa-random"></i>{{ Lang::get('layout.randomQuotes') }}</a>
 						</li>
 
 						<!-- ADD QUOTE -->
 						<li>
-							<a class="transition" href="{{URL::route('addquote')}}"><i class="fa fa-comment"></i>{{ Lang::get('layout.addQuote') }}</a>
+							<a href="{{URL::route('addquote')}}"><i class="fa fa-comment"></i>{{ Lang::get('layout.addQuote') }}</a>
 						</li>
 
 						<!-- APPS -->
 						<li>
-							<a class="transition" href="/"><i class="fa fa-mobile fa-lg"></i>{{ Lang::get('layout.apps') }}</a>
+							<a href="/"><i class="fa fa-mobile fa-lg"></i>{{ Lang::get('layout.apps') }}</a>
 						</li>
 					</ul>
 
