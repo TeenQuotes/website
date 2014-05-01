@@ -95,6 +95,13 @@ $(document).ready(function() {
 		}
 	});
 
+	// Edit profile
+	// Show upload avatar or not
+	if (!hasFileUploadSupport())
+		$("#change-avatar").hide();
+	else
+		$("#alert-change-avatar").hide();
+
 	// Favorite / Unfavorite
 	$('button.favorite-action').click(function() {
 		var otherType, otherIcon, url, type, id_quote, iconValidation;
@@ -117,7 +124,7 @@ $(document).ready(function() {
 							$("#validation-errors").append('<div class="alert alert-error"><strong>' + value + '</strong><div>');
 						}
 					});
-				// Success
+					// Success
 				} else {
 					if (type == "favorite") {
 						otherType = "unfavorite";
@@ -158,6 +165,27 @@ window.setTimeout(function() {
 		$(this).remove();
 	});
 }, 5000);
+
+// Taken from http://stackoverflow.com/questions/12479897/detect-browser-file-input-support
+function hasFileUploadSupport() {
+	var hasSupport = true;
+	try {
+		var testFileInput = document.createElement('input');
+		testFileInput.type = 'file';
+		testFileInput.style.display = 'none';
+		document.getElementsByTagName('body')[0].appendChild(testFileInput);
+		if (testFileInput.disabled) {
+			hasSupport = false;
+		}
+	} catch (ex) {
+		hasSupport = false;
+	} finally {
+		if (testFileInput) {
+			testFileInput.parentNode.removeChild(testFileInput);
+		}
+	}
+	return hasSupport;
+}
 
 function doneTypingLoginSignup() {
 	if (!timeoutReference) {
