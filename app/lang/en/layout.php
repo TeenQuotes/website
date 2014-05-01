@@ -3,6 +3,7 @@ return array (
 	"nameWebsite"            => "Teen Quotes",
 	'logout'                 => 'Log out',
 	"login"                  => "Log in",
+	'myProfile'              => 'My profile',
 	"randomQuotes"           => "Random quotes",
 	"addQuote"               => "Add your quote",
 	"apps"                   => "Apps",

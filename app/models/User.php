@@ -32,6 +32,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	];
 
 	/**
+	 * The validation rules when updating a password
+	 * @var array
+	 */
+	public static $rulesUpdatePassword = [
+		'password' => 'required|min:6|confirmed',
+	];
+
+	/**
 	 * The validation rules when signing up
 	 * @var array
 	 */

@@ -1,4 +1,4 @@
-{{ Form::model($user, array('route' => array('users.update', $user->id), 'class' => 'form-horizontal', 'id' => 'edit-info', 'method' => 'PUT')) }}
+{{ Form::model($user, array('route' => array('users.update', $user->id), 'class' => 'form-horizontal animated fadeInLeft', 'id' => 'edit-info', 'method' => 'PUT')) }}
 <h2><i class="fa fa-edit"></i> {{ Lang::get('users.editProfileTitle') }}</h2>
 
 <div class="info-pre-form">
@@ -73,7 +73,7 @@
 <!-- Submit button -->
 <div class="form-group">
 	<div class="col-sm-offset-2 col-sm-10">
-		{{ Form::submit(Lang::get('users.editProfileSubmit'), array('class' => 'transition animated fadeInUp btn btn-primary btn-lg', 'id' => 'submit-form')) }}
+		{{ Form::submit(Lang::get('users.editProfileSubmit'), array('class' => 'transition animated fadeInUp btn btn-primary btn-lg')) }}
 	</div>
 </div>
 

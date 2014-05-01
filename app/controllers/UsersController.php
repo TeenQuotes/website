@@ -5,7 +5,7 @@ class UsersController extends \BaseController {
 	public function __construct()
 	{
 		$this->beforeFilter('guest', array('only' => 'store'));
-		$this->beforeFilter('auth', array('only' => array('edit', 'update')));
+		$this->beforeFilter('auth', array('only' => array('edit', 'update', 'putPassword')));
 	}
 
 	protected static $nbQuotesPerPage = 5;
@@ -203,7 +203,7 @@ class UsersController extends \BaseController {
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  int  $id
+	 * @param  string $id The login or the ID of the user
 	 * @return Response
 	 */
 	public function update($id)
@@ -229,6 +229,33 @@ class UsersController extends \BaseController {
 			$user->save();
 
 			return Redirect::back()->with('success', Lang::get('users.updateProfileSuccessfull', array('login' => $user->login)));
+		}
+
+		// Something went wrong.
+		return Redirect::back()->withErrors($validator)->withInput(Input::all());
+	}
+
+	/**
+	 * Update the password in storage
+	 *
+	 * @param  string $id The login or the ID of the user
+	 * @return Response
+	 */
+	public function putPassword($id)
+	{
+		$data = [
+			'password'              => Input::get('password'),
+			'password_confirmation' => Input::get('password_confirmation'),
+		];
+
+		$validator = Validator::make($data, User::$rulesUpdatePassword);
+
+		if ($validator->passes()) {
+			$user = Auth::user();
+			$user->password = Hash::make($data['password']);
+			$user->save();
+
+			return Redirect::back()->with('success', Lang::get('users.updatePasswordSuccessfull', array('login' => $user->login)));
 		}
 
 		// Something went wrong.
