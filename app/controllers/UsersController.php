@@ -194,6 +194,8 @@ class UsersController extends \BaseController {
 				'listCountries'   => Country::lists('name', 'id'),
 				'selectedCountry' => is_null($user->country) ? Country::$idUSA : $user->country,
 				'user'            => $user,
+				'pageTitle'       => Lang::get('users.editPageTitle'),
+				'pageDescription' => Lang::get('users.editPageDescription'),
 			];
 
 			return View::make('users.edit', $data);

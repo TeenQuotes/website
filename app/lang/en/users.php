@@ -26,4 +26,6 @@ return array(
 	'changePasswordCatchphrase' => "If you don't like something, change it. If you can't change it, find a way to change it.",
 	'yourAvatarInput'           => 'Your avatar',
 	'browserCantChangeAvatar'   => "You can't change your avatar with your browser. Please use the website!",
+	'editPageTitle'             => 'Edit your profile | '.Lang::get('layout.nameWebsite'),
+	'editPageDescription'             => 'Ready to meet the new you? Update your information and give your profile a fresh look!',
 );
