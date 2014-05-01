@@ -23,7 +23,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * The path were avatars will be stored
 	 * @var string
 	 */
-	public static $avatarPath = 'public/uploads/avatar';
+	public static $avatarPath = 'uploads/avatar';
 
 	/**
 	 * The validation rules when updating a profile
