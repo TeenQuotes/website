@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration {
 			$table->tinyInteger('security_level')->unsigned()->default(0);
 			$table->string('ip');
 			$table->date('birthdate')->nullable();
-			$table->enum('gender', array('M', 'W'))->nullable();
+			$table->enum('gender', array('M', 'F'))->nullable();
 			$table->string('country')->references('id')->on('countries')->onDelete('cascade')->nullable()->default(null);
 			$table->string('city')->nullable();
 			$table->string('avatar')->default('icon50.png');
