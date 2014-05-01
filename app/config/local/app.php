@@ -15,4 +15,5 @@ return array(
 
 	'debug' => true,
 
+	'avatarPath' => 'public/uploads/avatar',
 );

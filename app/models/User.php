@@ -20,12 +20,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $hidden = array('password', 'ip');
 
 	/**
-	 * The path were avatars will be stored
-	 * @var string
-	 */
-	public static $avatarPath = 'uploads/avatar';
-
-	/**
 	 * The validation rules when updating a profile
 	 * @var array
 	 */
@@ -140,8 +134,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     	if (strrpos($this->avatar, 'http') !== false)
     		return $this->avatar;
     	// Local URL
-    	else
-    		return str_replace('public', '', Request::root().'/'.self::$avatarPath.'/'.$this->avatar);
+    	else {
+    		return str_replace('public/', '', Request::root().'/'.Config::get('app.avatarPath').'/'.$this->avatar);
+    	}
     }
 
 	/**

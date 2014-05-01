@@ -229,7 +229,7 @@ class UsersController extends \BaseController {
 
 			if (!is_null($data['avatar'])) {
 				$filename = $user->id.'.'.$data['avatar']->getClientOriginalExtension();
-				Input::file('avatar')->move(User::$avatarPath, $filename);
+				Input::file('avatar')->move(Config::get('app.avatarPath'), $filename);
 
 				$user->avatar = $filename;
 			}
