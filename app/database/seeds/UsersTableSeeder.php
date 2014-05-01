@@ -6,9 +6,9 @@ class UsersTableSeeder extends Seeder {
 	public function run()
 	{
 		$this->command->info('Deleting existing Users table ...');
-		DB::statement('SET FOREIGN_KEY_CHECKS = 0'); 
+		DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 		User::truncate();
-		DB::statement('SET FOREIGN_KEY_CHECKS = 1'); 
+		DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
 		Eloquent::unguard();
 		$faker = Faker::create();
@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder {
 					'ip' => $faker->ipv4,
 					'birthdate' => $faker->date('Y-m-d', 'now'),
 					'gender' => $faker->randomElement(array('M', 'W')),
-					'country' => $faker->country,
+					'country' => $faker->randomNumber(1, 237),
 					'city' => $faker->city,
 					'avatar' => 'icon50.png',
 					'about_me' => $faker->paragraph(3),
@@ -44,7 +44,7 @@ class UsersTableSeeder extends Seeder {
 					'ip' => $faker->ipv4,
 					'birthdate' => $faker->date('Y-m-d', 'now'),
 					'gender' => 'M',
-					'country' => $faker->country,
+					'country' => $faker->randomNumber(1, 237),
 					'city' => $faker->city,
 					'avatar' => 'icon50.png',
 					'about_me' => $faker->paragraph(3),
