@@ -42,6 +42,11 @@
 							<li>
 								<a class="transition" href="{{URL::route('signin')}}"><i class="fa fa-user"></i> {{ Lang::get('layout.login') }}</a>
 							</li>
+						<!-- MY PROFILE -->
+						@else
+							<li>
+								<a class="transition" href="{{URL::route('users.show', Auth::user()->login)}}"><i class="fa fa-user"></i> {{ Lang::get('layout.myProfile') }}</a>
+							</li>
 						@endif
 
 						<!-- RANDOM QUOTES -->
@@ -58,13 +63,6 @@
 						<li>
 							<a class="transition" href="/"><i class="fa fa-mobile fa-lg"></i>{{ Lang::get('layout.apps') }}</a>
 						</li>
-
-						<!-- LOGOUT -->
-						@if (Auth::check())
-							<li>
-								<a class="transition" href="{{URL::route('logout')}}"><i class="fa fa-sign-out"></i> {{ Lang::get('layout.logout') }}</a>
-							</li>
-						@endif
 					</ul>
 
 					<!-- TWITTER FOLLOW BUTTON -->
