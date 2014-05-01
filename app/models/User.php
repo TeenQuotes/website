@@ -110,8 +110,15 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return $this->belongsToMany('Quote', 'favorite_quotes')->with('user')->orderBy('favorite_quotes.id', 'DESC');
     }
 
+    /**
+     * @brief Returns the old hash of a password. It was used in Teen Quotes v2
+     * @var array $data The data. We need a login and a password
+     * @return string The corresponding hash that was used in Teen Quotes v2
+     */
     public static function oldHashMethod($data)
     {
+    	// This is legacy code. This hash method was used in 2005 by Mangos...
+    	// I feel a bit old and stupid right now.
     	return sha1(strtoupper($data['login']).':'.strtoupper($data['password']));
     }
 
