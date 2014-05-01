@@ -21,6 +21,11 @@ $blueGray:#39556e;
   }
 }
 
+@mixin calc($property, $expression) {
+	#{$property}: -webkit-calc(#{$expression});
+	#{$property}: calc(#{$expression});
+}
+
 html, body {
 	height: 100%;
 }
@@ -530,38 +535,55 @@ body {
 }
 
 #editprofile-page {
-	.register-switch {
-		height: 32px;
-		margin-bottom: 15px;
-		padding: 4px 1px;
-		background: #CCC;
-		color: darken(#CCCCCC, 30%);
+	#edit-info {
+		> h2 {
+			color: $red;
+			margin-bottom: 1.2em;
 
-		.register-switch-input {
-			display: none;
-		}
-
-		.register-switch-label {
-			float: left;
-			width: 50%;
-			line-height: 25px;
-			color: white;
-			text-align: center;
-			cursor: pointer;
-			@include element-transition;
-
-			i.fa {
-				margin-right: 10px;
+			i {
+				color: black;
+				margin-right: .5em;
 			}
 		}
-		.register-switch-input:checked + .register-switch-label {
-			color: white;
-			background: $lightBlue;
-			line-height: 32px;
-			margin-top: -4px;
+
+		.register-switch {
+			height: 32px;
+			margin: 5px 0 15px -10px;
+			padding: 4px 1px;
+			background: #CCC;
+			color: darken(#CCCCCC, 30%);
+			@include calc(width, "100% + 25px");
+
+			.register-switch-input {
+				display: none;
+			}
+
+			.register-switch-label {
+				float: left;
+				width: 50%;
+				line-height: 25px;
+				color: white;
+				text-align: center;
+				cursor: pointer;
+				@include element-transition;
+
+				i.fa {
+					margin-right: 10px;
+				}
+			}
+
+			.register-switch-input:checked + .register-switch-label {
+				color: white;
+				background: $lightBlue;
+				line-height: 32px;
+				margin-top: -4px;
+			}
+
+			#gender_f:checked + .register-switch-label {
+				background: #f17288;
+			}
 		}
 	}
-
 
 	::-moz-placeholder {
 		color: #aaa;
