@@ -141,7 +141,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     		return $this->avatar;
     	// Local URL
     	else
-    		return str_replace('public', '', Request::root().self::$avatarPath.'/'.$this->avatar);
+    		return str_replace('public', '', Request::root().'/'.self::$avatarPath.'/'.$this->avatar);
     }
 
 	/**
