@@ -20,22 +20,15 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $hidden = array('password', 'ip');
 
 	/**
-	 * The validation rules when editing a profile
+	 * The validation rules when updating a profile
 	 * @var array
 	 */
-	public static $rulesEdit = [
-		'login' => 'required|alpha_dash|unique:users,login|min:3|max:20',
-		'password' => 'required|min:6',
-		'email' => 'required|unique:users,email|email',
-		'ip' => 'ip',
-		'birthdate' => 'date_format:"m-d-Y"',
-		'gender' => 'in:M,W',
-		'country' => 'alpha',
-		'city' => 'alpha',
-		'avatar' => 'image',
+	public static $rulesUpdate = [
+		'gender' => 'in:M,F',
+		'birthdate' => 'date_format:"Y-m-d"',
+		'country' => 'exists:countries,id',
+		'city' => '',
 		'about_me' => 'max:500',
-		'hide_profile' => 'in:0,1',
-		'notification_comment_quote' => 'in:0,1',
 	];
 
 	/**

@@ -188,10 +188,11 @@ class UsersController extends \BaseController {
 		if ($user->login != Auth::user()->login)
 			App::abort(401, 'Refused');
 		else {
+
 			$data = [
 				'gender'          => $user->gender,
 				'listCountries'   => Country::lists('name', 'id'),
-				'selectedCountry' => $user->country,
+				'selectedCountry' => is_null($user->country) ? Country::$idUSA : $user->country,
 				'user'            => $user,
 			];
 
@@ -207,7 +208,31 @@ class UsersController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		dd(Input::all());
+		$data = [
+			'gender'    => Input::get('gender'),
+			'birthdate' => Input::get('birthdate'),
+			'country'   => Input::get('country'),
+			'city'      => Input::get('city'),
+			'about_me'  => Input::get('about_me'),
+		];
+
+		$validator = Validator::make($data, User::$rulesUpdate);
+
+		if ($validator->passes()) {
+			$user = Auth::user();
+			$user->gender = $data['gender'];
+			$user->birthdate = $data['birthdate'];
+			$user->country = $data['country'];
+			$user->city = $data['city'];
+			$user->about_me = $data['about_me'];
+
+			$user->save();
+
+			return Redirect::back()->with('success', Lang::get('users.updateProfileSuccessfull', array('login' => $user->login)));
+		}
+
+		// Something went wrong.
+		return Redirect::back()->withErrors($validator)->withInput(Input::all());
 	}
 
 	/**

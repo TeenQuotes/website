@@ -538,7 +538,7 @@ body {
 	#edit-info {
 		> h2 {
 			color: $red;
-			margin-bottom: 1.2em;
+			margin-bottom: .8em;
 
 			i {
 				color: black;
@@ -546,13 +546,16 @@ body {
 			}
 		}
 
+		.info-pre-form {
+			margin-bottom: 1em;
+		}
+
 		.register-switch {
 			height: 32px;
-			margin: 5px 0 15px -10px;
+			margin: 5px 0 15px 0;
 			padding: 4px 1px;
 			background: #CCC;
 			color: darken(#CCCCCC, 30%);
-			@include calc(width, "100% + 25px");
 
 			.register-switch-input {
 				display: none;
