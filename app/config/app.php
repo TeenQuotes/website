@@ -191,6 +191,6 @@ return array(
 
 	),
 
-	'avatarPath' => 'public/uploads/avatar',
+	'avatarPath' => 'uploads/avatar',
 
 );
