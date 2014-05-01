@@ -529,6 +529,62 @@ body {
 
 }
 
+#editprofile-page {
+	.register-switch {
+		height: 32px;
+		margin-bottom: 15px;
+		padding: 4px 1px;
+		background: #CCC;
+		color: darken(#CCCCCC, 30%);
+
+		.register-switch-input {
+			display: none;
+		}
+
+		.register-switch-label {
+			float: left;
+			width: 50%;
+			line-height: 25px;
+			color: white;
+			text-align: center;
+			cursor: pointer;
+			@include element-transition;
+
+			i.fa {
+				margin-right: 10px;
+			}
+		}
+		.register-switch-input:checked + .register-switch-label {
+			color: white;
+			background: $lightBlue;
+			line-height: 32px;
+			margin-top: -4px;
+		}
+	}
+
+
+	::-moz-placeholder {
+		color: #aaa;
+		font-weight: 300;
+		opacity: 1;
+	}
+
+	::-webkit-input-placeholder {
+		color: #aaa;
+		font-weight: 300;
+	}
+
+	:-ms-input-placeholder {
+		color: #aaa;
+		font-weight: 300;
+	}
+
+	::-moz-focus-inner {
+		border: 0;
+		padding: 0;
+	}
+}
+
 #wrap {
   min-height: 100%;
   height: auto !important;

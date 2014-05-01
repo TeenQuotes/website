@@ -5,7 +5,7 @@ class UsersController extends \BaseController {
 	public function __construct()
 	{
 		$this->beforeFilter('guest', array('only' => 'store'));
-		$this->beforeFilter('auth', array('only' => 'edit'));
+		$this->beforeFilter('auth', array('only' => array('edit', 'update')));
 	}
 
 	protected static $nbQuotesPerPage = 5;
@@ -183,12 +183,18 @@ class UsersController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		$userLogin = User::whereLogin($id)->orWhere('id', $id)->first()->login;
+		$user = User::whereLogin($id)->orWhere('id', $id)->first();
 
-		if ($userLogin != Auth::user()->login)
+		if ($user->login != Auth::user()->login)
 			App::abort(401, 'Refused');
-		else
-			return View::make('users.edit');
+		else {
+			$data = [
+				'login'  => $user->login,
+				'gender' => $user->gender,
+			];
+
+			return View::make('users.edit', $data);
+		}
 	}
 
 	/**
@@ -199,7 +205,7 @@ class UsersController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		dd(Input::all());
 	}
 
 	/**

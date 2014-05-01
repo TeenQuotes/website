@@ -24,7 +24,7 @@ Route::post('signin', 'AuthController@postSignin');
 /* --- USERS --- */
 Route::get("/signup", ["as" => "signup", "before" => "guest", "uses" => "UsersController@getSignup"]);
 Route::get('/users/{user_id}/{fav?}', ['as' => 'users.show', 'uses' => 'UsersController@show']);
-Route::resource('users', 'UsersController', ['only' => ['index', 'store', 'edit']]);
+Route::resource('users', 'UsersController', ['only' => ['index', 'store', 'edit', 'update']]);
 
 /* --- PASSWORD REMINDER --- */
 // Adding this route just to have a named route to the password reminder page
