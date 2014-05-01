@@ -534,6 +534,10 @@ body {
 
 }
 
+#require-log-buttons {
+	margin: 30px 0;
+}
+
 #editprofile-page {
 	#edit-info {
 		> h2 {
@@ -585,6 +589,23 @@ body {
 			#gender_f:checked + .register-switch-label {
 				background: #f17288;
 			}
+		}
+	}
+
+	#edit-password {
+		margin: 50px 0;
+		> h2 {
+			color: $orange;
+			margin-bottom: .8em;
+
+			i {
+				color: black;
+				margin-right: .5em;
+			}
+		}
+
+		.info-pre-form {
+			margin-bottom: 1em;
 		}
 	}
 
