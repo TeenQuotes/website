@@ -24,4 +24,6 @@ return array(
 	'updatePasswordSuccessfull' => 'Your password has been changed :login!',
 	'changePasswordTitle'       => 'Change my password',
 	'changePasswordCatchphrase' => "If you don't like something, change it. If you can't change it, find a way to change it.",
+	'yourAvatarInput'           => 'Your avatar',
+	'browserCantChangeAvatar'   => "You can't change your avatar with your browser. Please use the website!",
 );

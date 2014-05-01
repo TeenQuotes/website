@@ -1,8 +1,18 @@
-{{ Form::model($user, array('route' => array('users.update', $user->id), 'class' => 'form-horizontal animated fadeInLeft', 'id' => 'edit-info', 'method' => 'PUT')) }}
+{{ Form::model($user, array('route' => array('users.update', $user->id), 'class' => 'form-horizontal animated fadeInLeft', 'id' => 'edit-info', 'method' => 'PUT', 'files' => true)) }}
 <h2><i class="fa fa-edit"></i> {{ Lang::get('users.editProfileTitle') }}</h2>
 
-<div class="info-pre-form">
-	{{ Lang::get('users.inputsOptionalInfo') }}
+<div class="row info-pre-form">
+	<div class="col-xs-9">
+		{{ Lang::get('users.inputsOptionalInfo') }}
+	</div>
+	<div class="column-avatar col-xs-3">
+		<img class="avatar img-responsive" src="{{{ $user->getURLAvatar() }}}"/>
+	</div>
+</div>
+
+<div class="alert alert-info no-hide alert-dismissable" id="alert-change-avatar">
+	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	{{ Lang::get('users.browserCantChangeAvatar')}}
 </div>
 
 <!-- Gender -->
@@ -54,6 +64,18 @@
 		{{ Form::text('city', Input::old('city'), array('class' => 'form-control', 'placeholder' => Lang::get('users.cityPlaceholder'))) }}
 		@if (!empty($errors->first('city')))
 		{{ TextTools::warningTextForm($errors->first('city')) }}
+		@endif
+	</div>
+</div>
+
+<!-- Avatar -->
+<div class="form-group" id="change-avatar">
+	{{ Form::label('avatar', Lang::get('users.yourAvatarInput'), array('class' => 'col-sm-2 control-label')) }}
+
+	<div class="col-sm-10">
+		{{ Form::file('avatar', array('class' => 'form-control')) }}
+		@if (!empty($errors->first('avatar')))
+			{{ TextTools::warningTextForm($errors->first('avatar')) }}
 		@endif
 	</div>
 </div>

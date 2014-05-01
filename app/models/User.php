@@ -20,15 +20,22 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $hidden = array('password', 'ip');
 
 	/**
+	 * The path were avatars will be stored
+	 * @var string
+	 */
+	public static $avatarPath = 'public/uploads/avatar';
+
+	/**
 	 * The validation rules when updating a profile
 	 * @var array
 	 */
 	public static $rulesUpdate = [
-		'gender' => 'in:M,F',
+		'gender'    => 'in:M,F',
 		'birthdate' => 'date_format:"Y-m-d"',
-		'country' => 'exists:countries,id',
-		'city' => '',
-		'about_me' => 'max:500',
+		'country'   => 'exists:countries,id',
+		'city'      => '',
+		'avatar'    => 'image|max:500',
+		'about_me'  => 'max:500',
 	];
 
 	/**
@@ -121,6 +128,20 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     	// This is legacy code. This hash method was used in 2005 by Mangos...
     	// I feel a bit old and stupid right now.
     	return sha1(strtoupper($data['login']).':'.strtoupper($data['password']));
+    }
+
+    /**
+     * @brief Get the URL of the user's avatar
+     * @return string The URL to the avatar
+     */
+    public function getURLAvatar()
+    {
+    	// Full URL
+    	if (strrpos($this->avatar, 'http') !== false)
+    		return $this->avatar;
+    	// Local URL
+    	else
+    		return str_replace('public', '', Request::root().self::$avatarPath.'/'.$this->avatar);
     }
 
 	/**

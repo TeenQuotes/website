@@ -89,6 +89,12 @@ body {
 	background: $topbarColor;
 	border: 0;
 
+	.navbar-nav > li > a {
+		padding-left: 10px;
+		padding-right: 10px;
+		@include element-transition;
+	}
+
 	.navbar-nav > li > a:hover, .navbar-toggle:hover, .navbar-toggle:focus {
 		background: #FFF;
 		color: $blueGray;
@@ -552,6 +558,17 @@ body {
 
 		.info-pre-form {
 			margin-bottom: 1em;
+			.col-xs-9, .col-xs-3 {
+				float:none;
+		    	display:inline-block;
+		    	vertical-align:middle;
+		    	margin-right:-4px;
+
+				.avatar {
+					max-height: 100px;
+					float: right;
+				}
+			}
 		}
 
 		.register-switch {

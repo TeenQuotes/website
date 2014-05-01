@@ -214,6 +214,7 @@ class UsersController extends \BaseController {
 			'country'   => Input::get('country'),
 			'city'      => Input::get('city'),
 			'about_me'  => Input::get('about_me'),
+			'avatar'    => Input::file('avatar'),
 		];
 
 		$validator = Validator::make($data, User::$rulesUpdate);
@@ -226,13 +227,20 @@ class UsersController extends \BaseController {
 			$user->city = $data['city'];
 			$user->about_me = $data['about_me'];
 
+			if (!is_null($data['avatar'])) {
+				$filename = $user->id.'.'.$data['avatar']->getClientOriginalExtension();
+				Input::file('avatar')->move(User::$avatarPath, $filename);
+
+				$user->avatar = $filename;
+			}
+
 			$user->save();
 
 			return Redirect::back()->with('success', Lang::get('users.updateProfileSuccessfull', array('login' => $user->login)));
 		}
 
 		// Something went wrong.
-		return Redirect::back()->withErrors($validator)->withInput(Input::all());
+		return Redirect::back()->withErrors($validator)->withInput(Input::except('avatar'));
 	}
 
 	/**
