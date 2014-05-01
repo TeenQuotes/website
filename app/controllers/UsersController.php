@@ -189,8 +189,10 @@ class UsersController extends \BaseController {
 			App::abort(401, 'Refused');
 		else {
 			$data = [
-				'login'  => $user->login,
-				'gender' => $user->gender,
+				'gender'          => $user->gender,
+				'listCountries'   => Country::lists('name', 'id'),
+				'selectedCountry' => $user->country,
+				'user'            => $user,
 			];
 
 			return View::make('users.edit', $data);

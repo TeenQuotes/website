@@ -42,8 +42,22 @@ class AuthController extends \BaseController {
 			// Try to log the user in.
 			if (Auth::attempt($data, true))
 				return Redirect::intended('/')->with('success', Lang::get('auth.loginSuccessfull', array('login' => $data['login'])));
-			else
+			else {
+				$user = User::whereLogin($data['login'])->first();
+
+				// Maybe the user uses the old hash method
+				if (!is_null($user) AND ($user->password == User::oldHashMethod($data))) {
+					// Update the password in database
+					$user->password = Hash::make($data['password']);
+					$user->save();
+
+					Auth::login($user, true);
+
+					return Redirect::intended('/')->with('success', Lang::get('auth.loginSuccessfull', array('login' => $data['login'])));
+				}
+
 				return Redirect::route('signin')->withErrors(array('password' => Lang::get('auth.passwordInvalid')))->withInput(Input::except('password'));
+			}
 		}
 
 		// Something went wrong.
@@ -55,7 +69,7 @@ class AuthController extends \BaseController {
 		if (Auth::check()) {
 			$login = Auth::user()->login;
 			Auth::logout();
-			
+
 			return Redirect::route('home')->with('success', Lang::get('auth.logoutSuccessfull', array('login' => $login)));
 		}
 		else

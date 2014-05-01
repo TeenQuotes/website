@@ -110,6 +110,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return $this->belongsToMany('Quote', 'favorite_quotes')->with('user')->orderBy('favorite_quotes.id', 'DESC');
     }
 
+    public static function oldHashMethod($data)
+    {
+    	return sha1(strtoupper($data['login']).':'.strtoupper($data['password']));
+    }
+
 	/**
 	 * Get the unique identifier for the user.
 	 *
