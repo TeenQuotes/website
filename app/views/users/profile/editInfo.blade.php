@@ -64,7 +64,7 @@
 	<!-- Submit button -->
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
-			{{ Form::submit(Lang::get('auth.signupButton'), array('class' => 'transition animated fadeInUp btn btn-primary btn-lg', 'id' => 'submit-form')) }}
+			{{ Form::submit(Lang::get('users.editProfileSubmit'), array('class' => 'transition animated fadeInUp btn btn-primary btn-lg', 'id' => 'submit-form')) }}
 		</div>
 	</div>
 </div>

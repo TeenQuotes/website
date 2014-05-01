@@ -15,4 +15,5 @@ return array(
 	'aboutMeInput'           => 'About me',
 	'aboutMePlacehoolder'    => "I'm awesome, I love life, I listen to music...",
 	'editProfileTitle'       => 'Edit my profile',
+	'editProfileSubmit'      => 'Edit my profile!',
 );
