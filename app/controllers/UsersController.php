@@ -64,16 +64,19 @@ class UsersController extends \BaseController {
 		if ($validator->passes()) {
 
 			// Store the user
-			$user = new User;
-			$user->login = $data['login'];
-			$user->email = $data['email'];
-			$user->password = Hash::make($data['password']);
-			$user->ip = $_SERVER['REMOTE_ADDR'];
+			$user             = new User;
+			$user->login      = $data['login'];
+			$user->email      = $data['email'];
+			$user->password   = Hash::make($data['password']);
+			$user->ip         = $_SERVER['REMOTE_ADDR'];
 			$user->last_visit = Carbon::now()->toDateTimeString();
 			$user->save();
 
 			// Log the user
 			Auth::login($user);
+
+			// Subscribe the user to the weekly newsletter
+			Newsletter::createNewsletterForUser($user, 'weekly');
 
 			// Send the welcome email
 			Mail::send('emails.welcome', $data, function($m) use($data)
@@ -192,6 +195,7 @@ class UsersController extends \BaseController {
 			$data = [
 				'gender'           => $user->gender,
 				'listCountries'    => Country::lists('name', 'id'),
+				// USA by default if the country is not set
 				'selectedCountry'  => is_null($user->country) ? Country::$idUSA : $user->country,
 				'user'             => $user,
 				'pageTitle'        => Lang::get('users.editPageTitle'),
@@ -224,11 +228,11 @@ class UsersController extends \BaseController {
 
 		if ($validator->passes()) {
 			$user = Auth::user();
-			$user->gender = $data['gender'];
+			$user->gender    = $data['gender'];
 			$user->birthdate = $data['birthdate'];
-			$user->country = $data['country'];
-			$user->city = $data['city'];
-			$user->about_me = $data['about_me'];
+			$user->country   = $data['country'];
+			$user->city      = $data['city'];
+			$user->about_me  = $data['about_me'];
 
 			if (!is_null($data['avatar'])) {
 				$filename = $user->id.'.'.$data['avatar']->getClientOriginalExtension();
@@ -262,7 +266,9 @@ class UsersController extends \BaseController {
 		$validator = Validator::make($data, User::$rulesUpdatePassword);
 
 		if ($validator->passes()) {
-			$user = Auth::user();
+			$user = User::whereLogin($id)->orWhere('id', $id)->first();
+			if ($user->login != Auth::user()->login)
+				App::abort(401, 'Refused');
 			$user->password = Hash::make($data['password']);
 			$user->save();
 
@@ -281,7 +287,39 @@ class UsersController extends \BaseController {
 	 */
 	public function putSettings($id)
 	{
-		return Input::all();
+		// We just want booleans
+		$data = [
+			'notification_comment_quote' => Input::has('notification_comment_quote') ? filter_var(Input::get('notification_comment_quote'), FILTER_VALIDATE_BOOLEAN) : false,
+			'hide_profile'               => Input::has('hide_profile') ? filter_var(Input::get('hide_profile'), FILTER_VALIDATE_BOOLEAN) : false,
+			'weekly_newsletter'          => Input::has('weekly_newsletter') ? filter_var(Input::get('weekly_newsletter'), FILTER_VALIDATE_BOOLEAN) : false,
+		];
+
+		// Change values for the users table
+		$user = User::whereLogin($id)->orWhere('id', $id)->first();
+		if ($user->login != Auth::user()->login)
+			App::abort(401, 'Refused');
+		$user->notification_comment_quote = $data['notification_comment_quote'];
+		$user->hide_profile               = $data['hide_profile'];
+		$user->save();
+
+		// The user wants the weekly newsletter
+		if ($data['weekly_newsletter']) {
+			// He was NOT already subscribed, store this in storage
+			if (!$user->isSubscribedToNewsletter('weekly'))
+				Newsletter::createNewsletterForUser($user, 'weekly');
+
+			// He was already subscribed, do nothing
+		}
+		// The user doesn't want the newsletter
+		else {
+			// He was subscribed, delete this from storage
+			if ($user->isSubscribedToNewsletter('weekly'))
+				Newsletter::forUser($user)->type('weekly')->delete();
+
+			// He was not subscribed, do nothing
+		}
+
+		return Redirect::back()->with('success', Lang::get('users.updateSettingsSuccessfull', array('login' => $user->login)));
 	}
 
 	/**

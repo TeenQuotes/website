@@ -34,4 +34,5 @@ return array(
 	'editSettingsTitle'             => 'Edit my settings',
 	'editSettingsCatchphrase'       => "There is nothing permanent except change. Just below you'll find everything you want to suit your needs.",
 	'editSettingsSubmit'            => 'Edit my settings!',
+	'updateSettingsSuccessfull'     => 'Your settings have been changed :login!',
 );
