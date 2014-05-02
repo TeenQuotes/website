@@ -5,7 +5,7 @@ class UsersController extends \BaseController {
 	public function __construct()
 	{
 		$this->beforeFilter('guest', array('only' => 'store'));
-		$this->beforeFilter('auth', array('only' => array('edit', 'update', 'putPassword')));
+		$this->beforeFilter('auth', array('only' => array('edit', 'update', 'putPassword', 'putSettings')));
 	}
 
 	protected static $nbQuotesPerPage = 5;
@@ -190,12 +190,13 @@ class UsersController extends \BaseController {
 		else {
 
 			$data = [
-				'gender'          => $user->gender,
-				'listCountries'   => Country::lists('name', 'id'),
-				'selectedCountry' => is_null($user->country) ? Country::$idUSA : $user->country,
-				'user'            => $user,
-				'pageTitle'       => Lang::get('users.editPageTitle'),
-				'pageDescription' => Lang::get('users.editPageDescription'),
+				'gender'           => $user->gender,
+				'listCountries'    => Country::lists('name', 'id'),
+				'selectedCountry'  => is_null($user->country) ? Country::$idUSA : $user->country,
+				'user'             => $user,
+				'pageTitle'        => Lang::get('users.editPageTitle'),
+				'pageDescription'  => Lang::get('users.editPageDescription'),
+				'weeklyNewsletter' => $user->isSubscribedToNewsletter('weekly'),
 			];
 
 			return View::make('users.edit', $data);
@@ -270,6 +271,17 @@ class UsersController extends \BaseController {
 
 		// Something went wrong.
 		return Redirect::back()->withErrors($validator)->withInput(Input::all());
+	}
+
+	/**
+	 * Update settings for the user
+	 *
+	 * @param  string $id The login or the ID of the user
+	 * @return Response
+	 */
+	public function putSettings($id)
+	{
+		return Input::all();
 	}
 
 	/**

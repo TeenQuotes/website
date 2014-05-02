@@ -26,6 +26,7 @@ Route::get("/signup", ["as" => "signup", "before" => "guest", "uses" => "UsersCo
 Route::get('/users/{user_id}/{fav?}', ['as' => 'users.show', 'uses' => 'UsersController@show']);
 Route::put('/users/{user_id}/password', ['as' => 'users.password', 'uses' => 'UsersController@putPassword']);
 Route::put('/users/{user_id}/avatar', ['as' => 'users.avatar', 'uses' => 'UsersController@putAvatar']);
+Route::put('/users/{user_id}/settings', ['as' => 'users.settings', 'uses' => 'UsersController@putSettings']);
 Route::resource('users', 'UsersController', ['only' => ['index', 'store', 'edit', 'update']]);
 
 /* --- PASSWORD REMINDER --- */

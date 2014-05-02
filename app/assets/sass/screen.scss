@@ -545,6 +545,7 @@ body {
 }
 
 #editprofile-page {
+	/* users.profile.editInfo view */
 	#edit-info {
 		> h2 {
 			color: $red;
@@ -607,8 +608,30 @@ body {
 				background: #f17288;
 			}
 		}
+
+		::-moz-placeholder {
+			color: #aaa;
+			font-weight: 300;
+			opacity: 1;
+		}
+
+		::-webkit-input-placeholder {
+			color: #aaa;
+			font-weight: 300;
+		}
+
+		:-ms-input-placeholder {
+			color: #aaa;
+			font-weight: 300;
+		}
+
+		::-moz-focus-inner {
+			border: 0;
+			padding: 0;
+		}
 	}
 
+	/* users.profile.editPassword view */
 	#edit-password {
 		margin: 50px 0;
 		> h2 {
@@ -626,25 +649,101 @@ body {
 		}
 	}
 
-	::-moz-placeholder {
-		color: #aaa;
-		font-weight: 300;
-		opacity: 1;
-	}
+	/* users.profile.editSettings view */
+	#edit-settings {
+		margin: 50px 0;
+		> h2 {
+			color: $green;
+			margin-bottom: .8em;
 
-	::-webkit-input-placeholder {
-		color: #aaa;
-		font-weight: 300;
-	}
+			i {
+				color: black;
+				margin-right: .5em;
+			}
+		}
 
-	:-ms-input-placeholder {
-		color: #aaa;
-		font-weight: 300;
-	}
+		.info-pre-form {
+			margin-bottom: 2em;
+		}
 
-	::-moz-focus-inner {
-		border: 0;
-		padding: 0;
+		.btn-primary {
+			margin-top: 1.5em;
+		}
+
+		[type="checkbox"]:not(:checked),
+		[type="checkbox"]:checked {
+			position: absolute;
+			left: -9999px;
+		}
+		[type="checkbox"]:not(:checked) + label,
+		[type="checkbox"]:checked + label {
+			position: relative;
+			padding-left: 75px;
+			cursor: pointer;
+		}
+		[type="checkbox"]:not(:checked) + label:before,
+		[type="checkbox"]:checked + label:before,
+		[type="checkbox"]:not(:checked) + label:after,
+		[type="checkbox"]:checked + label:after {
+			content: '';
+			position: absolute;
+		}
+		[type="checkbox"]:not(:checked) + label:before,
+		[type="checkbox"]:checked + label:before {
+			left:0; top: -3px;
+			width: 65px; height: 30px;
+			background: #CCC;
+			border-radius: 15px;
+			@include element-transition;
+		}
+		[type="checkbox"]:not(:checked) + label:after,
+		[type="checkbox"]:checked + label:after {
+			width: 20px; height: 20px;
+			transition: all .2s;
+			border-radius: 50%;
+			background: white;
+			top: 2px; left: 5px;
+			@include element-transition;
+		}
+
+		/* on checked */
+		[type="checkbox"]:checked + label:before {
+			background: $orange;
+		}
+		[type="checkbox"]:checked + label:after {
+			background: white;
+			top: 2px; left: 40px;
+		}
+
+		[type="checkbox"]:checked + label .ui,
+		[type="checkbox"]:not(:checked) + label .ui:before,
+		[type="checkbox"]:checked + label .ui:after {
+			position: absolute;
+			left: 6px;
+			width: 65px;
+			border-radius: 15px;
+			font-size: 14px;
+			font-weight: bold;
+			line-height: 22px;
+			@include element-transition;
+		}
+		[type="checkbox"]:not(:checked) + label .ui:before {
+			content: "no";
+			left: 32px
+		}
+		[type="checkbox"]:checked + label .ui:after {
+			content: "yes";
+			color: white;
+		}
+		[type="checkbox"]:focus + label:before {
+			border: 1px dashed #777;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			-ms-box-sizing: border-box;
+			box-sizing: border-box;
+			margin-top: -1px;
+
+		}
 	}
 }
 

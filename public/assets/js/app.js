@@ -95,6 +95,12 @@ $(document).ready(function() {
 		}
 	});
 
+	// Edit settings
+	// FIXME : could be improved
+	$("#edit-settings label#notification_comment_quote").html("<span class='ui'></span>" + $("#edit-settings label#notification_comment_quote").text());
+	$("#edit-settings label#hide_profile").html("<span class='ui'></span>" + $("#edit-settings label#hide_profile").text());
+	$("#edit-settings label#weekly_newsletter").html("<span class='ui'></span>" + $("#edit-settings label#weekly_newsletter").text());
+
 	// Edit profile
 	// Show upload avatar or not
 	if (!hasFileUploadSupport())
