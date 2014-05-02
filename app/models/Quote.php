@@ -244,6 +244,11 @@ class Quote extends Eloquent {
 		return $query->orderBy('created_at', 'DESC');
 	}
 
+	public function scopeOrderAscending($query)
+	{
+		return $query->orderBy('created_at', 'ASC');
+	}
+
 	public function scopeRandom($query)
 	{
 		return $query->orderBy(DB::raw('RAND()'));

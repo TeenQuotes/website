@@ -193,4 +193,6 @@ return array(
 
 	'avatarPath' => 'uploads/avatar',
 
+	'nbQuotesToPublishPerDay' => 5,
+
 );
