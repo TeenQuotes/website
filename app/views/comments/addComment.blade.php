@@ -1,8 +1,6 @@
 <div class="animated fadeInUpBig">
 	{{ Form::open(array('url' => URL::route('comments.store'), 'class' => 'form-horizontal')) }}
 
-		<h2 id="title-add-comment"><i class="fa fa-pencil-square-o"></i><span class="red">{{ Lang::get('comments.addComment')}}</span></h2>
-
 		<!-- Comment's content -->
 		<div class="form-group {{{ $errors->has('content') ? 'error' : '' }}}">
 			{{ Form::label('content', Lang::get('comments.yourComment'), array('class' => 'col-sm-2 control-label')) }}

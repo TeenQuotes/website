@@ -4,23 +4,31 @@ $i = rand(0, count($colors) - 1);
 ?>
 
 @section('content')
+	<!-- THE QUOTE -->
 	@include('quotes.singleQuote', compact($quote))
 
-	<h2 id="title-comments"><i class="fa fa-comments"></i><span class="green">{{ Lang::get('comments.comments') }}</span></h2>
-		@if (!$quote->has_comments)
-			<div class="alert alert-info no-hide">
-				{{ Lang::get('comments.noCommentsYet')}}
-			</div>
-		@endif
-	@foreach ($comments as $comment)
-		@include('comments.singleComment', compact($comment))
-	@endforeach
+	<!-- SHOW COMMENTS -->
+	@if ($quote->has_comments)
+		<h2 id="title-comments"><i class="fa fa-comments"></i><span class="green">{{ Lang::get('comments.comments') }}</span></h2>
+		@foreach ($comments as $comment)
+			@include('comments.singleComment', compact($comment))
+		@endforeach
+	@endif
 
+	<!-- ADD A COMMENT -->
+	<h2 id="title-add-comment"><i class="fa fa-pencil-square-o"></i><span class="red">{{ Lang::get('comments.addComment')}}</span></h2>
+	<!-- Banner no comments yet -->
+	@if (!$quote->has_comments)
+		<div class="alert alert-info no-hide">
+			{{ Lang::get('comments.noCommentsYet')}}
+		</div>
+	@endif
+
+	<!-- Form to add a comment -->
 	@if (Auth::check())
 		@include('comments.addComment', compact($quote))
+	<!-- Call to sign in / sign up -->
 	@else
-		<h2 id="title-add-comment"><i class="fa fa-pencil-square-o"></i><span class="red">{{ Lang::get('comments.addComment')}}</span></h2>
-
 		{{ Lang::get('auth.mustBeLoggedToAddcooment') }}
 		<div class="row" id="require-log-buttons">
 			<div class="text-center col-xs-6">
