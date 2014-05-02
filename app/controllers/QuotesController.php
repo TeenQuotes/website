@@ -130,12 +130,16 @@ class QuotesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-
 		$quote = Quote::find($id);
 
-		// Handle not found
+		// TODO Handle not found
 		if (is_null($quote))
 			return Response::view('errors.missing', array(), 404);
+
+		// If the user was not logged in, we store the current URL in its session
+		// After sign in / sign up, he will be redirected here
+		if (Auth::guest())
+			Session::put('url.intended', URL::route('quotes.show', $id));
 
 		$data = [
 			'quote'           => $quote,
