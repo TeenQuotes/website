@@ -139,6 +139,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     	}
     }
 
+    /**
+     * Tells if the user is subscribed to the daily or the weekly newsletter
+     * @var string $type The type of the newsletter : weekly|daily
+     * @return boolean true if subscribed, false otherwise
+     */
+    public function isSubscribedToNewsletter($type)
+    {
+    	return (Newsletter::forUser($this)->type($type)->count() > 0);
+    }
+
 	/**
 	 * Get the unique identifier for the user.
 	 *
