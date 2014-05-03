@@ -40,15 +40,21 @@ class AuthController extends \BaseController {
 		// Check if the form validates with success.
 		if ($validator->passes()) {
 			// Try to log the user in.
-			if (Auth::attempt($data, true))
+			if (Auth::attempt($data, true)) {
+				$user = Auth::user();
+				$user->last_visit = Carbon::now()->toDateTimeString();
+				$user->save();
+
 				return Redirect::intended('/')->with('success', Lang::get('auth.loginSuccessfull', array('login' => $data['login'])));
+			}
+			// Maybe the user uses the old hash method
 			else {
 				$user = User::whereLogin($data['login'])->first();
 
-				// Maybe the user uses the old hash method
 				if (!is_null($user) AND ($user->password == User::oldHashMethod($data))) {
 					// Update the password in database
-					$user->password = Hash::make($data['password']);
+					$user->password   = Hash::make($data['password']);
+					$user->last_visit = Carbon::now()->toDateTimeString();
 					$user->save();
 
 					Auth::login($user, true);
@@ -74,6 +80,5 @@ class AuthController extends \BaseController {
 		}
 		else
 			return Redirect::route('home')->with('warning', Lang::get('auth.logoutNotLoggedIn'));
-
 	}
 }
