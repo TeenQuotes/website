@@ -6,18 +6,18 @@ if ($i % 2 == 1)
 else
 	$transition = 'fadeInLeft';
 ?>
-<div class="quote animated <?= $transition; ?>" style="background-color:<?= $colorQuote; ?>;border-bottom-color:<?= $darkColorQuote; ?>">
+<div class="quote animated <?= $transition; ?>" data-id="{{{ $quote->id }}}" style="background-color:<?= $colorQuote; ?>;border-bottom-color:<?= $darkColorQuote; ?>">
 	{{{ $quote->content }}}
 
 	<div class="row quotes-info">
 		<!-- Approve -->
 		<div class="col-xs-1">
-			<span class="badge quote-moderation" data-id="{{{ $quote->id }}}" data-decision="approve"><i class="fa fa-thumbs-up"></i></span>
+			<span class="badge quote-moderation" data-id="{{{ $quote->id }}}" data-url="{{{ URL::action('QuotesAdminController@postModerate', array($quote-> id, 'approve')) }}}" data-decision="approve"><i class="fa fa-thumbs-up"></i></span>
 		</div>
 
 		<!-- Unapprove -->
 		<div class="col-xs-1">
-			<span class="badge quote-moderation" data-id="{{{ $quote->id }}}" data-decision="unapprove"><i class="fa fa-thumbs-down"></i></span>
+			<span class="badge quote-moderation" data-id="{{{ $quote->id }}}" data-url="{{{ URL::action('QuotesAdminController@postModerate', array($quote-> id, 'unapprove')) }}}" data-decision="unapprove"><i class="fa fa-thumbs-down"></i></span>
 		</div>
 
 		<!-- Edit -->

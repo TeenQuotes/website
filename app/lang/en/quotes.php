@@ -18,4 +18,6 @@ return array (
 	'singleQuotePageTitle'       => 'Quote #:id | '.Lang::get('layout.nameWebsite'),
 	'quotePublishedSubjectEmail' => 'Your quote has been published!',
 	'quoteHasBeenApproved'       => 'We want to let you know that your quote #:id has been published and is now visible everywhere in the world!<br/><br/>If you want to take a look at it, you can follow this link: :url. You can now share it with your friends. You are now a kind of superstar!<br/><br/>Thanks a lot for contributing to '.Lang::get('layout.nameWebsite').'. A lot of people will enjoy reading your quote, and this is super cool.',
+	'quotesText'                 => 'quote|quotes',
+	'daysText'                   => 'day|days',
 );

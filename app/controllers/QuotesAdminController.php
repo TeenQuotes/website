@@ -12,11 +12,19 @@ class QuotesAdminController extends \BaseController {
 		$quotes = Quote::waiting()->orderAscending()->get();
 
 		$data = [
-			'quotes'    => $quotes,
-			'colors'    => Quote::getRandomColors(),
-
-			'pageTitle' => 'Admin | '.Lang::get('layout.nameWebsite'),
+			'quotes'          => $quotes,
+			'colors'          => Quote::getRandomColors(),
+			'nbQuotesPending' => Quote::pending()->count(),
+			'nbQuotesPerDay'  => Config::get('app.nbQuotesToPublishPerDay'),
+			'pageTitle'       => 'Admin | '.Lang::get('layout.nameWebsite'),
 		];
+
+		// Put variables that we will use in JavaScript
+		JavaScript::put([
+			'nbQuotesPerDay' => Config::get('app.nbQuotesToPublishPerDay'),
+			'quotesPlural'   => Lang::choice('quotes.quotesText', 2),
+			'daysPlural'     => Lang::choice('quotes.daysText', 2),
+    	]);
 
 		return View::make('admin.index', $data);
 	}
@@ -102,6 +110,34 @@ class QuotesAdminController extends \BaseController {
 
 		// Something went wrong.
 		return Redirect::back()->withErrors($validator)->withInput(Input::all());
+	}
+
+	/**
+	 * Moderate a quote
+	 *
+	 * @param  int  $id The ID of the quote
+	 * @param  string $type The decision of the moderation: approve|unapprove
+	 * @warning Should be called using Ajax
+	 * @return Response
+	 */
+	public function postModerate($id, $type)
+	{
+		if (!in_array($type, array('approve', 'unapprove')))
+			throw new InvalidArgumentException("Expected type approve or unapprove. Got ".$type);
+
+		if (Request::ajax()) {
+			$quote = Quote::find($id);
+			if (!$quote->isWaiting())
+				throw new InvalidArgumentException("Quote ".$quote->id." is not a waiting quote.");
+
+			// Ternary FTW
+			$quote->approved = ($type == 'approve') ? 1 : -1;
+			$quote->save();
+
+			// TODO: contact the author of the quote
+
+			return Response::json(['success' => true], 200);
+		}
 	}
 
 	/**

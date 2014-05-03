@@ -44,6 +44,7 @@ $(document).ready(function() {
 	// Add a quote character's counter
 	$('#content-quote').keyup(function() {
 		var nbCaracters = $(this).val().length;
+		// FIXME: provide translation
 		if (nbCaracters < 50)
 			var msg = '<i class="fa fa-meh-o"></i> It\'s a bit short!';
 		else
@@ -150,6 +151,65 @@ $(document).ready(function() {
 					$(".favorite-action[data-id=" + id_quote + "]").css("opacity", "0.5");
 					$(".show_this[data-id=" + id_quote + "]").hide().delay(3000).fadeIn(1000);
 					$(".hide_this[data-id=" + id_quote + "]").delay(2000).fadeOut(1000)
+				}
+			},
+			error: function(xhr, textStatus, thrownError) {
+				console.log(xhr);
+				console.log(textStatus);
+				console.log(thrownError);
+				console.log(xhr.responseText);
+				alert('Something went to wrong. Please try again later.');
+			}
+		});
+
+		return false;
+	});
+
+	// Moderation
+	$('.quote-moderation').click(function() {
+		var id_quote, numberOfQuoteAwaitingMode, decision;
+		id_quote = $(this).attr('data-id');
+		decision = $(this).attr('data-decision');
+
+		$.ajax({
+			type: 'post',
+			cache: false,
+			url: $(this).attr('data-url'),
+			dataType: 'json',
+			data: {},
+			success: function(data) {
+				console.log(data);
+				// Errors
+				if (data.success == false) {
+					var arr = data.errors;
+					$.each(arr, function(index, value) {
+						if (value.length != 0) {
+							$("#validation-errors").append('<div class="alert alert-error"><strong>' + value + '</strong><div>');
+						}
+					});
+					// Success
+				} else {
+					// Update nb quotes awaiting moderation
+					numberOfQuoteWaitingModeration = parseInt($("#nb-quotes-waiting").text()) - 1;
+					$("#nb-quotes-waiting").text(numberOfQuoteWaitingModeration);
+
+					// Update nb quotes pending
+					if (decision == 'approve') {
+
+						numberOfQuotePending = parseInt($("#nb-quotes-pending").text()) + 1;
+						$("#nb-quotes-pending").text(numberOfQuotePending);
+
+						// FiXME: provide translation
+						if ($("#text-quotes").text() == 'quote')
+							$("#text-quotes").text(laravel.quotesPlural);
+
+						nbDays = Math.floor(numberOfQuotePending / laravel.nbQuotesPerDay);
+						$("#nb-quotes-per-day").text(nbDays);
+						if (nbDays > 1)
+							$("#text-days").text(laravel.daysPlural);
+					}
+
+					$(".quote[data-id=" + id_quote + "]").delay(100).slideUp(500);
 				}
 			},
 			error: function(xhr, textStatus, thrownError) {

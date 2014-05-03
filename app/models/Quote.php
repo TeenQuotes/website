@@ -259,6 +259,21 @@ class Quote extends Eloquent {
 		return ($this->approved == 2);
 	}
 
+	public function isPending()
+	{
+		return ($this->approved == 1);
+	}
+
+	public function isWaiting()
+	{
+		return ($this->approved == 0);
+	}
+
+	public function isRefused()
+	{
+		return ($this->approved == -1);
+	}
+
 	/**
 	 * Lighten or darken a color from an hexadecimal code
 	 * @author http://stackoverflow.com/questions/3512311/how-to-generate-lighter-darker-color-with-php

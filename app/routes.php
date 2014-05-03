@@ -12,6 +12,7 @@
 */
 Route::pattern('quote_id', '[0-9]+');
 Route::pattern('user_id', '[a-zA-Z0-9_]+');
+Route::pattern('decision', 'approve|unapprove');
 Route::pattern('fav', 'fav');
 
 Route::get('/', ['as' => 'home', 'uses' => 'QuotesController@index']);
@@ -55,4 +56,6 @@ Route::group(['before' => 'admin', 'prefix' => 'admin'], function()
 	Route::get('/edit/{quote_id}', ['uses' => 'QuotesAdminController@edit', 'as' => 'admin.quotes.edit']);
 	// Update
 	Route::put('/update/{quote_id}', ['uses' => 'QuotesAdminController@update', 'as' => 'admin.quotes.update']);
+	// Moderation
+	Route::post('/moderate/{quote_id}/{decision}', ['uses' => 'QuotesAdminController@postModerate', 'as' => 'admin.quotes.moderate']);
 });
