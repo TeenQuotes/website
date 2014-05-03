@@ -31,7 +31,7 @@ Route::resource('users', 'UsersController', ['only' => ['index', 'store', 'edit'
 
 /* --- PASSWORD REMINDER --- */
 // Adding this route just to have a named route to the password reminder page
-Route::get('/password/remind', ['as' => 'passwordReminder', 'before' => 'guset', 'uses' => 'RemindersController@getRemind']);
+Route::get('/password/remind', ['as' => 'passwordReminder', 'before' => 'guest', 'uses' => 'RemindersController@getRemind']);
 Route::controller('password', 'RemindersController');
 
 /* --- QUOTES --- */
