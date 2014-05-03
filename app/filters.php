@@ -14,22 +14,22 @@
 App::before(function($request)
 {
 	if (Config::get('database.log', false) OR App::environment('local'))
-	{           
+	{
 		Event::listen('illuminate.query', function($query, $bindings, $time, $name)
 		{
 			$data = compact('bindings', 'time', 'name');
 
 			// Format binding data for sql insertion
-			foreach ($bindings as $i => $binding) {   
+			foreach ($bindings as $i => $binding) {
 				if ($binding instanceof \DateTime)
 					$bindings[$i] = $binding->format('\'Y-m-d H:i:s\'');
 				else if (is_string($binding))
 					$bindings[$i] = "'$binding'";
-			}       
+			}
 
 			// Insert bindings into query
 			$query = str_replace(array('%', '?'), array('%%', '%s'), $query);
-			$query = vsprintf($query, $bindings); 
+			$query = vsprintf($query, $bindings);
 
 			Log::info($query, $data);
 		});
@@ -63,6 +63,12 @@ Route::filter('auth', function()
 	}
 });
 
+Route::filter('admin', function()
+{
+	if (!(Auth::check() AND Auth::user()->security_level == 1))
+		App::abort('401', 'Nothing to do here');
+});
+
 
 Route::filter('auth.basic', function()
 {
@@ -82,7 +88,7 @@ Route::filter('auth.basic', function()
 
 Route::filter('guest', function()
 {
-	if (Auth::check()) 
+	if (Auth::check())
 		return Redirect::route('home')->with('warning', Lang::get('auth.alreadyLoggedIn'));
 });
 

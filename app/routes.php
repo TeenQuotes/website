@@ -31,7 +31,7 @@ Route::resource('users', 'UsersController', ['only' => ['index', 'store', 'edit'
 
 /* --- PASSWORD REMINDER --- */
 // Adding this route just to have a named route to the password reminder page
-Route::get('/password/remind', ['as' => 'passwordReminder', 'before' => 'guest', 'uses' => 'RemindersController@getRemind']);
+Route::get('/password/remind', ['as' => 'passwordReminder', 'before' => 'guset', 'uses' => 'RemindersController@getRemind']);
 Route::controller('password', 'RemindersController');
 
 /* --- QUOTES --- */
@@ -45,3 +45,9 @@ Route::resource('comments', 'CommentsController', ['only' => ['store']]);
 /* --- FAVORITE --- */
 Route::post('/favorite/{quote_id}', ['as' => 'favorite', 'before' => 'auth', 'uses' => 'FavoritesController@store']);
 Route::post('/unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth', 'uses' => 'FavoritesController@destroy']);
+
+/* --- ADMIN --- */
+Route::group(['before' => 'admin', 'prefix' => 'admin'], function()
+{
+	Route::resource('/', 'AdminController', ['only' => ['index']]);
+});
