@@ -49,5 +49,10 @@ Route::post('/unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth',
 /* --- ADMIN --- */
 Route::group(['before' => 'admin', 'prefix' => 'admin'], function()
 {
-	Route::resource('/', 'AdminController', ['only' => ['index']]);
+	// Index
+	Route::get('/', ['uses' => 'QuotesAdminController@index', 'as' => 'admin.quotes.index']);
+	// Edit
+	Route::get('/edit/{quote_id}', ['uses' => 'QuotesAdminController@edit', 'as' => 'admin.quotes.edit']);
+	// Update
+	Route::put('/update/{quote_id}', ['uses' => 'QuotesAdminController@update', 'as' => 'admin.quotes.update']);
 });

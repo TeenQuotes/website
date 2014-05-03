@@ -742,6 +742,39 @@ body {
 	}
 }
 
+#admin-page {
+	> h2 {
+		color: $green;
+		margin-bottom: 1.2em;
+
+		i, span {
+			color: $red;
+		}
+	}
+
+	.quotes-info {
+		.badge {
+			background: rgba(0, 0, 0, .5);
+			@include element-transition;
+			cursor: pointer;
+		}
+		.badge:hover {
+			background: white;
+			color: $lightBlue;
+		}
+
+		.fa-thumbs-up {
+			color: $green;
+		}
+		.fa-thumbs-down {
+			color: $red;
+		}
+		.fa-pencil-square-o {
+			color: $orange;
+		}
+	}
+}
+
 #wrap {
   min-height: 100%;
   height: auto !important;
