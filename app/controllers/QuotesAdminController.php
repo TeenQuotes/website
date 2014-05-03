@@ -100,7 +100,7 @@ class QuotesAdminController extends \BaseController {
 
 			// Update the quote
 			$quote->content = $data['content'];
-			$quote->approved = 2;
+			$quote->approved = 1;
 			$quote->save();
 
 			// TODO: contact the author of the quote
