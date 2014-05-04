@@ -309,8 +309,15 @@ body {
 	}
 
 
-	.signup-text {
-		margin-bottom: 10px;
+	#signup-text {
+		margin-bottom: 1.5em;
+		text-align: justify;
+	}
+
+	#respect-privacy {
+		margin: 10px 0 0 5px;
+		font-style: italic;
+		font-size: .9em;
 	}
 
 	#login-awesome {
