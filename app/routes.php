@@ -1,13 +1,8 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
-| Application Routes
+| Patterns
 |--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the Closure to execute when that URI is requested.
 |
 */
 Route::pattern('quote_id', '[0-9]+');
@@ -15,6 +10,12 @@ Route::pattern('user_id', '[a-zA-Z0-9_]+');
 Route::pattern('decision', 'approve|unapprove');
 Route::pattern('fav', 'fav');
 
+/*
+|--------------------------------------------------------------------------
+| Routes
+|--------------------------------------------------------------------------
+|
+*/
 Route::get('/', ['as' => 'home', 'uses' => 'QuotesController@index']);
 
 /* --- AUTH --- */
