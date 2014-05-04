@@ -38,7 +38,7 @@ class QuotesPublishCommand extends Command {
 	public function fire()
 	{
 		// Get the number of quotes to publish
-		$nbQuotes = is_null($this->argument('nb_quotes')) ? Config::get('app.nbQuotesToPublishPerDay') : $this->argument('nb_quotes');
+		$nbQuotes = is_null($this->argument('nb_quotes')) ? Config::get('app.quotes.nbQuotesToPublishPerDay') : $this->argument('nb_quotes');
 
 		// Get the quotes that will be published today
 		$quotes = Quote::pending()->orderAscending()->take($nbQuotes)->with('user')->get();

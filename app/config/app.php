@@ -191,8 +191,15 @@ return array(
 
 	),
 
-	'avatarPath' => 'uploads/avatar',
+	/*
+	|--------------------------------------------------------------------------
+	| App variables
+	|--------------------------------------------------------------------------
+	|
+	|
+	*/
 
-	'nbQuotesToPublishPerDay' => 5,
+	'users.avatarPath'               => 'uploads/avatar',
 
+	'quotes.nbQuotesToPublishPerDay' => 5,
 );

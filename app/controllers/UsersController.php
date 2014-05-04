@@ -234,9 +234,11 @@ class UsersController extends \BaseController {
 			$user->city      = $data['city'];
 			$user->about_me  = $data['about_me'];
 
+			// Move the avatar
 			if (!is_null($data['avatar'])) {
 				$filename = $user->id.'.'.$data['avatar']->getClientOriginalExtension();
-				Input::file('avatar')->move(Config::get('app.avatarPath'), $filename);
+
+				Input::file('avatar')->move(Config::get('app.users.avatarPath'), $filename);
 
 				$user->avatar = $filename;
 			}

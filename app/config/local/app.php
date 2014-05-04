@@ -15,5 +15,5 @@ return array(
 
 	'debug' => true,
 
-	'avatarPath' => 'public/uploads/avatar',
+	'users.avatarPath' => 'public/uploads/avatar',
 );

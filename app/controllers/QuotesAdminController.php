@@ -15,13 +15,13 @@ class QuotesAdminController extends \BaseController {
 			'quotes'          => $quotes,
 			'colors'          => Quote::getRandomColors(),
 			'nbQuotesPending' => Quote::pending()->count(),
-			'nbQuotesPerDay'  => Config::get('app.nbQuotesToPublishPerDay'),
+			'nbQuotesPerDay'  => Config::get('app.quotes.nbQuotesToPublishPerDay'),
 			'pageTitle'       => 'Admin | '.Lang::get('layout.nameWebsite'),
 		];
 
 		// Put variables that we will use in JavaScript
 		JavaScript::put([
-			'nbQuotesPerDay' => Config::get('app.nbQuotesToPublishPerDay'),
+			'nbQuotesPerDay' => Config::get('app.quotes.nbQuotesToPublishPerDay'),
 			'quotesPlural'   => Lang::choice('quotes.quotesText', 2),
 			'daysPlural'     => Lang::choice('quotes.daysText', 2),
     	]);
