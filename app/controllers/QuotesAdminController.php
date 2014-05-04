@@ -126,15 +126,21 @@ class QuotesAdminController extends \BaseController {
 			throw new InvalidArgumentException("Expected type approve or unapprove. Got ".$type);
 
 		if (Request::ajax()) {
-			$quote = Quote::find($id);
-			if (!$quote->isWaiting())
-				throw new InvalidArgumentException("Quote ".$quote->id." is not a waiting quote.");
+			$quote = Quote::waiting()->where('id', '=', $id)->with('user')->first();
 
-			// Ternary FTW
+			// Handle quote not found
+			if (is_null($quote))
+				throw new InvalidArgumentException("Quote ".$id." is not a waiting quote.");
+
 			$quote->approved = ($type == 'approve') ? 1 : -1;
 			$quote->save();
 
-			// TODO: contact the author of the quote
+			// Contact the author of the quote
+			$quoteArray = array('quote' => $quote->toArray());
+			Mail::send('emails.quotes.'.$type, $quoteArray, function($m) use($quote, $type)
+			{
+				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('quotes.quote'.ucfirst($type).'SubjectEmail'));
+			});
 
 			return Response::json(['success' => true], 200);
 		}

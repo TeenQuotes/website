@@ -58,7 +58,7 @@ class QuotesPublishCommand extends Command {
 			Log::info("Published quote #".$quote->id, array('quote' => $quoteArray));
 
 			// Send an email to the author
-			Mail::send('emails.quotePublished', $quoteArray, function($m) use($quote)
+			Mail::send('emails.quotes.published', $quoteArray, function($m) use($quote)
 			{
 				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('quotes.quotePublishedSubjectEmail'));
 			});
