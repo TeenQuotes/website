@@ -105,8 +105,8 @@ class Quote extends Eloquent {
 			$content = substr($content, 0, $maxLength);
 			$lastSpace = strrpos($content, " ");
 
-			// After the space, add ..
-			$content = substr($content, 0, $lastSpace).'..';
+			// After the space, add …
+			$content = substr($content, 0, $lastSpace).'…';
 		}
 
 		return $content;
@@ -127,8 +127,8 @@ class Quote extends Eloquent {
 			$content = substr($content, 0, $maxLength);
 			$lastSpace = strrpos($content, " ");
 
-			// After the space, add ..
-			$content = substr($content, 0, $lastSpace).'..';
+			// After the space, add …
+			$content = substr($content, 0, $lastSpace).'…';
 		}
 		elseif (strlen($content) <= $maxLengthAddTwitterUsername) {
 			$content .= ' '.$twitterUsername;
