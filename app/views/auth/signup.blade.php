@@ -18,7 +18,7 @@
 
 		<div class="animated fadeInLeft col-md-6 col-md-pull-6">
 			<h1><i class="fa fa-user"></i><span>{{ Lang::get('auth.createYourAccount')}}</span></h1>
-			<div class="signup-text">
+			<div id="signup-text">
 				{{Lang::get('auth.signupText')}}
 			</div>
 			{{ Form::open(array('url' => URL::route('users.store'), 'class' => 'form-horizontal')) }}
@@ -44,6 +44,9 @@
 
 					<div class="col-sm-10">
 						{{ Form::email('email', Input::old('email'), array('class' => 'form-control')) }}
+						<div id="respect-privacy">
+							{{ Lang::get('auth.carefulPrivacy') }}
+						</div>
 						@if (!empty($errors->first('email')))
 							{{ TextTools::warningTextForm($errors->first('email')) }}
 						@endif
