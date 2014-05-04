@@ -10,6 +10,7 @@ Update database configuration in `app/config/database.php` and then run:
     $ composer install
     $ php artisan migrate
     $ php artisan db:seed
+    $ compass compile
     $ php artisan serve
 
 ## Who did this?
