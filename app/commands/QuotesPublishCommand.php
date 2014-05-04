@@ -42,11 +42,14 @@ class QuotesPublishCommand extends Command {
 
 		// Get the quotes that will be published today
 		$quotes = Quote::pending()->orderAscending()->take($nbQuotes)->with('user')->get();
+		$arrayUsers = array();
 		$quotes->each(function($quote)
 		{
 			// Save the quote in storage
 			$quote->approved = 2;
 			$quote->save();
+
+			$arrayUsers[] = $quote->user;
 
 			$quoteArray = array('quote' => $quote->toArray());
 
@@ -60,6 +63,38 @@ class QuotesPublishCommand extends Command {
 				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('quotes.quotePublishedSubjectEmail'));
 			});
 		});
+
+		// Update number of published quotes in cache
+		if (Cache::has(Quote::$cacheNameNumberPublished))
+			Cache::increment(Quote::$cacheNameNumberPublished, $nbQuotes);
+
+		// We need to forget pages of quotes that are stored in cache
+		// where the published quotes should be displayed
+		$nbPages = ceil($nbQuotes / Quote::$nbQuotesPerPage);
+		for ($i = 1; $i <= $nbPages; $i++)
+			Cache::forget(Quote::$cacheNameQuotesPage.$i);
+
+		// We forgot EVERY published quotes stored in cache for every user
+		// that has published a quote this time
+		$expiresAt = Carbon::now()->addMinutes(10);
+		foreach ($arrayUsers as $user)
+		{
+			// Update in cache the number of published quotes for the user
+			$nbQuotesPublishedForUser = Cache::remember(
+				User::$cacheNameForNumberQuotesPublished.$user->id,
+				$expiresAt,
+				function() use ($user)
+			{
+				return Quote::forUser($user)
+					->published()
+					->count();
+			});
+			$nbPagesQuotesPublished = ceil($nbQuotesPublishedForUser / User::$nbQuotesPerPage);
+
+			// Forgot every page
+			for($i = 1; $i <= $nbPagesQuotesPublished; $i++)
+				Cache::forget(User::$cacheNameForPublished.$user->id.'_'.$i);
+		}
 
 	}
 
