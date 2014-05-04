@@ -62,7 +62,7 @@ class Quote extends Eloquent {
 	 * @brief The name of the key to store in cache. Describes the number of quotes that have been published.
 	 * @var string
 	 */
-	public static $cacheNameNumberComments = 'nb_quotes_published';
+	public static $cacheNameNumberPublished = 'nb_quotes_published';
 
 	public static function getRandomColors($profile = false)
 	{

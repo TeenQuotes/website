@@ -22,7 +22,7 @@ class QuotesController extends \BaseController {
 		// Time to store quotes
 		$expiresAt = Carbon::now()->addMinutes(1);
 
-		$numberQuotesPublished = Cache::remember(Quote::$cacheNameNumberComments, $expiresAt, function()
+		$numberQuotesPublished = Cache::remember(Quote::$cacheNameNumberPublished, $expiresAt, function()
 		{
 			return Quote::published()->count();
 		});
