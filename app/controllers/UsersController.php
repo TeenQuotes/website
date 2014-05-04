@@ -109,6 +109,9 @@ class UsersController extends \BaseController {
 		// Get the user
 		$user = User::where('login', $user_id)->orWhere('id', $user_id)->first();
 
+		// TODO: display a special view if the user doesn't want to display his
+		// profile. <=> $user->isHiddenProfile()
+
 		// TODO: handle this error
 		if (is_null($user))
 			App::abort(404, 'User not found');
@@ -171,6 +174,7 @@ class UsersController extends \BaseController {
 			'pageTitle'       => Lang::get('users.profilePageTitle', array('login' => $user->login)),
 			'pageDescription' => Lang::get('users.profilePageDescription', array('login' => $user->login)),
 			'paginator'       => $paginator,
+			// Type of quotes: favorites|published
 			'type'            => $type,
 			'hideAuthor'      => ($type == 'published')
 		];

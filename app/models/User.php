@@ -113,6 +113,15 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     }
 
     /**
+     * @brief Tells if the user wants to hide his profile
+     * @return boolean true if we should hide his profile, false otherwise
+     */
+    public function isHiddenProfile()
+    {
+    	return ($this->hide_profile == 1);
+    }
+
+    /**
      * @brief Returns the old hash of a password. It was used in Teen Quotes v2
      * @var array $data The data. We need a login and a password
      * @return string The corresponding hash that was used in Teen Quotes v2
