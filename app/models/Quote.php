@@ -177,7 +177,7 @@ class Quote extends Eloquent {
 	public function getTotalFavoritesAttribute()
 	{
 		// If the quote is not published, obviously we have no favorites
-		if ($this->approved != 2)
+		if ($this->isPublished())
 			return 0;
 
 		return Cache::rememberForever(self::$cacheNameNbFavorites.$this->id, function()
