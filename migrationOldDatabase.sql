@@ -57,42 +57,63 @@ UPDATE users SET hide_profile = hide_profile - 1;
 -- Seed quotes table
 TRUNCATE quotes;
 INSERT INTO quotes (id, content, user_id, approved, created_at)
-SELECT id, texte_english, auteur_id, approved, timestamp_created FROM teenquotesold.teen_quotes_quotes;
+SELECT id, texte_english, auteur_id, approved, timestamp_created
+FROM teenquotesold.teen_quotes_quotes;
 
 -- Seed comments table
 TRUNCATE comments;
 INSERT INTO comments (id, content, quote_id, user_id, created_at)
-SELECT id, texte, id_quote, auteur_id, timestamp_created FROM teenquotesold.teen_quotes_comments;
+SELECT id, texte, id_quote, auteur_id, timestamp_created
+FROM teenquotesold.teen_quotes_comments;
 
 -- Seed profile_visitors table
 TRUNCATE profile_visitors;
 INSERT INTO profile_visitors (id, user_id, visitor_id)
-SELECT id, id_user, id_visitor FROM teenquotesold.teen_quotes_visitors;
+SELECT id, id_user, id_visitor
+FROM teenquotesold.teen_quotes_visitors;
 
 -- Seed favorite_quotes table
 TRUNCATE favorite_quotes;
 INSERT INTO favorite_quotes (id, quote_id, user_id)
-SELECT id, id_quote, id_user FROM teenquotesold.teen_quotes_favorite;
+SELECT id, id_quote, id_user
+FROM teenquotesold.teen_quotes_favorite;
 
 -- Seed newsletter table
 TRUNCATE newsletters;
 INSERT INTO newsletters (user_id, type, unsubscribe_code)
-SELECT id, 'weekly',  SUBSTRING(pass, -10) FROM teenquotesold.teen_quotes_account;
+SELECT id, 'weekly',  SUBSTRING(pass, -10)
+FROM teenquotesold.teen_quotes_account;
 
 -- Seed stories table
 TRUNCATE stories;
 INSERT INTO stories (id, represent_txt, frequence_txt, user_id, created_at)
-SELECT id, txt_represent, txt_frequence, id_user, timestamp FROM teenquotesold.stories;
+SELECT id, txt_represent, txt_frequence, id_user, timestamp
+FROM teenquotesold.stories;
 
 -- Delete broken references in tables
-DELETE FROM comments WHERE quote_id NOT IN (SELECT id FROM quotes);
-DELETE FROM comments WHERE user_id NOT IN (SELECT id FROM users);
-DELETE FROM favorite_quotes WHERE quote_id NOT IN (SELECT id FROM quotes);
-DELETE FROM favorite_quotes WHERE user_id NOT IN (SELECT id FROM users);
-DELETE FROM profile_visitors WHERE user_id NOT IN (SELECT id FROM users);
-DELETE FROM profile_visitors WHERE visitor_id NOT IN (SELECT id FROM users);
-DELETE FROM quotes WHERE user_id NOT IN (SELECT id FROM users);
-DELETE FROM stories WHERE user_id NOT IN (SELECT id FROM users);
+DELETE FROM comments
+WHERE quote_id NOT IN (SELECT id FROM quotes);
+
+DELETE FROM comments
+WHERE user_id NOT IN (SELECT id FROM users);
+
+DELETE FROM favorite_quotes
+WHERE quote_id NOT IN (SELECT id FROM quotes);
+
+DELETE FROM favorite_quotes
+WHERE user_id NOT IN (SELECT id FROM users);
+
+DELETE FROM profile_visitors
+WHERE user_id NOT IN (SELECT id FROM users);
+
+DELETE FROM profile_visitors
+WHERE visitor_id NOT IN (SELECT id FROM users);
+
+DELETE FROM quotes
+WHERE user_id NOT IN (SELECT id FROM users);
+
+DELETE FROM stories
+WHERE user_id NOT IN (SELECT id FROM users);
 
 -- Enable foreign key checks
 SET FOREIGN_KEY_CHECKS = 1;
