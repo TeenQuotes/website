@@ -11,4 +11,9 @@
 		</div>
 	</div>
 <br/><br/>
-<span style="font-size:80%">{{ Lang::get('email.robotFooter') }}</span><br/>
+
+<span style="font-size:90%">
+	@yield('add-footer')
+	<br/><br/>
+	{{ Lang::get('email.robotFooter') }}
+</span>
