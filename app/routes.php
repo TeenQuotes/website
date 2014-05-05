@@ -39,6 +39,10 @@ Route::controller('password', 'RemindersController');
 /* --- QUOTES --- */
 Route::get('/random', ['as' => 'random', 'uses' => 'QuotesController@index']);
 Route::get('/addquote', ['as' => 'addquote', 'before' => 'auth', 'uses' => 'QuotesController@getAddQuote']);
+Route::get('/quote-{quote_id}', function($id)
+{
+	Redirect::route('quotes.show', array($id), 301);
+});
 Route::resource('quotes', 'QuotesController', ['only' => ['index', 'show', 'store']]);
 
 /* --- COMMENTS --- */
