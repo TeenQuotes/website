@@ -122,6 +122,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     }
 
     /**
+     * @brief Tells if the user wants to receive an email when a comment is
+     * added on one of its quotes
+     * @return boolean true if we should send an email, false otherwise
+     */
+    public function wantsEmailComment()
+    {
+    	return ($this->notification_comment_quote == 1);
+    }
+
+    /**
      * @brief Returns the old hash of a password. It was used in Teen Quotes v2
      * @var array $data The data. We need a login and a password
      * @return string The corresponding hash that was used in Teen Quotes v2
