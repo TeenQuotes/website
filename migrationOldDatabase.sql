@@ -1,5 +1,7 @@
--- Changement of collation
+-- Disable foreign key checks
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- Changement of collation
 ALTER TABLE teenquotesold.approve_quotes CONVERT TO character SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE teenquotesold.config CONVERT TO character SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE teenquotesold.connexions_log CONVERT TO character SET utf8 COLLATE utf8_unicode_ci;
@@ -20,7 +22,7 @@ ALTER TABLE teenquotesold.tooltips CONVERT TO character SET utf8 COLLATE utf8_un
 -- Seed users table
 TRUNCATE users;
 INSERT INTO users (id, login, password, email, security_level, ip, birthdate, gender, country, city, avatar, about_me, hide_profile, notification_comment_quote, last_visit, created_at)
-SELECT id, username, pass, email, security_level, ip, birth_date, 'M', null, city, about_me, avatar, hide_profile, notification_comment_quote, last_visit, joindate
+SELECT id, username, pass, email, security_level, ip, STR_TO_DATE(birth_date, '%d/%m/%Y'), 'F', NULL, city, avatar, about_me, hide_profile, notification_comment_quote, STR_TO_DATE(last_visit, '%d/%m/%Y'), joindate
 FROM teenquotesold.teen_quotes_account;
 
 -- Update gender
@@ -37,13 +39,20 @@ WHERE users.id IN (
 	WHERE a.title = 'Mr'
 );
 
+-- Update security_level
+UPDATE users SET security_level = 1 WHERE security_level = 3;
+
 -- Update country
-UPDATE users SET users.country = (
-	SELECT c.id
-	FROM countries c
-	WHERE c.name = users.country
-)
-WHERE users.country IN (SELECT name FROM countries);
+UPDATE users u, countries c, teenquotesold.teen_quotes_account a
+SET u.country = c.id
+WHERE a.id = u.id
+AND c.name = a.country;
+
+-- Update notification_comment_quote
+UPDATE users SET notification_comment_quote = notification_comment_quote - 1;
+
+-- Update hide_profile
+UPDATE users SET hide_profile = hide_profile - 1;
 
 -- Seed quotes table
 TRUNCATE quotes;
@@ -75,6 +84,15 @@ TRUNCATE stories;
 INSERT INTO stories (id, represent_txt, frequence_txt, user_id, created_at)
 SELECT id, txt_represent, txt_frequence, id_user, timestamp FROM teenquotesold.stories;
 
-SET FOREIGN_KEY_CHECKS = 1;
+-- Delete broken references in tables
+DELETE FROM comments WHERE quote_id NOT IN (SELECT id FROM quotes);
+DELETE FROM comments WHERE user_id NOT IN (SELECT id FROM users);
+DELETE FROM favorite_quotes WHERE quote_id NOT IN (SELECT id FROM quotes);
+DELETE FROM favorite_quotes WHERE user_id NOT IN (SELECT id FROM users);
+DELETE FROM profile_visitors WHERE user_id NOT IN (SELECT id FROM users);
+DELETE FROM profile_visitors WHERE visitor_id NOT IN (SELECT id FROM users);
+DELETE FROM quotes WHERE user_id NOT IN (SELECT id FROM users);
+DELETE FROM stories WHERE user_id NOT IN (SELECT id FROM users);
 
--- TODO: check for broken references in tables
+-- Enable foreign key checks
+SET FOREIGN_KEY_CHECKS = 1;
