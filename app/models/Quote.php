@@ -226,12 +226,12 @@ class Quote extends Eloquent {
 
 	public function scopePending($query)
 	{
-		return $query->where('approved', '=', '1');
+		return $query->where('approved', '=', '2');
 	}
 
 	public function scopePublished($query)
 	{
-		return $query->where('approved', '=', '2');
+		return $query->where('approved', '=', '1');
 	}
 
 	public function scopeForUser($query, $user)
@@ -256,12 +256,12 @@ class Quote extends Eloquent {
 
 	public function isPublished()
 	{
-		return ($this->approved == 2);
+		return ($this->approved == 1);
 	}
 
 	public function isPending()
 	{
-		return ($this->approved == 1);
+		return ($this->approved == 2);
 	}
 
 	public function isWaiting()
