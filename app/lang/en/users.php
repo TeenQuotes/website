@@ -19,7 +19,6 @@ return array(
 	'updateProfileSuccessfull'      => 'You have a brand new profile :login!',
 	'inputsOptionalInfo'            => 'Everything is optional here. Fill in what you want!',
 	'passwordInput'                 => 'Password',
-	'passwordConfirmationInput'     => 'Confirm your password',
 	'changeMyPasswordSubmit'        => 'Change my password!',
 	'updatePasswordSuccessfull'     => 'Your password has been changed :login!',
 	'changePasswordTitle'           => 'Change my password',
@@ -35,4 +34,6 @@ return array(
 	'editSettingsCatchphrase'       => "There is nothing permanent except change. Just below you'll find everything you want to suit your needs.",
 	'editSettingsSubmit'            => 'Edit my settings!',
 	'updateSettingsSuccessfull'     => 'Your settings have been changed :login!',
+	'newPasswordInput'              => 'New password',
+	'passwordConfirmationInput'     => 'Confirm your password',
 );

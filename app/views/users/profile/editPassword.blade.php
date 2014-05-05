@@ -7,7 +7,7 @@
 
 <!-- Password -->
 <div class="form-group {{{ $errors->has('password') ? 'error' : '' }}}">
-	{{ Form::label('password', Lang::get('users.passwordInput'), array('class' => 'col-sm-2 control-label')) }}
+	{{ Form::label('password', Lang::get('users.newPasswordInput'), array('class' => 'col-sm-2 control-label')) }}
 
 	<div class="col-sm-10">
 		{{ Form::password('password', array('class' => 'form-control', 'id' => 'password')) }}
