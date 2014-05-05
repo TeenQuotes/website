@@ -1,6 +1,6 @@
 @extends('layouts/page')
 <?php
-$i = rand(0, count($colors) - 1);
+$i = $quote->id % count($colors);
 ?>
 
 @section('content')
