@@ -44,11 +44,10 @@ $(document).ready(function() {
 	// Add a quote character's counter
 	$('#content-quote').keyup(function() {
 		var nbCaracters = $(this).val().length;
-		// FIXME: provide translation
 		if (nbCaracters < 50)
-			var msg = '<i class="fa fa-meh-o"></i> It\'s a bit short!';
+			var msg = '<i class="fa fa-meh-o"></i> ' + laravel.contentShortHint;
 		else
-			var msg = '<i class="fa fa-smile-o"></i> It\'s going to be a great quote!';
+			var msg = '<i class="fa fa-smile-o"></i> ' + laravel.contentGreatHint;
 
 		$('#countLetters').html(msg);
 		if (nbCaracters >= 50) {
@@ -73,9 +72,9 @@ $(document).ready(function() {
 	$('#content-comment').keyup(function() {
 		var nbCaracters = $(this).val().length;
 		if (nbCaracters < 10)
-			var msg = '<i class="fa fa-meh-o"></i> It\'s a bit short!';
+			var msg = '<i class="fa fa-meh-o"></i> ' + laravel.contentShortHint;
 		else
-			var msg = '<i class="fa fa-smile-o"></i> It seems nice!';
+			var msg = '<i class="fa fa-smile-o"></i> ' + laravel.contentGreatHint;
 
 		$('#countLetters').html(msg);
 		if (nbCaracters >= 10) {
@@ -199,7 +198,6 @@ $(document).ready(function() {
 						numberOfQuotePending = parseInt($("#nb-quotes-pending").text()) + 1;
 						$("#nb-quotes-pending").text(numberOfQuotePending);
 
-						// FiXME: provide translation
 						if ($("#text-quotes").text() == 'quote')
 							$("#text-quotes").text(laravel.quotesPlural);
 

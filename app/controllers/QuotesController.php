@@ -119,6 +119,12 @@ class QuotesController extends \BaseController {
 			'pageDescription' => Lang::get('quotes.addquotePageDescription'),
 		];
 
+		// Put variables that we will use in JavaScript
+		JavaScript::put([
+			'contentShortHint' => Lang::get('quotes.contentShortHint'),
+			'contentGreatHint' => Lang::get('quotes.contentGreatHint'),
+    	]);
+
 		return View::make('quotes.addquote', $data);
 	}
 
@@ -148,6 +154,12 @@ class QuotesController extends \BaseController {
 			'pageTitle'       => Lang::get('quotes.singleQuotePageTitle', array('id' => $id)),
 			'pageDescription' => $quote->content,
 		];
+
+		// Put variables that we will use in JavaScript
+		JavaScript::put([
+			'contentShortHint' => Lang::get('comments.contentShortHint'),
+			'contentGreatHint' => Lang::get('comments.contentGreatHint'),
+    	]);
 
 		return View::make('quotes.show', $data);
 	}

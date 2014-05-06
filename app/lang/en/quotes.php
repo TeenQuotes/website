@@ -26,4 +26,6 @@ return array (
 	'quoteHasBeenApprovedEnd'    => "Beautiful, isn't it? Thanks a lot for submitting an awesome quote. Keep submitting, you can publish as much quotes as you want!",
 	'quoteHasBeenRefused'        => 'Unfortunately your quote #:id has been refused by our team.Your quote will not be published.<br/><br/> Just to remind you, here is your quote:',
 	'quoteHasBeenRefusedEnd'     => "Please take into consideration that we refuse almost 75 % of the quotes because we want to keep the very best.<br/<br/>Don't worry, one of your quotes is gonna be approved soon. Remember: write an original quote, in proper English, and eventually you will be published on ".Lang::get('layout.nameWebsite')."!<br/><br/>Thanks a lot for submitting a quote :login.",
+	'contentShortHint'             => "It's a bit short!",
+	'contentGreatHint'             => "It's going to be a great quote!",
 );
