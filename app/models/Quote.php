@@ -251,7 +251,11 @@ class Quote extends Eloquent {
 
 	public function scopeRandom($query)
 	{
-		return $query->orderBy(DB::raw('RAND()'));
+		// Here we use a constant in the MySQL RAND function
+		// so that quotes will be always be in the same "order"
+		// even if they are not ordered
+		// ref: http://dev.mysql.com/doc/refman/5.0/en/mathematical-functions.html#function_rand
+		return $query->orderBy(DB::raw('RAND(42)'));
 	}
 
 	public function isPublished()
