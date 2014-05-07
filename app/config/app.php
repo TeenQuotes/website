@@ -202,4 +202,6 @@ return array(
 	'users.avatarPath'               => 'uploads/avatar',
 
 	'quotes.nbQuotesToPublishPerDay' => 5,
+
+	'newsletters.nbQuotesToSendWeekly' => 10,
 );
