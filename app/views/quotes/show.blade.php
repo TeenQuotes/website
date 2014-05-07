@@ -31,10 +31,10 @@ $i = $quote->id % count($colors);
 	@else
 		{{ Lang::get('auth.mustBeLoggedToAddcooment') }}
 		<div class="row" id="require-log-buttons">
-			<div class="text-center col-xs-6">
+			<div class="text-center col-sm-6">
 				<a href="{{URL::route('signin')}}" class="transition btn btn-warning btn-lg">{{Lang::get('auth.iHaveAnAccount')}}</a>
 			</div>
-			<div class="text-center col-xs-6">
+			<div class="text-center col-sm-6">
 				<a href="{{URL::route('signup')}}" class="transition btn btn-success btn-lg">{{Lang::get('auth.wantsAnAccount')}}</a>
 			</div>
 		</div>

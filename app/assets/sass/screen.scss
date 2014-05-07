@@ -544,6 +544,12 @@ body {
 
 #require-log-buttons {
 	margin: 30px -15px;
+
+	.col-sm-6:first-child {
+		@media screen and (max-width: 768px) {
+			margin-bottom: 30px;
+		}
+	}
 }
 
 #editprofile-page {
