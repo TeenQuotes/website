@@ -2,3 +2,5 @@
 30 12 * * * root cd /var/www/website;php artisan birthday:send
 0 12 * * * root cd /var/www/website;php artisan newsletter:send daily
 15 12 * * 1 root cd /var/www/website;php artisan newsletter:send weekly
+15 12 25 12 * root cd /var/www/website;php artisan emailevent:send christmas
+15 12 1 1 * root cd /var/www/website;php artisan emailevent:send newyear
