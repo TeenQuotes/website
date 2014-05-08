@@ -1,3 +1,3 @@
-@include('emails/header')
+@include('emails.layout.header')
 	@yield('content')
-@include('emails/footer')
+@include('emails.layout.footer')
