@@ -1,0 +1,4 @@
+0 11 * * * root cd /var/www/website;php artisan quotes:publish
+30 12 * * * root cd /var/www/website;php artisan birthday:send
+0 12 * * * root cd /var/www/website;php artisan newsletter:send daily
+15 12 * * 1 root cd /var/www/website;php artisan newsletter:send weekly
