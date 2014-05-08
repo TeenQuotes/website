@@ -6,9 +6,9 @@ class NewslettersTableSeeder extends Seeder {
 	public function run()
 	{
 		$this->command->info('Deleting existing Newsletter table ...');
-		DB::statement('SET FOREIGN_KEY_CHECKS = 0'); 
+		DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 		Newsletter::truncate();
-		DB::statement('SET FOREIGN_KEY_CHECKS = 1'); 
+		DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
 		Eloquent::unguard();
 		$faker = Faker::create();
@@ -19,7 +19,6 @@ class NewslettersTableSeeder extends Seeder {
 			Newsletter::create([
 				'user_id' => $faker->randomNumber(1, 100),
 				'type' => $faker->randomElement(array('weekly', 'daily')),
-				'unsubscribe_code' => $faker->bothify('##??##???#'),
 			]);
 		}
 	}

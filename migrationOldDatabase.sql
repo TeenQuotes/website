@@ -80,8 +80,8 @@ FROM teenquotesold.teen_quotes_favorite;
 
 -- Seed newsletter table
 TRUNCATE newsletters;
-INSERT INTO newsletters (user_id, type, unsubscribe_code)
-SELECT id, 'weekly',  SUBSTRING(pass, -10)
+INSERT INTO newsletters (user_id, type)
+SELECT id, 'weekly'
 FROM teenquotesold.teen_quotes_account;
 
 -- Seed stories table

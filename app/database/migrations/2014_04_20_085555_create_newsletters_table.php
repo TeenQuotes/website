@@ -20,7 +20,6 @@ class CreateNewslettersTable extends Migration {
 			$table->integer('user_id')->unsigned()->index();
 			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 			$table->enum('type', array('weekly', 'daily'))->default('weekly');
-			$table->string('unsubscribe_code', 10);
 			$table->timestamps();
 		});
 	}
