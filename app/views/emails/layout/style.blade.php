@@ -46,6 +46,26 @@
 		width: 20px;
 	}
 
+	#container #body-content .quote {
+		background-color: #27AE60;
+		color: #FFFFFF;
+		padding: 10px 10px 15px 10px;
+		margin: 25px 15px 25px 15px;
+	}
+
+	#container #body-content .quote .info {
+		margin-top: 10px;
+	}
+
+	#container #body-content .quote .info .author {
+		float: right;
+	}
+
+	#container #body-content .quote .info a {
+		color: #FFFFFF;
+		text-decoration: underline;
+	}
+
 	#footer-disclaimer {
 		font-size: 90%;
 	}
