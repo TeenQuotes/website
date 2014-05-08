@@ -56,6 +56,7 @@ class SendNewsletterCommand extends Command {
 			$quotes = Quote::published()
 						->updatedToday()
 						->random()
+						->with('user')
 						->take($nbQuotes)
 						->get();
 		}
