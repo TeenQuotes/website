@@ -71,7 +71,7 @@
 		width: 128px;
 		display: block;
 		float: right;
-		margin-left: 20px;
+		margin: 15px 10px 20px 20px;
 	}
 
 	#footer-disclaimer {
