@@ -52,26 +52,38 @@ class SendNewsletterCommand extends Command {
 						->take($nbQuotes)
 						->get();
 		}
+		else {
+			$quotes = Quote::published()
+						->updatedToday()
+						->random()
+						->take($nbQuotes)
+						->get();
+		}
 		$quotesArray = $quotes->toArray();
 
-		// Get users that are subscribed to the newsletter
-		$rowNewsletters = Newsletter::whereType($type)->with('user')->get();
-		$rowNewsletters->each(function($newsletter) use($quotesArray, $type)
-		{
-			// Log this info
-			$this->info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
-			Log::info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
+		// Send the newsletter only if we have
+		// at least 1 quote
+		if (count($quotesArray) > 0) {
 
-			$data = array();
-			$data['newsletter'] = $newsletter->toArray();
-			$data['quotes']     = $quotesArray;
-
-			// Send the email to the user
-			Mail::send('emails.newsletters.'.$type, $data, function($m) use($newsletter, $type)
+			// Get users that are subscribed to the newsletter
+			$rowNewsletters = Newsletter::whereType($type)->with('user')->get();
+			$rowNewsletters->each(function($newsletter) use($quotesArray, $type)
 			{
-				$m->to($newsletter->user->email, $newsletter->user->login)->subject(Lang::get('newsletters.'.$type.'SubjectEmail'));
+				// Log this info
+				$this->info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
+				Log::info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
+
+				$data = array();
+				$data['newsletter'] = $newsletter->toArray();
+				$data['quotes']     = $quotesArray;
+
+				// Send the email to the user
+				Mail::send('emails.newsletters.'.$type, $data, function($m) use($newsletter, $type)
+				{
+					$m->to($newsletter->user->email, $newsletter->user->login)->subject(Lang::get('newsletters.'.$type.'SubjectEmail'));
+				});
 			});
-		});
+		}
 	}
 
 	/**

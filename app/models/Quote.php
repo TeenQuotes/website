@@ -214,6 +214,11 @@ class Quote extends Eloquent {
 		return $query->whereBetween('created_at', array(Carbon::today(), Carbon::today()->addDay()));
 	}
 
+	public function scopeUpdatedToday($query)
+	{
+		return $query->whereBetween('updated_at', array(Carbon::today(), Carbon::today()->addDay()));
+	}
+
 	public function scopeWaiting($query)
 	{
 		return $query->where('approved', '=', '0');
