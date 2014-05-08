@@ -311,8 +311,7 @@ class UsersController extends \BaseController {
 		$user->save();
 
 		// Update daily / weekly newsletters
-		$newslettersTypes = ['daily', 'weekly'];
-		foreach ($newslettersTypes as $newsletterType)
+		foreach (['daily', 'weekly'] as $newsletterType)
 		{
 			// The user wants the newsletter
 			if ($data[$newsletterType.'_newsletter']) {
