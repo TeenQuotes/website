@@ -66,6 +66,14 @@
 		text-decoration: underline;
 	}
 
+	#container #body-content #img-birthday {
+		width: 128px;
+		width: 128px;
+		display: block;
+		float: right;
+		margin-left: 20px;
+	}
+
 	#footer-disclaimer {
 		font-size: 90%;
 	}
