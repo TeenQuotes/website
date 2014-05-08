@@ -6,5 +6,5 @@ return array(
 	'dailySubjectEmail'        => 'The daily newsletter',
 	'someQuotesPublishedToday' => "Here are some quotes that have been published today on ".Lang::get('layout.nameWebsite').":",
 	'otherQuotesToRead'        => "Some other quotes have been published today but if you want to read more awesome quotes there is only a place to do that, and it's called ".Lang::get('layout.nameWebsite')."!<br/><br/>
-	Have a nice day :login!",
+	Have a nice day :login! :)",
 );
