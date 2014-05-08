@@ -63,8 +63,7 @@ class SendBirthdayCommand extends Command {
 	 */
 	protected function getArguments()
 	{
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -74,7 +73,6 @@ class SendBirthdayCommand extends Command {
 	 */
 	protected function getOptions()
 	{
-		return array(
-		);
+		return array();
 	}
 }

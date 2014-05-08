@@ -117,8 +117,7 @@ class QuotesPublishCommand extends Command {
 	 */
 	protected function getOptions()
 	{
-		return array(
-		);
+		return array();
 	}
 
 }

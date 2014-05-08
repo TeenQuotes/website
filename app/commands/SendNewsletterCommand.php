@@ -107,7 +107,6 @@ class SendNewsletterCommand extends Command {
 	 */
 	protected function getOptions()
 	{
-		return array(
-		);
+		return array();
 	}
 }
