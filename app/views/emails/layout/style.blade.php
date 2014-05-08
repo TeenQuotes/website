@@ -66,7 +66,7 @@
 		text-decoration: underline;
 	}
 
-	#container #body-content #img-birthday {
+	#container #body-content #img-event {
 		width: 128px;
 		width: 128px;
 		display: block;
