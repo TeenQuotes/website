@@ -12,6 +12,4 @@
 @stop
 
 <!-- Link to edit email settings -->
-@section('add-footer')
-	{{ Lang::get('email.manageEmailSettings', array('url' => URL::route('users.edit', array($newsletter['user']['login']))))}}
-@stop
+@include('emails.newsletters.editSettings')
