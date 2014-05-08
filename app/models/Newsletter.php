@@ -22,15 +22,6 @@ class Newsletter extends Eloquent {
 	}
 
 	/**
-	 * @brief Generate an unsubscribe code for a newsletter
-	 * @return string The unsubscribe code
-	 */
-	public static function generateUnsubscribeCode()
-	{
-		return Str::random(10);
-	}
-
-	/**
 	 * @brief Create a newsletter item for the given user
 	 * @var object $user The user instance
      * @var string $type The type of the newsletter : weekly|daily
@@ -46,7 +37,6 @@ class Newsletter extends Eloquent {
 
 		$newsletter                   = new Newsletter;
 		$newsletter->type             = $type;
-		$newsletter->unsubscribe_code = self::generateUnsubscribeCode();
 		$newsletter->user_id          = $user->id;
 		$newsletter->save();
 	}
