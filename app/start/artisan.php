@@ -11,4 +11,4 @@
 |
 */
 Artisan::add(new QuotesPublishCommand);
-Artisan::add(new WeeklyNewsletterCommand);
+Artisan::add(new SendNewsletterCommand);

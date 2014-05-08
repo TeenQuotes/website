@@ -200,9 +200,11 @@ return array(
 	|
 	*/
 
-	'users.avatarPath'               => 'uploads/avatar',
+	'users.avatarPath'                 => 'uploads/avatar',
 
-	'quotes.nbQuotesToPublishPerDay' => 5,
+	'quotes.nbQuotesToPublishPerDay'   => 5,
 
 	'newsletters.nbQuotesToSendWeekly' => 10,
+
+	'newsletters.nbQuotesToSendDaily'  => 2,
 );
