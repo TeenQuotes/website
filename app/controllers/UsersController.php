@@ -205,6 +205,7 @@ class UsersController extends \BaseController {
 				'pageTitle'        => Lang::get('users.editPageTitle'),
 				'pageDescription'  => Lang::get('users.editPageDescription'),
 				'weeklyNewsletter' => $user->isSubscribedToNewsletter('weekly'),
+				'dailyNewsletter' => $user->isSubscribedToNewsletter('daily'),
 			];
 
 			return View::make('users.edit', $data);
@@ -298,6 +299,7 @@ class UsersController extends \BaseController {
 			'notification_comment_quote' => Input::has('notification_comment_quote') ? filter_var(Input::get('notification_comment_quote'), FILTER_VALIDATE_BOOLEAN) : false,
 			'hide_profile'               => Input::has('hide_profile') ? filter_var(Input::get('hide_profile'), FILTER_VALIDATE_BOOLEAN) : false,
 			'weekly_newsletter'          => Input::has('weekly_newsletter') ? filter_var(Input::get('weekly_newsletter'), FILTER_VALIDATE_BOOLEAN) : false,
+			'daily_newsletter'          => Input::has('daily_newsletter') ? filter_var(Input::get('daily_newsletter'), FILTER_VALIDATE_BOOLEAN) : false,
 		];
 
 		// Change values for the users table
@@ -308,21 +310,26 @@ class UsersController extends \BaseController {
 		$user->hide_profile               = $data['hide_profile'];
 		$user->save();
 
-		// The user wants the weekly newsletter
-		if ($data['weekly_newsletter']) {
-			// He was NOT already subscribed, store this in storage
-			if (!$user->isSubscribedToNewsletter('weekly'))
-				Newsletter::createNewsletterForUser($user, 'weekly');
+		// Update daily / weekly newsletters
+		$newslettersTypes = ['daily', 'weekly'];
+		foreach ($newslettersTypes as $newsletterType)
+		{
+			// The user wants the newsletter
+			if ($data[$newsletterType.'_newsletter']) {
+				// He was NOT already subscribed, store this in storage
+				if (!$user->isSubscribedToNewsletter($newsletterType))
+					Newsletter::createNewsletterForUser($user, $newsletterType);
 
-			// He was already subscribed, do nothing
-		}
-		// The user doesn't want the newsletter
-		else {
-			// He was subscribed, delete this from storage
-			if ($user->isSubscribedToNewsletter('weekly'))
-				Newsletter::forUser($user)->type('weekly')->delete();
+				// He was already subscribed, do nothing
+			}
+			// The user doesn't want the newsletter
+			else {
+				// He was subscribed, delete this from storage
+				if ($user->isSubscribedToNewsletter($newsletterType))
+					Newsletter::forUser($user)->type($newsletterType)->delete();
 
-			// He was not subscribed, do nothing
+				// He was not subscribed, do nothing
+			}
 		}
 
 		return Redirect::back()->with('success', Lang::get('users.updateSettingsSuccessfull', array('login' => $user->login)));

@@ -30,6 +30,7 @@ return array(
 	'notificationCommentQuoteInput' => 'Receive an email when a comment is added on one of my quotes',
 	'hideProfileInput'              => 'Hide my profile',
 	'weeklyNewsletterInput'         => 'Receive a weekly email with some quotes',
+	'dailyNewsletterInput'         => 'Receive a daily email with some published quotes',
 	'editSettingsTitle'             => 'Edit my settings',
 	'editSettingsCatchphrase'       => "There is nothing permanent except change. Just below you'll find everything you want to suit your needs.",
 	'editSettingsSubmit'            => 'Edit my settings!',

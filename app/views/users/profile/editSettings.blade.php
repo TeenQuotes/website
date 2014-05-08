@@ -27,16 +27,18 @@
 	</div>
 </div>
 
-<!-- Weekly newsletter -->
-<div class="form-group">
-	<div class="col-xs-10 col-xs-offset-2">
-		{{ Form::checkbox('weekly_newsletter', "true", $weeklyNewsletter, array('id' => 'weekly_newsletter')) }}
-		{{ Form::label('weekly_newsletter', Lang::get('users.weeklyNewsletterInput'), array('id' => 'weekly_newsletter')) }}
-		@if (!empty($errors->first('weekly_newsletter')))
-			{{ TextTools::warningTextForm($errors->first('weekly_newsletter')) }}
-		@endif
+<!-- daily and weekly newsletter -->
+@foreach (['daily', 'weekly'] as $newsletterType)
+	<div class="form-group">
+		<div class="col-xs-10 col-xs-offset-2">
+			{{ Form::checkbox($newsletterType.'_newsletter', "true", ${$newsletterType."Newsletter"}, array('id' => $newsletterType.'_newsletter')) }}
+			{{ Form::label($newsletterType.'_newsletter', Lang::get('users.'.$newsletterType.'NewsletterInput'), array('id' => $newsletterType.'_newsletter')) }}
+			@if (!empty($errors->first($newsletterType.'_newsletter')))
+				{{ TextTools::warningTextForm($errors->first($newsletterType.'_newsletter')) }}
+			@endif
+		</div>
 	</div>
-</div>
+@endforeach
 
 <!-- Submit -->
 <div class="form-group">
