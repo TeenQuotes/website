@@ -41,7 +41,7 @@ class EmailSpecialEventCommand extends Command {
 		if (is_null($event) OR !in_array($event, ['christmas', 'newyear']))
 			$this->error('Wrong type of event!');
 
-		$users = User::all()->get();
+		$users = User::get();
 		$users->each(function($user) use($event)
 		{
 			// Log this info
