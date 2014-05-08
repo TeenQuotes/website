@@ -6,9 +6,9 @@ return array(
 	// TODO: change URL
 	'URLLogo'             => 'http://dev.teen-quotes.com/assets/images/logo.png',
 	// TODO: change URL
-	'iconWebsite'         => 'http://teen-quotes.com/mail/site_web.png',
+	'iconWebsite'         => 'http://dev.teen-quotes.com/assets/images/emails/website.png',
 	// TODO: change URL
-	'iconApp'             => 'http://teen-quotes.com/mail/app.png',
+	'iconApp'             => 'http://dev.teen-quotes.com/assets/images/emails/app.png',
 	// TODO: change URL
-	'iconTwitter'         => 'http://teen-quotes.com/mail/twitter.png',
+	'iconTwitter'         => 'http://dev.teen-quotes.com/assets/images/emails/twitter.png',
 );
