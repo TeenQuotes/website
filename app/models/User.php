@@ -158,6 +158,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     	}
     }
 
+    public function scopeBirthdayToday($query)
+    {
+    	return $query->where(DB::raw("DATE_FORMAT(birthdate,'%m-%d')"), '=', DB::raw("DATE_FORMAT(NOW(),'%m-%d')"));
+    }
+
     /**
      * Tells if the user is subscribed to the daily or the weekly newsletter
      * @var string $type The type of the newsletter : weekly|daily
