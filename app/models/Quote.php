@@ -263,6 +263,28 @@ class Quote extends Eloquent {
 		return $query->orderBy(DB::raw('RAND(42)'));
 	}
 
+	/**
+	 * @brief Function to search for quotes
+	 *
+	 * @param  string $search
+	 * @return Collection Collection of Quote
+	 */
+	public static function searchQuotes($search)
+	{
+		return Quote::
+		select('id', 'content', 'user_id', 'approved', 'created_at', 'updated_at', DB::raw("MATCH(content) AGAINST(?) AS `rank`"))
+		// $search will NOT be bind here
+		// it will be bind when calling setBindings
+		->whereRaw("MATCH(content) AGAINST(?)", array($search))
+		->where('approved', '=', '1')
+		->orderBy('rank', 'DESC')
+		->with('user')
+		// WARNING 1 corresponds to approved = 1
+		// We need to bind it again
+		->setBindings([$search, $search, '1'])
+		->get();
+	}
+
 	public function isPublished()
 	{
 		return ($this->approved == 1);
