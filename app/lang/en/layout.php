@@ -7,6 +7,7 @@ return array (
 	"randomQuotes"           => "Random quotes",
 	"addQuote"               => "Add your quote",
 	"apps"                   => "Apps",
+	"search"                 => "Search",
 	"byAuthor"               => "by",
 	"twitterUsername"        => '@ohteenquotes',
 	"domain"                 => 'teen-quotes.com',

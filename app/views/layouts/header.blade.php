@@ -59,9 +59,9 @@
 							<a href="{{URL::route('addquote')}}"><i class="fa fa-comment"></i>{{ Lang::get('layout.addQuote') }}</a>
 						</li>
 
-						<!-- APPS -->
+						<!-- SEARCH -->
 						<li>
-							<a href="/"><i class="fa fa-mobile fa-lg"></i>{{ Lang::get('layout.apps') }}</a>
+							<a href="{{ URL::route('search.form')}}"><i class="fa fa-search"></i>{{ Lang::get('layout.search') }}</a>
 						</li>
 					</ul>
 
