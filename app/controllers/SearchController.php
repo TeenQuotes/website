@@ -32,7 +32,7 @@ class SearchController extends \BaseController {
 		$quotes = Quote::searchQuotes($query);
 
 		if (str_word_count($query) == 1)
-			$users = User::partialLogin($query)->with('countryObject')->get();
+			$users = User::partialLogin($query)->notHidden()->with('countryObject')->get();
 		else
 			$users = null;
 
