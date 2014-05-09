@@ -163,6 +163,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     	return $query->where(DB::raw("DATE_FORMAT(birthdate,'%m-%d')"), '=', DB::raw("DATE_FORMAT(NOW(),'%m-%d')"));
     }
 
+    public function scopePartialLogin($query, $login)
+    {
+    	return $query->whereRaw('login LIKE ?', ["%$login%"])->orderBy('login', 'ASC');
+    }
+
     /**
      * Tells if the user is subscribed to the daily or the weekly newsletter
      * @var string $type The type of the newsletter : weekly|daily
