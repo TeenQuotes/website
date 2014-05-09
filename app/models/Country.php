@@ -6,4 +6,9 @@ class Country extends \Eloquent {
 	protected $fillable = ['name'];
 
 	public static $idUSA = 224;
+
+	public function users()
+	{
+		return $this->hasMany('User', 'country', 'id');
+	}
 }

@@ -82,6 +82,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->hasMany('Comment');
 	}
 
+	public function countryObject()
+	{
+		return $this->belongsTo('Country', 'country', 'id');
+	}
+
 	public function newsletters()
 	{
 		return $this->hasMany('Newsletter');
@@ -176,6 +181,15 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function isSubscribedToNewsletter($type)
     {
     	return (Newsletter::forUser($this)->type($type)->count() > 0);
+    }
+
+    /**
+     * @brief Get the name of the icon to display based on the gender of the user
+     * @return string The name of the icon to display : fa-male | fa-female
+     */
+    public function getIconGender()
+    {
+    	return ($this->gender == 'M') ? 'fa-male' : 'fa-female';
     }
 
 	/**
