@@ -7,4 +7,8 @@ return array(
 	'formPageTitle'          => 'Search form | '.Lang::get('layout.nameWebsite'),
 	'formPageDescription'    => 'Do a search and find quotes, users and more on '.Lang::get('layout.nameWebsite').'.',
 	'noResultsAtAll'         => "Oops, we found nothing! Try something else maybe :)",
+	'quotesResult'           => 'Quotes',
+	'usersResult'            => 'Users',
+	'result'                 => 'result|results',
+	'showingTopResults'      => 'Showing the top :nb results',
 );

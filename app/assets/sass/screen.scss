@@ -8,7 +8,9 @@ $orange:#ff7518;
 $green:#2ecc71;
 $topbarColor:#22313F;
 $lightGray:#ecf0f1;
+$veryLightGray:#f9f9f9;
 $blueGray:#39556e;
+$pink:#f17288;
 
 @mixin background-image-retina($file, $type, $width, $height) {
   background-image: url($file + '.' + $type);
@@ -230,6 +232,98 @@ body {
 		> i.fa {
 			margin-right: 15px;
 		}
+	}
+
+	h2 {
+		margin-bottom: 1em;
+		color: $red;
+
+		> i.fa {
+			margin-right: 15px;
+			color: black;
+		}
+
+		span.count {
+			float: right;
+			color: $green;
+			font-size: .7em;
+			vertical-align: middle;
+		}
+
+	}
+
+	h2#users {
+		color: $lightBlue;
+
+		&.margin {
+			margin-top: 2.5em;
+		}
+	}
+
+	.quote {
+		margin-bottom: 10px;
+	}
+
+	.user-row {
+		background: $veryLightGray;
+		padding: 15px 15px 10px 15px;
+		margin-bottom: 10px;
+		border-bottom: 2px solid darken($veryLightGray, 10%);
+
+		.column {
+			float:none;
+	    	display:inline-block;
+	    	vertical-align:middle;
+	    	margin-right:-4px;
+
+			.avatar {
+				max-height: 100px;
+			}
+
+			a {
+				color: $orange;
+				background: transparent;
+				padding: 2px 4px;
+				font-size: 1.3em;
+				font-family: 'Belgrano', serif;
+				font-weight: 400;
+
+				@include element-transition;
+
+				&:hover {
+					color: $lightBlue;
+					background: white;
+					text-decoration: none;
+				}
+
+				i.fa {
+					margin-right: 10px;
+					vertical-align: middle;
+
+					&.fa-female {
+						color: $pink;
+					}
+
+					&.fa-male {
+						color: $lightBlue;
+					}
+				}
+			}
+
+			.country {
+				font-family: 'Belgrano', serif;
+				color: $red;
+				float: right;
+				font-size: 1.3em;
+			}
+
+			.about-me {
+				text-align: justify;
+				margin: 10px auto 0 auto;
+				padding-left: 30px;
+			}
+		}
+
 	}
 }
 

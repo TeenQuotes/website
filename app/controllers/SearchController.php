@@ -32,7 +32,7 @@ class SearchController extends \BaseController {
 		$quotes = Quote::searchQuotes($query);
 
 		if (str_word_count($query) == 1)
-			$users = User::partialLogin($query)->get();
+			$users = User::partialLogin($query)->with('countryObject')->get();
 		else
 			$users = null;
 
@@ -41,11 +41,15 @@ class SearchController extends \BaseController {
 			return Redirect::route('search.form')->with('warning', Lang::get('search.noResultsAtAll'));
 
 		$data = [
-			'quotes'          => $quotes,
-			'colors'          => Quote::getRandomColors(),
-			'pageTitle'       => Lang::get('search.resultsPageTitle'),
-			'pageDescription' => Lang::get('search.resultsPageDescription'),
+			'quotes'                 => $quotes,
+			'users'                  => $users,
+			'maxNbResultPerCategory' => QuotesController::$nbQuotesPerPage,
+			'colors'                 => Quote::getRandomColors(),
+			'pageTitle'              => Lang::get('search.resultsPageTitle'),
+			'pageDescription'        => Lang::get('search.resultsPageDescription'),
 		];
+
+		// return $users;
 
 		return View::make('search.results', $data);
 	}

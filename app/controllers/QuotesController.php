@@ -7,7 +7,7 @@ class QuotesController extends \BaseController {
 		$this->beforeFilter('auth', array('on' => 'store'));
 	}
 
-	protected static $nbQuotesPerPage = 10;
+	public static $nbQuotesPerPage = 10;
 
 	/**
 	 * Display a bunch of quotes
