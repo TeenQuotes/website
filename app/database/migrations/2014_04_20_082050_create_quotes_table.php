@@ -23,6 +23,8 @@ class CreateQuotesTable extends Migration {
 			$table->tinyInteger('approved')->default(0);
 			$table->timestamps();
 		});
+
+		DB::statement('ALTER TABLE quotes ADD FULLTEXT search(content)');
 	}
 
 
@@ -33,6 +35,9 @@ class CreateQuotesTable extends Migration {
 	 */
 	public function down()
 	{
+		Schema::table('quotes', function($table) {
+            $table->dropIndex('search');
+        });
 		Schema::drop('quotes');
 	}
 
