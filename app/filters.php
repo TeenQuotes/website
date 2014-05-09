@@ -75,6 +75,22 @@ Route::filter('auth.basic', function()
 	return Auth::basic();
 });
 
+Route::filter('search.isValid', function($route)
+{
+	// search.getResults have the query as a parameter
+	// search.dispatcher uses a POST
+	$query = (count($route->parameters()) > 0) ? $route->getParameter('query') : Input::get('search');
+
+	$data = [
+		'search' => $query,
+	];
+
+	$validator = Validator::make($data, ['search' => 'min:3']);
+
+	if ($validator->fails())
+		return Redirect::route('search.form')->withErrors($validator)->withInput(['search' => $query]);
+});
+
 /*
 |--------------------------------------------------------------------------
 | Guest Filter

@@ -23,6 +23,11 @@ Route::get('signin', ['as' => 'signin', 'uses' => 'AuthController@getSignin']);
 Route::get('logout', ['as' => 'logout', 'uses' => 'AuthController@getLogout']);
 Route::post('signin', 'AuthController@postSignin');
 
+/* --- SEARCH --- */
+Route::get('/search', ['as' => 'search.form', 'uses' => 'SearchController@showForm']);
+Route::post('/search', ['as' => 'search.dispatcher', 'uses' => 'SearchController@dispatcher']);
+Route::get('/search/{query}', ['as' => 'search.results', 'uses' => 'SearchController@getResults']);
+
 /* --- USERS --- */
 Route::get("/signup", ["as" => "signup", "before" => "guest", "uses" => "UsersController@getSignup"]);
 Route::get('/users/{user_id}/{fav?}', ['as' => 'users.show', 'uses' => 'UsersController@show']);
@@ -32,7 +37,6 @@ Route::put('/users/{user_id}/settings', ['as' => 'users.settings', 'uses' => 'Us
 Route::resource('users', 'UsersController', ['only' => ['index', 'store', 'edit', 'update']]);
 
 /* --- PASSWORD REMINDER --- */
-// Adding this route just to have a named route to the password reminder page
 Route::get('/password/remind', ['as' => 'passwordReminder', 'before' => 'guest', 'uses' => 'RemindersController@getRemind']);
 Route::controller('password', 'RemindersController');
 

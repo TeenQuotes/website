@@ -219,6 +219,20 @@ body {
 	}
 }
 
+#search-page {
+	h1 {
+		margin-bottom: 20px;
+
+		span {
+			color: $orange;
+		}
+
+		> i.fa {
+			margin-right: 15px;
+		}
+	}
+}
+
 #addquote-page {
 
 	.addquote-text {
