@@ -4,4 +4,7 @@ return array(
 	'searchSubmit'           => 'Look for this!',
 	'searchInput'            => 'What do you want to search?',
 	'searchInputPlaceholder' => 'A quote, a user...',
+	'formPageTitle'          => 'Search form | '.Lang::get('layout.nameWebsite'),
+	'formPageDescription'    => 'Do a search and find quotes, users and more on '.Lang::get('layout.nameWebsite').'.',
+	'noResultsAtAll'         => "Oops, we found nothing! Try something else maybe :)",
 );

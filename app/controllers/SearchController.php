@@ -13,7 +13,12 @@ class SearchController extends \BaseController {
 	 */
 	public function showForm()
 	{
-		return View::make('search.form');
+		$data = [
+			'pageTitle'       => Lang::get('search.formPageTitle'),
+			'pageDescription' => Lang::get('search.formPageDescription'),
+		];
+
+		return View::make('search.form', $data);
 	}
 
 	/**
@@ -24,7 +29,25 @@ class SearchController extends \BaseController {
 	public function getResults($query)
 	{
 		// filter search.isValid before
-		return Quote::searchQuotes($query);
+		$quotes = Quote::searchQuotes($query);
+
+		if (str_word_count($query) == 1)
+			$users = User::partialLogin($query)->get();
+		else
+			$users = null;
+
+		// Handle no results
+		if ($quotes->count() == 0 AND (is_null($users) OR $users->count() == 0))
+			return Redirect::route('search.form')->with('warning', Lang::get('search.noResultsAtAll'));
+
+		$data = [
+			'quotes'          => $quotes,
+			'colors'          => Quote::getRandomColors(),
+			'pageTitle'       => Lang::get('search.resultsPageTitle'),
+			'pageDescription' => Lang::get('search.resultsPageDescription'),
+		];
+
+		return View::make('search.results', $data);
 	}
 
 	/**
