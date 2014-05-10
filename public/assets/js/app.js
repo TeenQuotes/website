@@ -68,6 +68,15 @@ $(document).ready(function() {
 		}
 	});
 
+	// Search results: scrollTo
+	$("#search-page .content").click(function() {
+		var divName = $(this).attr('data-scroll');
+		$('html, body').animate({
+			scrollTop: $("#" + divName).offset().top - 80
+		}, 1500);
+	});
+
+
 	// Add a comment character's counter
 	$('#content-comment').keyup(function() {
 		var nbCaracters = $(this).val().length;

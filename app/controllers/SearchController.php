@@ -43,6 +43,7 @@ class SearchController extends \BaseController {
 		$data = [
 			'quotes'                 => $quotes,
 			'users'                  => $users,
+			'query'                  => $query,
 			'maxNbResultPerCategory' => QuotesController::$nbQuotesPerPage,
 			'colors'                 => Quote::getRandomColors(),
 			'pageTitle'              => Lang::get('search.resultsPageTitle'),

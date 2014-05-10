@@ -11,4 +11,5 @@ return array(
 	'usersResult'            => 'Users',
 	'result'                 => 'result|results',
 	'showingTopResults'      => 'Showing the top :nb results',
+	'resultForQuery'         => 'Results for <span>“:query”</span>',
 );

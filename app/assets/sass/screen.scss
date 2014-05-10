@@ -252,16 +252,53 @@ body {
 
 	}
 
+	.margin-bottom {
+		height: 80px;
+	}
+
 	h2#users {
 		color: $lightBlue;
-
-		&.margin {
-			margin-top: 2.5em;
-		}
 	}
 
 	.quote {
 		margin-bottom: 10px;
+	}
+
+	#result-info {
+		margin-bottom: 2.5em;
+
+		.col-xs-6 {
+			.content {
+				background: #f9f9f9;
+				color: $lightBlue;
+				padding: 10px 15px;
+				font-size: 1.7em;
+				font-family: 'Belgrano', serif;
+				cursor: pointer;
+
+				@include element-transition;
+
+				i.fa {
+					margin-right: 20px;
+					color: $orange;
+				}
+
+				.count {
+					font-size: .7em;
+					font-style: normal;
+					margin-top: 1em;
+					color: $green;
+					display: block;
+					font-family: 'Open Sans';
+				}
+
+				&:hover {
+					background: $lightBlue;
+					color: white;
+				}
+			}
+
+		}
 	}
 
 	.user-row {
