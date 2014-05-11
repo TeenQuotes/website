@@ -71,11 +71,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 
 	public static $cacheNameForFavorited = 'quotes_favorited_';
+
 	/**
 	 * The name of the key to store in cache. Describes the number of quotes published by a user
 	 * @var array
 	 */
 	public static $cacheNameForNumberQuotesPublished = 'number_quotes_published_';
+
+	/**
+	 * The name of the key to store in cache. Describes the colors used for the published quotes of the user
+	 * @var array
+	 */
+	public static $cacheNameForColorsQuotesPublished = 'colors_quotes_published_';
 
 	public function comments()
 	{
@@ -95,6 +102,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function quotes()
 	{
 		return $this->hasMany('Quote');
+	}
+
+	public function settings()
+	{
+		return $this->hasMany('Setting');
 	}
 
 	public function stories()
@@ -146,6 +158,38 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     	// This is legacy code. This hash method was used in 2005 by Mangos...
     	// I feel a bit old and stupid right now.
     	return sha1(strtoupper($data['login']).':'.strtoupper($data['password']));
+    }
+
+
+    /**
+     * @brief Get the array of colors to use for the published quotes of the user
+     * @return array The array of the hexadecimal colors to use for the user's instance
+     */
+    public function getColorsQuotesPublished()
+    {
+		// If we have something in cache, return it immediately
+		if (Cache::has(self::$cacheNameForColorsQuotesPublished.$this->id))
+			return Cache::get(self::$cacheNameForColorsQuotesPublished.$this->id);
+		else {
+
+			$colorsAvailable = Config::get('app.users.colorsQuotesPublished');
+			$confColor = Setting::
+				where('user_id', '=', $this->id)
+				->where('key', '=', 'colorsQuotesPublished')
+				->first();
+
+			// Set colors to put in cache for the user
+			if (is_null($confColor))
+				$toPut = $colorsAvailable['blue'];
+			else {
+				$toPut = $colorsAvailable[$confColor->value];
+			}
+
+			// Store in cache
+			Cache::forever(self::$cacheNameForColorsQuotesPublished.$this->id, $toPut);
+
+			return $toPut;
+		}
     }
 
     /**
