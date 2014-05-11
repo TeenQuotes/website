@@ -139,6 +139,9 @@ class UsersController extends \BaseController {
 			// FIXME: could be prettier
 			$paginator->setBaseUrl('/users/'.$user->login.'/fav');
 
+			// Colors that will be used for quotes
+			$colors = Quote::getRandomColors();
+
 			// Fix the type of quotes we will display
 			$type = 'favorites';
 		}
@@ -164,13 +167,16 @@ class UsersController extends \BaseController {
 			// Build the associated paginator
 			$paginator = Paginator::make($quotes, $numberQuotesPublishedForUser, self::$nbQuotesPerPage);
 
+			// Colors that will be used for quotes
+			$colors = $user->getColorsQuotesPublished();
+
 			// Fix the type of quotes we will display
 			$type = 'published';
 		}
 
 		$data = [
 			'quotes'          => $quotes,
-			'colors'          => Quote::getRandomColors(true),
+			'colors'          => $colors,
 			'pageTitle'       => Lang::get('users.profilePageTitle', array('login' => $user->login)),
 			'pageDescription' => Lang::get('users.profilePageDescription', array('login' => $user->login)),
 			'paginator'       => $paginator,
@@ -196,16 +202,35 @@ class UsersController extends \BaseController {
 			App::abort(401, 'Refused');
 		else {
 
+			// The color for published quotes
+			$confColor = Setting::
+					where('user_id', '=', $user->id)
+					->where('key', '=', 'colorsQuotesPublished')
+					->first();
+
+			// Set the default color
+			if (is_null($confColor))
+				$selectedColor = 'blue';
+			else
+				$selectedColor = $confColor->value;
+
+			// Create an array like
+			// ['blue' => 'Blue', 'red' => 'Red']
+			$colorsInConf = array_keys(Config::get('app.users.colorsQuotesPublished'));
+			$colorsAvailable = array_combine($colorsInConf, array_map('ucfirst', $colorsInConf));
+
 			$data = [
 				'gender'           => $user->gender,
 				'listCountries'    => Country::lists('name', 'id'),
 				// USA by default if the country is not set
 				'selectedCountry'  => is_null($user->country) ? Country::$idUSA : $user->country,
 				'user'             => $user,
+				'selectedColor'    => $selectedColor,
+				'colorsAvailable'  => $colorsAvailable,
 				'pageTitle'        => Lang::get('users.editPageTitle'),
 				'pageDescription'  => Lang::get('users.editPageDescription'),
 				'weeklyNewsletter' => $user->isSubscribedToNewsletter('weekly'),
-				'dailyNewsletter' => $user->isSubscribedToNewsletter('daily'),
+				'dailyNewsletter'  => $user->isSubscribedToNewsletter('daily'),
 			];
 
 			return View::make('users.edit', $data);
@@ -300,6 +325,7 @@ class UsersController extends \BaseController {
 			'hide_profile'               => Input::has('hide_profile') ? filter_var(Input::get('hide_profile'), FILTER_VALIDATE_BOOLEAN) : false,
 			'weekly_newsletter'          => Input::has('weekly_newsletter') ? filter_var(Input::get('weekly_newsletter'), FILTER_VALIDATE_BOOLEAN) : false,
 			'daily_newsletter'          => Input::has('daily_newsletter') ? filter_var(Input::get('daily_newsletter'), FILTER_VALIDATE_BOOLEAN) : false,
+			'colors' => Input::get('colors'),
 		];
 
 		// Change values for the users table
@@ -329,6 +355,25 @@ class UsersController extends \BaseController {
 
 				// He was not subscribed, do nothing
 			}
+		}
+
+		// Update colors for quotes
+		if (!in_array($data['colors'], array_keys(Config::get('app.users.colorsQuotesPublished'))))
+			return Redirect::back()->with('warning', Lang::get('users.colorNotAllowed'));
+		else {
+
+			// Forget value in cache
+			Cache::forget(User::$cacheNameForColorsQuotesPublished.$user->id);
+
+			// Retrieve setting by the attributes
+			// or instantiate a new instance
+			$colorSetting = Setting::firstOrNew(
+				[
+					'user_id' => $user->id,
+					'key' => 'colorsQuotesPublished'
+				]);
+			$colorSetting->value = $data['colors'];
+			$colorSetting->save();
 		}
 
 		return Redirect::back()->with('success', Lang::get('users.updateSettingsSuccessfull', array('login' => $user->login)));

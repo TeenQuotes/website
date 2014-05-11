@@ -5,6 +5,18 @@
 	{{ Lang::get('users.editSettingsCatchphrase') }}
 </div>
 
+<!-- Colors for published quotes -->
+<div class="form-group">
+	{{ Form::label('colors', Lang::get('users.colorsInput'), array('class' => 'col-sm-2 control-label')) }}
+
+	<div class="col-sm-10">
+		{{ Form::select('colors', $colorsAvailable, $selectedColor, array('class' => 'form-control')) }}
+		@if (!empty($errors->first('colors')))
+			{{ TextTools::warningTextForm($errors->first('colors')) }}
+		@endif
+	</div>
+</div>
+
 <!-- Notification comment quote -->
 <div class="form-group">
 	<div class="col-xs-10 col-xs-offset-2">
@@ -27,7 +39,7 @@
 	</div>
 </div>
 
-<!-- daily and weekly newsletter -->
+<!-- Daily and weekly newsletter -->
 @foreach (['daily', 'weekly'] as $newsletterType)
 	<div class="form-group">
 		<div class="col-xs-10 col-xs-offset-2">
