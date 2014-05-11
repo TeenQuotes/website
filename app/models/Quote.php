@@ -27,14 +27,6 @@ class Quote extends Eloquent {
 	];
 
 	/**
-	 * The colors that will be used for quotes on the profile page
-	 * @var array
-	 */
-	public static $colorsProfile = [
-		'#5C97BF', '#2574A9', '#3A539B', '#1E8BC3', '#19B5FE', '#89C4F4', '#3498DB', '#52B3D9'
-	];
-
-	/**
 	 * @brief The name of the key to store in cache. Describes the number of comments for a given quote.
 	 * @var string
 	 */
@@ -64,31 +56,17 @@ class Quote extends Eloquent {
 	 */
 	public static $cacheNameNumberPublished = 'nb_quotes_published';
 
-	public static function getRandomColors($profile = false)
+	public static function getRandomColors()
 	{
-		if (!$profile) {
-			if (Session::has('quotesColors') AND !empty(Session::get('quotesColors')))
-				return Session::get('quotesColors');
-			else {
-				$colors = self::$colors;
-				shuffle($colors);
-
-				Session::put('quotesColors', $colors);
-
-				return $colors;
-			}
-		}
+		if (Session::has('quotesColors') AND !empty(Session::get('quotesColors')))
+			return Session::get('quotesColors');
 		else {
-			if (Session::has('quotesColorsProfile') AND !empty(Session::get('quotesColorsProfile')))
-				return Session::get('quotesColorsProfile');
-			else {
-				$colors = self::$colorsProfile;
-				shuffle($colors);
+			$colors = self::$colors;
+			shuffle($colors);
 
-				Session::put('quotesColorsProfile', $colors);
+			Session::put('quotesColors', $colors);
 
-				return $colors;
-			}
+			return $colors;
 		}
 	}
 
