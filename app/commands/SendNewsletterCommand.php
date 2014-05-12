@@ -3,8 +3,11 @@
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Indatus\Dispatcher\Scheduling\ScheduledCommand;
+use Indatus\Dispatcher\Scheduling\Schedulable;
+use Indatus\Dispatcher\Drivers\Cron\Scheduler;
 
-class SendNewsletterCommand extends Command {
+class SendNewsletterCommand extends ScheduledCommand {
 
 	/**
 	 * The console command name.
@@ -28,6 +31,39 @@ class SendNewsletterCommand extends Command {
 	public function __construct()
 	{
 		parent::__construct();
+	}
+
+	/**
+	 * When a command should run
+	 *
+	 * @param Scheduler $scheduler
+	 * @return \Indatus\Dispatcher\Scheduling\Schedulable
+	 */
+	public function schedule(Schedulable $scheduler)
+	{
+		return [
+			$scheduler
+				->args(['daily'])
+				->daily()
+				->hours(12)
+				->minutes(0),
+
+			$scheduler
+				->args(['weekly'])
+				->daysOfTheWeek([
+					Scheduler::MONDAY])
+				->hours(12)
+				->minutes(15),
+		];
+	}
+
+	/**
+	 * Choose the environment(s) where the command should run
+	 * @return array Array of environments' name
+	 */
+	public function environment()
+	{
+		return ['production'];
 	}
 
 	/**
