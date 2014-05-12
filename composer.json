@@ -8,7 +8,8 @@
 		"fitztrev/laravel-html-minify": "dev-master",
 		"nesbot/Carbon": "*",
 		"laracasts/utilities": "1.0",
-		"fedeisas/laravel-mail-css-inliner": "1.*"
+		"fedeisas/laravel-mail-css-inliner": "1.*",
+		"indatus/dispatcher": "dev-master"
 	},
 	"require-dev": {
     	"way/generators": "2.*",
