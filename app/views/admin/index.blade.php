@@ -11,7 +11,7 @@ $nbDays = floor($nbQuotesPending / $nbQuotesPerDay);
 		</div>
 
 		@foreach ($quotes as $quote)
-			@include('quotes.singleQuoteAdmin', compact($quote))
+			@include('quotes.singleQuoteAdmin', compact("quote"))
 		<?php
 		$i = ($i == (count($colors) - 1)) ? 0 : $i + 1;
 		?>

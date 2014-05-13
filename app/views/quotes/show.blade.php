@@ -5,13 +5,13 @@ $i = $quote->id % count($colors);
 
 @section('content')
 	<!-- THE QUOTE -->
-	@include('quotes.singleQuote', compact($quote))
+	@include('quotes.singleQuote', compact("quote"))
 
 	<!-- SHOW COMMENTS -->
 	@if ($quote->has_comments)
 		<h2 id="title-comments"><i class="fa fa-comments"></i><span class="green">{{ Lang::get('comments.comments') }}</span></h2>
 		@foreach ($comments as $comment)
-			@include('comments.singleComment', compact($comment))
+			@include('comments.singleComment', compact("comment"))
 		@endforeach
 	@endif
 
@@ -26,7 +26,7 @@ $i = $quote->id % count($colors);
 
 	<!-- Form to add a comment -->
 	@if (Auth::check())
-		@include('comments.addComment', compact($quote))
+		@include('comments.addComment', compact("quote"))
 	<!-- Call to sign in / sign up -->
 	@else
 		{{ Lang::get('auth.mustBeLoggedToAddcooment') }}
