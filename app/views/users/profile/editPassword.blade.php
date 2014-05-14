@@ -6,7 +6,7 @@
 </div>
 
 <!-- Password -->
-<div class="form-group {{{ $errors->has('password') ? 'error' : '' }}}">
+<div class="form-group">
 	{{ Form::label('password', Lang::get('users.newPasswordInput'), array('class' => 'col-sm-2 control-label')) }}
 
 	<div class="col-sm-10">
@@ -18,7 +18,7 @@
 </div>
 
 <!-- Password confirmation -->
-<div class="form-group {{{ $errors->has('password_confirmation') ? 'error' : '' }}}">
+<div class="form-group">
 	{{ Form::label('password_confirmation', Lang::get('users.passwordConfirmationInput'), array('class' => 'col-sm-2 control-label')) }}
 
 	<div class="col-sm-10">
