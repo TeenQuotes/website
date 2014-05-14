@@ -11,6 +11,7 @@ $lightGray:#ecf0f1;
 $veryLightGray:#f9f9f9;
 $blueGray:#39556e;
 $pink:#f17288;
+$breakpointSmartphone:768px;
 
 @mixin background-image-retina($file, $type, $width, $height) {
   background-image: url($file + '.' + $type);
@@ -56,7 +57,7 @@ body {
 .badge {
 	@include border-radius(0px);
 	background: #95a5a6;
-	@media screen and (max-width: 768px) {
+	@media screen and (max-width: $breakpointSmartphone) {
 		font-size: inherit;
 	}
 }
@@ -135,7 +136,7 @@ body {
 	}
 
 	> .container {
-		@media screen and (min-width: 768px) and (max-width: 992px) {
+		@media screen and (min-width: $breakpointSmartphone) and (max-width: 992px) {
 			padding-right: 0px;
 			padding-left: 0px;
 		}
@@ -481,7 +482,7 @@ body {
 .container.under-navbar {
 	padding-top: 100px;
 
-	@media screen and (max-width: 768px) {
+	@media screen and (max-width: $breakpointSmartphone) {
 		padding-top: 70px;
 	}
 
@@ -518,7 +519,7 @@ body {
 		margin-top: 10px;
 		font-size: 0.9em;
 
-		@media screen and (max-width: 768px) {
+		@media screen and (max-width: $breakpointSmartphone) {
 			font-size: 0.7em;
 		}
 
@@ -547,7 +548,7 @@ body {
 				display: inline-block;
 				text-align: center;
 
-				@media screen and (max-width: 768px) {
+				@media screen and (max-width: $breakpointSmartphone) {
 					width: 18px;
 					height: 18px;
 				}
@@ -565,7 +566,7 @@ body {
 			a:first-child {
 				margin-right: 5px;
 
-				@media screen and (max-width: 768px) {
+				@media screen and (max-width: $breakpointSmartphone) {
 					margin-right: 3px;
 				}
 			}
@@ -577,7 +578,7 @@ body {
 		}
 
 		.favorite-links {
-			@media screen and (max-width: 768px) {
+			@media screen and (max-width: $breakpointSmartphone) {
 				padding: 0 5px;
 			}
 
@@ -632,12 +633,12 @@ body {
 
 	.comment-info {
 		margin-top: 10px;
-		@media screen and (max-width: 768px) {
+		@media screen and (max-width: $breakpointSmartphone) {
 			font-size: 0.9em;
 		}
 
 		.date-comment {
-			@media screen and (max-width: 768px) {
+			@media screen and (max-width: $breakpointSmartphone) {
 				font-size: 0.9em;
 				margin-top: 3px;
 			}
@@ -737,14 +738,14 @@ body {
 		margin: 2em 0 1em 0;
 
 		button {
-			@media screen and (max-width: 768px) {
+			@media screen and (max-width: $breakpointSmartphone) {
 				padding: 5px 5px;
 				font-size: 13px;
 				margin-left: -4px;
 			}
 			i.fa {
 				margin-right: 10px;
-				@media screen and (max-width: 768px) {
+				@media screen and (max-width: $breakpointSmartphone) {
 					margin-right: 0px;
 				}
 
@@ -771,7 +772,7 @@ body {
 	margin: 30px -15px;
 
 	.col-sm-6:first-child {
-		@media screen and (max-width: 768px) {
+		@media screen and (max-width: $breakpointSmartphone) {
 			margin-bottom: 30px;
 		}
 	}
@@ -1028,7 +1029,7 @@ footer {
 	background: $topbarColor;
 	color: lighten($topbarColor, 25%);
 
-	@media screen and (max-width: 768px) {
+	@media screen and (max-width: $breakpointSmartphone) {
 		font-size: .8em;
 	}
 
