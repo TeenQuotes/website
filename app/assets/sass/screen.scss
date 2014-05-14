@@ -672,6 +672,74 @@ body {
 		}
 	}
 
+	#profile-info {
+		h1 {
+			color: $lightBlue;
+			font-family: 'Belgrano', serif;
+			margin-bottom: 1em;
+
+			.country {
+				float: right;
+				color: darken($lightBlue, 20%);
+				font-size: .8em;
+				font-family: 'Open Sans', sans-serif;
+				font-style: italic;
+			}
+		}
+
+		> .row {
+			.about-section {
+				text-align: justify;
+				margin-bottom: 1em;
+			}
+
+			.column {
+				float:none;
+		    	display:inline-block;
+		    	vertical-align:middle;
+		    	margin-right:-4px;
+
+				.avatar {
+					max-height: 100px;
+				}
+
+
+				&:first-child {
+		    		vertical-align:middle;
+				}
+			}
+
+			.stats-counter {
+
+				.col-md-3 {
+					.content {
+						text-align: center;
+						background: $veryLightGray;
+						color: darken($veryLightGray, 40%);
+						padding: 2px 8px;
+						margin: .5em 0;
+
+						.counter {
+							font-size: 1.2em;
+							font-family: 'Belgrano', serif;
+							display: block;
+							margin-bottom: .2em;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	> .btn-group {
+		float: right;
+		margin: 2em 0 1em 0;
+
+		i.fa {
+			margin-right: 10px;
+		}
+	}
+
 	.quote {
 		padding: 15px 15px 10px 15px;
 		color: white;

@@ -174,15 +174,28 @@ class UsersController extends \BaseController {
 			$type = 'published';
 		}
 
+		// IDs of the quotes published by the user
+		$idsQuotesPublished = Quote::forUser($user)->published()->lists('id');
+		if (empty($idsQuotesPublished))
+			$addedFavCount = 0;
+		else
+			$addedFavCount = FavoriteQuote::whereIn('quote_id', $idsQuotesPublished)->count();
+
 		$data = [
-			'quotes'          => $quotes,
-			'colors'          => $colors,
-			'pageTitle'       => Lang::get('users.profilePageTitle', array('login' => $user->login)),
-			'pageDescription' => Lang::get('users.profilePageDescription', array('login' => $user->login)),
-			'paginator'       => $paginator,
+			'quotes'               => $quotes,
+			'user'                 => $user,
+			'colors'               => $colors,
+			'pageTitle'            => Lang::get('users.profilePageTitle', array('login' => $user->login)),
+			'pageDescription'      => Lang::get('users.profilePageDescription', array('login' => $user->login)),
+			'paginator'            => $paginator,
 			// Type of quotes: favorites|published
-			'type'            => $type,
-			'hideAuthor'      => ($type == 'published')
+			'type'                 => $type,
+			'hideAuthor'           => ($type == 'published'),
+			// The following keys are used for translation, do not rename them
+			'commentsCount'        => $user->comments->count(),
+			'addedFavCount'        => $addedFavCount,
+			'quotesPublishedCount' => count($idsQuotesPublished),
+			'favCount'             => FavoriteQuote::forUser($user)->count(),
 		];
 
 		return View::make('users.show', $data);

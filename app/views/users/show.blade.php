@@ -4,6 +4,8 @@
 		<?php $i = 0; ?>
 		@include('users.profile.info')
 
+		@include('users.profile.controls')
+
 		@if ($type == 'favorites')
 			<h2><i class="fa fa-heart"></i> {{ Lang::get('users.favoriteQuotes') }}</h2>
 		@else
