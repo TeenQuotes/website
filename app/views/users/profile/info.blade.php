@@ -3,12 +3,12 @@ $colorsCounter = Quote::getRandomColors();
 ?>
 <div id="profile-info">
 	<!-- Login and country -->
-	<h1>
+	<h2>
 		{{{ $user->login }}}
 		@if (!is_null($user->country))
 			<span class="country">{{{ $user->country_object->name }}}</span>
 		@endif
-	</h1>
+	</h2>
 
 	<div class="row">
 		<!-- Avatar -->
@@ -27,13 +27,15 @@ $colorsCounter = Quote::getRandomColors();
 			<!-- Counters -->
 			<div class="row stats-counter">
 				@foreach (['quotesPublishedCount', 'addedFavCount', 'favCount', 'commentsCount'] as $element)
-					<div class="col-xs-6 col-md-3 text-center">
-						<div class="content">
-							<span class="counter" style="color:<?php echo $colorsCounter[$i]; ?>">{{$$element}}</span>
-							{{Lang::choice('users.'.$element.'Text', $$element) }}
+					@if ($$element > 0)
+						<div class="col-xs-6 col-md-3 text-center">
+							<div class="content">
+								<span class="counter" style="color:<?php echo $colorsCounter[$i]; ?>">{{$$element}}</span>
+								{{Lang::choice('users.'.$element.'Text', $$element) }}
+							</div>
 						</div>
-					</div>
-					<?php $i++ ; ?>
+						<?php $i++ ; ?>
+					@endif
 				@endforeach
 			</div>
 		</div>
