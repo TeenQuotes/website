@@ -1,14 +1,37 @@
 <?php
 $colorsCounter = Quote::getRandomColors();
+if (!is_null($user->birthdate))
+	$carbonBirthdate = new Carbon($user->birthdate);
 ?>
 <div id="profile-info">
-	<!-- Login and country -->
+	<!-- Login -->
 	<h2>
+		<i class="fa {{$user->getIconGender()}}"></i>
 		{{{ $user->login }}}
-		@if (!is_null($user->country))
-			<span class="country">{{{ $user->country_object->name }}}</span>
-		@endif
 	</h2>
+	<!-- City and country -->
+	@if (!is_null($user->country) OR !is_null($user->city) OR !is_null($user->birthdate))
+		<div class="city-country-birthday">
+			<!-- Age -->
+			@if(!is_null($user->birthdate) AND is_null($user->country) AND is_null($user->city))
+				{{ $carbonBirthdate->age.' '.Lang::get('users.yearsOldAbbreviation') }}
+			@elseif (!is_null($user->birthdate) AND (!is_null($user->country) OR !is_null($user->city)))
+				{{ "<span class='birthday'>".$carbonBirthdate->age." ".Lang::get('users.yearsOldAbbreviation')."</span>" }}
+			@endif
+
+			<!-- City -->
+			@if (!is_null($user->city))
+				{{{ $user->city }}}
+			@endif
+			<!-- Country -->
+			@if (!is_null($user->country))
+				@if(!is_null($user->city))
+				 -
+				@endif
+				{{{ $user->country_object->name }}}
+			@endif
+		</div>
+	@endif
 
 	<div class="row">
 		<!-- Avatar -->

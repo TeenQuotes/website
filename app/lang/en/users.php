@@ -45,4 +45,5 @@ return array(
 	'favCountText'                  => 'quote in my favorite|quotes in my favorite',
 	'seePublishedQuotes'            => 'Published quotes',
 	'seeFavoritedQuotes'            => 'Favorite quotes',
+	'yearsOldAbbreviation'          => 'y/o',
 );

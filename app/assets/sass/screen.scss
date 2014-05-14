@@ -679,12 +679,30 @@ body {
 			font-family: 'Belgrano', serif;
 			margin-bottom: 1em;
 
-			.country {
-				float: right;
-				color: darken($lightBlue, 20%);
-				font-size: .8em;
-				font-family: 'Open Sans', sans-serif;
-				font-style: italic;
+			i.fa {
+				margin-right: 10px;
+			}
+
+			i.fa-male {
+				color: darken($lightBlue, 5%);
+			}
+			i.fa-female {
+				color: $pink;
+			}
+
+		}
+
+		.city-country-birthday {
+			text-align: right;
+			color: darken($lightBlue, 20%);
+			font-size: 1.58em;
+			font-family: 'Open Sans', sans-serif;
+			font-style: italic;
+			margin: -0.8em 0 .5em 0;
+
+			.birthday {
+				float: left;
+				color: $green;
 			}
 		}
 
@@ -702,6 +720,7 @@ body {
 
 				.avatar {
 					max-height: 100px;
+					margin: 0 auto;
 				}
 
 
@@ -735,7 +754,7 @@ body {
 	> .btn-group {
 		display: flex;
 		justify-content: space-between;
-		margin: 2em 0 1em 0;
+		margin: 3em 0 2em 0;
 
 		button {
 			@media screen and (max-width: $breakpointSmartphone) {
