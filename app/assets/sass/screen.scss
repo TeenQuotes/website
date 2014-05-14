@@ -736,8 +736,10 @@ body {
 		margin: 2em 0 1em 0;
 
 		button {
-			padding: 5px 10px;
+			padding: 5px 8px;
 			font-size: 13px;
+			margin-left: -4px;
+
 			i.fa {
 				margin-right: 2px;
 			}
