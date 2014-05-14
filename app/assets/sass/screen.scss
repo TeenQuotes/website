@@ -735,8 +735,12 @@ body {
 		float: right;
 		margin: 2em 0 1em 0;
 
-		i.fa {
-			margin-right: 10px;
+		button {
+			padding: 5px 10px;
+			font-size: 13px;
+			i.fa {
+				margin-right: 2px;
+			}
 		}
 	}
 
