@@ -39,4 +39,10 @@ return array(
 	'passwordConfirmationInput'     => 'Confirm your password',
 	'colorsInput'                   => "Your published quotes' color",
 	'colorNotAllowed'               => "You are not allowed to use this color",
+	'commentsCountText'             => 'comment|comments',
+	'addedFavCountText'             => "my quotes in favorite|my quotes in favorite",
+	'quotesPublishedCountText'      => 'published quote|published quotes',
+	'favCountText'                  => 'quote in my favorite|quotes in my favorite',
+	'seePublishedQuotes'            => 'Published quotes',
+	'seeFavoritedQuotes'            => 'Favorite quotes',
 );
