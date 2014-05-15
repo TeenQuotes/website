@@ -72,7 +72,7 @@ class QuotesPublishCommand extends ScheduledCommand {
 		$quotes->each(function($quote)
 		{
 			// Save the quote in storage
-			$quote->approved = 2;
+			$quote->approved = 1;
 			$quote->save();
 
 			$arrayUsers[] = $quote->user;

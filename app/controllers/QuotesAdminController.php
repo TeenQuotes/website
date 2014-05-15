@@ -83,7 +83,7 @@ class QuotesAdminController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		$quote = Quote::find($id);
+		$quote = Quote::waiting()->where('id', '=', $id)->with('user')->first();
 		if (is_null($quote))
 			App::abort(404, "Can't find quote ".$id);
 
@@ -100,10 +100,15 @@ class QuotesAdminController extends \BaseController {
 
 			// Update the quote
 			$quote->content = $data['content'];
-			$quote->approved = 1;
+			$quote->approved = 2;
 			$quote->save();
 
-			// TODO: contact the author of the quote
+			// Contact the author of the quote
+			$quoteArray = array('quote' => $quote->toArray());
+			Mail::send('emails.quotes.approve', $quoteArray, function($m) use($quote)
+			{
+				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('quotes.quoteApproveSubjectEmail'));
+			});
 
 			return Redirect::route('admin.quotes.index')->with('success', Lang::get('The quote has been edited and approved!'));
 		}
@@ -132,7 +137,7 @@ class QuotesAdminController extends \BaseController {
 			if (is_null($quote))
 				throw new InvalidArgumentException("Quote ".$id." is not a waiting quote.");
 
-			$quote->approved = ($type == 'approve') ? 1 : -1;
+			$quote->approved = ($type == 'approve') ? 2 : -1;
 			$quote->save();
 
 			// Contact the author of the quote
