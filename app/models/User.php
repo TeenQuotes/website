@@ -227,6 +227,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     	return $query->whereRaw('login LIKE ?', ["%$login%"])->orderBy('login', 'ASC');
     }
 
+    public function hasPublishedQuotes()
+    {
+    	return Quote::forUser($this)->published()->count() > 0;
+    }
+
+    public function hasFavoriteQuotes()
+    {
+    	return FavoriteQuote::forUser($this)->count() > 0;
+    }
+
     /**
      * Tells if the user is subscribed to the daily or the weekly newsletter
      * @var string $type The type of the newsletter : weekly|daily
