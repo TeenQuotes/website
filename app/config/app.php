@@ -224,4 +224,3 @@ return array(
 
 		'search.maxResultsPerCategory'     => 10,
 );
-#BF55EC
