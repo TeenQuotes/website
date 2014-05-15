@@ -44,7 +44,7 @@ class SearchController extends \BaseController {
 			'quotes'                 => $quotes,
 			'users'                  => $users,
 			'query'                  => $query,
-			'maxNbResultPerCategory' => QuotesController::$nbQuotesPerPage,
+			'maxNbResultPerCategory' => Config::get('app.search.maxResultsPerCategory'),
 			'colors'                 => Quote::getRandomColors(),
 			'pageTitle'              => Lang::get('search.resultsPageTitle'),
 			'pageDescription'        => Lang::get('search.resultsPageDescription'),

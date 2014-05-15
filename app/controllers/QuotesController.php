@@ -7,8 +7,6 @@ class QuotesController extends \BaseController {
 		$this->beforeFilter('auth', array('on' => 'store'));
 	}
 
-	public static $nbQuotesPerPage = 10;
-
 	/**
 	 * Display a bunch of quotes
 	 *
@@ -34,7 +32,7 @@ class QuotesController extends \BaseController {
 				return Quote::published()
 					->with('user')
 					->orderDescending()
-					->paginate(self::$nbQuotesPerPage)
+					->paginate(Config::get('app.quotes.nbQuotesPerPage'))
 					->getItems();
 			});
 		}
@@ -44,7 +42,7 @@ class QuotesController extends \BaseController {
 				return Quote::published()
 					->with('user')
 					->random()
-					->paginate(self::$nbQuotesPerPage)
+					->paginate(Config::get('app.quotes.nbQuotesPerPage'))
 					->getItems();
 			});
 		}
@@ -58,7 +56,7 @@ class QuotesController extends \BaseController {
 			'colors'          => Quote::getRandomColors(),
 			'pageTitle'       => Lang::get('quotes.'.Route::currentRouteName().'PageTitle'),
 			'pageDescription' => Lang::get('quotes.'.Route::currentRouteName().'PageDescription'),
-			'paginator'       => Paginator::make($quotes, $numberQuotesPublished, self::$nbQuotesPerPage),
+			'paginator'       => Paginator::make($quotes, $numberQuotesPublished, Config::get('app.quotes.nbQuotesPerPage')),
 		];
 
 		return View::make('quotes.index', $data);

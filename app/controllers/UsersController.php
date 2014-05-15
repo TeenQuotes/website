@@ -8,8 +8,6 @@ class UsersController extends \BaseController {
 		$this->beforeFilter('auth', array('only' => array('edit', 'update', 'putPassword', 'putSettings')));
 	}
 
-	protected static $nbQuotesPerPage = 5;
-
 	/**
 	 * Displays the signup form
 	 *
@@ -130,12 +128,12 @@ class UsersController extends \BaseController {
 				return Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
 					->with('user')
 					->orderDescending()
-					->paginate(self::$nbQuotesPerPage)
+					->paginate(Config::get('app.users.nbQuotesPerPage'))
 					->getItems();
 			});
 
 			// Build the associated paginator
-			$paginator = Paginator::make($quotes, count($arrayIDFavoritesQuotesForUser), self::$nbQuotesPerPage);
+			$paginator = Paginator::make($quotes, count($arrayIDFavoritesQuotesForUser), Config::get('app.users.nbQuotesPerPage'));
 			// FIXME: could be prettier
 			$paginator->setBaseUrl('/users/'.$user->login.'/fav');
 
@@ -153,7 +151,7 @@ class UsersController extends \BaseController {
 				return Quote::forUser($user)
 					->published()
 					->orderDescending()
-					->paginate(self::$nbQuotesPerPage)
+					->paginate(Config::get('app.users.nbQuotesPerPage'))
 					->getItems();
 			});
 
@@ -165,7 +163,7 @@ class UsersController extends \BaseController {
 			});
 
 			// Build the associated paginator
-			$paginator = Paginator::make($quotes, $numberQuotesPublishedForUser, self::$nbQuotesPerPage);
+			$paginator = Paginator::make($quotes, $numberQuotesPublishedForUser, Config::get('app.users.nbQuotesPerPage'));
 
 			// Colors that will be used for quotes
 			$colors = $user->getColorsQuotesPublished();

@@ -202,20 +202,26 @@ return array(
 	|
 	*/
 
-	'users.avatarPath'                 => 'uploads/avatar',
+		'quotes.nbQuotesToPublishPerDay'   => 5,
 
-	'quotes.nbQuotesToPublishPerDay'   => 5,
+		'quotes.nbQuotesPerPage'           => 10,
 
-	'newsletters.nbQuotesToSendWeekly' => 10,
+		'newsletters.nbQuotesToSendWeekly' => 10,
 
-	'newsletters.nbQuotesToSendDaily'  => 2,
+		'newsletters.nbQuotesToSendDaily'  => 2,
 
-	'users.colorsQuotesPublished' => [
-		'blue'   => ['#5C97BF', '#2574A9', '#3A539B', '#1E8BC3', '#19B5FE', '#89C4F4', '#3498DB', '#52B3D9'],
-		'green'  => ['#26C281', '#26C281', '#3FC380', '#2ECC71', '#4DAF7C', '#03A678', '#00B16A', '#1BBC9B'],
-		'purple' => ['#913D88', '#9A12B3', '#BF55EC', '#BE90D4', '#8E44AD', '#9B59B6'],
-		'red'    => ['#D91E18', '#96281B', '#EF4836', '#D64541', '#F22613', '#E74C3C', '#CF000F'],
-		'orange' => ['#E87E04', '#F2784B', '#F9690E', '#F27935', '#E67E22', '#D35400', '#F39C12', '#F5AB35'],
-	],
+		'users.avatarPath'                 => 'uploads/avatar',
+
+		'users.colorsQuotesPublished'      => [
+		'blue'                             => ['#5C97BF', '#2574A9', '#3A539B', '#1E8BC3', '#19B5FE', '#89C4F4', '#3498DB', '#52B3D9'],
+		'green'                            => ['#26C281', '#26C281', '#3FC380', '#2ECC71', '#4DAF7C', '#03A678', '#00B16A', '#1BBC9B'],
+		'purple'                           => ['#913D88', '#9A12B3', '#BF55EC', '#BE90D4', '#8E44AD', '#9B59B6'],
+		'red'                              => ['#D91E18', '#96281B', '#EF4836', '#D64541', '#F22613', '#E74C3C', '#CF000F'],
+		'orange'                           => ['#E87E04', '#F2784B', '#F9690E', '#F27935', '#E67E22', '#D35400', '#F39C12', '#F5AB35'],
+		],
+
+		'users.nbQuotesPerPage'            => 5,
+
+		'search.maxResultsPerCategory'     => 10,
 );
 #BF55EC

@@ -96,7 +96,7 @@ class QuotesPublishCommand extends ScheduledCommand {
 
 		// We need to forget pages of quotes that are stored in cache
 		// where the published quotes should be displayed
-		$nbPages = ceil($nbQuotes / Quote::$nbQuotesPerPage);
+		$nbPages = ceil($nbQuotes / Config::get('app.quotes.nbQuotesPerPage'));
 		for ($i = 1; $i <= $nbPages; $i++)
 			Cache::forget(Quote::$cacheNameQuotesPage.$i);
 
@@ -115,7 +115,7 @@ class QuotesPublishCommand extends ScheduledCommand {
 					->published()
 					->count();
 			});
-			$nbPagesQuotesPublished = ceil($nbQuotesPublishedForUser / User::$nbQuotesPerPage);
+			$nbPagesQuotesPublished = ceil($nbQuotesPublishedForUser / Config::get('app.users.nbQuotesPerPage'));
 
 			// Forgot every page
 			for($i = 1; $i <= $nbPagesQuotesPublished; $i++)
