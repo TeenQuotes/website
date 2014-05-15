@@ -15,10 +15,10 @@ return array(
 
 	"password" => "Your password must be at least six characters.",
 
-	"user" => "We can't find a user with that e-mail address.",
+	"user"     => "We can't find a user with that e-mail address.",
 
-	"token" => "This password reset token is invalid.",
+	"token"    => "This password reset token is invalid.",
 
-	"sent" => "Password reminder sent! Check your inbox!",
+	"sent"     => "Password reminder sent! Check your inbox!",
 
 );
