@@ -10,4 +10,5 @@ Thumbs.db
 public/assets/css/screen.css
 public/assets/css/ie.css
 public/assets/css/print.css
+public/assets/js/scripts.min.js
 .sass-cache
