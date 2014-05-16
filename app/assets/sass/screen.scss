@@ -1,5 +1,4 @@
 @import "compass/css3";
-@import url(http://fonts.googleapis.com/css?family=Belgrano|Open+Sans:300);
 
 $imagesFolder:"/assets/images/";
 $lightBlue:#2980B9;
@@ -10,7 +9,7 @@ $topbarColor:#22313F;
 $lightGray:#ecf0f1;
 $veryLightGray:#f9f9f9;
 $blueGray:#39556e;
-$pink:#f17288;
+$pink:#f17285;
 $breakpointSmartphone:768px;
 
 @mixin background-image-retina($file, $type, $width, $height) {

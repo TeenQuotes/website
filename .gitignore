@@ -7,5 +7,7 @@ composer.lock
 .env.php
 .DS_Store
 Thumbs.db
-public/assets/css/*.css
+public/assets/css/screen.css
+public/assets/css/ie.css
+public/assets/css/print.css
 .sass-cache
