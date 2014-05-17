@@ -101,9 +101,6 @@ class UsersController extends \BaseController {
 		// Page number for quotes
 		$pageNumber = Input::get('page', 1);
 
-		// Time to store quotes in cache
-		$expiresAt = Carbon::now()->addMinutes(10);
-
 		// Get the user
 		$user = User::where('login', $user_id)->orWhere('id', $user_id)->first();
 
@@ -111,11 +108,10 @@ class UsersController extends \BaseController {
 		if (is_null($user))
 			App::abort(404, 'User not found');
 
-		// TODO: display a special view if the user doesn't want to display his
-		// profile. <=> $user->isHiddenProfile()
+		// Throw an exception if the user has an hidden profile
+		// TODO: handle this error
 		if ($user->isHiddenProfile())
 			throw new HiddenProfileException;
-
 
 		// If the user hasn't favorite but has published quotes, redirect
 		if (!$fav AND !$user->hasPublishedQuotes() AND $user->hasFavoriteQuotes())
@@ -125,63 +121,12 @@ class UsersController extends \BaseController {
 			return Redirect::route('users.show', $user->login);
 
 
-		// ---- We want to display the favorites quotes of the user
-		if ($fav) {
-
-			$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$user->id, $expiresAt, function() use ($user)
-			{
-				return FavoriteQuote::forUser($user)->select('quote_id')->get()->lists('quote_id');
-			});
-
-			// Fetch the quotes
-			$quotes = Cache::remember(User::$cacheNameForFavorited.$user->id.'_'.$pageNumber, $expiresAt, function() use ($user, $arrayIDFavoritesQuotesForUser)
-			{
-				return Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
-					->with('user')
-					->orderDescending()
-					->paginate(Config::get('app.users.nbQuotesPerPage'))
-					->getItems();
-			});
-
-			// Build the associated paginator
-			$paginator = Paginator::make($quotes, count($arrayIDFavoritesQuotesForUser), Config::get('app.users.nbQuotesPerPage'));
-			// FIXME: could be prettier
-			$paginator->setBaseUrl('/users/'.$user->login.'/fav');
-
-			// Colors that will be used for quotes
-			$colors = Quote::getRandomColors();
-
-			// Fix the type of quotes we will display
-			$type = 'favorites';
-		}
-		// ---- We want to display the published quotes of the user
-		else {
-			// Fetch the quotes
-			$quotes = Cache::remember(User::$cacheNameForPublished.$user->id.'_'.$pageNumber, $expiresAt, function() use ($user)
-			{
-				return Quote::forUser($user)
-					->published()
-					->orderDescending()
-					->paginate(Config::get('app.users.nbQuotesPerPage'))
-					->getItems();
-			});
-
-			$numberQuotesPublishedForUser = Cache::remember(User::$cacheNameForNumberQuotesPublished.$user->id, $expiresAt, function() use ($user)
-			{
-				return Quote::forUser($user)
-					->published()
-					->count();
-			});
-
-			// Build the associated paginator
-			$paginator = Paginator::make($quotes, $numberQuotesPublishedForUser, Config::get('app.users.nbQuotesPerPage'));
-
-			// Colors that will be used for quotes
-			$colors = $user->getColorsQuotesPublished();
-
-			// Fix the type of quotes we will display
-			$type = 'published';
-		}
+		// Build the data array
+		// Keys: quotes, paginator, colors, type
+		if ($fav)
+			$data = self::dataShowFavoriteQuotes($user, $pageNumber);
+		else
+			$data = self::dataShowPublishedQuotes($user, $pageNumber);
 
 		// IDs of the quotes published by the user
 		$idsQuotesPublished = Quote::forUser($user)->published()->lists('id');
@@ -190,24 +135,94 @@ class UsersController extends \BaseController {
 		else
 			$addedFavCount = FavoriteQuote::whereIn('quote_id', $idsQuotesPublished)->count();
 
-		$data = [
-			'quotes'               => $quotes,
-			'user'                 => $user,
-			'colors'               => $colors,
-			'pageTitle'            => Lang::get('users.profilePageTitle', array('login' => $user->login)),
-			'pageDescription'      => Lang::get('users.profilePageDescription', array('login' => $user->login)),
-			'paginator'            => $paginator,
-			// Type of quotes: favorites|published
-			'type'                 => $type,
-			'hideAuthor'           => ($type == 'published'),
-			// The following keys are used for translation, do not rename them
-			'commentsCount'        => $user->comments->count(),
-			'addedFavCount'        => $addedFavCount,
-			'quotesPublishedCount' => count($idsQuotesPublished),
-			'favCount'             => FavoriteQuote::forUser($user)->count(),
-		];
+		$data['user']                 = $user;
+		$data['pageTitle']            = Lang::get('users.profilePageTitle', array('login' => $user->login));
+		$data['pageDescription']      = Lang::get('users.profilePageDescription', array('login' => $user->login));
+		$data['hideAuthor']           = ($data['type'] == 'published');
+		$data['commentsCount']        = $user->comments->count();
+		$data['addedFavCount']        = $addedFavCount;
+		$data['quotesPublishedCount'] = count($idsQuotesPublished);
+		$data['favCount']             = FavoriteQuote::forUser($user)->count();
 
 		return View::make('users.show', $data);
+	}
+
+	private static function dataShowFavoriteQuotes(User $user, $pageNumber)
+	{
+		// Time to store quotes in cache
+		$expiresAt = Carbon::now()->addMinutes(10);
+
+		$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$user->id, $expiresAt, function() use ($user)
+		{
+			return FavoriteQuote::forUser($user)->select('quote_id')->get()->lists('quote_id');
+		});
+
+		// Fetch the quotes
+		$quotes = Cache::remember(User::$cacheNameForFavorited.$user->id.'_'.$pageNumber, $expiresAt, function() use ($user, $arrayIDFavoritesQuotesForUser)
+		{
+			return Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
+				->with('user')
+				->orderDescending()
+				->paginate(Config::get('app.users.nbQuotesPerPage'))
+				->getItems();
+		});
+
+		// Build the associated paginator
+		$paginator = Paginator::make($quotes, count($arrayIDFavoritesQuotesForUser), Config::get('app.users.nbQuotesPerPage'));
+		// FIXME: could be prettier
+		$paginator->setBaseUrl('/users/'.$user->login.'/fav');
+
+		// Colors that will be used for quotes
+		$colors = Quote::getRandomColors();
+
+		// Fix the type of quotes we will display
+		$type = 'favorites';
+
+		return [
+			'quotes'    => $quotes,
+			'paginator' => $paginator,
+			'colors'    => $colors,
+			'type'      => $type,
+		];
+	}
+
+	private static function dataShowPublishedQuotes(User $user, $pageNumber)
+	{
+		// Time to store quotes in cache
+		$expiresAt = Carbon::now()->addMinutes(10);
+
+		// Fetch the quotes
+		$quotes = Cache::remember(User::$cacheNameForPublished.$user->id.'_'.$pageNumber, $expiresAt, function() use ($user)
+		{
+			return Quote::forUser($user)
+				->published()
+				->orderDescending()
+				->paginate(Config::get('app.users.nbQuotesPerPage'))
+				->getItems();
+		});
+
+		$numberQuotesPublishedForUser = Cache::remember(User::$cacheNameForNumberQuotesPublished.$user->id, $expiresAt, function() use ($user)
+		{
+			return Quote::forUser($user)
+				->published()
+				->count();
+		});
+
+		// Build the associated paginator
+		$paginator = Paginator::make($quotes, $numberQuotesPublishedForUser, Config::get('app.users.nbQuotesPerPage'));
+
+		// Colors that will be used for quotes
+		$colors = $user->getColorsQuotesPublished();
+
+		// Fix the type of quotes we will display
+		$type = 'published';
+
+		return [
+			'quotes'    => $quotes,
+			'paginator' => $paginator,
+			'colors'    => $colors,
+			'type'      => $type,
+		];
 	}
 
 	/**
