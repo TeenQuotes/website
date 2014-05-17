@@ -229,7 +229,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     public function hasPublishedQuotes()
     {
-    	return Quote::forUser($this)->published()->count() > 0;
+		// Time to store quotes in cache
+		$expiresAt = Carbon::now()->addMinutes(10);
+		$user = $this;
+
+		$numberQuotesPublishedForUser = Cache::remember(self::$cacheNameForNumberQuotesPublished.$this->id, $expiresAt, function() use ($user)
+			{
+				return Quote::forUser($user)
+					->published()
+					->count();
+			});
+
+		return $numberQuotesPublishedForUser > 0;
     }
 
     public function hasFavoriteQuotes()
