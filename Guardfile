@@ -4,14 +4,3 @@ guard :concat, :type => "js", :files => %w[jquery-2.1.0.min bootstrap.min app], 
 
 require 'cssmin'
 require 'jsmin'
-
-guard :refresher do
-  watch('public/assets/css/styles.min.css') do |m|
-    css = File.read(m[0])
-    File.open(m[0], 'w') { |file| file.write(CSSMin.minify(css)) }
-  end
-  watch('public/assets/js/scripts.min.js') do |m|
-    js = File.read(m[0])
-    File.open(m[0], 'w') { |file| file.write(JSMin.minify(js)) }
-  end
-end
