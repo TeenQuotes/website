@@ -107,15 +107,26 @@ class UsersController extends \BaseController {
 		// Get the user
 		$user = User::where('login', $user_id)->orWhere('id', $user_id)->first();
 
-		// TODO: display a special view if the user doesn't want to display his
-		// profile. <=> $user->isHiddenProfile()
-
 		// TODO: handle this error
 		if (is_null($user))
 			App::abort(404, 'User not found');
 
+		// TODO: display a special view if the user doesn't want to display his
+		// profile. <=> $user->isHiddenProfile()
+		if ($user->isHiddenProfile())
+			throw new HiddenProfileException;
+
+
+		// If the user hasn't favorite but has published quotes, redirect
+		if (!$fav AND !$user->hasPublishedQuotes() AND $user->hasFavoriteQuotes())
+			return Redirect::route('users.show', [$user->login, 'fav']);
+		// If the user hasn't published but has favorite quotes, redirect
+		elseif ($fav AND !$user->hasFavoriteQuotes() AND $user->hasPublishedQuotes())
+			return Redirect::route('users.show', $user->login);
+
+
 		// ---- We want to display the favorites quotes of the user
-		if ($fav != false) {
+		if ($fav) {
 
 			$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$user->id, $expiresAt, function() use ($user)
 			{
