@@ -2,15 +2,15 @@
 if (!is_null($user->birthdate))
 	$carbonBirthdate = new Carbon($user->birthdate);
 ?>
-<div id="profile-info">
+<div id="profile-info" class="animated fadeInDown">
 	<div class="row">
 		<!-- Avatar -->
-		<div class="col-xs-6 col-sm-2">
+		<div class="avatar-container col-xs-3 col-sm-2">
 			<img class="avatar img-responsive" src="{{{ $user->getURLAvatar() }}}"/>
 		</div>
 
 		<!-- Users stat -->
-		<div class="user-info col-xs-6 col-sm-3">
+		<div class="user-info col-xs-9 col-sm-3">
 			<h2> {{{ $user->login }}}</h2>
 			<!-- Age -->
 			@if(!is_null($user->birthdate))
@@ -38,6 +38,11 @@ if (!is_null($user->birthdate))
 
 			<!-- Gender -->
 			<i class="fa {{ $user->getIconGender() }}"></i>
+			@if ($user->isMale())
+				{{ Lang::get('users.iAmAMan') }}
+			@else
+				{{ Lang::get('users.iAmAWoman') }}
+			@endif
 		</div>
 
 		<!-- Counters -->

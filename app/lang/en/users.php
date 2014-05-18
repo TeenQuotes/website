@@ -46,4 +46,6 @@ return array(
 	'seePublishedQuotes'            => 'Published quotes',
 	'seeFavoritedQuotes'            => 'Favorite quotes',
 	'yearsOldAbbreviation'          => 'y/o',
+	'iAmAMan'                       => "I'm a man!",
+	'iAmAWoman'                     => "I'm a woman!",
 );
