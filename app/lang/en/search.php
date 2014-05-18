@@ -12,4 +12,6 @@ return array(
 	'result'                 => 'result|results',
 	'showingTopResults'      => 'Showing the top :nb results',
 	'resultForQuery'         => 'Results for <span>“:query”</span>',
+	'resultsPageTitle'       => 'Search “:query” | '.Lang::get('layout.nameWebsite'),
+	'resultsPageDescription' => 'Results of the search for “:query”. Find users and quotes on '.Lang::get('layout.nameWebsite'),
 );

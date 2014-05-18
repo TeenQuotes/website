@@ -46,11 +46,9 @@ class SearchController extends \BaseController {
 			'query'                  => $query,
 			'maxNbResultPerCategory' => Config::get('app.search.maxResultsPerCategory'),
 			'colors'                 => Quote::getRandomColors(),
-			'pageTitle'              => Lang::get('search.resultsPageTitle'),
-			'pageDescription'        => Lang::get('search.resultsPageDescription'),
+			'pageTitle'              => Lang::get('search.resultsPageTitle', compact('query')),
+			'pageDescription'        => Lang::get('search.resultsPageDescription', compact('query')),
 		];
-
-		// return $users;
 
 		return View::make('search.results', $data);
 	}
