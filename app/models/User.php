@@ -139,6 +139,24 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     }
 
     /**
+     * @brief Tells if a user is a male
+     * @return boolean
+     */
+    public function isMale()
+    {
+    	return ($this->gender == 'M');
+    }
+
+    /**
+     * @brief Tells if a user is a female
+     * @return boolean
+     */
+    public function isFemale()
+    {
+    	return !$this->isMale();
+    }
+
+    /**
      * @brief Tells if the user wants to receive an email when a comment is
      * added on one of its quotes
      * @return boolean true if we should send an email, false otherwise
