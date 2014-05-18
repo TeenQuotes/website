@@ -41,7 +41,9 @@
 			<ul>
 				{{Lang::get('quotes.rulesAddQuote')}}
 			</ul>
-			<span class="notice-email"><i class="fa fa-info"></i>{{ Lang::get('quotes.noticeByEmail') }}</span>
+			<div class="notice-email">
+				<i class="fa fa-info"></i> {{ Lang::get('quotes.noticeByEmail') }}
+			</div>
 		</div>
 	</div>
 @stop

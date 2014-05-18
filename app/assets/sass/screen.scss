@@ -404,6 +404,11 @@ body {
 	.notice-email {
 		margin-top: 15px;
 
+		@media screen and (max-width: $breakpointSmartphone) {
+			margin-bottom: 2em;
+		}
+
+
 		i.fa {
 			color: $lightBlue;
 			margin-right: 10px;
@@ -644,12 +649,12 @@ body {
 		.link-author-name {
 			color: darken($lightGray, 50%);
 			font-family: 'Titillium Web', sans-serif;
-			font-weight: 400;
+			font-weight: 700;
 			text-decoration: none;
-			font-style: italic;
 			float: right;
 			background:transparent;
 			padding: 2px 5px;
+			letter-spacing: 1px;
 		}
 
 		.link-author-name:hover {
