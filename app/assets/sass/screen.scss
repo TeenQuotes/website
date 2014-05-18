@@ -676,15 +676,33 @@ body {
 			font-weight: 400;
 			font-family: 'Titillium Web', sans-serif;
 			margin: -5px 0 1em 0;
+			@include hyphens(auto);
+			@media screen and (max-width: $breakpointSmartphone) {
+				font-size: 1.6em;
+			}
 		}
 
-		.avatar {
-			margin: 0 auto;
-			max-height: 200px;
+		.avatar-container {
+			@media screen and (max-width: $breakpointSmartphone) {
+				float:none;
+	    		display:inline-block;
+	    		vertical-align:middle;
+	    		margin-right:-4px;
+			}
+			.avatar {
+				margin: 0 auto;
+				max-height: 200px;
+			}
 		}
 
 		.user-info {
 			line-height: 2em;
+			@media screen and (max-width: $breakpointSmartphone) {
+				float:none;
+	    		display:inline-block;
+	    		vertical-align:middle;
+	    		margin-right:-4px;
+			}
 
 			i.fa {
 				margin-right: 10px;
@@ -749,7 +767,10 @@ body {
 			}
 
 			.about-me {
-				margin: 2em 0 0 0;
+				margin: 2em 0 1.5em 0;
+				@media screen and (max-width: $breakpointSmartphone) {
+					margin-top: .5em;
+				}
 			}
 		}
 	}
@@ -757,7 +778,7 @@ body {
 	> .btn-group {
 		display: flex;
 		justify-content: space-between;
-		margin: 3em 0 2em 0;
+		margin: .5em 0 2em 0;
 
 		button {
 			@media screen and (max-width: $breakpointSmartphone) {
@@ -765,12 +786,12 @@ body {
 				font-size: 13px;
 				margin-left: -4px;
 			}
+
 			i.fa {
 				margin-right: 10px;
 				@media screen and (max-width: $breakpointSmartphone) {
 					margin-right: 0px;
 				}
-
 			}
 		}
 	}
