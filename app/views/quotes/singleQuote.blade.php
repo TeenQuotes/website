@@ -22,7 +22,7 @@ else
 
 			<!-- No comments -->
 			@else
-				<a class="hidden-md hidden-lg badge" href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}" style="background:<?= $darkColorQuote; ?>">#{{{ $quote->id }}}</a>
+				<a href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}" class="badge hidden-md hidden-lg" style="background:<?= $darkColorQuote ?>"><i class="fa fa-comment"></i> {{{ $quote->total_comments }}}</a>
 			@endif
 		</div>
 
