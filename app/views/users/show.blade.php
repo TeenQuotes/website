@@ -1,7 +1,6 @@
 @extends('layouts/page')
 @section('content')
 	<div id="user-profile">
-		<?php $i = 0; ?>
 		@include('users.profile.info')
 
 		@include('users.profile.controls')

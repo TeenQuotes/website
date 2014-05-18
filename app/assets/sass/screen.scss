@@ -273,7 +273,7 @@ body {
 				color: $lightBlue;
 				padding: 10px 15px;
 				font-size: 1.7em;
-				font-family: 'Belgrano', serif;
+				font-family: 'Titillium Web', sans-serif;
 				cursor: pointer;
 
 				@include element-transition;
@@ -322,7 +322,7 @@ body {
 				background: transparent;
 				padding: 2px 4px;
 				font-size: 1.3em;
-				font-family: 'Belgrano', serif;
+				font-family: 'Titillium Web', sans-serif;
 				font-weight: 400;
 
 				@include element-transition;
@@ -348,7 +348,7 @@ body {
 			}
 
 			.country {
-				font-family: 'Belgrano', serif;
+				font-family: 'Titillium Web', sans-serif;
 				color: $red;
 				float: right;
 				font-size: 1.3em;
@@ -387,7 +387,6 @@ body {
 		padding: 0;
 
 		li {
-			font-weight: 300;
 			font-family: 'Open Sans', sans-serif;
 			margin: 15px 0 20px 15px;
 			font-size: 1.4em;
@@ -436,7 +435,6 @@ body {
 				padding: 0;
 
 				li {
-					font-weight: 300;
 					font-family: 'Open Sans', sans-serif;
 					margin: 15px 0 20px 15px;
 					font-size: 1.4em;
@@ -524,7 +522,7 @@ body {
 
 		.link-author-profile {
 			color: white;
-			font-family: 'Belgrano', serif;
+			font-family: 'Titillium Web', sans-serif;
 			font-weight: 400;
 			text-decoration: none;
 			font-style: italic;
@@ -645,7 +643,7 @@ body {
 
 		.link-author-name {
 			color: darken($lightGray, 50%);
-			font-family: 'Belgrano', serif;
+			font-family: 'Titillium Web', sans-serif;
 			font-weight: 400;
 			text-decoration: none;
 			font-style: italic;
@@ -675,77 +673,83 @@ body {
 	#profile-info {
 		h2 {
 			color: $lightBlue;
-			font-family: 'Belgrano', serif;
-			margin-bottom: 1em;
+			font-weight: 400;
+			font-family: 'Titillium Web', sans-serif;
+			margin: -5px 0 1em 0;
+		}
+
+		.avatar {
+			margin: 0 auto;
+			max-height: 200px;
+		}
+
+		.user-info {
+			line-height: 2em;
 
 			i.fa {
 				margin-right: 10px;
 			}
-
-			i.fa-male {
-				color: darken($lightBlue, 5%);
-			}
-			i.fa-female {
-				color: $pink;
-			}
-
-		}
-
-		.city-country-birthday {
-			text-align: right;
-			color: darken($lightBlue, 20%);
-			font-size: 1.58em;
-			font-family: 'Open Sans', sans-serif;
-			font-style: italic;
-			margin: -0.8em 0 .5em 0;
-
-			.birthday {
-				float: left;
-				color: $green;
-			}
 		}
 
 		> .row {
-			.about-section {
-				text-align: justify;
-				margin-bottom: 1em;
-			}
-
-			.column {
-				float:none;
-		    	display:inline-block;
-		    	vertical-align:middle;
-		    	margin-right:-4px;
-
-				.avatar {
-					max-height: 100px;
-					margin: 0 auto;
-				}
-
-
-				&:first-child {
-		    		vertical-align:middle;
-				}
-			}
-
 			.stats-counter {
+				@media screen and (max-width: $breakpointSmartphone) {
+					margin-top: 1em;
+				}
 
 				.col-md-3 {
-					.content {
-						text-align: center;
-						background: $veryLightGray;
-						color: darken($veryLightGray, 40%);
-						padding: 2px 8px;
-						margin: .5em 0;
+					@media screen and (max-width: $breakpointSmartphone) {
+						margin-bottom: 1em;
+					}
+					font-family: 'Titillium Web', sans-serif;
+					text-align: center;
 
-						.counter {
-							font-size: 1.2em;
-							font-family: 'Belgrano', serif;
-							display: block;
-							margin-bottom: .2em;
-						}
+					a {
+						color: black;
+						@include element-transition;
+					}
+
+					a:hover {
+						color: $lightBlue;
+						text-decoration: none;
+					}
+
+					.description {
+						display: block;
+						text-transform: uppercase;
+						margin-bottom: .2em;
+						font-size: .9em;
+					}
+
+					.counter {
+						font-weight: 700;
+						font-size: 1.2em;
+					}
+
+					.active {
+						width: 70%;
+						background: $lightBlue;
+						height: 3px;
+						display: block;
+						margin: .5em auto 0 auto;
+					}
+
+					.unactive {
+						background: transparent;
+						height: 3px;
+						display: block;
+						margin: .5em auto 0 auto;
 					}
 				}
+			}
+
+			.text-center {
+				padding-left: 0;
+				padding-right: 0;
+			}
+
+			.about-me {
+				margin: 2em 0 0 0;
 			}
 		}
 	}
@@ -863,18 +867,15 @@ body {
 
 		::-moz-placeholder {
 			color: #aaa;
-			font-weight: 300;
 			opacity: 1;
 		}
 
 		::-webkit-input-placeholder {
 			color: #aaa;
-			font-weight: 300;
 		}
 
 		:-ms-input-placeholder {
 			color: #aaa;
-			font-weight: 300;
 		}
 
 		::-moz-focus-inner {
@@ -1064,7 +1065,7 @@ footer {
 
 	.right {
 		text-align: right;
-		font-family: 'Belgrano', serif;
+		font-family: 'Titillium Web', sans-serif;
 		font-style: italic;
 
 		img {
