@@ -49,6 +49,7 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 App::error(function(HiddenProfileException $exception, $code)
 {
 	$data = [
+		'title'   => 'User hidden',
 		'content' => 'a'
 	];
 
