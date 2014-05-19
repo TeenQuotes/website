@@ -106,7 +106,7 @@ class UsersController extends \BaseController {
 
 		// TODO: handle this error
 		if (is_null($user))
-			App::abort(404, 'User not found');
+			throw new UserNotFoundException;
 
 		// Throw an exception if the user has an hidden profile
 		// TODO: handle this error
@@ -247,7 +247,7 @@ class UsersController extends \BaseController {
 
 			// Set the default color
 			if (is_null($confColor))
-				$selectedColor = 'blue';
+				$selectedColor = Config::get('users.defaultColorQuotesPublished');
 			else
 				$selectedColor = $confColor->value;
 
