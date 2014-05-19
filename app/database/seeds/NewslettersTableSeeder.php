@@ -18,7 +18,7 @@ class NewslettersTableSeeder extends Seeder {
 		{
 			Newsletter::create([
 				'user_id' => $faker->randomNumber(1, 100),
-				'type' => $faker->randomElement(array('weekly', 'daily')),
+				'type'    => $faker->randomElement(array('weekly', 'daily')),
 			]);
 		}
 	}

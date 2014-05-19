@@ -19,38 +19,38 @@ class UsersTableSeeder extends Seeder {
 			// Random user
 			if ($index != 42) {
 				User::create([
-					'login' => $faker->bothify('?????##'),
-					'password' => Hash::make("1234"),
-					'email' => $faker->email,
-					'ip' => $faker->ipv4,
-					'birthdate' => $faker->date('Y-m-d', 'now'),
-					'gender' => $faker->randomElement(array('M', 'F')),
-					'country' => $faker->randomNumber(1, 237),
-					'city' => $faker->city,
-					'avatar' => 'http://placekitten.com/400/400',
-					'about_me' => $faker->paragraph(3),
-					'hide_profile' => $faker->randomNumber(0, 1),
+					'login'                      => $faker->bothify('?????##'),
+					'password'                   => Hash::make("1234"),
+					'email'                      => $faker->email,
+					'ip'                         => $faker->ipv4,
+					'birthdate'                  => $faker->date('Y-m-d', 'now'),
+					'gender'                     => $faker->randomElement(array('M', 'F')),
+					'country'                    => $faker->randomNumber(1, 237),
+					'city'                       => $faker->city,
+					'avatar'                     => 'http://placekitten.com/400/400',
+					'about_me'                   => $faker->paragraph(3),
+					'hide_profile'               => $faker->randomNumber(0, 1),
 					'notification_comment_quote' => $faker->randomNumber(0, 1),
-					'last_visit' => $faker->dateTimeThisYear(),
+					'last_visit'                 => $faker->dateTimeThisYear(),
 				]);
 			}
 			// Admin account
 			else {
 				User::create([
-					'login' => 'antoineaugusti',
-					'password' => Hash::make("123456"),
-					'email' => 'antoine.augusti@gmail.com',
-					'security_level' => 1,
-					'ip' => $faker->ipv4,
-					'birthdate' => $faker->date('Y-m-d', 'now'),
-					'gender' => 'M',
-					'country' => $faker->randomNumber(1, 237),
-					'city' => $faker->city,
-					'avatar' => '42.png',
-					'about_me' => $faker->paragraph(3),
-					'hide_profile' => 0,
+					'login'                      => 'antoineaugusti',
+					'password'                   => Hash::make("123456"),
+					'email'                      => 'antoine.augusti@gmail.com',
+					'security_level'             => 1,
+					'ip'                         => $faker->ipv4,
+					'birthdate'                  => $faker->date('Y-m-d', 'now'),
+					'gender'                     => 'M',
+					'country'                    => $faker->randomNumber(1, 237),
+					'city'                       => $faker->city,
+					'avatar'                     => '42.png',
+					'about_me'                   => $faker->paragraph(3),
+					'hide_profile'               => 0,
 					'notification_comment_quote' => 1,
-					'last_visit' => $faker->dateTimeThisYear(),
+					'last_visit'                 => $faker->dateTimeThisYear(),
 				]);
 				$this->command->info('Admin account : #42 - antoineaugusti - 123456');
 			}

@@ -6,9 +6,9 @@ class CommentsTableSeeder extends Seeder {
 	public function run()
 	{
 		$this->command->info('Deleting existing Comments table ...');
-		DB::statement('SET FOREIGN_KEY_CHECKS = 0'); 
+		DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 		Comment::truncate();
-		DB::statement('SET FOREIGN_KEY_CHECKS = 1'); 
+		DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
 		Eloquent::unguard();
 		$faker = Faker::create();
@@ -18,9 +18,9 @@ class CommentsTableSeeder extends Seeder {
 		foreach(range(1, 400) as $index)
 		{
 			Comment::create([
-				'content' => $faker->paragraph(3),
-				'quote_id' => $faker->randomNumber(150, 250),
-				'user_id' => $faker->randomNumber(1, 100),
+				'content'    => $faker->paragraph(3),
+				'quote_id'   => $faker->randomNumber(150, 250),
+				'user_id'    => $faker->randomNumber(1, 100),
 				'created_at' => $date,
 			]);
 

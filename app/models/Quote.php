@@ -199,22 +199,22 @@ class Quote extends Eloquent {
 
 	public function scopeWaiting($query)
 	{
-		return $query->where('approved', '=', '0');
+		return $query->where('approved', '=', 0);
 	}
 
 	public function scopeRefused($query)
 	{
-		return $query->where('approved', '=', '-1');
+		return $query->where('approved', '=', -1);
 	}
 
 	public function scopePending($query)
 	{
-		return $query->where('approved', '=', '2');
+		return $query->where('approved', '=', 2);
 	}
 
 	public function scopePublished($query)
 	{
-		return $query->where('approved', '=', '1');
+		return $query->where('approved', '=', 1);
 	}
 
 	public function scopeForUser($query, $user)

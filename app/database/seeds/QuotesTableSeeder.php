@@ -6,9 +6,9 @@ class QuotesTableSeeder extends Seeder {
 	public function run()
 	{
 		$this->command->info('Deleting existing Quotes table ...');
-		DB::statement('SET FOREIGN_KEY_CHECKS = 0'); 
+		DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 		Quote::truncate();
-		DB::statement('SET FOREIGN_KEY_CHECKS = 1'); 
+		DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
 		Eloquent::unguard();
 		$faker = Faker::create();
@@ -27,16 +27,16 @@ class QuotesTableSeeder extends Seeder {
 					$approved = 0;
 				else {
 					if ($i < 150)
-						$approved = 1;
-					else
 						$approved = 2;
+					else
+						$approved = 1;
 				}
 			}
 
 			Quote::create([
-				'content' => $faker->paragraph(3),
-				'user_id' => $faker->randomNumber(1, 100),
-				'approved' => $approved ,
+				'content'    => $faker->paragraph(3),
+				'user_id'    => $faker->randomNumber(1, 100),
+				'approved'   => $approved ,
 				'created_at' => $date,
 			]);
 

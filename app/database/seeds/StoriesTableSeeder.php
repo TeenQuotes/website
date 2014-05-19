@@ -6,7 +6,7 @@ class StoriesTableSeeder extends Seeder {
 	public function run()
 	{
 		$this->command->info('Deleting existing Stories table ...');
-		DB::statement('SET FOREIGN_KEY_CHECKS = 0'); 
+		DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 		Story::truncate();
 		DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
@@ -19,7 +19,7 @@ class StoriesTableSeeder extends Seeder {
 			Story::create([
 				'represent_txt' => $faker->paragraph(5),
 				'frequence_txt' => $faker->paragraph(5),
-				'user_id' => $faker->randomNumber(1, 100),
+				'user_id'       => $faker->randomNumber(1, 100),
 			]);
 		}
 	}
