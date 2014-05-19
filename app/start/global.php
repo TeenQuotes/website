@@ -46,6 +46,45 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 |
 */
 
+App::error(function(HiddenProfileException $exception, $code)
+{
+	$data = [
+		'content' => 'a'
+	];
+
+	return Response::view('errors.default', $data, 401);
+});
+
+App::error(function(QuoteNotFoundException $exception, $code)
+{
+	$data = [
+		'content' => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.quoteText')]),
+		'title' => Lang::get('errors.quoteNotFoundTitle')
+	];
+
+	return Response::view('errors.default', $data, 401);
+});
+
+App::error(function(UserNotFoundException $exception, $code)
+{
+	$data = [
+		'content' => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.userText')]),
+		'title' => Lang::get('errors.userNotFoundTitle')
+	];
+
+	return Response::view('errors.default', $data, 401);
+});
+
+App::error(function(TokenNotFoundException $exception, $code)
+{
+	$data = [
+		'content' => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.tokenText')]),
+		'title' => Lang::get('errors.tokenNotFoundTitle')
+	];
+
+	return Response::view('errors.default', $data, 401);
+});
+
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);
