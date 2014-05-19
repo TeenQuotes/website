@@ -9,7 +9,7 @@
 	<link rel="shortcut icon" href="/assets/images/favicon.png"/>
 
 	<!-- TWITTER CARD FOR SINGLE QUOTE -->
-	@if (Route::currentRouteName() == 'quotes.show')
+	@if (Route::currentRouteName() == 'quotes.show' AND isset($quote) AND !is_null($quote))
 		@include('layouts.twitterCard')
 		@include('layouts.facebookOpenGraph')
 	@endif
