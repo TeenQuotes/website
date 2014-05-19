@@ -204,6 +204,20 @@ body {
 	}
 }
 
+#error-page {
+	h1 {
+		margin-bottom: 1em;
+
+		i.fa {
+			margin-right: 25px;
+		}
+	}
+
+	ul li {
+		margin-bottom: 10px;
+	}
+}
+
 #reset-password {
 	margin-left: 0;
 	margin-right: 0;
