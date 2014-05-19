@@ -1,7 +1,7 @@
 <?php
 
 class FavoritesController extends \BaseController {
-	
+
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -9,8 +9,8 @@ class FavoritesController extends \BaseController {
 	 */
 	public function store($quote_id)
 	{
-		if (Request::ajax()) {		
-			
+		if (Request::ajax()) {
+
 			$user = Auth::user();
 			$data = [
 				'quote_id' => $quote_id,
@@ -25,7 +25,7 @@ class FavoritesController extends \BaseController {
 
 			// Check if the form validates with success.
 			if ($validator->passes() AND !is_null($quote) AND $quote->isPublished()) {
-				
+
 				// Try to find if the user has a this quote in favorite from cache
 				if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']))
 					$alreadyFavorite = in_array($data['quote_id'], Cache::get(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']));
@@ -33,7 +33,7 @@ class FavoritesController extends \BaseController {
 					$favorite = FavoriteQuote::where('quote_id', '=' , $data['quote_id'])->where('user_id', '=' , $data['user_id'])->first();
 					$alreadyFavorite = !is_null($favorite);
 				}
-								
+
 				// Oops, the quote was already in its favorite
 				if ($alreadyFavorite) {
 					return Response::json(['success' => false, 'alreadyFavorite' => true]);
@@ -55,7 +55,7 @@ class FavoritesController extends \BaseController {
 
 					return Response::json(['success' => true], 200);
 				}
-				
+
 			}
 			// Errors
 			else
@@ -64,7 +64,7 @@ class FavoritesController extends \BaseController {
 		// It was not an Ajax call
 		// FIXME: what to do here?
 		else
-			return Redirect::route('route');
+			return Redirect::route('home');
 	}
 
 	/**
@@ -75,8 +75,8 @@ class FavoritesController extends \BaseController {
 	 */
 	public function destroy($quote_id)
 	{
-		if (Request::ajax()) {		
-			
+		if (Request::ajax()) {
+
 			$user = Auth::user();
 			$data = [
 				'quote_id' => $quote_id,
@@ -91,7 +91,7 @@ class FavoritesController extends \BaseController {
 
 			// Check if the form validates with success.
 			if ($validator->passes() AND !is_null($quote) AND $quote->isPublished()) {
-				
+
 				// Try to find if the user has a this quote in favorite from cache
 				if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']))
 					$quoteIsFavorite = in_array($data['quote_id'], Cache::get(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']));
@@ -105,7 +105,7 @@ class FavoritesController extends \BaseController {
 					return Response::json(['success' => false, 'notFound' => true]);
 				}
 				else {
-					
+
 					// Delete the FavoriteQuote from database
 					FavoriteQuote::where('quote_id', '=' , $data['quote_id'])->where('user_id', '=' , $data['user_id'])->delete();
 
@@ -115,7 +115,7 @@ class FavoritesController extends \BaseController {
 
 					return Response::json(['success' => true], 200);
 				}
-				
+
 			}
 			// Errors
 			else
@@ -124,6 +124,6 @@ class FavoritesController extends \BaseController {
 		// It was not an Ajax call
 		// FIXME: what to do here?
 		else
-			return Redirect::route('route');
+			return Redirect::route('home');
 	}
 }

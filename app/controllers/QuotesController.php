@@ -47,9 +47,9 @@ class QuotesController extends \BaseController {
 			});
 		}
 
-		// FIXME: Handle not found
+		// TODO: handle error
 		if (is_null($quotes))
-			return Response::view('errors.missing', array(), 404);
+			throw new QuoteNotFoundException;
 
 		$data = [
 			'quotes'          => $quotes,
@@ -138,7 +138,7 @@ class QuotesController extends \BaseController {
 
 		// TODO Handle not found
 		if (is_null($quote))
-			return Response::view('errors.missing', array(), 404);
+			throw new QuoteNotFoundException;
 
 		// If the user was not logged in, we store the current URL in its session
 		// After sign in / sign up, he will be redirected here

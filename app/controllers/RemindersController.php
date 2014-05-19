@@ -28,7 +28,7 @@ class RemindersController extends Controller {
 		{
 			$message->subject(Lang::get('auth.passwordReminderEmailSubject'));
 		});
-		
+
 		switch ($response)
 		{
 			case Password::INVALID_USER:
@@ -47,7 +47,8 @@ class RemindersController extends Controller {
 	 */
 	public function getReset($token = null)
 	{
-		if (is_null($token)) App::abort(404);
+		if (is_null($token))
+			throw new TokenNotFoundException;
 
 		return View::make('password.reset')->with('token', $token);
 	}
@@ -59,8 +60,8 @@ class RemindersController extends Controller {
 	 */
 	public function postReset()
 	{
-		
-		// Here we don't use password_confirmation but we keep it 
+
+		// Here we don't use password_confirmation but we keep it
 		// to call the reset function
 		$credentials = [
 			'email'                 => Input::get('email'),

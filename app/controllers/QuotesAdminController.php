@@ -70,7 +70,7 @@ class QuotesAdminController extends \BaseController {
 	{
 		$quote = Quote::find($id);
 		if (is_null($quote))
-			App::abort(404, "Can't find quote ".$id);
+			throw new QuoteNotFoundException;
 
 		return View::make('admin.edit')->withQuote($quote);
 	}
