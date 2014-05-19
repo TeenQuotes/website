@@ -198,7 +198,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 			// Set colors to put in cache for the user
 			if (is_null($confColor))
-				$toPut = $colorsAvailable[Config::get('users.defaultColorQuotesPublished')];
+				$toPut = $colorsAvailable[Config::get('app.users.defaultColorQuotesPublished')];
 			else {
 				$toPut = $colorsAvailable[$confColor->value];
 			}

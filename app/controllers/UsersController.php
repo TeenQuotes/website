@@ -247,7 +247,7 @@ class UsersController extends \BaseController {
 
 			// Set the default color
 			if (is_null($confColor))
-				$selectedColor = Config::get('users.defaultColorQuotesPublished');
+				$selectedColor = Config::get('app.users.defaultColorQuotesPublished');
 			else
 				$selectedColor = $confColor->value;
 
