@@ -62,7 +62,7 @@ App::error(function(QuoteNotFoundException $exception, $code)
 		'title' => Lang::get('errors.quoteNotFoundTitle')
 	];
 
-	return Response::view('errors.default', $data, 401);
+	return Response::view('errors.default', $data, 404);
 });
 
 App::error(function(UserNotFoundException $exception, $code)
@@ -72,7 +72,7 @@ App::error(function(UserNotFoundException $exception, $code)
 		'title' => Lang::get('errors.userNotFoundTitle')
 	];
 
-	return Response::view('errors.default', $data, 401);
+	return Response::view('errors.default', $data, 404);
 });
 
 App::error(function(TokenNotFoundException $exception, $code)
@@ -82,7 +82,7 @@ App::error(function(TokenNotFoundException $exception, $code)
 		'title' => Lang::get('errors.tokenNotFoundTitle')
 	];
 
-	return Response::view('errors.default', $data, 401);
+	return Response::view('errors.default', $data, 404);
 });
 
 App::error(function(Exception $exception, $code)
