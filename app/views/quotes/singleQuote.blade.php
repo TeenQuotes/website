@@ -47,7 +47,9 @@ else
 				@else
 					<span class="link-author-profile">
 				@endif
+
 				{{{ $quote->user->login }}}
+
 				@if ($openedLink)
 					</a>
 				@else
