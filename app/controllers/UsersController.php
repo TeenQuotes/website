@@ -109,8 +109,9 @@ class UsersController extends \BaseController {
 			throw new UserNotFoundException;
 
 		// Throw an exception if the user has an hidden profile
-		// TODO: handle this error
-		if ($user->isHiddenProfile())
+		// We do throw this exception if the user is currently
+		// viewing its own hidden profile
+		if ($user->isHiddenProfile() AND !(Auth::check() AND Auth::user()->login == $user->login))
 			throw new HiddenProfileException;
 
 		// If the user hasn't favorite but has published quotes, redirect

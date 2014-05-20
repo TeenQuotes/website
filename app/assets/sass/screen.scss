@@ -81,7 +81,7 @@ body {
 	color: $lightBlue;
 }
 
-.alert-warning, .alert-success {
+.alert {
 	i.fa {
 		margin-right: 15px;
 	}
@@ -691,6 +691,10 @@ body {
 			margin-right: 15px;
 			color: $red;
 		}
+	}
+
+	> .alert-info {
+		margin-bottom: 3em;
 	}
 
 	#profile-info {

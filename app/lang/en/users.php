@@ -48,4 +48,5 @@ return array(
 	'yearsOldAbbreviation'          => 'y/o',
 	'iAmAMan'                       => "I'm a man!",
 	'iAmAWoman'                     => "I'm a woman!",
+	'profileCurrentlyHidden'        => "Your profile is currently hidden. Only you can see this!",
 );
