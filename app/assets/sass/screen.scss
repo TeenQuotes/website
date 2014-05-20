@@ -675,9 +675,12 @@ body {
 			letter-spacing: 1px;
 		}
 
-		.link-author-name:hover {
+		span.link-author-name:hover {
+			cursor: default;
+		}
+
+		a.link-author-name:hover {
 			background: white;
-			color: darken($lightGray, 50%);
 		}
 	}
 }
