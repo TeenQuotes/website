@@ -56,34 +56,19 @@ App::error(function(HiddenProfileException $exception, $code)
 	return Response::view('errors.default', $data, 401);
 });
 
-App::error(function(QuoteNotFoundException $exception, $code)
+// Catch QuoteNotFoundException, UserNotFoundException, TokenNotFoundException
+App::error(function(TQNotFoundException $exception, $code)
 {
-	$data = [
-		'content' => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.quoteText')]),
-		'title' => Lang::get('errors.quoteNotFoundTitle')
-	];
+	$resourceName = strtolower(str_replace("NotFoundException", "", get_class($exception)));
 
-	return Response::view('errors.default', $data, 404);
-});
+	if (in_array($resourceName, ['quote', 'user', 'token'])) {
+		$data = [
+			'content' => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.'.$resourceName.'Text')]),
+			'title' => Lang::get('errors.'.$resourceName.'NotFoundTitle')
+		];
 
-App::error(function(UserNotFoundException $exception, $code)
-{
-	$data = [
-		'content' => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.userText')]),
-		'title' => Lang::get('errors.userNotFoundTitle')
-	];
-
-	return Response::view('errors.default', $data, 404);
-});
-
-App::error(function(TokenNotFoundException $exception, $code)
-{
-	$data = [
-		'content' => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.tokenText')]),
-		'title' => Lang::get('errors.tokenNotFoundTitle')
-	];
-
-	return Response::view('errors.default', $data, 404);
+		return Response::view('errors.default', $data, 404);
+	}
 });
 
 App::error(function(Exception $exception, $code)
