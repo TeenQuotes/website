@@ -588,7 +588,11 @@ body {
 			}
 		}
 
-		.link-author-profile:hover, .badge:hover, .social-buttons a:hover {
+		span.link-author-profile:hover {
+			cursor: default;
+		}
+
+		a.link-author-profile:hover, .badge:hover, .social-buttons a:hover {
 			background: white !important;
 			color: $lightBlue;
 		}

@@ -1,4 +1,5 @@
 <?php
+$openedLink = false;
 $colorQuote = $colors[$i];
 $darkColorQuote = Quote::adjustBrightness($colors[$i], -30);
 if ($i % 2 == 1)
@@ -40,7 +41,18 @@ else
 		<!-- AUTHOR -->
 		<div class="col-md-5 col-sm-5 col-xs-5">
 			@if (!(isset($hideAuthor) AND $hideAuthor))
-				<a href="{{ URL::action('UsersController@show', ['id' => $quote->user->login]) }}" class="link-author-profile">{{{ $quote->user->login }}}</a>
+				@if (!$quote->user->isHiddenProfile())
+					<a href="{{ URL::action('UsersController@show', ['id' => $quote->user->login]) }}" class="link-author-profile">
+					<?php $openedLink = true; ?>
+				@else
+					<span class="link-author-profile">
+				@endif
+				{{{ $quote->user->login }}}
+				@if ($openedLink)
+					</a>
+				@else
+					</span>
+				@endif
 			@endif
 		</div>
 
