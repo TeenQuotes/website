@@ -71,6 +71,17 @@ App::error(function(TQNotFoundException $exception, $code)
 	}
 });
 
+// Handle 404
+App::missing(function($exception)
+{
+	$data = [
+		'content' => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.pageText')]),
+		'title' => Lang::get('errors.pageNotFoundTitle')
+	];
+
+	return Response::view('errors.default', $data, 404);
+});
+
 App::error(function(Exception $exception, $code)
 {
 	Log::error($exception);

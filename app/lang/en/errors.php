@@ -13,7 +13,7 @@ return array(
 				<li>Cry.</li>
 				<li>Run fast and far.</li>
 				<li>Lie on the ground, roll into a ball and moan pitifully.</li>
-				<li>Shouting someone to pick you up, even if nobody will hear you.</li>
+				<li>Shouting at someone to pick you up, even if nobody will hear you.</li>
 			</ul>
 			<h2 class='green'>But the best is:</h2>
 			<ul>
@@ -23,7 +23,9 @@ return array(
 	'quoteNotFoundTitle' => 'Quote not found!',
 	'userNotFoundTitle'  => 'User not found!',
 	'tokenNotFoundTitle' => 'Token not found!',
+	'pageNotFoundTitle'  => 'Page not found!',
 	'quoteText'          => 'quote',
 	'userText'           => 'user',
 	'tokenText'          => 'token',
+	'pageText'           => 'page',
 );
