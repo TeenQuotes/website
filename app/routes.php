@@ -76,5 +76,5 @@ Route::post('oauth', function()
 
 Route::group(['before' => 'oauth', 'prefix' => 'v1'], function()
 {
-	Route::get('quote/{quote_id}', ['uses' => 'APIv1Controller@getSingleQuote']);
+	Route::get('quotes/{quote_id}', ['uses' => 'APIv1Controller@getSingleQuote']);
 });
