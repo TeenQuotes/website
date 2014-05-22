@@ -29,5 +29,5 @@ return array(
 	'tokenText'          => 'token',
 	'pageText'           => 'page',
 	'hiddenProfileTitle' => 'This profile is hidden!',
-	'hiddenProfileBody'  => "Oops, it appears that the profile of :login is hidden! It means that only :login can see its profile.<br/><br/>We take your privacy very seriously and you can hide your profile if you don't want to open your information on ".Lang::get('layout.nameWebsite')." to others.",
+	'hiddenProfileBody'  => "Oops, it appears that the profile of :login is hidden! It means that only :login can see this profile.<br/><br/>We take your privacy very seriously and you can hide your profile if you don't want to open your information on ".Lang::get('layout.nameWebsite')." to others.",
 	);
