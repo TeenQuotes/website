@@ -18,6 +18,11 @@
 	<![endif]-->
 </head>
 <body>
+	<!-- Google Analytics -->
+	@if (App::environment('production'))
+		@include('layouts.analytics')
+	@endif
+
 	<div id="wrap">
 		<div class="navbar navbar-default navbar-fixed-top">
 			<div class="container">
@@ -68,7 +73,6 @@
 							<a href="http://twitter.com/ohteenquotes" class="twitter-follow-button" data-show-count="true" data-lang="en">Follow @ohteenquotes</a>
 						</li>
 					</ul>
-
 				</div>
 			</div>
 		</div><!-- END NAVBAR -->
