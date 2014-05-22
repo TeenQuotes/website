@@ -9,7 +9,8 @@
 		"nesbot/Carbon": "*",
 		"laracasts/utilities": "1.0",
 		"fedeisas/laravel-mail-css-inliner": "1.*",
-		"indatus/dispatcher": "dev-master"
+		"indatus/dispatcher": "dev-master",
+		"lucadegasperi/oauth2-server-laravel": "1.0.x"
 	},
 	"require-dev": {
     	"way/generators": "2.*",

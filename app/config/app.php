@@ -124,6 +124,7 @@ return array(
 		'Laracasts\Utilities\UtilitiesServiceProvider',
 		'Fedeisas\LaravelMailCssInliner\LaravelMailCssInlinerServiceProvider',
 		'Indatus\Dispatcher\ServiceProvider',
+		'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider'
 	),
 
 	/*
@@ -191,6 +192,8 @@ return array(
 		'View'             => 'Illuminate\Support\Facades\View',
 		'Carbon'           => 'Carbon\Carbon',
 		'ScheduledCommand' => '\Indatus\Dispatcher\Scheduling\ScheduledCommand',
+		'AuthorizationServer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade',
+		'ResourceServer' => 'LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade',
 
 	),
 
