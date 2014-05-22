@@ -3,6 +3,8 @@
 class Comment extends Eloquent {
 	protected $fillable = [];
 
+	protected $hidden = ['deleted_at', 'updated_at'];
+
 	/**
 	 * The validation rules when adding a comment
 	 * @var array

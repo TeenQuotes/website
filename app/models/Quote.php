@@ -3,11 +3,13 @@
 class Quote extends Eloquent {
 	protected $fillable = [];
 
+	protected $hidden = ['updated_at'];
+
 	/**
 	 * Adding customs attributes to the object
 	 * @var array
 	 */
-	protected $appends = array('has_favorites', 'total_favorites', 'has_comments', 'total_comments');
+	protected $appends = array('has_comments', 'total_comments', 'is_favorite');
 
 	/**
 	 * The validation rules
@@ -169,16 +171,26 @@ class Quote extends Eloquent {
 		return ($this->total_comments > 0);
 	}
 
+	public function getIsFavoriteAttribute()
+	{
+		return $this->isFavoriteForCurrentUser();
+	}
+
 	public function isFavoriteForCurrentUser()
 	{
 		// Try to get information from cache
-		if (Auth::check()) {
+		if (Auth::check() OR !empty(ResourceServer::getOwnerId())) {
 			// Time for cache
 			$expiresAt = Carbon::now()->addMinutes(10);
 
-			$favoriteQuotes = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.Auth::id(), $expiresAt, function()
+			if (Auth::check())
+				$id = Auth::id();
+			else
+				$id = ResourceServer::getOwnerId();
+
+			$favoriteQuotes = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$id, $expiresAt, function() use($id)
 			{
-				return FavoriteQuote::currentUser()->select('quote_id')->get()->lists('quote_id');
+				return FavoriteQuote::forUser($id)->select('quote_id')->get()->lists('quote_id');
 			});
 
 			return in_array($this->id, $favoriteQuotes);
@@ -230,6 +242,14 @@ class Quote extends Eloquent {
 	public function scopeOrderAscending($query)
 	{
 		return $query->orderBy('created_at', 'ASC');
+	}
+
+	public function scopeUserSmall($query)
+	{
+		return $query->with(array('user' => function($q)
+		{
+		    $q->addSelect(array('id', 'login', 'avatar'));
+		}));
 	}
 
 	public function scopeRandom($query)

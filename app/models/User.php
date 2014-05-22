@@ -17,7 +17,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('password', 'ip');
+	protected $hidden = array('password', 'ip', 'hide_profile');
+
+	/**
+	 * Adding customs attributes to the object
+	 * @var array
+	 */
+	protected $appends = array('profile_hidden');
 
 	/**
 	 * The validation rules when updating a profile
@@ -127,6 +133,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function favoriteQuotes()
     {
         return $this->belongsToMany('Quote', 'favorite_quotes')->with('user')->orderBy('favorite_quotes.id', 'DESC');
+    }
+
+    public function getProfileHiddenAttribute()
+    {
+    	return $this->isHiddenProfile();
     }
 
     /**

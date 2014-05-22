@@ -73,3 +73,8 @@ Route::post('oauth', function()
 {
     return AuthorizationServer::performAccessTokenFlow();
 });
+
+Route::group(['before' => 'oauth', 'prefix' => 'v1'], function()
+{
+	Route::get('quote/{quote_id}', ['uses' => 'APIv1Controller@getSingleQuote']);
+});
