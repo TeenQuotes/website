@@ -17,13 +17,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('password', 'ip', 'hide_profile');
+	protected $hidden = array('password', 'ip', 'hide_profile', 'remember_token', 'updated_at', 'avatar', 'security_level', 'notification_comment_quote');
 
 	/**
 	 * Adding customs attributes to the object
 	 * @var array
 	 */
-	protected $appends = array('profile_hidden');
+	protected $appends = array('profile_hidden', 'url_avatar', 'wants_notification_comment_quote', 'is_admin', 'total_comments', 'favorite_count', 'added_fav_count', 'published_quotes_count');
 
 	/**
 	 * The validation rules when updating a profile
@@ -167,6 +167,42 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     	return !$this->isMale();
     }
 
+    public function getWantsNotificationCommentQuoteAttribute()
+    {
+    	return $this->wantsEmailComment();
+    }
+
+    public function getIsAdminAttribute()
+    {
+    	return ($this->security_level == 1);
+    }
+
+    public function getTotalCommentsAttribute()
+    {
+    	return $this->comments()->count();
+    }
+
+    public function getFavoriteCountAttribute()
+    {
+    	return $this->favoriteQuotes()->count();
+    }
+
+    public function getAddedFavCountAttribute()
+    {
+		$idsQuotesPublished = Quote::forUser($this)->published()->lists('id');
+		if (empty($idsQuotesPublished))
+			$addedFavCount = 0;
+		else
+			$addedFavCount = FavoriteQuote::whereIn('quote_id', $idsQuotesPublished)->count();
+
+		return $addedFavCount;
+    }
+
+    public function getPublishedQuotesCountAttribute()
+    {
+    	return Quote::forUser($this)->published()->count();
+    }
+
     /**
      * @brief Tells if the user wants to receive an email when a comment is
      * added on one of its quotes
@@ -219,6 +255,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 			return $toPut;
 		}
+    }
+
+    public function getURLAvatarAttribute()
+    {
+    	return $this->getURLAvatar();
     }
 
     /**
