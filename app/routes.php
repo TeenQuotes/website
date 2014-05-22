@@ -68,3 +68,10 @@ Route::group(['before' => 'admin', 'prefix' => 'admin'], function()
 	// Moderation
 	Route::post('/moderate/{quote_id}/{decision}', ['uses' => 'QuotesAdminController@postModerate', 'as' => 'admin.quotes.moderate']);
 });
+
+Route::group(['prefix' => 'app'], function()
+{
+	Route::get('infoMembreRecherche', ['uses' => 'iOSAPIController@getInfoMembreRecherche']);
+	Route::get('pageMax', ['uses' => 'iOSAPIController@getPageMax']);
+	Route::get('reinitAvatar', ['uses' => 'iOSAPIController@getReinitAvatar']);
+});
