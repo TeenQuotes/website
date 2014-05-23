@@ -80,5 +80,6 @@ Route::group(array('domain' => Config::get('app.urlAPI')), function()
 Route::group(['domain' => Config::get('app.urlAPI'), 'before' => 'oauth', 'prefix' => 'v1'], function()
 {
 	Route::get('quotes/{quote_id}', ['uses' => 'APIv1Controller@getSingleQuote']);
+	Route::get('quotes', ['uses' => 'APIv1Controller@indexQuotes']);
 	Route::get('users/{user_id}', ['uses' => 'APIv1Controller@getSingleUser']);
 });

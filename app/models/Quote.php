@@ -47,6 +47,12 @@ class Quote extends Eloquent {
 	public static $cacheNameQuotesPage = 'quotes_homepage_';
 
 	/**
+	 * @brief The name of the key to store in cache. Describes the quotes for a given page in API with default pagesize.
+	 * @var string
+	 */
+	public static $cacheNameQuotesAPIPage = 'quotes_api_';
+
+	/**
 	 * @brief The name of the key to store in cache. Describes the quotes for a given "random" page.
 	 * @var string
 	 */
