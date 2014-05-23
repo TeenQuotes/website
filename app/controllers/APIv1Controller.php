@@ -63,7 +63,7 @@ class APIv1Controller extends BaseController {
 		return Response::json($data);
 	}
 
-	public function indexQuotes()
+	public function indexQuotes($random = null)
 	{
 		$page = Input::get('page', 1);
 		$pagesize = Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
@@ -71,45 +71,17 @@ class APIv1Controller extends BaseController {
         if ($page <= 0)
 			$page = 1;
 
-		// Time to store in cache
-		$expiresAt = Carbon::now()->addMinutes(1);
-
-        // Number of quotes to skip
-        $skip = $pagesize * ($page - 1);
-
-        $totalQuotes = Cache::rememberForever(Quote::$cacheNameNumberPublished, function()
+		$totalQuotes = Cache::rememberForever(Quote::$cacheNameNumberPublished, function()
 		{
 			return Quote::published()->count();
 		});
         $totalPages = ceil($totalQuotes / $pagesize);
 
         // Get quotes
-        if ($pagesize == Config::get('app.quotes.nbQuotesPerPage')) {
-
-        	$content = Cache::remember(Quote::$cacheNameQuotesAPIPage.$page, $expiresAt, function() use($pagesize, $skip)
-        	{
-		        return Quote::published()
-				->with(array('user' => function($q)
-				{
-				    $q->addSelect(array('id', 'login', 'avatar'));
-				}))
-				->orderDescending()
-				->take($pagesize)
-				->skip($skip)
-				->get();
-        	});
-        }
-        else {
-        	$content = Quote::published()
-				->with(array('user' => function($q)
-				{
-				    $q->addSelect(array('id', 'login', 'avatar'));
-				}))
-				->orderDescending()
-				->take($pagesize)
-				->skip($skip)
-				->get();
-        }
+        if (is_null($random))
+        	$content = $this->getQuotesHome($page, $pagesize);
+        else
+        	$content = $this->getQuotesRandom($page, $pagesize);
 
 		// Handle not found
 		if (is_null($content) OR $content->count() == 0) {
@@ -148,5 +120,81 @@ class APIv1Controller extends BaseController {
         	$data['has_previous_page'] = false;
 
 		return Response::json($data);
+	}
+
+	private function getQuotesHome($page, $pagesize)
+	{
+		// Time to store in cache
+		$expiresAt = Carbon::now()->addMinutes(1);
+
+        // Number of quotes to skip
+        $skip = $pagesize * ($page - 1);
+
+        if ($pagesize == Config::get('app.quotes.nbQuotesPerPage')) {
+
+        	$content = Cache::remember(Quote::$cacheNameQuotesAPIPage.$page, $expiresAt, function() use($pagesize, $skip)
+        	{
+		        return Quote::published()
+				->with(array('user' => function($q)
+				{
+				    $q->addSelect(array('id', 'login', 'avatar'));
+				}))
+				->orderDescending()
+				->take($pagesize)
+				->skip($skip)
+				->get();
+        	});
+        }
+        else {
+        	$content = Quote::published()
+				->with(array('user' => function($q)
+				{
+				    $q->addSelect(array('id', 'login', 'avatar'));
+				}))
+				->orderDescending()
+				->take($pagesize)
+				->skip($skip)
+				->get();
+        }
+
+        return $content;
+	}
+
+	private function getQuotesRandom($page, $pagesize)
+	{
+		// Time to store in cache
+		$expiresAt = Carbon::now()->addMinutes(1);
+
+        // Number of quotes to skip
+        $skip = $pagesize * ($page - 1);
+
+        if ($pagesize == Config::get('app.quotes.nbQuotesPerPage')) {
+
+        	$content = Cache::remember(Quote::$cacheNameRandomAPIPage.$page, $expiresAt, function() use($pagesize, $skip)
+        	{
+		        return Quote::published()
+				->with(array('user' => function($q)
+				{
+				    $q->addSelect(array('id', 'login', 'avatar'));
+				}))
+				->random()
+				->take($pagesize)
+				->skip($skip)
+				->get();
+        	});
+        }
+        else {
+        	$content = Quote::published()
+				->with(array('user' => function($q)
+				{
+				    $q->addSelect(array('id', 'login', 'avatar'));
+				}))
+				->random()
+				->take($pagesize)
+				->skip($skip)
+				->get();
+        }
+
+        return $content;
 	}
 }

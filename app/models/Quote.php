@@ -59,6 +59,12 @@ class Quote extends Eloquent {
 	public static $cacheNameRandomPage = 'quotes_random_';
 
 	/**
+	 * @brief The name of the key to store in cache. Describes the quotes for a given "random" page in API with default pagesize.
+	 * @var string
+	 */
+	public static $cacheNameRandomAPIPage = 'quotes_random_api';
+
+	/**
 	 * @brief The name of the key to store in cache. Describes the number of quotes that have been published.
 	 * @var string
 	 */

@@ -9,6 +9,7 @@ Route::pattern('quote_id', '[0-9]+');
 Route::pattern('user_id', '[a-zA-Z0-9_]+');
 Route::pattern('decision', 'approve|unapprove');
 Route::pattern('fav', 'fav');
+Route::pattern('random', 'random');
 
 /*
 |--------------------------------------------------------------------------
@@ -69,17 +70,25 @@ Route::group(['before' => 'admin', 'prefix' => 'admin'], function()
 	Route::post('/moderate/{quote_id}/{decision}', ['uses' => 'QuotesAdminController@postModerate', 'as' => 'admin.quotes.moderate']);
 });
 
+
 Route::group(array('domain' => Config::get('app.urlAPI')), function()
 {
+
+	// OAUTH
 	Route::post('oauth', function()
 	{
 	    return AuthorizationServer::performAccessTokenFlow();
 	});
-});
 
-Route::group(['domain' => Config::get('app.urlAPI'), 'before' => 'oauth', 'prefix' => 'v1'], function()
-{
-	Route::get('quotes/{quote_id}', ['uses' => 'APIv1Controller@getSingleQuote']);
-	Route::get('quotes', ['uses' => 'APIv1Controller@indexQuotes']);
-	Route::get('users/{user_id}', ['uses' => 'APIv1Controller@getSingleUser']);
+	// API v1
+	Route::group(['domain' => Config::get('app.urlAPI'), 'before' => 'oauth', 'prefix' => 'v1'], function()
+	{
+		// QUOTES
+		Route::get('quotes/{quote_id}', ['uses' => 'APIv1Controller@getSingleQuote']);
+		Route::get('quotes/{random?}', ['uses' => 'APIv1Controller@indexQuotes']);
+
+		// USERS
+		Route::get('users/{user_id}', ['uses' => 'APIv1Controller@getSingleUser']);
+
+	});
 });
