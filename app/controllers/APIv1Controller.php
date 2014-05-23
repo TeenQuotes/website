@@ -44,12 +44,7 @@ class APIv1Controller extends BaseController {
 		}))
 		->first();
 
-		$data = $user->toArray();
-		foreach (User::$appendsFull as $key) {
-			$method = Str::camel('get_'.$key);
-			$data[$key] = $user->$method();
-		}
-
+		// User not found
 		if (empty($user) OR $user->count() == 0) {
 			$data = [
 				'status' => 404,
@@ -58,7 +53,13 @@ class APIv1Controller extends BaseController {
 
 			return Response::json($data, 404);
 		}
-		else
-			return Response::json($data);
+
+		$data = $user->toArray();
+		foreach (User::$appendsFull as $key) {
+			$method = Str::camel('get_'.$key);
+			$data[$key] = $user->$method();
+		}
+
+		return Response::json($data);
 	}
 }
