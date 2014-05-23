@@ -69,12 +69,15 @@ Route::group(['before' => 'admin', 'prefix' => 'admin'], function()
 	Route::post('/moderate/{quote_id}/{decision}', ['uses' => 'QuotesAdminController@postModerate', 'as' => 'admin.quotes.moderate']);
 });
 
-Route::post('oauth', function()
+Route::group(array('domain' => Config::get('app.urlAPI')), function()
 {
-    return AuthorizationServer::performAccessTokenFlow();
+	Route::post('oauth', function()
+	{
+	    return AuthorizationServer::performAccessTokenFlow();
+	});
 });
 
-Route::group(['before' => 'oauth', 'prefix' => 'v1'], function()
+Route::group(['domain' => Config::get('app.urlAPI'), 'before' => 'oauth', 'prefix' => 'v1'], function()
 {
 	Route::get('quotes/{quote_id}', ['uses' => 'APIv1Controller@getSingleQuote']);
 	Route::get('users/{user_id}', ['uses' => 'APIv1Controller@getSingleUser']);

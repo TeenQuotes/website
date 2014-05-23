@@ -28,6 +28,8 @@ return array(
 
 	'url' => 'http://localhost',
 
+	'urlAPI' => 'api.teen-quotes.com',
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application Timezone
