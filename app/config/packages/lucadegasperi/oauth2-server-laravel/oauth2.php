@@ -88,7 +88,7 @@ return array(
 
         'refresh_token' => array(
             'class'                 => 'League\OAuth2\Server\Grant\RefreshToken',
-            'access_token_ttl'      => 3600,
+            'access_token_ttl'      => 604800,
             'refresh_token_ttl'     => 604800,
             'rotate_refresh_tokens' => false,
         ),
