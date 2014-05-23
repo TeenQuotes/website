@@ -23,7 +23,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * Adding customs attributes to the object
 	 * @var array
 	 */
-	protected $appends = array('profile_hidden', 'url_avatar', 'wants_notification_comment_quote', 'is_admin', 'total_comments', 'favorite_count', 'added_fav_count', 'published_quotes_count');
+	protected $appends = array('profile_hidden', 'url_avatar', 'wants_notification_comment_quote', 'is_admin');
+
+	/**
+	 * Adding attributes to the object. These attributes need extra DB queries
+	 * @var array
+	 */
+	public static $appendsFull = ['total_comments', 'favorite_count', 'added_fav_count', 'published_quotes_count'];
 
 	/**
 	 * The validation rules when updating a profile
@@ -177,17 +183,17 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     	return ($this->security_level == 1);
     }
 
-    public function getTotalCommentsAttribute()
+    public function getTotalComments()
     {
     	return $this->comments()->count();
     }
 
-    public function getFavoriteCountAttribute()
+    public function getFavoriteCount()
     {
     	return $this->favoriteQuotes()->count();
     }
 
-    public function getAddedFavCountAttribute()
+    public function getAddedFavCount()
     {
 		$idsQuotesPublished = Quote::forUser($this)->published()->lists('id');
 		if (empty($idsQuotesPublished))
@@ -198,7 +204,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $addedFavCount;
     }
 
-    public function getPublishedQuotesCountAttribute()
+    public function getPublishedQuotesCount()
     {
     	return Quote::forUser($this)->published()->count();
     }

@@ -12,7 +12,7 @@ class APIv1Controller extends BaseController {
 		}))
 		->with(array('user' => function($q)
 		{
-		    $q->addSelect(array('id', 'login'));
+		    $q->addSelect(array('id', 'login', 'avatar'));
 		}))
 		->get();
 
@@ -44,6 +44,12 @@ class APIv1Controller extends BaseController {
 		}))
 		->first();
 
+		$data = $user->toArray();
+		foreach (User::$appendsFull as $key) {
+			$method = Str::camel('get_'.$key);
+			$data[$key] = $user->$method();
+		}
+
 		if (empty($user) OR $user->count() == 0) {
 			$data = [
 				'status' => 404,
@@ -53,6 +59,6 @@ class APIv1Controller extends BaseController {
 			return Response::json($data, 404);
 		}
 		else
-			return $user;
+			return Response::json($data);
 	}
 }

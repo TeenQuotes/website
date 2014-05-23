@@ -133,10 +133,10 @@ class UsersController extends \BaseController {
 		$data['pageTitle']            = Lang::get('users.profilePageTitle', array('login' => $user->login));
 		$data['pageDescription']      = Lang::get('users.profilePageDescription', array('login' => $user->login));
 		$data['hideAuthor']           = $user->profile_hidden;
-		$data['commentsCount']        = $user->total_comments;
-		$data['addedFavCount']        = $user->addedFavCount;
-		$data['quotesPublishedCount'] = $user->published_quotes_count;
-		$data['favCount']             = $user->favorite_count;
+		$data['commentsCount']        = $user->getTotalComments();
+		$data['addedFavCount']        = $user->getAddedFavCount();
+		$data['quotesPublishedCount'] = $user->getPublishedQuotesCount();
+		$data['favCount']             = $user->getFavoriteCount();
 
 		return View::make('users.show', $data);
 	}
