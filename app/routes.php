@@ -86,6 +86,7 @@ Route::group(array('domain' => Config::get('app.urlAPI')), function()
 		// QUOTES
 		Route::get('quotes/{quote_id}', ['uses' => 'APIv1Controller@getSingleQuote']);
 		Route::get('quotes/{random?}', ['uses' => 'APIv1Controller@indexQuotes']);
+		Route::post('quotes', ['uses' => 'APIv1Controller@postStoreQuote']);
 
 		// USERS
 		Route::get('users/{user_id}', ['uses' => 'APIv1Controller@getSingleUser']);

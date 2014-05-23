@@ -122,6 +122,42 @@ class APIv1Controller extends BaseController {
 		return Response::json($data);
 	}
 
+	public function postStoreQuote()
+	{
+		$user = User::find(ResourceServer::getOwnerId());
+		$content = Input::get('content');
+		$quotesSubmittedToday = Quote::createdToday()->forUser($user)->count();
+
+		// Validate content of the quote
+		$validatorContent = Validator::make(compact('content'), ['content' => Quote::$rulesAdd['content']]);
+		if ($validatorContent->fails()) {
+			$data = [
+				'status' => 'wrong_content',
+				'error'  => 'Content of the quote should be between 50 and 300 characters'
+			];
+
+			return Response::json($data, 400);
+		}
+
+		// Validate number of quotes submitted today
+		$validatorNbQuotes = Validator::make(compact('quotesSubmittedToday'), ['quotesSubmittedToday' => Quote::$rulesAdd['quotesSubmittedToday']]);
+		if ($validatorNbQuotes->fails()) {
+			$data = [
+				'status' => 'too_much_submitted_quotes',
+				'error'  => "The maximum number of quotes you can submit is 5 per day"
+			];
+
+			return Response::json($data, 400);
+		}
+
+		// Store the quote
+		$quote = new Quote;
+		$quote->content = $content;
+		$user->quotes()->save($quote);
+
+		return Response::json($quote);
+	}
+
 	private function getQuotesHome($page, $pagesize)
 	{
 		// Time to store in cache
