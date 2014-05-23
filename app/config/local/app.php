@@ -16,4 +16,6 @@ return array(
 	'debug' => true,
 
 	'users.avatarPath' => 'public/uploads/avatar',
+
+	'urlAPI' => '',
 );
