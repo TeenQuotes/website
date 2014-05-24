@@ -83,6 +83,9 @@ Route::group(array('domain' => Config::get('app.domainAPI')), function()
 	    return AuthorizationServer::performAccessTokenFlow();
 	});
 
+	if (!App::environment('local'))
+		Route::get('/', ['uses' => 'APIv1Controller@showWelcome']);
+
 	// API v1
 	Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth', 'prefix' => 'v1'], function()
 	{
