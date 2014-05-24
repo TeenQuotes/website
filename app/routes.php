@@ -74,7 +74,7 @@ Route::group(['before' => 'admin', 'prefix' => 'admin'], function()
 });
 
 
-Route::group(array('domain' => Config::get('app.domainAPI')), function()
+Route::group(array('subdomain' => Config::get('app.domainAPI')), function()
 {
 
 	// OAUTH
@@ -87,7 +87,7 @@ Route::group(array('domain' => Config::get('app.domainAPI')), function()
 		Route::get('/', ['uses' => 'APIv1Controller@showWelcome']);
 
 	// API v1
-	Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth', 'prefix' => 'v1'], function()
+	Route::group(['subdomain' => Config::get('app.domainAPI'), 'before' => 'oauth', 'prefix' => 'v1'], function()
 	{
 		// FAVORITE QUOTES
 		Route::post('favorites/{quote_id}', ['uses' => 'APIv1Controller@postFavorite']);
@@ -100,6 +100,5 @@ Route::group(array('domain' => Config::get('app.domainAPI')), function()
 
 		// USERS
 		Route::get('users/{user_id}', ['uses' => 'APIv1Controller@getSingleUser']);
-
 	});
 });
