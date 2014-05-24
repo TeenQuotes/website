@@ -51,8 +51,10 @@ class FavoriteQuote extends Eloquent {
 
 	public function scopeForUser($query, $user)
 	{
-		if (is_numeric($user))
-			$user = User::find($user)->first();
+		if (is_numeric($user)) {
+			$user_id = (int) $user;
+			$user = User::where('id', '=', $user_id)->first();
+		}
 
 		return $query->where('user_id', '=', $user->id);
 	}
