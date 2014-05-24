@@ -233,7 +233,7 @@ class APIv1Controller extends BaseController {
 
 		$data = [
 			'status' => 'favorite_deleted',
-			'error'  => "The quote #".$quote_id." was deleted from favorites",
+			'success'  => "The quote #".$quote_id." was deleted from favorites",
 		];
 
 		return Response::json($data, 200);
