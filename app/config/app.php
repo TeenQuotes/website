@@ -28,7 +28,9 @@ return array(
 
 	'url' => 'http://localhost',
 
-	'urlAPI' => 'api.teen-quotes.com',
+	'domain' => 'teen-quotes.com',
+
+	'domainAPI' => 'api.teen-quotes.com',
 
 	/*
 	|--------------------------------------------------------------------------

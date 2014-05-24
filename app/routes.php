@@ -17,45 +17,48 @@ Route::pattern('random', 'random');
 |--------------------------------------------------------------------------
 |
 */
-Route::get('/', ['as' => 'home', 'uses' => 'QuotesController@index']);
-
-/* --- AUTH --- */
-Route::get('signin', ['as' => 'signin', 'uses' => 'AuthController@getSignin']);
-Route::get('logout', ['as' => 'logout', 'uses' => 'AuthController@getLogout']);
-Route::post('signin', 'AuthController@postSignin');
-
-/* --- SEARCH --- */
-Route::get('/search', ['as' => 'search.form', 'uses' => 'SearchController@showForm']);
-Route::post('/search', ['as' => 'search.dispatcher', 'uses' => 'SearchController@dispatcher']);
-Route::get('/search/{query}', ['as' => 'search.results', 'uses' => 'SearchController@getResults']);
-
-/* --- USERS --- */
-Route::get("/signup", ["as" => "signup", "before" => "guest", "uses" => "UsersController@getSignup"]);
-Route::get('/users/{user_id}/{fav?}', ['as' => 'users.show', 'uses' => 'UsersController@show']);
-Route::put('/users/{user_id}/password', ['as' => 'users.password', 'uses' => 'UsersController@putPassword']);
-Route::put('/users/{user_id}/avatar', ['as' => 'users.avatar', 'uses' => 'UsersController@putAvatar']);
-Route::put('/users/{user_id}/settings', ['as' => 'users.settings', 'uses' => 'UsersController@putSettings']);
-Route::resource('users', 'UsersController', ['only' => ['index', 'store', 'edit', 'update']]);
-
-/* --- PASSWORD REMINDER --- */
-Route::get('/password/remind', ['as' => 'passwordReminder', 'before' => 'guest', 'uses' => 'RemindersController@getRemind']);
-Route::controller('password', 'RemindersController');
-
-/* --- QUOTES --- */
-Route::get('/random', ['as' => 'random', 'uses' => 'QuotesController@index']);
-Route::get('/addquote', ['as' => 'addquote', 'before' => 'auth', 'uses' => 'QuotesController@getAddQuote']);
-Route::get('/quote-{quote_id}', function($id)
+Route::group(['subdomain' => Config::get('app.domain')], function()
 {
-	return Redirect::route('quotes.show', array($id), 301);
+	Route::get('/', ['as' => 'home', 'uses' => 'QuotesController@index']);
+
+	/* --- AUTH --- */
+	Route::get('signin', ['as' => 'signin', 'uses' => 'AuthController@getSignin']);
+	Route::get('logout', ['as' => 'logout', 'uses' => 'AuthController@getLogout']);
+	Route::post('signin', 'AuthController@postSignin');
+
+	/* --- SEARCH --- */
+	Route::get('/search', ['as' => 'search.form', 'uses' => 'SearchController@showForm']);
+	Route::post('/search', ['as' => 'search.dispatcher', 'uses' => 'SearchController@dispatcher']);
+	Route::get('/search/{query}', ['as' => 'search.results', 'uses' => 'SearchController@getResults']);
+
+	/* --- USERS --- */
+	Route::get("/signup", ["as" => "signup", "before" => "guest", "uses" => "UsersController@getSignup"]);
+	Route::get('/users/{user_id}/{fav?}', ['as' => 'users.show', 'uses' => 'UsersController@show']);
+	Route::put('/users/{user_id}/password', ['as' => 'users.password', 'uses' => 'UsersController@putPassword']);
+	Route::put('/users/{user_id}/avatar', ['as' => 'users.avatar', 'uses' => 'UsersController@putAvatar']);
+	Route::put('/users/{user_id}/settings', ['as' => 'users.settings', 'uses' => 'UsersController@putSettings']);
+	Route::resource('users', 'UsersController', ['only' => ['index', 'store', 'edit', 'update']]);
+
+	/* --- PASSWORD REMINDER --- */
+	Route::get('/password/remind', ['as' => 'passwordReminder', 'before' => 'guest', 'uses' => 'RemindersController@getRemind']);
+	Route::controller('password', 'RemindersController');
+
+	/* --- QUOTES --- */
+	Route::get('/random', ['as' => 'random', 'uses' => 'QuotesController@index']);
+	Route::get('/addquote', ['as' => 'addquote', 'before' => 'auth', 'uses' => 'QuotesController@getAddQuote']);
+	Route::get('/quote-{quote_id}', function($id)
+	{
+		return Redirect::route('quotes.show', array($id), 301);
+	});
+	Route::resource('quotes', 'QuotesController', ['only' => ['index', 'show', 'store']]);
+
+	/* --- COMMENTS --- */
+	Route::resource('comments', 'CommentsController', ['only' => ['store']]);
+
+	/* --- FAVORITE --- */
+	Route::post('/favorite/{quote_id}', ['as' => 'favorite', 'before' => 'auth', 'uses' => 'FavoritesController@store']);
+	Route::post('/unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth', 'uses' => 'FavoritesController@destroy']);
 });
-Route::resource('quotes', 'QuotesController', ['only' => ['index', 'show', 'store']]);
-
-/* --- COMMENTS --- */
-Route::resource('comments', 'CommentsController', ['only' => ['store']]);
-
-/* --- FAVORITE --- */
-Route::post('/favorite/{quote_id}', ['as' => 'favorite', 'before' => 'auth', 'uses' => 'FavoritesController@store']);
-Route::post('/unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth', 'uses' => 'FavoritesController@destroy']);
 
 /* --- ADMIN --- */
 Route::group(['before' => 'admin', 'prefix' => 'admin'], function()
@@ -71,7 +74,7 @@ Route::group(['before' => 'admin', 'prefix' => 'admin'], function()
 });
 
 
-Route::group(array('domain' => Config::get('app.urlAPI')), function()
+Route::group(array('domain' => Config::get('app.domainAPI')), function()
 {
 
 	// OAUTH
@@ -81,7 +84,7 @@ Route::group(array('domain' => Config::get('app.urlAPI')), function()
 	});
 
 	// API v1
-	Route::group(['domain' => Config::get('app.urlAPI'), 'before' => 'oauth', 'prefix' => 'v1'], function()
+	Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth', 'prefix' => 'v1'], function()
 	{
 		// FAVORITE QUOTES
 		Route::post('favorites/{quote_id}', ['uses' => 'APIv1Controller@postFavorite']);

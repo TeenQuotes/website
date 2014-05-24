@@ -13,9 +13,10 @@ return array(
 	|
 	*/
 
-	'debug' => true,
+	'debug'            => true,
 
 	'users.avatarPath' => 'public/uploads/avatar',
 
-	'urlAPI' => '',
+	'domain'           => '',
+	'domainAPI'        => '',
 );

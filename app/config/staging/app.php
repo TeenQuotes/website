@@ -1,4 +1,5 @@
 <?php
 return array(
-	'urlAPI' => 'api.dev.teen-quotes.com',
+	'domain'    => 'dev.teen-quotes.com',
+	'domainAPI' => 'api.teen-quotes.com',
 );
