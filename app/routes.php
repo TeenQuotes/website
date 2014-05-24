@@ -83,6 +83,10 @@ Route::group(array('domain' => Config::get('app.urlAPI')), function()
 	// API v1
 	Route::group(['domain' => Config::get('app.urlAPI'), 'before' => 'oauth', 'prefix' => 'v1'], function()
 	{
+		// FAVORITE QUOTES
+		Route::post('favorites/{quote_id}', ['uses' => 'APIv1Controller@postFavorite']);
+		Route::delete('favorites/{quote_id}', ['uses' => 'APIv1Controller@deleteFavorite']);
+
 		// QUOTES
 		Route::get('quotes/{quote_id}', ['uses' => 'APIv1Controller@getSingleQuote']);
 		Route::get('quotes/{random?}', ['uses' => 'APIv1Controller@indexQuotes']);
