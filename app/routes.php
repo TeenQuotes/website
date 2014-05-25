@@ -99,6 +99,7 @@ Route::group(array('domain' => Config::get('app.domainAPI')), function()
 		Route::post('quotes', ['uses' => 'APIv1Controller@postStoreQuote']);
 
 		// USERS
+		Route::post('users', ['uses' => 'APIv1Controller@postUsers']);
 		Route::get('users/{user_id}', ['uses' => 'APIv1Controller@getSingleUser']);
 	});
 });

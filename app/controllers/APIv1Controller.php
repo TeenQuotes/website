@@ -252,6 +252,68 @@ class APIv1Controller extends BaseController {
 		return Response::json($data, 200);
 	}
 
+	public function postUsers()
+	{
+		$data = [
+			'login'    => Input::get('login'),
+			'password' => Input::get('password'),
+			'email'    => Input::get('email'),
+		];
+
+		// Validate login
+		$validatorLogin = Validator::make(['login' => $data['login']], ['login' => User::$rulesSignup['login']]);
+		if ($validatorLogin->fails()) {
+			$data = [
+				'status' => 'wrong_login',
+				'error'  => $validatorLogin->messages()->first('login'),
+			];
+
+			return Response::json($data, 400);
+		}
+
+		// Validate password
+		$validatorPassword = Validator::make(['password' => $data['password']], ['password' => User::$rulesSignup['password']]);
+		if ($validatorPassword->fails()) {
+			$data = [
+				'status' => 'wrong_password',
+				'error'  => $validatorPassword->messages()->first('password'),
+			];
+
+			return Response::json($data, 400);
+		}
+
+		// Validate email
+		$validatorEmail = Validator::make(['email' => $data['email']], ['email' => User::$rulesSignup['email']]);
+		if ($validatorEmail->fails()) {
+			$data = [
+				'status' => 'wrong_email',
+				'error'  => $validatorEmail->messages()->first('email'),
+			];
+
+			return Response::json($data, 400);
+		}
+
+		// Store the new user
+		$user             = new User;
+		$user->login      = $data['login'];
+		$user->email      = $data['email'];
+		$user->password   = Hash::make($data['password']);
+		$user->ip         = $_SERVER['REMOTE_ADDR'];
+		$user->last_visit = Carbon::now()->toDateTimeString();
+		$user->save();
+
+		// Subscribe the user to the weekly newsletter
+		Newsletter::createNewsletterForUser($user, 'weekly');
+
+		// Send the welcome email
+		Mail::send('emails.welcome', $data, function($m) use($data)
+		{
+			$m->to($data['email'], $data['login'])->subject(Lang::get('auth.subjectWelcomeEmail'));
+		});
+
+		return Response::json($user, 200);
+	}
+
 	private function getQuotesHome($page, $pagesize)
 	{
 		// Time to store in cache
