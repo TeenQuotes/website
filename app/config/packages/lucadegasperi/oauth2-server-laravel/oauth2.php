@@ -93,6 +93,11 @@ return array(
             'rotate_refresh_tokens' => false,
         ),
 
+        'client_credentials' => array(
+            'class'            => 'League\OAuth2\Server\Grant\ClientCredentials',
+            'access_token_ttl' => 3600,
+        ),
+
     ),
 
     /*
