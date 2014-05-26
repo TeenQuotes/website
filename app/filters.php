@@ -75,6 +75,11 @@ Route::filter('auth.basic', function()
 	return Auth::basic();
 });
 
+Route::filter('session.remove', function()
+{
+	return Config::set('session.driver', 'array');
+});
+
 Route::filter('search.isValid', function($route)
 {
 	// search.getResults have the query as a parameter
