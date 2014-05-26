@@ -378,8 +378,8 @@ class APIv1Controller extends BaseController {
 		$user->save();
 
 		$data = [
-			'status' => 'password_updated',
-			'success'  => 'The new password has been set.',
+			'status'  => 'password_updated',
+			'success' => 'The new password has been set.',
 		];
 
 		return Response::json($data, 200);
