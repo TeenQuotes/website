@@ -352,6 +352,39 @@ class APIv1Controller extends BaseController {
         return $content;
 	}
 
+	public function putPassword()
+	{
+		$user = User::find(ResourceServer::getOwnerId());
+
+		$data = [
+			'password'              => Input::get('password'),
+			'password_confirmation' => Input::get('password_confirmation'),
+		];
+
+		$validatorPassword = Validator::make($data, User::$rulesUpdatePassword);
+
+		// Validate password
+		if ($validatorPassword->fails()) {
+			$data = [
+				'status' => 'wrong_password',
+				'error'  => $validatorPassword->messages()->first('password'),
+			];
+
+			return Response::json($data, 400);
+		}
+
+		// Update new password
+		$user->password = Hash::make($data['password']);
+		$user->save();
+
+		$data = [
+			'status' => 'password_updated',
+			'success'  => 'The new password has been set.',
+		];
+
+		return Response::json($data, 200);
+	}
+
 	private function getQuotesRandom($page, $pagesize)
 	{
 		// Time to store in cache

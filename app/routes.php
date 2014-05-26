@@ -101,5 +101,6 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'session.rem
 		// USERS
 		Route::post('users', ['uses' => 'APIv1Controller@postUsers']);
 		Route::get('users/{user_id}', ['uses' => 'APIv1Controller@getSingleUser']);
+		Route::put('users/password', ['uses' => 'APIv1Controller@putPassword']);
 	});
 });
