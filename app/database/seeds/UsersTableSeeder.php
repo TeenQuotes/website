@@ -31,7 +31,7 @@ class UsersTableSeeder extends Seeder {
 					'about_me'                   => $faker->paragraph(3),
 					'hide_profile'               => $faker->randomNumber(0, 1),
 					'notification_comment_quote' => $faker->randomNumber(0, 1),
-					'last_visit'                 => $faker->dateTimeThisYear(),
+					'last_visit'                 => $faker->dateTimeThisYear()->format('Y-m-d H:i:s'),
 				]);
 			}
 			// Admin account
@@ -50,7 +50,7 @@ class UsersTableSeeder extends Seeder {
 					'about_me'                   => $faker->paragraph(3),
 					'hide_profile'               => 0,
 					'notification_comment_quote' => 1,
-					'last_visit'                 => $faker->dateTimeThisYear(),
+					'last_visit'                 => $faker->dateTimeThisYear()->format('Y-m-d H:i:s'),
 				]);
 				$this->command->info('Admin account : #42 - antoineaugusti - 123456');
 			}

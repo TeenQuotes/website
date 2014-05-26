@@ -26,7 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'local'   => array('antoine'),
+	'local'   => array('antoine', 'aaugusti'),
 	'staging' => array('teen-quotes'),
 
 ));
