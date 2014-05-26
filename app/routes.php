@@ -74,7 +74,7 @@ Route::group(['before' => 'admin', 'prefix' => 'admin'], function()
 });
 
 
-Route::group(array('domain' => Config::get('app.domainAPI')), function()
+Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'session.remove'], function()
 {
 
 	// OAUTH
