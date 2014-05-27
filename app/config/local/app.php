@@ -31,5 +31,5 @@ return array(
 			'prefix' => '',
 			'unix_socket' => '/tmp/mysql.sock',
 		),
-	);
+	),
 );
