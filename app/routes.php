@@ -84,6 +84,7 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'session.rem
 	    return AuthorizationServer::performAccessTokenFlow();
 	});
 
+	// Welcome page
 	if (!App::environment('local'))
 		Route::get('/', ['uses' => 'APIv1Controller@showWelcome']);
 
