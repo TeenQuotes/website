@@ -385,6 +385,25 @@ class APIv1Controller extends BaseController {
 		return Response::json($data, 200);
 	}
 
+	public function getCountry($country_id = null)
+	{
+		if (is_null($country_id))
+			return Country::all();
+		
+		$country = Country::find($country_id);
+
+		if (is_null($country)) {
+			$data = [
+				'status' => 'country_not_found',
+				'error'  => "The country #".$country_id." was not found",
+			];
+
+			return Response::json($data, 404);
+		}
+
+		return Response::json($country, 200);
+	}
+
 	private function getQuotesRandom($page, $pagesize)
 	{
 		// Time to store in cache

@@ -6,6 +6,7 @@
 |
 */
 Route::pattern('quote_id', '[0-9]+');
+Route::pattern('country_id', '[0-9]+');
 Route::pattern('user_id', '[a-zA-Z0-9_]+');
 Route::pattern('decision', 'approve|unapprove');
 Route::pattern('fav', 'fav');
@@ -89,6 +90,9 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'session.rem
 	// API v1
 	Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth', 'prefix' => 'v1'], function()
 	{
+		// COUNTRIES
+		Route::get('countries/{country_id?}', ['uses' => 'APIv1Controller@getCountry']);		
+
 		// FAVORITE QUOTES
 		Route::post('favorites/{quote_id}', ['uses' => 'APIv1Controller@postFavorite']);
 		Route::delete('favorites/{quote_id}', ['uses' => 'APIv1Controller@deleteFavorite']);
