@@ -156,7 +156,6 @@ class UsersController extends \BaseController {
 		{
 			return Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
 				->with('user')
-				->orderDescending()
 				->paginate(Config::get('app.users.nbQuotesPerPage'))
 				->getItems();
 		});
