@@ -19,4 +19,17 @@ return array(
 
 	'domain'           => '',
 	'domainAPI'        => '',
+	'connections' => array(
+		'mysql' => array(
+			'driver' => 'mysql',
+			'host' => 'localhost',
+			'database' => 'teenquotes',
+			'username' => 'root',
+			'password' => 'helloworld',
+			'charset' => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix' => '',
+			'unix_socket' => '/tmp/mysql.sock',
+		),
+	);
 );
