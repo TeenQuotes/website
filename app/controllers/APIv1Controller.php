@@ -33,8 +33,8 @@ class APIv1Controller extends BaseController {
 		if (empty($quote) OR $quote->count() == 0) {
 
 			$data = [
-				'status' => 404,
-				'error' => 'Quote not found.'
+				'status' => 'quote_not_found',
+				'error'  => "The quote #".$quote_id." was not found",
 			];
 
 			return Response::json($data, 404);
