@@ -101,6 +101,7 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'session.rem
 		// QUOTES
 		Route::get('quotes/{quote_id}', ['uses' => 'APIv1Controller@getSingleQuote']);
 		Route::get('quotes/{random?}', ['uses' => 'APIv1Controller@indexQuotes']);
+		Route::get('quotes/favorites/{user_id?}', ['uses' => 'APIv1Controller@indexFavoritesQuotes']);
 		Route::post('quotes', ['uses' => 'APIv1Controller@postStoreQuote']);
 
 		// USERS

@@ -76,6 +76,56 @@ class APIv1Controller extends BaseController {
 		return Response::json($data);
 	}
 
+	public function indexFavoritesQuotes($user_id)
+	{
+		$page = Input::get('page', 1);
+		$pagesize = Input::get('pagesize', Config::get('app.users.nbQuotesPerPage'));
+
+        if ($page <= 0)
+			$page = 1;
+
+		$user = User::find($user_id);
+		
+		// Handle user not found
+		if (is_null($user)) {
+			$data = [
+				'status' => 'user_not_found',
+				'error'  => "The user #".$user_id." was not found",
+			];
+
+			return Response::json($data, 400);
+		}
+
+		// Time to store list of favorites in cache
+		$expiresAt = Carbon::now()->addMinutes(10);
+
+		$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$user->id, $expiresAt, function() use ($user)
+		{
+			return FavoriteQuote::forUser($user)->select('quote_id')->get()->lists('quote_id');
+		});
+
+		$totalQuotes = count($arrayIDFavoritesQuotesForUser);
+		
+		// Get quotes
+		$content = array();
+		if ($totalQuotes > 0)
+			$content = $this->getQuotesFavorite($page, $pagesize, $user, $arrayIDFavoritesQuotesForUser);
+
+		// Handle no quotes found
+		if (is_null($content) OR empty($content) OR $content->count() == 0) {
+			$data = [
+				'status' => 404,
+				'error' => 'No quotes have been found.'
+			];
+
+			return Response::json($data, 404);
+		}
+
+		$data = $this->paginateQuotes($page, $pagesize, $totalQuotes, $content);
+		
+		return Response::json($data);
+	}
+
 	public function indexQuotes($random = null)
 	{
 		$page = Input::get('page', 1);
@@ -88,7 +138,6 @@ class APIv1Controller extends BaseController {
 		{
 			return Quote::published()->count();
 		});
-        $totalPages = ceil($totalQuotes / $pagesize);
 
         // Get quotes
         if (is_null($random))
@@ -96,9 +145,8 @@ class APIv1Controller extends BaseController {
         else
         	$content = $this->getQuotesRandom($page, $pagesize);
 
-		// Handle not found
+		// Handle no quotes found
 		if (is_null($content) OR $content->count() == 0) {
-
 			$data = [
 				'status' => 404,
 				'error' => 'No quotes have been found.'
@@ -107,13 +155,22 @@ class APIv1Controller extends BaseController {
 			return Response::json($data, 404);
 		}
 
-        $data = [
-				'quotes'       => $content->toArray(),
-				'total_quotes' => $totalQuotes,
-				'total_pages'  => $totalPages,
-				'page'         => (int) $page,
-				'pagesize'     => (int) $pagesize,
-				'url'          => URL::current()
+		$data = $this->paginateQuotes($page, $pagesize, $totalQuotes, $content);
+		
+		return Response::json($data);
+	}
+
+	private function paginateQuotes($page, $pagesize, $totalQuotes, $content)
+	{
+        $totalPages = ceil($totalQuotes / $pagesize);
+		
+		$data = [
+			'quotes'       => $content->toArray(),
+			'total_quotes' => $totalQuotes,
+			'total_pages'  => $totalPages,
+			'page'         => (int) $page,
+			'pagesize'     => (int) $pagesize,
+			'url'          => URL::current()
         ];
 
         // Add next page URL
@@ -132,7 +189,7 @@ class APIv1Controller extends BaseController {
         else
         	$data['has_previous_page'] = false;
 
-		return Response::json($data);
+        return $data;
 	}
 
 	public function postStoreQuote()
@@ -443,5 +500,22 @@ class APIv1Controller extends BaseController {
         }
 
         return $content;
+	}
+
+	private function getQuotesFavorite($page, $pagesize, $user, $arrayIDFavoritesQuotesForUser)
+	{
+		// Number of quotes to skip
+        $skip = $pagesize * ($page - 1);
+
+		$content = Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
+			->with(array('user' => function($q)
+			{
+			    $q->addSelect(array('id', 'login', 'avatar'));
+			}))
+			->take($pagesize)
+			->skip($skip)
+			->get();
+
+		return $content;
 	}
 }
