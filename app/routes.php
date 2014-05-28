@@ -104,7 +104,7 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'session.rem
 		Route::get('quotes/{quote_id}', ['uses' => 'APIv1Controller@getSingleQuote']);
 		Route::get('quotes/{random?}', ['uses' => 'APIv1Controller@indexQuotes']);
 		Route::get('quotes/favorites/{user_id?}', ['uses' => 'APIv1Controller@indexFavoritesQuotes']);
-		Route::get('quotes/{quote_approved_type}/{user_id?}', ['uses' => 'APIv1Controller@indexByApprovedQuotes']);
+		Route::get('quotes/{quote_approved_type}/{user_id}', ['uses' => 'APIv1Controller@indexByApprovedQuotes']);
 
 		// USERS
 		Route::post('users', ['uses' => 'APIv1Controller@postUsers']);
