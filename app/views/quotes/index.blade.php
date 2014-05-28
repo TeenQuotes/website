@@ -7,7 +7,9 @@ $i = 0;
 		@include('quotes.singleQuote', compact("quote"))
 	<?php $i++ ?>
 	@endforeach
-
+	
+	@include('layouts.pub-footer')
+	
 	<div class="text-center">
 		{{ $paginator->links() }}
 	</div>
