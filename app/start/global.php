@@ -17,7 +17,7 @@ ClassLoader::addDirectories(array(
 	app_path().'/controllers',
 	app_path().'/models',
 	app_path().'/database/seeds',
-
+	app_path().'/API/v1/controllers',
 ));
 
 /*
@@ -115,3 +115,11 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+/*
+|--------------------------------------------------------------------------
+| Additional routes
+|--------------------------------------------------------------------------
+|
+*/
+require app_path().'/API/v1/routes.php';

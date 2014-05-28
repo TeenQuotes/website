@@ -78,8 +78,7 @@ Route::group(['before' => 'admin', 'prefix' => 'admin'], function()
 
 Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'session.remove'], function()
 {
-
-	// OAUTH
+	// OAuth
 	Route::post('oauth', function()
 	{
 	    return AuthorizationServer::performAccessTokenFlow();
@@ -87,28 +86,5 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'session.rem
 
 	// Welcome page
 	if (!App::environment('local'))
-		Route::get('/', ['uses' => 'APIv1Controller@showWelcome']);
-
-	// API v1
-	Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth', 'prefix' => 'v1'], function()
-	{
-		// COUNTRIES
-		Route::get('countries/{country_id?}', ['uses' => 'APIv1Controller@getCountry']);		
-
-		// FAVORITE QUOTES
-		Route::post('favorites/{quote_id}', ['uses' => 'APIv1Controller@postFavorite']);
-		Route::delete('favorites/{quote_id}', ['uses' => 'APIv1Controller@deleteFavorite']);
-
-		// QUOTES
-		Route::post('quotes', ['uses' => 'APIv1Controller@postStoreQuote']);
-		Route::get('quotes/{quote_id}', ['uses' => 'APIv1Controller@getSingleQuote']);
-		Route::get('quotes/{random?}', ['uses' => 'APIv1Controller@indexQuotes']);
-		Route::get('quotes/favorites/{user_id?}', ['uses' => 'APIv1Controller@indexFavoritesQuotes']);
-		Route::get('quotes/{quote_approved_type}/{user_id}', ['uses' => 'APIv1Controller@indexByApprovedQuotes']);
-
-		// USERS
-		Route::post('users', ['uses' => 'APIv1Controller@postUsers']);
-		Route::get('users/{user_id}', ['uses' => 'APIv1Controller@getSingleUser']);
-		Route::put('users/password', ['uses' => 'APIv1Controller@putPassword']);
-	});
+		Route::get('/', ['uses' => 'APIGlobalController@showWelcome']);
 });
