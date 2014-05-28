@@ -9,6 +9,7 @@ Route::pattern('quote_id', '[0-9]+');
 Route::pattern('country_id', '[0-9]+');
 Route::pattern('user_id', '[a-zA-Z0-9_]+');
 Route::pattern('decision', 'approve|unapprove');
+Route::pattern('quote_approved_type', 'waiting|refused|pending|published');
 Route::pattern('fav', 'fav');
 Route::pattern('random', 'random');
 
@@ -99,10 +100,11 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'session.rem
 		Route::delete('favorites/{quote_id}', ['uses' => 'APIv1Controller@deleteFavorite']);
 
 		// QUOTES
+		Route::post('quotes', ['uses' => 'APIv1Controller@postStoreQuote']);
 		Route::get('quotes/{quote_id}', ['uses' => 'APIv1Controller@getSingleQuote']);
 		Route::get('quotes/{random?}', ['uses' => 'APIv1Controller@indexQuotes']);
 		Route::get('quotes/favorites/{user_id?}', ['uses' => 'APIv1Controller@indexFavoritesQuotes']);
-		Route::post('quotes', ['uses' => 'APIv1Controller@postStoreQuote']);
+		Route::get('quotes/{quote_approved_type}/{user_id?}', ['uses' => 'APIv1Controller@indexByApprovedQuotes']);
 
 		// USERS
 		Route::post('users', ['uses' => 'APIv1Controller@postUsers']);

@@ -126,6 +126,49 @@ class APIv1Controller extends BaseController {
 		return Response::json($data);
 	}
 
+	public function indexByApprovedQuotes($quote_approved_type, $user_id)
+	{
+		$page = Input::get('page', 1);
+		$pagesize = Input::get('pagesize', Config::get('app.users.nbQuotesPerPage'));
+
+        if ($page <= 0)
+			$page = 1;
+
+		$user = User::find($user_id);
+		
+		// Handle user not found
+		if (is_null($user)) {
+			$data = [
+				'status' => 'user_not_found',
+				'error'  => "The user #".$user_id." was not found",
+			];
+
+			return Response::json($data, 400);
+		}
+
+		
+		// Get quotes
+		$content = $this->getQuotesByApprovedForUser($page, $pagesize, $user, $quote_approved_type);
+
+		// Handle no quotes found
+		$totalQuotes = 0;
+		if (is_null($content) OR empty($content) OR $content->count() == 0) {
+			$data = [
+				'status' => 404,
+				'error' => 'No quotes have been found.'
+			];
+
+			return Response::json($data, 404);
+		}
+
+		$totalQuotes = Quote::$quote_approved_type()->forUser($user)->count();
+
+		$data = $this->paginateQuotes($page, $pagesize, $totalQuotes, $content);
+		
+		return Response::json($data);
+	}
+
+
 	public function indexQuotes($random = null)
 	{
 		$page = Input::get('page', 1);
@@ -512,6 +555,25 @@ class APIv1Controller extends BaseController {
 			{
 			    $q->addSelect(array('id', 'login', 'avatar'));
 			}))
+			->take($pagesize)
+			->skip($skip)
+			->get();
+
+		return $content;
+	}
+
+	private function getQuotesByApprovedForUser($page, $pagesize, $user, $quote_approved_type)
+	{
+		// Number of quotes to skip
+        $skip = $pagesize * ($page - 1);
+
+		$content = Quote::$quote_approved_type()
+			->with(array('user' => function($q)
+			{
+			    $q->addSelect(array('id', 'login', 'avatar'));
+			}))
+			->forUser($user)
+			->orderDescending()
 			->take($pagesize)
 			->skip($skip)
 			->get();
