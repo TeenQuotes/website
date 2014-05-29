@@ -80,7 +80,9 @@ return array(
 
                 $user = User::whereLogin($credentials['login'])->first();
 
+                // Credentials were not valid
                 if (!$valid) {
+                    
                     // Maybe the user uses the old hash method
                     if (!is_null($user) AND ($user->password == User::oldHashMethod($credentials))) {
                         // Update the password in database
