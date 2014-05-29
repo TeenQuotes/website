@@ -75,7 +75,7 @@ class QuotesAPIv1Controller extends BaseController {
 			return Response::json($data, 404);
 		}
 
-		$data = $this->paginateQuotes($page, $pagesize, $totalQuotes, $content);
+		$data = APIGlobalController::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
 		return Response::json($data, 200);
 	}
@@ -99,7 +99,6 @@ class QuotesAPIv1Controller extends BaseController {
 
 			return Response::json($data, 400);
 		}
-
 		
 		// Get quotes
 		$content = $this->getQuotesByApprovedForUser($page, $pagesize, $user, $quote_approved_type);
@@ -117,7 +116,7 @@ class QuotesAPIv1Controller extends BaseController {
 
 		$totalQuotes = Quote::$quote_approved_type()->forUser($user)->count();
 
-		$data = $this->paginateQuotes($page, $pagesize, $totalQuotes, $content);
+		$data = APIGlobalController::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
 		return Response::json($data, 200);
 	}
@@ -152,41 +151,9 @@ class QuotesAPIv1Controller extends BaseController {
 			return Response::json($data, 404);
 		}
 
-		$data = $this->paginateQuotes($page, $pagesize, $totalQuotes, $content);
+		$data = APIGlobalController::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
 		return Response::json($data, 200);
-	}
-
-	private function paginateQuotes($page, $pagesize, $totalQuotes, $content)
-	{
-        $totalPages = ceil($totalQuotes / $pagesize);
-		
-		$data = [
-			'quotes'       => $content->toArray(),
-			'total_quotes' => $totalQuotes,
-			'total_pages'  => $totalPages,
-			'page'         => (int) $page,
-			'pagesize'     => (int) $pagesize,
-			'url'          => URL::current()
-        ];
-
-        // Add next page URL
-        if ($page < $totalPages) {
-        	$data['has_next_page'] = true;
-        	$data['next_page'] = $data['url'].'?page='.($page + 1).'&pagesize='.$pagesize;
-        }
-        else
-        	$data['has_next_page'] = false;
-
-        // Add previous page URL
-        if ($page >= 2) {
-        	$data['has_previous_page'] = true;
-        	$data['previous_page'] = $data['url'].'?page='.($page - 1).'&pagesize='.$pagesize;
-        }
-        else
-        	$data['has_previous_page'] = false;
-
-        return $data;
 	}
 
 	public function getSearch($query)
@@ -221,7 +188,7 @@ class QuotesAPIv1Controller extends BaseController {
 		->setBindings([$query, 1])
 		->count();
 
-		$data = $this->paginateQuotes($page, $pagesize, $totalQuotes, $content);
+		$data = APIGlobalController::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
 		return Response::json($data, 200);
 	}
