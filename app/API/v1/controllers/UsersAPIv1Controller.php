@@ -106,7 +106,7 @@ class UsersAPIv1Controller extends BaseController {
 			$page = 1;
 				
 		// Get users
-		$content = $this->getUsersSearch($page, $pagesize, $query);
+		$content = self::getUsersSearch($page, $pagesize, $query);
 
 		// Handle no users found
 		$totalUsers = 0;
@@ -159,7 +159,7 @@ class UsersAPIv1Controller extends BaseController {
 		return Response::json($data, 200);
 	}
 
-	private function getUsersSearch($page, $pagesize, $query)
+	public static function getUsersSearch($page, $pagesize, $query)
 	{
 		// Number of users to skip
         $skip = $pagesize * ($page - 1);

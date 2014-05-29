@@ -165,7 +165,7 @@ class QuotesAPIv1Controller extends BaseController {
 			$page = 1;
 				
 		// Get quotes
-		$content = $this->getQuotesSearch($page, $pagesize, $query);
+		$content = self::getQuotesSearch($page, $pagesize, $query);
 
 		// Handle no quotes found
 		$totalQuotes = 0;
@@ -322,7 +322,7 @@ class QuotesAPIv1Controller extends BaseController {
 		return $content;
 	}
 
-	private function getQuotesSearch($page, $pagesize, $query)
+	public static function getQuotesSearch($page, $pagesize, $query)
 	{
 		// Number of quotes to skip
         $skip = $pagesize * ($page - 1);
