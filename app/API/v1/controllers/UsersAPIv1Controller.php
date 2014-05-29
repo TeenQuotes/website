@@ -97,6 +97,35 @@ class UsersAPIv1Controller extends BaseController {
 		return Response::json($data);
 	}
 
+	public function getSearch($query)
+	{
+		$page = Input::get('page', 1);
+		$pagesize = Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
+
+        if ($page <= 0)
+			$page = 1;
+				
+		// Get users
+		$content = $this->getUsersSearch($page, $pagesize, $query);
+
+		// Handle no users found
+		$totalUsers = 0;
+		if (is_null($content) OR empty($content) OR $content->count() == 0) {
+			$data = [
+				'status' => 404,
+				'error' => 'No users have been found.'
+			];
+
+			return Response::json($data, 404);
+		}
+
+		$totalUsers = User::partialLogin($query)->notHidden()->count();
+
+		$data = APIGlobalController::paginateContent($page, $pagesize, $totalUsers, $content, 'users');
+		
+		return Response::json($data, 200);
+	}
+
 	public function putPassword()
 	{
 		$user = User::find(ResourceServer::getOwnerId());
@@ -128,5 +157,20 @@ class UsersAPIv1Controller extends BaseController {
 		];
 
 		return Response::json($data, 200);
+	}
+
+	private function getUsersSearch($page, $pagesize, $query)
+	{
+		// Number of users to skip
+        $skip = $pagesize * ($page - 1);
+
+        $users = User::partialLogin($query)
+        ->notHidden()
+        ->with('countryObject')
+        ->skip($skip)
+        ->take($pagesize)
+        ->get();
+
+        return $users;
 	}
 }
