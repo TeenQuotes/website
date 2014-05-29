@@ -32,6 +32,7 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth|sessi
 	Route::get('quotes/{random?}', ['uses' => 'QuotesAPIv1Controller@indexQuotes']);
 	Route::get('quotes/favorites/{user_id?}', ['uses' => 'QuotesAPIv1Controller@indexFavoritesQuotes']);
 	Route::get('quotes/{quote_approved_type}/{user_id}', ['uses' => 'QuotesAPIv1Controller@indexByApprovedQuotes']);
+	Route::get('quotes/search/{query}', ['uses' => 'QuotesAPIv1Controller@getSearch']);
 
 	// Users
 	Route::post('users', ['uses' => 'UsersAPIv1Controller@postUsers']);

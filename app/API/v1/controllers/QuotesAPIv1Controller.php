@@ -77,7 +77,7 @@ class QuotesAPIv1Controller extends BaseController {
 
 		$data = $this->paginateQuotes($page, $pagesize, $totalQuotes, $content);
 		
-		return Response::json($data);
+		return Response::json($data, 200);
 	}
 
 	public function indexByApprovedQuotes($quote_approved_type, $user_id)
@@ -119,7 +119,7 @@ class QuotesAPIv1Controller extends BaseController {
 
 		$data = $this->paginateQuotes($page, $pagesize, $totalQuotes, $content);
 		
-		return Response::json($data);
+		return Response::json($data, 200);
 	}
 
 
@@ -154,7 +154,7 @@ class QuotesAPIv1Controller extends BaseController {
 
 		$data = $this->paginateQuotes($page, $pagesize, $totalQuotes, $content);
 		
-		return Response::json($data);
+		return Response::json($data, 200);
 	}
 
 	private function paginateQuotes($page, $pagesize, $totalQuotes, $content)
@@ -187,6 +187,43 @@ class QuotesAPIv1Controller extends BaseController {
         	$data['has_previous_page'] = false;
 
         return $data;
+	}
+
+	public function getSearch($query)
+	{
+		$page = Input::get('page', 1);
+		$pagesize = Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
+
+        if ($page <= 0)
+			$page = 1;
+				
+		// Get quotes
+		$content = $this->getQuotesSearch($page, $pagesize, $query);
+
+		// Handle no quotes found
+		$totalQuotes = 0;
+		if (is_null($content) OR empty($content) OR $content->count() == 0) {
+			$data = [
+				'status' => 404,
+				'error' => 'No quotes have been found.'
+			];
+
+			return Response::json($data, 404);
+		}
+
+		$totalQuotes = Quote::
+		// $query will NOT be bind here
+		// it will be bind when calling setBindings
+		whereRaw("MATCH(content) AGAINST(?)", array($query))
+		->where('approved', '=', 1)
+		// WARNING 1 corresponds to approved = 1
+		// We need to bind it again
+		->setBindings([$query, 1])
+		->count();
+
+		$data = $this->paginateQuotes($page, $pagesize, $totalQuotes, $content);
+		
+		return Response::json($data, 200);
 	}
 
 	public function postStoreQuote()
@@ -316,6 +353,32 @@ class QuotesAPIv1Controller extends BaseController {
 			->get();
 
 		return $content;
+	}
+
+	private function getQuotesSearch($page, $pagesize, $query)
+	{
+		// Number of quotes to skip
+        $skip = $pagesize * ($page - 1);
+
+        $quotes = Quote::
+		select('id', 'content', 'user_id', 'approved', 'created_at', 'updated_at', DB::raw("MATCH(content) AGAINST(?) AS `rank`"))
+		// $search will NOT be bind here
+		// it will be bind when calling setBindings
+		->whereRaw("MATCH(content) AGAINST(?)", array($query))
+		->where('approved', '=', 1)
+		->orderBy('rank', 'DESC')
+		->with(array('user' => function($q)
+		{
+		    $q->addSelect(array('id', 'login', 'avatar'));
+		}))
+		->skip($skip)
+		->take($pagesize)
+		// WARNING 1 corresponds to approved = 1
+		// We need to bind it again
+		->setBindings([$query, $query, 1])
+		->get();
+
+		return $quotes;
 	}
 
 	private function getQuotesByApprovedForUser($page, $pagesize, $user, $quote_approved_type)

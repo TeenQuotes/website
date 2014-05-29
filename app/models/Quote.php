@@ -286,12 +286,12 @@ class Quote extends Eloquent {
 		// $search will NOT be bind here
 		// it will be bind when calling setBindings
 		->whereRaw("MATCH(content) AGAINST(?)", array($search))
-		->where('approved', '=', '1')
+		->where('approved', '=', 1)
 		->orderBy('rank', 'DESC')
 		->with('user')
 		// WARNING 1 corresponds to approved = 1
 		// We need to bind it again
-		->setBindings([$search, $search, '1'])
+		->setBindings([$search, $search, 1])
 		->get();
 	}
 
