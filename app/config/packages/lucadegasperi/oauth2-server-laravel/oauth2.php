@@ -78,9 +78,25 @@ return array(
 
                 $valid = Auth::validate($credentials);
 
+                $user = User::whereLogin($credentials['login'])->first();
+
                 if (!$valid) {
+                    // Maybe the user uses the old hash method
+                    if (!is_null($user) AND ($user->password == User::oldHashMethod($credentials))) {
+                        // Update the password in database
+                        $user->password   = Hash::make($credentials['password']);
+                        $user->last_visit = Carbon::now()->toDateTimeString();
+                        $user->save();
+
+                        return Auth::getProvider()->retrieveByCredentials($credentials)->id;
+                    }
+
                     return false;
                 }
+
+                // Store last visit time
+                $user->last_visit = Carbon::now()->toDateTimeString();
+                $user->save();
 
                 return Auth::getProvider()->retrieveByCredentials($credentials)->id;
             }
