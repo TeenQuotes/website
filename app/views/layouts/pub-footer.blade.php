@@ -11,5 +11,6 @@
 
 <!-- Add script to detect ads and show a banner -->
 @section('add-js')	
+	{{ HTML::script('assets/js/ads.js') }}
 	{{ HTML::script('assets/js/detect.js') }}
 @stop

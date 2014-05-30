@@ -1,6 +1,5 @@
 $(document).ready(function() {
-	adblock = $('#ad-footer').height() === 0;
 	var div = '<div id="need-money">' + laravel.moneyDisclaimer + '</div>';
-	if (adblock)
+	if (typeof(displayNeedMoney) == "undefined")
 		$("#paginator-quotes").before(div);
 });
