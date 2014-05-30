@@ -10,7 +10,7 @@ $i = 0;
 	
 	@include('layouts.pub-footer')
 	
-	<div class="text-center">
+	<div id="paginator-quotes" class="text-center">
 		{{ $paginator->links() }}
 	</div>
 @stop

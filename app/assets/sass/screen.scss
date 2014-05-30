@@ -1085,6 +1085,28 @@ body {
 	}
 }
 
+#need-money {
+	padding: 10px;
+	width: 80%;
+	margin: 20px auto;
+	border: 3px solid $lightBlue;
+	text-align: justify;
+
+	h2 {
+		color: $red;
+		font-family: 'Titillium Web', sans-serif;
+		margin-top: 0;
+		font-weight: 400;
+	}
+
+	.author {
+		margin-top: 10px;
+		font-family: 'Titillium Web', sans-serif;
+		text-align: right;
+		color: darken($lightBlue, 10%);
+	}
+}
+
 #wrap {
   min-height: 100%;
   height: auto !important;

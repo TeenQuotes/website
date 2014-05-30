@@ -15,5 +15,6 @@
 
 	@include('layouts/js')
 
+	@yield('add-js')
 </body>
 </html>

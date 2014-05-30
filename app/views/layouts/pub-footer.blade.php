@@ -8,3 +8,8 @@
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+
+<!-- Add script to detect ads and show a banner -->
+@section('add-js')	
+	{{ HTML::script('assets/js/detect.js') }}
+@stop

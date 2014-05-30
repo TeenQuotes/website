@@ -59,6 +59,11 @@ class QuotesController extends \BaseController {
 			'paginator'       => Paginator::make($quotes, $numberQuotesPublished, Config::get('app.quotes.nbQuotesPerPage')),
 		];
 
+		// The AdBlock disclaimer
+		JavaScript::put([
+			'moneyDisclaimer' => Lang::get('quotes.adblockDisclaimer'),
+    	]);
+
 		return View::make('quotes.index', $data);
 	}
 
