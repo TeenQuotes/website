@@ -8,7 +8,9 @@ $i = 0;
 	<?php $i++ ?>
 	@endforeach
 	
-	@include('layouts.pub-footer')
+	<div id="ad-footer">
+		@include('layouts.pub-footer')
+	</div>
 	
 	<div id="paginator-quotes" class="text-center">
 		{{ $paginator->links() }}
