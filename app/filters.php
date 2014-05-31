@@ -65,7 +65,7 @@ Route::filter('auth', function()
 
 Route::filter('admin', function()
 {
-	if (!(Auth::check() AND Auth::user()->isAdmin()))
+	if (!(Auth::check() AND Auth::user()->is_admin))
 		App::abort('401', 'Nothing to do here');
 });
 
