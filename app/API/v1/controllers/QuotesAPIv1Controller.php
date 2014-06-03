@@ -27,7 +27,7 @@ class QuotesAPIv1Controller extends BaseController {
 			return Response::json($data, 404);
 		}
 		else
-			return $quote;
+			return Response::json($quote, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function indexFavoritesQuotes($user_id)
