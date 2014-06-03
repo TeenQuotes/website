@@ -41,6 +41,6 @@ class SearchAPIv1Controller extends BaseController {
 			'url'          => URL::current(),
 		];
 
-		return Response::json($data, 200);
+		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 }

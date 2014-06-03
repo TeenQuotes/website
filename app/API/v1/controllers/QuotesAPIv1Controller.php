@@ -77,7 +77,7 @@ class QuotesAPIv1Controller extends BaseController {
 
 		$data = APIGlobalController::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
-		return Response::json($data, 200);
+		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function indexByApprovedQuotes($quote_approved_type, $user_id)
@@ -118,7 +118,7 @@ class QuotesAPIv1Controller extends BaseController {
 
 		$data = APIGlobalController::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
-		return Response::json($data, 200);
+		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 
@@ -153,7 +153,7 @@ class QuotesAPIv1Controller extends BaseController {
 
 		$data = APIGlobalController::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
-		return Response::json($data, 200);
+		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function getSearch($query)
@@ -190,7 +190,7 @@ class QuotesAPIv1Controller extends BaseController {
 
 		$data = APIGlobalController::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
-		return Response::json($data, 200);
+		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function postStoreQuote()
@@ -226,7 +226,7 @@ class QuotesAPIv1Controller extends BaseController {
 		$quote->content = $content;
 		$user->quotes()->save($quote);
 
-		return Response::json($quote);
+		return Response::json($quote, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	private function getQuotesHome($page, $pagesize)

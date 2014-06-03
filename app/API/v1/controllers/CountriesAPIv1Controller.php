@@ -21,6 +21,6 @@ class CountriesAPIv1Controller extends BaseController {
 			return Response::json($data, 404);
 		}
 
-		return Response::json($country, 200);
+		return Response::json($country, 200, [], JSON_NUMERIC_CHECK);
 	}
 }

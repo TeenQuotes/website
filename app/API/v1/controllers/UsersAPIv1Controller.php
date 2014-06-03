@@ -61,7 +61,7 @@ class UsersAPIv1Controller extends BaseController {
 			$m->to($data['email'], $data['login'])->subject(Lang::get('auth.subjectWelcomeEmail'));
 		});
 
-		return Response::json($user, 200);
+		return Response::json($user, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function getSingleUser($user_id)
@@ -94,7 +94,7 @@ class UsersAPIv1Controller extends BaseController {
 			$data[$key] = $user->$method();
 		}
 
-		return Response::json($data);
+		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function getSearch($query)
@@ -123,7 +123,7 @@ class UsersAPIv1Controller extends BaseController {
 
 		$data = APIGlobalController::paginateContent($page, $pagesize, $totalUsers, $content, 'users');
 		
-		return Response::json($data, 200);
+		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function putPassword()
@@ -156,7 +156,7 @@ class UsersAPIv1Controller extends BaseController {
 			'success' => 'The new password has been set.',
 		];
 
-		return Response::json($data, 200);
+		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	public static function getUsersSearch($page, $pagesize, $query)

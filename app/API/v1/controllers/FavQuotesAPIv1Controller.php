@@ -47,7 +47,7 @@ class FavQuotesAPIv1Controller extends BaseController {
 		if (Cache::has(Quote::$cacheNameNbFavorites.$quote_id))
 			Cache::increment(Quote::$cacheNameNbFavorites.$quote_id);
 
-		return Response::json($favorite, 200);
+		return Response::json($favorite, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function deleteFavorite($quote_id)
@@ -80,6 +80,6 @@ class FavQuotesAPIv1Controller extends BaseController {
 			'success'  => "The quote #".$quote_id." was deleted from favorites",
 		];
 
-		return Response::json($data, 200);
+		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 }
