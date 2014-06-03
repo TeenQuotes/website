@@ -83,6 +83,7 @@ return array(
 	*/
 
 	'key' => 'zXPYTseYZiFjua90HVGJMro7CYb8USRg',
+	'cipher' => MCRYPT_RIJNDAEL_256,
 
 	/*
 	|--------------------------------------------------------------------------

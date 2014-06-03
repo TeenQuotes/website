@@ -19,8 +19,8 @@ class CommentsTableSeeder extends Seeder {
 		{
 			Comment::create([
 				'content'    => $faker->paragraph(3),
-				'quote_id'   => $faker->randomNumber(150, 750),
-				'user_id'    => $faker->randomNumber(1, 100),
+				'quote_id'   => $faker->numberBetween(150, 750),
+				'user_id'    => $faker->numberBetween(1, 100),
 				'created_at' => $date,
 			]);
 

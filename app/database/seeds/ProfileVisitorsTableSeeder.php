@@ -17,8 +17,8 @@ class ProfileVisitorsTableSeeder extends Seeder {
 		foreach(range(1, 400) as $index)
 		{
 			ProfileVisitor::create([
-				'user_id'    => $faker->randomNumber(1, 100),
-				'visitor_id' => $faker->randomNumber(1, 100),
+				'user_id'    => $faker->numberBetween(1, 100),
+				'visitor_id' => $faker->numberBetween(1, 100),
 			]);
 		}
 	}

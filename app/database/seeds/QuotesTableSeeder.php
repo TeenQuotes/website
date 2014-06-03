@@ -35,7 +35,7 @@ class QuotesTableSeeder extends Seeder {
 
 			Quote::create([
 				'content'    => $faker->paragraph(3),
-				'user_id'    => $faker->randomNumber(1, 100),
+				'user_id'    => $faker->numberBetween(1, 100),
 				'approved'   => $approved ,
 				'created_at' => $date,
 			]);

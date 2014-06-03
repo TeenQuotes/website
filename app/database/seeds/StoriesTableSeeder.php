@@ -19,7 +19,7 @@ class StoriesTableSeeder extends Seeder {
 			Story::create([
 				'represent_txt' => $faker->paragraph(5),
 				'frequence_txt' => $faker->paragraph(5),
-				'user_id'       => $faker->randomNumber(1, 100),
+				'user_id'       => $faker->numberBetween(1, 100),
 			]);
 		}
 	}

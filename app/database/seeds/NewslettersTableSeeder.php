@@ -17,7 +17,7 @@ class NewslettersTableSeeder extends Seeder {
 		foreach(range(1, 80) as $index)
 		{
 			Newsletter::create([
-				'user_id' => $faker->randomNumber(1, 100),
+				'user_id' => $faker->numberBetween(1, 100),
 				'type'    => $faker->randomElement(array('weekly', 'daily')),
 			]);
 		}

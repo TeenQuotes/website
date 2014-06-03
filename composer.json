@@ -4,13 +4,13 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.1.*",
+		"laravel/framework": "4.2.*",
 		"fitztrev/laravel-html-minify": "dev-master",
 		"nesbot/Carbon": "*",
-		"laracasts/utilities": "1.0",
 		"fedeisas/laravel-mail-css-inliner": "1.*",
 		"indatus/dispatcher": "dev-master",
-		"lucadegasperi/oauth2-server-laravel": "1.0.x"
+		"lucadegasperi/oauth2-server-laravel": "1.0.x",
+		"laracasts/utilities": "1.0.1"
 	},
 	"require-dev": {
     	"way/generators": "2.*",
