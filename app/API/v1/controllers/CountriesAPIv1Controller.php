@@ -6,7 +6,7 @@ class CountriesAPIv1Controller extends BaseController {
 	{
 		// List all countries
 		if (is_null($country_id))
-			return Country::all();
+			return Response::json(Country::all(), 200, [], JSON_NUMERIC_CHECK);
 		
 		// Get a single country
 		$country = Country::find($country_id);
