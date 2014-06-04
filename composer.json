@@ -10,8 +10,7 @@
 		"fedeisas/laravel-mail-css-inliner": "1.*",
 		"indatus/dispatcher": "dev-master",
 		"lucadegasperi/oauth2-server-laravel": "1.0.x",
-		"laracasts/utilities": "1.0.1",
-		"guzzlehttp/guzzle": "~4.0"
+		"laracasts/utilities": "1.0.1"
 	},
 	"require-dev": {
     	"way/generators": "2.*",

@@ -16,7 +16,7 @@ return array(
 	|
 	*/
 
-	'driver' => 'mailgun',
+	'driver' => 'smtp',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'hello@dev.teen-quotes.com', 'name' => 'Teen Quotes'),
+	'from' => array('address' => 'antoine.augusti@quantic-telecom.net', 'name' => 'Teen Quotes'),
 
 	/*
 	|--------------------------------------------------------------------------
