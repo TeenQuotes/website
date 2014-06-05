@@ -1,7 +1,7 @@
 <?php
 namespace TeenQuotes\Mail\Transport;
 
-class MailgunTransport extends \Illuminate\Mail\MailgunTransport {
+class MailgunTransport extends \Illuminate\Mail\Transport\MailgunTransport {
 
 	/**
 	 * {@inheritdoc}
