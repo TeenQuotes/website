@@ -10,7 +10,8 @@
 		"tijsverkoyen/css-to-inline-styles": "1.2.*",
 		"indatus/dispatcher": "dev-master",
 		"lucadegasperi/oauth2-server-laravel": "1.0.x",
-		"laracasts/utilities": "1.0.1"
+		"laracasts/utilities": "1.0.1",
+		"guzzlehttp/guzzle": "~4.0"
 	},
 	"require-dev": {
     	"way/generators": "2.*",
