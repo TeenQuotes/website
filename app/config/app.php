@@ -1,6 +1,7 @@
 <?php
 
 include app_path().'/libraries/TeenQuotes/MailServiceProvider.php';
+include app_path().'/libraries/TeenQuotes/MailgunTransport.php';
 
 return array(
 
