@@ -1,5 +1,7 @@
 <?php
 
+include app_path().'/libraries/TeenQuotes/MailServiceProvider.php';
+
 return array(
 
 	/*
@@ -111,7 +113,8 @@ return array(
 		'Illuminate\Hashing\HashServiceProvider',
 		'Illuminate\Html\HtmlServiceProvider',
 		'Illuminate\Log\LogServiceProvider',
-		'Illuminate\Mail\MailServiceProvider',
+		// 'Illuminate\Mail\MailServiceProvider',
+		'TeenQuotes\Mail\MailServiceProvider',
 		'Illuminate\Database\MigrationServiceProvider',
 		'Illuminate\Pagination\PaginationServiceProvider',
 		'Illuminate\Queue\QueueServiceProvider',
@@ -129,7 +132,7 @@ return array(
 		'Laracasts\Utilities\UtilitiesServiceProvider',
 		'Fedeisas\LaravelMailCssInliner\LaravelMailCssInlinerServiceProvider',
 		'Indatus\Dispatcher\ServiceProvider',
-		'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider'
+		'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
 	),
 
 	/*

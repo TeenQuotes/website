@@ -7,7 +7,7 @@
 		"laravel/framework": "4.2.*",
 		"fitztrev/laravel-html-minify": "dev-master",
 		"nesbot/Carbon": "*",
-		"fedeisas/laravel-mail-css-inliner": "1.*",
+		"tijsverkoyen/css-to-inline-styles": "1.2.*",
 		"indatus/dispatcher": "dev-master",
 		"lucadegasperi/oauth2-server-laravel": "1.0.x",
 		"laracasts/utilities": "1.0.1"
