@@ -55,7 +55,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'antoine.augusti@quantic-telecom.net', 'name' => 'Teen Quotes'),
+	'from' => array('address' => 'no-reply@emails.teen-quotes.com', 'name' => 'Teen Quotes'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -68,8 +68,7 @@ return array(
 	|
 	*/
 
-	'encryption' => null,
-	// 'encryption' => 'tls',
+	'encryption' => 'tls',
 
 	/*
 	|--------------------------------------------------------------------------

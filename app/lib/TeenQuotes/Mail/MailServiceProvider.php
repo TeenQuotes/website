@@ -1,5 +1,7 @@
 <?php
 namespace TeenQuotes\Mail;
+
+use TeenQuotes\Mail\Transport\MailgunTransport;
  
 class MailServiceProvider extends \Illuminate\Mail\MailServiceProvider {
  
@@ -15,7 +17,7 @@ class MailServiceProvider extends \Illuminate\Mail\MailServiceProvider {
 
 		$this->app->bindShared('swift.transport', function() use ($mailgun)
 		{
-			return new \TeenQuotes\Mail\Transport\MailgunTransport($mailgun['secret'], $mailgun['domain']);
+			return new MailgunTransport($mailgun['secret'], $mailgun['domain']);
 		});
 	}
 }

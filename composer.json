@@ -26,7 +26,10 @@
 			"app/database/seeds",
 			"app/exceptions.php",
 			"app/tests/TestCase.php"
-		]
+		],
+		"psr-0": {
+            "TeenQuotes": "app/lib"
+        }
 	},
 	"scripts": {
 		"post-install-cmd": [

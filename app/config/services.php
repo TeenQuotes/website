@@ -15,8 +15,8 @@ return array(
 	*/
 
 	'mailgun' => array(
-		'domain' => 'dev.teen-quotes.com',
-		'secret' => 'key-81kliv19y014txx40zwwib57jiylj-79',
+		'domain' => 'emails.teen-quotes.com',
+		'secret' => 'key-0m-ul83xw25j7kdyk4lc6wpjn4bc4dp7',
 	),
 
 	'mandrill' => array(

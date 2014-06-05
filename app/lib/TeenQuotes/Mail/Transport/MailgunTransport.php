@@ -5,6 +5,7 @@ use Swift_Transport;
 use Swift_Mime_Message;
 use GuzzleHttp\Post\PostFile;
 use Swift_Events_EventListener;
+use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class MailgunTransport extends \Illuminate\Mail\Transport\MailgunTransport {
 
@@ -15,7 +16,8 @@ class MailgunTransport extends \Illuminate\Mail\Transport\MailgunTransport {
 	{
 		$client = $this->getHttpClient();
 
-		$converter = new \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles();
+		// Inline CSS here
+        $converter = new CssToInlineStyles();
 		$converter->setEncoding($message->getCharset());
         $converter->setUseInlineStylesBlock();
         $converter->setCleanup();
