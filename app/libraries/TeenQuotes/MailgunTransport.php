@@ -1,7 +1,10 @@
 <?php
 namespace TeenQuotes\Mail\Transport;
 
+use Swift_Transport;
 use Swift_Mime_Message;
+use GuzzleHttp\Post\PostFile;
+use Swift_Events_EventListener;
 
 class MailgunTransport extends \Illuminate\Mail\Transport\MailgunTransport {
 
