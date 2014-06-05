@@ -1,5 +1,5 @@
 /app/config/database.php
-/app/services.php
+/app/config/services.php
 /bootstrap/compiled.php
 /vendor
 composer.phar
