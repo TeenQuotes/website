@@ -1,6 +1,8 @@
 <?php
 namespace TeenQuotes\Mail\Transport;
 
+use Swift_Mime_Message;
+
 class MailgunTransport extends \Illuminate\Mail\Transport\MailgunTransport {
 
 	/**
