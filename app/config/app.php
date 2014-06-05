@@ -130,7 +130,6 @@ return array(
 		'Way\Generators\GeneratorsServiceProvider',
 		'Fitztrev\LaravelHtmlMinify\LaravelHtmlMinifyServiceProvider',
 		'Laracasts\Utilities\UtilitiesServiceProvider',
-		'Fedeisas\LaravelMailCssInliner\LaravelMailCssInlinerServiceProvider',
 		'Indatus\Dispatcher\ServiceProvider',
 		'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
 	),
