@@ -14,8 +14,8 @@
 		"guzzlehttp/guzzle": "~4.0"
 	},
 	"require-dev": {
-    	"way/generators": "2.*",
-    	"fzaninotto/faker": "dev-master"
+		"way/generators": "2.*",
+		"fzaninotto/faker": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
@@ -28,8 +28,8 @@
 			"app/tests/TestCase.php"
 		],
 		"psr-0": {
-            "TeenQuotes": "app/lib"
-        }
+			"TeenQuotes": "app/lib"
+		}
 	},
 	"scripts": {
 		"post-install-cmd": [
