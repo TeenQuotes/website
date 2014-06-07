@@ -5,7 +5,6 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"fitztrev/laravel-html-minify": "dev-master",
 		"nesbot/Carbon": "*",
 		"tijsverkoyen/css-to-inline-styles": "1.2.*",
 		"indatus/dispatcher": "dev-master",

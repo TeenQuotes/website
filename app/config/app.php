@@ -126,7 +126,6 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',
-		'Fitztrev\LaravelHtmlMinify\LaravelHtmlMinifyServiceProvider',
 		'Laracasts\Utilities\UtilitiesServiceProvider',
 		'Indatus\Dispatcher\ServiceProvider',
 		'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
