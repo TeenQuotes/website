@@ -8,11 +8,9 @@
 	{{ HTML::style('assets/css/styles.min.css') }}
 	<link rel="shortcut icon" href="/assets/images/favicon.png"/>
 
-	<!-- TWITTER CARD FOR SINGLE QUOTE -->
-	@if (Route::currentRouteName() == 'quotes.show' AND isset($quote) AND !is_null($quote))
-		@include('layouts.twitterCard')
-		@include('layouts.facebookOpenGraph')
-	@endif
+	<!-- Special cards for social networks -->
+	@yield('social-networks-cards')
+
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->

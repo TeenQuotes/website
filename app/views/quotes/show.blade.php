@@ -40,3 +40,8 @@ $i = $quote->id % count($colors);
 		</div>
 	@endif
 @stop
+
+@section('social-networks-cards')
+	@include('layouts.twitterCard')
+	@include('layouts.facebookOpenGraph')
+@stop
