@@ -481,6 +481,13 @@ body {
 		margin: 10px 0 0 5px;
 		font-style: italic;
 		font-size: .9em;
+
+		#alternate-email {
+			color: $lightBlue;
+			font-family: 'Titillium Web', serif;
+			cursor: pointer;
+			font-weight: 500;
+		}
 	}
 
 	#login-awesome {

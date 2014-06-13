@@ -174,6 +174,25 @@ $(document).ready(function() {
 		return false;
 	});
 
+	// Attach Mailgun plugin to validate email address
+	$('#email-signup').mailgun_validator({
+		api_key: laravel.mailgunPubKey,
+		in_progress: doNothing,
+		success: validationSuccess,
+		error: doNothing,
+	});
+
+	$(document).on('click', '#alternate-email', function() {
+		$("#email-signup").val($(this).text());
+		$('#respect-privacy').animate({
+			'opacity': 0
+		}, 500, function() {
+			$(this).text(laravel.mailAddressUpdated);
+		}).animate({
+			'opacity': 1
+		}, 500);
+	});
+
 	// Moderation
 	$('.quote-moderation').click(function() {
 		var id_quote, numberOfQuoteAwaitingMode, decision;
@@ -239,6 +258,18 @@ window.setTimeout(function() {
 		$(this).remove();
 	});
 }, 5000);
+
+// while the lookup is performing
+function doNothing() {}
+
+
+// suggest a valid email
+function validationSuccess(data) {
+	var alternate = data['did_you_mean'];
+	if (alternate) {
+		$('#respect-privacy').html(laravel.didYouMean + "<span id='alternate-email'>" + alternate + "</span>?");
+	}
+}
 
 // Taken from http://stackoverflow.com/questions/12479897/detect-browser-file-input-support
 function hasFileUploadSupport() {

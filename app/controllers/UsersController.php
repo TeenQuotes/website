@@ -20,6 +20,12 @@ class UsersController extends \BaseController {
 			'pageDescription' => Lang::get('auth.signupPageDescription'),
 		];
 
+		JavaScript::put([
+			'didYouMean'         => Lang::get('auth.didYouMean'),
+			'mailAddressUpdated' => Lang::get('auth.mailAddressUpdated'),
+			'mailgunPubKey'      => Config::get('services.mailgun.pubkey')
+    	]);
+
 		return View::make('auth.signup', $data);
 	}
 
