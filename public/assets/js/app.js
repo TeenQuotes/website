@@ -1,4 +1,4 @@
-var timeoutReference;
+var timeoutLoginSignup, timeoutPassword;
 $(document).ready(function() {
 	$('.social-buttons').delay(500).animate({
 		opacity: 1
@@ -8,8 +8,8 @@ $(document).ready(function() {
 	$('input#login-signup').keypress(function() {
 		var el = this;
 
-		if (timeoutReference) clearTimeout(timeoutReference);
-		timeoutReference = setTimeout(function() {
+		if (timeoutLoginSignup) clearTimeout(timeoutLoginSignup);
+		timeoutLoginSignup = setTimeout(function() {
 			doneTypingLoginSignup.call(el);
 		}, 3000);
 	});
@@ -21,8 +21,8 @@ $(document).ready(function() {
 	$('input#password').keypress(function() {
 		var el = this;
 
-		if (timeoutReference) clearTimeout(timeoutReference);
-		timeoutReference = setTimeout(function() {
+		if (timeoutPassword) clearTimeout(timeoutPassword);
+		timeoutPassword = setTimeout(function() {
 			doneTypingLoginPassword.call(el);
 		}, 2000);
 	});
@@ -215,7 +215,7 @@ $(document).ready(function() {
 							$("#validation-errors").append('<div class="alert alert-error"><strong>' + value + '</strong><div>');
 						}
 					});
-					// Success
+				// Success
 				} else {
 					// Update nb quotes awaiting moderation
 					numberOfQuoteWaitingModeration = parseInt($("#nb-quotes-waiting").text()) - 1;
@@ -293,20 +293,20 @@ function hasFileUploadSupport() {
 }
 
 function doneTypingLoginSignup() {
-	if (!timeoutReference) {
+	if (!timeoutLoginSignup) {
 		return;
 	}
-	timeoutReference = null;
+	timeoutLoginSignup = null;
 
 	$("#login-awesome span").text($('input#login-signup').val() + "? ");
 	$("#login-awesome").fadeIn(500);
 }
 
 function doneTypingLoginPassword() {
-	if (!timeoutReference) {
+	if (!timeoutPassword) {
 		return;
 	}
-	timeoutReference = null;
+	timeoutPassword = null;
 
 	$("#submit-form").removeClass("animated fadeInUp").addClass("animated shake");
 }
