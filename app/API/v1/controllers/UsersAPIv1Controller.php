@@ -2,6 +2,23 @@
 
 class UsersAPIv1Controller extends BaseController {
 	
+	public function deleteUsers()
+	{
+		User::find(ResourceServer::getOwnerId())->delete();
+		
+		$data = [
+			'status'  => 'user_deleted',
+			'message' => 'The user has been deleted.'
+		];
+
+		return Response::json($data, 200);
+	}
+
+	public function getUsers()
+	{
+		return $this->getSingleUser(ResourceServer::getOwnerId());
+	}
+
 	public function postUsers()
 	{
 		$data = [
