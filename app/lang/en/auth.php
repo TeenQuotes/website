@@ -45,4 +45,6 @@ return array(
 	'carefulPrivacy'               => 'We are super careful with your privacy. We promise.',
 	'didYouMean'                   => 'Did you mean ',
 	'mailAddressUpdated'           => 'Your email address has been updated!',
+	'mailAddressInvalid'           => "This email address seems to be invalid",
+	'mailAddressValid'             => "Seems good! We will know how to reach you.",
 );

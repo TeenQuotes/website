@@ -216,7 +216,7 @@ $(document).ready(function() {
 							$("#validation-errors").append('<div class="alert alert-error"><strong>' + value + '</strong><div>');
 						}
 					});
-				// Success
+					// Success
 				} else {
 					// Update nb quotes awaiting moderation
 					numberOfQuoteWaitingModeration = parseInt($("#nb-quotes-waiting").text()) - 1;
@@ -264,12 +264,18 @@ window.setTimeout(function() {
 function doNothing() {}
 
 
-// suggest a valid email
+// Suggest a valid email address
 function validationSuccess(data) {
 	var alternate = data['did_you_mean'];
-	if (alternate) {
-		$('#respect-privacy').html(laravel.didYouMean + "<span id='alternate-email'>" + alternate + "</span>?");
-	}
+	var isValid = data['is_valid'];
+
+	if (!isValid) {
+		if (alternate)
+			$('#respect-privacy').html(laravel.didYouMean + "<span id='alternate-email'>" + alternate + "</span>?");
+		else
+			$('#respect-privacy').html('<i class="fa fa-meh-o"></i>' + laravel.mailAddressInvalid);
+	} else
+		$('#respect-privacy').html('<i class="fa fa-smile-o"></i>' + laravel.mailAddressValid);
 }
 
 // Taken from http://stackoverflow.com/questions/12479897/detect-browser-file-input-support

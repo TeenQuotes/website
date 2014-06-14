@@ -22,6 +22,8 @@ class UsersController extends \BaseController {
 
 		JavaScript::put([
 			'didYouMean'         => Lang::get('auth.didYouMean'),
+			'mailAddressInvalid' => Lang::get('auth.mailAddressInvalid'),
+			'mailAddressValid'   => Lang::get('auth.mailAddressValid'),
 			'mailAddressUpdated' => Lang::get('auth.mailAddressUpdated'),
 			'mailgunPubKey'      => Config::get('services.mailgun.pubkey')
     	]);
