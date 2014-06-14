@@ -1,3 +1,4 @@
+window.laravel = window.laravel || {};
 var timeoutLoginSignup, timeoutPassword;
 $(document).ready(function() {
 	$('.social-buttons').delay(500).animate({
