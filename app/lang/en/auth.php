@@ -7,7 +7,7 @@ return array(
 	'password'                     => 'Password',
 	'emailAddress'                 => 'Email address',
 	'loginButton'                  => 'Log me in!',
-	'logoutSuccessfull'            => 'You have been logged. See you soon :login :)',
+	'logoutSuccessfull'            => 'You have been logged out. See you soon :login :)',
 	'logoutNotLoggedIn'            => 'Try to log in first!',
 	'requireLoggedIn'              => 'Oops, you need to be logged in!',
 	'requireLoggedInAddQuote'      => 'Oops, you need to be logged in to add a quote!',
