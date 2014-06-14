@@ -29,26 +29,27 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	Route::post('signin', 'AuthController@postSignin');
 
 	/* --- SEARCH --- */
-	Route::get('/search', ['as' => 'search.form', 'uses' => 'SearchController@showForm']);
-	Route::post('/search', ['as' => 'search.dispatcher', 'uses' => 'SearchController@dispatcher']);
-	Route::get('/search/{query}', ['as' => 'search.results', 'uses' => 'SearchController@getResults']);
+	Route::get('search', ['as' => 'search.form', 'uses' => 'SearchController@showForm']);
+	Route::post('search', ['as' => 'search.dispatcher', 'uses' => 'SearchController@dispatcher']);
+	Route::get('search/{query}', ['as' => 'search.results', 'uses' => 'SearchController@getResults']);
 
 	/* --- USERS --- */
-	Route::get("/signup", ["as" => "signup", "before" => "guest", "uses" => "UsersController@getSignup"]);
-	Route::get('/users/{user_id}/{fav?}', ['as' => 'users.show', 'uses' => 'UsersController@show']);
-	Route::put('/users/{user_id}/password', ['as' => 'users.password', 'uses' => 'UsersController@putPassword']);
-	Route::put('/users/{user_id}/avatar', ['as' => 'users.avatar', 'uses' => 'UsersController@putAvatar']);
-	Route::put('/users/{user_id}/settings', ['as' => 'users.settings', 'uses' => 'UsersController@putSettings']);
+	Route::delete('users', ['as' => 'users.delete', 'before' => 'auth', 'uses' => 'UsersController@destroy']);
+	Route::get("signup", ["as" => "signup", "before" => "guest", "uses" => "UsersController@getSignup"]);
+	Route::get('users/{user_id}/{fav?}', ['as' => 'users.show', 'uses' => 'UsersController@show']);
+	Route::put('users/{user_id}/password', ['as' => 'users.password', 'uses' => 'UsersController@putPassword']);
+	Route::put('users/{user_id}/avatar', ['as' => 'users.avatar', 'uses' => 'UsersController@putAvatar']);
+	Route::put('users/{user_id}/settings', ['as' => 'users.settings', 'uses' => 'UsersController@putSettings']);
 	Route::resource('users', 'UsersController', ['only' => ['index', 'store', 'edit', 'update']]);
 
 	/* --- PASSWORD REMINDER --- */
-	Route::get('/password/remind', ['as' => 'passwordReminder', 'before' => 'guest', 'uses' => 'RemindersController@getRemind']);
+	Route::get('password/remind', ['as' => 'passwordReminder', 'before' => 'guest', 'uses' => 'RemindersController@getRemind']);
 	Route::controller('password', 'RemindersController');
 
 	/* --- QUOTES --- */
-	Route::get('/random', ['as' => 'random', 'uses' => 'QuotesController@index']);
-	Route::get('/addquote', ['as' => 'addquote', 'before' => 'auth', 'uses' => 'QuotesController@getAddQuote']);
-	Route::get('/quote-{quote_id}', function($id)
+	Route::get('random', ['as' => 'random', 'uses' => 'QuotesController@index']);
+	Route::get('addquote', ['as' => 'addquote', 'before' => 'auth', 'uses' => 'QuotesController@getAddQuote']);
+	Route::get('quote-{quote_id}', function($id)
 	{
 		return Redirect::route('quotes.show', array($id), 301);
 	});
@@ -58,8 +59,8 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	Route::resource('comments', 'CommentsController', ['only' => ['store']]);
 
 	/* --- FAVORITE --- */
-	Route::post('/favorite/{quote_id}', ['as' => 'favorite', 'before' => 'auth', 'uses' => 'FavoritesController@store']);
-	Route::post('/unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth', 'uses' => 'FavoritesController@destroy']);
+	Route::post('favorite/{quote_id}', ['as' => 'favorite', 'before' => 'auth', 'uses' => 'FavoritesController@store']);
+	Route::post('unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth', 'uses' => 'FavoritesController@destroy']);
 });
 
 /* --- ADMIN --- */
@@ -68,11 +69,11 @@ Route::group(['before' => 'admin', 'prefix' => 'admin'], function()
 	// Index
 	Route::get('/', ['uses' => 'QuotesAdminController@index', 'as' => 'admin.quotes.index']);
 	// Edit
-	Route::get('/edit/{quote_id}', ['uses' => 'QuotesAdminController@edit', 'as' => 'admin.quotes.edit']);
+	Route::get('edit/{quote_id}', ['uses' => 'QuotesAdminController@edit', 'as' => 'admin.quotes.edit']);
 	// Update
-	Route::put('/update/{quote_id}', ['uses' => 'QuotesAdminController@update', 'as' => 'admin.quotes.update']);
+	Route::put('update/{quote_id}', ['uses' => 'QuotesAdminController@update', 'as' => 'admin.quotes.update']);
 	// Moderation
-	Route::post('/moderate/{quote_id}/{decision}', ['uses' => 'QuotesAdminController@postModerate', 'as' => 'admin.quotes.moderate']);
+	Route::post('moderate/{quote_id}/{decision}', ['uses' => 'QuotesAdminController@postModerate', 'as' => 'admin.quotes.moderate']);
 });
 
 

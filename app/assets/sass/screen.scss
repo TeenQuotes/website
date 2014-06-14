@@ -1061,6 +1061,24 @@ body {
 
 		}
 	}
+
+	/* users.profile.delete view */
+	#delete-account {
+		margin: 50px 0;
+		> h2 {
+			color: $red;
+			margin-bottom: .8em;
+
+			i {
+				color: black;
+				margin-right: .5em;
+			}
+		}
+
+		.info-pre-form {
+			margin-bottom: 2em;
+		}
+	}
 }
 
 #admin-page {

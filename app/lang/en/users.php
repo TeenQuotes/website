@@ -49,4 +49,11 @@ return array(
 	'iAmAMan'                       => "I'm a man!",
 	'iAmAWoman'                     => "I'm a woman!",
 	'profileCurrentlyHidden'        => "Your profile is currently hidden. Only you can see this!",
+	'deleteAccountTitle'            => "Delete my account",
+	'deleteAccountWarning'          => "If you choose to delete your account, we will remove all your quotes, all your favorites and everything you have added on ".Lang::get('layout.nameWebsite').". Be very careful, you can't undone this action.",
+	'writeDelete'                   => 'Write "DELETE" here',
+	'deleteAccountSubmit'           => 'Delete my account',
+	'yourPassword'                  => 'Your password',
+	'deleteAccountSuccessfull'      => "Your account has been deleted successfully",
+	'writeDeleteHere'               => 'You need to write "DELETE" here',
 );

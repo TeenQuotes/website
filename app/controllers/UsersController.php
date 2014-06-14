@@ -420,12 +420,36 @@ class UsersController extends \BaseController {
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy()
 	{
-		//
+		$data = [
+			'password'            => Input::get('password'),
+			'delete-confirmation' => Input::get('delete-confirmation'),
+			'login'               => Auth::user()->login
+		];
+
+		$messages = [
+    		'delete-confirmation.in' => Lang::get('users.writeDeleteHere'),
+		];
+		$validator = Validator::make($data, User::$rulesDestroy, $messages);
+
+		if ($validator->fails()) {
+			return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
+		}
+		else {
+			unset($data['delete-confirmation']);
+			if (!Auth::validate($data))
+				return Redirect::back()->withErrors(array('password' => Lang::get('auth.passwordInvalid')))->withInput(Input::except('password'));
+		}
+
+		// Delete the user
+		User::find(Auth::id())->delete();
+		// Log him out
+		Auth::logout();
+
+		return Redirect::home()->with('success', Lang::get('users.deleteAccountSuccessfull'));
 	}
 
 }

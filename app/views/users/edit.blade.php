@@ -6,5 +6,7 @@
 	@include('users.profile.editPassword')
 
 	@include('users.profile.editSettings')
+	
+	@include('users.profile.delete')
 </div>
 @stop

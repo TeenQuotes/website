@@ -57,6 +57,15 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	];
 
 	/**
+	 * The validation rules when deleting an account
+	 * @var array
+	 */
+	public static $rulesDestroy = [
+		'password'            => 'required|min:6',
+		'delete-confirmation' => 'in:DELETE'
+	];
+
+	/**
 	 * The validation rules when signing up
 	 * @var array
 	 */
