@@ -2,7 +2,7 @@
 
 @section('content')
 	<div id="download-app">
-		<h1><i class="fa {{ $titleIcon}}"></i> {{ $title }}</h1>
+		<h2><i class="fa {{ $titleIcon}}"></i> {{ $title }}</h2>
 		{{ $content }}
 	</div>
 @stop
