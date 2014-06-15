@@ -26,7 +26,7 @@ Route::group(['domain' => Config::get('app.domain')], function()
 
 	/* --- APPS --- */
 	Route::get('apps', ['as' => 'apps', 'uses' => 'AppsController@index']);
-	Route::get('apps/{device_type}', ['as' => 'apps.tablet', 'uses' => 'AppsController@getDevice']);
+	Route::get('apps/{device_type}', ['as' => 'apps.device', 'uses' => 'AppsController@getDevice']);
 	
 
 	/* --- AUTH --- */

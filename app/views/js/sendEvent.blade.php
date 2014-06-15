@@ -1,0 +1,1 @@
+<script>ga('send', 'event', laravel.eventCategory, laravel.eventAction, laravel.eventLabel);</script>
