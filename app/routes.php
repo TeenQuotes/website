@@ -10,6 +10,7 @@ Route::pattern('country_id', '[0-9]+');
 Route::pattern('user_id', '[a-zA-Z0-9_]+');
 Route::pattern('decision', 'approve|unapprove');
 Route::pattern('quote_approved_type', 'waiting|refused|pending|published');
+Route::pattern('device_type', 'tablet|ios|android|mobile|desktop');
 Route::pattern('fav', 'fav');
 Route::pattern('random', 'random');
 
@@ -22,6 +23,11 @@ Route::pattern('random', 'random');
 Route::group(['domain' => Config::get('app.domain')], function()
 {
 	Route::get('/', ['as' => 'home', 'uses' => 'QuotesController@index']);
+
+	/* --- APPS --- */
+	Route::get('apps', ['as' => 'apps', 'uses' => 'AppsController@index']);
+	Route::get('apps/{device_type}', ['as' => 'apps.tablet', 'uses' => 'AppsController@getDevice']);
+	
 
 	/* --- AUTH --- */
 	Route::get('signin', ['as' => 'signin', 'uses' => 'AuthController@getSignin']);
