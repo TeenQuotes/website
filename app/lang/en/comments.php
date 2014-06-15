@@ -9,6 +9,6 @@ return array(
 	'commentAddedOnQuote'      => 'A comment has been posted on one of your quotes. Just to remind you, here is your quote:',
 	'ifWantsToSeeComment'      => 'If you want to see this new comment, please follow this link: :url',
 	'commentAddedSubjectEmail' => 'Comment posted on your quote #:id',
-	'contentShortHint'             => "It's a bit short!",
-	'contentGreatHint'             => "It seems nice!",
+	'contentShortHint'         => "It's a bit short!",
+	'contentGreatHint'         => "It seems nice!",
 );
