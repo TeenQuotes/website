@@ -129,7 +129,8 @@ return array(
 		'Laracasts\Utilities\UtilitiesServiceProvider',
 		'Indatus\Dispatcher\ServiceProvider',
 		'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
-		'GrahamCampbell\HTMLMin\HTMLMinServiceProvider'
+		'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
+		'Jenssegers\Agent\AgentServiceProvider',
 	),
 
 	/*
@@ -199,6 +200,7 @@ return array(
 		'ScheduledCommand'    => '\Indatus\Dispatcher\Scheduling\ScheduledCommand',
 		'AuthorizationServer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade',
 		'ResourceServer'      => 'LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade',
+		'Agent'               => 'Jenssegers\Agent\Facades\Agent',
 	),
 
 	/*

@@ -11,7 +11,8 @@
 		"indatus/dispatcher": "dev-master",
 		"lucadegasperi/oauth2-server-laravel": "1.0.x",
 		"laracasts/utilities": "1.0.1",
-		"guzzlehttp/guzzle": "~4.0"
+		"guzzlehttp/guzzle": "~4.0",
+		"jenssegers/agent": "*"
 	},
 	"require-dev": {
 		"way/generators": "2.*",
