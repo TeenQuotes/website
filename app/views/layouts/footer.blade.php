@@ -13,7 +13,7 @@
 		</div>
 	</footer><!-- END FOOTER -->
 
-	@include('layouts/js')
+	@include('js/js')
 
 	@yield('add-js')
 </body>
