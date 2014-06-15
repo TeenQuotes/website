@@ -1,7 +1,10 @@
 @extends('layouts.page')
 
 @section('content')
-	{{ $content }}
+	<div id="download-app">
+		<h1><i class="fa {{ $titleIcon}}"></i> {{ $title }}</h1>
+		{{ $content }}
+	</div>
 @stop
 
 @section('add-js')

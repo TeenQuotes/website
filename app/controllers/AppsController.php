@@ -31,6 +31,32 @@ class AppsController extends BaseController {
 			'eventLabel'    => Agent::platform().' - '.Agent::device()
     	]);
 
-    	return View::make('apps.download', ['content' => $device]);
+    	$data = [
+			'title'           => Lang::get('apps.'.$device.'Title'),
+			'titleIcon'       => $this->getIconTitle($device),
+			'content'         => $device,
+			'pageTitle'       => Lang::get('apps.'.$device.'Title').' | '.Lang::get('layout.nameWebsite'),
+			'pageDescription' => Lang::get('apps.pageDescription'),
+    	];
+
+    	return View::make('apps.download', $data);
+	}
+
+	private function getIconTitle($device) {
+		switch ($device) {
+			case 'android':
+			case 'ios':
+			case 'mobile':
+				$result = 'fa-mobile';
+				break;
+			
+			case 'tablet':
+				$result = 'fa-tablet';
+			case 'desktop':
+				$result = 'fa-desktop';
+				break;
+		}
+
+		return $result;
 	}
 }

@@ -527,6 +527,17 @@ body {
 	}
 }
 
+#download-app {
+	h1 {
+		color: $lightBlue;
+
+		i.fa {
+			color: black;
+			margin-right: 15px;
+		}
+	}
+}
+
 .quote {
 	background: $red;
 	width: 100%;
