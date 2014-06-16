@@ -535,7 +535,7 @@ body {
 
 		a {
 			background: $lightGray;
-			padding: 3px 7px;
+			padding: 3px 5px;
 			color: $lightBlue;
 			@include element-transition;
 
@@ -575,8 +575,10 @@ body {
 	    text-align: justify;
 
 	    &:first-child {
-	    	font-size: 1.1em;
-	    	line-height: 1.8em;
+			@media screen and (min-width: $breakpointSmartphone) {
+	    		font-size: 1.1em;
+	    		line-height: 1.8em;
+	    	}
 	    }
 
 	    img {
