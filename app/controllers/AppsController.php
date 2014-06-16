@@ -92,6 +92,7 @@ class AppsController extends BaseController {
 			
 			case 'tablet':
 				$result = 'fa-tablet';
+				break;
 			case 'desktop':
 				$result = 'fa-desktop';
 				break;
