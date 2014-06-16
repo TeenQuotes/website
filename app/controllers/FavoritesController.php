@@ -101,9 +101,8 @@ class FavoritesController extends \BaseController {
 				}
 
 				// Oops, the quote was not labeled as favorite
-				if (!$quoteIsFavorite) {
+				if (!$quoteIsFavorite)
 					return Response::json(['success' => false, 'notFound' => true]);
-				}
 				else {
 
 					// Delete the FavoriteQuote from database
@@ -113,9 +112,17 @@ class FavoritesController extends \BaseController {
 					if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']))
 						Cache::forget(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']);
 
+					// Rebuild the cache
+					$arrayIDFavoritesQuotesForUser = $user->arrayIDFavoritesQuotes();
+
+					// Delete favorite quotes stored in cache
+					$nbQuotesFavoriteForUser = count($arrayIDFavoritesQuotesForUser) + 1;
+					$nbPages = ceil($nbQuotesFavoriteForUser / Config::get('app.users.nbQuotesPerPage'));
+					for ($i = 1; $i <= $nbPages ; $i++)
+						Cache::forget(User::$cacheNameForFavorited.$data['user_id'].'_'.$i);
+
 					return Response::json(['success' => true], 200);
 				}
-
 			}
 			// Errors
 			else

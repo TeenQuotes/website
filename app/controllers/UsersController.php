@@ -154,16 +154,15 @@ class UsersController extends \BaseController {
 		// Time to store quotes in cache
 		$expiresAt = Carbon::now()->addMinutes(10);
 
-		$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$user->id, $expiresAt, function() use ($user)
-		{
-			return FavoriteQuote::forUser($user)->select('quote_id')->get()->lists('quote_id');
-		});
+		// Get the list of favorite quotes
+		$arrayIDFavoritesQuotesForUser = $user->arrayIDFavoritesQuotes();
 
 		// Fetch the quotes
 		$quotes = Cache::remember(User::$cacheNameForFavorited.$user->id.'_'.$pageNumber, $expiresAt, function() use ($user, $arrayIDFavoritesQuotesForUser)
 		{
 			return Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
 				->with('user')
+				->orderBy(DB::raw("FIELD(id, ".implode(',', $arrayIDFavoritesQuotesForUser).")"))
 				->paginate(Config::get('app.users.nbQuotesPerPage'))
 				->getItems();
 		});

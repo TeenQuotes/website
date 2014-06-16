@@ -322,13 +322,34 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$user = $this;
 
 		$numberQuotesPublishedForUser = Cache::remember(self::$cacheNameForNumberQuotesPublished.$this->id, $expiresAt, function() use ($user)
-			{
-				return Quote::forUser($user)
-					->published()
-					->count();
-			});
+		{
+			return Quote::forUser($user)
+				->published()
+				->count();
+		});
 
 		return $numberQuotesPublishedForUser > 0;
+    }
+
+    /**
+     * Returns the array of the ID of the quotes in the favorites of the user
+     * @return array 
+     */
+    public function arrayIDFavoritesQuotes()
+    {
+    	$expiresAt = Carbon::now()->addMinutes(10);
+    	$user = $this;
+
+		$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$this->id, $expiresAt, function() use ($user)
+		{
+			return FavoriteQuote::forUser($user)
+				->select('quote_id')
+				->orderBy('id', 'DESC')
+				->get()
+				->lists('quote_id');
+		});
+
+		return $arrayIDFavoritesQuotesForUser;
     }
 
     public function hasFavoriteQuotes()

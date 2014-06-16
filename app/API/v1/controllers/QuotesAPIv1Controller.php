@@ -50,13 +50,8 @@ class QuotesAPIv1Controller extends BaseController {
 			return Response::json($data, 400);
 		}
 
-		// Time to store list of favorites in cache
-		$expiresAt = Carbon::now()->addMinutes(10);
-
-		$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$user->id, $expiresAt, function() use ($user)
-		{
-			return FavoriteQuote::forUser($user)->select('quote_id')->get()->lists('quote_id');
-		});
+		// Get the list of favorite quotes
+		$arrayIDFavoritesQuotesForUser = $user->arrayIDFavoritesQuotes();
 
 		$totalQuotes = count($arrayIDFavoritesQuotesForUser);
 		
@@ -315,6 +310,7 @@ class QuotesAPIv1Controller extends BaseController {
 			{
 			    $q->addSelect(array('id', 'login', 'avatar'));
 			}))
+			->orderBy(DB::raw("FIELD(id, ".implode(',', $arrayIDFavoritesQuotesForUser).")"))
 			->take($pagesize)
 			->skip($skip)
 			->get();

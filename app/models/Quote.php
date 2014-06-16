@@ -200,6 +200,8 @@ class Quote extends Eloquent {
 			else
 				$id = ResourceServer::getOwnerId();
 
+			// Here we use the direct call to cache because we don't
+			// want to create a User model just to call the dedicated method
 			$favoriteQuotes = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$id, $expiresAt, function() use($id)
 			{
 				return FavoriteQuote::forUser($id)->select('quote_id')->get()->lists('quote_id');
