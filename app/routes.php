@@ -24,8 +24,12 @@ Route::group(['domain' => Config::get('app.domain')], function()
 {
 	Route::get('/', ['as' => 'home', 'uses' => 'QuotesController@index']);
 
+	/* --- CONTACT --- */
+	Route::get('contact', ['as' => 'contact']);
+
 	/* --- APPS --- */
 	Route::get('apps', ['as' => 'apps', 'uses' => 'AppsController@index']);
+	Route::get('app', ['uses' => 'AppsController@redirectPlural']);
 	Route::get('apps/{device_type}', ['as' => 'apps.device', 'uses' => 'AppsController@getDevice']);
 	
 
