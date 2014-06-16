@@ -2,6 +2,14 @@
 
 class AppsController extends BaseController {
 	
+	public static $devicesInfo = [
+		'tablet'  => ['name' => 'Tablet', 'icon' => 'fa-tablet'],
+		'ios'     => ['name' => 'iOS', 'icon' => 'fa-apple'],
+		'android' => ['name' => 'Android', 'icon' => 'fa-android'],
+		'mobile'  => ['name' => 'Mobile', 'icon' => 'fa-mobile'],
+		'desktop' => ['name' => 'Desktop', 'icon' => 'fa-desktop'],
+	];
+
 	public function index()
 	{
 		// Tablet
@@ -34,7 +42,9 @@ class AppsController extends BaseController {
     	$data = [
 			'title'           => Lang::get('apps.'.$device.'Title'),
 			'titleIcon'       => $this->getIconTitle($device),
+			'deviceType'      => $device,
 			'content'         => $device,
+			'devicesInfo'     => self::$devicesInfo,
 			'pageTitle'       => Lang::get('apps.'.$device.'Title').' | '.Lang::get('layout.nameWebsite'),
 			'pageDescription' => Lang::get('apps.pageDescription'),
     	];

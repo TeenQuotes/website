@@ -528,8 +528,37 @@ body {
 }
 
 #download-app {
+	#ariane-line {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 2em;
+
+		a {
+			background: $lightGray;
+			padding: 3px 7px;
+			color: $lightBlue;
+			@include element-transition;
+
+			i.fa {
+				color: darken($lightGray, 40%);
+				margin-right: 10px;
+				@include element-transition;
+			}
+
+			&:hover {
+				background: $lightBlue;
+				color: white;
+				text-decoration: none;
+
+				i.fa {
+					color: white;
+				}
+			}
+		}
+	}
+
 	h2 {
-		color: $lightBlue;
+		color: $orange;
 
 		i.fa {
 			color: black;
