@@ -3,12 +3,42 @@
 class AppsController extends BaseController {
 	
 	public static $devicesInfo = [
-		'tablet'  => ['name' => 'Tablet', 'icon' => 'fa-tablet'],
-		'ios'     => ['name' => 'iOS', 'icon' => 'fa-apple'],
-		'android' => ['name' => 'Android', 'icon' => 'fa-android'],
-		'mobile'  => ['name' => 'Mobile', 'icon' => 'fa-mobile'],
-		'desktop' => ['name' => 'Desktop', 'icon' => 'fa-desktop'],
+		'tablet'  => [
+			'name'       => 'Tablet',
+			'mini-icon'  => 'fa-tablet',
+			'large-icon' => 'tablet.png',
+			'text-key'   => 'noAppYet', 
+		],
+		'ios'     => [
+			'name'       => 'iOS',
+			'mini-icon'  => 'fa-apple',
+			'large-icon' => 'smartphone.png',
+			'text-key'   => 'noAppYet', 
+		],
+		'android' => [
+			'name'       => 'Android',
+			'mini-icon'  => 'fa-android',
+			'large-icon' => 'smartphone.png',
+			'text-key'   => 'noAppYet', 
+		],
+		'mobile'  => [
+			'name'       => 'Mobile',
+			'mini-icon'  => 'fa-mobile',
+			'large-icon' => 'smartphone.png',
+			'text-key'   => 'noAppYet', 
+		],
+		'desktop' => [
+			'name'       => 'Desktop',
+			'mini-icon'  => 'fa-desktop',
+			'large-icon' => 'computer.png',
+			'text-key'   => 'noAppYet', 
+		],
 	];
+
+	public function redirectPlural()
+	{
+		return Redirect::route('apps', null, 301);
+	}
 
 	public function index()
 	{
@@ -43,7 +73,7 @@ class AppsController extends BaseController {
 			'title'           => Lang::get('apps.'.$device.'Title'),
 			'titleIcon'       => $this->getIconTitle($device),
 			'deviceType'      => $device,
-			'content'         => $device,
+			'content'         => Lang::get('apps.'.self::$devicesInfo[$device]['text-key'], ['url' => URL::route('contact')]),
 			'devicesInfo'     => self::$devicesInfo,
 			'pageTitle'       => Lang::get('apps.'.$device.'Title').' | '.Lang::get('layout.nameWebsite'),
 			'pageDescription' => Lang::get('apps.pageDescription'),

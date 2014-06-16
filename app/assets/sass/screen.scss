@@ -531,7 +531,7 @@ body {
 	#ariane-line {
 		display: flex;
 		justify-content: space-between;
-		margin-bottom: 2em;
+		margin-bottom: 2.5em;
 
 		a {
 			background: $lightGray;
@@ -559,11 +559,30 @@ body {
 
 	h2 {
 		color: $orange;
+		margin-bottom: 1.2em;
 
 		i.fa {
 			color: black;
 			margin-right: 15px;
 		}
+	}
+
+	.col-md-6 {		
+		float:none;
+	    display:inline-block;
+	    vertical-align:middle;
+	    margin-right:-4px;
+	    text-align: justify;
+
+	    &:first-child {
+	    	font-size: 1.1em;
+	    	line-height: 1.8em;
+	    }
+
+	    img {
+	    	margin-right: auto;
+	    	margin-left: auto;
+	    }
 	}
 }
 
