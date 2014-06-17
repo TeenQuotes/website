@@ -507,6 +507,79 @@ body {
 	}
 }
 
+#contact-page {
+	h1 {
+		margin-bottom: 1.2em;
+		color: $red;
+
+		> i.fa {
+			margin-right: 15px;
+			color: black;
+		}
+	}
+
+	#stay-in-touch {
+		padding: 25px 20px;
+		background: $lightBlue;
+		color: white;
+		text-align: justify;
+
+		@media screen and (min-width: $breakpointSmartphone) {
+			font-size: 1.1em;
+		}
+
+		h2 {
+			font-family: 'Titillium Web', serif;
+			margin-top: 0;
+			margin-bottom: 1em;
+		}
+	}
+
+	#contact-info {
+		padding: 25px 20px;
+		background: $green;
+		margin-bottom: 3em;
+		color: white;
+		@media screen and (min-width: $breakpointSmartphone) {
+			font-size: 1.3em;
+		}
+
+		h2 {
+			font-family: 'Titillium Web', serif;
+			margin-top: 0;
+			margin-bottom: 1em;
+		}
+
+		ul {
+			list-style: none;
+			@media screen and (max-width: $breakpointSmartphone) {
+				padding-left: 10px;
+			}
+
+			li {
+				margin-bottom: 1em;
+
+				a {
+					text-decoration: none;
+					color: white;
+					background: inherit;
+					padding: 3px 5px;
+					@include element-transition;
+
+					&:hover {
+						background: white;
+						color: $lightBlue;
+					}
+				}
+
+				i.fa {
+					margin-right: 15px;
+				}
+			}
+		}
+	}
+}
+
 .container.under-navbar {
 	padding-top: 100px;
 

@@ -25,7 +25,7 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	Route::get('/', ['as' => 'home', 'uses' => 'QuotesController@index']);
 
 	/* --- CONTACT --- */
-	Route::get('contact', ['as' => 'contact']);
+	Route::get('contact', ['as' => 'contact', 'uses' => 'ContactController@index']);
 
 	/* --- APPS --- */
 	Route::get('apps', ['as' => 'apps', 'uses' => 'AppsController@index']);
