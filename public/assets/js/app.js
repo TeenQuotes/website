@@ -153,6 +153,14 @@ $(document).ready(function() {
 						iconValidation = "fa-times red";
 					}
 
+					// Update counter on the user's profile
+					if ($("#fav-count").length) {
+						var nbFav = parseInt($("#fav-count").text());
+						if (type == 'favorite')
+							$("#fav-count").text(nbFav + 1);
+						else
+							$("#fav-count").text(nbFav - 1);
+					}
 
 					$(".favorite-action[data-id=" + id_quote + "]").attr('data-url', url.replace(type, otherType));
 					$(".favorite-action[data-id=" + id_quote + "]").attr('data-type', otherType);
