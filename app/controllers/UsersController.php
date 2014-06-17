@@ -101,10 +101,10 @@ class UsersController extends \BaseController {
 	 * Display the specified resource.
 	 *
 	 * @param string $user_id The id or the login of the user
-	 * @param string $fav If it's not false, we will display the favorite quotes of the
+	 * @param string $type If it's not false, it could be 'favorites' or 'comments'
 	 * @return Response
 	 */
-	public function show($user_id, $fav = false)
+	public function show($user_id, $type = false)
 	{
 		// Page number for quotes
 		$pageNumber = Input::get('page', 1);
@@ -123,17 +123,19 @@ class UsersController extends \BaseController {
 			throw new HiddenProfileException;
 
 		// If the user hasn't favorite but has published quotes, redirect
-		if (!$fav AND !$user->hasPublishedQuotes() AND $user->hasFavoriteQuotes())
-			return Redirect::route('users.show', [$user->login, 'fav']);
+		if (!$type AND !$user->hasPublishedQuotes() AND $user->hasFavoriteQuotes())
+			return Redirect::route('users.show', [$user->login, 'favorites']);
 		// If the user hasn't published but has favorite quotes, redirect
-		elseif ($fav AND !$user->hasFavoriteQuotes() AND $user->hasPublishedQuotes())
+		elseif ($type == 'favorites' AND !$user->hasFavoriteQuotes() AND $user->hasPublishedQuotes())
 			return Redirect::route('users.show', $user->login);
 
 
 		// Build the data array
 		// Keys: quotes, paginator, colors, type
-		if ($fav)
+		if ($type == 'favorites')
 			$data = self::dataShowFavoriteQuotes($user, $pageNumber);
+		elseif ($type == 'comments')
+			$data = self::dataShowComments($user, $pageNumber);
 		else
 			$data = self::dataShowPublishedQuotes($user, $pageNumber);
 
@@ -170,7 +172,7 @@ class UsersController extends \BaseController {
 		// Build the associated paginator
 		$paginator = Paginator::make($quotes, count($arrayIDFavoritesQuotesForUser), Config::get('app.users.nbQuotesPerPage'));
 		// FIXME: could be prettier
-		$paginator->setBaseUrl('/users/'.$user->login.'/fav');
+		$paginator->setBaseUrl('/users/'.$user->login.'/favorites');
 
 		// Colors that will be used for quotes
 		$colors = Quote::getRandomColors();
@@ -180,6 +182,34 @@ class UsersController extends \BaseController {
 
 		return [
 			'quotes'    => $quotes,
+			'paginator' => $paginator,
+			'colors'    => $colors,
+			'type'      => $type,
+		];
+	}
+
+	private static function dataShowComments(User $user, $pageNumber)
+	{
+		$comments = $user
+			->comments()
+			->with('user')
+			->orderDescending()
+			->paginate(Config::get('app.users.nbQuotesPerPage'))
+			->getItems();
+
+		// Build the associated paginator
+		$paginator = Paginator::make($comments, $user->getTotalComments(), Config::get('app.users.nbQuotesPerPage'));
+		// FIXME: could be prettier
+		$paginator->setBaseUrl('/users/'.$user->login.'/comments');
+
+		// Colors that will be used for quotes
+		$colors = Quote::getRandomColors();
+
+		// Fix the type of quotes we will display
+		$type = 'comments';
+
+		return [
+			'quotes'    => $comments,
 			'paginator' => $paginator,
 			'colors'    => $colors,
 			'type'      => $type,

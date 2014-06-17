@@ -11,7 +11,7 @@ Route::pattern('user_id', '[a-zA-Z0-9_]+');
 Route::pattern('decision', 'approve|unapprove');
 Route::pattern('quote_approved_type', 'waiting|refused|pending|published');
 Route::pattern('device_type', 'tablet|ios|android|mobile|desktop');
-Route::pattern('fav', 'fav');
+Route::pattern('display_type', 'favorites|comments');
 Route::pattern('random', 'random');
 
 /*
@@ -46,7 +46,7 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	/* --- USERS --- */
 	Route::delete('users', ['as' => 'users.delete', 'before' => 'auth', 'uses' => 'UsersController@destroy']);
 	Route::get("signup", ["as" => "signup", "before" => "guest", "uses" => "UsersController@getSignup"]);
-	Route::get('users/{user_id}/{fav?}', ['as' => 'users.show', 'uses' => 'UsersController@show']);
+	Route::get('users/{user_id}/{display_type?}', ['as' => 'users.show', 'uses' => 'UsersController@show']);
 	Route::put('users/{user_id}/password', ['as' => 'users.password', 'uses' => 'UsersController@putPassword']);
 	Route::put('users/{user_id}/avatar', ['as' => 'users.avatar', 'uses' => 'UsersController@putAvatar']);
 	Route::put('users/{user_id}/settings', ['as' => 'users.settings', 'uses' => 'UsersController@putSettings']);

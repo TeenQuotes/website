@@ -14,13 +14,20 @@
 		@if (!empty($quotes))
 			@if ($type == 'favorites')
 				<h2><i class="fa fa-heart"></i> {{ Lang::get('users.favoriteQuotes') }}</h2>
+			@elseif ($type == 'comments')	
+				<h2><i class="fa fa-comments"></i> {{ Lang::get('users.comments') }}</h2>
 			@else
 				<h2><i class="fa fa-pencil"></i> {{ Lang::get('users.publishedQuotes') }}</h2>
 			@endif
 
 			<?php $i = 0; ?>
 			@foreach ($quotes as $quote)
-				@include('quotes.singleQuote', compact("quote"))
+				@if ($type != 'comments')
+					@include('quotes.singleQuote', compact("quote"))
+				@else
+					<?php $comment = $quote; ?>
+					@include('comments.singleComment', compact("comment"))
+				@endif
 			<?php $i++ ?>
 			@endforeach
 

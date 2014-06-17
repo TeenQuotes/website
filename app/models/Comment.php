@@ -26,4 +26,9 @@ class Comment extends Eloquent {
 	{
 		return $this->belongsTo('Quote');
 	}
+
+	public function scopeOrderDescending($query)
+	{
+		return $query->orderBy('created_at', 'DESC');
+	}
 }

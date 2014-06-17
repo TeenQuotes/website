@@ -56,4 +56,5 @@ return array(
 	'yourPassword'                  => 'Your password',
 	'deleteAccountSuccessfull'      => "Your account has been deleted successfully",
 	'writeDeleteHere'               => 'You need to write "DELETE" here',
+	'comments'                      => 'Comments',
 );
