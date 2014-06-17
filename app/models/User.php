@@ -373,6 +373,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
      */
     public function getIconGender()
     {
-    	return ($this->gender == 'M') ? 'fa-male' : 'fa-female';
+    	return $this->isMale() ? 'fa-male' : 'fa-female';
     }
 }
