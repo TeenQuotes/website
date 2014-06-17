@@ -985,6 +985,36 @@ body {
 		}
 	}
 
+	.comment {
+		border-bottom: none;
+		margin-bottom: 0;
+	}
+
+	.comment-quote-info {
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+		margin-left: 2em;
+		margin-bottom: 1em;
+		border-left: 5px solid darken($lightBlue, 10%);
+		background: $lightBlue;
+		color: white;
+		padding: 5px 10px;
+
+		a {
+			text-decoration: none;
+			background: inherit;
+			padding: 2px 3px;
+			font-family: 'Titillium Web', serif;
+			color: white;
+			@include element-transition;
+
+			&:hover {
+				background: white;
+				color: $lightBlue;
+			}
+		}
+	}
 }
 
 #require-log-buttons {

@@ -192,7 +192,7 @@ class UsersController extends \BaseController {
 	{
 		$comments = $user
 			->comments()
-			->with('user')
+			->with('user', 'quote')
 			->orderDescending()
 			->paginate(Config::get('app.users.nbQuotesPerPage'))
 			->getItems();
