@@ -658,6 +658,19 @@ body {
 	    	margin-right: auto;
 	    	margin-left: auto;
 	    }
+
+	    a {
+			text-decoration: none;
+			background: inherit;
+			padding: 2px 3px;
+			color: $lightBlue;
+			@include element-transition;
+
+			&:hover {
+				background: $lightBlue;
+				color: white;
+			}
+		}
 	}
 }
 
