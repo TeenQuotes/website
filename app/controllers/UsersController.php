@@ -142,7 +142,7 @@ class UsersController extends \BaseController {
 		$data['user']                 = $user;
 		$data['pageTitle']            = Lang::get('users.profilePageTitle', array('login' => $user->login));
 		$data['pageDescription']      = Lang::get('users.profilePageDescription', array('login' => $user->login));
-		$data['hideAuthor']           = $user->profile_hidden;
+		$data['hideAuthorQuote']      = ($data['type'] == 'published');
 		$data['commentsCount']        = $user->getTotalComments();
 		$data['addedFavCount']        = $user->getAddedFavCount();
 		$data['quotesPublishedCount'] = $user->getPublishedQuotesCount();

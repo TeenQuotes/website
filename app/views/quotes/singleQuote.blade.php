@@ -40,7 +40,7 @@ else
 
 		<!-- AUTHOR -->
 		<div class="col-md-5 col-sm-5 col-xs-5">
-			@if (!(isset($hideAuthor) AND $hideAuthor))
+			@if (!(isset($hideAuthorQuote) AND $hideAuthorQuote))
 				@if (!$quote->user->isHiddenProfile())
 					<a href="{{ URL::action('UsersController@show', ['id' => $quote->user->login]) }}" class="link-author-profile">
 					<?php $openedLink = true; ?>
