@@ -63,6 +63,11 @@
 						<li>
 							<a href="{{ URL::route('search.form')}}"><i class="fa fa-search"></i>{{ Lang::get('layout.search') }}</a>
 						</li>
+
+						<!-- APPS -->
+						<li class="hidden-sm">
+							<a href="{{ URL::route('apps')}}"><i class="fa fa-mobile"></i>{{ Lang::get('layout.apps') }}</a>
+						</li>
 					</ul>
 
 					<!-- TWITTER FOLLOW BUTTON -->

@@ -55,7 +55,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'no-reply@emails.teen-quotes.com', 'name' => 'Teen Quotes'),
+	'from' => array('address' => 'support@emails.'.Config::get('app.domain'), 'name' => 'Teen Quotes'),
 
 	/*
 	|--------------------------------------------------------------------------
