@@ -6,6 +6,8 @@
 			@include('stories.single')
 		@endforeach
 
-		{{ $stories->links() }}
+		<div class="text-center">
+			{{ $stories->links() }}
+		</div>
 	</div>
 @stop

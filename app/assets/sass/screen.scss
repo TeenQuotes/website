@@ -582,15 +582,17 @@ body {
 	}
 }
 
+.container {
+	.text-center {
+		text-align: center;
+	}
+}
+
 .container.under-navbar {
 	padding-top: 100px;
 
 	@media screen and (max-width: $breakpointSmartphone) {
 		padding-top: 70px;
-	}
-
-	.text-center {
-		text-align: center;
 	}
 }
 
@@ -715,7 +717,6 @@ body {
 		.story-date {
 			float: right;
 			font-style: italic;
-			display: block;
 		}
 
 		h4 {
