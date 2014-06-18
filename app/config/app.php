@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'debug' => true,
+	'debug' => false,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -26,11 +26,12 @@ return array(
 	|
 	*/
 
-	'url' => 'http://localhost',
-
+	'url' => 'http://teen-quotes.com',
+	
 	'domain' => 'teen-quotes.com',
-
-	'domainAPI' => 'api.teen-quotes.com',
+	
+	'domainAPI' => 'api.',
+	'domainStories' => 'stories.',
 
 	/*
 	|--------------------------------------------------------------------------

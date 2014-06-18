@@ -20,6 +20,8 @@ Route::pattern('random', 'random');
 |--------------------------------------------------------------------------
 |
 */
+
+/* --- MAIN WEBSITE --- */
 Route::group(['domain' => Config::get('app.domain')], function()
 {
 	Route::get('/', ['as' => 'home', 'uses' => 'QuotesController@index']);
@@ -71,31 +73,37 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	/* --- FAVORITE --- */
 	Route::post('favorite/{quote_id}', ['as' => 'favorite', 'before' => 'auth', 'uses' => 'FavoritesController@store']);
 	Route::post('unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth', 'uses' => 'FavoritesController@destroy']);
+	
+	/* --- ADMIN --- */
+	Route::group(['before' => 'admin', 'prefix' => 'admin'], function()
+	{
+		// Index
+		Route::get('/', ['uses' => 'QuotesAdminController@index', 'as' => 'admin.quotes.index']);
+		// Edit
+		Route::get('edit/{quote_id}', ['uses' => 'QuotesAdminController@edit', 'as' => 'admin.quotes.edit']);
+		// Update
+		Route::put('update/{quote_id}', ['uses' => 'QuotesAdminController@update', 'as' => 'admin.quotes.update']);
+		// Moderation
+		Route::post('moderate/{quote_id}/{decision}', ['uses' => 'QuotesAdminController@postModerate', 'as' => 'admin.quotes.moderate']);
+	});
 });
 
-/* --- ADMIN --- */
-Route::group(['before' => 'admin', 'prefix' => 'admin'], function()
+
+/* --- STORIES --- */
+Route::group(['domain' => Config::get('app.domainStories').Config::get('app.domain')], function()
 {
-	// Index
-	Route::get('/', ['uses' => 'QuotesAdminController@index', 'as' => 'admin.quotes.index']);
-	// Edit
-	Route::get('edit/{quote_id}', ['uses' => 'QuotesAdminController@edit', 'as' => 'admin.quotes.edit']);
-	// Update
-	Route::put('update/{quote_id}', ['uses' => 'QuotesAdminController@update', 'as' => 'admin.quotes.update']);
-	// Moderation
-	Route::post('moderate/{quote_id}/{decision}', ['uses' => 'QuotesAdminController@postModerate', 'as' => 'admin.quotes.moderate']);
+	Route::get('/', function()
+	{
+		return View::make('hello');
+	});
 });
 
-
-Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'session.remove'], function()
+/* --- API --- */
+Route::group(['domain' => Config::get('app.domainAPI').Config::get('app.domain'), 'before' => 'session.remove'], function()
 {
 	// OAuth
-	Route::post('oauth', function()
-	{
-	    return AuthorizationServer::performAccessTokenFlow();
-	});
+	Route::post('oauth', ['uses' => 'APIGlobalController@postOauth']);
 
 	// Welcome page
-	if (!App::environment('local'))
-		Route::get('/', ['uses' => 'APIGlobalController@showWelcome']);
+	Route::get('/', ['uses' => 'APIGlobalController@showWelcome']);
 });

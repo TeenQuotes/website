@@ -17,7 +17,7 @@ Route::pattern('random', 'random');
 |--------------------------------------------------------------------------
 |
 */
-Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth|session.remove', 'prefix' => 'v1'], function()
+Route::group(['domain' => Config::get('app.domainAPI').Config::get('app.domain'), 'before' => 'oauth|session.remove', 'prefix' => 'v1'], function()
 {
 	// Countries
 	Route::get('countries/{country_id?}', ['uses' => 'CountriesAPIv1Controller@getCountry']);		

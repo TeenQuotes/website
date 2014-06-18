@@ -14,11 +14,12 @@ return array(
 	*/
 
 	'debug'            => true,
-
+	
 	'users.avatarPath' => 'public/uploads/avatar',
+	
+	'url'              => 'http://dev.tq',
+	'domain'           => 'dev.tq',
 
-	'domain'           => '',
-	'domainAPI'        => '',
 	'connections' => array(
 		'mysql' => array(
 			'driver'      => 'mysql',
