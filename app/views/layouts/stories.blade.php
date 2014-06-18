@@ -7,6 +7,8 @@
 			{{ $heroText }}
 		</div>
 	</div>
+
+	@yield('content')
 </div>
 
 @include('layouts/footer')

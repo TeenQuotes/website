@@ -231,8 +231,10 @@ return array(
 		],
 
 		'users.defaultColorQuotesPublished' => 'blue',
-
+		
 		'users.nbQuotesPerPage'             => 5,
-
+		
 		'search.maxResultsPerCategory'      => 10,
+		
+		'stories.nbStoriesPerPage'          => 5,
 );

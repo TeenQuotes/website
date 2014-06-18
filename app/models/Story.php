@@ -16,6 +16,11 @@ class Story extends Eloquent {
 
 	public function user()
 	{
-		return $this->belongsTo('User', 'id', 'user_id');
+		return $this->belongsTo('User', 'user_id', 'id');
+	}
+
+	public function scopeOrderDescending($query)
+	{
+		return $query->orderBy('created_at', 'DESC');
 	}
 }

@@ -599,7 +599,7 @@ body {
 
 	#hero {
 		max-width: 1170px;
-		margin: 0 -15px 1rem -15px;
+		margin: 0 -15px;
 		position: relative;
 
 		img {
@@ -638,6 +638,67 @@ body {
 				top: 5%;
 				width: 70%;
 	    	}
+		}
+	}
+}
+
+#stories {
+	margin-left: -15px;
+	margin-right: -15px;
+
+	.story {
+		padding: 15px 20px;
+		background: white;
+		color: black;
+		text-align: justify;
+
+		&:nth-child(even) {
+			color: white;
+			background: $lightBlue;
+
+			h3 a:hover {
+				background: white;
+				color: $orange;
+			}
+		}
+
+		.column {
+			float:none;
+	    	display:inline-block;
+	    	vertical-align:middle;
+	    	margin-right:-4px;
+
+			.avatar {
+				max-height: 100px;
+			}
+		}
+
+		.column-avatar {
+			border-right: 1px solid darken($lightGray, 10%);
+		}
+
+		h3 {
+			color: $orange;
+			font-family: 'Titillium Web', serif;
+			background: inherit;
+			padding: 3px 5px;
+			margin-top: 0;
+
+			a {
+				text-decoration: none;
+				color: $orange;
+				@include element-transition;
+
+				&:hover {
+					background: $orange;
+					color: white;
+				}
+			}
+		}
+
+		h4 {
+			font-family: 'Titillium Web', serif;
+			margin: 15px 0 10px 0;
 		}
 	}
 }
