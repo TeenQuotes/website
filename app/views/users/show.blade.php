@@ -28,7 +28,7 @@
 					<?php $comment = $quote; ?>
 					@include('comments.singleComment', compact("comment"))
 					<div class="comment-quote-info">
-						<a href="{{URL::route('quotes.show', $comment->quote->id)}}">#{{$comment->quote->id}}</a> - {{$comment->quote->content}}
+						<a href="{{URL::route('quotes.show', $comment->quote->id)}}">#{{$comment->quote->id}}</a> - {{{ $comment->quote->content }}}
 					</div>
 				@endif
 			<?php $i++ ?>
