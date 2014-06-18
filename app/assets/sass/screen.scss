@@ -628,12 +628,14 @@ body {
 	    		font-size: 1.1em;
 				line-height: 1.5em;
 				left: 0%;
+				top: 10%;
 				width: 70%;
 	    	}
 			@media screen and (max-width: $breakpointMiniSmartphone) {
 	    		font-size: .9em;
 				line-height: 1.5em;
 				left: 0%;
+				top: 0%;
 				width: 70%;
 	    	}
 		}
