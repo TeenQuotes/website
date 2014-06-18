@@ -4,9 +4,9 @@
 	
 	<!-- Hero image -->
 	@if (!$heroHide)
-		<div id="hero">
+		<div id="hero" class="animated fadeInDown">
 			{{ HTML::image('assets/images/stories/hero.jpg', "Hero") }}
-			<div class="text">
+			<div class="text animated fadeInLeft">
 				{{ $heroText }}
 				<span class="hidden-xs hidden-sm">
 					{{ $tellUsYourStory }}
