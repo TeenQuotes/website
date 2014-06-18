@@ -8,7 +8,7 @@
 	<div id="background">
 		<div id="container">
 			<div id="logo-container">
-				<a href="http://{{ Lang::get('layout.domain') }}" title="{{ Lang::get('layout.nameWebsite') }}"></a>
+				<a href="http://{{ Config::get('app.domain') }}" title="{{ Lang::get('layout.nameWebsite') }}"></a>
 			</div>
 
 			<div id="body-content">
