@@ -95,6 +95,7 @@ Route::group(['domain' => Config::get('app.domainStories')], function()
 {
 	Route::get('/', ['as' => 'stories', 'uses' => 'StoriesController@index']);
 	Route::get('story/{story_id}', ['as' => 'story.show', 'uses' => 'StoriesController@show']);
+	Route::post('story/new', ['as' => 'story.store', 'before' => 'auth', 'uses' => 'StoriesController@store']);
 });
 
 /* --- API --- */

@@ -727,6 +727,20 @@ body {
 
 	}
 
+	form {
+		margin-bottom: 4em;
+
+		h1 {
+			color: $red;
+			margin-bottom: 1.3em;
+
+			i.fa {
+				margin-right: 15px;
+				color: black;
+			}
+		}
+	}
+
 	h2 {
 		color: $red;
 		margin: 1em 0;

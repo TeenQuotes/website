@@ -4,7 +4,6 @@ class StoriesController extends BaseController {
 	
 	public function index()
 	{
-
 		// Retrieve stories
 		$stories = Story::with('user')->orderDescending()->paginate(Config::get('app.stories.nbStoriesPerPage'));
 
@@ -17,6 +16,7 @@ class StoriesController extends BaseController {
 			'heroText'        => Lang::get('stories.heroText', ['nb' => $nbQuotes]),
 			'stories'         => $stories,
 			'tellUsYourStory' => Lang::get('stories.storiesTellTitle').'.',
+			'mustBeLogged'    => Lang::get('stories.mustBeLogged'),
 			'heroHide'        => false,
 		];
 
@@ -40,5 +40,31 @@ class StoriesController extends BaseController {
 		];
 
 		return View::make('stories.show', $data);
+	}
+
+	public function store()
+	{
+		$data = [
+			'represent_txt' => Input::get('represent_txt'),
+			'frequence_txt' => Input::get('frequence_txt'),
+		];
+
+		$validator = Validator::make($data, Story::$rules);
+		
+		// Check if the form validates with success
+		if ($validator->passes()) {
+
+			// Create the story
+			$story = new Story;
+			$story->represent_txt = $data['represent_txt'];
+			$story->frequence_txt = $data['frequence_txt'];
+			$story->user_id = Auth::id();
+			$story->save();
+
+			return Redirect::route('stories')->with('success', Lang::get('stories.storyAddedSuccessfull', array('login' => Auth::user()->login)));
+		}
+
+		// Something went wrong
+		return Redirect::route('stories')->withErrors($validator)->withInput(Input::all());
 	}
 }
