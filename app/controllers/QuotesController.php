@@ -20,11 +20,8 @@ class QuotesController extends \BaseController {
 		// Time to store quotes
 		$expiresAt = Carbon::now()->addMinutes(1);
 
-		$numberQuotesPublished = Cache::remember(Quote::$cacheNameNumberPublished, $expiresAt, function()
-		{
-			return Quote::published()->count();
-		});
-
+		$numberQuotesPublished = Quote::nbQuotesPublished();
+		
 		// Random quotes or not?
 		if (Route::currentRouteName() != 'random') {
 			$quotes = Cache::remember(Quote::$cacheNameQuotesPage.$pageNumber, $expiresAt, function()

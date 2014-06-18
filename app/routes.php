@@ -92,7 +92,7 @@ Route::group(['domain' => Config::get('app.domain')], function()
 /* --- STORIES --- */
 Route::group(['domain' => Config::get('app.domainStories')], function()
 {
-	Route::get('/', ['as' => 'stories']);
+	Route::get('/', ['as' => 'stories', 'uses' => 'StoriesController@index']);
 });
 
 /* --- API --- */

@@ -125,10 +125,7 @@ class QuotesAPIv1Controller extends BaseController {
         if ($page <= 0)
 			$page = 1;
 
-		$totalQuotes = Cache::rememberForever(Quote::$cacheNameNumberPublished, function()
-		{
-			return Quote::published()->count();
-		});
+		$totalQuotes = Quote::nbQuotesPublished();
 
         // Get quotes
         if (is_null($random))
