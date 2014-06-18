@@ -112,20 +112,19 @@ class UsersController extends \BaseController {
 		// Get the user
 		$user = User::where('login', $user_id)->orWhere('id', $user_id)->first();
 
-		// TODO: handle this error
 		if (is_null($user))
 			throw new UserNotFoundException;
 
 		// Throw an exception if the user has an hidden profile
-		// We do throw this exception if the user is currently
+		// We do not throw this exception if the user is currently
 		// viewing its own hidden profile
 		if ($user->isHiddenProfile() AND !(Auth::check() AND Auth::user()->login == $user->login))
 			throw new HiddenProfileException;
 
-		// If the user hasn't favorite but has published quotes, redirect
+		// If the user hasn't got favorites but has published quotes, redirect
 		if (!$type AND !$user->hasPublishedQuotes() AND $user->hasFavoriteQuotes())
 			return Redirect::route('users.show', [$user->login, 'favorites']);
-		// If the user hasn't published but has favorite quotes, redirect
+		// If the user hasn't published quotes but has favorites quotes, redirect
 		elseif ($type == 'favorites' AND !$user->hasFavoriteQuotes() AND $user->hasPublishedQuotes())
 			return Redirect::route('users.show', $user->login);
 
