@@ -63,7 +63,7 @@ App::error(function(TQNotFoundException $exception, $code)
 {
 	$resourceName = strtolower(str_replace("NotFoundException", "", get_class($exception)));
 
-	if (in_array($resourceName, ['quote', 'user', 'token'])) {
+	if (in_array($resourceName, ['quote', 'user', 'token', 'story'])) {
 		$data = [
 			'content' => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.'.$resourceName.'Text')]),
 			'title' => Lang::get('errors.'.$resourceName.'NotFoundTitle')
