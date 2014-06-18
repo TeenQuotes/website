@@ -17,8 +17,10 @@ return array(
 	
 	'users.avatarPath' => 'public/uploads/avatar',
 	
-	'url'              => 'http://dev.tq',
 	'domain'           => 'dev.tq',
+	
+	'domainAPI'        => 'api.dev.tq',
+	'domainStories'    => 'stories.dev.tq',
 
 	'connections' => array(
 		'mysql' => array(

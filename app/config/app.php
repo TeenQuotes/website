@@ -26,12 +26,12 @@ return array(
 	|
 	*/
 
-	'url' => 'http://teen-quotes.com',
+	'url'           => 'http://teen-quotes.com',
 	
-	'domain' => 'teen-quotes.com',
+	'domain'        => 'teen-quotes.com',
 	
-	'domainAPI' => 'api.',
-	'domainStories' => 'stories.',
+	'domainAPI'     => 'api.teen-quotes.com',
+	'domainStories' => 'stories.teen-quotes.com',
 
 	/*
 	|--------------------------------------------------------------------------

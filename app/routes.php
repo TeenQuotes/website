@@ -90,7 +90,7 @@ Route::group(['domain' => Config::get('app.domain')], function()
 
 
 /* --- STORIES --- */
-Route::group(['domain' => Config::get('app.domainStories').Config::get('app.domain')], function()
+Route::group(['domain' => Config::get('app.domainStories')], function()
 {
 	Route::get('/', function()
 	{
@@ -99,7 +99,7 @@ Route::group(['domain' => Config::get('app.domainStories').Config::get('app.doma
 });
 
 /* --- API --- */
-Route::group(['domain' => Config::get('app.domainAPI').Config::get('app.domain'), 'before' => 'session.remove'], function()
+Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'session.remove'], function()
 {
 	// OAuth
 	Route::post('oauth', ['uses' => 'APIGlobalController@postOauth']);
