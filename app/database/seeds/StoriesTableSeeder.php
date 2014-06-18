@@ -20,6 +20,7 @@ class StoriesTableSeeder extends Seeder {
 				'represent_txt' => $faker->paragraph(5),
 				'frequence_txt' => $faker->paragraph(5),
 				'user_id'       => $faker->numberBetween(1, 100),
+				'created_at'    => $faker->dateTimeBetween('-2 years', 'now'),
 			]);
 		}
 	}
