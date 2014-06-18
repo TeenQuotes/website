@@ -7,6 +7,7 @@
 */
 Route::pattern('quote_id', '[0-9]+');
 Route::pattern('country_id', '[0-9]+');
+Route::pattern('story_id', '[0-9]+');
 Route::pattern('user_id', '[a-zA-Z0-9_]+');
 Route::pattern('decision', 'approve|unapprove');
 Route::pattern('quote_approved_type', 'waiting|refused|pending|published');
@@ -93,6 +94,7 @@ Route::group(['domain' => Config::get('app.domain')], function()
 Route::group(['domain' => Config::get('app.domainStories')], function()
 {
 	Route::get('/', ['as' => 'stories', 'uses' => 'StoriesController@index']);
+	Route::get('story/{story_id}', ['as' => 'story.show', 'uses' => 'StoriesController@show']);
 });
 
 /* --- API --- */

@@ -660,6 +660,11 @@ body {
 				background: white;
 				color: $orange;
 			}
+
+			h3 .story-id a:hover {
+				background: white;
+				color: $green;
+			}
 		}
 
 		.column {
@@ -694,11 +699,40 @@ body {
 					color: white;
 				}
 			}
+
+			.story-id a {
+				float: right;
+				background: inherit;
+				padding: 5px;
+				color: $green;
+
+				&:hover {
+					background: $green;
+					color: white;
+				}
+			}
+		}
+
+		.story-date {
+			float: right;
+			font-style: italic;
+			display: block;
 		}
 
 		h4 {
 			font-family: 'Titillium Web', serif;
 			margin: 15px 0 10px 0;
+		}
+
+	}
+
+	h2 {
+		color: $red;
+		margin: 1em 0;
+
+		i.fa {
+			margin-right: 15px;
+			color: black;
 		}
 	}
 }
