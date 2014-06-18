@@ -15,6 +15,11 @@ class APIGlobalController extends BaseController {
 		return Response::json($data, 200);
 	}
 
+	public function postOauth()
+	{
+		return AuthorizationServer::performAccessTokenFlow();
+	}
+
 	/**
 	 * Paginate content for the API after a search for example
 	 * @param  int $page The current page number
