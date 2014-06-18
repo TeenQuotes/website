@@ -32,7 +32,6 @@
 			<h4>{{ Lang::get('stories.useTellTitle') }}</h4>
 			{{{ $story->frequence_txt }}}
 			
-			<div class="clearfix"></div>
 			<div class="story-date">
 				{{ $story->created_at->diffForHumans() }}
 			</div>
