@@ -92,10 +92,7 @@ Route::group(['domain' => Config::get('app.domain')], function()
 /* --- STORIES --- */
 Route::group(['domain' => Config::get('app.domainStories')], function()
 {
-	Route::get('/', function()
-	{
-		return View::make('hello');
-	});
+	Route::get('/', ['as' => 'stories']);
 });
 
 /* --- API --- */

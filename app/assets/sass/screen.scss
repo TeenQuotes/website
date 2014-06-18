@@ -1314,26 +1314,50 @@ body {
 }
 
 #wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  /* Negative indent footer by its height */
-  margin: 0 auto -60px;
-  /* Pad bottom by footer height */
-  padding: 0 0 60px;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	/* Negative indent footer by its height */
+	margin: 0 auto -140px;
+	/* Pad bottom by footer height */
+	padding: 0 0 140px;
+  	@media screen and (max-width: $breakpointSmartphone) {
+		font-size: .8em;
+		padding: 0 0 120px;
+		margin: 0 auto -120px;
+	}
 }
 
 footer {
-	height: 60px;
+	height: 140px;
 	background: $topbarColor;
 	color: lighten($topbarColor, 25%);
 
 	@media screen and (max-width: $breakpointSmartphone) {
 		font-size: .8em;
+		height: 120px;
 	}
 
 	.container {
 		padding-top: 15px;
+	}
+
+	.links {
+		margin-top: 10px;
+		padding-top: 10px;
+		border-top: 1px solid lighten($topbarColor, 5%);
+		
+		.col-xs-6 a {
+			display: block;
+			text-decoration: none;
+			color: lighten($topbarColor, 25%);
+			margin-bottom: 5px;
+			@include element-transition;
+
+			&:hover {
+				color: lighten($topbarColor, 15%);
+			}
+		}
 	}
 
 	.col-xs-6 {
@@ -1345,11 +1369,16 @@ footer {
 
 	.right {
 		text-align: right;
-		font-family: 'Titillium Web', sans-serif;
-		font-style: italic;
+	}
 
-		img {
-			margin: -5px 5px 0 0;
+	.catchphrase {
+		.right {		
+			font-family: 'Titillium Web', sans-serif;
+			font-style: italic;
+
+			img {
+				margin: -5px 5px 0 0;
+			}
 		}
 	}
 }
