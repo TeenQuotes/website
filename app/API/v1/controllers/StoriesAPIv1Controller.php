@@ -40,4 +40,27 @@ class StoriesAPIv1Controller extends BaseController {
 		
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
+
+	public function show($story_id)
+	{
+		$story = Story::where('id', '=', $story_id)
+			->with(array('user' => function($q)
+			{
+			    $q->addSelect(array('id', 'login', 'avatar'));
+			}))
+			->first();
+
+		// Handle not found
+		if (is_null($story)) {
+
+			$data = [
+				'status' => 'story_not_found',
+				'error'  => "The story #".$story_id." was not found",
+			];
+
+			return Response::json($data, 404);
+		}
+		else
+			return Response::json($story, 200, [], JSON_NUMERIC_CHECK);
+	}
 }
