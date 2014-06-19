@@ -202,6 +202,7 @@ return array(
 		'AuthorizationServer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade',
 		'ResourceServer'      => 'LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade',
 		'Agent'               => 'Jenssegers\Agent\Facades\Agent',
+		'Toloquent'           => 'TeenQuotes\Database\Toloquent',
 	),
 
 	/*

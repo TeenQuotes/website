@@ -17,10 +17,7 @@ class StoriesAPIv1Controller extends BaseController {
 
         // Get stories
         $content = Story::
-	        with(array('user' => function($q)
-			{
-			    $q->addSelect(array('id', 'login', 'avatar'));
-			}))
+			withSmallUser()
 			->orderDescending()
 			->take($pagesize)
 			->skip($skip)
@@ -44,10 +41,7 @@ class StoriesAPIv1Controller extends BaseController {
 	public function show($story_id)
 	{
 		$story = Story::where('id', '=', $story_id)
-			->with(array('user' => function($q)
-			{
-			    $q->addSelect(array('id', 'login', 'avatar'));
-			}))
+			->withSmallUser()
 			->first();
 
 		// Handle not found

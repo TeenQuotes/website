@@ -6,14 +6,8 @@ class QuotesAPIv1Controller extends BaseController {
 	{
 		$quote = Quote::whereId($quote_id)
 		->with('comments')
-		->with(array('comments.user' => function($query)
-		{
-		    $query->addSelect(array('id', 'login', 'avatar'));
-		}))
-		->with(array('user' => function($q)
-		{
-		    $q->addSelect(array('id', 'login', 'avatar'));
-		}))
+		->withSmallUser('comments.user')
+		->withSmallUser()
 		->get();
 
 		// Handle not found
@@ -234,10 +228,7 @@ class QuotesAPIv1Controller extends BaseController {
         	$content = Cache::remember(Quote::$cacheNameQuotesAPIPage.$page, $expiresAt, function() use($pagesize, $skip)
         	{
 		        return Quote::published()
-				->with(array('user' => function($q)
-				{
-				    $q->addSelect(array('id', 'login', 'avatar'));
-				}))
+				->withSmallUser()
 				->orderDescending()
 				->take($pagesize)
 				->skip($skip)
@@ -246,10 +237,7 @@ class QuotesAPIv1Controller extends BaseController {
         }
         else {
         	$content = Quote::published()
-				->with(array('user' => function($q)
-				{
-				    $q->addSelect(array('id', 'login', 'avatar'));
-				}))
+				->withSmallUser()
 				->orderDescending()
 				->take($pagesize)
 				->skip($skip)
@@ -272,10 +260,7 @@ class QuotesAPIv1Controller extends BaseController {
         	$content = Cache::remember(Quote::$cacheNameRandomAPIPage.$page, $expiresAt, function() use($pagesize, $skip)
         	{
 		        return Quote::published()
-				->with(array('user' => function($q)
-				{
-				    $q->addSelect(array('id', 'login', 'avatar'));
-				}))
+				->withSmallUser()
 				->random()
 				->take($pagesize)
 				->skip($skip)
@@ -284,10 +269,7 @@ class QuotesAPIv1Controller extends BaseController {
         }
         else {
         	$content = Quote::published()
-				->with(array('user' => function($q)
-				{
-				    $q->addSelect(array('id', 'login', 'avatar'));
-				}))
+				->withSmallUser()
 				->random()
 				->take($pagesize)
 				->skip($skip)
@@ -303,10 +285,7 @@ class QuotesAPIv1Controller extends BaseController {
         $skip = $pagesize * ($page - 1);
 
 		$content = Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
-			->with(array('user' => function($q)
-			{
-			    $q->addSelect(array('id', 'login', 'avatar'));
-			}))
+			->withSmallUser()
 			->orderBy(DB::raw("FIELD(id, ".implode(',', $arrayIDFavoritesQuotesForUser).")"))
 			->take($pagesize)
 			->skip($skip)
@@ -327,10 +306,7 @@ class QuotesAPIv1Controller extends BaseController {
 		->whereRaw("MATCH(content) AGAINST(?)", array($query))
 		->where('approved', '=', 1)
 		->orderBy('rank', 'DESC')
-		->with(array('user' => function($q)
-		{
-		    $q->addSelect(array('id', 'login', 'avatar'));
-		}))
+		->withSmallUser()
 		->skip($skip)
 		->take($pagesize)
 		// WARNING 1 corresponds to approved = 1
@@ -347,10 +323,7 @@ class QuotesAPIv1Controller extends BaseController {
         $skip = $pagesize * ($page - 1);
 
 		$content = Quote::$quote_approved_type()
-			->with(array('user' => function($q)
-			{
-			    $q->addSelect(array('id', 'login', 'avatar'));
-			}))
+			->withSmallUser()
 			->forUser($user)
 			->orderDescending()
 			->take($pagesize)

@@ -1,6 +1,6 @@
 <?php
 
-class Quote extends Eloquent {
+class Quote extends Toloquent {
 	protected $fillable = [];
 
 	protected $hidden = ['updated_at'];
@@ -256,14 +256,6 @@ class Quote extends Eloquent {
 	public function scopeOrderAscending($query)
 	{
 		return $query->orderBy('created_at', 'ASC');
-	}
-
-	public function scopeUserSmall($query)
-	{
-		return $query->with(array('user' => function($q)
-		{
-		    $q->addSelect(array('id', 'login', 'avatar'));
-		}));
 	}
 
 	public function scopeRandom($query)

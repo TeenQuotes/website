@@ -1,6 +1,6 @@
 <?php
 
-class Story extends Eloquent {
+class Story extends Toloquent {
 	protected $table = 'stories';
 	protected $fillable = [];
 
