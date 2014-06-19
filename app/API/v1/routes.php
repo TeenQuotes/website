@@ -48,5 +48,6 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth|sessi
 
 	// Stories
 	Route::get('stories', ['uses' => 'StoriesAPIv1Controller@index']);
+	Route::post('stories', ['uses' => 'StoriesAPIv1Controller@store']);
 	Route::get('stories/{story_id}', ['uses' => 'StoriesAPIv1Controller@show']);
 });
