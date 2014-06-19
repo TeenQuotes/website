@@ -213,6 +213,8 @@ return array(
 	|
 	*/
 
+		'comments.nbCommentsPerPage'       => 10,
+		
 		'quotes.nbQuotesToPublishPerDay'   => 5,
 
 		'quotes.nbQuotesPerPage'           => 10,

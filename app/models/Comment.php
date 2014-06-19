@@ -1,6 +1,6 @@
 <?php
 
-class Comment extends Eloquent {
+class Comment extends Toloquent {
 	protected $fillable = [];
 
 	protected $hidden = ['deleted_at', 'updated_at'];

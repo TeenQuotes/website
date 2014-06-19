@@ -8,6 +8,7 @@
 Route::pattern('quote_id', '[0-9]+');
 Route::pattern('country_id', '[0-9]+');
 Route::pattern('story_id', '[0-9]+');
+Route::pattern('comment_id', '[0-9]+');
 Route::pattern('user_id', '[a-zA-Z0-9_]+');
 Route::pattern('quote_approved_type', 'waiting|refused|pending|published');
 Route::pattern('random', 'random');
@@ -20,6 +21,10 @@ Route::pattern('random', 'random');
 */
 Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth|session.remove', 'prefix' => 'v1'], function()
 {
+	// Comments
+	Route::get('comments', ['uses' => 'CommentsAPIv1Controller@index']);
+	Route::get('comments/{comment_id}', ['uses' => 'CommentsAPIv1Controller@show']);
+
 	// Countries
 	Route::get('countries/{country_id?}', ['uses' => 'CountriesAPIv1Controller@getCountry']);		
 
