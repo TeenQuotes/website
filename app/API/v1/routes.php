@@ -44,4 +44,7 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth|sessi
 	
 	// Search
 	Route::get('search/{query}', ['uses' => 'SearchAPIv1Controller@getSearch']);
+
+	// Stories
+	Route::get('stories', ['uses' => 'StoriesAPIv1Controller@index']);
 });
