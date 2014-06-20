@@ -66,4 +66,72 @@ class CommentsAPIv1Controller extends BaseController {
 		else
 			return Response::json($comment, 200, [], JSON_NUMERIC_CHECK);
 	}
+
+	public function store($quote_id, $doValidation = true)
+	{
+		$user = ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
+		$content = Input::get('content');
+
+		if ($doValidation) {		
+			
+			// Validate quote_id
+			$validatorQuote = Validator::make(compact('quote_id'), ['quote_id' => Comment::$rulesAdd['quote_id']]);
+			if ($validatorQuote->fails()) {
+				$data = [
+					'status' => 'wrong_quote_id',
+					'error' => $validatorQuote->messages()->first('quote_id')
+				];
+
+				return Response::json($data, 400);
+			}
+
+			// Validate content
+			$validatorContent = Validator::make(compact('content'), ['content' => Comment::$rulesAdd['content']]);
+			if ($validatorContent->fails()) {
+				$data = [
+					'status' => 'wrong_content',
+					'error' => $validatorContent->messages()->first('content')
+				];
+
+				return Response::json($data, 400);
+			}
+		}
+
+		$quote = Quote::where('id', '=', $quote_id)->with('user')->first();
+		
+		// Check if the quote is published
+		if (!$quote->isPublished()) {
+			$data = [
+				'status' => 'wrong_quote_id',
+				'error' => 'The quote should be published.'
+			];
+
+			return Response::json($data, 400);
+		}
+
+		// Store the comment
+		$comment = new Comment;
+		$comment->content  = $content;
+		$comment->quote_id = $quote_id;
+		$comment->user_id  = $user->id;
+		$comment->save();
+
+		// Send an email to the author of the quote if he wants it
+		if ($quote->user->wantsEmailComment()) {
+			$emailData = array();
+			$emailData['quote']   = $quote->toArray();
+			$emailData['comment'] = $comment->toArray();
+
+			Mail::send('emails.comments.posted', $emailData, function($m) use($quote)
+			{
+				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('comments.commentAddedSubjectEmail', ['id' => $quote->id]));
+			});
+		}
+
+		// If we have the number of comments in cache, increment it
+		if (Cache::has(Quote::$cacheNameNbComments.$quote_id))
+			Cache::increment(Quote::$cacheNameNbComments.$quote_id);
+
+		return Response::json($comment, 200, [], JSON_NUMERIC_CHECK);
+	}
 }

@@ -23,6 +23,7 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth|sessi
 {
 	// Comments
 	Route::get('comments', ['uses' => 'CommentsAPIv1Controller@index']);
+	Route::post('comments/{quote_id}', ['uses' => 'CommentsAPIv1Controller@store']);
 	Route::get('comments/{comment_id}', ['uses' => 'CommentsAPIv1Controller@show']);
 
 	// Countries
