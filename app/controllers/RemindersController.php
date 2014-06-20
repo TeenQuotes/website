@@ -50,7 +50,15 @@ class RemindersController extends Controller {
 		if (is_null($token))
 			throw new TokenNotFoundException;
 
-		return View::make('password.reset')->with('token', $token);
+		$data = [
+			'token'               => $token,
+			'contactHumanTitle'   => Lang::get('auth.contactHumanTitle'),
+			'contactHumanContent' => Lang::get('auth.contactHumanContent', ['url' => URL::route('contact')]),
+			'pageTitle'           => Lang::get('auth.resetPasswordPageTitle'),
+			'pageDescription'     => Lang::get('auth.resetPasswordPageDescription'),
+		];
+
+		return View::make('password.reset', $data);
 	}
 
 	/**
@@ -67,7 +75,7 @@ class RemindersController extends Controller {
 			'email'                 => Input::get('email'),
 			'token'                 => Input::get('token'),
 			'password'              => Input::get('password'),
-			'password_confirmation' => Input::get('password')
+			'password_confirmation' => Input::get('password'),
 		];
 
 		$response = Password::reset($credentials, function($user, $password)

@@ -236,6 +236,32 @@ body {
 	.relax-text {
 		margin-bottom: 20px;
 	}
+
+	.contact-human {
+		margin: 3em 0;
+
+		h2 {
+			color: $green;
+
+			> i.fa {
+				margin-right: 15px;
+				color: black;
+			}
+		}
+
+		a {
+			background: white;
+			color: $lightBlue;
+			text-decoration: none;
+			padding: 3px 5px;
+			@include element-transition;
+
+			&:hover {
+				background: $lightBlue;
+				color: white;
+			}
+		}
+	}
 }
 
 #search-page {

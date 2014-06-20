@@ -43,5 +43,9 @@
 				</div>
 			</div>
 		{{ Form::close() }}
+		<div class="contact-human">
+			<h2><i class="fa fa-support"></i>{{ $contactHumanTitle }}</h2>
+			{{ $contactHumanContent }}
+		</div>
 	</div>
 @stop

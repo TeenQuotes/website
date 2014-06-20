@@ -47,4 +47,8 @@ return array(
 	'mailAddressUpdated'           => 'Your email address has been updated!',
 	'mailAddressInvalid'           => "This email address seems to be invalid",
 	'mailAddressValid'             => "Seems good! We will know how to reach you.",
+	'resetPasswordPageTitle'       => 'Reset my password | '.Lang::get('layout.nameWebsite'),
+	'resetPasswordPageDescription' => 'Reset your password and recover your account',
+	'contactHumanTitle'            => 'I need some help',
+	'contactHumanContent'          => 'Having trouble to recover your account? Get in touch with a real human. <a href=":url">Contact us</a>!'
 );
