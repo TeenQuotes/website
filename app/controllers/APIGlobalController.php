@@ -41,11 +41,15 @@ class APIGlobalController extends BaseController {
 			'pagesize'            => (int) $pagesize,
 			'url'                 => URL::current()
         ];
+        
+        $additionalGet = null;
+        if (Input::has('quote'))
+        	$additionalGet = '&quote=true';
 
         // Add next page URL
         if ($page < $totalPages) {
         	$data['has_next_page'] = true;
-        	$data['next_page'] = $data['url'].'?page='.($page + 1).'&pagesize='.$pagesize;
+        	$data['next_page'] = $data['url'].'?page='.($page + 1).'&pagesize='.$pagesize.$additionalGet;
         }
         else
         	$data['has_next_page'] = false;
@@ -53,10 +57,11 @@ class APIGlobalController extends BaseController {
         // Add previous page URL
         if ($page >= 2) {
         	$data['has_previous_page'] = true;
-        	$data['previous_page'] = $data['url'].'?page='.($page - 1).'&pagesize='.$pagesize;
+        	$data['previous_page'] = $data['url'].'?page='.($page - 1).'&pagesize='.$pagesize.$additionalGet;
         }
         else
         	$data['has_previous_page'] = false;
+
 
         return $data;
 	}
