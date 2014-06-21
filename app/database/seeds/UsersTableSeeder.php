@@ -55,7 +55,5 @@ class UsersTableSeeder extends Seeder {
 				$this->command->info('Admin account : #42 - antoineaugusti - 123456');
 			}
 		}
-
 	}
-
 }

@@ -14,17 +14,14 @@ class CommentsTableSeeder extends Seeder {
 		$faker = Faker::create();
 
 		$this->command->info('Seeding Comments table using Faker...');
-		$date = Carbon::createFromDate(2011, 12, 1);
 		foreach(range(1, 1500) as $index)
 		{
 			Comment::create([
 				'content'    => $faker->paragraph(3),
 				'quote_id'   => $faker->numberBetween(150, 750),
 				'user_id'    => $faker->numberBetween(1, 100),
-				'created_at' => $date,
+				'created_at' => $faker->dateTimeBetween('-2 years', 'now'),
 			]);
-
-			$date = $date->addDay();
 		}
 	}
 
