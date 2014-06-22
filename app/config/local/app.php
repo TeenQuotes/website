@@ -21,6 +21,7 @@ return array(
 	
 	'domainAPI'        => 'api.dev.tq',
 	'domainStories'    => 'stories.dev.tq',
+	'domainAdmin'      => 'admin.dev.tq',
 
 	'connections' => array(
 		'mysql' => array(

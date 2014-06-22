@@ -32,6 +32,7 @@ return array(
 	
 	'domainAPI'     => 'api.teen-quotes.com',
 	'domainStories' => 'stories.teen-quotes.com',
+	'domainAdmin'   => 'admin.teen-quotes.com',
 
 	/*
 	|--------------------------------------------------------------------------

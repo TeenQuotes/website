@@ -75,20 +75,20 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	Route::post('favorite/{quote_id}', ['as' => 'favorite', 'before' => 'auth', 'uses' => 'FavoritesController@store']);
 	Route::post('unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth', 'uses' => 'FavoritesController@destroy']);
 	
-	/* --- ADMIN --- */
-	Route::group(['before' => 'admin', 'prefix' => 'admin'], function()
-	{
-		// Index
-		Route::get('/', ['uses' => 'QuotesAdminController@index', 'as' => 'admin.quotes.index']);
-		// Edit
-		Route::get('edit/{quote_id}', ['uses' => 'QuotesAdminController@edit', 'as' => 'admin.quotes.edit']);
-		// Update
-		Route::put('update/{quote_id}', ['uses' => 'QuotesAdminController@update', 'as' => 'admin.quotes.update']);
-		// Moderation
-		Route::post('moderate/{quote_id}/{decision}', ['uses' => 'QuotesAdminController@postModerate', 'as' => 'admin.quotes.moderate']);
-	});
 });
 
+/* --- ADMIN --- */
+Route::group(['domain' => Config::get('app.domainAdmin'), 'before' => 'admin'], function()
+{
+	// Index
+	Route::get('/', ['uses' => 'QuotesAdminController@index', 'as' => 'admin.quotes.index']);
+	// Edit
+	Route::get('edit/{quote_id}', ['uses' => 'QuotesAdminController@edit', 'as' => 'admin.quotes.edit']);
+	// Update
+	Route::put('update/{quote_id}', ['uses' => 'QuotesAdminController@update', 'as' => 'admin.quotes.update']);
+	// Moderation
+	Route::post('moderate/{quote_id}/{decision}', ['uses' => 'QuotesAdminController@postModerate', 'as' => 'admin.quotes.moderate']);
+});
 
 /* --- STORIES --- */
 Route::group(['domain' => Config::get('app.domainStories')], function()
