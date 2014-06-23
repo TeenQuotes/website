@@ -4,7 +4,7 @@ class QuotesController extends \BaseController {
 
 	public function __construct()
 	{
-		$this->beforeFilter('auth', array('on' => 'store'));
+		$this->beforeFilter('auth', ['on' => 'store']);
 	}
 
 	/**
@@ -44,7 +44,6 @@ class QuotesController extends \BaseController {
 			});
 		}
 
-		// TODO: handle error
 		if (is_null($quotes))
 			throw new QuoteNotFoundException;
 
@@ -93,14 +92,12 @@ class QuotesController extends \BaseController {
 		// Check if the form validates with success.
 		if ($validator->passes()) {
 
-			// Store the quote
-			$quote = new Quote;
-			$quote->content = $data['content'];
-
-			$login = $user->login;
-			$user->quotes()->save($quote);
-
-			return Redirect::route('home')->with('success', Lang::get('quotes.quoteAddedSuccessfull', array('login' => $login)));
+			// Call the API to store the quote
+			$response = App::make('QuotesAPIv1Controller')->postStoreQuote(false);
+			if ($response->getStatusCode() == 200)
+				return Redirect::route('home')->with('success', Lang::get('quotes.quoteAddedSuccessfull', ['login' => $user->login]));
+			
+			App::abort(500, "Can't create quote.");
 		}
 
 		// Something went wrong.
@@ -138,7 +135,6 @@ class QuotesController extends \BaseController {
 	{
 		$quote = Quote::find($id);
 
-		// TODO Handle not found
 		if (is_null($quote))
 			throw new QuoteNotFoundException;
 
