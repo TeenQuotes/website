@@ -50,6 +50,37 @@ body {
   	@include transition-timing-function(ease-in-out);
 }
 
+@mixin ariane-line {
+	#ariane-line {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 2.5em;
+
+		a {
+			background: $lightGray;
+			padding: 3px 5px;
+			color: $lightBlue;
+			@include element-transition;
+
+			i.fa {
+				color: darken($lightGray, 40%);
+				margin-right: 10px;
+				@include element-transition;
+			}
+
+			&:hover {
+				background: $lightBlue;
+				color: white;
+				text-decoration: none;
+
+				i.fa {
+					color: white;
+				}
+			}
+		}
+	}
+}
+
 .transition {
 	@include transition-property(all);
   	@include transition-duration(0.3s);
@@ -499,7 +530,6 @@ body {
 		}
 	}
 
-
 	#signup-text {
 		margin-bottom: 1.5em;
 		text-align: justify;
@@ -531,7 +561,34 @@ body {
 			color:$green;
 			margin-left: 15px;
 		}
+	}
+}
 
+#legal-page {
+	margin-bottom: 3em;
+
+	@include ariane-line;
+	
+	h1 {
+		color: $red;
+		margin-top: 0;
+
+		i.fa {
+			margin-right: 15px;
+			color: black;
+		}
+	}
+
+	h2 {
+		color: $lightBlue;
+	}
+
+	h3 {
+		color: $green;
+	}
+
+	p {
+		text-align: justify;
 	}
 }
 
@@ -789,34 +846,7 @@ body {
 #download-app {
 	margin-bottom: 4em;
 
-	#ariane-line {
-		display: flex;
-		justify-content: space-between;
-		margin-bottom: 2.5em;
-
-		a {
-			background: $lightGray;
-			padding: 3px 5px;
-			color: $lightBlue;
-			@include element-transition;
-
-			i.fa {
-				color: darken($lightGray, 40%);
-				margin-right: 10px;
-				@include element-transition;
-			}
-
-			&:hover {
-				background: $lightBlue;
-				color: white;
-				text-decoration: none;
-
-				i.fa {
-					color: white;
-				}
-			}
-		}
-	}
+	@include ariane-line;
 
 	h2 {
 		color: $orange;
