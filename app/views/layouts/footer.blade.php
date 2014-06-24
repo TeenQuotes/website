@@ -21,7 +21,7 @@
 
 				<div class="col-xs-6 right">
 					<a href="//blog.{{Config::get('app.domain')}}">{{ Lang::get('layout.blog') }}</a>
-					<a href="">{{ Lang::get('layout.legalTerms') }}</a>
+					<a href="{{ URL::route('legal.show', 'tos') }}">{{ Lang::get('layout.legalTerms') }}</a>
 				</div>
 			</div>
 		</div>

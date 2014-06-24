@@ -13,6 +13,7 @@ Route::pattern('decision', 'approve|unapprove');
 Route::pattern('quote_approved_type', 'waiting|refused|pending|published');
 Route::pattern('device_type', 'tablet|ios|android|mobile|desktop');
 Route::pattern('display_type', 'favorites|comments');
+Route::pattern('legal_page', 'tos|privacy');
 Route::pattern('random', 'random');
 
 /*
@@ -35,11 +36,13 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	Route::get('app', ['uses' => 'AppsController@redirectPlural']);
 	Route::get('apps/{device_type}', ['as' => 'apps.device', 'uses' => 'AppsController@getDevice']);
 	
-
 	/* --- AUTH --- */
 	Route::get('signin', ['as' => 'signin', 'uses' => 'AuthController@getSignin']);
 	Route::get('logout', ['as' => 'logout', 'uses' => 'AuthController@getLogout']);
 	Route::post('signin', 'AuthController@postSignin');
+
+	/* --- AUTH --- */
+	Route::get('legal/{legal_page?}', ['as' => 'legal.show', 'uses' => 'LegalController@show']);
 
 	/* --- SEARCH --- */
 	Route::get('search', ['as' => 'search.form', 'uses' => 'SearchController@showForm']);
