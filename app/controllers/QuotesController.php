@@ -47,9 +47,17 @@ class QuotesController extends \BaseController {
 		if (is_null($quotes))
 			throw new QuoteNotFoundException;
 
+		// Build the associative array  #quote->id => "color"
+		$IDsQuotes = array();
+		foreach ($quotes as $quote)
+			$IDsQuotes[] = $quote->id;
+		
+		// Store it in session
+		$colors = Quote::storeQuotesColors($IDsQuotes);
+
 		$data = [
 			'quotes'          => $quotes,
-			'colors'          => Quote::getRandomColors(),
+			'colors'          => $colors,
 			'pageTitle'       => Lang::get('quotes.'.Route::currentRouteName().'PageTitle'),
 			'pageDescription' => Lang::get('quotes.'.Route::currentRouteName().'PageDescription'),
 			'paginator'       => Paginator::make($quotes, $numberQuotesPublished, Config::get('app.quotes.nbQuotesPerPage')),
@@ -143,12 +151,21 @@ class QuotesController extends \BaseController {
 		if (Auth::guest())
 			Session::put('url.intended', URL::route('quotes.show', $id));
 
+		// Load colors for the quote
+		if (Session::has('colors.quote') AND array_key_exists($id, Session::get('colors.quote')))
+			$colors = Session::get('colors.quote');
+		else {
+			$colors = array();
+			$available = Quote::getColors();
+			$colors[$id] = $available[0];
+		}
+
 		$data = [
 			'quote'           => $quote,
-			'colors'          => Quote::getRandomColors(),
 			'comments'        => Comment::with('user')->where('quote_id', '=', $quote->id)->orderBy('created_at', 'asc')->get(),
 			'pageTitle'       => Lang::get('quotes.singleQuotePageTitle', array('id' => $id)),
 			'pageDescription' => $quote->content,
+			'colors'          => $colors,
 		];
 
 		// Put variables that we will use in JavaScript

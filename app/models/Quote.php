@@ -75,13 +75,38 @@ class Quote extends Toloquent {
 		if (Session::has('quotesColors') AND !empty(Session::get('quotesColors')))
 			return Session::get('quotesColors');
 		else {
-			$colors = self::$colors;
+			$colors = self::getColors();
 			shuffle($colors);
 
 			Session::put('quotesColors', $colors);
 
 			return $colors;
 		}
+	}
+
+	/**
+	 * Store colors that will be use to display quotes in an associative array: quote_id => color. This array is stored in session to be used when displaying a single quote.
+	 * @param  array $quotesIDs IDs of the quotes
+	 * @param  array $colors    The colors that we will use, in hexadecimal format (#FFFFFF). If no value is given, we will call self::$colors
+	 * @return array            The associative array: quote_id => color
+	 */
+	public static function storeQuotesColors($quotesIDs, $colors = null)
+	{
+		if (is_null($colors))
+			$colors = array_slice(self::getColors(), 0, count($quotesIDs));
+		else
+			$colors = array_slice($colors, 0, count($quotesIDs));
+
+		$colors = array_combine($quotesIDs, $colors);
+		// Store it in session
+		Session::set('colors.quote', $colors);
+
+		return $colors;
+	}
+
+	public static function getColors()
+	{
+		return self::$colors;
 	}
 
 	/**

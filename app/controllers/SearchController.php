@@ -40,12 +40,18 @@ class SearchController extends \BaseController {
 		if ($quotes->count() == 0 AND (is_null($users) OR $users->count() == 0))
 			return Redirect::route('search.form')->with('warning', Lang::get('search.noResultsAtAll'));
 
+		// Build the associative array  #quote->id => "color"
+		$IDsQuotes = $quotes->take(Config::get('app.search.maxResultsPerCategory'))->lists('id');
+
+		// Store it in session
+		$colors = Quote::storeQuotesColors($IDsQuotes);
+
 		$data = [
 			'quotes'                 => $quotes,
 			'users'                  => $users,
 			'query'                  => $query,
 			'maxNbResultPerCategory' => Config::get('app.search.maxResultsPerCategory'),
-			'colors'                 => Quote::getRandomColors(),
+			'colors'                 => $colors,
 			'pageTitle'              => Lang::get('search.resultsPageTitle', compact('query')),
 			'pageDescription'        => Lang::get('search.resultsPageDescription', compact('query')),
 		];

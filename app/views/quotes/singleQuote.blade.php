@@ -1,7 +1,7 @@
 <?php
 $openedLink = false;
-$colorQuote = $colors[$i];
-$darkColorQuote = Quote::adjustBrightness($colors[$i], -30);
+$colorQuote = $colors[$quote->id];
+$darkColorQuote = Quote::adjustBrightness($colors[$quote->id], -30);
 if ($i % 2 == 1)
 	$transition = 'fadeInRight';
 else

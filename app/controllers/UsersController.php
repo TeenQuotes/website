@@ -173,8 +173,13 @@ class UsersController extends \BaseController {
 		// FIXME: could be prettier
 		$paginator->setBaseUrl('/users/'.$user->login.'/favorites');
 
-		// Colors that will be used for quotes
-		$colors = Quote::getRandomColors();
+		// Build the associative array  #quote->id => "color"
+		$IDsQuotes = array();
+		foreach ($quotes as $quote)
+			$IDsQuotes[] = $quote->id;
+		
+		// Store it in session
+		$colors = Quote::storeQuotesColors($IDsQuotes);
 
 		// Fix the type of quotes we will display
 		$type = 'favorites';
@@ -201,16 +206,12 @@ class UsersController extends \BaseController {
 		// FIXME: could be prettier
 		$paginator->setBaseUrl('/users/'.$user->login.'/comments');
 
-		// Colors that will be used for quotes
-		$colors = Quote::getRandomColors();
-
 		// Fix the type of quotes we will display
 		$type = 'comments';
 
 		return [
 			'quotes'    => $comments,
 			'paginator' => $paginator,
-			'colors'    => $colors,
 			'type'      => $type,
 		];
 	}
@@ -241,7 +242,13 @@ class UsersController extends \BaseController {
 		$paginator = Paginator::make($quotes, $numberQuotesPublishedForUser, Config::get('app.users.nbQuotesPerPage'));
 
 		// Colors that will be used for quotes
-		$colors = $user->getColorsQuotesPublished();
+		// Build the associative array  #quote->id => "color"
+		$IDsQuotes = array();
+		foreach ($quotes as $quote)
+			$IDsQuotes[] = $quote->id;
+		
+		// Store it in session
+		$colors = Quote::storeQuotesColors($IDsQuotes, $user->getColorsQuotesPublished());
 
 		// Fix the type of quotes we will display
 		$type = 'published';
