@@ -183,6 +183,13 @@ body {
 	.navbar-nav > li > a > i.fa {
 		margin-right: 10px;
 	}
+
+	.navbar-nav > li > a > i.fa-mobile {
+		@media screen and (min-width: $breakpointSmartphone) {
+			font-size: 1.2em;
+			vertical-align: -1px;
+		}
+	}
 }
 
 .heart-row {
