@@ -1,6 +1,7 @@
 <?php
 return array(
 	'termsOfUseTitle' => 'Terms of use',
+	'pageDescription' => 'Our terms of use and our privacy are available here. Ready to have a lot of fun?',
 	'termsOfUseContent' => '
 	<p>
 		The use of submissions found in the server '.Config::get('app.domain').' is authorized under condition of non-alteration of its contents and the restriction of its use to personal use only and for the purpose of information. Its use for commercial activities is strictly prohibited. Any other use than the above herein mentioned is strictly prohibited by law.<br/><br/>

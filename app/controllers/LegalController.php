@@ -21,6 +21,8 @@ class LegalController extends BaseController {
 		$data = [
 			'title'           => Lang::get('legal.'.$displayName.'Title'),
 			'content'         => Lang::get('legal.'.$displayName.'Content'),
+			'pageTitle'       => Lang::get('legal.'.$displayName.'Title')." | ".Lang::get('layout.nameWebsite'),
+			'pageDescription' => Lang::get('legal.pageDescription'),
 			'arianeLineLinks' => $arianeLineLinks,
 		];
 
