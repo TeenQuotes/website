@@ -133,6 +133,7 @@ return array(
 		'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
 		'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
 		'Jenssegers\Agent\AgentServiceProvider',
+		'Buonzz\GeoIP\Laravel4\ServiceProviders\GeoIPServiceProvider',
 	),
 
 	/*
@@ -204,6 +205,7 @@ return array(
 		'ResourceServer'      => 'LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade',
 		'Agent'               => 'Jenssegers\Agent\Facades\Agent',
 		'Toloquent'           => 'TeenQuotes\Database\Toloquent',
+		'GeoIP'               => 'Buonzz\GeoIP\Laravel4\Facades\GeoIP',
 	),
 
 	/*
