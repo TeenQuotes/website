@@ -61,7 +61,7 @@
 	{{ Form::label('city', Lang::get('users.cityInput'), array('class' => 'col-sm-2 control-label')) }}
 
 	<div class="col-sm-10">
-		{{ Form::text('city', Input::old('city'), array('class' => 'form-control', 'placeholder' => Lang::get('users.cityPlaceholder'))) }}
+		{{ Form::text('city', $selectedCity, array('class' => 'form-control', 'placeholder' => Lang::get('users.cityPlaceholder'))) }}
 		@if (!empty($errors->first('city')))
 		{{ TextTools::warningTextForm($errors->first('city')) }}
 		@endif

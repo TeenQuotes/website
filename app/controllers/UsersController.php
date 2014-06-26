@@ -292,11 +292,45 @@ class UsersController extends \BaseController {
 			$colorsInConf = array_keys(Config::get('app.users.colorsQuotesPublished'));
 			$colorsAvailable = array_combine($colorsInConf, array_map('ucfirst', $colorsInConf));
 
+			$listCountries = Country::lists('name', 'id');
+
+			// If the user hasn't filled its country yet we will try to auto-detect it
+			// If it's not possible, we will fall back to the most common country: the USA
+			if (is_null($user->country)) {
+				try {
+					$countryDetected = GeoIP::getCountry();
+				} catch (Exception $e) {
+					$selectedCountry = Country::$idUSA;
+				}
+
+				// If the detected country in the possible countries, we will select it
+				if (!isset($selectedCountry) AND in_array($countryDetected, array_values($listCountries)))
+					$selectedCountry = array_search($countryDetected, $listCountries);
+				else
+					$selectedCountry = Country::$idUSA;
+			}
+			else
+				$selectedCountry = $user->country;
+
+			// If the user hasn't filled its city yet we will try to auto-detect it
+			if (empty(Input::old('city')) AND is_null($user->city)) {
+				try {
+					$cityDetected = GeoIP::getCity();
+				} catch (Exception $e) {
+					$selectedCity = "";
+				}
+
+				if (!isset($selectedCity))
+					$selectedCity = $cityDetected;
+			}
+			else
+				$selectedCity = Input::old('city');
+
 			$data = [
 				'gender'           => $user->gender,
-				'listCountries'    => Country::lists('name', 'id'),
-				// USA by default if the country is not set
-				'selectedCountry'  => is_null($user->country) ? Country::$idUSA : $user->country,
+				'listCountries'    => $listCountries,
+				'selectedCountry'  => $selectedCountry,
+				'selectedCity'     => $selectedCity,
 				'user'             => $user,
 				'selectedColor'    => $selectedColor,
 				'colorsAvailable'  => $colorsAvailable,
