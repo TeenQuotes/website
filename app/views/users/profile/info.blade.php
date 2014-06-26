@@ -18,11 +18,11 @@ if (!is_null($user->birthdate))
 			@endif
 
 			<!-- City and country -->
-			@if (!is_null($user->country) OR !is_null($user->city))
+			@if (!empty($user->country) OR !empty($user->city))
 				<i class="fa fa-map-marker"></i>
 				<!-- City -->
-				@if (!is_null($user->city))
-					@if(!is_null($user->country))
+				@if (!empty($user->city))
+					@if(!empty($user->country))
 						{{{ $user->city }}},
 					@else
 						{{{ $user->city }}}
@@ -30,7 +30,7 @@ if (!is_null($user->birthdate))
 				@endif
 
 				<!-- Country -->
-				@if (!is_null($user->country))
+				@if (!empty($user->country))
 					{{{ $user->country_object->name }}}
 				@endif
 				<br/>
