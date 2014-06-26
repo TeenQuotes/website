@@ -1106,6 +1106,7 @@ body {
 			.avatar {
 				margin: 0 auto;
 				max-height: 200px;
+				@include border-radius(80px);
 			}
 		}
 
