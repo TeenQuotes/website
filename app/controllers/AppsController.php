@@ -2,7 +2,7 @@
 
 class AppsController extends BaseController {
 	
-	public static $devicesInfo = [
+	protected static $devicesInfo = [
 		'tablet'  => [
 			'name'       => 'Tablet',
 			'mini-icon'  => 'fa-tablet',
