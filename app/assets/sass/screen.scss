@@ -13,6 +13,7 @@ $blueGray:#39556e;
 $pink:#f17285;
 $breakpointSmartphone:768px;
 $breakpointMiniSmartphone:540px;
+$breakpointLargeDesktop:1200px;
 
 @mixin background-image-retina($file, $type, $width, $height) {
   background-image: url($file + '.' + $type);
@@ -968,6 +969,10 @@ body {
 
 				@media screen and (max-width: $breakpointSmartphone) {
 					margin-right: 3px;
+					margin-left: 10px;
+				}
+				@media screen and (min-width: $breakpointLargeDesktop) {
+					margin-left: 15px;
 				}
 			}
 		}
