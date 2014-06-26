@@ -38,33 +38,18 @@ class FavoritesController extends \BaseController {
 				if ($alreadyFavorite) {
 					return Response::json(['success' => false, 'alreadyFavorite' => true]);
 				}
-				else {
-					// Store the favorite
-					$favorite = new FavoriteQuote;
-					$favorite->user_id = $data['user_id'];
-					$favorite->quote_id = $data['quote_id'];
-					$favorite->save();
-
-					// Delete the cache
-					if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']))
-						Cache::forget(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']);
-
-					// If we have the number of favorites in cache, increment it
-					if (Cache::has(Quote::$cacheNameNbFavorites.$data['quote_id']))
-						Cache::increment(Quote::$cacheNameNbFavorites.$data['quote_id']);
-
+					
+				// Call the API to store the favorite
+				$response = App::make('FavQuotesAPIv1Controller')->postFavorite($quote_id, false);
+				
+				if ($response->getStatusCode() == 200)
 					return Response::json(['success' => true], 200);
-				}
-
-			}
-			// Errors
-			else
+				
 				return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
+			}
+
+			return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
 		}
-		// It was not an Ajax call
-		// FIXME: what to do here?
-		else
-			return Redirect::route('home');
 	}
 
 	/**
@@ -84,53 +69,20 @@ class FavoritesController extends \BaseController {
 			];
 
 			$validator = Validator::make($data, FavoriteQuote::$rulesRemoveFavorite);
-			// FIXME : We can optimize because we will make a lot of queries
-			// The validator will check for the existance of the user and will fetch the quote
-			// These queries will be done 2 times
-			$quote = Quote::find($data['quote_id']);
 
 			// Check if the form validates with success.
-			if ($validator->passes() AND !is_null($quote) AND $quote->isPublished()) {
+			if ($validator->passes()) {
 
-				// Try to find if the user has a this quote in favorite from cache
-				if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']))
-					$quoteIsFavorite = in_array($data['quote_id'], Cache::get(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']));
-				else {
-					$favorite = FavoriteQuote::where('quote_id', '=' , $data['quote_id'])->where('user_id', '=' , $data['user_id'])->first();
-					$quoteIsFavorite = !is_null($favorite);
-				}
-
-				// Oops, the quote was not labeled as favorite
-				if (!$quoteIsFavorite)
-					return Response::json(['success' => false, 'notFound' => true]);
-				else {
-
-					// Delete the FavoriteQuote from database
-					FavoriteQuote::where('quote_id', '=' , $data['quote_id'])->where('user_id', '=' , $data['user_id'])->delete();
-
-					// Delete the cache
-					if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']))
-						Cache::forget(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']);
-
-					// Rebuild the cache
-					$arrayIDFavoritesQuotesForUser = $user->arrayIDFavoritesQuotes();
-
-					// Delete favorite quotes stored in cache
-					$nbQuotesFavoriteForUser = count($arrayIDFavoritesQuotesForUser) + 1;
-					$nbPages = ceil($nbQuotesFavoriteForUser / Config::get('app.users.nbQuotesPerPage'));
-					for ($i = 1; $i <= $nbPages ; $i++)
-						Cache::forget(User::$cacheNameForFavorited.$data['user_id'].'_'.$i);
-
+				// Call the API to delete the favorite
+				$response = App::make('FavQuotesAPIv1Controller')->postFavorite($quote_id, false);
+				
+				if ($response->getStatusCode() == 200)
 					return Response::json(['success' => true], 200);
-				}
-			}
-			// Errors
-			else
+
 				return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
+			}
+
+			return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
 		}
-		// It was not an Ajax call
-		// FIXME: what to do here?
-		else
-			return Redirect::route('home');
 	}
 }

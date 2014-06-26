@@ -2,35 +2,48 @@
 
 class FavQuotesAPIv1Controller extends BaseController {
 	
-	public function postFavorite($quote_id)
+	public function postFavorite($quote_id, $doValidation = true)
 	{
-		$user = User::find(ResourceServer::getOwnerId());
+		$user = ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
 
-		$validatorQuote = Validator::make(compact('quote_id'), ['quote_id' => FavoriteQuote::$rulesAddFavorite['quote_id']]);
-		if ($validatorQuote->fails()) {
-			$data = [
-				'status' => 'quote_not_found',
-				'error'  => "The quote #".$quote_id." was not found",
-			];
+		if ($doValidation) {		
+			$validatorQuote = Validator::make(compact('quote_id'), ['quote_id' => FavoriteQuote::$rulesAddFavorite['quote_id']]);
+			if ($validatorQuote->fails()) {
+				$data = [
+					'status' => 'quote_not_found',
+					'error'  => "The quote #".$quote_id." was not found.",
+				];
 
-			return Response::json($data, 400);
-		}
+				return Response::json($data, 400);
+			}
 
-		// Try to find if the user has this quote in favorite from cache
-		if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$user->id))
-			$alreadyFavorited = in_array($quote_id, Cache::get(FavoriteQuote::$cacheNameFavoritesForUser.$user->id));
-		else {
-			$favorite = FavoriteQuote::where('quote_id', '=' , $quote_id)->where('user_id', '=' , $user->id)->count();
-			$alreadyFavorited = ($favorite == 1);
-		}
+			// Check if the quote is published
+			$quote = Quote::find($quote_id);
+			if (!$quote->isPublished()) {
+				$data = [
+					'status' => 'quote_not_published',
+					'error'  => "The quote #".$quote_id." is not published.",
+				];
 
-		if ($alreadyFavorited) {
-			$data = [
-				'status' => 'quote_already_favorited',
-				'error'  => "The quote #".$quote_id." was already favorited",
-			];
+				return Response::json($data, 400);
+			}
 
-			return Response::json($data, 400);
+			// Try to find if the user has this quote in favorite from cache
+			if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$user->id))
+				$alreadyFavorited = in_array($quote_id, Cache::get(FavoriteQuote::$cacheNameFavoritesForUser.$user->id));
+			else {
+				$favorite = FavoriteQuote::where('quote_id', '=' , $quote_id)->where('user_id', '=' , $user->id)->count();
+				$alreadyFavorited = ($favorite == 1);
+			}
+
+			if ($alreadyFavorited) {
+				$data = [
+					'status' => 'quote_already_favorited',
+					'error'  => "The quote #".$quote_id." was already favorited.",
+				];
+
+				return Response::json($data, 400);
+			}
 		}
 
 		// Store the favorite
@@ -43,6 +56,12 @@ class FavQuotesAPIv1Controller extends BaseController {
 		if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$user->id))
 			Cache::forget(FavoriteQuote::$cacheNameFavoritesForUser.$user->id);
 
+		// Delete favorite quotes stored in cache
+		$nbFavorites = count($user->arrayIDFavoritesQuotes());
+		$nbPages = ceil($nbFavorites / Config::get('app.users.nbQuotesPerPage'));
+		for ($i = 1; $i <= $nbPages; $i++)
+			Cache::forget(User::$cacheNameForFavorited.$user->id.'_'.$i);
+
 		// If we have the number of favorites in cache, increment it
 		if (Cache::has(Quote::$cacheNameNbFavorites.$quote_id))
 			Cache::increment(Quote::$cacheNameNbFavorites.$quote_id);
@@ -50,18 +69,20 @@ class FavQuotesAPIv1Controller extends BaseController {
 		return Response::json($favorite, 200, [], JSON_NUMERIC_CHECK);
 	}
 
-	public function deleteFavorite($quote_id)
+	public function deleteFavorite($quote_id, $doValidation = true)
 	{
-		$user = User::find(ResourceServer::getOwnerId());
+		$user = ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
 
-		$validatorFavoriteQuote = Validator::make(compact('quote_id'), ['quote_id' => 'exists:favorite_quotes,quote_id,user_id,'.$user->id]);
-		if ($validatorFavoriteQuote->fails()) {
-			$data = [
-				'status' => 'quote_not_found',
-				'error'  => "The quote #".$quote_id." was not found",
-			];
+		if ($doValidation) {		
+			$validatorFavoriteQuote = Validator::make(compact('quote_id'), ['quote_id' => 'exists:favorite_quotes,quote_id,user_id,'.$user->id]);
+			if ($validatorFavoriteQuote->fails()) {
+				$data = [
+					'status' => 'quote_not_found',
+					'error'  => "The quote #".$quote_id." was not found",
+				];
 
-			return Response::json($data, 400);
+				return Response::json($data, 400);
+			}
 		}
 
 		// Delete the FavoriteQuote from database
@@ -74,6 +95,15 @@ class FavQuotesAPIv1Controller extends BaseController {
 		// If we have the number of favorites in cache, decrement it
 		if (Cache::has(Quote::$cacheNameNbFavorites.$quote_id))
 			Cache::decrement(Quote::$cacheNameNbFavorites.$quote_id);
+
+		// Rebuild the cache
+		$arrayIDFavoritesQuotesForUser = $user->arrayIDFavoritesQuotes();
+
+		// Delete favorite quotes stored in cache
+		$nbQuotesFavoriteForUser = count($arrayIDFavoritesQuotesForUser) + 1;
+		$nbPages = ceil($nbQuotesFavoriteForUser / Config::get('app.users.nbQuotesPerPage'));
+		for ($i = 1; $i <= $nbPages ; $i++)
+			Cache::forget(User::$cacheNameForFavorited.$data['user_id'].'_'.$i);
 
 		$data = [
 			'status' => 'favorite_deleted',
