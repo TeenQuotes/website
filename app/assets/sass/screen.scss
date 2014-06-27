@@ -433,6 +433,7 @@ body {
 
 			.avatar {
 				max-height: 100px;
+				@include border-radius(80px);
 			}
 
 			a.username {
@@ -792,6 +793,7 @@ body {
 
 			.avatar {
 				max-height: 100px;
+				@include border-radius(80px);
 			}
 		}
 
@@ -1054,6 +1056,7 @@ body {
 
 		.avatar {
 			max-height: 100px;
+			@include border-radius(80px);
 		}
 	}
 
@@ -1314,6 +1317,7 @@ body {
 				.avatar {
 					max-height: 100px;
 					float: right;
+					@include border-radius(80px);
 				}
 			}
 		}
