@@ -19,7 +19,7 @@ class UsersAPIv1Controller extends BaseController {
 		return $this->getSingleUser(ResourceServer::getOwnerId());
 	}
 
-	public function postUsers()
+	public function postUsers($doValidation = true)
 	{
 		$data = [
 			'login'    => Input::get('login'),
@@ -27,37 +27,21 @@ class UsersAPIv1Controller extends BaseController {
 			'email'    => Input::get('email'),
 		];
 
-		// Validate login
-		$validatorLogin = Validator::make(['login' => $data['login']], ['login' => User::$rulesSignup['login']]);
-		if ($validatorLogin->fails()) {
-			$data = [
-				'status' => 'wrong_login',
-				'error'  => $validatorLogin->messages()->first('login'),
-			];
+		if ($doValidation) {
 
-			return Response::json($data, 400);
-		}
+			// Validate login, password and email
+			foreach (['login', 'password', 'email'] as $value) {
+				
+				$validator = Validator::make([$value => $data[$value]], [$value => User::$rulesSignup[$value]]);
+				if ($validator->fails()) {
+					$data = [
+						'status' => 'wrong_'.$value,
+						'error'  => $validator->messages()->first($value),
+					];
 
-		// Validate password
-		$validatorPassword = Validator::make(['password' => $data['password']], ['password' => User::$rulesSignup['password']]);
-		if ($validatorPassword->fails()) {
-			$data = [
-				'status' => 'wrong_password',
-				'error'  => $validatorPassword->messages()->first('password'),
-			];
-
-			return Response::json($data, 400);
-		}
-
-		// Validate email
-		$validatorEmail = Validator::make(['email' => $data['email']], ['email' => User::$rulesSignup['email']]);
-		if ($validatorEmail->fails()) {
-			$data = [
-				'status' => 'wrong_email',
-				'error'  => $validatorEmail->messages()->first('email'),
-			];
-
-			return Response::json($data, 400);
+					return Response::json($data, 400);
+				}
+			}
 		}
 
 		// Store the new user
@@ -68,6 +52,11 @@ class UsersAPIv1Controller extends BaseController {
 		$user->ip         = $_SERVER['REMOTE_ADDR'];
 		$user->last_visit = Carbon::now()->toDateTimeString();
 		$user->save();
+
+		// Log the user in
+		// The call was made from the UsersController
+		if (!$doValidation)
+			Auth::login($user);
 
 		// Subscribe the user to the weekly newsletter
 		Newsletter::createNewsletterForUser($user, 'weekly');
