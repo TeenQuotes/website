@@ -103,7 +103,7 @@ class FavQuotesAPIv1Controller extends BaseController {
 		$nbQuotesFavoriteForUser = count($arrayIDFavoritesQuotesForUser) + 1;
 		$nbPages = ceil($nbQuotesFavoriteForUser / Config::get('app.users.nbQuotesPerPage'));
 		for ($i = 1; $i <= $nbPages ; $i++)
-			Cache::forget(User::$cacheNameForFavorited.$data['user_id'].'_'.$i);
+			Cache::forget(User::$cacheNameForFavorited.$user->id.'_'.$i);
 
 		$data = [
 			'status' => 'favorite_deleted',
