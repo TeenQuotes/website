@@ -23,6 +23,7 @@
 		"classmap": [
 			"app/commands",
 			"app/controllers",
+			"app/composers",
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",

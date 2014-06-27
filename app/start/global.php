@@ -125,3 +125,14 @@ require app_path().'/filters.php';
 |
 */
 require app_path().'/API/v1/routes.php';
+
+
+/*
+|--------------------------------------------------------------------------
+| View composers
+|--------------------------------------------------------------------------
+|
+*/
+View::composers(array(
+    'ProfileComposer' => ['users.show'],
+));
