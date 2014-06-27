@@ -98,6 +98,37 @@ body {
 	}
 }
 
+@mixin link-white-on-blue {
+	a {
+		background: inherit;
+		text-decoration: none;
+		color: white;
+		padding: 2px 3px;
+		font-family: 'Titillium Web', serif;
+		@include element-transition;
+
+		&:hover {
+			background: white;
+			color: $lightBlue;
+		}
+	}
+}
+
+@mixin link-blue-on-white {
+	a {
+		background: inherit;
+		color: $lightBlue;
+		text-decoration: none;
+		padding: 2px 3px;
+		@include element-transition;
+
+		&:hover {
+			background: $lightBlue;
+			color: white;
+		}
+	}
+}
+
 .transition {
 	@include transition-property(all);
   	@include transition-duration(0.3s);
@@ -304,18 +335,7 @@ body {
 			}
 		}
 
-		a {
-			background: white;
-			color: $lightBlue;
-			text-decoration: none;
-			padding: 3px 5px;
-			@include element-transition;
-
-			&:hover {
-				background: $lightBlue;
-				color: white;
-			}
-		}
+		@include link-blue-on-white;
 	}
 }
 
@@ -668,18 +688,7 @@ body {
 			li {
 				margin-bottom: 1em;
 
-				a {
-					text-decoration: none;
-					color: white;
-					background: inherit;
-					padding: 3px 5px;
-					@include element-transition;
-
-					&:hover {
-						background: white;
-						color: $lightBlue;
-					}
-				}
+				@include link-blue-on-white;
 
 				i.fa {
 					margin-right: 15px;
@@ -1257,19 +1266,15 @@ body {
 		color: white;
 		padding: 5px 10px;
 
-		a {
-			text-decoration: none;
-			background: inherit;
-			padding: 2px 3px;
-			font-family: 'Titillium Web', serif;
-			color: white;
-			@include element-transition;
+		@include link-white-on-blue;
+	}
 
-			&:hover {
-				background: white;
-				color: $lightBlue;
-			}
+	#welcome-profile {
+		h3 {
+			color: $green;
 		}
+
+		@include link-blue-on-white;
 	}
 }
 
