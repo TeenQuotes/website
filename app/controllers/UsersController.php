@@ -69,31 +69,16 @@ class UsersController extends \BaseController {
 		// Check if the form validates with success.
 		if ($validator->passes()) {
 
-			// Store the user
-			$user             = new User;
-			$user->login      = $data['login'];
-			$user->email      = $data['email'];
-			$user->password   = Hash::make($data['password']);
-			$user->ip         = $_SERVER['REMOTE_ADDR'];
-			$user->last_visit = Carbon::now()->toDateTimeString();
-			$user->save();
+			// Call the API - skip the API validator
+			$response = App::make('UsersAPIv1Controller')->postUsers(false);
+			if ($response->getStatusCode() == 200) {
+				if (Session::has('url.intended'))
+					return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', array('login' => $data['login'])));
+				else
+					return Redirect::route('users.show', $data['login'])->with('success', Lang::get('auth.signupSuccessfull', array('login' => $data['login'])));
+			}
 
-			// Log the user
-			Auth::login($user);
-
-			// Subscribe the user to the weekly newsletter
-			Newsletter::createNewsletterForUser($user, 'weekly');
-
-			// Send the welcome email
-			Mail::send('emails.welcome', $data, function($m) use($data)
-			{
-				$m->to($data['email'], $data['login'])->subject(Lang::get('auth.subjectWelcomeEmail'));
-			});
-
-			if (Session::has('url.intended'))
-				return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', array('login' => $data['login'])));
-			else
-				return Redirect::route('users.show', $data['login'])->with('success', Lang::get('auth.signupSuccessfull', array('login' => $data['login'])));
+			return Redirect::route('signup')->withErrors($validator)->withInput(Input::except('password'));
 		}
 
 		// Something went wrong.
