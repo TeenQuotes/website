@@ -30,7 +30,7 @@ class UsersAPIv1Controller extends BaseController {
 		if ($doValidation) {
 
 			// Validate login, password and email
-			foreach (['login', 'password', 'email'] as $value) {
+			foreach (array_keys(User::$rulesSignup) as $value) {
 				
 				$validator = Validator::make([$value => $data[$value]], [$value => User::$rulesSignup[$value]]);
 				if ($validator->fails()) {
