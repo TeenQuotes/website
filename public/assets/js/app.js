@@ -158,8 +158,11 @@ $(document).ready(function() {
 						var nbFav = parseInt($("#fav-count").text());
 						if (type == 'favorite')
 							$("#fav-count").text(nbFav + 1);
-						else
+						else {
 							$("#fav-count").text(nbFav - 1);
+							// Hide the quote on the profile
+							$('.quote[data-id='+id_quote+']').slideUp();
+						}
 					}
 
 					$(".favorite-action[data-id=" + id_quote + "]").attr('data-url', url.replace(type, otherType));

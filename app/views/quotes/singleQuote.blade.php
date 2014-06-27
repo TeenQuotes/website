@@ -7,7 +7,7 @@ if ($i % 2 == 1)
 else
 	$transition = 'fadeInLeft';
 ?>
-<div class="quote animated <?= $transition; ?>" style="background-color:<?= $colorQuote; ?>;border-bottom-color:<?= $darkColorQuote; ?>">
+<div class="quote animated <?= $transition; ?>" style="background-color:<?= $colorQuote; ?>;border-bottom-color:<?= $darkColorQuote; ?>" data-id="{{ $quote->id }}">
 	{{{ $quote->content }}}
 
 	<div class="row quotes-info">
