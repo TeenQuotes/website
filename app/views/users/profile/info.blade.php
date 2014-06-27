@@ -18,7 +18,7 @@ if (!is_null($user->birthdate))
 			@endif
 
 			<!-- City and country -->
-			@if (!is_null($user->country) OR !is_null($user->city))
+			@if (!is_null($user->country) OR !is_null($user->city) AND (!empty($user->country) OR !empty($user->city)))
 				<i class="fa fa-map-marker"></i>
 				<!-- City -->
 				@if (!is_null($user->city) AND !empty($user->city))
