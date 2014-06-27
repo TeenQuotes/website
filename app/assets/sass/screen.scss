@@ -14,6 +14,7 @@ $pink:#f17285;
 $breakpointSmartphone:768px;
 $breakpointMiniSmartphone:540px;
 $breakpointLargeDesktop:1200px;
+$breakpointTablet:992px;
 
 @mixin background-image-retina($file, $type, $width, $height) {
   background-image: url($file + '.' + $type);
@@ -63,10 +64,25 @@ body {
 			color: $lightBlue;
 			@include element-transition;
 
+			@media screen and (min-width: $breakpointLargeDesktop) {
+	    		font-size: 1.2em;
+	    		padding: 5px 10px;
+	    	}
+
+	    	@media screen and (min-width: $breakpointTablet) and (max-width: $breakpointLargeDesktop) {
+	    		font-size: 1.1em;
+	    		padding: 4px 8px;
+	    	}
+
 			i.fa {
 				color: darken($lightGray, 40%);
 				margin-right: 10px;
 				@include element-transition;
+			}
+
+			.fa-mobile {
+				font-size: 1.2em;
+				vertical-align: -2px;
 			}
 
 			&:hover {
