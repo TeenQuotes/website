@@ -54,36 +54,39 @@ class StoriesAPIv1Controller extends BaseController {
 
 			return Response::json($data, 404);
 		}
-		else
-			return Response::json($story, 200, [], JSON_NUMERIC_CHECK);
+		
+		return Response::json($story, 200, [], JSON_NUMERIC_CHECK);
 	}
 
-	public function store()
+	public function store($doValidation = true)
 	{
-		$user = User::find(ResourceServer::getOwnerId());
+		$user = ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
 		$represent_txt = Input::get('represent_txt');
 		$frequence_txt = Input::get('frequence_txt');
 
-		// Validate represent_txt
-		$validatorRepresent = Validator::make(compact('represent_txt'), ['represent_txt' => Story::$rules['represent_txt']]);
-		if ($validatorRepresent->fails()) {
-			$data = [
-				'status' => 'wrong_represent_txt',
-				'error' => $validatorRepresent->messages()->first('represent_txt')
-			];
+		if ($doValidation) {		
+			
+			// Validate represent_txt
+			$validatorRepresent = Validator::make(compact('represent_txt'), ['represent_txt' => Story::$rules['represent_txt']]);
+			if ($validatorRepresent->fails()) {
+				$data = [
+					'status' => 'wrong_represent_txt',
+					'error' => $validatorRepresent->messages()->first('represent_txt')
+				];
 
-			return Response::json($data, 400);
-		}
+				return Response::json($data, 400);
+			}
 
-		// Validate frequence_txt
-		$validatorFrequence = Validator::make(compact('frequence_txt'), ['frequence_txt' => Story::$rules['frequence_txt']]);
-		if ($validatorFrequence->fails()) {
-			$data = [
-				'status' => 'frequence_txt',
-				'error' => $validatorFrequence->messages()->first('frequence_txt')
-			];
+			// Validate frequence_txt
+			$validatorFrequence = Validator::make(compact('frequence_txt'), ['frequence_txt' => Story::$rules['frequence_txt']]);
+			if ($validatorFrequence->fails()) {
+				$data = [
+					'status' => 'frequence_txt',
+					'error' => $validatorFrequence->messages()->first('frequence_txt')
+				];
 
-			return Response::json($data, 400);
+				return Response::json($data, 400);
+			}
 		}
 
 		// Store the new story

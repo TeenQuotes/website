@@ -5,7 +5,7 @@ class StoriesController extends BaseController {
 	public function index()
 	{
 		// Retrieve stories
-		$stories = Story::with('user')->orderDescending()->paginate(Config::get('app.stories.nbStoriesPerPage'));
+		$stories = Story::withSmallUser()->orderDescending()->paginate(Config::get('app.stories.nbStoriesPerPage'));
 
 		// Round to nearest thousand
 		$nbQuotes = number_format(round(Quote::nbQuotesPublished(), -3), 0 , '.' , ',' );
@@ -25,7 +25,7 @@ class StoriesController extends BaseController {
 
 	public function show($id)
 	{
-		$story = Story::where('id', '=', $id)->with('user')->first();
+		$story = Story::where('id', '=', $id)->withSmallUser()->first();
 
 		if (is_null($story) OR $story->count() == 0)
 			throw new StoryNotFoundException();
@@ -54,14 +54,12 @@ class StoriesController extends BaseController {
 		// Check if the form validates with success
 		if ($validator->passes()) {
 
-			// Create the story
-			$story = new Story;
-			$story->represent_txt = $data['represent_txt'];
-			$story->frequence_txt = $data['frequence_txt'];
-			$story->user_id = Auth::id();
-			$story->save();
-
-			return Redirect::route('stories')->with('success', Lang::get('stories.storyAddedSuccessfull', array('login' => Auth::user()->login)));
+			// Call the API - skip the API validator
+			$response = App::make('StoriesAPIv1Controller')->store(false);
+			if ($response->getStatusCode() == 200)
+				return Redirect::route('stories')->with('success', Lang::get('stories.storyAddedSuccessfull', array('login' => Auth::user()->login)));
+			
+			return Redirect::route('stories')->withErrors($validator)->withInput(Input::all());
 		}
 
 		// Something went wrong
