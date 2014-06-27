@@ -57,11 +57,11 @@ return array(
 	'deleteAccountSuccessfull'          => "Your account has been deleted successfully",
 	'writeDeleteHere'                   => 'You need to write "DELETE" here',
 	'comments'                          => 'Comments',
-	'newUserWelcomeProfile' 			=> 'Welcome :login! Your profile is a little bit empty for the moment, but everything is okay: you are new here! Here are some interesting things to do.',
+	'newUserWelcomeProfile' 			=> 'Welcome :login! Your profile is quite empty for the moment, but it is okay: you are new here! Here are some interesting things to do.',
 	'newUserTutorialProfileTitle'       => 'Filling up your profile',
 	'newUserTutorialProfileContent'     => 'Your profile seems a little bit empty now. How about <a href=":url">filling up your profile</a>? People will be happy to know more about you!',
 	'newUserTutorialAddingQuoteTitle'   => 'Writing a quote',
 	'newUserTutorialAddingQuoteContent' => 'If you are inspired (and you want to inspire others!) you may want to <a href=":url">write a quote</a>!',
 	'newUserTutorialFavoritesTitle'     => 'Adding some favorites',
-	'newUserTutorialFavoritesContent'   => 'If you love quotes as much as we are, you may want to add some quotes in your favorites! Once added in your favorites, you can read them from your profile.',
+	'newUserTutorialFavoritesContent'   => 'If you love quotes as much as we do, you may want to add some quotes in your favorites! Once added in your favorites, you can read them from your profile.',
 );
