@@ -269,7 +269,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			}
 
 			// Store in cache
-			Cache::forever(self::$cacheNameForColorsQuotesPublished.$this->id, $toPut);
+			Cache::put(self::$cacheNameForColorsQuotesPublished.$this->id, $toPut, Carbon::now()->addMinutes(10));
 
 			return $toPut;
 		}
