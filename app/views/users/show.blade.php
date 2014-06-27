@@ -2,7 +2,7 @@
 @section('content')
 	<div id="user-profile">
 		<!-- Alert if the profile is hidden -->
-		@if ($user->isHiddenProfile() AND Auth::check() AND Auth::user()->login == $user->login)
+		@if ($user->isHiddenProfile() AND $viewingSelfProfile)
 			<div class="alert alert-info alert-dismissable no-hide">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 				<i class="fa fa-info"></i> {{ Lang::get('users.profileCurrentlyHidden') }}
@@ -44,7 +44,7 @@
 			</div>
 		@else
 			<!-- If the user is new and is viewing its own profile, a small welcome tutorial -->
-			@if (Auth::check() AND Auth::user()->login == $user->login)
+			@if ($viewingSelfProfile)
 				@include('users.welcome')
 			@endif
 		@endif

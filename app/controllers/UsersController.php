@@ -118,14 +118,53 @@ class UsersController extends \BaseController {
 		// Throw an exception if the user has an hidden profile
 		// We do not throw this exception if the user is currently
 		// viewing its own hidden profile
-		if ($user->isHiddenProfile() AND !(Auth::check() AND Auth::user()->login == $user->login))
+		$viewingSelfProfile = (Auth::check() AND Auth::user()->login == $user->login);
+		if ($user->isHiddenProfile() AND !$viewingSelfProfile)
 			throw new HiddenProfileException;
 
-		// If the user hasn't got favorites but has published quotes, redirect
-		if (!$type AND !$user->hasPublishedQuotes() AND $user->hasFavoriteQuotes())
-			return Redirect::route('users.show', [$user->login, 'favorites']);
-		// If the user hasn't published quotes but has favorites quotes, redirect
-		elseif ($type == 'favorites' AND !$user->hasFavoriteQuotes() AND $user->hasPublishedQuotes())
+		// Check where we can redirect the user
+		$publishPossible   = $user->hasPublishedQuotes();
+		$favoritesPossible = $user->hasFavoriteQuotes();
+		$totalComments     = $user->getTotalComments();
+		$commentsPossible  = ($totalComments > 0);
+		
+		// Check if we have content to display
+		// If we have nothing to show, try to redirect somewhere else
+		switch ($type) {
+			case 'favorites':
+				if (!$favoritesPossible) {
+					if ($publishPossible)
+						return Redirect::route('users.show', $user->login);
+					if ($commentsPossible)
+						return Redirect::route('users.show', [$user->login, 'comments']);
+
+					$redirectFailed = true;
+				}
+				break;
+
+			case 'comments':
+				if (!$commentsPossible) {
+					if ($publishPossible)
+						return Redirect::route('users.show', $user->login);
+					if ($favoritesPossible)
+						return Redirect::route('users.show', [$user->login, 'favorites']);
+
+					$redirectFailed = true;
+				}
+				break;
+
+			// Asked for published quotes
+			default:
+				if (!$publishPossible) {
+					if ($favoritesPossible)
+						return Redirect::route('users.show', [$user->login, 'favorites']);
+					if ($commentsPossible)
+						return Redirect::route('users.show', [$user->login, 'comments']);
+				}
+		}
+
+		// We failed to redirect, we will redirect to the default page
+		if (isset($redirectFailed) AND $redirectFailed)
 			return Redirect::route('users.show', $user->login);
 
 
@@ -142,10 +181,11 @@ class UsersController extends \BaseController {
 		$data['pageTitle']            = Lang::get('users.profilePageTitle', array('login' => $user->login));
 		$data['pageDescription']      = Lang::get('users.profilePageDescription', array('login' => $user->login));
 		$data['hideAuthorQuote']      = ($data['type'] == 'published');
-		$data['commentsCount']        = $user->getTotalComments();
+		$data['commentsCount']        = $totalComments;
 		$data['addedFavCount']        = $user->getAddedFavCount();
 		$data['quotesPublishedCount'] = $user->getPublishedQuotesCount();
 		$data['favCount']             = $user->getFavoriteCount();
+		$data['viewingSelfProfile']   = $viewingSelfProfile;
 
 		return View::make('users.show', $data);
 	}

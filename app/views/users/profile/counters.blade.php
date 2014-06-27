@@ -23,7 +23,7 @@
 				
 				<!-- COUNTER  -->
 				<!-- Add an ID to the counter to increase / decrease on the user's profile -->
-				@if (Auth::check() AND Auth::user()->login == $user->login)
+				@if ($viewingSelfProfile)
 					<span class="counter" id="{{ Str::snake($element, '-') }}">{{ $$element }}</span>
 				@else
 					<span class="counter">{{ $$element }}</span>
