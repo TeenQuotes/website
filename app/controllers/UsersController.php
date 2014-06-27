@@ -90,7 +90,10 @@ class UsersController extends \BaseController {
 				$m->to($data['email'], $data['login'])->subject(Lang::get('auth.subjectWelcomeEmail'));
 			});
 
-			return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', array('login' => $data['login'])));
+			if (Session::has('url.intended'))
+				return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', array('login' => $data['login'])));
+			else
+				return Redirect::route('users.show', $data['login'])->with('success', Lang::get('auth.signupSuccessfull', array('login' => $data['login'])));
 		}
 
 		// Something went wrong.
