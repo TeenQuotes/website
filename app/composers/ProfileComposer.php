@@ -4,7 +4,8 @@ class ProfileComposer {
 
     public function compose($view)
     {
-        $login = Auth::user()->login;
+        $viewData = $view->getData();
+        $login = $viewData['user']->login;
 
         $welcomeText = Lang::get('users.newUserWelcomeProfile', ['login' => $login]);
         
