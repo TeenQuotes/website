@@ -392,9 +392,10 @@ class UsersController extends \BaseController {
 		$validator = Validator::make($data, User::$rulesUpdate);
 
 		if ($validator->passes()) {
+			
 			$user = Auth::user();
 			$user->gender    = $data['gender'];
-			$user->birthdate = $data['birthdate'];
+			$user->birthdate = empty($data['birthdate']) ? NULL : $data['birthdate'];
 			$user->country   = $data['country'];
 			$user->city      = $data['city'];
 			$user->about_me  = $data['about_me'];
