@@ -14,10 +14,7 @@ return array (
 	"blog"                   => "Blog",
 	"legalTerms"             => "Legal terms",
 	"twitterUsername"        => '@ohteenquotes',
-	"domain"                 => 'teen-quotes.com',
-	'IDAppiOS'               => 'id577239995',
 	'goBack'                 => 'Go back',
-	'downloadLinkiOS'        => 'https://itunes.apple.com/us/app/teen-quotes/id577239995',
 	'catchphrase'            => 'Because some quotes are simply true',
 	// TODO: change URL
 	'imageTwitterCard'       => 'http://placekitten.com/250/250',
