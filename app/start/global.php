@@ -133,6 +133,6 @@ require app_path().'/API/v1/routes.php';
 |--------------------------------------------------------------------------
 |
 */
-View::composers(array(
-    'ProfileComposer' => ['users.show'],
-));
+View::composers([
+    'TeenQuotes\Composers\Users\ProfileComposer' => ['users.show'],
+]);

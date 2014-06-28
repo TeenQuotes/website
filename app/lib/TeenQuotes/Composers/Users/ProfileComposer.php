@@ -1,4 +1,8 @@
 <?php
+namespace TeenQuotes\Composers\Users;
+
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\URL;
 
 class ProfileComposer {
 
