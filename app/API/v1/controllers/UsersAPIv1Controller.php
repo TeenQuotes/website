@@ -232,7 +232,7 @@ class UsersAPIv1Controller extends BaseController {
 
 		$data = [
 			'status'  => 'profile_updated',
-			'message' => 'The profile has been updated.'
+			'success' => 'The profile has been updated.'
 		];
 
 		return Response::json($data, 200);
