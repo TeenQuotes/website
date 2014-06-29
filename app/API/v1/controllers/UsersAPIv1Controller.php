@@ -165,6 +165,79 @@ class UsersAPIv1Controller extends BaseController {
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
+	public function putSettings($userInstance = null)
+	{
+		if (is_null($userInstance))
+			$user = User::find(ResourceServer::getOwnerId());
+		else
+			$user = $userInstance;
+		
+		// We just want booleans
+		$data = [
+			'notification_comment_quote' => Input::has('notification_comment_quote') ? filter_var(Input::get('notification_comment_quote'), FILTER_VALIDATE_BOOLEAN) : false,
+			'hide_profile'               => Input::has('hide_profile') ? filter_var(Input::get('hide_profile'), FILTER_VALIDATE_BOOLEAN) : false,
+			'weekly_newsletter'          => Input::has('weekly_newsletter') ? filter_var(Input::get('weekly_newsletter'), FILTER_VALIDATE_BOOLEAN) : false,
+			'daily_newsletter'           => Input::has('daily_newsletter') ? filter_var(Input::get('daily_newsletter'), FILTER_VALIDATE_BOOLEAN) : false,
+			'colors'                     => Input::get('colors'),
+		];
+
+		$user->notification_comment_quote = $data['notification_comment_quote'];
+		$user->hide_profile               = $data['hide_profile'];
+		$user->save();
+
+		// Update daily / weekly newsletters
+		foreach (['daily', 'weekly'] as $newsletterType)
+		{
+			// The user wants the newsletter
+			if ($data[$newsletterType.'_newsletter']) {
+				// He was NOT already subscribed, store this in storage
+				if (!$user->isSubscribedToNewsletter($newsletterType))
+					Newsletter::createNewsletterForUser($user, $newsletterType);
+
+				// He was already subscribed, do nothing
+			}
+			// The user doesn't want the newsletter
+			else {
+				// He was subscribed, delete this from storage
+				if ($user->isSubscribedToNewsletter($newsletterType))
+					Newsletter::forUser($user)->type($newsletterType)->delete();
+
+				// He was not subscribed, do nothing
+			}
+		}
+
+		// Update colors for quotes
+		if (!in_array($data['colors'], array_keys(Config::get('app.users.colorsQuotesPublished')))) {
+
+			$data = [
+				'status' => 'wrong_color',
+				'error'  => 'This color is not allowed.'
+			];
+
+			return Response::json($data, 400);
+		}
+
+		// Forget value in cache
+		Cache::forget(User::$cacheNameForColorsQuotesPublished.$user->id);
+
+		// Retrieve setting by the attributes
+		// or instantiate a new instance
+		$colorSetting = Setting::firstOrNew(
+			[
+				'user_id' => $user->id,
+				'key'     => 'colorsQuotesPublished'
+			]);
+		$colorSetting->value = $data['colors'];
+		$colorSetting->save();
+
+		$data = [
+			'status'  => 'profile_updated',
+			'message' => 'The profile has been updated.'
+		];
+
+		return Response::json($data, 200);
+	}
+
 	public static function getUsersSearch($page, $pagesize, $query)
 	{
 		// Number of users to skip

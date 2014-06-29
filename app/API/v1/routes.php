@@ -47,6 +47,7 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth|sessi
 	Route::get('users', ['uses' => 'UsersAPIv1Controller@getUsers']);
 	Route::get('users/{user_id}', ['uses' => 'UsersAPIv1Controller@getSingleUser']);
 	Route::put('users/password', ['uses' => 'UsersAPIv1Controller@putPassword']);
+	Route::put('users/settings', ['uses' => 'UsersAPIv1Controller@putSettings']);
 	Route::get('users/search/{query}', ['uses' => 'UsersAPIv1Controller@getSearch']);
 	
 	// Search
