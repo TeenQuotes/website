@@ -10,6 +10,11 @@
 
 	<!-- Special cards for social networks -->
 	@yield('social-networks-cards')
+	
+	<!-- Deep links  -->
+	@if (isset($deepLinksArray) AND !empty($deepLinksArray))
+		@include('layouts.deepLinks')
+	@endif
 
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
