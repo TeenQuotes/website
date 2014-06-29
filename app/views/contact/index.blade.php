@@ -2,12 +2,12 @@
 
 @section('content')
 	<div id="contact-page">
-		<h1><i class="fa fa-paper-plane"></i> {{ $title }}</h1>
-		<div id="stay-in-touch">
+		<h1 class="animated fadeInDown"><i class="fa fa-paper-plane"></i> {{ $title }}</h1>
+		<div id="stay-in-touch" class="animated fadeInUp">
 			<h2>{{ $stayInTouchTitle }}</h2>
 			{{ $stayInTouchContent }}
 		</div>
-		<div id="contact-info">
+		<div id="contact-info" class="animated fadeInUp">
 			<h2>{{ $chooseYourWeapon }}</h2>
 			<ul>
 				<li>
