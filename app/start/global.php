@@ -133,6 +133,10 @@ require app_path().'/API/v1/routes.php';
 |--------------------------------------------------------------------------
 |
 */
+// Usage: 'ClassComposer' => array('view.name.1', 'view.name.2'),
 View::composers([
-    'TeenQuotes\Composers\Users\ProfileComposer' => ['users.show'],
+	'TeenQuotes\Composers\Users\ProfileComposer'    => ['users.show'],
+	// Associated URLs: ['home', 'contact', 'apps', 'signin', 'legal', 'signup', 'password/remind', 'random', 'addquote'],
+	'TeenQuotes\Composers\Pages\SimplePageComposer' => ['quotes.index', 'contact.index', 'apps.download', 'auth.signin', 'legal.show', 'auth.signup', 'password.remind', 'quotes.addquote'],
+
 ]);
