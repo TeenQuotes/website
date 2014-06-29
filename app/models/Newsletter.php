@@ -21,6 +21,16 @@ class Newsletter extends Eloquent {
 		return $query->where('user_id', '=', $user->id);
 	}
 
+	public function isDaily()
+	{
+		return ($this->type == 'daily');
+	}
+
+	public function isWeekly()
+	{
+		return ($this->type == 'weekly');
+	}
+
 	/**
 	 * @brief Create a newsletter item for the given user
 	 * @var object $user The user instance

@@ -33,7 +33,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * Adding attributes to the object. These attributes need extra DB queries
 	 * @var array
 	 */
-	public static $appendsFull = ['total_comments', 'favorite_count', 'added_fav_count', 'published_quotes_count'];
+	public static $appendsFull = ['total_comments', 'favorite_count', 'added_fav_count', 'published_quotes_count', 'is_subscribed_to_daily', 'is_subscribed_to_weekly'];
 
 	/**
 	 * The validation rules when updating a profile
@@ -203,6 +203,26 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function getFavoriteCount()
     {
     	return $this->favoriteQuotes()->count();
+    }
+
+    public function getIsSubscribedToDaily()
+    {
+    	foreach ($this->newsletters as $newsletter) {
+    		if ($newsletter->isDaily())
+    			return true;
+    	}
+
+		return false;
+    }
+
+    public function getIsSubscribedToWeekly()
+    {
+    	foreach ($this->newsletters as $newsletter) {
+    		if ($newsletter->isWeekly())
+    			return true;
+    	}
+
+		return false;
     }
 
     public function getAddedFavCount()
