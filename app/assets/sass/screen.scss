@@ -689,7 +689,18 @@ body {
 			li {
 				margin-bottom: 1em;
 
-				@include link-blue-on-white;
+				a {
+					background: inherit;
+					color: white;
+					text-decoration: none;
+					padding: 2px 3px;
+					@include element-transition;
+
+					&:hover {
+						background: white;
+						color: $green;
+					}
+				}
 
 				i.fa {
 					margin-right: 15px;
