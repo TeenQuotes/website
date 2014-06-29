@@ -174,6 +174,7 @@ class UsersController extends \BaseController {
 		$data['quotesPublishedCount'] = $user->getPublishedQuotesCount();
 		$data['favCount']             = $user->getFavoriteCount();
 		$data['viewingSelfProfile']   = $viewingSelfProfile;
+		$data['showType']             = ($type === false) ? 'published' : $type;
 
 		return View::make('users.show', $data);
 	}
