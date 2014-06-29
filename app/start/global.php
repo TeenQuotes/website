@@ -135,8 +135,11 @@ require app_path().'/API/v1/routes.php';
 */
 // Usage: 'ClassComposer' => array('view.name.1', 'view.name.2'),
 View::composers([
-	'TeenQuotes\Composers\Users\ProfileComposer'    => ['users.show'],
+	// Show a user's profile
+	'TeenQuotes\Composers\Users\ProfileComposer'     => ['users.show'],
+	// Self edit user's profile
+	'TeenQuotes\Composers\Users\ProfileEditComposer' => ['users.edit'],
 	// Associated URLs: ['home', 'contact', 'apps', 'signin', 'legal', 'signup', 'password/remind', 'random', 'addquote'],
-	'TeenQuotes\Composers\Pages\SimplePageComposer' => ['quotes.index', 'contact.index', 'apps.download', 'auth.signin', 'legal.show', 'auth.signup', 'password.remind', 'quotes.addquote'],
+	'TeenQuotes\Composers\Pages\SimplePageComposer'  => ['quotes.index', 'contact.index', 'apps.download', 'auth.signin', 'legal.show', 'auth.signup', 'password.remind', 'quotes.addquote'],
 
 ]);
