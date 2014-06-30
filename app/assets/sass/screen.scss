@@ -1130,10 +1130,12 @@ body {
 
 	#profile-info {
 		h2 {
-			color: $lightBlue;
-			font-weight: 400;
+			color: #22313f;;
+			font-weight: 700;
+			text-transform: uppercase;
 			font-family: 'Titillium Web', sans-serif;
-			margin: -5px 0 1em 0;
+			margin-bottom: 1em;
+			font-size: 1.4em;
 			@include hyphens(auto);
 			@media screen and (max-width: $breakpointSmartphone) {
 				font-size: 1.6em;
