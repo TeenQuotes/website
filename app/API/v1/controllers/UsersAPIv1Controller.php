@@ -132,7 +132,7 @@ class UsersAPIv1Controller extends BaseController {
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
-	public function putUpdate($doValidation = true)
+	public function putProfile($doValidation = true)
 	{
 		
 		$data = [
