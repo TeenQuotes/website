@@ -132,6 +132,67 @@ class UsersAPIv1Controller extends BaseController {
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
+	public function putUpdate($doValidation = true)
+	{
+		
+		$data = [
+			'gender'    => Input::get('gender'),
+			'birthdate' => Input::get('birthdate'),
+			'country'   => Input::get('country'),
+			'city'      => Input::get('city'),
+			'about_me'  => Input::get('about_me'),
+			'avatar'    => Input::file('avatar'),
+		];
+
+		if ($doValidation) {
+
+			// Validate login, password and email
+			foreach (array_keys(User::$rulesUpdate) as $value) {
+				
+				$validator = Validator::make([$value => $data[$value]], [$value => User::$rulesUpdate[$value]]);
+				if ($validator->fails()) {
+					$data = [
+						'status' => 'wrong_'.$value,
+						'error'  => $validator->messages()->first($value),
+					];
+
+					return Response::json($data, 400);
+				}
+			}
+		}
+
+		// Everything went fine, update the user
+		$user = ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
+		
+		if (!empty($data['gender']))
+			$user->gender    = $data['gender'];
+		if (!empty($data['country']))
+			$user->country   = $data['country'];
+		if (!empty($data['city']))
+			$user->city      = $data['city'];
+		if (!empty($data['about_me']))
+			$user->about_me  = $data['about_me'];
+		$user->birthdate = empty($data['birthdate']) ? NULL : $data['birthdate'];
+
+		// Move the avatar
+		if (!is_null($data['avatar'])) {
+			$filename = $user->id.'.'.$data['avatar']->getClientOriginalExtension();
+
+			Input::file('avatar')->move(Config::get('app.users.avatarPath'), $filename);
+
+			$user->avatar = $filename;
+		}
+
+		$user->save();
+
+		$data = [
+			'status'  => 'profile_updated',
+			'success' => 'The profile has been updated.'
+		];
+
+		return Response::json($data, 200);
+	}
+
 	public function putPassword()
 	{
 		$user = User::find(ResourceServer::getOwnerId());

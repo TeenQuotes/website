@@ -45,6 +45,7 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth|sessi
 	Route::delete('users',['uses' => 'UsersAPIv1Controller@deleteUsers']);
 	Route::post('users', ['uses' => 'UsersAPIv1Controller@postUsers']);
 	Route::get('users', ['uses' => 'UsersAPIv1Controller@getUsers']);
+	Route::put('users/profile', ['uses' => 'UsersAPIv1Controller@putUpdate']);
 	Route::get('users/{user_id}', ['uses' => 'UsersAPIv1Controller@getSingleUser']);
 	Route::put('users/password', ['uses' => 'UsersAPIv1Controller@putPassword']);
 	Route::put('users/settings', ['uses' => 'UsersAPIv1Controller@putSettings']);
