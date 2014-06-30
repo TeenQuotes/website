@@ -205,6 +205,14 @@ $(document).ready(function() {
 		}, 500);
 	});
 
+	// Force login verification at signing up for smartphones
+	$("#email-signup").focusin(function() {
+		if ($("#login-signup").val().length > 0 && $("#login-validator").is(':empty')) {
+			timeoutLoginSignup = 42;
+			doneTypingLoginSignup();
+		}
+	});
+
 	// Moderation
 	$('.quote-moderation').click(function() {
 		var id_quote, numberOfQuoteAwaitingMode, decision;
