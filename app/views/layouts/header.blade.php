@@ -21,10 +21,9 @@
 	<![endif]-->
 </head>
 <body>
+	
 	<!-- Google Analytics -->
-	@if (App::environment('production'))
-		@include('layouts.analytics')
-	@endif
+	@include('layouts.analytics')
 
 	<div id="wrap">
 		<div class="navbar navbar-default navbar-fixed-top">

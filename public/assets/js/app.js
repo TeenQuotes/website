@@ -114,7 +114,7 @@ $(document).ready(function() {
 
 	// Edit profile
 	// Show upload avatar or not
-	if (!hasFileUploadSupport())
+	if ($("#editprofile-page").length && !hasFileUploadSupport())
 		$("#change-avatar").hide();
 	else
 		$("#alert-change-avatar").hide();
@@ -289,12 +289,18 @@ function validationSuccess(data) {
 	var isValid = data['is_valid'];
 
 	if (!isValid) {
-		if (alternate)
+		if (alternate) {
 			$('#respect-privacy').html(laravel.didYouMean + "<span id='alternate-email'>" + alternate + "</span>?");
-		else
+			ga('send', 'event', 'signup', 'fill-email', 'suggested-email');
+		}
+		else {
 			$('#respect-privacy').html('<i class="fa fa-meh-o"></i>' + laravel.mailAddressInvalid);
-	} else
+			ga('send', 'event', 'signup', 'fill-email', 'wrong-email');
+		}
+	} else {
 		$('#respect-privacy').html('<i class="fa fa-smile-o"></i>' + laravel.mailAddressValid);
+		ga('send', 'event', 'signup', 'fill-email', 'valid-email');
+	}
 }
 
 // Taken from http://stackoverflow.com/questions/12479897/detect-browser-file-input-support
@@ -315,6 +321,9 @@ function hasFileUploadSupport() {
 			testFileInput.parentNode.removeChild(testFileInput);
 		}
 	}
+	
+	ga('send', 'event', 'support-file-upload', 'browser-has-feature', hasSupport);
+
 	return hasSupport;
 }
 
@@ -341,11 +350,13 @@ function doneTypingLoginSignup() {
 				$("#login-validator").html("<i class='" + icon + "'></i>" + data.message);
 				$("#login-validator i.fa").removeClass("green").addClass("black");
 				$("#login-validator").removeClass("green").addClass("orange").fadeIn(500);
+				ga('send', 'event', 'signup', 'fill-login', 'wrong-login');
 				// Success
 			} else {
 				$("#login-validator").html("<i class='" + icon + "'></i>" + data.message);
 				$("#login-validator i.fa").removeClass("black").addClass("green");
 				$("#login-validator").removeClass("orange").addClass("green").fadeIn(500);
+				ga('send', 'event', 'signup', 'fill-login', 'right-login');
 			}
 		},
 		error: function(xhr, textStatus, thrownError) {
