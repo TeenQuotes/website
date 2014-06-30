@@ -1,5 +1,14 @@
-<?php $openedLink = false; ?>
-<div class="comment">
+<?php
+$openedLink = false; 
+if (isset($fadeLeft))
+	$animation = "animated fadeInLeft";
+?>
+
+@if (isset($animation))
+	<div class="comment {{ $animation }}">
+@else
+	<div class="comment">
+@endif
 	<!-- COMMENT AND AVATAR -->
 	<div class="row">
 		<!-- Avatar -->

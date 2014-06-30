@@ -31,8 +31,8 @@
 					@include('quotes.singleQuote', compact("quote"))
 				@else
 					<?php $comment = $quote; ?>
-					@include('comments.singleComment', compact("comment"))
-					<div class="comment-quote-info">
+					@include('comments.singleComment', ["comment" => $comment, "fadeLeft" => true])
+					<div class="comment-quote-info animated fadeInRight">
 						<a href="{{URL::route('quotes.show', $comment->quote->id)}}">#{{$comment->quote->id}}</a> - {{{ $comment->quote->content }}}
 					</div>
 				@endif
