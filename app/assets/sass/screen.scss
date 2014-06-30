@@ -1134,7 +1134,7 @@ body {
 			font-weight: 700;
 			text-transform: uppercase;
 			font-family: 'Titillium Web', sans-serif;
-			margin-bottom: 1em;
+			margin: 0 0 1em 0;
 			font-size: 1.4em;
 			@include hyphens(auto);
 			@media screen and (max-width: $breakpointSmartphone) {
