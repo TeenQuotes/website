@@ -25,10 +25,36 @@ class UsersController extends \BaseController {
 			'mailAddressInvalid' => Lang::get('auth.mailAddressInvalid'),
 			'mailAddressValid'   => Lang::get('auth.mailAddressValid'),
 			'mailAddressUpdated' => Lang::get('auth.mailAddressUpdated'),
-			'mailgunPubKey'      => Config::get('services.mailgun.pubkey')
+			'mailgunPubKey'      => Config::get('services.mailgun.pubkey'),
+			'urlLoginValidator'  => URL::route('users.loginValidator', [], true),
     	]);
 
 		return View::make('auth.signup', $data);
+	}
+
+	public function postLoginValidator()
+	{
+
+		$data = [
+			'login' => Input::get('login')
+		];
+
+		$validator = Validator::make($data, ['login' => User::$rulesSignup['login']]);
+		if ($validator->fails()) {
+			$data = [
+				'success' => false,
+				'message' => $validator->messages()->first('login')
+			];
+
+			return Response::json($data);
+		}
+
+		$data = [
+			'success' => true,
+			'message' => $data['login'].'? '.Lang::get('auth.loginAwesome')
+		];
+
+		return Response::json($data);
 	}
 
 	/**

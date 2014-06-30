@@ -161,7 +161,7 @@ $(document).ready(function() {
 						else {
 							$("#fav-count").text(nbFav - 1);
 							// Hide the quote on the profile
-							$('.quote[data-id='+id_quote+']').slideUp();
+							$('.quote[data-id=' + id_quote + ']').slideUp();
 						}
 					}
 
@@ -316,8 +316,38 @@ function doneTypingLoginSignup() {
 	}
 	timeoutLoginSignup = null;
 
-	$("#login-awesome span").text($('input#login-signup').val() + "? ");
-	$("#login-awesome").fadeIn(500);
+	var icon = "fa fa-thumbs-up";
+	$.ajax({
+		type: 'post',
+		cache: false,
+		crossDomain: true,
+		url: laravel.urlLoginValidator,
+		dataType: 'json',
+		data: {
+			'login': $('input#login-signup').val()
+		},
+		success: function(data) {
+			// Errors
+			if (data.success == false) {
+				icon = "fa fa-meh-o";
+				$("#login-validator").html("<i class='" + icon + "'></i>" + data.message);
+				$("#login-validator i.fa").removeClass("green").addClass("black");
+				$("#login-validator").removeClass("green").addClass("orange").fadeIn(500);
+				// Success
+			} else {
+				$("#login-validator").html("<i class='" + icon + "'></i>" + data.message);
+				$("#login-validator i.fa").removeClass("black").addClass("green");
+				$("#login-validator").removeClass("orange").addClass("green").fadeIn(500);
+			}
+		},
+		error: function(xhr, textStatus, thrownError) {
+			console.log(xhr);
+			console.log(textStatus);
+			console.log(thrownError);
+			console.log(xhr.responseText);
+			alert('Something went to wrong. Please try again later.');
+		}
+	});
 }
 
 function doneTypingLoginPassword() {

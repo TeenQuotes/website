@@ -56,6 +56,7 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	Route::put('users/{user_id}/password', ['as' => 'users.password', 'uses' => 'UsersController@putPassword']);
 	Route::put('users/{user_id}/avatar', ['as' => 'users.avatar', 'uses' => 'UsersController@putAvatar']);
 	Route::put('users/{user_id}/settings', ['as' => 'users.settings', 'uses' => 'UsersController@putSettings']);
+	Route::post('users/loginvalidator', ['as' => 'users.loginValidator', 'uses' => 'UsersController@postLoginValidator']);
 	Route::resource('users', 'UsersController', ['only' => ['index', 'store', 'edit', 'update']]);
 
 	/* --- PASSWORD REMINDER --- */

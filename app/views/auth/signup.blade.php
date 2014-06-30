@@ -29,8 +29,8 @@
 
 					<div class="col-sm-10">
 						{{ Form::text('login', Input::old('login'), array('class' => 'form-control', 'id' => 'login-signup')) }}
-						<div id="login-awesome">
-							<span></span>{{Lang::get('auth.loginAwesome') }}<i class="fa fa-thumbs-up"></i>
+						<div id="login-validator">
+
 						</div>
 						@if (!empty($errors->first('login')))
 							{{ TextTools::warningTextForm($errors->first('login')) }}
