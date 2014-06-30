@@ -395,25 +395,12 @@ class UsersController extends \BaseController {
 
 		if ($validator->passes()) {
 			
-			$user = Auth::user();
-			$user->gender    = $data['gender'];
-			$user->birthdate = empty($data['birthdate']) ? NULL : $data['birthdate'];
-			$user->country   = $data['country'];
-			$user->city      = $data['city'];
-			$user->about_me  = $data['about_me'];
+			// Call the API
+			$response = App::make('UsersAPIv1Controller')->putProfile(false);
+			if ($response->getStatusCode() == 200)
+				return Redirect::back()->with('success', Lang::get('users.updateProfileSuccessfull', array('login' => Auth::user()->login)));
 
-			// Move the avatar
-			if (!is_null($data['avatar'])) {
-				$filename = $user->id.'.'.$data['avatar']->getClientOriginalExtension();
-
-				Input::file('avatar')->move(Config::get('app.users.avatarPath'), $filename);
-
-				$user->avatar = $filename;
-			}
-
-			$user->save();
-
-			return Redirect::back()->with('success', Lang::get('users.updateProfileSuccessfull', array('login' => $user->login)));
+			App::abort(500, "Can't update profile");
 		}
 
 		// Something went wrong.
