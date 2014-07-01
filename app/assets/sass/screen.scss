@@ -1645,7 +1645,7 @@ footer {
 	color: lighten($topbarColor, 25%);
 
 	@media screen and (max-width: $breakpointSmartphone) {
-		font-size: .9em;
+		font-size: .8em;
 		height: 120px;
 	}
 
@@ -1661,6 +1661,10 @@ footer {
 			margin-right: 35px;
 			color: lighten($topbarColor, 25%);
 			@include element-transition;
+
+			@media screen and (max-width: $breakpointSmartphone) {
+				margin-right: 0;
+			}
 
 			&:hover {
 				color: lighten($topbarColor, 15%);
