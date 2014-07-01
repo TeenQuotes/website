@@ -991,6 +991,11 @@ body {
 			letter-spacing: 1px;
 			background:transparent;
 			padding: 2px 5px;
+			margin-top: -3px;
+
+			@media screen and (max-width: $breakpointSmartphone) {
+				margin-top: -5px;
+			}
 		}
 
 		.float-left {
@@ -999,6 +1004,7 @@ body {
 
 		.social-buttons {
 			opacity: 0;
+			text-align: right;
 
 			a {
 				width: 24px;
@@ -1011,6 +1017,10 @@ body {
 					width: 18px;
 					height: 18px;
 				}
+				@media screen and (min-width: $breakpointSmartphone) and (max-width: $breakpointLargeDesktop) {
+	    			width: 20px;
+					height: 20px;
+	    		}
 
 			}
 
@@ -1286,10 +1296,19 @@ body {
 		line-height: 1.3em;
 		margin-bottom: 15px;
 
-		.quotes-info .social-buttons a {
-			width: 19px;
-			height: 19px;
+		.quotes-info {
+			.social-buttons a {
+				width: 19px;
+				height: 19px;
+			}
+
+			.link-author-profile {
+				@media screen and (max-width: $breakpointSmartphone) {
+					margin-top: -2px;
+				}
+			}
 		}
+
 	}
 
 	.comment {
