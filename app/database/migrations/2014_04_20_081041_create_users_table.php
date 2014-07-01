@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration {
 			$table->enum('gender', array('M', 'F'))->nullable();
 			$table->string('country')->references('id')->on('countries')->onDelete('cascade')->nullable()->default(null);
 			$table->string('city')->nullable();
-			$table->string('avatar')->default('icon50.png');
+			$table->string('avatar')->nullable()->default(null);
 			$table->string('about_me', 500)->nullable();
 			$table->tinyInteger('hide_profile')->unsigned()->default(0);
 			$table->tinyInteger('notification_comment_quote')->unsigned()->default(1);
