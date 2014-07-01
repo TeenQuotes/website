@@ -459,7 +459,7 @@ class UsersController extends \BaseController {
 		}
 
 		// Something went wrong.
-		return Redirect::back()->withErrors($validator)->withInput(Input::all());
+		return Redirect::to(URL::route('users.edit', Auth::user()->login)."#edit-password")->withErrors($validator)->withInput(Input::all());
 	}
 
 	/**
@@ -501,18 +501,19 @@ class UsersController extends \BaseController {
 			'login'               => Auth::user()->login
 		];
 
+		// We will use a custom messagefor the delete confirmation input
 		$messages = [
     		'delete-confirmation.in' => Lang::get('users.writeDeleteHere'),
 		];
+
 		$validator = Validator::make($data, User::$rulesDestroy, $messages);
 
-		if ($validator->fails()) {
-			return Redirect::back()->withErrors($validator)->withInput(Input::except('password'));
-		}
+		if ($validator->fails())
+			return Redirect::to(URL::route('users.edit', Auth::user()->login)."#delete-account")->withErrors($validator)->withInput(Input::except('password'));
 		else {
 			unset($data['delete-confirmation']);
 			if (!Auth::validate($data))
-				return Redirect::back()->withErrors(array('password' => Lang::get('auth.passwordInvalid')))->withInput(Input::except('password'));
+				return Redirect::to(URL::route('users.edit', Auth::user()->login)."#delete-account")->withErrors(array('password' => Lang::get('auth.passwordInvalid')))->withInput(Input::except('password'));
 		}
 
 		// Delete the user

@@ -1,5 +1,8 @@
 window.laravel = window.laravel || {};
 var timeoutLoginSignup, timeoutPassword;
+
+$('html, body').hide();
+
 $(document).ready(function() {
 	$('.social-buttons').delay(500).animate({
 		opacity: 1
@@ -213,6 +216,18 @@ $(document).ready(function() {
 		}
 	});
 
+	// Smooth scroll
+	$('a[href^=#]').bind("click", jump);
+
+	if (location.hash) {
+		setTimeout(function() {
+			$('html, body').scrollTop(0).show();
+			jump();
+		}, 0);
+	} else {
+		$('html, body').show();
+	}
+
 	// Moderation
 	$('.quote-moderation').click(function() {
 		var id_quote, numberOfQuoteAwaitingMode, decision;
@@ -293,8 +308,7 @@ function validationSuccess(data) {
 		if (alternate) {
 			$('#respect-privacy').html(laravel.didYouMean + "<span id='alternate-email'>" + alternate + "</span>?");
 			ga('send', 'event', 'signup', 'fill-email', 'suggested-email');
-		}
-		else {
+		} else {
 			$('#respect-privacy').html('<i class="fa fa-meh-o"></i>' + laravel.mailAddressInvalid);
 			ga('send', 'event', 'signup', 'fill-email', 'wrong-email');
 		}
@@ -322,10 +336,26 @@ function hasFileUploadSupport() {
 			testFileInput.parentNode.removeChild(testFileInput);
 		}
 	}
-	
+
 	ga('send', 'event', 'support-file-upload', 'browser-has-feature', hasSupport);
 
 	return hasSupport;
+}
+
+var jump = function(e) {
+	if (e) {
+		e.preventDefault();
+		var target = $(this).attr("href");
+	} else {
+		var target = location.hash;
+	}
+
+	$('html,body').animate({
+		scrollTop: $(target).offset().top - 80
+	}, 2000, function() {
+		location.hash = target;
+	});
+
 }
 
 function doneTypingLoginSignup() {
