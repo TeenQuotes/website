@@ -4,7 +4,7 @@
 		<div class="animated fadeInUp">
 			{{ Form::open(array('url' => URL::route('search.dispatcher'), 'class' => 'form-horizontal')) }}
 
-				<h1><i class="fa fa-search"></i><span>{{ Lang::get('search.searchTitle')}}</span></h1>
+				<h1><i class="fa fa-search"></i>{{ Lang::get('search.searchTitle')}}</h1>
 
 				<!-- Search query -->
 				<div class="form-group">
