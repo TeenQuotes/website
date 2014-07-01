@@ -14,6 +14,6 @@ class ContactController extends BaseController {
 			'twitterAccount'     => Lang::get('layout.twitterUsername'),
 		];
 
-		return View::make('contact.index', $data);
+		return View::make('contact.show', $data);
 	}
 }
