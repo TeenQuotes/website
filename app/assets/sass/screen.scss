@@ -178,6 +178,50 @@ body {
 	}
 }
 
+h1 {
+	color: $topbarColor;
+	text-transform: uppercase;
+	font-size: 1.7em;
+
+	> i.fa {
+		margin-right: 15px;
+		color: lighten($topbarColor, 20%);
+	}
+}
+
+h2 {
+	color: $topbarColor;
+	text-transform: uppercase;
+	font-size: 1.5em;
+
+	> i.fa {
+		margin-right: 10px;
+		color: lighten($topbarColor, 20%);
+	}
+}
+
+h3 {
+	color: $topbarColor;
+	text-transform: uppercase;
+	font-size: 1.4em;
+
+	> i.fa {
+		margin-right: 10px;
+		color: lighten($topbarColor, 20%);
+	}
+}
+
+h3 {
+	color: $topbarColor;
+	text-transform: uppercase;
+	font-size: 1.3em;
+
+	> i.fa {
+		margin-right: 10px;
+		color: lighten($topbarColor, 20%);
+	}
+}
+
 .navbar-default {
 	background: $topbarColor;
 	border: 0;
@@ -264,15 +308,6 @@ body {
 }
 
 #signin-page {
-	h1 {
-		margin-bottom: 15px;
-		color: $red;
-
-		> i.fa {
-			margin-right: 15px;
-			color: black;
-		}
-	}
 
 	.signin-text {
 		margin-bottom: 10px;
@@ -334,16 +369,6 @@ body {
 
 	.contact-human {
 		margin: 3em 0;
-
-		h2 {
-			color: $green;
-
-			> i.fa {
-				margin-right: 15px;
-				color: black;
-			}
-		}
-
 		@include link-blue-on-white;
 	}
 }
@@ -351,29 +376,15 @@ body {
 #search-page {
 	h1 {
 		margin-bottom: 2em;
-
-		span {
-			color: $orange;
-		}
-
-		> i.fa {
-			margin-right: 15px;
-		}
 	}
 
 	h2 {
 		margin-bottom: 1em;
-		color: $red;
-
-		> i.fa {
-			margin-right: 15px;
-			color: black;
-		}
 
 		span.count {
 			float: right;
 			color: $green;
-			font-size: .7em;
+			font-size: .9em;
 			vertical-align: middle;
 		}
 
@@ -381,10 +392,6 @@ body {
 
 	.margin-bottom {
 		height: 80px;
-	}
-
-	h2#users {
-		color: $lightBlue;
 	}
 
 	.quote {
@@ -446,13 +453,14 @@ body {
 			}
 
 			a.username {
-				color: $orange;
-				background: transparent;
-				padding: 2px 4px;
-				font-size: 1.3em;
+				color: $topbarColor;
+				font-weight: 700;
+				text-transform: uppercase;
 				font-family: 'Titillium Web', sans-serif;
-				font-weight: 400;
-
+				margin: 0 0 1em 0;
+				font-size: 1.4em;
+				margin-left: 30px;
+				@include hyphens(auto);
 				@include element-transition;
 
 				&:hover {
@@ -488,7 +496,6 @@ body {
 				padding-left: 30px;
 			}
 		}
-
 	}
 }
 
@@ -496,18 +503,6 @@ body {
 
 	.addquote-text {
 		margin-bottom: 10px;
-	}
-
-	h1 {
-		margin-bottom: 15px;
-
-		span {
-			color: $red;
-		}
-
-		> i.fa {
-			margin-right: 15px;
-		}
 	}
 
 	ul {
@@ -524,6 +519,7 @@ body {
 				font-weight: 400;
 			}
 		}
+		
 		li:nth-child(even) {
 			text-align: right;
 		}
@@ -545,17 +541,6 @@ body {
 }
 
 #signup-page {
-	h1 {
-		margin-bottom: 15px;
-
-		span {
-			color: $red;
-		}
-
-		> i.fa {
-			margin-right: 15px;
-		}
-	}
 
 	.col-md-push-6 {
 		@media screen and (min-width: 970px) {
@@ -621,13 +606,7 @@ body {
 	@include ariane-line;
 	
 	h1 {
-		color: $red;
 		margin-top: 0;
-
-		i.fa {
-			margin-right: 15px;
-			color: black;
-		}
 	}
 
 	h2 {
@@ -646,15 +625,7 @@ body {
 /* contact.show view */
 #contact-page {
 	h1 {
-		margin-bottom: 1.2em;
-		color: black;
-		text-transform: uppercase;
-		font-size: 1.7em;
-
-		> i.fa {
-			margin-right: 15px;
-			color: black;
-		}
+		margin-bottom: 1em;
 
 		@media screen and (max-width: $breakpointSmartphone) {
 			padding-left: 20px;
@@ -693,6 +664,7 @@ body {
 			margin-bottom: 1em;
 			font-weight: 700;
 			font-size: 1.3em;
+			color: white;
 		}
 	}
 
@@ -883,24 +855,12 @@ body {
 		margin-bottom: 4em;
 
 		h1 {
-			color: $red;
 			margin-bottom: 1.3em;
-
-			i.fa {
-				margin-right: 15px;
-				color: black;
-			}
 		}
 	}
 
 	h2 {
-		color: $red;
 		margin: 1em 0;
-
-		i.fa {
-			margin-right: 15px;
-			color: black;
-		}
 	}
 }
 
@@ -916,13 +876,7 @@ body {
 	@include ariane-line;
 
 	h2 {
-		color: $orange;
 		margin-bottom: 1.2em;
-
-		i.fa {
-			color: black;
-			margin-right: 15px;
-		}
 	}
 
 	.col-md-6 {		
@@ -1143,12 +1097,6 @@ body {
 #user-profile {
 	> h2 {
 		margin-bottom: 15px;
-		color: $orange;
-
-		> i.fa {
-			margin-right: 15px;
-			color: $red;
-		}
 	}
 
 	> .alert-info {
@@ -1157,7 +1105,7 @@ body {
 
 	#profile-info {
 		h2 {
-			color: #22313f;;
+			color: $topbarColor;
 			font-weight: 700;
 			text-transform: uppercase;
 			font-family: 'Titillium Web', sans-serif;
@@ -1355,14 +1303,8 @@ body {
 #editprofile-page {
 	/* users.profile.editInfo view */
 	#edit-info {
-		> h2 {
-			color: $red;
+		> h1 {
 			margin-bottom: .8em;
-
-			i {
-				color: black;
-				margin-right: .5em;
-			}
 		}
 
 		.info-pre-form {
@@ -1441,13 +1383,7 @@ body {
 	#edit-password {
 		margin: 50px 0;
 		> h2 {
-			color: $orange;
 			margin-bottom: .8em;
-
-			i {
-				color: black;
-				margin-right: .5em;
-			}
 		}
 
 		.info-pre-form {
@@ -1459,13 +1395,7 @@ body {
 	#edit-settings {
 		margin: 50px 0;
 		> h2 {
-			color: $green;
 			margin-bottom: .8em;
-
-			i {
-				color: black;
-				margin-right: .5em;
-			}
 		}
 
 		.info-pre-form {
@@ -1556,13 +1486,7 @@ body {
 	#delete-account {
 		margin: 50px 0;
 		> h2 {
-			color: $red;
 			margin-bottom: .8em;
-
-			i {
-				color: black;
-				margin-right: .5em;
-			}
 		}
 
 		.info-pre-form {
@@ -1573,7 +1497,6 @@ body {
 
 #admin-page {
 	> h2 {
-		color: $green;
 		margin-bottom: 1.2em;
 
 		i, span {

@@ -17,7 +17,7 @@
 		</div>
 
 		<div class="animated fadeInLeft col-md-6 col-md-pull-6">
-			<h1><i class="fa fa-user"></i><span>{{ Lang::get('auth.createYourAccount')}}</span></h1>
+			<h1><i class="fa fa-user"></i>{{ Lang::get('auth.createYourAccount')}}</h1>
 			<div id="signup-text">
 				{{Lang::get('auth.signupText')}}
 			</div>

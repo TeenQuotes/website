@@ -5,7 +5,7 @@
 		<div class="animated fadeInLeft col-md-6">
 			{{ Form::open(array('url' => URL::route('quotes.store'), 'class' => 'form-horizontal')) }}
 
-				<h1><i class="fa fa-comment"></i><span class="red">{{ Lang::get('quotes.addYourQuote')}}</span></h1>
+				<h1><i class="fa fa-comment"></i>{{ Lang::get('quotes.addYourQuote') }}</h1>
 				<div class="addquote-text">
 					{{ Lang::get('quotes.speakYourMind') }}
 				</div>
@@ -37,7 +37,7 @@
 
 		<!-- RULES -->
 		<div class="animated fadeInRight col-md-6">
-			<h1><i class="fa fa-gavel"></i><span class="red">{{ Lang::get('quotes.fewRules') }}</span></h1>
+			<h1><i class="fa fa-gavel"></i>{{ Lang::get('quotes.fewRules') }}</h1>
 			<ul>
 				{{Lang::get('quotes.rulesAddQuote')}}
 			</ul>

@@ -1,5 +1,5 @@
 {{ Form::model($user, array('route' => array('users.update', $user->login), 'class' => 'form-horizontal animated fadeInLeft', 'id' => 'edit-info', 'method' => 'PUT', 'files' => true)) }}
-<h2><i class="fa fa-edit"></i> {{ Lang::get('users.editProfileTitle') }}</h2>
+<h1><i class="fa fa-edit"></i> {{ Lang::get('users.editProfileTitle') }}</h1>
 
 <div class="row info-pre-form">
 	<div class="col-xs-9">
