@@ -140,6 +140,6 @@ View::composers([
 	// Self edit user's profile
 	'TeenQuotes\Composers\Users\ProfileEditComposer' => ['users.edit'],
 	// Associated URLs: ['home', 'contact', 'apps', 'signin', 'legal', 'signup', 'password/remind', 'random', 'addquote'],
-	'TeenQuotes\Composers\Pages\SimplePageComposer'  => ['quotes.index', 'contact.index', 'apps.download', 'auth.signin', 'legal.show', 'auth.signup', 'password.remind', 'quotes.addquote'],
+	'TeenQuotes\Composers\Pages\SimplePageComposer'  => ['quotes.index', 'contact.show', 'apps.download', 'auth.signin', 'legal.show', 'auth.signup', 'password.remind', 'quotes.addquote'],
 
 ]);

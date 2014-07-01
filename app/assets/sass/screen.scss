@@ -44,6 +44,11 @@ body {
 .btn-primary {
 	background-color: $lightBlue;
 	border-color: $lightBlue;
+
+	&:hover {
+		background-color: #276F9E;
+		border-color: #276F9E;
+	}
 }
 
 @mixin element-transition {
@@ -437,7 +442,7 @@ body {
 
 			.avatar {
 				max-height: 100px;
-				@include border-radius(80px);
+				@include border-radius(50%);
 			}
 
 			a.username {
@@ -540,8 +545,6 @@ body {
 }
 
 #signup-page {
-	margin-bottom: 3.85em;
-
 	h1 {
 		margin-bottom: 15px;
 
@@ -613,9 +616,8 @@ body {
 	}
 }
 
+/* legal.show view */
 #legal-page {
-	margin-bottom: 3em;
-
 	@include ariane-line;
 	
 	h1 {
@@ -641,19 +643,42 @@ body {
 	}
 }
 
+/* contact.show view */
 #contact-page {
 	h1 {
 		margin-bottom: 1.2em;
-		color: $red;
+		color: black;
+		text-transform: uppercase;
+		font-size: 1.7em;
 
 		> i.fa {
 			margin-right: 15px;
 			color: black;
 		}
+
+		@media screen and (max-width: $breakpointSmartphone) {
+			padding-left: 20px;
+		}
 	}
 
-	#stay-in-touch {
-		padding: 25px 20px;
+	#first-col {
+		padding-left: 0;
+		padding-right: 15px;
+	}
+
+	#second-col {
+		padding-right: 0;
+		padding-left: 15px;
+	}
+
+	#first-col, #second-col {
+		@media screen and (max-width: $breakpointSmartphone) {
+			padding: 0;
+		}
+	}
+
+	#stay-in-touch, #contact-info {		
+		padding: 30px;
 		background: $lightBlue;
 		color: white;
 		text-align: justify;
@@ -666,28 +691,21 @@ body {
 			font-family: 'Titillium Web', serif;
 			margin-top: 0;
 			margin-bottom: 1em;
+			font-weight: 700;
+			font-size: 1.3em;
 		}
 	}
 
 	#contact-info {
-		padding: 25px 20px;
 		background: $green;
-		margin-bottom: 3em;
-		color: white;
-		@media screen and (min-width: $breakpointSmartphone) {
-			font-size: 1.3em;
-		}
-
-		h2 {
-			font-family: 'Titillium Web', serif;
-			margin-top: 0;
-			margin-bottom: 1em;
-		}
 
 		ul {
 			list-style: none;
 			@media screen and (max-width: $breakpointSmartphone) {
 				padding-left: 10px;
+			}
+			@media screen and (min-width: $breakpointSmartphone) {
+				font-size: 1.3em;
 			}
 
 			li {
@@ -721,7 +739,7 @@ body {
 }
 
 .container.under-navbar {
-	padding-top: 100px;
+	padding: 100px 0 50px 0;
 
 	@media screen and (max-width: $breakpointSmartphone) {
 		padding-top: 70px;
@@ -777,7 +795,7 @@ body {
 }
 
 #stories {
-	margin: 0 -15px 3em -15px;
+	margin: 0 -15px;
 
 	.story {
 		padding: 15px 20px;
@@ -808,7 +826,7 @@ body {
 
 			.avatar {
 				max-height: 100px;
-				@include border-radius(80px);
+				@include border-radius(50%);
 			}
 		}
 
@@ -894,8 +912,6 @@ body {
 }
 
 #download-app {
-	margin-bottom: 4em;
-
 	@include ariane-line;
 
 	h2 {
@@ -974,7 +990,12 @@ body {
 			float: right;
 			letter-spacing: 1px;
 			background:transparent;
-			padding: 1px 3px;
+			padding: 2px 5px;
+			margin-top: -3px;
+
+			@media screen and (max-width: $breakpointSmartphone) {
+				margin-top: -5px;
+			}
 		}
 
 		.float-left {
@@ -983,6 +1004,7 @@ body {
 
 		.social-buttons {
 			opacity: 0;
+			text-align: right;
 
 			a {
 				width: 24px;
@@ -995,6 +1017,10 @@ body {
 					width: 18px;
 					height: 18px;
 				}
+				@media screen and (min-width: $breakpointSmartphone) and (max-width: $breakpointLargeDesktop) {
+	    			width: 20px;
+					height: 20px;
+	    		}
 
 			}
 
@@ -1050,7 +1076,7 @@ body {
 }
 
 #countLetters {
-	margin: 15x 0 0 10px;
+	margin: 15px 0 0 10px;
 
 	i.fa {
 		margin-right: 10px;
@@ -1071,7 +1097,7 @@ body {
 
 		.avatar {
 			max-height: 100px;
-			@include border-radius(80px);
+			@include border-radius(50%);
 		}
 	}
 
@@ -1151,8 +1177,8 @@ body {
 			}
 			.avatar {
 				margin: 0 auto;
-				max-height: 200px;
-				@include border-radius(80px);
+				max-height: 135px;
+				@include border-radius(50%);
 			}
 		}
 
@@ -1167,6 +1193,12 @@ body {
 
 			i.fa {
 				margin-right: 10px;
+			}
+
+			img.mustach {
+				width: 18px;
+				margin-left: -6px;
+				margin-right: 7px;
 			}
 		}
 
@@ -1264,10 +1296,19 @@ body {
 		line-height: 1.3em;
 		margin-bottom: 15px;
 
-		.quotes-info .social-buttons a {
-			width: 19px;
-			height: 19px;
+		.quotes-info {
+			.social-buttons a {
+				width: 19px;
+				height: 19px;
+			}
+
+			.link-author-profile {
+				@media screen and (max-width: $breakpointSmartphone) {
+					margin-top: -2px;
+				}
+			}
 		}
+
 	}
 
 	.comment {
@@ -1334,7 +1375,7 @@ body {
 				.avatar {
 					max-height: 100px;
 					float: right;
-					@include border-radius(80px);
+					@include border-radius(50%);
 				}
 			}
 		}
@@ -1589,9 +1630,9 @@ body {
 	height: auto !important;
 	height: 100%;
 	/* Negative indent footer by its height */
-	margin: 0 auto -140px;
+	margin: 0 auto -100px;
 	/* Pad bottom by footer height */
-	padding: 0 0 140px;
+	padding: 0 0 100px;
   	@media screen and (max-width: $breakpointSmartphone) {
 		padding: 0 0 120px;
 		margin: 0 auto -120px;
@@ -1599,12 +1640,12 @@ body {
 }
 
 footer {
-	height: 140px;
+	height: 100px;
 	background: $topbarColor;
 	color: lighten($topbarColor, 25%);
 
 	@media screen and (max-width: $breakpointSmartphone) {
-		font-size: .8em;
+		font-size: .9em;
 		height: 120px;
 	}
 
@@ -1613,43 +1654,43 @@ footer {
 	}
 
 	.links {
-		margin-top: 10px;
-		padding-top: 10px;
-		border-top: 1px solid lighten($topbarColor, 5%);
-		
-		.col-xs-6 a {
-			display: block;
+		padding-top: 17px;
+
+		a {
 			text-decoration: none;
+			margin-right: 35px;
 			color: lighten($topbarColor, 25%);
-			margin-bottom: 5px;
 			@include element-transition;
 
 			&:hover {
 				color: lighten($topbarColor, 15%);
 			}
 		}
+
+		@media screen and (max-width: $breakpointSmartphone) {
+			display: flex;
+			justify-content: space-between;
+			padding-bottom: 12px;
+			margin-bottom: 5px;
+			border-bottom: 1px solid lighten($topbarColor, 5%);
+		}
 	}
 
-	.col-xs-6 {
-		float:none;
-		display:inline-block;
-		vertical-align:middle;
-		margin-right:-4px;
+	.col-sm-6 {
+		padding-top: 10px;
 	}
 
 	.right {
 		text-align: right;
-	}
 
-	.catchphrase {
-		.right {		
-			font-family: 'Titillium Web', sans-serif;
+		img {
+			margin: -5px 5px 0 10px;
+			float: right;
+		}
+
+		.designed {
 			font-style: italic;
-
-			img {
-				margin: -5px 5px 0 0;
-				@include transform(rotate(4deg));
-			}
+			font-family: 'Titillium Web', sans-serif;
 		}
 	}
 }
