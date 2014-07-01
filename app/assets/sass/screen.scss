@@ -44,6 +44,11 @@ body {
 .btn-primary {
 	background-color: $lightBlue;
 	border-color: $lightBlue;
+
+	&:hover {
+		background-color: #276F9E;
+		border-color: #276F9E;
+	}
 }
 
 @mixin element-transition {
