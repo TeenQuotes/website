@@ -12,7 +12,7 @@ return array (
 	"contact"                => "Contact",
 	"stories"                => "Stories",
 	"blog"                   => "Blog",
-	"legalTerms"             => "Legal terms",
+	"legalTerms"             => "Legal",
 	"twitterUsername"        => '@ohteenquotes',
 	'goBack'                 => 'Go back',
 	'catchphrase'            => 'Because some quotes are simply true',
