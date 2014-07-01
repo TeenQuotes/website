@@ -611,6 +611,7 @@ body {
 	}
 }
 
+/* legal.show view */
 #legal-page {
 	@include ariane-line;
 	
@@ -637,19 +638,42 @@ body {
 	}
 }
 
+/* contact.show view */
 #contact-page {
 	h1 {
 		margin-bottom: 1.2em;
-		color: $red;
+		color: black;
+		text-transform: uppercase;
+		font-size: 1.7em;
 
 		> i.fa {
 			margin-right: 15px;
 			color: black;
 		}
+
+		@media screen and (max-width: $breakpointSmartphone) {
+			padding-left: 20px;
+		}
 	}
 
-	#stay-in-touch {
-		padding: 25px 20px;
+	#first-col {
+		padding-left: 0;
+		padding-right: 15px;
+	}
+
+	#second-col {
+		padding-right: 0;
+		padding-left: 15px;
+	}
+
+	#first-col, #second-col {
+		@media screen and (max-width: $breakpointSmartphone) {
+			padding: 0;
+		}
+	}
+
+	#stay-in-touch, #contact-info {		
+		padding: 30px;
 		background: $lightBlue;
 		color: white;
 		text-align: justify;
@@ -662,28 +686,21 @@ body {
 			font-family: 'Titillium Web', serif;
 			margin-top: 0;
 			margin-bottom: 1em;
+			font-weight: 700;
+			font-size: 1.3em;
 		}
 	}
 
 	#contact-info {
-		padding: 25px 20px;
 		background: $green;
-		margin-bottom: 3em;
-		color: white;
-		@media screen and (min-width: $breakpointSmartphone) {
-			font-size: 1.3em;
-		}
-
-		h2 {
-			font-family: 'Titillium Web', serif;
-			margin-top: 0;
-			margin-bottom: 1em;
-		}
 
 		ul {
 			list-style: none;
 			@media screen and (max-width: $breakpointSmartphone) {
 				padding-left: 10px;
+			}
+			@media screen and (min-width: $breakpointSmartphone) {
+				font-size: 1.3em;
 			}
 
 			li {
