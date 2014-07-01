@@ -739,7 +739,8 @@ body {
 }
 
 .container.under-navbar {
-	padding: 100px 0 50px 0;
+	padding-top: 100px;
+	padding-bottom: 50px;
 
 	@media screen and (max-width: $breakpointSmartphone) {
 		padding-top: 70px;
