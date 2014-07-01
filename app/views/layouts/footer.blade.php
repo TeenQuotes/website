@@ -1,28 +1,19 @@
 	</div><!-- END WRAP -->
 	<footer>
 		<div class="container">
-			<!-- CATCHPHRASE -->
-			<div class="row catchphrase">
-				<div class="col-xs-6">
-					<span class="hidden-xs">{{ Lang::get('layout.nameWebsite') }}. </span>{{ Lang::get('layout.catchphrase') }}.
-				</div>
-
-				<div class="col-xs-6 right">
-					Designed in France {{ HTML::image('/assets/images/eiffelTower.png', 'Eiffel Tower', array('class' => 'hidden-xs hidden-sm')) }}
-				</div>
+			<!-- ADDITIONAL LINKS -->
+			<div class="col-sm-6 links">
+				<a href="{{URL::route('contact')}}">{{ Lang::get('layout.contact') }}</a>
+				<a href="{{URL::route('stories')}}">{{ Lang::get('layout.stories') }}</a>
+				<a href="//blog.{{Config::get('app.domain')}}">{{ Lang::get('layout.blog') }}</a>
+				<a href="{{ URL::route('legal.show', 'tos') }}">{{ Lang::get('layout.legalTerms') }}</a>
 			</div>
 
-			<!-- ADDITIONAL LINKS -->
-			<div class="row links">
-				<div class="col-xs-6">
-					<a href="{{URL::route('contact')}}">{{ Lang::get('layout.contact') }}</a>
-					<a href="{{URL::route('stories')}}">{{ Lang::get('layout.stories') }}</a>
-				</div>
-
-				<div class="col-xs-6 right">
-					<a href="//blog.{{Config::get('app.domain')}}">{{ Lang::get('layout.blog') }}</a>
-					<a href="{{ URL::route('legal.show', 'tos') }}">{{ Lang::get('layout.legalTerms') }}</a>
-				</div>
+			<!-- CATCHPHRASE -->
+			<div class="col-sm-6 right">
+					{{ HTML::image('/assets/images/eiffelTower.png', 'Eiffel Tower', array('class' => 'hidden-xs hidden-sm')) }}
+					<span class="designed">Designed in France</span><br/>
+					{{ Lang::get('layout.catchphrase') }}
 			</div>
 		</div>
 	</footer><!-- END FOOTER -->
