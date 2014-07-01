@@ -37,10 +37,11 @@ if (!is_null($user->birthdate))
 			@endif
 
 			<!-- Gender -->
-			<i class="fa {{ $user->getIconGender() }}"></i>
 			@if ($user->isMale())
+				{{ HTML::image('assets/images/icons/mustach.png', 'Mustach', ['class' => 'mustach']) }}
 				{{ Lang::get('users.iAmAMan') }}
 			@else
+				<i class="fa {{ $user->getIconGender() }}"></i>
 				{{ Lang::get('users.iAmAWoman') }}
 			@endif
 		</div>
@@ -48,11 +49,17 @@ if (!is_null($user->birthdate))
 		<!-- Counters -->
 		<div class="col-xs-12 col-sm-7">
 			@include('users.profile.counters')
+			<!-- About me -->
+			@if (!empty($user->about_me))
+				<div class="col-xs-12 about-me hidden-xs hidden-sm">
+					{{{ $user->about_me }}}
+				</div>
+			@endif
 		</div>
 
 		<!-- About me -->
 		@if (!empty($user->about_me))
-			<div class="col-xs-12 about-me">
+			<div class="col-xs-12 about-me hidden-md hidden-lg">
 				{{{ $user->about_me }}}
 			</div>
 		@endif
