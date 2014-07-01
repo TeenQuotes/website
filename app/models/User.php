@@ -309,6 +309,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     	// Full URL
     	if (strrpos($this->avatar, 'http') !== false)
     		return $this->avatar;
+    	elseif (is_null($this->avatar)) {
+    		return URL::asset('assets/images/chat.png');
+    	}
     	// Local URL
     	else {
     		return str_replace('public/', '', Request::root().'/'.Config::get('app.users.avatarPath').'/'.$this->avatar);

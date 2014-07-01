@@ -27,7 +27,7 @@ class UsersTableSeeder extends Seeder {
 					'gender'                     => $faker->randomElement(array('M', 'F')),
 					'country'                    => $faker->numberBetween(1, 237),
 					'city'                       => $faker->city,
-					'avatar'                     => 'http://placekitten.com/400/400',
+					'avatar'                     => NULL,
 					'about_me'                   => $faker->paragraph(3),
 					'hide_profile'               => $faker->numberBetween(0, 1),
 					'notification_comment_quote' => $faker->numberBetween(0, 1),
