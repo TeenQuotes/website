@@ -288,6 +288,7 @@ function validationSuccess(data) {
 	var alternate = data['did_you_mean'];
 	var isValid = data['is_valid'];
 
+	$("#email-error").remove();
 	if (!isValid) {
 		if (alternate) {
 			$('#respect-privacy').html(laravel.didYouMean + "<span id='alternate-email'>" + alternate + "</span>?");
@@ -349,12 +350,14 @@ function doneTypingLoginSignup() {
 				icon = "fa fa-meh-o";
 				$("#login-validator").html("<i class='" + icon + "'></i>" + data.message);
 				$("#login-validator i.fa").removeClass("green").addClass("black");
+				$("#login-error").remove();
 				$("#login-validator").removeClass("green").addClass("orange").fadeIn(500);
 				ga('send', 'event', 'signup', 'fill-login', 'wrong-login');
 				// Success
 			} else {
 				$("#login-validator").html("<i class='" + icon + "'></i>" + data.message);
 				$("#login-validator i.fa").removeClass("black").addClass("green");
+				$("#login-error").remove();
 				$("#login-validator").removeClass("orange").addClass("green").fadeIn(500);
 				ga('send', 'event', 'signup', 'fill-login', 'right-login');
 			}

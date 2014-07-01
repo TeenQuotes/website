@@ -33,7 +33,9 @@
 
 						</div>
 						@if (!empty($errors->first('login')))
-							{{ TextTools::warningTextForm($errors->first('login')) }}
+							<div id="login-error">
+								{{ TextTools::warningTextForm($errors->first('login')) }}
+							</div>
 						@endif
 					</div>
 				</div>
@@ -48,7 +50,9 @@
 							{{ Lang::get('auth.carefulPrivacy') }}
 						</div>
 						@if (!empty($errors->first('email')))
-							{{ TextTools::warningTextForm($errors->first('email')) }}
+							<div id="email-error">
+								{{ TextTools::warningTextForm($errors->first('email')) }}
+							</div>
 						@endif
 					</div>
 				</div>
