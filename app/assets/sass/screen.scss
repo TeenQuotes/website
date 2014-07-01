@@ -437,7 +437,7 @@ body {
 
 			.avatar {
 				max-height: 100px;
-				@include border-radius(80px);
+				@include border-radius(50%);
 			}
 
 			a.username {
@@ -821,7 +821,7 @@ body {
 
 			.avatar {
 				max-height: 100px;
-				@include border-radius(80px);
+				@include border-radius(50%);
 			}
 		}
 
@@ -1082,7 +1082,7 @@ body {
 
 		.avatar {
 			max-height: 100px;
-			@include border-radius(80px);
+			@include border-radius(50%);
 		}
 	}
 
@@ -1162,8 +1162,8 @@ body {
 			}
 			.avatar {
 				margin: 0 auto;
-				max-height: 200px;
-				@include border-radius(80px);
+				max-height: 135px;
+				@include border-radius(50%);
 			}
 		}
 
@@ -1345,7 +1345,7 @@ body {
 				.avatar {
 					max-height: 100px;
 					float: right;
-					@include border-radius(80px);
+					@include border-radius(50%);
 				}
 			}
 		}
