@@ -207,6 +207,7 @@ return array(
 		'Agent'               => 'Jenssegers\Agent\Facades\Agent',
 		'Toloquent'           => 'TeenQuotes\Database\Toloquent',
 		'GeoIP'               => 'Buonzz\GeoIP\Laravel4\Facades\GeoIP',
+		'MailSwitcher'        => 'TeenQuotes\Mail\MailSwitcher',
 	),
 
 	/*
