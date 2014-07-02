@@ -1,4 +1,5 @@
 /app/config/database.php
+/app/config/mail.php
 /app/config/services.php
 /bootstrap/compiled.php
 /vendor
