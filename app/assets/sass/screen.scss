@@ -782,12 +782,12 @@ h3 {
 
 			h3 a:hover {
 				background: white;
-				color: $orange;
+				color: $topbarColor;
 			}
 
 			h3 .story-id a:hover {
 				background: white;
-				color: $green;
+				color: $orange;
 			}
 		}
 
@@ -808,19 +808,19 @@ h3 {
 		}
 
 		h3 {
-			color: $orange;
+			color: $topbarColor;
 			font-family: 'Titillium Web', serif;
 			background: inherit;
-			padding: 3px 5px;
 			margin-top: 0;
 
 			a {
 				text-decoration: none;
-				color: $orange;
+				color: $topbarColor;
+				padding: 3px 5px;
 				@include element-transition;
 
 				&:hover {
-					background: $orange;
+					background: $topbarColor;
 					color: white;
 				}
 			}
@@ -829,10 +829,10 @@ h3 {
 				float: right;
 				background: inherit;
 				padding: 5px;
-				color: $green;
+				color: $orange;
 
 				&:hover {
-					background: $green;
+					background: $orange;
 					color: white;
 				}
 			}
@@ -845,7 +845,6 @@ h3 {
 		}
 
 		h4 {
-			font-family: 'Titillium Web', serif;
 			margin: 15px 0 10px 0;
 		}
 
@@ -860,7 +859,7 @@ h3 {
 	}
 
 	h2 {
-		margin: 1em 0;
+		margin: 1.5em 0 2em 0;
 	}
 }
 

@@ -31,8 +31,8 @@ class StoriesController extends BaseController {
 			throw new StoryNotFoundException();
 
 		$data = [
-			'pageTitle'       => Lang::get('stories.pageTitleIndex'),
-			'pageDescription' => Lang::get('stories.pageDescriptionIndex'),
+			'pageTitle'       => Lang::get('stories.pageTitleShow', ['nb' => $story->id]),
+			'pageDescription' => substr($story->frequence_txt, 0, 200),
 			'story'           => $story,
 			'goBack'          => Lang::get('layout.goBack'),
 			'storyTitle'      => Lang::get('stories.storyTitle'),
