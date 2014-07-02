@@ -18,8 +18,6 @@ ClassLoader::addDirectories(array(
 	app_path().'/models',
 	app_path().'/database/seeds',
 	app_path().'/API/v1/controllers',
-	app_path().'/libraries/',
-	app_path().'/libraries/TeenQuotes',
 ));
 
 /*
