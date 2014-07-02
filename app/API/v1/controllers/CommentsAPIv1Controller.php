@@ -122,6 +122,8 @@ class CommentsAPIv1Controller extends BaseController {
 			$emailData['quote']   = $quote->toArray();
 			$emailData['comment'] = $comment->toArray();
 
+			// Send the email via SMTP
+			new MailSwitcher('smtp');
 			Mail::send('emails.comments.posted', $emailData, function($m) use($quote)
 			{
 				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('comments.commentAddedSubjectEmail', ['id' => $quote->id]));

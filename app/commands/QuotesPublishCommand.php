@@ -83,7 +83,8 @@ class QuotesPublishCommand extends ScheduledCommand {
 			$this->info("Published quote #".$quote->id);
 			Log::info("Published quote #".$quote->id, array('quote' => $quoteArray));
 
-			// Send an email to the author
+			// Send an email to the author via SMTP
+			new MailSwitcher('smtp');
 			Mail::send('emails.quotes.published', $quoteArray, function($m) use($quote)
 			{
 				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('quotes.quotePublishedSubjectEmail'));

@@ -61,7 +61,8 @@ class UsersAPIv1Controller extends BaseController {
 		// Subscribe the user to the weekly newsletter
 		Newsletter::createNewsletterForUser($user, 'weekly');
 
-		// Send the welcome email
+		// Send the welcome email via SMTP
+		new MailSwitcher('smtp');
 		Mail::send('emails.welcome', $data, function($m) use($data)
 		{
 			$m->to($data['email'], $data['login'])->subject(Lang::get('auth.subjectWelcomeEmail'));
