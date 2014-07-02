@@ -9,14 +9,14 @@ $i = $quote->id % count($colors);
 
 	<!-- SHOW COMMENTS -->
 	@if ($quote->has_comments)
-		<h2 id="title-comments"><i class="fa fa-comments"></i><span class="green">{{ Lang::get('comments.comments') }}</span></h2>
+		<h2 id="title-comments"><i class="fa fa-comments"></i>{{ Lang::get('comments.comments') }}</h2>
 		@foreach ($comments as $comment)
 			@include('comments.singleComment', compact("comment"))
 		@endforeach
 	@endif
 
 	<!-- ADD A COMMENT -->
-	<h2 id="title-add-comment"><i class="fa fa-pencil-square-o"></i><span class="red">{{ Lang::get('comments.addComment')}}</span></h2>
+	<h2 id="title-add-comment"><i class="fa fa-pencil-square-o"></i>{{ Lang::get('comments.addComment')}}</h2>
 	<!-- Banner no comments yet -->
 	@if (!$quote->has_comments)
 		<div class="alert alert-info no-hide">
