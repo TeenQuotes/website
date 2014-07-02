@@ -51,6 +51,14 @@ body {
 	}
 }
 
+.pagination>li>span, .pagination>li>a {
+	color: $topbarColor;
+}
+
+.pagination>li>a:hover, .pagination>li>span:hover, .pagination>li>a:focus, .pagination>li>span:focus {
+	color: $lightBlue;
+}
+
 @mixin element-transition {
 	@include transition-property(all);
   	@include transition-duration(0.3s);
