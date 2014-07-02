@@ -983,7 +983,13 @@ h3 {
 	    			width: 20px;
 					height: 20px;
 	    		}
-
+				
+				i {
+					@media screen and (max-width: $breakpointSmartphone) {
+						position: relative;
+						bottom: 2px;
+					}
+				}
 			}
 
 			a:hover i.fa-facebook {
