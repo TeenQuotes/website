@@ -1577,6 +1577,10 @@ footer {
 		padding-top: 15px;
 	}
 
+	.col-sm-6 {
+		padding-top: 10px;
+	}
+
 	.links {
 		padding-top: 17px;
 
@@ -1604,12 +1608,11 @@ footer {
 		}
 	}
 
-	.col-sm-6 {
-		padding-top: 10px;
-	}
-
 	.right {
 		text-align: right;
+		@media screen and (min-width: $breakpointSmartphone) {
+			font-size: .9em;
+		}
 
 		img {
 			margin: -5px 5px 0 10px;
