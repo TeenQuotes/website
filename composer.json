@@ -13,7 +13,8 @@
 		"laracasts/utilities": "1.0.1",
 		"guzzlehttp/guzzle": "~4.0",
 		"jenssegers/agent": "*",
-		"buonzz/laravel-4-freegeoip": "dev-master"
+		"buonzz/laravel-4-freegeoip": "dev-master",
+		"dinesh/bugonemail": "dev-master"
 	},
 	"require-dev": {
 		"way/generators": "2.*",

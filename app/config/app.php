@@ -134,6 +134,7 @@ return array(
 		'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
 		'Jenssegers\Agent\AgentServiceProvider',
 		'Buonzz\GeoIP\Laravel4\ServiceProviders\GeoIPServiceProvider',
+		'Dinesh\Bugonemail\BugonemailServiceProvider'
 	),
 
 	/*
