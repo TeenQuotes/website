@@ -147,9 +147,8 @@ class Quote extends Toloquent {
 			// After the space, add …
 			$content = substr($content, 0, $lastSpace).'…';
 		}
-		elseif (strlen($content) <= $maxLengthAddTwitterUsername) {
+		elseif (strlen($content) <= $maxLengthAddTwitterUsername)
 			$content .= ' '.$twitterUsername;
-		}
 
 		return urlencode($content.' '.URL::route('quotes.show', array($this->id), true));
 	}
