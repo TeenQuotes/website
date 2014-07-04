@@ -7,11 +7,21 @@ class MailSwitcher {
 
 	function __construct($name) {
 		
-		if (strtolower($name) != 'smtp')
+		if (!in_array(strtolower($name), ['smtp', 'sendmail']))
 			throw new \InvalidArgumentException($name." is not a valid argument");
 		
-		// Switch to SMTP
-		Config::set('mail.driver', 'smtp');
-		Config::set('mail.from', Config::get('mail.from.smtp'));
+		switch (strtolower($name)) {
+			case 'smtp':
+				// Switch to SMTP
+				Config::set('mail.driver', 'smtp');
+				Config::set('mail.from', Config::get('mail.from.smtp'));
+				break;
+
+			case 'sendmail':
+				// Switch to Postfix
+				Config::set('mail.driver', 'sendmail');
+				Config::set('mail.from', Config::get('mail.from.sendmail'));
+				break;
+		}
 	}
 }
