@@ -142,6 +142,21 @@ body {
 	}
 }
 
+@mixin link-orange-on-white {
+	a {
+		background: inherit;
+		color: $orange;
+		text-decoration: none;
+		padding: 2px 3px;
+		@include element-transition;
+
+		&:hover {
+			background: $orange;
+			color: white;
+		}
+	}
+}
+
 .transition {
 	@include transition-property(all);
   	@include transition-duration(0.3s);
@@ -1293,13 +1308,27 @@ h3 {
 	}
 
 	#welcome-profile {
-		margin-bottom: 3em;
+		margin: 2em 0 3em 0;
 
 		h3 {
-			color: $green;
+			color: $lightBlue;
 		}
 
-		@include link-blue-on-white;
+		.row {
+			@media screen and (min-width: $breakpointSmartphone) {
+				margin-top: 1.5em;
+				margin-bottom: 2.5em;
+			}
+
+			.col-xs-12 {
+				@media screen and (max-width: $breakpointSmartphone) {
+					margin-top: .5em;
+					margin-bottom: .5em;
+				}
+			}
+		}
+
+		@include link-orange-on-white;
 	}
 }
 
