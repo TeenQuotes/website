@@ -9,6 +9,11 @@ class MailSwitcher {
 		
 		if (!in_array(strtolower($name), ['smtp', 'sendmail']))
 			throw new \InvalidArgumentException($name." is not a valid argument");
+
+		// Postfix is not always installed on developers' computer
+		// We will fallback to SMTP
+		if (App::environment() == 'local')
+			$name = 'smtp';
 		
 		switch (strtolower($name)) {
 			case 'smtp':
