@@ -33,6 +33,10 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth|sessi
 	Route::post('favorites/{quote_id}', ['uses' => 'FavQuotesAPIv1Controller@postFavorite']);
 	Route::delete('favorites/{quote_id}', ['uses' => 'FavQuotesAPIv1Controller@deleteFavorite']);
 
+	// Password
+	Route::post('password/remind', ['uses' => 'PasswordAPIv1Controller@postRemind']);
+	Route::post('password/reset', ['uses' => 'PasswordAPIv1Controller@postReset']);
+
 	// Quotes
 	Route::post('quotes', ['uses' => 'QuotesAPIv1Controller@postStoreQuote']);
 	Route::get('quotes/{quote_id}', ['uses' => 'QuotesAPIv1Controller@getSingleQuote']);
