@@ -54,6 +54,9 @@ UPDATE users SET notification_comment_quote = notification_comment_quote - 1;
 -- Update hide_profile
 UPDATE users SET hide_profile = hide_profile - 1;
 
+-- Update default avatar
+UPDATE users SET avatar = NULL WHERE avatar = 'icon50.png';
+
 -- Seed quotes table
 TRUNCATE quotes;
 INSERT INTO quotes (id, content, user_id, approved, created_at)
