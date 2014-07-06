@@ -72,6 +72,10 @@ INSERT INTO comments (id, content, quote_id, user_id, created_at)
 SELECT id, texte, id_quote, auteur_id, timestamp_created
 FROM teenquotesold.teen_quotes_comments;
 
+-- Deal with escaped characters
+UPDATE comments SET content = REPLACE(content, "\\\'", "'");
+UPDATE comments SET content = REPLACE(content, "\\\&quot;", "&quot;");
+
 -- Seed profile_visitors table
 TRUNCATE profile_visitors;
 INSERT INTO profile_visitors (id, user_id, visitor_id)
