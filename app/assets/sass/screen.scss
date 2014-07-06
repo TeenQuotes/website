@@ -427,7 +427,7 @@ h3 {
 		.col-xs-6 {
 			.content {
 				background: $veryLightGray;
-				color: $lightBlue;
+				color: $topbarColor;
 				padding: 10px 15px;
 				font-size: 1.7em;
 				font-family: 'Titillium Web', sans-serif;
@@ -437,7 +437,7 @@ h3 {
 
 				i.fa {
 					margin-right: 20px;
-					color: $orange;
+					color: darken($topbarColor, 40%);
 				}
 
 				.count {
