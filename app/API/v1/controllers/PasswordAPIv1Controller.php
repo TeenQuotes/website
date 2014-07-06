@@ -52,7 +52,7 @@ class PasswordAPIv1Controller extends BaseController {
 			case Password::INVALID_PASSWORD:
 				$status = 400;
 				$data = [
-					'status' => 'invalid_password',
+					'status' => 'wrong_password',
 					'error'  => 'The password is wrong.'
 				];
 				break;
@@ -60,7 +60,7 @@ class PasswordAPIv1Controller extends BaseController {
 			case Password::INVALID_TOKEN:
 				$status = 400;
 				$data = [
-					'status' => 'invalid_token',
+					'status' => 'wrong_token',
 					'error'  => 'The reset token is invalid.'
 				];
 				break;
@@ -68,7 +68,7 @@ class PasswordAPIv1Controller extends BaseController {
 			case Password::INVALID_USER:
 				$status = 400;
 				$data = [
-					'status' => 'invalid_user',
+					'status' => 'wrong_user',
 					'error'  => "The email address doesn't match a user."
 				];
 				break;
