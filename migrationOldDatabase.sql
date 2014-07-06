@@ -58,7 +58,7 @@ UPDATE users SET hide_profile = hide_profile - 1;
 UPDATE users SET avatar = NULL WHERE avatar = 'icon50.png';
 
 -- Update about_me
-UPDATE users SET about_me = REPLACE(users, '<br />', '');
+UPDATE users SET about_me = REPLACE(about_me, '<br />', '');
 
 -- Seed quotes table
 TRUNCATE quotes;
