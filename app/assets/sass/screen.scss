@@ -1277,6 +1277,12 @@ h3 {
 			.social-buttons a {
 				width: 19px;
 				height: 19px;
+				
+				i {
+					@media screen and (max-width: $breakpointSmartphone) {
+						bottom: 0px;
+					}
+				}
 			}
 
 			.link-author-profile {
@@ -1285,7 +1291,6 @@ h3 {
 				}
 			}
 		}
-
 	}
 
 	.comment {
