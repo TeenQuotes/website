@@ -9,10 +9,12 @@ $i = $quote->id % count($colors);
 
 	<!-- SHOW COMMENTS -->
 	@if ($quote->has_comments)
-		<h2 id="title-comments"><i class="fa fa-comments"></i>{{ Lang::get('comments.comments') }}</h2>
-		@foreach ($comments as $comment)
-			@include('comments.singleComment', compact("comment"))
-		@endforeach
+		<div class="animated fadeInUp">
+			<h2 id="title-comments"><i class="fa fa-comments"></i>{{ Lang::get('comments.comments') }}</h2>
+			@foreach ($comments as $comment)
+				@include('comments.singleComment', compact("comment"))
+			@endforeach
+		</div>
 	@endif
 
 	<!-- ADD A COMMENT -->
