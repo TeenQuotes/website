@@ -92,16 +92,21 @@ class Quote extends Toloquent {
 	 */
 	public static function storeQuotesColors($quotesIDs, $color = null)
 	{
-		$func = function($value) use ($color) {
-    		if (is_null($color))
-    			return 'color-'.$value;
-    		else
-    			return 'color-'.$color.'-'.$value;
-		};
+		$colors = array();
 
-		$colors = array_map($func, range(1, count($quotesIDs)));
+		// We will build an array if we have at least one quote
+		if (count($quotesIDs) >= 1) {		
+			$func = function($value) use ($color) {
+	    		if (is_null($color))
+	    			return 'color-'.$value;
+	    		else
+	    			return 'color-'.$color.'-'.$value;
+			};
 
-		$colors = array_combine($quotesIDs, $colors);
+			$colors = array_map($func, range(1, count($quotesIDs)));
+			$colors = array_combine($quotesIDs, $colors);
+		}
+
 		// Store it in session
 		Session::set('colors.quote', $colors);
 
