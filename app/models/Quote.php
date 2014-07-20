@@ -21,14 +21,6 @@ class Quote extends Toloquent {
 	];
 
 	/**
-	 * The colors that will be used for quotes on the random page / homepage
-	 * @var array
-	 */
-	public static $colors = [
-		'#27ae60', '#16a085', '#d35400', '#e74c3c', '#8e44ad', '#F9690E', '#2c3e50', '#f1c40f', '#65C6BB', '#E08283'
-	];
-
-	/**
 	 * @brief The name of the key to store in cache. Describes the number of comments for a given quote.
 	 * @var string
 	 */
@@ -111,11 +103,6 @@ class Quote extends Toloquent {
 		Session::set('colors.quote', $colors);
 
 		return $colors;
-	}
-
-	public static function getColors()
-	{
-		return self::$colors;
 	}
 
 	/**
