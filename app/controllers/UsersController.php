@@ -346,8 +346,10 @@ class UsersController extends \BaseController {
 			// Create an array like
 			// ['blue' => 'Blue', 'red' => 'Red']
 			$colorsInConf = Config::get('app.users.colorsAvailableQuotesPublished');
-			// TODO: translate colors' name
-			$colorsAvailable = array_combine($colorsInConf, array_map('ucfirst', $colorsInConf));
+			$func = function ($colorName) {
+				return Lang::get('colors.'.$colorName);
+			};
+			$colorsAvailable = array_combine($colorsInConf, array_map($func, $colorsInConf));
 
 			$listCountries = Country::lists('name', 'id');
 
