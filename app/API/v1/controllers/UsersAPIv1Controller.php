@@ -269,7 +269,7 @@ class UsersAPIv1Controller extends BaseController {
 		}
 
 		// Update colors for quotes
-		if (!in_array($data['colors'], array_keys(Config::get('app.users.colorsQuotesPublished')))) {
+		if (!in_array($data['colors'], Config::get('app.users.colorsAvailableQuotesPublished'))) {
 
 			$data = [
 				'status' => 'wrong_color',
@@ -285,10 +285,10 @@ class UsersAPIv1Controller extends BaseController {
 		// Retrieve setting by the attributes
 		// or instantiate a new instance
 		$colorSetting = Setting::firstOrNew(
-			[
-				'user_id' => $user->id,
-				'key'     => 'colorsQuotesPublished'
-			]);
+		[
+			'user_id' => $user->id,
+			'key'     => 'colorsQuotesPublished'
+		]);
 		$colorSetting->value = $data['colors'];
 		$colorSetting->save();
 
