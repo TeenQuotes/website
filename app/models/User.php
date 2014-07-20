@@ -266,7 +266,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     /**
      * @brief Get the array of colors to use for the published quotes of the user
-     * @return array The array of the hexadecimal colors to use for the user's instance
+     * @return string The name of the color to use for the user's instance. Example: blue|red|orange
      */
     public function getColorsQuotesPublished()
     {
@@ -275,7 +275,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 			return Cache::get(self::$cacheNameForColorsQuotesPublished.$this->id);
 		else {
 
-			$colorsAvailable = Config::get('app.users.colorsQuotesPublished');
 			$confColor = Setting::
 				where('user_id', '=', $this->id)
 				->where('key', '=', 'colorsQuotesPublished')
@@ -283,9 +282,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 			// Set colors to put in cache for the user
 			if (is_null($confColor))
-				$toPut = $colorsAvailable[Config::get('app.users.defaultColorQuotesPublished')];
+				$toPut = Config::get('app.users.defaultColorQuotesPublished');
 			else {
-				$toPut = $colorsAvailable[$confColor->value];
+				$toPut = $confColor->value;
 			}
 
 			// Store in cache

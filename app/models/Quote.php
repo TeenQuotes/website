@@ -85,17 +85,21 @@ class Quote extends Toloquent {
 	}
 
 	/**
-	 * Store colors that will be use to display quotes in an associative array: quote_id => color. This array is stored in session to be used when displaying a single quote.
+	 * Store colors that will be use to display quotes in an associative array: quote_id => css_class_name. This array is stored in session to be used when displaying a single quote.
 	 * @param  array $quotesIDs IDs of the quotes
-	 * @param  array $colors    The colors that we will use, in hexadecimal format (#FFFFFF). If no value is given, we will call self::$colors
+	 * @param  string $colors   If we want to use different colors, give a string here. Example: orange|blue|red..
 	 * @return array            The associative array: quote_id => color
 	 */
-	public static function storeQuotesColors($quotesIDs, $colors = null)
+	public static function storeQuotesColors($quotesIDs, $color = null)
 	{
-		if (is_null($colors))
-			$colors = array_slice(self::getColors(), 0, count($quotesIDs));
-		else
-			$colors = array_slice($colors, 0, count($quotesIDs));
+		$func = function($value) use ($color) {
+    		if (is_null($color))
+    			return 'color-'.$value;
+    		else
+    			return 'color-'.$color.'-'.$value;
+		};
+
+		$colors = array_map($func, range(1, count($quotesIDs)));
 
 		$colors = array_combine($quotesIDs, $colors);
 		// Store it in session
