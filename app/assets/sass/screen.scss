@@ -171,6 +171,26 @@ body {
 	}
 }
 
+@mixin blue-container {
+	padding: 30px;
+	background: $lightBlue;
+	color: white;
+	text-align: justify;
+
+	@media screen and (min-width: $breakpointSmartphone) {
+		font-size: 1.1em;
+	}
+
+	h2 {
+		font-family: 'Titillium Web', serif;
+		margin-top: 0;
+		margin-bottom: 1em;
+		font-weight: 700;
+		font-size: 1.3em;
+		color: white;
+	}
+}
+
 .transition {
 	@include transition-property(all);
   	@include transition-duration(0.3s);
@@ -356,21 +376,15 @@ h3 {
 	}
 
 	.dont-remember-password {
+		@include link-blue-on-white;
+
 		text-align: right;
 		margin-top: 15px;
+	}
 
-		a {
-			color: $orange;
-			padding:2px 4px;
-			background: transparent;
-			@include element-transition;
-
-			&:hover {
-				background: $lightBlue;
-				color: white;
-				text-decoration: none;
-			}
-		}
+	#addquote-warning {
+		@include blue-container;
+		margin-bottom: 1.5em;
 	}
 }
 
@@ -686,23 +700,7 @@ h3 {
 	}
 
 	#stay-in-touch, #contact-info {		
-		padding: 30px;
-		background: $lightBlue;
-		color: white;
-		text-align: justify;
-
-		@media screen and (min-width: $breakpointSmartphone) {
-			font-size: 1.1em;
-		}
-
-		h2 {
-			font-family: 'Titillium Web', serif;
-			margin-top: 0;
-			margin-bottom: 1em;
-			font-weight: 700;
-			font-size: 1.3em;
-			color: white;
-		}
+		@include blue-container;
 	}
 
 	#contact-info {
