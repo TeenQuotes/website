@@ -312,9 +312,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     		return URL::asset('assets/images/chat.png');
     	}
     	// Local URL
-    	else {
+    	else
     		return str_replace('public/', '', Request::root().'/'.Config::get('app.users.avatarPath').'/'.$this->avatar);
-    	}
     }
 
     public function scopeBirthdayToday($query)
