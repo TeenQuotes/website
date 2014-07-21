@@ -56,10 +56,14 @@ App::after(function($request, $response)
 Route::filter('auth', function()
 {
 	if (Auth::guest()) {
-		if (Route::currentRouteName() == 'addquote')
-			return Redirect::guest('signin')->with('warning', Lang::get('auth.requireLoggedInAddQuote'));
-		else
-			return Redirect::guest('signin')->with('warning', Lang::get('auth.requireLoggedIn'));
+		if (Route::currentRouteName() == 'addquote') {
+			// Flash an attribute in session to display a custom message
+			// on the signin / signup page
+			Session::flash('requireLoggedInAddQuote', true);
+			return Redirect::guest('signin');
+		}
+		
+		return Redirect::guest('signin')->with('warning', Lang::get('auth.requireLoggedIn'));
 	}
 });
 
@@ -82,7 +86,7 @@ Route::filter('session.remove', function()
 
 Route::filter('search.isValid', function($route)
 {
-	// search.getResults have the query as a parameter
+	// search.getResults has the query as a parameter
 	// search.dispatcher uses a POST
 	$query = (count($route->parameters()) > 0) ? $route->getParameter('query') : Input::get('search');
 
