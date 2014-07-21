@@ -134,7 +134,8 @@ return array(
 		'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
 		'Jenssegers\Agent\AgentServiceProvider',
 		'Buonzz\GeoIP\Laravel4\ServiceProviders\GeoIPServiceProvider',
-		'Dinesh\Bugonemail\BugonemailServiceProvider'
+		'Dinesh\Bugonemail\BugonemailServiceProvider',
+		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider'
 	),
 
 	/*
@@ -208,6 +209,7 @@ return array(
 		'Toloquent'           => 'TeenQuotes\Database\Toloquent',
 		'GeoIP'               => 'Buonzz\GeoIP\Laravel4\Facades\GeoIP',
 		'MailSwitcher'        => 'TeenQuotes\Mail\MailSwitcher',
+		'Gravatar'            => 'Thomaswelton\LaravelGravatar\Facades\Gravatar'
 	),
 
 	/*
