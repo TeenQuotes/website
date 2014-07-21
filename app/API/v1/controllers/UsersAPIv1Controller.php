@@ -51,6 +51,11 @@ class UsersAPIv1Controller extends BaseController {
 		$user->password   = Hash::make($data['password']);
 		$user->ip         = $_SERVER['REMOTE_ADDR'];
 		$user->last_visit = Carbon::now()->toDateTimeString();
+
+		// If the new user has got a Gravatar, set the avatar
+		if (Gravatar::exists($data['email']))
+			$user->avatar = Gravatar::src($data['email'], 150);
+
 		$user->save();
 
 		// Log the user in

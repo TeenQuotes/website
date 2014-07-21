@@ -14,7 +14,8 @@
 		"guzzlehttp/guzzle": "~4.0",
 		"jenssegers/agent": "*",
 		"buonzz/laravel-4-freegeoip": "dev-master",
-		"dinesh/bugonemail": "dev-master"
+		"dinesh/bugonemail": "dev-master",
+		"thomaswelton/laravel-gravatar": "dev-master"
 	},
 	"require-dev": {
 		"way/generators": "2.*",
