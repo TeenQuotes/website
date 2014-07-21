@@ -2,6 +2,7 @@
 namespace TeenQuotes\Mail;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\App;
 
 class MailSwitcher {
 
