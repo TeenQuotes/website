@@ -15,7 +15,7 @@
 		"jenssegers/agent": "*",
 		"buonzz/laravel-4-freegeoip": "dev-master",
 		"dinesh/bugonemail": "dev-master",
-		"thomaswelton/laravel-gravatar": "dev-master"
+		"thomaswelton/laravel-gravatar": "0.1.x"
 	},
 	"require-dev": {
 		"way/generators": "2.*",
