@@ -171,8 +171,8 @@ class CommentsAPIv1Controller extends BaseController {
 		$comment->delete();
 
 		$data = [
-			'status' => 'comment_deleted',
-			'error'  => "The comment #".$id." was deleted.",
+			'status'  => 'comment_deleted',
+			'success' => "The comment #".$id." was deleted.",
 		];
 
 		return Response::json($data, 200);
