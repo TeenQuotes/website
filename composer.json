@@ -1,6 +1,6 @@
 {
 	"name": "teenquotes/website",
-	"description": "The Teen Quotes Website.",
+	"description": "The Teen Quotes website.",
 	"keywords": ["quotes", "teen", "teenagers", "TeenQuotes"],
 	"license": "Creative Commons BY-NC-SA",
 	"homepage": "http://teen-quotes.com",
@@ -14,7 +14,7 @@
     ],
 	"require": {
 		"laravel/framework": "4.2.*",
-		"graham-campbell/htmlmin": "~2.0@dev",
+		"graham-campbell/htmlmin": "~2.0",
 		"nesbot/Carbon": "*",
 		"tijsverkoyen/css-to-inline-styles": "1.2.*",
 		"indatus/dispatcher": "dev-master",
@@ -60,5 +60,10 @@
 	"config": {
 		"preferred-install": "dist"
 	},
+	"extra": {
+        "branch-alias": {
+            "dev-master": "v3.0.0-dev"
+        }
+    },
 	"minimum-stability": "stable"
 }
