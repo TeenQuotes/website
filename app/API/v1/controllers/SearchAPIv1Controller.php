@@ -32,6 +32,16 @@ class SearchAPIv1Controller extends BaseController {
 		if (!is_null($users) AND !empty($users) AND $users->count() > 0)
 			$totalUsers = User::partialLogin($query)->notHidden()->count();
 
+		// Handle no results
+		if ($totalQuotes == 0 AND $totalUsers == 0) {
+			$data = [
+				'status' => 404,
+				'error'  => 'No results have been found.'
+			];
+
+			return Response::json($data, 404);
+		}
+
 		$data = [
 			'quotes'       => $quotes->toArray(),
 			'users'        => $users->toArray(),
