@@ -1,8 +1,17 @@
 {
-	"name": "laravel/laravel",
-	"description": "The Laravel Framework.",
-	"keywords": ["framework", "laravel"],
-	"license": "MIT",
+	"name": "teenquotes/website",
+	"description": "The Teen Quotes Website.",
+	"keywords": ["quotes", "teen", "teenagers", "TeenQuotes"],
+	"license": "Creative Commons BY-NC-SA",
+	"homepage": "http://teen-quotes.com",
+	"authors": [
+        {
+            "name": "Antoine Augusti",
+            "email": "antoine.augusti@teen-quotes.com",
+            "homepage": "http://www.antoine-augusti.fr",
+            "role":"Developer"
+        }
+    ],
 	"require": {
 		"laravel/framework": "4.2.*",
 		"graham-campbell/htmlmin": "~2.0@dev",
