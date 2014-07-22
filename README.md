@@ -1,3 +1,5 @@
+[![Software License](http://img.shields.io/badge/license-CC%20BY--NC--SA-brightgreen.svg?style=flat)](LICENSE.md)
+
 # What is it?
 This is the source code for the next release of Teen Quotes, using the awesome PHP framework Laravel.
 
