@@ -39,4 +39,9 @@ class Comment extends Toloquent {
 
 		return false;
 	}
+
+	public function isPostedByUser(User $u)
+	{
+		return $this->user_id == $u->id;
+	}
 }
