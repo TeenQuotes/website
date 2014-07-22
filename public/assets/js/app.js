@@ -189,6 +189,52 @@ $(document).ready(function() {
 		return false;
 	});
 
+	// Delete a comment 
+	$('i.delete-comment').click(function() {
+		var url, id_comment;
+		url = $(this).attr('data-url');
+		id_comment = $(this).attr('data-id');
+
+		$.ajax({
+			type: 'DELETE',
+			cache: false,
+			url: $(this).attr('data-url'),
+			dataType: 'json',
+			data: {},
+			success: function(data) {
+
+				console.log(data);
+				// Success
+				if (data.success) {
+					// Update counter on the user's profile
+					if ($("#comments-count").length) {
+						var nbComments = parseInt($("#comments-count").text());
+						$("#comments-count").text(nbComments - 1);
+					}
+
+					// Hide the comment with a CSS fading out effect
+					$(".comment[data-id=" + id_comment + "]").removeClass('animated').addClass('animated fadeOutLeft');
+					$(".comment-quote-info[data-comment-id=" + id_comment + "]").removeClass('animated').addClass('animated fadeOutRight');
+					
+					// Remove from DOM after 1s
+					setTimeout(function() {
+						$(".comment[data-id=" + id_comment + "]").remove();
+						$(".comment-quote-info[data-comment-id=" + id_comment + "]").remove();
+					}, 1000);
+				}
+			},
+			error: function(xhr, textStatus, thrownError) {
+				console.log(xhr);
+				console.log(textStatus);
+				console.log(thrownError);
+				console.log(xhr.responseText);
+				alert('Something went to wrong. Please try again later.');
+			}
+		});
+
+		return false;
+	});
+
 	// Attach Mailgun plugin to validate email address
 	$('#email-signup').mailgun_validator({
 		api_key: laravel.mailgunPubKey,

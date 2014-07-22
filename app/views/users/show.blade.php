@@ -32,7 +32,7 @@
 				@else
 					<?php $comment = $quote; ?>
 					@include('comments.singleComment', ["comment" => $comment, "fadeLeft" => true])
-					<div class="comment-quote-info animated fadeInRight">
+					<div data-comment-id="{{ $comment->id }}" class="comment-quote-info animated fadeInRight">
 						<a href="{{URL::route('quotes.show', $comment->quote->id)}}">#{{$comment->quote->id}}</a> - {{{ $comment->quote->content }}}
 					</div>
 				@endif

@@ -136,4 +136,45 @@ class CommentsAPIv1Controller extends BaseController {
 
 		return Response::json($comment, 200, [], JSON_NUMERIC_CHECK);
 	}
+
+	public function destroy($id)
+	{
+		$user = ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
+		$comment =	Comment::find($id);
+
+		// Handle not found
+		if (is_null($comment)) {
+
+			$data = [
+				'status' => 'comment_not_found',
+				'error'  => "The comment #".$id." was not found",
+			];
+
+			return Response::json($data, 404);
+		}
+
+		if (!$comment->isPostedByUser($user)) {
+
+			$data = [
+				'status' => 'comment_not_self',
+				'error'  => "The comment #".$id." was not posted by user #".$user->id,
+			];
+
+			return Response::json($data, 400);
+		}
+
+		// Update the number of comments on the related quote in cache
+		if (Cache::has(Quote::$cacheNameNbComments.$comment->quote_id))
+			Cache::decrement(Quote::$cacheNameNbComments.$comment->quote_id);
+
+		// Delete the comment
+		$comment->delete();
+
+		$data = [
+			'status' => 'comment_deleted',
+			'error'  => "The comment #".$id." was deleted.",
+		];
+
+		return Response::json($data, 200);
+	}
 }

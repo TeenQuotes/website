@@ -1,14 +1,11 @@
 <?php
-$openedLink = false; 
+$openedLink = false;
+$animation = '';
 if (isset($fadeLeft))
-	$animation = "animated fadeInLeft";
+	$animation = " animated fadeInLeft";
 ?>
 
-@if (isset($animation))
-	<div class="comment {{ $animation }}">
-@else
-	<div class="comment">
-@endif
+<div data-id="{{ $comment->id }}" class="comment{{ $animation }}">
 	<!-- COMMENT AND AVATAR -->
 	<div class="row">
 		<!-- Avatar -->
@@ -31,6 +28,10 @@ if (isset($fadeLeft))
 	<div class="row comment-info">
 		<!-- Date -->
 		<div class="date-comment col-xs-offset-3 col-sm-offset-3 col-md-offset-2 col-lg-offset-1 col-xs-4 col-sm-4 col-md-3 col-lg-2">
+			@if ($comment->isPostedBySelf())
+				<i class="delete-comment fa fa-times" data-id="{{{ $comment->id }}}" data-url="{{ URL::route('comments.destroy', $comment->id) }}"></i>
+			@endif
+
 			{{{ $comment->created_at->diffForHumans() }}}
 		</div>
 		<!-- Author name -->
