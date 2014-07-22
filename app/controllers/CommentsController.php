@@ -97,7 +97,16 @@ class CommentsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		if (Request::ajax()) {
+			// Call the API to delete the comment
+			$response = App::make('CommentsAPIv1Controller')->destroy($id);
+
+			$data = [
+				'success' => ($response->getStatusCode() == 200)
+			];
+			
+			return Response::json($data);
+		}
 	}
 
 }

@@ -31,4 +31,17 @@ class Comment extends Toloquent {
 	{
 		return $query->orderBy('created_at', 'DESC');
 	}
+
+	public function isPostedBySelf()
+	{
+		if (Auth::check())
+			return $this->user_id == Auth::id();
+
+		return false;
+	}
+
+	public function isPostedByUser(User $u)
+	{
+		return $this->user_id == $u->id;
+	}
 }

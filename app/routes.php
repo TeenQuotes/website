@@ -73,7 +73,7 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	Route::resource('quotes', 'QuotesController', ['only' => ['index', 'show', 'store']]);
 
 	/* --- COMMENTS --- */
-	Route::resource('comments', 'CommentsController', ['only' => ['store']]);
+	Route::resource('comments', 'CommentsController', ['only' => ['store', 'destroy']]);
 
 	/* --- FAVORITE --- */
 	Route::post('favorite/{quote_id}', ['as' => 'favorite', 'before' => 'auth', 'uses' => 'FavoritesController@store']);
