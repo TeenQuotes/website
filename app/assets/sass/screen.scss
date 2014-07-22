@@ -1148,6 +1148,12 @@ h3 {
 			}
 		}
 
+		i.delete-comment {
+			color: $red;
+			margin-right: 10px;
+			cursor: pointer;
+		}
+
 		.link-author-name {
 			color: darken($lightGray, 50%);
 			font-family: 'Titillium Web', sans-serif;
