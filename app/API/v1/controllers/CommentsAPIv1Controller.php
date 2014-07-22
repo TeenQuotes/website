@@ -147,7 +147,7 @@ class CommentsAPIv1Controller extends BaseController {
 
 			$data = [
 				'status' => 'comment_not_found',
-				'error'  => "The comment #".$id." was not found",
+				'error'  => "The comment #".$id." was not found.",
 			];
 
 			return Response::json($data, 404);
@@ -157,7 +157,7 @@ class CommentsAPIv1Controller extends BaseController {
 
 			$data = [
 				'status' => 'comment_not_self',
-				'error'  => "The comment #".$id." was not posted by user #".$user->id,
+				'error'  => "The comment #".$id." was not posted by user #".$user->id.".",
 			];
 
 			return Response::json($data, 400);
