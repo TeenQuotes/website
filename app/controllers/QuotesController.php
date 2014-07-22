@@ -156,8 +156,7 @@ class QuotesController extends \BaseController {
 			$colors = Session::get('colors.quote');
 		else {
 			$colors = array();
-			$available = Quote::getColors();
-			$colors[$id] = $available[0];
+			$colors[$id] = 'color-1';
 		}
 
 		$data = [
