@@ -148,12 +148,10 @@ $(document).ready(function() {
 				} else {
 					if (type == "favorite") {
 						otherType = "unfavorite";
-						otherIcon = "fa-heart-o";
-						iconValidation = "fa-thumbs-up green";
+						otherIcon = "fa-heart";
 					} else {
 						otherType = "favorite";
-						otherIcon = "fa-heart";
-						iconValidation = "fa-times red";
+						otherIcon = "fa-heart-o";
 					}
 
 					// Update counter on the user's profile
@@ -163,18 +161,25 @@ $(document).ready(function() {
 							$("#fav-count").text(nbFav + 1);
 						else {
 							$("#fav-count").text(nbFav - 1);
+							
 							// Hide the quote on the profile
-							$('.quote[data-id=' + id_quote + ']').slideUp();
+							if ($('.quote[data-id=' + id_quote + ']').hasClass('fadeInLeft'))
+								var animation = 'fadeOutLeft';
+							else
+								var animation = 'fadeOutRight';
+							$('.quote[data-id=' + id_quote + ']').removeClass(animation.replace('Out', 'In')).addClass(animation);
+
+							// Remove from DOM after 1s
+							setTimeout(function() {
+								$('.quote[data-id=' + id_quote + ']').remove();
+							}, 1000);
 						}
 					}
 
 					$(".favorite-action[data-id=" + id_quote + "]").attr('data-url', url.replace(type, otherType));
 					$(".favorite-action[data-id=" + id_quote + "]").attr('data-type', otherType);
 
-					$(".favorite-action[data-id=" + id_quote + "]").hide().html("<span class='hide_this' data-id=" + id_quote + "><i class='fa " + iconValidation + "'></i></span><span class='show_this' data-id=" + id_quote + "><i class='fa " + otherIcon + "'></i></span>").fadeIn(1000);
-					$(".favorite-action[data-id=" + id_quote + "]").css("opacity", "0.5");
-					$(".show_this[data-id=" + id_quote + "]").hide().delay(3000).fadeIn(1000);
-					$(".hide_this[data-id=" + id_quote + "]").delay(2000).fadeOut(1000)
+					$(".favorite-action[data-id=" + id_quote + "]").html("<i class='fa animated fadeIn " + otherIcon + "'></i>");
 				}
 			},
 			error: function(xhr, textStatus, thrownError) {
@@ -215,7 +220,7 @@ $(document).ready(function() {
 					// Hide the comment with a CSS fading out effect
 					$(".comment[data-id=" + id_comment + "]").removeClass('animated').addClass('animated fadeOutLeft');
 					$(".comment-quote-info[data-comment-id=" + id_comment + "]").removeClass('animated').addClass('animated fadeOutRight');
-					
+
 					// Remove from DOM after 1s
 					setTimeout(function() {
 						$(".comment[data-id=" + id_comment + "]").remove();
