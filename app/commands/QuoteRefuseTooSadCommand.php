@@ -67,7 +67,7 @@ class QuoteRefuseTooSadCommand extends Command {
 
 			// Compute percentage and displays it
 			$percentage = $this->getPercentage($wrongNumberClassification, $tooNegative);
-			$this->info("treshold ".$treshold.": ".$tooNegative." quotes with " .$wrongNumberClassification." wrong classifications (".$percentage." %).");
+			$this->info("Treshold ".$treshold.": ".$tooNegative." quotes with " .$wrongNumberClassification." wrong classifications (".$percentage." %).");
 
 			if ($percentage < $minPercentageOfWrongClassification AND $tooNegative > 0)
 				$bestTreshold = $treshold;
