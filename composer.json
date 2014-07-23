@@ -24,7 +24,9 @@
 		"jenssegers/agent": "*",
 		"buonzz/laravel-4-freegeoip": "dev-master",
 		"dinesh/bugonemail": "dev-master",
-		"thomaswelton/laravel-gravatar": "0.1.x"
+		"thomaswelton/laravel-gravatar": "0.1.x",
+		"jwhennessey/phpinsight": "dev-master",
+		"antoineaugusti/laravel-sentiment-analysis": "1.0.*"
 	},
 	"require-dev": {
 		"way/generators": "2.*",
