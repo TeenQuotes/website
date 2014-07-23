@@ -14,3 +14,4 @@ Artisan::add(new QuotesPublishCommand);
 Artisan::add(new SendNewsletterCommand);
 Artisan::add(new SendBirthdayCommand);
 Artisan::add(new EmailSpecialEventCommand);
+Artisan::add(new QuoteRefuseTooSadCommand);
