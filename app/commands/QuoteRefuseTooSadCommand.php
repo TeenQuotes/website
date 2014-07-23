@@ -37,7 +37,21 @@ class QuoteRefuseTooSadCommand extends Command {
 	 */
 	public function fire()
 	{
-		$thresholds = range(0.5, 0.99, 0.02);
+		// Set lower bound
+		$lowerBound = is_null($this->argument('lowerBound')) ? 0.5 : $this->argument('lowerBound');
+		if ($lowerBound > 1 OR $lowerBound < 0)
+			throw new InvalidArgumentException("Lower bound must be between 0 and 1.", 1);
+			
+		// Set upper bound
+		$upperBound = is_null($this->argument('upperBound')) ? 0.99 : $this->argument('upperBound');
+		if ($upperBound > 1 OR $upperBound < 0)
+			throw new InvalidArgumentException("Upper bound must be between 0 and 1.", 1);
+		
+		// Set step value for the sequence
+		$step = is_null($this->argument('step')) ? 0.02 : $this->argument('step');
+		
+		// Build initial arrays with thresholds, initialized at 0
+		$thresholds = range($lowerBound, $upperBound, $step);
 		$wrongClassifications = array_fill_keys($thresholds, 0);
 		$foundSadQuotes = $wrongClassifications;
 		
@@ -106,7 +120,11 @@ class QuoteRefuseTooSadCommand extends Command {
 	 */
 	protected function getArguments()
 	{
-		return array();
+		return [
+			['lowerBound', InputArgument::OPTIONAL, 'The lower bound for the treshold.'],
+			['upperBound', InputArgument::OPTIONAL, 'The upper bound for the treshold.'],
+			['step', InputArgument::OPTIONAL, 'Increment value between elements in the sequence.'],
+		];
 	}
 
 	/**
