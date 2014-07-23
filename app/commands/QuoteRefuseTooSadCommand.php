@@ -11,7 +11,7 @@ class QuoteRefuseTooSadCommand extends Command {
 	 *
 	 * @var string
 	 */
-	protected $name = 'quote:learningTooSad';
+	protected $name = 'quotes:learningTooSad';
 
 	/**
 	 * The console command description.
@@ -38,43 +38,54 @@ class QuoteRefuseTooSadCommand extends Command {
 	public function fire()
 	{
 		$thresholds = range(0.5, 0.99, 0.02);
-		$bestTreshold = $thresholds[0];
-		$minPercentageOfWrongClassification = INF;
+		$wrongClassifications = array_fill_keys($thresholds, 0);
+		$foundSadQuotes = $wrongClassifications;
 		
 		$quotes = Quote::all();
 		$numberOfQuotes = count($quotes);
 
-		$this->info('Analyzing '.$numberOfQuotes.' quotes');
-		
-		foreach ($thresholds as $treshold) {
+		$this->info('Analyzing '.$numberOfQuotes.' quotes...');
 			
-			$tooNegative = 0;
-			$wrongNumberClassification = 0;
+		// Process each quote
+		foreach ($quotes as $quote) {
+
+			// Display some info to know everything is working fine
+			if ($quote->id % 2000 == 0)
+				$this->info('Processing quote #'.$quote->id);
 			
-			foreach ($quotes as $quote) {
+			// If the quote is too negative with enough confidence
+			if (SentimentAnalysis::isNegative($quote->content)) {
+				$score = SentimentAnalysis::score($quote->content);
+
+				// Update number of sad quotes found for the appropriate thresholds
+				foreach ($foundSadQuotes as $treshold => $value) {
+					if ($score >= $treshold)
+						$foundSadQuotes[$treshold] = $value + 1;
+				}
 				
-				// If the quote is too negative with enough confidence
-				if (SentimentAnalysis::isNegative($quote->content) AND SentimentAnalysis::score($quote->content) >= $treshold) {
-					$tooNegative++;
+				// We found that the quote was too negative but yet it was published
+				// Count the wrong classification
+				if ($quote->isPublished()) {
 					
-					// We found that the quote was too negative but yet it was published
-					// Count the wrong classification
-					if ($quote->isPublished()) {
-						$wrongNumberClassification++;
+					// Update the number of wrong classification for the appropriate thresholds
+					foreach ($wrongClassifications as $treshold => $value) {
+						if ($score >= $treshold)
+							$wrongClassifications[$treshold] = $value + 1;
 					}
 				}
 			}
-
-			// Compute percentage and displays it
-			$percentage = $this->getPercentage($wrongNumberClassification, $tooNegative);
-			$this->info("Treshold ".$treshold.": ".$tooNegative." quotes with " .$wrongNumberClassification." wrong classifications (".$percentage." %).");
-
-			if ($percentage < $minPercentageOfWrongClassification AND $tooNegative > 0)
-				$bestTreshold = $treshold;
 		}
 
-		// Display best treshold found
-		$this->info('Found best treshold by minimizing percentage: '.$bestTreshold);
+		// Display the results
+		foreach ($wrongClassifications as $treshold => $value) {
+			// Both arrays have got the same keys
+			$nbQuotes = $foundSadQuotes[$treshold];
+			$wrongNbClassifications = $value;
+			
+			// Compute percentage and display some info
+			$percentage = $this->getPercentage($wrongNbClassifications, $nbQuotes);
+			$this->info('Threshold '.$treshold.': '.$nbQuotes.' quotes with '.$wrongNbClassifications.' wrong classification ('.$percentage.' %).');
+		}
 	}
 
 	/**
