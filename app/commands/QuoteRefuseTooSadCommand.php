@@ -98,7 +98,7 @@ class QuoteRefuseTooSadCommand extends Command {
 			
 			// Compute percentage and display some info
 			$percentage = $this->getPercentage($wrongNbClassifications, $nbQuotes);
-			$this->info('Threshold '.$treshold.': '.$nbQuotes.' quotes with '.$wrongNbClassifications.' wrong classification ('.$percentage.' %).');
+			$this->info('Threshold '.$treshold.': '.$nbQuotes.' quotes with '.$wrongNbClassifications.' wrong classifications ('.$percentage.' %).');
 		}
 	}
 
