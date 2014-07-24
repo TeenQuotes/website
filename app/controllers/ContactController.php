@@ -13,13 +13,12 @@ class ContactController extends BaseController {
 			'emailAddress'       => Lang::get('contact.emailAddress'),
 			'chooseYourWeapon'   => Lang::get('contact.chooseYourWeapon'),
 			'twitterAccount'     => Lang::get('layout.twitterUsername'),
-			'teamMembers'        => ['clara', 'antoine', 'maxime', 'jonathan', 'michel'],
+			'teamMembers'        => Setting::get('team'),
 		];
 
-		foreach ($data['teamMembers'] as $teamName) {
-			$data['firstName'.ucfirst($teamName)] = ucfirst($teamName);
-			$data['teamDescription'.ucfirst($teamName)] = Lang::get('contact.teamDescription'.ucfirst($teamName));
-		}
+		// Add description for each team member
+		foreach ($data['teamMembers'] as $teamName)
+			$data['teamDescription'.$teamName['firstName']] = Lang::get('contact.teamDescription'.$teamName['firstName']);
 
 		return View::make('contact.show', $data);
 	}
