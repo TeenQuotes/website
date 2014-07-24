@@ -34,17 +34,16 @@
 		<div id="team-container" class="row animated fadeInUp">
 			@foreach ($teamMembers as $teamMember)
 				<?php
-				$descriptionVar = 'teamDescription'.ucfirst($teamMember);
-				$nameVar = 'firstName'.ucfirst($teamMember);
+				$descriptionVar = 'teamDescription'.$teamMember['firstName'];
 				?>
 				<div class="team-member">
 					<!-- Avatar -->
 					<div class="column column-avatar col-xs-3 col-sm-3 col-md-2 col-lg-1">
-						<img class="avatar img-responsive" src="{{ URL::asset('assets/images/team/'.$teamMember.'.jpg') }}"/>
+						<img class="avatar img-responsive" src="{{ URL::asset('assets/images/team/'.$teamMember['image']) }}"/>
 					</div>
 					<!-- Content -->
 					<div class="column col-xs-9 col-sm-9 col-md-10 col-lg-11">
-						<h3>{{ $$nameVar }}</h3>
+						<h3><a href="https://twitter.com/{{ $teamMember['twitter'] }}">{{ $teamMember['firstName'] }}</a></h3>
 						{{{ $$descriptionVar }}}
 					</div>
 				</div>
