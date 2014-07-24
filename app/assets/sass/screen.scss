@@ -191,6 +191,29 @@ body {
 	}
 }
 
+@mixin comment-and-avatar {
+	background: $lightGray;
+	padding:15px 15px 10px 15px;
+	margin-bottom: 5px;
+	border-bottom: 3px solid darken($lightGray, 10%);
+
+	.column {
+		float:none;
+    	display:inline-block;
+    	vertical-align:middle;
+    	margin-right:-4px;
+
+		.avatar {
+			max-height: 100px;
+			@include border-radius(50%);
+		}
+	}
+
+	.column-avatar {
+		border-right: 1px solid darken($lightGray, 10%);
+	}
+}
+
 .transition {
 	@include transition-property(all);
   	@include transition-duration(0.3s);
@@ -683,6 +706,10 @@ h3 {
 		}
 	}
 
+	h1#team-title {
+		margin-top: 2em;
+	}
+
 	#first-col {
 		padding-left: 0;
 		padding-right: 15px;
@@ -734,6 +761,35 @@ h3 {
 				i.fa {
 					margin-right: 15px;
 				}
+			}
+		}
+	}
+
+	#team-container {
+		margin-left: 0;
+		margin-right: 0;
+
+		.team-member-container {
+			@media screen and (min-width: $breakpointSmartphone) {
+				padding-left: 0px;
+				padding-right: 0px;
+			}
+		}
+
+		.team-member {
+			@include comment-and-avatar;
+
+			border: 1px solid darken($lightGray, 10%);
+			border-top: 0;
+			margin-bottom: 0;
+
+			&:first-child {
+				border-top: 1px solid darken($lightGray, 10%);
+			}
+
+			h3 {
+				margin-top: 0;
+				color: $lightBlue;
 			}
 		}
 	}
@@ -1114,26 +1170,7 @@ h3 {
 }
 
 .comment {
-	background: $lightGray;
-	padding:15px 15px 10px 15px;
-	margin-bottom: 5px;
-	border-bottom: 3px solid darken($lightGray, 10%);
-
-	.column {
-		float:none;
-    	display:inline-block;
-    	vertical-align:middle;
-    	margin-right:-4px;
-
-		.avatar {
-			max-height: 100px;
-			@include border-radius(50%);
-		}
-	}
-
-	.column-avatar {
-		border-right: 1px solid darken($lightGray, 10%);
-	}
+	@include comment-and-avatar;
 
 	.comment-info {
 		margin-top: 10px;
