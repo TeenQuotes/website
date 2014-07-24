@@ -1,0 +1,29 @@
+{
+   "team":[
+      {
+         "firstName":"Clara",
+         "image":"clara.jpg",
+         "twitter":"claraquiambao"
+      },
+      {
+         "firstName":"Antoine",
+         "image":"antoine.jpg",
+         "twitter":"antoineaugusti"
+      },
+      {
+         "firstName":"Maxime",
+         "image":"maxime.jpg",
+         "twitter":"Maxime_Antoine"
+      },
+      {
+         "firstName":"Jonathan",
+         "image":"jonathan.jpg",
+         "twitter":"gafisme"
+      },
+      {
+         "firstName":"Michel",
+         "image":"michel.jpg",
+         "twitter":"MicheIB"
+      }
+   ]
+}
