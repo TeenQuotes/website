@@ -136,7 +136,8 @@ return array(
 		'Buonzz\GeoIP\Laravel4\ServiceProviders\GeoIPServiceProvider',
 		'Dinesh\Bugonemail\BugonemailServiceProvider',
 		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',
-		'Antoineaugusti\LaravelSentimentAnalysis\LaravelSentimentAnalysisServiceProvider'
+		'Antoineaugusti\LaravelSentimentAnalysis\LaravelSentimentAnalysisServiceProvider',
+		'Philf\Setting\SettingServiceProvider'
 	),
 
 	/*

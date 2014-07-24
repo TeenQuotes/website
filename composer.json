@@ -26,7 +26,8 @@
 		"dinesh/bugonemail": "dev-master",
 		"thomaswelton/laravel-gravatar": "0.1.x",
 		"jwhennessey/phpinsight": "dev-master",
-		"antoineaugusti/laravel-sentiment-analysis": "1.0.*"
+		"antoineaugusti/laravel-sentiment-analysis": "1.0.*",
+		"philf/setting": "dev-master"
 	},
 	"require-dev": {
 		"way/generators": "2.*",
