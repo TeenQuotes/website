@@ -13,7 +13,7 @@ class ContactController extends BaseController {
 			'emailAddress'       => Lang::get('contact.emailAddress'),
 			'chooseYourWeapon'   => Lang::get('contact.chooseYourWeapon'),
 			'twitterAccount'     => Lang::get('layout.twitterUsername'),
-			'teamMembers'        => Setting::get('team'),
+			'teamMembers'        => LaraSetting::get('team'),
 		];
 
 		// Add description for each team member

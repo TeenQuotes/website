@@ -213,6 +213,7 @@ return array(
 		'MailSwitcher'        => 'TeenQuotes\Mail\MailSwitcher',
 		'Gravatar'            => 'Thomaswelton\LaravelGravatar\Facades\Gravatar',
 		'SentimentAnalysis'   => 'Antoineaugusti\LaravelSentimentAnalysis\Facades\SentimentAnalysis',
+		'LaraSetting'         => 'Philf\Setting\Facades\Setting',
 	),
 
 	/*
