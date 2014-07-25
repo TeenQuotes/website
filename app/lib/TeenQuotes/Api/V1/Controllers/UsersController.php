@@ -1,6 +1,24 @@
 <?php
+namespace TeenQuotes\Api\V1\Controllers;
 
-class UsersAPIv1Controller extends BaseController {
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
+use Thomaswelton\LaravelGravatar\Facades\Gravatar;
+use TeenQuotes\Mail\MailSwitcher;
+use \User;
+use \Newsletter;
+
+class UsersController extends APIGlobalController {
 	
 	public function deleteUsers()
 	{
@@ -133,7 +151,7 @@ class UsersAPIv1Controller extends BaseController {
 
 		$totalUsers = User::partialLogin($query)->notHidden()->count();
 
-		$data = APIGlobalController::paginateContent($page, $pagesize, $totalUsers, $content, 'users');
+		$data = self::paginateContent($page, $pagesize, $totalUsers, $content, 'users');
 		
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}

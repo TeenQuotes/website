@@ -1,6 +1,19 @@
 <?php
+namespace TeenQuotes\Api\V1\Controllers;
 
-class QuotesAPIv1Controller extends BaseController {
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
+use \Quote;
+use \User;
+
+class QuotesController extends APIGlobalController {
 
 	public function getSingleQuote($quote_id)
 	{
@@ -64,7 +77,7 @@ class QuotesAPIv1Controller extends BaseController {
 			return Response::json($data, 404);
 		}
 
-		$data = APIGlobalController::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
+		$data = self::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
@@ -105,7 +118,7 @@ class QuotesAPIv1Controller extends BaseController {
 
 		$totalQuotes = Quote::$quote_approved_type()->forUser($user)->count();
 
-		$data = APIGlobalController::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
+		$data = self::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
@@ -137,7 +150,7 @@ class QuotesAPIv1Controller extends BaseController {
 			return Response::json($data, 404);
 		}
 
-		$data = APIGlobalController::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
+		$data = self::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
@@ -174,7 +187,7 @@ class QuotesAPIv1Controller extends BaseController {
 		->setBindings([$query, 1])
 		->count();
 
-		$data = APIGlobalController::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
+		$data = self::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}

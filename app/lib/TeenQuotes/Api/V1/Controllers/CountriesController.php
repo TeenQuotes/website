@@ -1,6 +1,10 @@
 <?php
+namespace TeenQuotes\Api\V1\Controllers;
 
-class CountriesAPIv1Controller extends BaseController {
+use Illuminate\Support\Facades\Response;
+use \Country;
+
+class CountriesController extends APIGlobalController {
 	
 	public function getCountry($country_id = null)
 	{
