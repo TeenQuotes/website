@@ -1,6 +1,20 @@
 <?php
+namespace TeenQuotes\Api\V1\Controllers;
 
-class CommentsAPIv1Controller extends BaseController {
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
+use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
+use TeenQuotes\Mail\MailSwitcher;
+use \Comment;
+use \User;
+use \Quote;
+
+class CommentsController extends APIGlobalController {
 
 	public function index()
 	{
@@ -38,7 +52,7 @@ class CommentsAPIv1Controller extends BaseController {
 			return Response::json($data, 404);
 		}
 
-		$data = APIGlobalController::paginateContent($page, $pagesize, $totalComments, $content, 'comments');
+		$data = self::paginateContent($page, $pagesize, $totalComments, $content, 'comments');
 		
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
@@ -140,7 +154,7 @@ class CommentsAPIv1Controller extends BaseController {
 	public function destroy($id)
 	{
 		$user = ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
-		$comment =	Comment::find($id);
+		$comment = Comment::find($id);
 
 		// Handle not found
 		if (is_null($comment)) {

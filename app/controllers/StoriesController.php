@@ -55,7 +55,7 @@ class StoriesController extends BaseController {
 		if ($validator->passes()) {
 
 			// Call the API - skip the API validator
-			$response = App::make('StoriesAPIv1Controller')->store(false);
+			$response = App::make('TeenQuotes\Api\V1\Controllers\StoriesController')->store(false);
 			if ($response->getStatusCode() == 200)
 				return Redirect::route('stories')->with('success', Lang::get('stories.storyAddedSuccessfull', array('login' => Auth::user()->login)));
 			

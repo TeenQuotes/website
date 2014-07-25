@@ -103,7 +103,7 @@ Route::group(['domain' => Config::get('app.domainStories')], function()
 });
 
 /* --- API --- */
-Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'session.remove'], function()
+Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'session.remove', 'namespace' => 'TeenQuotes\Api\v1\Controllers'], function()
 {
 	// OAuth
 	Route::post('oauth', ['uses' => 'APIGlobalController@postOauth']);

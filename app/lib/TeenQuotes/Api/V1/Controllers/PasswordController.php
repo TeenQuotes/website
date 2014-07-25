@@ -1,6 +1,12 @@
 <?php
+namespace TeenQuotes\Api\V1\Controllers;
 
-class PasswordAPIv1Controller extends BaseController {
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Response;
+use \Password;
+
+class PasswordController extends APIGlobalController {
 	
 	public function postRemind()
 	{
