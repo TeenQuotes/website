@@ -1,6 +1,16 @@
 <?php
+namespace TeenQuotes\Api\V1\Controllers;
 
-class StoriesAPIv1Controller extends BaseController {
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
+use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
+use \Story;
+use \User;
+
+class StoriesController extends APIGlobalController {
 	
 	public function index()
 	{
@@ -33,7 +43,7 @@ class StoriesAPIv1Controller extends BaseController {
 			return Response::json($data, 404);
 		}
 
-		$data = APIGlobalController::paginateContent($page, $pagesize, $totalStories, $content, 'stories');
+		$data = self::paginateContent($page, $pagesize, $totalStories, $content, 'stories');
 		
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}

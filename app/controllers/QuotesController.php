@@ -101,7 +101,7 @@ class QuotesController extends \BaseController {
 		if ($validator->passes()) {
 
 			// Call the API to store the quote
-			$response = App::make('QuotesAPIv1Controller')->postStoreQuote(false);
+			$response = App::make('TeenQuotes\Api\V1\Controllers\QuotesController')->postStoreQuote(false);
 			if ($response->getStatusCode() == 200)
 				return Redirect::route('home')->with('success', Lang::get('quotes.quoteAddedSuccessfull', ['login' => $user->login]));
 			

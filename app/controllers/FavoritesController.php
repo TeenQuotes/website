@@ -40,7 +40,7 @@ class FavoritesController extends \BaseController {
 				}
 					
 				// Call the API to store the favorite
-				$response = App::make('FavQuotesAPIv1Controller')->postFavorite($quote_id, false);
+				$response = App::make('TeenQuotes\Api\V1\Controllers\FavQuotesController')->postFavorite($quote_id, false);
 				
 				if ($response->getStatusCode() == 200)
 					return Response::json(['success' => true], 200);
@@ -74,7 +74,7 @@ class FavoritesController extends \BaseController {
 			if ($validator->passes()) {
 
 				// Call the API to delete the favorite
-				$response = App::make('FavQuotesAPIv1Controller')->deleteFavorite($quote_id, false);
+				$response = App::make('TeenQuotes\Api\V1\Controllers\FavQuotesController')->deleteFavorite($quote_id, false);
 				
 				if ($response->getStatusCode() == 200)
 					return Response::json(['success' => true], 200);

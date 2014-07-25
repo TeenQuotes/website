@@ -1,6 +1,15 @@
 <?php
+namespace TeenQuotes\Api\V1\Controllers;
 
-class SearchAPIv1Controller extends BaseController {
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\URL;
+use \Quote;
+use \User;
+
+class SearchController extends APIGlobalController {
 	
 	public function getSearch($query)
 	{
@@ -11,8 +20,8 @@ class SearchAPIv1Controller extends BaseController {
 			$page = 1;
 				
 		// Get content
-		$quotes = App::make('QuotesAPIv1Controller')->getQuotesSearch($page, $pagesize, $query);
-		$users = App::make('UsersAPIv1Controller')->getUsersSearch($page, $pagesize, $query);
+		$quotes = App::make('TeenQuotes\Api\V1\Controllers\QuotesController')->getQuotesSearch($page, $pagesize, $query);
+		$users = App::make('TeenQuotes\Api\V1\Controllers\UsersController')->getUsersSearch($page, $pagesize, $query);
 
 		$totalQuotes = 0;
 		$totalUsers = 0;
