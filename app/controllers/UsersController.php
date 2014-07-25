@@ -96,7 +96,7 @@ class UsersController extends \BaseController {
 		if ($validator->passes()) {
 
 			// Call the API - skip the API validator
-			$response = App::make('UsersAPIv1Controller')->postUsers(false);
+			$response = App::make('TeenQuotes\Api\V1\Controllers\UsersController')->postUsers(false);
 			if ($response->getStatusCode() == 200) {
 				if (Session::has('url.intended'))
 					return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', array('login' => $data['login'])));
@@ -425,7 +425,7 @@ class UsersController extends \BaseController {
 		if ($validator->passes()) {
 			
 			// Call the API
-			$response = App::make('UsersAPIv1Controller')->putProfile(false);
+			$response = App::make('TeenQuotes\Api\V1\Controllers\UsersController')->putProfile(false);
 			if ($response->getStatusCode() == 200)
 				return Redirect::back()->with('success', Lang::get('users.updateProfileSuccessfull', array('login' => Auth::user()->login)));
 
@@ -477,7 +477,7 @@ class UsersController extends \BaseController {
 		if ($user->login != Auth::user()->login)
 			App::abort(401, 'Refused');
 		
-		$response = App::make('UsersAPIv1Controller')->putSettings($user);
+		$response = App::make('TeenQuotes\Api\V1\Controllers\UsersController')->putSettings($user);
 
 		// Handle error
 		if ($response->getStatusCode() == 400) {

@@ -45,7 +45,7 @@ class CommentsController extends \BaseController {
 		if ($validator->passes()) {
 
 			// Call the API - skip the API validator
-			$response = App::make('CommentsAPIv1Controller')->store($data['quote_id'], false);
+			$response = App::make('TeenQuotes\Api\V1\Controllers\CommentsController')->store($data['quote_id'], false);
 			if ($response->getStatusCode() != 200)
 				return Redirect::action('QuotesController@show',  ['id' => $data['quote_id']])->withErrors($validator)->withInput(Input::all());
 
@@ -99,7 +99,7 @@ class CommentsController extends \BaseController {
 	{
 		if (Request::ajax()) {
 			// Call the API to delete the comment
-			$response = App::make('CommentsAPIv1Controller')->destroy($id);
+			$response = App::make('TeenQuotes\Api\V1\Controllers\CommentsController')->destroy($id);
 
 			$data = [
 				'success' => ($response->getStatusCode() == 200)
