@@ -122,7 +122,7 @@ require app_path().'/filters.php';
 |--------------------------------------------------------------------------
 |
 */
-require app_path().'/lib/TeenQuotes/Api/v1/routes.php';
+require app_path().'/lib/TeenQuotes/Api/V1/routes.php';
 
 
 /*
