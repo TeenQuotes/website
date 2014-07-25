@@ -4,9 +4,7 @@ var timeoutLoginSignup, timeoutPassword;
 $('html, body').hide();
 
 $(document).ready(function() {
-	$('.social-buttons').delay(500).animate({
-		opacity: 1
-	}, 1000);
+	$('.social-buttons a i').delay(200).queue(function(){$(this).addClass('animated fadeIn')});
 
 	// Signup view
 	$('input#login-signup').keypress(function() {
@@ -161,7 +159,7 @@ $(document).ready(function() {
 							$("#fav-count").text(nbFav + 1);
 						else {
 							$("#fav-count").text(nbFav - 1);
-							
+
 							// Hide the quote on the profile
 							if ($('.quote[data-id=' + id_quote + ']').hasClass('fadeInLeft'))
 								var animation = 'fadeOutLeft';
