@@ -17,6 +17,7 @@ use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 use TeenQuotes\Mail\MailSwitcher;
 use \User;
 use \Newsletter;
+use \Setting;
 
 class UsersController extends APIGlobalController {
 	
