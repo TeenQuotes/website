@@ -1,10 +1,10 @@
 @extends('emails/default')
 
 @section('content')
-	{{ Lang::get('email.hiWithLogin', array('login' => $quote['user']['login'])) }}
+	{{ Lang::get('email.hiWithLogin', ['login' => $quote->user->login]) }}
 	<br/><br/>
 
-	{{ Lang::get('quotes.quoteHasBeenApproved', array('id' => $quote['id'])) }}
+	{{ Lang::get('quotes.quoteHasBeenApproved', ['id' => $quote->id]) }}
 
 	@include('emails.quotes.single')
 

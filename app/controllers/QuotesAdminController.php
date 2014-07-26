@@ -144,10 +144,9 @@ class QuotesAdminController extends \BaseController {
 			$quote->save();
 
 			// Contact the author of the quote
-			$quoteArray = array('quote' => $quote->toArray());
 			// Send mail via SMTP
 			new MailSwitcher('smtp');
-			Mail::send('emails.quotes.'.$type, $quoteArray, function($m) use($quote, $type)
+			Mail::send('emails.quotes.'.$type, compact('quote'), function($m) use($quote, $type)
 			{
 				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('quotes.quote'.ucfirst($type).'SubjectEmail'));
 			});
