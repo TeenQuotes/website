@@ -29,7 +29,8 @@ class UsersTableSeeder extends Seeder {
 					'city'                       => $faker->city,
 					'avatar'                     => NULL,
 					'about_me'                   => $faker->paragraph(3),
-					'hide_profile'               => $faker->numberBetween(0, 1),
+					// Profile not hidden at 80 %
+					'hide_profile'               => ($faker->numberBetween(1, 100) >= 80) ? 1 : 0,
 					'notification_comment_quote' => $faker->numberBetween(0, 1),
 					'last_visit'                 => $faker->dateTimeThisYear()->format('Y-m-d H:i:s'),
 				]);
