@@ -17,7 +17,6 @@ ClassLoader::addDirectories(array(
 	app_path().'/controllers',
 	app_path().'/models',
 	app_path().'/database/seeds',
-	app_path().'/API/v1/controllers',
 ));
 
 /*
@@ -48,10 +47,19 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 
 App::error(function(HiddenProfileException $exception, $code)
 {
+	$userLogin = Route::input('user_id');
+
 	$data = [
 		'title'   => Lang::get('errors.hiddenProfileTitle'),
-		'content' => Lang::get('errors.hiddenProfileBody', ['login' => Route::input('user_id')]),
+		'content' => Lang::get('errors.hiddenProfileBody', ['login' => $userLogin]),
 	];
+
+	// Send event to Google Analytics
+	JavaScript::put([
+		'eventCategory' => 'profile-hidden',
+		'eventAction'   => $userLogin,
+		'eventLabel'    => URL::current()
+	]);
 
 	return Response::view('errors.default', $data, 401);
 });
@@ -64,9 +72,16 @@ App::error(function(TQNotFoundException $exception, $code)
 	if (in_array($resourceName, ['quote', 'user', 'token', 'story'])) {
 		$data = [
 			'content' => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.'.$resourceName.'Text')]),
-			'title' => Lang::get('errors.'.$resourceName.'NotFoundTitle')
+			'title'   => Lang::get('errors.'.$resourceName.'NotFoundTitle')
 		];
 
+		// Send event to Google Analytics
+		JavaScript::put([
+			'eventCategory' => '404',
+			'eventAction'   => $resourceName,
+			'eventLabel'    => URL::current()
+    	]);
+		
 		return Response::view('errors.default', $data, 404);
 	}
 });
@@ -76,10 +91,17 @@ App::missing(function($exception)
 {
 	$data = [
 		'content' => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.pageText')]),
-		'title' => Lang::get('errors.pageNotFoundTitle')
+		'title'   => Lang::get('errors.pageNotFoundTitle')
 	];
 
-	return Response::view('errors.default', $data, 404);
+	// Send event to Google Analytics
+	JavaScript::put([
+		'eventCategory' => '404',
+		'eventAction'   => 'unknow',
+		'eventLabel'    => URL::current()
+	]);
+
+    return Response::view('errors.default', $data, 404);
 });
 
 App::error(function(Exception $exception, $code)
@@ -141,5 +163,4 @@ View::composers([
 	'TeenQuotes\Composers\Password\ResetComposer'    => ['password.reset'],
 	// Associated URLs: ['home', 'contact', 'apps', 'signin', 'legal', 'signup', 'password/remind', 'random', 'addquote'],
 	'TeenQuotes\Composers\Pages\SimplePageComposer'  => ['quotes.index', 'contact.show', 'apps.download', 'auth.signin', 'legal.show', 'auth.signup', 'password.remind', 'quotes.addquote'],
-
 ]);
