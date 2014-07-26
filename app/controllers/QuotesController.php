@@ -141,7 +141,7 @@ class QuotesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$quote = Quote::find($id);
+		$quote = Quote::whereId($id)->published()->first();
 
 		if (is_null($quote))
 			throw new QuoteNotFoundException;
