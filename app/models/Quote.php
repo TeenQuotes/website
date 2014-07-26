@@ -1,6 +1,15 @@
 <?php
 
 class Quote extends Toloquent {
+	
+	/**
+	 * Constants associated with the approved field of the quote
+	 */
+	const REFUSED   = -1;
+	const WAITING   = 0;
+	const PUBLISHED = 1;
+	const PENDING   = 2;
+
 	protected $fillable = [];
 
 	protected $hidden = ['updated_at'];
@@ -18,6 +27,14 @@ class Quote extends Toloquent {
 	public static $rulesAdd = [
 		'content'              => 'required|min:50|max:300|unique:quotes,content',
 		'quotesSubmittedToday' => 'required|integer|between:0,5',
+	];
+
+	/**
+	 * The colors that will be used for quotes on the admin page
+	 * @var array
+	 */
+	public static $colors = [
+		'#27ae60', '#16a085', '#d35400', '#e74c3c', '#8e44ad', '#F9690E', '#2c3e50', '#f1c40f', '#65C6BB', '#E08283'
 	];
 
 	/**
@@ -61,20 +78,6 @@ class Quote extends Toloquent {
 	 * @var string
 	 */
 	public static $cacheNameNumberPublished = 'nb_quotes_published';
-
-	public static function getRandomColors()
-	{
-		if (Session::has('quotesColors') AND !empty(Session::get('quotesColors')))
-			return Session::get('quotesColors');
-		else {
-			$colors = self::getColors();
-			shuffle($colors);
-
-			Session::put('quotesColors', $colors);
-
-			return $colors;
-		}
-	}
 
 	/**
 	 * Store colors that will be use to display quotes in an associative array: quote_id => css_class_name. This array is stored in session to be used when displaying a single quote.
@@ -208,6 +211,14 @@ class Quote extends Toloquent {
 		return $this->isFavoriteForCurrentUser();
 	}
 
+	public static function getRandomColors()
+	{
+		$colors = self::$colors;
+		shuffle($colors);
+
+		return $colors;
+	}
+
 	public function isFavoriteForCurrentUser()
 	{
 		// Try to get information from cache
@@ -245,22 +256,22 @@ class Quote extends Toloquent {
 
 	public function scopeWaiting($query)
 	{
-		return $query->where('approved', '=', 0);
+		return $query->where('approved', '=', self::WAITING);
 	}
 
 	public function scopeRefused($query)
 	{
-		return $query->where('approved', '=', -1);
+		return $query->where('approved', '=', self::REFUSED);
 	}
 
 	public function scopePending($query)
 	{
-		return $query->where('approved', '=', 2);
+		return $query->where('approved', '=', self::PENDING);
 	}
 
 	public function scopePublished($query)
 	{
-		return $query->where('approved', '=', 1);
+		return $query->where('approved', '=', self::PUBLISHED);
 	}
 
 	public function scopeForUser($query, $user)
@@ -305,28 +316,28 @@ class Quote extends Toloquent {
 		->with('user')
 		// WARNING 1 corresponds to approved = 1
 		// We need to bind it again
-		->setBindings([$search, $search, 1])
+		->setBindings([$search, $search, self::PUBLISHED])
 		->get();
 	}
 
 	public function isPublished()
 	{
-		return ($this->approved == 1);
+		return ($this->approved == self::PUBLISHED);
 	}
 
 	public function isPending()
 	{
-		return ($this->approved == 2);
+		return ($this->approved == self::PENDING);
 	}
 
 	public function isWaiting()
 	{
-		return ($this->approved == 0);
+		return ($this->approved == self::WAITING);
 	}
 
 	public function isRefused()
 	{
-		return ($this->approved == -1);
+		return ($this->approved == self::REFUSED);
 	}
 
 	public static function nbQuotesPublished()
