@@ -5,7 +5,11 @@ class Country extends \Eloquent {
 	public $timestamps = false;
 	protected $fillable = ['name'];
 
-	public static $idUSA = 224;
+	/**
+	 * The ID of the default country to use. This is the United States
+	 * @var int
+	 */
+	const DEFAULT_COUNTRY = 224;
 
 	public function users()
 	{

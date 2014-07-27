@@ -359,14 +359,14 @@ class UsersController extends \BaseController {
 				try {
 					$countryDetected = GeoIP::getCountry();
 				} catch (Exception $e) {
-					$selectedCountry = Country::$idUSA;
+					$selectedCountry = Country::DEFAULT_COUNTRY;
 				}
 
 				// If the detected country in the possible countries, we will select it
 				if (!isset($selectedCountry) AND in_array($countryDetected, array_values($listCountries)))
 					$selectedCountry = array_search($countryDetected, $listCountries);
 				else
-					$selectedCountry = Country::$idUSA;
+					$selectedCountry = Country::DEFAULT_COUNTRY;
 			}
 			else
 				$selectedCountry = $user->country;
