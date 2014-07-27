@@ -10,10 +10,10 @@ class Newsletter extends Eloquent {
 
 	public function scopeType($query, $type)
 	{
-		if (!in_array($type, array('weekly', 'daily')))
-    		throw new InvalidArgumentException("Newsletter's type only accepts weekly or daily. ".$type." was given.");
+		if (!in_array($type, ['weekly', 'daily']))
+			throw new InvalidArgumentException("Newsletter's type only accepts weekly or daily. ".$type." was given.");
 
-    	return $query->whereType($type);
+		return $query->whereType($type);
 	}
 
 	public function scopeForUser($query, User $user)
@@ -34,16 +34,16 @@ class Newsletter extends Eloquent {
 	/**
 	 * @brief Create a newsletter item for the given user
 	 * @var object $user The user instance
-     * @var string $type The type of the newsletter : weekly|daily
+	 * @var string $type The type of the newsletter : weekly|daily
  	 * @return void
 	 */
 	public static function createNewsletterForUser(User $user, $type)
 	{
-		if (!in_array($type, array('weekly', 'daily')))
-    		throw new InvalidArgumentException("Newsletter's type only accepts weekly or daily. ".$type." was given.");
+		if (!in_array($type, ['weekly', 'daily']))
+			throw new InvalidArgumentException("Newsletter's type only accepts weekly or daily. ".$type." was given.");
 
-    	if ($user->isSubscribedToNewsletter($type))
-    		throw new InvalidArgumentException("The user is already subscribed to the newsletter of type ".$type.".");
+		if ($user->isSubscribedToNewsletter($type))
+			throw new InvalidArgumentException("The user is already subscribed to the newsletter of type ".$type.".");
 
 		$newsletter                   = new Newsletter;
 		$newsletter->type             = $type;

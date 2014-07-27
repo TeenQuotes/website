@@ -10,7 +10,7 @@ class Comment extends Toloquent {
 	 * @var array
 	 */
 	public static $rulesAdd = [
-		'content' => 'required|min:10|max:500',
+		'content'  => 'required|min:10|max:500',
 		'quote_id' => 'required|exists:quotes,id',
 	];
 

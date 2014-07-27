@@ -18,7 +18,7 @@ class Quote extends Toloquent {
 	 * Adding customs attributes to the object
 	 * @var array
 	 */
-	protected $appends = array('has_comments', 'total_comments', 'is_favorite');
+	protected $appends = ['has_comments', 'total_comments', 'is_favorite'];
 
 	/**
 	 * The validation rules
@@ -92,10 +92,10 @@ class Quote extends Toloquent {
 		// We will build an array if we have at least one quote
 		if (count($quotesIDs) >= 1) {		
 			$func = function($value) use ($color) {
-	    		if (is_null($color))
-	    			return 'color-'.$value;
-	    		else
-	    			return 'color-'.$color.'-'.$value;
+				if (is_null($color))
+					return 'color-'.$value;
+				else
+					return 'color-'.$color.'-'.$value;
 			};
 
 			$colors = array_map($func, range(1, count($quotesIDs)));
@@ -226,10 +226,7 @@ class Quote extends Toloquent {
 			// Time for cache
 			$expiresAt = Carbon::now()->addMinutes(10);
 
-			if (Auth::check())
-				$id = Auth::id();
-			else
-				$id = ResourceServer::getOwnerId();
+			$id = Auth::check() ? Auth::id() : ResourceServer::getOwnerId();
 
 			// Here we use the direct call to cache because we don't
 			// want to create a User model just to call the dedicated method
@@ -246,12 +243,12 @@ class Quote extends Toloquent {
 
 	public function scopeCreatedToday($query)
 	{
-		return $query->whereBetween('created_at', array(Carbon::today(), Carbon::today()->addDay()));
+		return $query->whereBetween('created_at', [Carbon::today(), Carbon::today()->addDay()]);
 	}
 
 	public function scopeUpdatedToday($query)
 	{
-		return $query->whereBetween('updated_at', array(Carbon::today(), Carbon::today()->addDay()));
+		return $query->whereBetween('updated_at', [Carbon::today(), Carbon::today()->addDay()]);
 	}
 
 	public function scopeWaiting($query)
@@ -361,17 +358,17 @@ class Quote extends Toloquent {
 	{
 		$steps = max(-255, min(255, $steps));
 
-    	// Format the hex color string
+		// Format the hex color string
 		$hex = str_replace('#', '', $hex);
 		if (strlen($hex) == 3)
 			$hex = str_repeat(substr($hex, 0, 1), 2).str_repeat(substr($hex, 1, 1), 2).str_repeat(substr($hex, 2, 1), 2);
 
-    	// Get decimal values
+		// Get decimal values
 		$r = hexdec(substr($hex, 0, 2));
 		$g = hexdec(substr($hex, 2, 2));
 		$b = hexdec(substr($hex, 4, 2));
 
-    	// Adjust number of steps and keep it inside 0 to 255
+		// Adjust number of steps and keep it inside 0 to 255
 		$r = max(0, min(255, $r + $steps));
 		$g = max(0, min(255, $g + $steps));
 		$b = max(0, min(255, $b + $steps));

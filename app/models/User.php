@@ -21,13 +21,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('password', 'ip', 'hide_profile', 'remember_token', 'updated_at', 'avatar', 'security_level', 'notification_comment_quote');
+	protected $hidden = ['password', 'ip', 'hide_profile', 'remember_token', 'updated_at', 'avatar', 'security_level', 'notification_comment_quote'];
 
 	/**
 	 * Adding customs attributes to the object
 	 * @var array
 	 */
-	protected $appends = array('profile_hidden', 'url_avatar', 'wants_notification_comment_quote', 'is_admin');
+	protected $appends = ['profile_hidden', 'url_avatar', 'wants_notification_comment_quote', 'is_admin'];
 
 	/**
 	 * Adding attributes to the object. These attributes need extra DB queries
@@ -149,14 +149,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
 	public function favoriteQuotes()
-    {
-        return $this->belongsToMany('Quote', 'favorite_quotes')->with('user')->orderBy('favorite_quotes.id', 'DESC');
-    }
+	{
+		return $this->belongsToMany('Quote', 'favorite_quotes')
+			->with('user')
+			->orderBy('favorite_quotes.id', 'DESC');
+	}
 
-    public function getProfileHiddenAttribute()
-    {
-    	return $this->isHiddenProfile();
-    }
+	public function getProfileHiddenAttribute()
+	{
+		return $this->isHiddenProfile();
+	}
 
     /**
      * @brief Tells if the user wants to hide his profile
@@ -212,7 +214,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     			return true;
     	}
 
-		return false;
+    	return false;
     }
 
     public function getIsSubscribedToWeekly()
@@ -222,18 +224,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     			return true;
     	}
 
-		return false;
+    	return false;
     }
 
     public function getAddedFavCount()
     {
-		$idsQuotesPublished = Quote::forUser($this)->published()->lists('id');
-		if (empty($idsQuotesPublished))
-			$addedFavCount = 0;
-		else
-			$addedFavCount = FavoriteQuote::whereIn('quote_id', $idsQuotesPublished)->count();
+    	$idsQuotesPublished = Quote::forUser($this)->published()->lists('id');
+    	if (empty($idsQuotesPublished))
+    		$addedFavCount = 0;
+    	else
+    		$addedFavCount = FavoriteQuote::whereIn('quote_id', $idsQuotesPublished)->count();
 
-		return $addedFavCount;
+    	return $addedFavCount;
     }
 
     public function getPublishedQuotesCount()
@@ -271,27 +273,26 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function getColorsQuotesPublished()
     {
 		// If we have something in cache, return it immediately
-		if (Cache::has(self::$cacheNameForColorsQuotesPublished.$this->id))
-			return Cache::get(self::$cacheNameForColorsQuotesPublished.$this->id);
-		else {
+    	if (Cache::has(self::$cacheNameForColorsQuotesPublished.$this->id))
+    		return Cache::get(self::$cacheNameForColorsQuotesPublished.$this->id);
+    	else {
 
-			$confColor = Setting::
-				where('user_id', '=', $this->id)
-				->where('key', '=', 'colorsQuotesPublished')
-				->first();
+    		$confColor = Setting::where('user_id', '=', $this->id)
+    			->where('key', '=', 'colorsQuotesPublished')
+    			->first();
 
 			// Set colors to put in cache for the user
-			if (is_null($confColor))
-				$toPut = Config::get('app.users.defaultColorQuotesPublished');
-			else {
-				$toPut = $confColor->value;
-			}
+    		if (is_null($confColor))
+    			$toPut = Config::get('app.users.defaultColorQuotesPublished');
+    		else {
+    			$toPut = $confColor->value;
+    		}
 
 			// Store in cache
-			Cache::put(self::$cacheNameForColorsQuotesPublished.$this->id, $toPut, Carbon::now()->addMinutes(10));
+    		Cache::put(self::$cacheNameForColorsQuotesPublished.$this->id, $toPut, Carbon::now()->addMinutes(10));
 
-			return $toPut;
-		}
+    		return $toPut;
+    	}
     }
 
     public function getURLAvatarAttribute()
@@ -308,9 +309,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     	// Full URL
     	if (strrpos($this->avatar, 'http') !== false)
     		return $this->avatar;
-    	elseif (is_null($this->avatar)) {
+    	elseif (is_null($this->avatar))
     		return URL::asset('assets/images/chat.png');
-    	}
     	// Local URL
     	else
     		return str_replace('public/', '', Request::root().'/'.Config::get('app.users.avatarPath').'/'.$this->avatar);
@@ -339,17 +339,17 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function hasPublishedQuotes()
     {
 		// Time to store quotes in cache
-		$expiresAt = Carbon::now()->addMinutes(10);
-		$user = $this;
+    	$expiresAt = Carbon::now()->addMinutes(10);
+    	$user = $this;
 
-		$numberQuotesPublishedForUser = Cache::remember(self::$cacheNameForNumberQuotesPublished.$this->id, $expiresAt, function() use ($user)
-		{
-			return Quote::forUser($user)
-				->published()
-				->count();
-		});
+    	$numberQuotesPublishedForUser = Cache::remember(self::$cacheNameForNumberQuotesPublished.$this->id, $expiresAt, function() use ($user)
+    	{
+    		return Quote::forUser($user)
+    			->published()
+    			->count();
+    	});
 
-		return $numberQuotesPublishedForUser > 0;
+    	return $numberQuotesPublishedForUser > 0;
     }
 
     /**
@@ -361,16 +361,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     	$expiresAt = Carbon::now()->addMinutes(10);
     	$user = $this;
 
-		$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$this->id, $expiresAt, function() use ($user)
-		{
-			return FavoriteQuote::forUser($user)
-				->select('quote_id')
-				->orderBy('id', 'DESC')
-				->get()
-				->lists('quote_id');
-		});
+    	$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$this->id, $expiresAt, function() use ($user)
+    	{
+    		return FavoriteQuote::forUser($user)
+    			->select('quote_id')
+    			->orderBy('id', 'DESC')
+    			->get()
+    			->lists('quote_id');
+    	});
 
-		return $arrayIDFavoritesQuotesForUser;
+    	return $arrayIDFavoritesQuotesForUser;
     }
 
     public function hasFavoriteQuotes()
