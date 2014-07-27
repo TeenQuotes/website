@@ -180,7 +180,7 @@ class Quote extends Toloquent {
 
 		return Cache::rememberForever(self::$cacheNameNbComments.$this->id, function()
 		{
-			return $this->hasMany('Comment')->count();
+			return $this->comments->count();
 		});
 	}
 
@@ -197,7 +197,7 @@ class Quote extends Toloquent {
 
 		return Cache::rememberForever(self::$cacheNameNbFavorites.$this->id, function()
 		{
-			return $this->hasMany('FavoriteQuote')->count();
+			return $this->favorites->count();
 		});
 	}
 
