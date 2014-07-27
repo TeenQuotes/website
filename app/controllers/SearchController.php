@@ -8,7 +8,7 @@ class SearchController extends \BaseController {
 	}
 
 	/**
-	 * @brief Show the search form
+	 * Show the search form
 	 * @return Response
 	 */
 	public function showForm()
@@ -22,7 +22,7 @@ class SearchController extends \BaseController {
 	}
 
 	/**
-	 * @brief Show results after a search
+	 * Show results after a search
 	 * @var string $query The search query
 	 * @return Response
 	 */
@@ -60,7 +60,7 @@ class SearchController extends \BaseController {
 	}
 
 	/**
-	 * @brief Dispatch the search form to search results
+	 * Dispatch the search form to search results
 	 * @return Response
 	 */
 	public function dispatcher()

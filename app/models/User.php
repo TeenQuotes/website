@@ -11,14 +11,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	/**
 	 * The database table used by the model.
-	 *
 	 * @var string
 	 */
 	protected $table = 'users';
 
 	/**
 	 * The attributes excluded from the model's JSON form.
-	 *
 	 * @var array
 	 */
 	protected $hidden = ['password', 'ip', 'hide_profile', 'remember_token', 'updated_at', 'avatar', 'security_level', 'notification_comment_quote'];
@@ -161,7 +159,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	}
 
     /**
-     * @brief Tells if the user wants to hide his profile
+     * Tells if the user wants to hide his profile
      * @return boolean true if we should hide his profile, false otherwise
      */
     public function isHiddenProfile()
@@ -170,7 +168,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     }
 
     /**
-     * @brief Tells if a user is a male
+     * Tells if a user is a male
      * @return boolean
      */
     public function isMale()
@@ -179,7 +177,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     }
 
     /**
-     * @brief Tells if a user is a female
+     * Tells if a user is a female
      * @return boolean
      */
     public function isFemale()
@@ -244,7 +242,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     }
 
     /**
-     * @brief Tells if the user wants to receive an email when a comment is
+     * Tells if the user wants to receive an email when a comment is
      * added on one of its quotes
      * @return boolean true if we should send an email, false otherwise
      */
@@ -254,7 +252,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     }
 
     /**
-     * @brief Returns the old hash of a password. It was used in Teen Quotes v2
+     * Returns the old hash of a password. It was used in Teen Quotes v2
      * @var array $data The data. We need a login and a password
      * @return string The corresponding hash that was used in Teen Quotes v2
      */
@@ -267,7 +265,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 
     /**
-     * @brief Get the array of colors to use for the published quotes of the user
+     * Get the array of colors to use for the published quotes of the user
      * @return string The name of the color to use for the user's instance. Example: blue|red|orange
      */
     public function getColorsQuotesPublished()
@@ -301,7 +299,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     }
 
     /**
-     * @brief Get the URL of the user's avatar
+     * Get the URL of the user's avatar
      * @return string The URL to the avatar
      */
     public function getURLAvatar()
@@ -389,7 +387,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     }
 
     /**
-     * @brief Get the name of the icon to display based on the gender of the user
+     * Get the name of the icon to display based on the gender of the user
      * @return string The name of the icon to display : fa-male | fa-female
      */
     public function getIconGender()

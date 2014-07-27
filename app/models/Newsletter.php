@@ -39,8 +39,8 @@ class Newsletter extends Eloquent {
 	}
 
 	/**
-	 * @brief Create a newsletter item for the given user
-	 * @var object $user The user instance
+	 * Create a newsletter item for the given user
+	 * @var User $user The user instance
 	 * @var string $type The type of the newsletter : weekly|daily
  	 * @return void
 	 */

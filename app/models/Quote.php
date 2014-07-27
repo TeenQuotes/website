@@ -38,43 +38,43 @@ class Quote extends Toloquent {
 	];
 
 	/**
-	 * @brief The name of the key to store in cache. Describes the number of comments for a given quote.
+	 * The name of the key to store in cache. Describes the number of comments for a given quote.
 	 * @var string
 	 */
 	public static $cacheNameNbComments = 'nb_comments_';
 
 	/**
-	 * @brief The name of the key to store in cache. Describes the number of favorites for a given quote.
+	 * The name of the key to store in cache. Describes the number of favorites for a given quote.
 	 * @var string
 	 */
 	public static $cacheNameNbFavorites = 'nb_favorites_';
 
 	/**
-	 * @brief The name of the key to store in cache. Describes the quotes for a given page.
+	 * The name of the key to store in cache. Describes the quotes for a given page.
 	 * @var string
 	 */
 	public static $cacheNameQuotesPage = 'quotes_homepage_';
 
 	/**
-	 * @brief The name of the key to store in cache. Describes the quotes for a given page in API with default pagesize.
+	 * The name of the key to store in cache. Describes the quotes for a given page in API with default pagesize.
 	 * @var string
 	 */
 	public static $cacheNameQuotesAPIPage = 'quotes_api_';
 
 	/**
-	 * @brief The name of the key to store in cache. Describes the quotes for a given "random" page.
+	 * The name of the key to store in cache. Describes the quotes for a given "random" page.
 	 * @var string
 	 */
 	public static $cacheNameRandomPage = 'quotes_random_';
 
 	/**
-	 * @brief The name of the key to store in cache. Describes the quotes for a given "random" page in API with default pagesize.
+	 * The name of the key to store in cache. Describes the quotes for a given "random" page in API with default pagesize.
 	 * @var string
 	 */
 	public static $cacheNameRandomAPIPage = 'quotes_random_api';
 
 	/**
-	 * @brief The name of the key to store in cache. Describes the number of quotes that have been published.
+	 * The name of the key to store in cache. Describes the number of quotes that have been published.
 	 * @var string
 	 */
 	public static $cacheNameNumberPublished = 'nb_quotes_published';
@@ -109,7 +109,7 @@ class Quote extends Toloquent {
 	}
 
 	/**
-	 * @brief Return the text for the Twitter Card. Displayed on single quote page.
+	 * Return the text for the Twitter Card. Displayed on single quote page.
 	 * @return The text for the Twitter Card
 	 */
 	public function textTwitterCard()
@@ -129,7 +129,7 @@ class Quote extends Toloquent {
 	}
 
 	/**
-	 * @brief The text that will be tweeted. Given to the Twitter sharer.
+	 * The text that will be tweeted. Given to the Twitter sharer.
 	 * @return The text for the Twitter sharer
 	 */
 	public function textTweet()
@@ -296,7 +296,7 @@ class Quote extends Toloquent {
 	}
 
 	/**
-	 * @brief Function to search for quotes
+	 * Function to search for quotes
 	 *
 	 * @param  string $search
 	 * @return Collection Collection of Quote
