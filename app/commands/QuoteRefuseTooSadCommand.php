@@ -54,6 +54,9 @@ class QuoteRefuseTooSadCommand extends Command {
 		$thresholds = range($lowerBound, $upperBound, $step);
 		$wrongClassifications = array_fill_keys($thresholds, 0);
 		$foundSadQuotes = $wrongClassifications;
+
+		$confidenceScoresNotPublished = array_fill_keys($thresholds, array());
+		$confidenceScoresPublished = array_fill_keys($thresholds, array());
 		
 		$quotes = Quote::all();
 		$numberOfQuotes = count($quotes);
@@ -69,36 +72,46 @@ class QuoteRefuseTooSadCommand extends Command {
 			
 			// If the quote is too negative with enough confidence
 			if (SentimentAnalysis::isNegative($quote->content)) {
-				$score = SentimentAnalysis::score($quote->content);
+				$scores = SentimentAnalysis::scores($quote->content);
+				rsort($scores);
+				$score = $scores[0];
+				$confidenceGap = $this->computeConfidenceGap($scores);
 
 				// Update number of sad quotes found for the appropriate thresholds
-				foreach ($foundSadQuotes as $treshold => $value) {
-					if ($score >= $treshold)
-						$foundSadQuotes[$treshold] = $value + 1;
+				foreach ($foundSadQuotes as $threshold => $value) {
+					if ($score >= $threshold)
+						$foundSadQuotes[$threshold] = $value + 1;
 				}
 				
-				// We found that the quote was too negative but yet it was published
-				// Count the wrong classification
-				if ($quote->isPublished()) {
-					
-					// Update the number of wrong classification for the appropriate thresholds
-					foreach ($wrongClassifications as $treshold => $value) {
-						if ($score >= $treshold)
-							$wrongClassifications[$treshold] = $value + 1;
+				// Update the number of wrong classification for the appropriate thresholds
+				foreach ($wrongClassifications as $threshold => $value) {
+					if ($score >= $threshold) {
+						// We found that the quote was too negative but yet it was published
+						// Count the wrong classification
+						if ($quote->isPublished()) {
+							$wrongClassifications[$threshold] = $value + 1;
+							array_push($confidenceScoresPublished[$threshold], $confidenceGap);
+						}
+						else
+							array_push($confidenceScoresNotPublished[$threshold], $confidenceGap);
 					}
 				}
 			}
 		}
 
 		// Display the results
-		foreach ($wrongClassifications as $treshold => $value) {
+		foreach ($wrongClassifications as $threshold => $value) {
 			// Both arrays have got the same keys
-			$nbQuotes = $foundSadQuotes[$treshold];
+			$nbQuotes = $foundSadQuotes[$threshold];
 			$wrongNbClassifications = $value;
+			$gapNotPublished = $this->arrayAverage($confidenceScoresNotPublished[$threshold]);
+			$gapPublished = $this->arrayAverage($confidenceScoresPublished[$threshold]);
 			
 			// Compute percentage and display some info
 			$percentage = $this->getPercentage($wrongNbClassifications, $nbQuotes);
-			$this->info('Threshold '.$treshold.': '.$nbQuotes.' quotes with '.$wrongNbClassifications.' wrong classifications ('.$percentage.' %).');
+			$this->info('Threshold '.$threshold.': '.$nbQuotes.' quotes with '.$wrongNbClassifications.' wrong classifications ('.$percentage.' %)');
+			$this->info('Average gap for published: '.$gapPublished);
+			$this->info('Average gap for not published: '.$gapNotPublished);
 		}
 	}
 
@@ -111,6 +124,29 @@ class QuoteRefuseTooSadCommand extends Command {
 	private function getPercentage($value, $total)
 	{
 		return round($value / $total * 100, 2);
+	}
+
+	/**
+	 * Compute the confidence score for a given classification, that is to say the difference between the max score and the following score
+	 * @param  array $scores The scores array, must be reversed ordered!
+	 * @return float The difference for the two max scores, with 2 digits
+	 */
+	private function computeConfidenceGap($scores)
+	{
+		return round($scores[0] - $scores[1], 2);
+	}
+
+	/**
+	 * Compute the average of an array of values
+	 * @param  array $array The array
+	 * @return float The average value with 2 digits
+	 */
+	private function arrayAverage($array)
+	{
+		if (count($array) === 0)
+			return 0;
+
+		return round(array_sum($array) / count($array), 2);
 	}
 
 	/**
