@@ -64,7 +64,7 @@ App::error(function(HiddenProfileException $exception, $code)
 	return Response::view('errors.default', $data, 401);
 });
 
-// Catch QuoteNotFoundException, UserNotFoundException, TokenNotFoundException
+// Catch QuoteNotFoundException, StoryNotFoundException, TokenNotFoundException, UserNotFoundException
 App::error(function(TQNotFoundException $exception, $code)
 {
 	$resourceName = strtolower(str_replace("NotFoundException", "", get_class($exception)));
