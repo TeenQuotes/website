@@ -119,8 +119,7 @@
 @mixin comment-and-avatar {
 	background: $lightGray;
 	padding:15px 15px 10px 15px;
-	margin-bottom: 5px;
-	border-bottom: 3px solid darken($lightGray, 10%);
+	border-bottom: 2px solid darken($lightGray, 10%);
 
 	.column {
 		float:none;
@@ -136,5 +135,9 @@
 
 	.column-avatar {
 		border-right: 1px solid darken($lightGray, 10%);
+	}
+
+	&:last-child {
+		border-bottom: 0;
 	}
 }
