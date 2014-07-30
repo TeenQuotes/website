@@ -1,35 +1,47 @@
 <?php
 return array(
 	'defaultNotFound' => "
-			<h2 class='red'>This :resource:</h2>
-			<ul>
-				<li>Does not exist.</li>
-				<li>No longer exists.</li>
-				<li>Had never existed (even if you're dreaming).</li>
-				<li>Will probably never exist.</li>
-			</ul>
-			<h2 class='orange'>You can:</h2>
-			<ul>
-				<li>Cry.</li>
-				<li>Run fast and far.</li>
-				<li>Lie on the ground, roll into a ball and moan pitifully.</li>
-				<li>Shouting at someone to pick you up, even if nobody will hear you.</li>
-			</ul>
-			<h2 class='green'>But the best is:</h2>
-			<ul>
-				<li>Click on the previous page button in your browser.</li>
-				<li>Click <a href='".URL::route('home')."'>here</a> to return to home.</li>
-			</ul>",
-	'quoteNotFoundTitle' => 'Quote not found!',
-	'userNotFoundTitle'  => 'User not found!',
-	'tokenNotFoundTitle' => 'Token not found!',
-	'pageNotFoundTitle'  => 'Page not found!',
-	'storyNotFoundTitle' => 'Story not found!',
-	'quoteText'          => 'quote',
-	'userText'           => 'user',
-	'tokenText'          => 'token',
-	'storyText'          => 'story',
-	'pageText'           => 'page',
-	'hiddenProfileTitle' => 'This profile is hidden!',
-	'hiddenProfileBody'  => "Oops, it appears that the profile of :login is hidden! It means that only :login can see this profile.<br/><br/>We take your privacy very seriously and you can hide your profile if you don't want to open your information on ".Lang::get('layout.nameWebsite')." to others.",
-	);
+			<div class='animated fadeInLeft'>
+				<h2 class='red'>This :resource:</h2>
+				<ul>
+					<li>Does not exist.</li>
+					<li>No longer exists.</li>
+					<li>Had never existed (even if you're dreaming).</li>
+					<li>Will probably never exist.</li>
+				</ul>
+			</div>
+			<div class='animated fadeInRight'>
+				<h2 class='orange'>You can:</h2>
+				<ul>
+					<li>Cry.</li>
+					<li>Run fast and far.</li>
+					<li>Lie on the ground, roll into a ball and moan pitifully.</li>
+					<li>Shouting at someone to pick you up, even if nobody will hear you.</li>
+				</ul>
+			</div>
+			<div class='animated fadeInUp'>
+				<h2 class='green'>But the best is:</h2>
+				<ul>
+					<li>Click on the previous page button in your browser.</li>
+					<li>Click <a href='".URL::route('home')."'>here</a> to return to home.</li>
+				</ul>
+			</div>",
+	
+	'quoteNotFoundTitle'     => 'Quote not found!',
+	'userNotFoundTitle'      => 'User not found!',
+	'tokenNotFoundTitle'     => 'Token not found!',
+	'pageNotFoundTitle'      => 'Page not found!',
+	'storyNotFoundTitle'     => 'Story not found!',
+	'quoteNotFoundPageTitle' => 'Quote not found | '.Lang::get('layout.nameWebsite'),
+	'userNotFoundPageTitle'  => 'User not found | '.Lang::get('layout.nameWebsite'),
+	'tokenNotFoundPageTitle' => 'Token not found | '.Lang::get('layout.nameWebsite'),
+	'pageNotFoundPageTitle'  => 'Page not found | '.Lang::get('layout.nameWebsite'),
+	'storyNotFoundPageTitle' => 'Story not found | '.Lang::get('layout.nameWebsite'),
+	'quoteText'              => 'quote',
+	'userText'               => 'user',
+	'tokenText'              => 'token',
+	'storyText'              => 'story',
+	'pageText'               => 'page',
+	'hiddenProfileTitle'     => 'This profile is hidden!',
+	'hiddenProfileBody'      => "Oops, it appears that the profile of :login is hidden! It means that only :login can see this profile.<br/><br/>We take your privacy very seriously and you can hide your profile if you don't want to open your information on ".Lang::get('layout.nameWebsite')." to others.",
+);

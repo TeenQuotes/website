@@ -71,8 +71,9 @@ App::error(function(TQNotFoundException $exception, $code)
 
 	if (in_array($resourceName, ['quote', 'user', 'token', 'story'])) {
 		$data = [
-			'content' => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.'.$resourceName.'Text')]),
-			'title'   => Lang::get('errors.'.$resourceName.'NotFoundTitle')
+			'content'   => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.'.$resourceName.'Text')]),
+			'title'     => Lang::get('errors.'.$resourceName.'NotFoundTitle'),
+			'pageTitle' => Lang::get('errors.'.$resourceName.'NotFoundPageTitle'),
 		];
 
 		// Send event to Google Analytics
