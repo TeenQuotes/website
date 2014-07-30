@@ -243,6 +243,8 @@ h3 {
 	ul li {
 		margin-bottom: 10px;
 	}
+
+	@include link-blue-on-white;
 }
 
 #reset-password {
