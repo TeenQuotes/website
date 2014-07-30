@@ -4,7 +4,7 @@ $colorQuoteClass = $colors[$quote->id];
 $transition = ($i % 2 == 1) ? 'fadeInRight' : 'fadeInLeft';
 ?>
 
-<div class="quote animated <?= $transition.' '.$colorQuoteClass; ?>" data-id="{{ $quote->id }}">
+<div class="quote wow animated <?= $transition.' '.$colorQuoteClass; ?>" data-id="{{ $quote->id }}">
 	{{{ $quote->content }}}
 
 	<div class="row quotes-info">

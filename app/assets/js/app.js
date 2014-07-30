@@ -4,6 +4,8 @@ var timeoutLoginSignup, timeoutPassword;
 $('html, body').hide();
 
 $(document).ready(function() {
+	new WOW().init();
+	
 	$('.social-buttons a i').delay(200).queue(function(){$(this).addClass('animated fadeIn')});
 
 	// Signup view
