@@ -39,7 +39,7 @@ return array(
 	'mustBeLoggedToAddcooment'       => "Oops, you can't post a comment if you don't have an account!<br/><br/>Fortunately, this is not very difficult. Psst, if I were you, I would click on one of these buttons below.",
 	'dontRememberPassword'           => "I don't remember my password!",
 	'createYourAccount'              => 'Create your account',
-	'subjectWelcomeEmail'            => 'Welcome!',
+	'subjectWelcomeEmail'            => 'Welcome on '.Lang::get('layout.nameWebsite').' :login!',
 	'welcomeEmailWithUsername'       => 'Welcome :login!',
 	'bodyWelcomeEmail'               => "We are excited to welcome you on board! With your account you are now able to submit quotes, add quotes to your favorite and comment on quotes. And a lot more!<br/><br/>You can now go to your profile, you will find a nice starter kit: <a href=':urlCampaignProfile'>:urlProfile</a>.<br/><br/>See you soon on ".Lang::get('layout.nameWebsite')." :login!",
 	'teamFooterEmail'                => 'The '.Lang::get('layout.nameWebsite').' Team.',
