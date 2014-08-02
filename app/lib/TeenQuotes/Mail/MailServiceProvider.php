@@ -1,5 +1,7 @@
 <?php
 namespace TeenQuotes\Mail;
+
+use TeenQuotes\Mail\Transport\MandrillTransport;
  
 class MailServiceProvider extends \Illuminate\Mail\MailServiceProvider {
  
@@ -36,6 +38,22 @@ class MailServiceProvider extends \Illuminate\Mail\MailServiceProvider {
 			$mailer->pretend($pretend);
  
 			return $mailer;
+		});
+	}
+
+	/**
+	 * Register the Mandrill Swift Transport instance.
+	 *
+	 * @param  array  $config
+	 * @return void
+	 */
+	protected function registerMandrillTransport($config)
+	{
+		$mandrill = $this->app['config']->get('services.mandrill', array());
+
+		$this->app->bindShared('swift.transport', function() use ($mandrill)
+		{
+			return new MandrillTransport($mandrill['secret']);
 		});
 	}
 }
