@@ -13,7 +13,9 @@
 		@include('users.profile.info')
 
 		<!-- Controls buttons -->
-		@include('users.profile.controls')
+		@if ($viewingSelfProfile)
+			@include('users.profile.controls')
+		@endif
 
 		<!-- Content: quotes or comments -->
 		@if (!empty($quotes))
