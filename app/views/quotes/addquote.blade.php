@@ -1,4 +1,5 @@
 @extends('layouts/page')
+
 @section('content')
 	<div id="addquote-page" class="row">
 		<!-- ADD A QUOTE -->
@@ -46,4 +47,9 @@
 			</div>
 		</div>
 	</div>
+@stop
+
+<!-- Send event to Google Analytics -->
+@section('add-js')
+	@include('js.sendEvent')
 @stop

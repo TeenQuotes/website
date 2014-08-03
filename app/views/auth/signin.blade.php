@@ -4,7 +4,7 @@
 	<div id="signin-page" class="row">
 		<!-- Additional div to say that it is important to have an
 		account before being able to submit a quote -->
-		@if (Session::has('requireLoggedInAddQuote'))
+		@if ($requireLoggedInAddQuote)
 			@include('auth.loggedInAddQuote')
 			@include('auth.signupCall')
 			@include('auth.signinForm')
@@ -17,3 +17,10 @@
 
 	</div>
 @stop
+
+@if ($requireLoggedInAddQuote)
+	<!-- Send event to Google Analytics -->
+	@section('add-js')
+		@include('js.sendEvent')
+	@stop
+@endif

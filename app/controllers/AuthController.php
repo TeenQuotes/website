@@ -20,6 +20,17 @@ class AuthController extends \BaseController {
 			'pageDescription' => Lang::get('auth.signinPageDescription'),
 		];
 
+		$data ['requireLoggedInAddQuote'] = Session::has('requireLoggedInAddQuote');
+
+		if ($data['requireLoggedInAddQuote']) {
+			// Send event to Google Analytics
+			JavaScript::put([
+				'eventCategory' => 'addquote',
+				'eventAction'   => 'not-logged-in',
+				'eventLabel'    => 'signin-page'
+	    	]);
+		}
+
 		return View::make('auth.signin', $data);
 	}
 

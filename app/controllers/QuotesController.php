@@ -128,6 +128,9 @@ class QuotesController extends \BaseController {
 		JavaScript::put([
 			'contentShortHint' => Lang::get('quotes.contentShortHint'),
 			'contentGreatHint' => Lang::get('quotes.contentGreatHint'),
+			'eventCategory'    => 'addquote',
+			'eventAction'      => 'logged-in',
+			'eventLabel'       => 'addquote-page'
     	]);
 
 		return View::make('quotes.addquote', $data);
