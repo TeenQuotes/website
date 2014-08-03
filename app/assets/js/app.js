@@ -5,8 +5,19 @@ $('html, body').hide();
 
 $(document).ready(function() {
 	new WOW().init();
-	
-	$('.social-buttons a i').delay(200).queue(function(){$(this).addClass('animated fadeIn')});
+
+	// Inject CSS
+	if ($("body").size() > 0) {
+		if (document.createStyleSheet)
+			document.createStyleSheet('/assets/css/styles.min.css');
+		else
+			$("head").append($("<link rel='stylesheet' href='/assets/css/styles.min.css' type='text/css' media='all' />"));
+		$("body").css("opacity", 1);
+	}
+
+	$('.social-buttons a i').delay(200).queue(function() {
+		$(this).addClass('animated fadeIn')
+	});
 
 	// Signup view
 	$('input#login-signup').keypress(function() {
