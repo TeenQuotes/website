@@ -27,8 +27,10 @@
 
 			<?php $i = 0; ?>
 			@foreach ($quotes as $quote)
+				<!-- Quotes -->
 				@if ($type != 'comments')
 					@include('quotes.singleQuote', compact("quote"))
+				<!-- Comments -->
 				@else
 					<?php $comment = $quote; ?>
 					@include('comments.singleComment', ["comment" => $comment, "fadeLeft" => true])
