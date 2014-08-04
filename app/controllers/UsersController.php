@@ -203,6 +203,10 @@ class UsersController extends \BaseController {
 		// Used for deep linking in ProfileComposer
 		$data['showType']             = ($type === false) ? 'published' : $type;
 
+		// If the user is new and is viewing its own profile, a small welcome tutorial
+		if (empty($data['quotes']) AND $viewingSelfProfile)
+			return View::make('users.welcome', $data);
+
 		return View::make('users.show', $data);
 	}
 

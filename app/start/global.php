@@ -157,7 +157,7 @@ require app_path().'/lib/TeenQuotes/Api/V1/routes.php';
 // Usage: 'ClassComposer' => array('view.name.1', 'view.name.2'),
 View::composers([
 	// Show a user's profile
-	'TeenQuotes\Composers\Users\ProfileComposer'     => ['users.show'],
+	'TeenQuotes\Composers\Users\ProfileComposer'     => ['users.show', 'users.welcome'],
 	// Self edit user's profile
 	'TeenQuotes\Composers\Users\ProfileEditComposer' => ['users.edit'],
 	// Reset a password with a token
