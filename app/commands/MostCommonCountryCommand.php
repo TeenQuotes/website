@@ -66,7 +66,10 @@ class MostCommonCountryCommand extends ScheduledCommand {
 		$currentMostCommonCountryID = Country::getDefaultCountry();
 		
 		// Get the most common country in the users' table
-		$dummyUser = User::select('country', DB::raw('count(*) as total'))->groupBy('country')->orderBy('total', 'DESC')->first();
+		$dummyUser = User::select('country', DB::raw('count(*) as total'))
+			->groupBy('country')
+			->orderBy('total', 'DESC')
+			->first();
 		$mostCommonCountryID = (int) $dummyUser->country;
 		
 		// The value was different, update it
