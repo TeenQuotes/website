@@ -338,9 +338,9 @@ class UsersController extends \BaseController {
 
 			// The color for published quotes
 			$confColor = Setting::
-					where('user_id', '=', $user->id)
-					->where('key', '=', 'colorsQuotesPublished')
-					->first();
+				where('user_id', '=', $user->id)
+				->where('key', '=', 'colorsQuotesPublished')
+				->first();
 
 			// Set the default color
 			if (is_null($confColor))
@@ -360,33 +360,11 @@ class UsersController extends \BaseController {
 
 			// If the user hasn't filled its country yet we will try to auto-detect it
 			// If it's not possible, we will fall back to the most common country: the USA
-			if (is_null($user->country)) {
-				try {
-					$countryDetected = GeoIP::getCountry();
-				} catch (Exception $e) {
-					$selectedCountry = Country::DEFAULT_COUNTRY;
-				}
-
-				// If the detected country in the possible countries, we will select it
-				if (!isset($selectedCountry) AND in_array($countryDetected, array_values($listCountries)))
-					$selectedCountry = array_search($countryDetected, $listCountries);
-				else
-					$selectedCountry = Country::DEFAULT_COUNTRY;
-			}
-			else
-				$selectedCountry = $user->country;
+			$selectedCountry = is_null($user->country) ? $this->selectCountry($listCountries) : $selectedCountry = $user->country;
 
 			// If the user hasn't filled its city yet we will try to auto-detect it
-			if (empty(Input::old('city')) AND is_null($user->city)) {
-				try {
-					$cityDetected = GeoIP::getCity();
-				} catch (Exception $e) {
-					$selectedCity = "";
-				}
-
-				if (!isset($selectedCity))
-					$selectedCity = $cityDetected;
-			}
+			if (empty(Input::old('city')) AND is_null($user->city))
+				$selectedCity = $this->selectCity();
 			else
 				$selectedCity = Input::old('city');
 
@@ -405,6 +383,43 @@ class UsersController extends \BaseController {
 			];
 
 			return View::make('users.edit', $data);
+		}
+	}
+
+	/**
+	 * Try to detect the country of the user, otherwise select the default country (the most common one)
+	 * @param  array $availableCountries List of know countries
+	 * @return string The country
+	 */
+	private function selectCountry($availableCountries)
+	{
+		try {
+			$countryDetected = GeoIP::getCountry();
+		} catch (Exception $e) {
+			$selectedCountry = Country::DEFAULT_COUNTRY;
+		}
+
+		// If the detected country in the possible countries, we will select it
+		if (!isset($selectedCountry) AND in_array($countryDetected, array_values($availableCountries)))
+			$selectedCountry = array_search($countryDetected, $availableCountries);
+		else
+			$selectedCountry = Country::DEFAULT_COUNTRY;
+
+		return $selectedCountry;
+	}
+
+	/**
+	 * Try to detect the city of the user thanks to its IP address
+	 * @return string The city detected
+	 */
+	private function selectCity()
+	{
+		try {
+			$cityDetected = GeoIP::getCity();
+			return $cityDetected;
+		} catch (Exception $e) {
+			$selectedCity = "";
+			return $selectedCity;
 		}
 	}
 
