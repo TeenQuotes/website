@@ -15,3 +15,4 @@ Artisan::add(new SendNewsletterCommand);
 Artisan::add(new SendBirthdayCommand);
 Artisan::add(new EmailSpecialEventCommand);
 Artisan::add(new QuoteRefuseTooSadCommand);
+Artisan::add(new MostCommonCountryCommand);
