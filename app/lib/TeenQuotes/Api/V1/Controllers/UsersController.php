@@ -15,10 +15,12 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
 use Thomaswelton\LaravelGravatar\Facades\Gravatar;
+use Buonzz\GeoIP\Laravel4\Facades\GeoIP;
 use TeenQuotes\Mail\MailSwitcher;
-use \User;
+use \Country;
 use \Newsletter;
 use \Setting;
+use \User;
 
 class UsersController extends APIGlobalController {
 	
