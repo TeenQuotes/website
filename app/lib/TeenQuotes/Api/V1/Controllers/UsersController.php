@@ -356,7 +356,7 @@ class UsersController extends APIGlobalController {
 
 		try {
 			$countryDetected = GeoIP::getCountry();
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$selectedCountry = Country::getDefaultCountry();
 		}
 
@@ -378,7 +378,7 @@ class UsersController extends APIGlobalController {
 		try {
 			$cityDetected = GeoIP::getCity();
 			return $cityDetected;
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$selectedCity = "";
 			return $selectedCity;
 		}
