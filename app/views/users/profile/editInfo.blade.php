@@ -33,11 +33,14 @@
 </div>
 
 <!-- Birthdate -->
-<div class="form-group {{{ $errors->has('birthdate') ? 'error' : '' }}}">
+<div class="form-group">
 	{{ Form::label('birthdate', Lang::get('users.birthdateInput'), array('class' => 'col-sm-2 control-label')) }}
 
 	<div class="col-sm-10">
 		{{ Form::text('birthdate', Input::old('birthdate'), array('class' => 'form-control', 'placeholder' => Lang::get('users.dateFormatInput'))) }}
+		<div class="input-hint">
+			{{ Lang::get('users.hintBirthdate') }}
+		</div>
 		@if (!empty($errors->first('birthdate')))
 			{{ TextTools::warningTextForm($errors->first('birthdate')) }}
 		@endif
@@ -45,7 +48,7 @@
 </div>
 
 <!-- Country -->
-<div class="form-group {{{ $errors->has('country') ? 'error' : '' }}}">
+<div class="form-group">
 	{{ Form::label('country', Lang::get('users.countryInput'), array('class' => 'col-sm-2 control-label')) }}
 
 	<div class="col-sm-10">
@@ -57,7 +60,7 @@
 </div>
 
 <!-- City -->
-<div class="form-group {{{ $errors->has('city') ? 'error' : '' }}}">
+<div class="form-group">
 	{{ Form::label('city', Lang::get('users.cityInput'), array('class' => 'col-sm-2 control-label')) }}
 
 	<div class="col-sm-10">
@@ -74,6 +77,9 @@
 
 	<div class="col-sm-10">
 		{{ Form::file('avatar', array('class' => 'form-control')) }}
+		<div class="input-hint">
+			{{ Lang::get('users.hintAvatar') }}
+		</div>
 		@if (!empty($errors->first('avatar')))
 			{{ TextTools::warningTextForm($errors->first('avatar')) }}
 		@endif
@@ -81,7 +87,7 @@
 </div>
 
 <!-- About me -->
-<div class="form-group {{{ $errors->has('about_me') ? 'error' : '' }}}">
+<div class="form-group">
 	{{ Form::label('about_me', Lang::get('users.aboutMeInput'), array('class' => 'col-sm-2 control-label')) }}
 
 	<div class="col-sm-10">
