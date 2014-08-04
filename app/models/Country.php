@@ -15,4 +15,9 @@ class Country extends \Eloquent {
 	{
 		return $this->hasMany('User', 'country', 'id');
 	}
+
+	public static function getDefaultCountry()
+	{
+		return self::DEFAULT_COUNTRY;
+	}
 }
