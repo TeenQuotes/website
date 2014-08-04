@@ -141,3 +141,9 @@
 		border-bottom: 0;
 	}
 }
+
+@mixin input-hint {
+	margin: 10px 0 0 5px;
+	font-style: italic;
+	font-size: .9em;
+}

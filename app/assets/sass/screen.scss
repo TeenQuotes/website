@@ -78,6 +78,10 @@ body {
 	}
 }
 
+.input-hint {
+	@include input-hint;
+}
+
 h1 {
 	color: $topbarColor;
 	text-transform: uppercase;
@@ -471,9 +475,7 @@ h3 {
 	}
 
 	#respect-privacy {
-		margin: 10px 0 0 5px;
-		font-style: italic;
-		font-size: .9em;
+		@include input-hint;
 
 		#alternate-email {
 			color: $lightBlue;
