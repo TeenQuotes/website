@@ -6,10 +6,9 @@ class Country extends \Eloquent {
 	protected $fillable = ['name'];
 
 	/**
-	 * The ID of the default country to use. This is the United States
-	 * @var int
+	 * The ID of the United States
 	 */
-	const DEFAULT_COUNTRY = 224;
+	const ID_UNITED_STATES = 224;
 
 	public function users()
 	{
@@ -18,6 +17,11 @@ class Country extends \Eloquent {
 
 	public static function getDefaultCountry()
 	{
-		return self::DEFAULT_COUNTRY;
+		// If we have the information in settings.json, return it
+		if (LaraSetting::has('countries.defaultCountry'))
+			return LaraSetting::get('countries.defaultCountry');
+		// We have no clue, return the ID of the USA
+		else
+			return self::ID_UNITED_STATES;
 	}
 }
