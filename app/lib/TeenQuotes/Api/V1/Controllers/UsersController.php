@@ -71,6 +71,9 @@ class UsersController extends APIGlobalController {
 		$user->password   = Hash::make($data['password']);
 		$user->ip         = $_SERVER['REMOTE_ADDR'];
 		$user->last_visit = Carbon::now()->toDateTimeString();
+		// Try to detect city and country
+		$user->country    = self::detectCountry();
+		$user->city       = self::detectCity();
 
 		// If the new user has got a Gravatar, set the avatar
 		if (Gravatar::exists($data['email']))
@@ -338,5 +341,44 @@ class UsersController extends APIGlobalController {
         ->get();
 
         return $users;
+	}
+
+	/**
+	 * Try to detect the country of the user, otherwise select the default country (the most common one)
+	 * @return string The country
+	 */
+	public static function detectCountry()
+	{
+		// List of know countries
+		$availableCountries = Country::lists('name', 'id');
+
+		try {
+			$countryDetected = GeoIP::getCountry();
+		} catch (Exception $e) {
+			$selectedCountry = Country::getDefaultCountry();
+		}
+
+		// If the detected country in the possible countries, we will select it
+		if (!isset($selectedCountry) AND in_array($countryDetected, array_values($availableCountries)))
+			$selectedCountry = array_search($countryDetected, $availableCountries);
+		else
+			$selectedCountry = Country::getDefaultCountry();
+
+		return $selectedCountry;
+	}
+
+	/**
+	 * Try to detect the city of the user thanks to its IP address
+	 * @return string The city detected
+	 */
+	public static function detectCity()
+	{
+		try {
+			$cityDetected = GeoIP::getCity();
+			return $cityDetected;
+		} catch (Exception $e) {
+			$selectedCity = "";
+			return $selectedCity;
+		}
 	}
 }

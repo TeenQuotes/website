@@ -1,5 +1,7 @@
 <?php
 
+use TeenQuotes\Api\V1\Controllers\UsersController as UsersAPIController;
+
 class UsersController extends \BaseController {
 
 	public function __construct()
@@ -360,11 +362,11 @@ class UsersController extends \BaseController {
 
 			// If the user hasn't filled its country yet we will try to auto-detect it
 			// If it's not possible, we will fall back to the most common country: the USA
-			$selectedCountry = is_null($user->country) ? $this->selectCountry($listCountries) : $selectedCountry = $user->country;
+			$selectedCountry = is_null($user->country) ? UsersAPIController::detectCountry() : $selectedCountry = $user->country;
 
 			// If the user hasn't filled its city yet we will try to auto-detect it
 			if (empty(Input::old('city')) AND is_null($user->city))
-				$selectedCity = $this->selectCity();
+				$selectedCity = UsersAPIController::detectCity();
 			else
 				$selectedCity = Input::old('city');
 
@@ -383,43 +385,6 @@ class UsersController extends \BaseController {
 			];
 
 			return View::make('users.edit', $data);
-		}
-	}
-
-	/**
-	 * Try to detect the country of the user, otherwise select the default country (the most common one)
-	 * @param  array $availableCountries List of know countries
-	 * @return string The country
-	 */
-	private function selectCountry($availableCountries)
-	{
-		try {
-			$countryDetected = GeoIP::getCountry();
-		} catch (Exception $e) {
-			$selectedCountry = Country::getDefaultCountry();
-		}
-
-		// If the detected country in the possible countries, we will select it
-		if (!isset($selectedCountry) AND in_array($countryDetected, array_values($availableCountries)))
-			$selectedCountry = array_search($countryDetected, $availableCountries);
-		else
-			$selectedCountry = Country::getDefaultCountry();
-
-		return $selectedCountry;
-	}
-
-	/**
-	 * Try to detect the city of the user thanks to its IP address
-	 * @return string The city detected
-	 */
-	private function selectCity()
-	{
-		try {
-			$cityDetected = GeoIP::getCity();
-			return $cityDetected;
-		} catch (Exception $e) {
-			$selectedCity = "";
-			return $selectedCity;
 		}
 	}
 
