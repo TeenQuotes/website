@@ -325,14 +325,15 @@ class UsersController extends \BaseController {
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param  string $id The login or the ID of the user
+	 * @throws UserNotFoundException
 	 * @return Response
 	 */
 	public function edit($id)
 	{
 		$user = User::whereLogin($id)->orWhere('id', $id)->first();
 
-		if ($user->login != Auth::user()->login)
-			App::abort(401, 'Refused');
+		if (is_null($user) OR $user->login != Auth::user()->login)
+			throw new UserNotFoundException;
 		else {
 
 			// The color for published quotes
