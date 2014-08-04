@@ -1,4 +1,6 @@
+<!-- This view is extended by users.welcome -->
 @extends('layouts/page')
+
 @section('content')
 	<div id="user-profile">
 		<!-- Alert if the profile is hidden -->
@@ -46,11 +48,9 @@
 			<div class="text-center">
 				{{ $paginator->links() }}
 			</div>
-		@else
-			<!-- If the user is new and is viewing its own profile, a small welcome tutorial -->
-			@if ($viewingSelfProfile)
-				@include('users.welcome')
-			@endif
 		@endif
+		
+		<!-- The welcome tutorial, if available -->
+		@yield("welcome-tutorial")
 	</div>
 @stop
