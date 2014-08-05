@@ -68,5 +68,12 @@
             "dev-master": "v3.0.0-dev"
         }
     },
+    "repositories":
+    [
+        {
+            "type": "vcs",
+            "url": "https://github.com/AntoineAugusti/laravel-4-freegeoip"
+        }
+    ],
 	"minimum-stability": "stable"
 }
