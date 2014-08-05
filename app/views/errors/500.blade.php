@@ -35,7 +35,7 @@
 	    		Something is not right on our side.
 	    	</p>
 	    	<p>
-	    		Our engineering team has been warned an will take a look at this quickly.
+	    		Our engineering team has been warned and will take a look at this quickly.
 	    	</p>
 	    </div>
 	</div>
