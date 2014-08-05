@@ -105,9 +105,13 @@ App::missing(function($exception)
     return Response::view('errors.default', $data, 404);
 });
 
-App::error(function(Exception $exception, $code)
+// This error handler will be at the end of the stack
+App::pushError(function(Exception $exception, $code)
 {
 	Log::error($exception);
+	
+	// Show a custom view
+	return Response::view('errors.500', array(), $code);
 });
 
 /*
