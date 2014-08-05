@@ -4,6 +4,7 @@ namespace TeenQuotes\Exception;
 use Illuminate\Exception\ExceptionServiceProvider as BaseExceptionServiceProvider;
 
 class ExceptionServiceProvider extends BaseExceptionServiceProvider {
+	
 	/**
 	 * Register the plain exception displayer.
 	 *

@@ -2,5 +2,5 @@
 
 return array(
 	// HTTP code => view name
-	500 =>  'hello'
+	500 =>  'errors.500'
 );
