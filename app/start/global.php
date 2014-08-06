@@ -111,7 +111,7 @@ App::pushError(function(Exception $exception, $code)
 	Log::error($exception);
 	
 	// Show a custom view
-	return Response::view('errors.500', array(), $code);
+	return Response::view('errors.500', ['pageTitle' => 'Oops, something is wrong!'], $code);
 });
 
 /*
@@ -127,7 +127,7 @@ App::pushError(function(Exception $exception, $code)
 
 App::down(function()
 {
-	return Response::view('errors.maintenance', array(), 503);
+	return Response::view('errors.maintenance', ['pageTitle' => 'Be right back!'], 503);
 });
 
 /*
