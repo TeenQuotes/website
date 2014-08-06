@@ -32,6 +32,7 @@
     	@media only screen and (max-width: 767px) {
 			h1 {font-size: 2em;}
 			p {font-size: 1.5em;}
+			a#logo {margin-top: 20px; margin-bottom: 10px;}
 		}
 		@media only screen and (max-width: 400px) {
 			h1 {font-size: 1.8em;}
