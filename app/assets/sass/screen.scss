@@ -841,6 +841,10 @@ h3 {
 	text-align: justify;
 	@include hyphens(auto);
 
+	@media screen and (max-width: $breakpointMiniSmartphone) {
+		padding-bottom: 2px;
+	}
+
 	a, button {
 		 @include element-transition;
 	}
@@ -887,6 +891,10 @@ h3 {
 		@media screen and (max-width: $breakpointSmartphone) {
 			font-size: 0.7em;
 		}
+		@media screen and (max-width: $breakpointMiniSmartphone) {
+			margin-left: -35px;
+			margin-right: -35px;
+		}
 
 		.link-author-profile {
 			color: white;
@@ -901,6 +909,10 @@ h3 {
 
 			@media screen and (max-width: $breakpointSmartphone) {
 				margin-top: -5px;
+			}
+			@media screen and (max-width: $breakpointMiniSmartphone) {
+				margin-top: -1px;
+				padding: 0 2px;
 			}
 		}
 
@@ -921,6 +933,9 @@ h3 {
 				@media screen and (max-width: $breakpointSmartphone) {
 					width: 18px;
 					height: 18px;
+				}
+				@media screen and (max-width: $breakpointMiniSmartphone) {
+					margin-top: 2px;
 				}
 				@media screen and (min-width: $breakpointSmartphone) and (max-width: $breakpointLargeDesktop) {
 	    			width: 20px;
@@ -1188,8 +1203,16 @@ h3 {
 		font-size: 1em;
 		line-height: 1.3em;
 		margin-bottom: 15px;
+		@media screen and (max-width: $breakpointSmartphone) {
+			padding-bottom: 5px;
+		}
 
 		.quotes-info {
+			@media screen and (max-width: $breakpointMiniSmartphone) {
+				margin-left: -30px;
+				margin-right: -30px;
+			}
+
 			.social-buttons a {
 				width: 19px;
 				height: 19px;
@@ -1496,6 +1519,10 @@ h3 {
 	margin: 20px auto;
 	border: 3px solid $lightBlue;
 	text-align: justify;
+	
+	@media screen and (max-width: $breakpointSmartphone) {
+		width: 100%;
+	}
 
 	h2 {
 		color: $red;
