@@ -137,7 +137,8 @@ return array(
 		'Dinesh\Bugonemail\BugonemailServiceProvider',
 		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',
 		'Antoineaugusti\LaravelSentimentAnalysis\LaravelSentimentAnalysisServiceProvider',
-		'Philf\Setting\SettingServiceProvider'
+		'Philf\Setting\SettingServiceProvider',
+		'Antoineaugusti\LaravelEasyrec\LaravelEasyrecServiceProvider'
 	),
 
 	/*
@@ -214,6 +215,7 @@ return array(
 		'Gravatar'            => 'Thomaswelton\LaravelGravatar\Facades\Gravatar',
 		'SentimentAnalysis'   => 'Antoineaugusti\LaravelSentimentAnalysis\Facades\SentimentAnalysis',
 		'LaraSetting'         => 'Philf\Setting\Facades\Setting',
+		'Easyrec'             => 'Antoineaugusti\LaravelEasyrec\Facades\LaravelEasyrec'
 	),
 
 	/*
