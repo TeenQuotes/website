@@ -348,6 +348,21 @@ class Quote extends Toloquent {
 	}
 
 	/**
+	 * Register a view action in the Easyrec recommendation engine
+	 */
+	public function registerViewAction()
+	{
+		// Try to retrieve the ID of the user
+		if (Auth::guest())
+			$userRecommendation = !empty(ResourceServer::getOwnerId()) ? ResourceServer::getOwnerId() : null;
+		else
+			$userRecommendation = Auth::id();
+    	
+		// Register in the recommendation system
+    	Easyrec::view($this->id, "Quote ".$this->id, URL::route("quotes.show", $this->id, false), $userRecommendation, null, null, "QUOTE", Session::getId());
+	}
+
+	/**
 	 * Lighten or darken a color from an hexadecimal code
 	 * @author http://stackoverflow.com/questions/3512311/how-to-generate-lighter-darker-color-with-php
 	 * @param string $hex The color in hexadecimal
