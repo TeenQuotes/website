@@ -28,7 +28,7 @@
 		"jwhennessey/phpinsight": "dev-master",
 		"antoineaugusti/laravel-sentiment-analysis": "1.1.*",
 		"philf/setting": "dev-master",
-		"antoineaugusti/laravel-easyrec": "0.2-RC1"
+		"antoineaugusti/laravel-easyrec": "0.2-RC2"
 	},
 	"require-dev": {
 		"way/generators": "2.*",

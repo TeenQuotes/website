@@ -359,7 +359,7 @@ class Quote extends Toloquent {
 			$userRecommendation = Auth::id();
     	
 		// Register in the recommendation system
-    	Easyrec::view($this->id, "Quote ".$this->id, URL::route("quotes.show", $this->id, false), $userRecommendation, null, null, "QUOTE", Session::getId());
+    	Easyrec::view($this->id, "Quote ".$this->id, URL::route("quotes.show", $this->id, false), $userRecommendation, null, null, "QUOTE");
 	}
 
 	/**
