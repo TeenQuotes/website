@@ -27,7 +27,8 @@
 		"thomaswelton/laravel-gravatar": "0.1.x",
 		"jwhennessey/phpinsight": "dev-master",
 		"antoineaugusti/laravel-sentiment-analysis": "1.1.*",
-		"philf/setting": "dev-master"
+		"philf/setting": "dev-master",
+		"antoineaugusti/laravel-easyrec": "0.2-RC1"
 	},
 	"require-dev": {
 		"way/generators": "2.*",
