@@ -33,8 +33,11 @@ class QuotesController extends APIGlobalController {
 
 			return Response::json($data, 404);
 		}
-		else
-			return Response::json($quote, 200, [], JSON_NUMERIC_CHECK);
+		
+		// Register the view in the recommendation engine
+		$quote->registerViewAction();
+
+		return Response::json($quote, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function indexFavoritesQuotes($user_id)

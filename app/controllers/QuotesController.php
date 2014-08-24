@@ -66,7 +66,7 @@ class QuotesController extends \BaseController {
 		// The AdBlock disclaimer
 		JavaScript::put([
 			'moneyDisclaimer' => Lang::get('quotes.adblockDisclaimer'),
-    	]);
+		]);
 
 		return View::make('quotes.index', $data);
 	}
@@ -131,7 +131,7 @@ class QuotesController extends \BaseController {
 			'eventCategory'    => 'addquote',
 			'eventAction'      => 'logged-in',
 			'eventLabel'       => 'addquote-page'
-    	]);
+		]);
 
 		return View::make('quotes.addquote', $data);
 	}
@@ -174,7 +174,10 @@ class QuotesController extends \BaseController {
 		JavaScript::put([
 			'contentShortHint' => Lang::get('comments.contentShortHint'),
 			'contentGreatHint' => Lang::get('comments.contentGreatHint'),
-    	]);
+		]);
+
+		// Register the view in the recommendation engine
+		$quote->registerViewAction();
 
 		return View::make('quotes.show', $data);
 	}
