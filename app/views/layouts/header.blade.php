@@ -7,6 +7,7 @@
 	@if (isset($pageDescription))
 		<meta name="description" content="{{ $pageDescription }}">
 	@endif
+	{{ HTML::style('assets/css/styles.min.css') }}
 	<link rel="shortcut icon" href="/assets/images/favicon.png"/>
 
 	<!-- Special cards for social networks -->
