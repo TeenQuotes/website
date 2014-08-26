@@ -5,8 +5,10 @@ $('html, body').hide();
 
 $(document).ready(function() {
 	new WOW().init();
-	
-	$('.social-buttons a i').delay(200).queue(function(){$(this).addClass('animated fadeIn')});
+
+	$('.social-buttons a i').delay(200).queue(function() {
+		$(this).addClass('animated fadeIn');
+	});
 
 	// Signup view
 	$('input#login-signup').keypress(function() {
@@ -48,10 +50,11 @@ $(document).ready(function() {
 	// Add a quote character's counter
 	$('#content-quote').keyup(function() {
 		var nbCaracters = $(this).val().length;
+		var msg;
 		if (nbCaracters < 50)
-			var msg = '<i class="fa fa-meh-o"></i> ' + laravel.contentShortHint;
+			msg = '<i class="fa fa-meh-o"></i> ' + laravel.contentShortHint;
 		else
-			var msg = '<i class="fa fa-smile-o"></i> ' + laravel.contentGreatHint;
+			msg = '<i class="fa fa-smile-o"></i> ' + laravel.contentGreatHint;
 
 		$('#countLetters').html(msg);
 		if (nbCaracters >= 50) {
@@ -61,14 +64,14 @@ $(document).ready(function() {
 		} else {
 			$('input[type="submit"]').attr('disabled', 'disabled');
 			$('#countLetters').addClass("orange");
-			$('#countLetters').removeClass("green")
+			$('#countLetters').removeClass("green");
 		}
 
-		if ($('#countLetters').is(":visible") && nbCaracters == 0) {
-			$('#countLetters').fadeOut("slow")
+		if ($('#countLetters').is(":visible") && nbCaracters === 0) {
+			$('#countLetters').fadeOut("slow");
 		}
 		if ($('#countLetters').is(":hidden") && nbCaracters >= 1) {
-			$('#countLetters').fadeIn("slow")
+			$('#countLetters').fadeIn("slow");
 		}
 	});
 
@@ -84,10 +87,11 @@ $(document).ready(function() {
 	// Add a comment character's counter
 	$('#content-comment').keyup(function() {
 		var nbCaracters = $(this).val().length;
+		var msg;
 		if (nbCaracters < 10)
-			var msg = '<i class="fa fa-meh-o"></i> ' + laravel.contentShortHint;
+			msg = '<i class="fa fa-meh-o"></i> ' + laravel.contentShortHint;
 		else
-			var msg = '<i class="fa fa-smile-o"></i> ' + laravel.contentGreatHint;
+			msg = '<i class="fa fa-smile-o"></i> ' + laravel.contentGreatHint;
 
 		$('#countLetters').html(msg);
 		if (nbCaracters >= 10) {
@@ -97,14 +101,14 @@ $(document).ready(function() {
 		} else {
 			$('input[type="submit"]').attr('disabled', 'disabled');
 			$('#countLetters').addClass("orange");
-			$('#countLetters').removeClass("green")
+			$('#countLetters').removeClass("green");
 		}
 
-		if ($('#countLetters').is(":visible") && nbCaracters == 0) {
-			$('#countLetters').fadeOut("slow")
+		if ($('#countLetters').is(":visible") && nbCaracters === 0) {
+			$('#countLetters').fadeOut("slow");
 		}
 		if ($('#countLetters').is(":hidden") && nbCaracters >= 1) {
-			$('#countLetters').fadeIn("slow")
+			$('#countLetters').fadeIn("slow");
 		}
 	});
 
@@ -137,10 +141,10 @@ $(document).ready(function() {
 			data: {},
 			success: function(data) {
 				// Errors
-				if (data.success == false) {
+				if (data.success === false) {
 					var arr = data.errors;
 					$.each(arr, function(index, value) {
-						if (value.length != 0) {
+						if (value.length !== 0) {
 							$("#validation-errors").append('<div class="alert alert-error"><strong>' + value + '</strong><div>');
 						}
 					});
@@ -161,12 +165,13 @@ $(document).ready(function() {
 							$("#fav-count").text(nbFav + 1);
 						else {
 							$("#fav-count").text(nbFav - 1);
+							var animation;
 
 							// Hide the quote on the profile
 							if ($('.quote[data-id=' + id_quote + ']').hasClass('fadeInLeft'))
-								var animation = 'fadeOutLeft';
+								animation = 'fadeOutLeft';
 							else
-								var animation = 'fadeOutRight';
+								animation = 'fadeOutRight';
 							$('.quote[data-id=' + id_quote + ']').removeClass(animation.replace('Out', 'In')).addClass(animation);
 
 							// Remove from DOM after 1s
@@ -294,10 +299,10 @@ $(document).ready(function() {
 			success: function(data) {
 				console.log(data);
 				// Errors
-				if (data.success == false) {
+				if (data.success === false) {
 					var arr = data.errors;
 					$.each(arr, function(index, value) {
-						if (value.length != 0) {
+						if (value.length !== 0) {
 							$("#validation-errors").append('<div class="alert alert-error"><strong>' + value + '</strong><div>');
 						}
 					});
@@ -372,8 +377,9 @@ function validationSuccess(data) {
 // Taken from http://stackoverflow.com/questions/12479897/detect-browser-file-input-support
 function hasFileUploadSupport() {
 	var hasSupport = true;
+	var testFileInput;
 	try {
-		var testFileInput = document.createElement('input');
+		testFileInput = document.createElement('input');
 		testFileInput.type = 'file';
 		testFileInput.style.display = 'none';
 		document.getElementsByTagName('body')[0].appendChild(testFileInput);
@@ -394,11 +400,12 @@ function hasFileUploadSupport() {
 }
 
 var jump = function(e) {
+	var target;
 	if (e) {
 		e.preventDefault();
-		var target = $(this).attr("href");
+		target = $(this).attr("href");
 	} else {
-		var target = location.hash;
+		target = location.hash;
 	}
 
 	$('html,body').animate({
@@ -406,8 +413,7 @@ var jump = function(e) {
 	}, 2000, function() {
 		location.hash = target;
 	});
-
-}
+};
 
 function doneTypingLoginSignup() {
 	if (!timeoutLoginSignup) {
@@ -427,7 +433,7 @@ function doneTypingLoginSignup() {
 		},
 		success: function(data) {
 			// Errors
-			if (data.success == false) {
+			if (data.success === false) {
 				icon = "fa fa-meh-o";
 				$("#login-validator").html("<i class='" + icon + "'></i>" + data.message);
 				$("#login-validator i.fa").removeClass("green").addClass("black");
