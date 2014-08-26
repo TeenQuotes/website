@@ -4,16 +4,34 @@
 This is the source code for the next release of Teen Quotes, using the awesome PHP framework Laravel.
 
 # What is Teen Quotes?
-Teen Quotes: because some quotes are simply true. Teen Quotes describes your daily life and feelings in a few words that you can share with your acquaintances.
+Teen Quotes lets teenagers share their daily thoughts and feelings. It describes their daily life and feelings in a few words that they can share with their friends.
 
-# How to run?
-Update database configuration in `app/config/database.php` and then run:
+# Basic dependencies
+- PHP >= 5.4 with the PDO and MCrypt extensions
+- MySQL >= 5.6 (because we need to perform FULLTEXT search on InnoDB tables)
+- Memcached >= 1.4 or another cache storage (Redis for example)
+
+# How to run locally?
+Add the following configuration files from the [Laravel framework](https://github.com/laravel/laravel):
+- `app/config/database.php`
+- `app/config/mail.php`
+- `app/config/services.php`
+
+And then run:
 
     $ composer install
     $ php artisan migrate
     $ php artisan db:seed
-    $ compass compile
     $ php artisan serve
+
+## Editing the front-end
+If you want to edit JS files and Compass files, you will need to install [Compass](http://compass-style.org/install/), [node.js](http://nodejs.org/) and some node.js packages. You can install them by running:
+
+	$ npm install
+
+And then take advantage of the Gulpfile:
+
+	$ gulp
 
 ## Who did this?
 **Antoine AUGUSTI** - http://www.antoine-augusti.fr
