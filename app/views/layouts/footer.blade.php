@@ -23,5 +23,3 @@
 	@yield('add-js')
 </body>
 </html>
-<!-- Load CSS for browsers with JS disabled -->
-<noscript>{{ HTML::style('assets/css/styles.min.css') }}</noscript>
