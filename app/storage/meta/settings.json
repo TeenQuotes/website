@@ -25,5 +25,39 @@
          "image":"michel.jpg",
          "twitter":"MicheIB"
       }
+   ],
+   "devicesInfo":[
+      {
+         "tablet":{
+            "name":"Tablet",
+            "mini-icon":"fa-tablet",
+            "large-icon":"tablet.png",
+            "text-key":"noAppYet"
+         },
+         "ios":{
+            "name":"iOS",
+            "mini-icon":"fa-apple",
+            "large-icon":"smartphone.png",
+            "text-key":"noAppYet"
+         },
+         "android":{
+            "name":"Android",
+            "mini-icon":"fa-android",
+            "large-icon":"smartphone.png",
+            "text-key":"noAppYet"
+         },
+         "mobile":{
+            "name":"Mobile",
+            "mini-icon":"fa-mobile",
+            "large-icon":"smartphone.png",
+            "text-key":"noAppYet"
+         },
+         "desktop":{
+            "name":"Desktop",
+            "mini-icon":"fa-desktop",
+            "large-icon":"computer.png",
+            "text-key":"noAppYet"
+         }
+      }
    ]
 }
