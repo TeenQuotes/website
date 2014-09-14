@@ -1,7 +1,13 @@
 <?php
 
+use Laracasts\Presenter\PresentableTrait;
+
 class Quote extends Toloquent {
 	
+	use PresentableTrait;
+
+	protected $presenter = 'TeenQuotes\Presenters\QuotePresenter';
+
 	/**
 	 * Constants associated with the approved field of the quote
 	 */
@@ -108,50 +114,6 @@ class Quote extends Toloquent {
 		return $colors;
 	}
 
-	/**
-	 * Return the text for the Twitter Card. Displayed on single quote page.
-	 * @return The text for the Twitter Card
-	 */
-	public function textTwitterCard()
-	{
-		$content = $this->content;
-		$maxLength = 180;
-
-		if (strlen($content) > $maxLength)  {
-			$content = substr($content, 0, $maxLength);
-			$lastSpace = strrpos($content, " ");
-
-			// After the space, add …
-			$content = substr($content, 0, $lastSpace).'…';
-		}
-
-		return $content;
-	}
-
-	/**
-	 * The text that will be tweeted. Given to the Twitter sharer.
-	 * @return The text for the Twitter sharer
-	 */
-	public function textTweet()
-	{
-		$content = $this->content;
-		$maxLength = 115;
-		$twitterUsername = Lang::get('layout.twitterUsername');
-		$maxLengthAddTwitterUsername = $maxLength - strlen($twitterUsername);
-
-		if (strlen($content) > $maxLength)  {
-			$content = substr($content, 0, $maxLength);
-			$lastSpace = strrpos($content, " ");
-
-			// After the space, add …
-			$content = substr($content, 0, $lastSpace).'…';
-		}
-		elseif (strlen($content) <= $maxLengthAddTwitterUsername)
-			$content .= ' '.$twitterUsername;
-
-		return urlencode($content.' '.URL::route('quotes.show', array($this->id), true));
-	}
-
 	public function user()
 	{
 		return $this->belongsTo('User', 'user_id', 'id');
@@ -164,7 +126,7 @@ class Quote extends Toloquent {
 
 	public function favorites()
 	{
-		return $this->hasMany('FavoriteQuote');
+		return $this->hasMany('FavoriteQuote')->orderBy('id', 'DESC');
 	}
 
 	public function favorite()
@@ -357,9 +319,9 @@ class Quote extends Toloquent {
 			$userRecommendation = !empty(ResourceServer::getOwnerId()) ? ResourceServer::getOwnerId() : null;
 		else
 			$userRecommendation = Auth::id();
-    	
+		
 		// Register in the recommendation system
-    	Easyrec::view($this->id, "Quote ".$this->id, URL::route("quotes.show", $this->id, false), $userRecommendation, null, null, "QUOTE");
+		Easyrec::view($this->id, "Quote ".$this->id, URL::route("quotes.show", $this->id, false), $userRecommendation, null, null, "QUOTE");
 	}
 
 	/**
