@@ -111,7 +111,8 @@ App::pushError(function(Exception $exception, $code)
 	Log::error($exception);
 	
 	// Show a custom view
-	return Response::view('errors.500', ['pageTitle' => 'Oops, something is wrong!'], $code);
+	if (App::environment() != 'local')
+		return Response::view('errors.500', ['pageTitle' => 'Oops, something is wrong!'], $code);
 });
 
 /*
