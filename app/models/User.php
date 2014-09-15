@@ -209,24 +209,24 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->favoriteQuotes()->count();
 	}
 
+	/**
+	 * Tells if the user is subscribed to the daily or the weekly newsletter
+	 * @var string $type The type of the newsletter : weekly|daily
+	 * @return boolean true if subscribed, false otherwise
+	 */
+	public function isSubscribedToNewsletter($type)
+	{
+		return (Newsletter::forUser($this)->type($type)->count() > 0);
+	}
+
 	public function getIsSubscribedToDaily()
 	{
-		foreach ($this->newsletters as $newsletter) {
-			if ($newsletter->isDaily())
-				return true;
-		}
-
-		return false;
+		return $this->isSubscribedToNewsletter('daily');
 	}
 
 	public function getIsSubscribedToWeekly()
 	{
-		foreach ($this->newsletters as $newsletter) {
-			if ($newsletter->isWeekly())
-				return true;
-		}
-
-		return false;
+		return $this->isSubscribedToNewsletter('weekly');
 	}
 
 	public function getAddedFavCount()
@@ -266,7 +266,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		// I feel a bit old and stupid right now.
 		return sha1(strtoupper($data['login']).':'.strtoupper($data['password']));
 	}
-
 
 	/**
 	 * Get the array of colors to use for the published quotes of the user
@@ -359,15 +358,5 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function hasFavoriteQuotes()
 	{
 		return FavoriteQuote::forUser($this)->count() > 0;
-	}
-
-	/**
-	 * Tells if the user is subscribed to the daily or the weekly newsletter
-	 * @var string $type The type of the newsletter : weekly|daily
-	 * @return boolean true if subscribed, false otherwise
-	 */
-	public function isSubscribedToNewsletter($type)
-	{
-		return (Newsletter::forUser($this)->type($type)->count() > 0);
 	}
 }
