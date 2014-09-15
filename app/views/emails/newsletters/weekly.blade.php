@@ -5,7 +5,7 @@
 	<br/><br/>
 	{{ Lang::get('newsletters.beenWaitingForLong') }}
 	@foreach ($quotes as $quote)
-		@include('emails.quotes.single', ['quote' => $quote])
+		@include('emails.quotes.single', compact('quote'))
 	@endforeach
 
 	{{ Lang::get('newsletters.callToVisitWebsite') }}

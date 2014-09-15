@@ -133,8 +133,8 @@ class CommentsController extends APIGlobalController {
 
 		// Send an email to the author of the quote if he wants it
 		if ($quote->user->wantsEmailComment()) {
-			$emailData = array();
-			$emailData['quote']   = $quote->toArray();
+			$emailData            = array();
+			$emailData['quote']   = $quote;
 			$emailData['comment'] = $comment->toArray();
 
 			// Send the email via SMTP

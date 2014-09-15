@@ -96,15 +96,14 @@ class SendNewsletterCommand extends ScheduledCommand {
 						->take($nbQuotes)
 						->get();
 		}
-		$quotesArray = $quotes->toArray();
 
 		// Send the newsletter only if we have
 		// at least 1 quote
-		if (count($quotesArray) > 0) {
+		if ( ! $quotes->isEmpty()) {
 
 			// Get users that are subscribed to the newsletter
 			$rowNewsletters = Newsletter::whereType($type)->with('user')->get();
-			$rowNewsletters->each(function($newsletter) use($quotesArray, $type)
+			$rowNewsletters->each(function($newsletter) use($type, $quotes)
 			{
 				// Log this info
 				$this->info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
@@ -112,7 +111,7 @@ class SendNewsletterCommand extends ScheduledCommand {
 
 				$data = array();
 				$data['newsletter'] = $newsletter->toArray();
-				$data['quotes']     = $quotesArray;
+				$data['quotes']     = $quotes;
 
 				// Send the email to the user
 				Mail::send('emails.newsletters.'.$type, $data, function($m) use($newsletter, $type)

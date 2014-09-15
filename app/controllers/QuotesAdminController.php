@@ -104,11 +104,9 @@ class QuotesAdminController extends \BaseController {
 			$quote->save();
 
 			// Contact the author of the quote
-			$quoteArray = array('quote' => $quote->toArray());
-
 			// Send mail via SMTP
 			new MailSwitcher('smtp');
-			Mail::send('emails.quotes.approve', $quoteArray, function($m) use($quote)
+			Mail::send('emails.quotes.approve', $quote, function($m) use($quote)
 			{
 				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('quotes.quoteApproveSubjectEmail'));
 			});
