@@ -15,7 +15,7 @@ class Toloquent extends Eloquent {
 	{
 		return $query->with(array($source => function($q)
 		{
-		    $q->addSelect(array('id', 'login', 'avatar'));
+		    $q->addSelect(array('id', 'login', 'avatar', 'hide_profile'));
 		}));
 	}
 }
