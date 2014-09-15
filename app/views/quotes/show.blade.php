@@ -7,6 +7,10 @@ $i = $quote->id % count($colors);
 	<!-- THE QUOTE -->
 	@include('quotes.singleQuote', compact("quote"))
 
+
+	<!-- Favorites' Info-->
+	@include('quotes.favoritesInfo', ['data' => $quote->present()->favoritesData])
+
 	<!-- SHOW COMMENTS -->
 	@if ($quote->has_comments)
 		<div class="animated fadeInUp">

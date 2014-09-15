@@ -92,6 +92,19 @@
 	@include abstract-link($lightBlue, white);
 }
 
+@mixin link-blue-on-gray {
+	a {
+		background: inherit;
+		text-decoration: none;
+		color: $lightBlue;
+		@include element-transition;
+
+		&:hover {
+			color: darken($lightBlue, 20%);
+		}
+	}
+}
+
 @mixin link-orange-on-white {
 	@include abstract-link($orange, white);
 }

@@ -49,4 +49,44 @@ class QuotePresenter extends Presenter {
 
 		return $content;
 	}
+
+	/**
+	 * Returns information about people who favorited a quote
+	 * @return array Keys: name{0,1,2}, nbFavorites, nbFavoritesRemaining
+	 */
+	public function favoritesData()
+	{
+		$nbFavorites = count($this->favorites);
+		$data = [];
+		$data['nbFavorites'] = $nbFavorites;
+
+		// We have got too much person who favorited this quote
+		if ($nbFavorites > 3)
+			$data['nbFavoritesRemaining'] = $nbFavorites - 3;
+		
+		// Collect a maximum of 3 users
+		$i = 0;
+		$favorites = $this->favorites;
+
+		while ($i < 3 AND ! $favorites->isEmpty()) {
+			$fav = $favorites->shift();
+			$data['name'.$i] = $this->linkForUser($fav->user);
+			$i++;
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Returns a link to a user's profile or just its login if its profile is hidden
+	 * @param  \User $user The User object
+	 * @return string
+	 */
+	public function linkForUser($user)
+	{		
+		if ($user->isHiddenProfile())
+			return $user->login;
+		else
+			return "<a href='".URL::route('users.show', $user->login)."'>".$user->login."</a>";
+	}
 }
