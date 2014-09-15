@@ -5,7 +5,7 @@
 			@if (!$story->user->isHiddenProfile())
 				<a href="{{ URL::action('UsersController@show', ['id' => $story->user->login]) }}">
 			@endif
-				<img class="avatar img-responsive" src="{{{ $story->user->getURLAvatar() }}}"/>
+				<img class="avatar img-responsive" src="{{{ $story->user->present()->avatarLink }}}"/>
 			@if (!$story->user->isHiddenProfile())
 				</a>
 			@endif

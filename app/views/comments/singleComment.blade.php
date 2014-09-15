@@ -11,7 +11,7 @@ $animation = isset($fadeLeft) ? " animated fadeInLeft" : '';
 			@if (!$comment->user->isHiddenProfile())
 				<a href="{{ URL::action('UsersController@show', ['id' => $comment->user->login]) }}">
 			@endif
-				<img class="avatar img-responsive" src="{{{ $comment->user->getURLAvatar() }}}"/>
+				<img class="avatar img-responsive" src="{{{ $comment->user->present()->avatarLink }}}"/>
 			@if (!$comment->user->isHiddenProfile())
 				</a>
 			@endif

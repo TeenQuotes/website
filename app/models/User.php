@@ -5,9 +5,13 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
+use Laracasts\Presenter\PresentableTrait;
+
 class User extends Eloquent implements UserInterface, RemindableInterface {
 	
-	use UserTrait, RemindableTrait;
+	use UserTrait, RemindableTrait, PresentableTrait;
+
+	protected $presenter = 'TeenQuotes\Presenters\UserPresenter';
 
 	/**
 	 * The database table used by the model.
@@ -158,240 +162,212 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->isHiddenProfile();
 	}
 
-    /**
-     * Tells if the user wants to hide his profile
-     * @return boolean true if we should hide his profile, false otherwise
-     */
-    public function isHiddenProfile()
-    {
-    	return ($this->hide_profile == 1);
-    }
+	/**
+	 * Tells if the user wants to hide his profile
+	 * @return boolean true if we should hide his profile, false otherwise
+	 */
+	public function isHiddenProfile()
+	{
+		return ($this->hide_profile == 1);
+	}
 
-    /**
-     * Tells if a user is a male
-     * @return boolean
-     */
-    public function isMale()
-    {
-    	return ($this->gender == 'M');
-    }
+	/**
+	 * Tells if a user is a male
+	 * @return boolean
+	 */
+	public function isMale()
+	{
+		return ($this->gender == 'M');
+	}
 
-    /**
-     * Tells if a user is a female
-     * @return boolean
-     */
-    public function isFemale()
-    {
-    	return !$this->isMale();
-    }
+	/**
+	 * Tells if a user is a female
+	 * @return boolean
+	 */
+	public function isFemale()
+	{
+		return !$this->isMale();
+	}
 
-    public function getWantsNotificationCommentQuoteAttribute()
-    {
-    	return $this->wantsEmailComment();
-    }
+	public function getWantsNotificationCommentQuoteAttribute()
+	{
+		return $this->wantsEmailComment();
+	}
 
-    public function getIsAdminAttribute()
-    {
-    	return ($this->security_level == 1);
-    }
+	public function getIsAdminAttribute()
+	{
+		return ($this->security_level == 1);
+	}
 
-    public function getTotalComments()
-    {
-    	return $this->comments()->count();
-    }
+	public function getTotalComments()
+	{
+		return $this->comments()->count();
+	}
 
-    public function getFavoriteCount()
-    {
-    	return $this->favoriteQuotes()->count();
-    }
+	public function getFavoriteCount()
+	{
+		return $this->favoriteQuotes()->count();
+	}
 
-    public function getIsSubscribedToDaily()
-    {
-    	foreach ($this->newsletters as $newsletter) {
-    		if ($newsletter->isDaily())
-    			return true;
-    	}
+	public function getIsSubscribedToDaily()
+	{
+		foreach ($this->newsletters as $newsletter) {
+			if ($newsletter->isDaily())
+				return true;
+		}
 
-    	return false;
-    }
+		return false;
+	}
 
-    public function getIsSubscribedToWeekly()
-    {
-    	foreach ($this->newsletters as $newsletter) {
-    		if ($newsletter->isWeekly())
-    			return true;
-    	}
+	public function getIsSubscribedToWeekly()
+	{
+		foreach ($this->newsletters as $newsletter) {
+			if ($newsletter->isWeekly())
+				return true;
+		}
 
-    	return false;
-    }
+		return false;
+	}
 
-    public function getAddedFavCount()
-    {
-    	$idsQuotesPublished = Quote::forUser($this)->published()->lists('id');
-    	if (empty($idsQuotesPublished))
-    		$addedFavCount = 0;
-    	else
-    		$addedFavCount = FavoriteQuote::whereIn('quote_id', $idsQuotesPublished)->count();
+	public function getAddedFavCount()
+	{
+		$idsQuotesPublished = Quote::forUser($this)->published()->lists('id');
+		if (empty($idsQuotesPublished))
+			$addedFavCount = 0;
+		else
+			$addedFavCount = FavoriteQuote::whereIn('quote_id', $idsQuotesPublished)->count();
 
-    	return $addedFavCount;
-    }
+		return $addedFavCount;
+	}
 
-    public function getPublishedQuotesCount()
-    {
-    	return Quote::forUser($this)->published()->count();
-    }
+	public function getPublishedQuotesCount()
+	{
+		return Quote::forUser($this)->published()->count();
+	}
 
-    /**
-     * Tells if the user wants to receive an email when a comment is
-     * added on one of its quotes
-     * @return boolean true if we should send an email, false otherwise
-     */
-    public function wantsEmailComment()
-    {
-    	return ($this->notification_comment_quote == 1);
-    }
+	/**
+	 * Tells if the user wants to receive an email when a comment is
+	 * added on one of its quotes
+	 * @return boolean true if we should send an email, false otherwise
+	 */
+	public function wantsEmailComment()
+	{
+		return ($this->notification_comment_quote == 1);
+	}
 
-    /**
-     * Returns the old hash of a password. It was used in Teen Quotes v2
-     * @var array $data The data. We need a login and a password
-     * @return string The corresponding hash that was used in Teen Quotes v2
-     */
-    public static function oldHashMethod($data)
-    {
-    	// This is legacy code. This hash method was used in 2005 by Mangos...
-    	// I feel a bit old and stupid right now.
-    	return sha1(strtoupper($data['login']).':'.strtoupper($data['password']));
-    }
+	/**
+	 * Returns the old hash of a password. It was used in Teen Quotes v2
+	 * @var array $data The data. We need a login and a password
+	 * @return string The corresponding hash that was used in Teen Quotes v2
+	 */
+	public static function oldHashMethod($data)
+	{
+		// This is legacy code. This hash method was used in 2005 by Mangos...
+		// I feel a bit old and stupid right now.
+		return sha1(strtoupper($data['login']).':'.strtoupper($data['password']));
+	}
 
 
-    /**
-     * Get the array of colors to use for the published quotes of the user
-     * @return string The name of the color to use for the user's instance. Example: blue|red|orange
-     */
-    public function getColorsQuotesPublished()
-    {
+	/**
+	 * Get the array of colors to use for the published quotes of the user
+	 * @return string The name of the color to use for the user's instance. Example: blue|red|orange
+	 */
+	public function getColorsQuotesPublished()
+	{
 		// If we have something in cache, return it immediately
-    	if (Cache::has(self::$cacheNameForColorsQuotesPublished.$this->id))
-    		return Cache::get(self::$cacheNameForColorsQuotesPublished.$this->id);
-    	else {
+		if (Cache::has(self::$cacheNameForColorsQuotesPublished.$this->id))
+			return Cache::get(self::$cacheNameForColorsQuotesPublished.$this->id);
 
-    		$confColor = Setting::where('user_id', '=', $this->id)
-    			->where('key', '=', 'colorsQuotesPublished')
-    			->first();
+		$confColor = Setting::where('user_id', '=', $this->id)
+			->where('key', '=', 'colorsQuotesPublished')
+			->first();
 
-			// Set colors to put in cache for the user
-    		if (is_null($confColor))
-    			$toPut = Config::get('app.users.defaultColorQuotesPublished');
-    		else {
-    			$toPut = $confColor->value;
-    		}
+		// Set colors to put in cache for the user
+		if (is_null($confColor))
+			$toPut = Config::get('app.users.defaultColorQuotesPublished');
+		else
+			$toPut = $confColor->value;
 
-			// Store in cache
-    		Cache::put(self::$cacheNameForColorsQuotesPublished.$this->id, $toPut, Carbon::now()->addMinutes(10));
+		// Store in cache
+		Cache::put(self::$cacheNameForColorsQuotesPublished.$this->id, $toPut, Carbon::now()->addMinutes(10));
 
-    		return $toPut;
-    	}
-    }
+		return $toPut;
+	}
 
-    public function getURLAvatarAttribute()
-    {
-    	return $this->getURLAvatar();
-    }
+	public function getURLAvatarAttribute()
+	{
+		return $this->getURLAvatar();
+	}
 
-    /**
-     * Get the URL of the user's avatar
-     * @return string The URL to the avatar
-     */
-    public function getURLAvatar()
-    {
-    	// Full URL
-    	if (strrpos($this->avatar, 'http') !== false)
-    		return $this->avatar;
-    	elseif (is_null($this->avatar))
-    		return URL::asset('assets/images/chat.png');
-    	// Local URL
-    	else
-    		return str_replace('public/', '', Request::root().'/'.Config::get('app.users.avatarPath').'/'.$this->avatar);
-    }
+	public function scopeBirthdayToday($query)
+	{
+		return $query->where(DB::raw("DATE_FORMAT(birthdate,'%m-%d')"), '=', DB::raw("DATE_FORMAT(NOW(),'%m-%d')"));
+	}
 
-    public function scopeBirthdayToday($query)
-    {
-    	return $query->where(DB::raw("DATE_FORMAT(birthdate,'%m-%d')"), '=', DB::raw("DATE_FORMAT(NOW(),'%m-%d')"));
-    }
+	public function scopeNotHidden($query)
+	{
+		return $query->where('hide_profile', '=', 0);
+	}
 
-    public function scopeNotHidden($query)
-    {
-    	return $query->where('hide_profile', '=', 0);
-    }
+	public function scopeHidden($query)
+	{
+		return $query->where('hide_profile', '=', 1);
+	}
 
-    public function scopeHidden($query)
-    {
-    	return $query->where('hide_profile', '=', 1);
-    }
+	public function scopePartialLogin($query, $login)
+	{
+		return $query->whereRaw('login LIKE ?', ["%$login%"])->orderBy('login', 'ASC');
+	}
 
-    public function scopePartialLogin($query, $login)
-    {
-    	return $query->whereRaw('login LIKE ?', ["%$login%"])->orderBy('login', 'ASC');
-    }
-
-    public function hasPublishedQuotes()
-    {
+	public function hasPublishedQuotes()
+	{
 		// Time to store quotes in cache
-    	$expiresAt = Carbon::now()->addMinutes(10);
-    	$user = $this;
+		$expiresAt = Carbon::now()->addMinutes(10);
+		$user = $this;
 
-    	$numberQuotesPublishedForUser = Cache::remember(self::$cacheNameForNumberQuotesPublished.$this->id, $expiresAt, function() use ($user)
-    	{
-    		return Quote::forUser($user)
-    			->published()
-    			->count();
-    	});
+		$numberQuotesPublishedForUser = Cache::remember(self::$cacheNameForNumberQuotesPublished.$this->id, $expiresAt, function() use ($user)
+		{
+			return Quote::forUser($user)
+				->published()
+				->count();
+		});
 
-    	return $numberQuotesPublishedForUser > 0;
-    }
+		return $numberQuotesPublishedForUser > 0;
+	}
 
-    /**
-     * Returns the array of the ID of the quotes in the favorites of the user
-     * @return array 
-     */
-    public function arrayIDFavoritesQuotes()
-    {
-    	$expiresAt = Carbon::now()->addMinutes(10);
-    	$user = $this;
+	/**
+	 * Returns the array of the ID of the quotes in the favorites of the user
+	 * @return array 
+	 */
+	public function arrayIDFavoritesQuotes()
+	{
+		$expiresAt = Carbon::now()->addMinutes(10);
+		$user = $this;
 
-    	$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$this->id, $expiresAt, function() use ($user)
-    	{
-    		return FavoriteQuote::forUser($user)
-    			->select('quote_id')
-    			->orderBy('id', 'DESC')
-    			->get()
-    			->lists('quote_id');
-    	});
+		$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$this->id, $expiresAt, function() use ($user)
+		{
+			return FavoriteQuote::forUser($user)
+				->select('quote_id')
+				->orderBy('id', 'DESC')
+				->get()
+				->lists('quote_id');
+		});
 
-    	return $arrayIDFavoritesQuotesForUser;
-    }
+		return $arrayIDFavoritesQuotesForUser;
+	}
 
-    public function hasFavoriteQuotes()
-    {
-    	return FavoriteQuote::forUser($this)->count() > 0;
-    }
+	public function hasFavoriteQuotes()
+	{
+		return FavoriteQuote::forUser($this)->count() > 0;
+	}
 
-    /**
-     * Tells if the user is subscribed to the daily or the weekly newsletter
-     * @var string $type The type of the newsletter : weekly|daily
-     * @return boolean true if subscribed, false otherwise
-     */
-    public function isSubscribedToNewsletter($type)
-    {
-    	return (Newsletter::forUser($this)->type($type)->count() > 0);
-    }
-
-    /**
-     * Get the name of the icon to display based on the gender of the user
-     * @return string The name of the icon to display : fa-male | fa-female
-     */
-    public function getIconGender()
-    {
-    	return $this->isMale() ? 'fa-male' : 'fa-female';
-    }
+	/**
+	 * Tells if the user is subscribed to the daily or the weekly newsletter
+	 * @var string $type The type of the newsletter : weekly|daily
+	 * @return boolean true if subscribed, false otherwise
+	 */
+	public function isSubscribedToNewsletter($type)
+	{
+		return (Newsletter::forUser($this)->type($type)->count() > 0);
+	}
 }

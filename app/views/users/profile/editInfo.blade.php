@@ -6,7 +6,7 @@
 		{{ Lang::get('users.inputsOptionalInfo') }}
 	</div>
 	<div class="column-avatar col-xs-3">
-		<img class="avatar img-responsive" src="{{{ $user->getURLAvatar().'?'.rand(1, 32000) }}}"/>
+		<img class="avatar img-responsive" src="{{{ $user->present()->avatarLink.'?'.rand(1, 32000) }}}"/>
 	</div>
 </div>
 
