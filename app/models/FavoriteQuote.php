@@ -1,10 +1,11 @@
 <?php
 
-use TeenQuotes\Models\Scopes\FavoriteQuoteTrait;
+use TeenQuotes\Models\Relations\FavoriteQuoteTrait as FavoriteQuoteRelationsTrait;
+use TeenQuotes\Models\Scopes\FavoriteQuoteTrait as FavoriteQuoteScopesTrait;
 
 class FavoriteQuote extends Eloquent {
 
-	use FavoriteQuoteTrait;
+	use FavoriteQuoteRelationsTrait, FavoriteQuoteScopesTrait;
 	
 	protected $table = 'favorite_quotes';
 
@@ -29,14 +30,4 @@ class FavoriteQuote extends Eloquent {
 	];
 
 	public static $cacheNameFavoritesForUser = 'favorites_quotes_for_user_';
-
-	public function user()
-	{
-		return $this->belongsTo('User');
-	}
-
-	public function quote()
-	{
-		return $this->belongsTo('Quote');
-	}
 }

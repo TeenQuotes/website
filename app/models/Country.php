@@ -1,6 +1,11 @@
 <?php
 
+use TeenQuotes\Models\Relations\CountryTrait as CountryRelationsTrait;
+
 class Country extends Eloquent {
+	
+	use CountryRelationsTrait;
+	
 	protected $table = 'countries';
 	public $timestamps = false;
 	protected $fillable = ['name'];
@@ -9,11 +14,6 @@ class Country extends Eloquent {
 	 * The ID of the United States
 	 */
 	const ID_UNITED_STATES = 224;
-
-	public function users()
-	{
-		return $this->hasMany('User', 'country', 'id');
-	}
 
 	public static function getDefaultCountry()
 	{

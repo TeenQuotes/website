@@ -1,10 +1,11 @@
 <?php
 
-use TeenQuotes\Models\Scopes\CommentTrait;
+use TeenQuotes\Models\Relations\CommentTrait as CommentRelationsTrait;
+use TeenQuotes\Models\Scopes\CommentTrait as CommentScopesTrait;
 
 class Comment extends Toloquent {
 
-	use CommentTrait;
+	use CommentRelationsTrait, CommentScopesTrait;
 	
 	protected $fillable = [];
 
@@ -20,17 +21,6 @@ class Comment extends Toloquent {
 	];
 
 	public static $cacheNameQuotesPage = 'quotes_homepage_';
-
-
-	public function user()
-	{
-		return $this->belongsTo('User');
-	}
-
-	public function quote()
-	{
-		return $this->belongsTo('Quote');
-	}
 
 	public function isPostedBySelf()
 	{

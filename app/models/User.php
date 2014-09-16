@@ -6,11 +6,12 @@ use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
 use Laracasts\Presenter\PresentableTrait;
+use TeenQuotes\Models\Relations\UserTrait as UserRelationsTrait;
 use TeenQuotes\Models\Scopes\UserTrait as UserScopesTrait;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 	
-	use PresentableTrait, RemindableTrait, UserTrait, UserScopesTrait;
+	use PresentableTrait, RemindableTrait, UserTrait, UserRelationsTrait, UserScopesTrait;
 
 	protected $presenter = 'TeenQuotes\Presenters\UserPresenter';
 
@@ -110,53 +111,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var array
 	 */
 	public static $cacheNameForColorsQuotesPublished = 'colors_quotes_published_';
-
-	public function comments()
-	{
-		return $this->hasMany('Comment');
-	}
-
-	public function countryObject()
-	{
-		return $this->belongsTo('Country', 'country', 'id');
-	}
-
-	public function newsletters()
-	{
-		return $this->hasMany('Newsletter');
-	}
-
-	public function quotes()
-	{
-		return $this->hasMany('Quote');
-	}
-
-	public function settings()
-	{
-		return $this->hasMany('Setting');
-	}
-
-	public function stories()
-	{
-		return $this->hasMany('Story');
-	}
-
-	public function usersVisitors()
-	{
-		return $this->hasMany('ProfileVisitor', 'user_id', 'id');
-	}
-
-	public function usersVisited()
-	{
-		return $this->hasMany('ProfileVisitor', 'visitor_id', 'id');
-	}
-
-	public function favoriteQuotes()
-	{
-		return $this->belongsToMany('Quote', 'favorite_quotes')
-			->with('user')
-			->orderBy('favorite_quotes.id', 'DESC');
-	}
 
 	public function getProfileHiddenAttribute()
 	{

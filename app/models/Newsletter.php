@@ -1,10 +1,11 @@
 <?php
 
-use TeenQuotes\Models\Scopes\NewsletterTrait;
+use TeenQuotes\Models\Relations\NewsletterTrait as NewsletterRelationsTrait;
+use TeenQuotes\Models\Scopes\NewsletterTrait as NewsletterScopesTrait;
 
 class Newsletter extends Eloquent {
 	
-	use NewsletterTrait;
+	use NewsletterRelationsTrait, NewsletterScopesTrait;
 	
 	/**
 	 * Constants associated with the newletter type
@@ -13,11 +14,6 @@ class Newsletter extends Eloquent {
 	const WEEKLY = 'weekly';
 
 	protected $fillable = [];
-
-	public function user()
-	{
-		return $this->belongsTo('User');
-	}
 
 	public function isDaily()
 	{

@@ -1,11 +1,12 @@
 <?php
 
 use Laracasts\Presenter\PresentableTrait;
-use TeenQuotes\Models\Scopes\QuoteTrait;
+use TeenQuotes\Models\Relations\QuoteTrait as QuoteRelationsTrait;
+use TeenQuotes\Models\Scopes\QuoteTrait as QuoteScopesTrait;
 
 class Quote extends Toloquent {
 	
-	use PresentableTrait, QuoteTrait;
+	use PresentableTrait, QuoteRelationsTrait, QuoteScopesTrait;
 
 	protected $presenter = 'TeenQuotes\Presenters\QuotePresenter';
 
@@ -113,26 +114,6 @@ class Quote extends Toloquent {
 		Session::set('colors.quote', $colors);
 
 		return $colors;
-	}
-
-	public function user()
-	{
-		return $this->belongsTo('User', 'user_id', 'id');
-	}
-
-	public function comments()
-	{
-		return $this->hasMany('Comment');
-	}
-
-	public function favorites()
-	{
-		return $this->hasMany('FavoriteQuote')->orderBy('id', 'DESC');
-	}
-
-	public function favorite()
-	{
-		return $this->hasOne('FavoriteQuote', 'quote_id', 'id');
 	}
 
 	public function getTotalCommentsAttribute()

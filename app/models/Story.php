@@ -1,10 +1,11 @@
 <?php
 
-use TeenQuotes\Models\Scopes\StoryTrait;
+use TeenQuotes\Models\Relations\StoryTrait as StoryRelationsTrait;
+use TeenQuotes\Models\Scopes\StoryTrait as StoryScopesTrait;
 
 class Story extends Toloquent {
 
-	use StoryTrait;
+	use StoryRelationsTrait, StoryScopesTrait;
 	
 	protected $table = 'stories';
 	protected $fillable = [];
@@ -16,10 +17,5 @@ class Story extends Toloquent {
 	public static $rules = [
 		'represent_txt' => 'required|min:100|max:1000',
 		'frequence_txt' => 'required|min:100|max:1000',
-	]; 
-
-	public function user()
-	{
-		return $this->belongsTo('User', 'user_id', 'id');
-	}
+	];
 }
