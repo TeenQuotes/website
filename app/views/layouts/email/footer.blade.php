@@ -14,6 +14,4 @@
 
 <span id="footer-disclaimer">
 	@yield('add-footer')
-	<br/><br/>
-	{{ Lang::get('email.robotFooter') }}
 </span>
