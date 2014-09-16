@@ -3,6 +3,7 @@
 use Laracasts\Presenter\Presenter;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Str;
 
 class UserPresenter extends Presenter {
 	
@@ -13,7 +14,7 @@ class UserPresenter extends Presenter {
 	public function avatarLink()
 	{
 		// Full URL
-		if (strrpos($this->avatar, 'http') !== false)
+		if (Str::startsWith($this->avatar, 'http'))
 			return $this->avatar;
 		elseif (is_null($this->avatar))
 			return Config::get('app.url').'/assets/images/chat.png';
@@ -24,7 +25,7 @@ class UserPresenter extends Presenter {
 
 	/**
 	 * Get the name of the icon to display based on the gender of the user
-	 * @return string The name of the icon to display : fa-male | fa-female
+	 * @return string The name of the icon to display : fa-male|fa-female
 	 */
 	public function iconGender()
 	{
