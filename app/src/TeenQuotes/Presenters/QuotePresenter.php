@@ -52,7 +52,7 @@ class QuotePresenter extends Presenter {
 
 	/**
 	 * Returns information about people who favorited a quote
-	 * @return array Keys: name{0,1,2}, nbFavorites, nbFavoritesRemaining
+	 * @return array Keys: name{0,1,2}, nbFavorites, nbRemaining
 	 */
 	public function favoritesData()
 	{
@@ -62,7 +62,7 @@ class QuotePresenter extends Presenter {
 
 		// We have got too much person who favorited this quote
 		if ($nbFavorites > 3)
-			$data['nbFavoritesRemaining'] = $nbFavorites - 3;
+			$data['nbRemaining'] = $nbFavorites - 3;
 		
 		// Collect a maximum of 3 users
 		$i = 0;
