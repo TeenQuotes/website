@@ -29,7 +29,8 @@
 		"antoineaugusti/laravel-sentiment-analysis": "1.1.*",
 		"philf/setting": "dev-master",
 		"antoineaugusti/laravel-easyrec": "~0.1",
-		"laracasts/presenter": "0.1.*"
+		"laracasts/presenter": "0.1.*",
+		"philo/laravel-translate": "1.0.*"
 	},
 	"require-dev": {
 		"way/generators": "2.*",
