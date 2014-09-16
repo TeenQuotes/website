@@ -150,7 +150,7 @@ require app_path().'/filters.php';
 |--------------------------------------------------------------------------
 |
 */
-require app_path().'/lib/TeenQuotes/Api/V1/routes.php';
+require app_path().'/src/TeenQuotes/Api/V1/routes.php';
 
 
 /*

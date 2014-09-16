@@ -6,10 +6,11 @@ use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
 use Laracasts\Presenter\PresentableTrait;
+use TeenQuotes\Models\Scopes\UserTrait as UserScopesTrait;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 	
-	use UserTrait, RemindableTrait, PresentableTrait;
+	use PresentableTrait, RemindableTrait, UserTrait, UserScopesTrait;
 
 	protected $presenter = 'TeenQuotes\Presenters\UserPresenter';
 
@@ -295,27 +296,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function getURLAvatarAttribute()
 	{
-		return $this->getURLAvatar();
-	}
-
-	public function scopeBirthdayToday($query)
-	{
-		return $query->where(DB::raw("DATE_FORMAT(birthdate,'%m-%d')"), '=', DB::raw("DATE_FORMAT(NOW(),'%m-%d')"));
-	}
-
-	public function scopeNotHidden($query)
-	{
-		return $query->where('hide_profile', '=', 0);
-	}
-
-	public function scopeHidden($query)
-	{
-		return $query->where('hide_profile', '=', 1);
-	}
-
-	public function scopePartialLogin($query, $login)
-	{
-		return $query->whereRaw('login LIKE ?', ["%$login%"])->orderBy('login', 'ASC');
+		return $this->present()->avatarLink;
 	}
 
 	public function hasPublishedQuotes()

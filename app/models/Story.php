@@ -1,6 +1,11 @@
 <?php
 
+use TeenQuotes\Models\Scopes\StoryTrait;
+
 class Story extends Toloquent {
+
+	use StoryTrait;
+	
 	protected $table = 'stories';
 	protected $fillable = [];
 
@@ -16,10 +21,5 @@ class Story extends Toloquent {
 	public function user()
 	{
 		return $this->belongsTo('User', 'user_id', 'id');
-	}
-
-	public function scopeOrderDescending($query)
-	{
-		return $query->orderBy('created_at', 'DESC');
 	}
 }

@@ -1,6 +1,11 @@
 <?php
 
+use TeenQuotes\Models\Scopes\CommentTrait;
+
 class Comment extends Toloquent {
+
+	use CommentTrait;
+	
 	protected $fillable = [];
 
 	protected $hidden = ['deleted_at', 'updated_at'];
@@ -25,11 +30,6 @@ class Comment extends Toloquent {
 	public function quote()
 	{
 		return $this->belongsTo('Quote');
-	}
-
-	public function scopeOrderDescending($query)
-	{
-		return $query->orderBy('created_at', 'DESC');
 	}
 
 	public function isPostedBySelf()
