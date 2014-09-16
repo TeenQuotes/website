@@ -11,7 +11,7 @@ $animation = isset($fadeLeft) ? " animated fadeInLeft" : '';
 			@if (!$comment->user->isHiddenProfile())
 				<a href="{{ URL::action('UsersController@show', ['id' => $comment->user->login]) }}">
 			@endif
-				<img class="avatar img-responsive" src="{{{ $comment->user->getURLAvatar() }}}"/>
+				<img class="avatar img-responsive" src="{{{ $comment->user->present()->avatarLink }}}"/>
 			@if (!$comment->user->isHiddenProfile())
 				</a>
 			@endif
@@ -34,13 +34,13 @@ $animation = isset($fadeLeft) ? " animated fadeInLeft" : '';
 				<i class="delete-comment fa fa-times" data-id="{{{ $comment->id }}}" data-url="{{ URL::route('comments.destroy', $comment->id) }}"></i>
 			@endif
 
-			{{{ $comment->created_at->diffForHumans() }}}
+			{{{ $comment->present()->commentAge }}}
 		</div>
 		<!-- Author name -->
 		@if (!isset($viewingSelfProfile) OR (isset($viewingSelfProfile) AND !$viewingSelfProfile))
 			<div class="col-xs-5 col-sm-5 col-md-7 col-lg-9">
 				@if (!$comment->user->isHiddenProfile())
-					<a href="{{ URL::action('UsersController@show', ['id' => $comment->user->login]) }}" class="transition link-author-name">
+					<a href="{{ URL::action('UsersController@show', ['id' => $comment->user->login]) }}" class="link-author-name">
 					<?php $openedLink = true; ?>
 				@else
 					<span class="link-author-name">

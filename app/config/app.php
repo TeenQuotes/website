@@ -138,7 +138,8 @@ return array(
 		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',
 		'Antoineaugusti\LaravelSentimentAnalysis\LaravelSentimentAnalysisServiceProvider',
 		'Philf\Setting\SettingServiceProvider',
-		'Antoineaugusti\LaravelEasyrec\LaravelEasyrecServiceProvider'
+		'Antoineaugusti\LaravelEasyrec\LaravelEasyrecServiceProvider',
+		'Philo\Translate\TranslateServiceProvider'
 	),
 
 	/*

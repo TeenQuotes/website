@@ -1,7 +1,15 @@
 <?php
 
+use Laracasts\Presenter\PresentableTrait;
+use TeenQuotes\Models\Relations\QuoteTrait as QuoteRelationsTrait;
+use TeenQuotes\Models\Scopes\QuoteTrait as QuoteScopesTrait;
+
 class Quote extends Toloquent {
 	
+	use PresentableTrait, QuoteRelationsTrait, QuoteScopesTrait;
+
+	protected $presenter = 'TeenQuotes\Presenters\QuotePresenter';
+
 	/**
 	 * Constants associated with the approved field of the quote
 	 */
@@ -108,70 +116,6 @@ class Quote extends Toloquent {
 		return $colors;
 	}
 
-	/**
-	 * Return the text for the Twitter Card. Displayed on single quote page.
-	 * @return The text for the Twitter Card
-	 */
-	public function textTwitterCard()
-	{
-		$content = $this->content;
-		$maxLength = 180;
-
-		if (strlen($content) > $maxLength)  {
-			$content = substr($content, 0, $maxLength);
-			$lastSpace = strrpos($content, " ");
-
-			// After the space, add …
-			$content = substr($content, 0, $lastSpace).'…';
-		}
-
-		return $content;
-	}
-
-	/**
-	 * The text that will be tweeted. Given to the Twitter sharer.
-	 * @return The text for the Twitter sharer
-	 */
-	public function textTweet()
-	{
-		$content = $this->content;
-		$maxLength = 115;
-		$twitterUsername = Lang::get('layout.twitterUsername');
-		$maxLengthAddTwitterUsername = $maxLength - strlen($twitterUsername);
-
-		if (strlen($content) > $maxLength)  {
-			$content = substr($content, 0, $maxLength);
-			$lastSpace = strrpos($content, " ");
-
-			// After the space, add …
-			$content = substr($content, 0, $lastSpace).'…';
-		}
-		elseif (strlen($content) <= $maxLengthAddTwitterUsername)
-			$content .= ' '.$twitterUsername;
-
-		return urlencode($content.' '.URL::route('quotes.show', array($this->id), true));
-	}
-
-	public function user()
-	{
-		return $this->belongsTo('User', 'user_id', 'id');
-	}
-
-	public function comments()
-	{
-		return $this->hasMany('Comment');
-	}
-
-	public function favorites()
-	{
-		return $this->hasMany('FavoriteQuote');
-	}
-
-	public function favorite()
-	{
-		return $this->hasOne('FavoriteQuote', 'quote_id', 'id');
-	}
-
 	public function getTotalCommentsAttribute()
 	{
 		// If the quote is not published, obviously we have no comments
@@ -241,60 +185,6 @@ class Quote extends Toloquent {
 		return false;
 	}
 
-	public function scopeCreatedToday($query)
-	{
-		return $query->whereBetween('created_at', [Carbon::today(), Carbon::today()->addDay()]);
-	}
-
-	public function scopeUpdatedToday($query)
-	{
-		return $query->whereBetween('updated_at', [Carbon::today(), Carbon::today()->addDay()]);
-	}
-
-	public function scopeWaiting($query)
-	{
-		return $query->where('approved', '=', self::WAITING);
-	}
-
-	public function scopeRefused($query)
-	{
-		return $query->where('approved', '=', self::REFUSED);
-	}
-
-	public function scopePending($query)
-	{
-		return $query->where('approved', '=', self::PENDING);
-	}
-
-	public function scopePublished($query)
-	{
-		return $query->where('approved', '=', self::PUBLISHED);
-	}
-
-	public function scopeForUser($query, $user)
-	{
-		return $query->where('user_id', '=', $user->id);
-	}
-
-	public function scopeOrderDescending($query)
-	{
-		return $query->orderBy('created_at', 'DESC');
-	}
-
-	public function scopeOrderAscending($query)
-	{
-		return $query->orderBy('created_at', 'ASC');
-	}
-
-	public function scopeRandom($query)
-	{
-		// Here we use a constant in the MySQL RAND function
-		// so that quotes will be always be in the same "order"
-		// even if they are not ordered
-		// ref: http://dev.mysql.com/doc/refman/5.0/en/mathematical-functions.html#function_rand
-		return $query->orderBy(DB::raw('RAND(42)'));
-	}
-
 	/**
 	 * Function to search for quotes
 	 *
@@ -357,9 +247,9 @@ class Quote extends Toloquent {
 			$userRecommendation = !empty(ResourceServer::getOwnerId()) ? ResourceServer::getOwnerId() : null;
 		else
 			$userRecommendation = Auth::id();
-    	
+		
 		// Register in the recommendation system
-    	Easyrec::view($this->id, "Quote ".$this->id, URL::route("quotes.show", $this->id, false), $userRecommendation, null, null, "QUOTE");
+		Easyrec::view($this->id, "Quote ".$this->id, URL::route("quotes.show", $this->id, false), $userRecommendation, null, null, "QUOTE");
 	}
 
 	/**

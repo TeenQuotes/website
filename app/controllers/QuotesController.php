@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 class QuotesController extends \BaseController {
 
 	public function __construct()
@@ -144,10 +146,16 @@ class QuotesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$quote = Quote::whereId($id)->published()->first();
-
-		if (is_null($quote))
+		try {
+			$quote = Quote::whereId($id)
+			->with('comments')
+			->withSmallUser('comments.user')
+			->withSmallUser('favorites.user')
+			->withSmallUser()
+			->firstOrFail();
+		} catch (ModelNotFoundException $e) {
 			throw new QuoteNotFoundException;
+		}
 
 		// If the user was not logged in, we store the current URL in its session
 		// After sign in / sign up, he will be redirected here
@@ -164,7 +172,6 @@ class QuotesController extends \BaseController {
 
 		$data = [
 			'quote'           => $quote,
-			'comments'        => Comment::with('user')->where('quote_id', '=', $quote->id)->orderBy('created_at', 'asc')->get(),
 			'pageTitle'       => Lang::get('quotes.singleQuotePageTitle', array('id' => $id)),
 			'pageDescription' => $quote->content,
 			'colors'          => $colors,

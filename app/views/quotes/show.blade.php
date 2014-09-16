@@ -7,11 +7,15 @@ $i = $quote->id % count($colors);
 	<!-- THE QUOTE -->
 	@include('quotes.singleQuote', compact("quote"))
 
+
+	<!-- Favorites' Info-->
+	@include('quotes.favoritesInfo', ['data' => $quote->present()->favoritesData])
+
 	<!-- SHOW COMMENTS -->
 	@if ($quote->has_comments)
 		<div class="animated fadeInUp">
 			<h2 id="title-comments"><i class="fa fa-comments"></i>{{ Lang::get('comments.comments') }}</h2>
-			@foreach ($comments as $comment)
+			@foreach ($quote->comments as $comment)
 				@include('comments.singleComment', compact("comment"))
 			@endforeach
 		</div>

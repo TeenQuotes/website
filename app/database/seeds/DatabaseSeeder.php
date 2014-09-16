@@ -20,6 +20,9 @@ class DatabaseSeeder extends Seeder {
 		$this->call('StoriesTableSeeder');
 		$this->call('CountriesTableSeeder');
 		$this->call('SettingsTableSeeder');
+
+		// Flush the cache
+		Artisan::call('cache:clear');
 	}
 
 }

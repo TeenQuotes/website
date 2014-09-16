@@ -6,7 +6,7 @@ if (!is_null($user->birthdate))
 	<div class="row">
 		<!-- Avatar -->
 		<div class="avatar-container col-xs-3 col-sm-2">
-			<img class="avatar img-responsive" src="{{{ $user->getURLAvatar() }}}"/>
+			<img class="avatar img-responsive" src="{{{ $user->present()->avatarLink }}}"/>
 		</div>
 
 		<!-- Users stat -->
@@ -41,7 +41,7 @@ if (!is_null($user->birthdate))
 				{{ HTML::image('assets/images/icons/mustach.png', 'Mustach', ['class' => 'mustach']) }}
 				{{ Lang::get('users.iAmAMan') }}
 			@else
-				<i class="fa {{ $user->getIconGender() }}"></i>
+				<i class="fa {{ $user->present()->iconGender }}"></i>
 				{{ Lang::get('users.iAmAWoman') }}
 			@endif
 		</div>

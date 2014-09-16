@@ -29,4 +29,5 @@ return array (
 	'contentShortHint'           => "It's a bit short!",
 	'contentGreatHint'           => "It's going to be a great quote!",
 	'adblockDisclaimer'          => '<h2>Hi Adblock user!</h2>It appears that you are blocking our only ad. We don\'t use '.Lang::get('layout.nameWebsite').' to be rich, we just use ads to pay our servers. Please consider disabling your ad blocker here: we promise, we will continue to work hard for you.<br/><br/> Thanks a lot <i class="fa fa-smile-o"></i><div class="author">Antoine - <i>Lead developer at '.Lang::get('layout.nameWebsite').'</i></div>',
+	'favoritesText'              => '{0} Nobody favorited this quote yet.|{1} :name0 favorited this quote.|{2} :name0 and :name1 favorited this quote.|{3} :name0, :name1 and :name2 favorited this quote.| [4,Inf] :name0, :name1, :name2 and :nbFavoritesRemaining others favorited this quote.'
 );

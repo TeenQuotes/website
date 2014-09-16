@@ -28,7 +28,9 @@
 		"jwhennessey/phpinsight": "dev-master",
 		"antoineaugusti/laravel-sentiment-analysis": "1.1.*",
 		"philf/setting": "dev-master",
-		"antoineaugusti/laravel-easyrec": "0.2-RC2"
+		"antoineaugusti/laravel-easyrec": "~0.1",
+		"laracasts/presenter": "0.1.*",
+		"philo/laravel-translate": "1.0.*"
 	},
 	"require-dev": {
 		"way/generators": "2.*",
@@ -45,7 +47,7 @@
 			"app/tests/TestCase.php"
 		],
 		"psr-0": {
-			"TeenQuotes": "app/lib"
+			"TeenQuotes": "app/src"
 		}
 	},
 	"scripts": {
@@ -64,11 +66,6 @@
 	"config": {
 		"preferred-install": "dist"
 	},
-	"extra": {
-        "branch-alias": {
-            "dev-master": "v3.0.0-dev"
-        }
-    },
     "repositories":
     [
         {

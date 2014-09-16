@@ -20,8 +20,9 @@ class QuotesController extends APIGlobalController {
 		$quote = Quote::whereId($quote_id)
 		->with('comments')
 		->withSmallUser('comments.user')
+		->withSmallUser('favorites.user')
 		->withSmallUser()
-		->get();
+		->first();
 
 		// Handle not found
 		if (empty($quote) OR $quote->count() == 0) {

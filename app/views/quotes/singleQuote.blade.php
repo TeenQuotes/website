@@ -58,7 +58,7 @@ $transition = ($i % 2 == 1) ? 'fadeInRight' : 'fadeInLeft';
 		<!-- SOCIAL BUTTONS -->
 		<div class="col-md-1 col-sm-2 col-xs-3 social-buttons">
 			<a href="https://www.facebook.com/sharer.php?u={{URL::route('quotes.show', array($quote->id), true)}}" target="_blank"><i class="fa fa-facebook"></i></a>
-			<a href="https://twitter.com/home?status={{{ $quote->textTweet() }}}" target="_blank"><i class="fa fa-twitter"></i></a>
+			<a href="https://twitter.com/home?status={{{ $quote->present()->textTweet }}}" target="_blank"><i class="fa fa-twitter"></i></a>
 		</div>
 	</div>
 </div>

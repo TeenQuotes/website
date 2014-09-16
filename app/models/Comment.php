@@ -1,6 +1,14 @@
 <?php
 
+use Laracasts\Presenter\PresentableTrait;
+use TeenQuotes\Models\Relations\CommentTrait as CommentRelationsTrait;
+use TeenQuotes\Models\Scopes\CommentTrait as CommentScopesTrait;
+
 class Comment extends Toloquent {
+
+	use CommentRelationsTrait, CommentScopesTrait, PresentableTrait;
+	protected $presenter = 'TeenQuotes\Presenters\CommentPresenter';
+	
 	protected $fillable = [];
 
 	protected $hidden = ['deleted_at', 'updated_at'];
@@ -15,22 +23,6 @@ class Comment extends Toloquent {
 	];
 
 	public static $cacheNameQuotesPage = 'quotes_homepage_';
-
-
-	public function user()
-	{
-		return $this->belongsTo('User');
-	}
-
-	public function quote()
-	{
-		return $this->belongsTo('Quote');
-	}
-
-	public function scopeOrderDescending($query)
-	{
-		return $query->orderBy('created_at', 'DESC');
-	}
 
 	public function isPostedBySelf()
 	{

@@ -17,6 +17,7 @@ return array(
 	
 	'users.avatarPath' => 'public/uploads/avatar',
 	
+	'url'              => 'http://dev.tq:8000',
 	'domain'           => 'dev.tq',
 	
 	'domainAPI'        => 'api.dev.tq',

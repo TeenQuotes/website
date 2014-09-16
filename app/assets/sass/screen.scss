@@ -1041,6 +1041,7 @@ h3 {
 			background:transparent;
 			padding: 2px 5px;
 			letter-spacing: 1px;
+			@include element-transition;
 		}
 
 		span.link-author-name:hover {
@@ -1051,6 +1052,23 @@ h3 {
 			background: white;
 		}
 	}
+}
+
+.favorites-info {
+	background: $lightGray;
+	padding: 10px 15px;
+	margin-top: -25px;
+	width: 90%;
+	margin-left: 10%;
+	box-sizing: border-box;
+	border-left: 2px solid darken($lightGray, 10%);
+
+	i.fa {
+		margin-right: 20px;
+		color: $red;
+	}
+
+	@include link-blue-on-gray;
 }
 
 #user-profile {
