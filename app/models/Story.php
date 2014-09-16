@@ -1,11 +1,13 @@
 <?php
 
+use Laracasts\Presenter\PresentableTrait;
 use TeenQuotes\Models\Relations\StoryTrait as StoryRelationsTrait;
 use TeenQuotes\Models\Scopes\StoryTrait as StoryScopesTrait;
 
 class Story extends Toloquent {
 
-	use StoryRelationsTrait, StoryScopesTrait;
+	use PresentableTrait, StoryRelationsTrait, StoryScopesTrait;
+	protected $presenter = 'TeenQuotes\Presenters\StoryPresenter';
 	
 	protected $table = 'stories';
 	protected $fillable = [];

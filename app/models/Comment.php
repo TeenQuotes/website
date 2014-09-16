@@ -1,11 +1,13 @@
 <?php
 
+use Laracasts\Presenter\PresentableTrait;
 use TeenQuotes\Models\Relations\CommentTrait as CommentRelationsTrait;
 use TeenQuotes\Models\Scopes\CommentTrait as CommentScopesTrait;
 
 class Comment extends Toloquent {
 
-	use CommentRelationsTrait, CommentScopesTrait;
+	use CommentRelationsTrait, CommentScopesTrait, PresentableTrait;
+	protected $presenter = 'TeenQuotes\Presenters\CommentPresenter';
 	
 	protected $fillable = [];
 

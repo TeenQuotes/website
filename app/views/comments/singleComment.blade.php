@@ -34,7 +34,7 @@ $animation = isset($fadeLeft) ? " animated fadeInLeft" : '';
 				<i class="delete-comment fa fa-times" data-id="{{{ $comment->id }}}" data-url="{{ URL::route('comments.destroy', $comment->id) }}"></i>
 			@endif
 
-			{{{ $comment->created_at->diffForHumans() }}}
+			{{{ $comment->present()->commentAge }}}
 		</div>
 		<!-- Author name -->
 		@if (!isset($viewingSelfProfile) OR (isset($viewingSelfProfile) AND !$viewingSelfProfile))

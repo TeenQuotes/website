@@ -33,7 +33,7 @@
 			{{{ $story->frequence_txt }}}
 			
 			<div class="story-date">
-				{{ $story->created_at->diffForHumans() }}
+				{{ $story->present()->storyAge }}
 			</div>
 		</div>
 	</div>
