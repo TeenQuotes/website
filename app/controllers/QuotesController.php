@@ -10,6 +10,16 @@ class QuotesController extends \BaseController {
 	}
 
 	/**
+	 * Redirect to the new URL type
+	 * @param  int $id ID of the Quote
+	 * @return \Response
+	 */
+	public function redirectOldUrl($id)
+	{
+		return Redirect::route('quotes.show', array($id), 301);
+	}
+
+	/**
 	 * Display a bunch of quotes
 	 *
 	 * @return Response
@@ -187,6 +197,16 @@ class QuotesController extends \BaseController {
 		$quote->registerViewAction();
 
 		return View::make('quotes.show', $data);
+	}
+
+	public function getDataFavoritesInfo()
+	{
+		$quote = Quote::whereId(Input::get('id'))->firstOrFail();
+		$data = $quote->present()->favoritesData;
+
+		$translate = Lang::choice('quotes.favoritesText', $data['nbFavorites'], $data);
+
+		return Response::json(compact('translate'), 200);
 	}
 
 	/**

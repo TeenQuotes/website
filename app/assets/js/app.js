@@ -185,6 +185,33 @@ $(document).ready(function() {
 					$(".favorite-action[data-id=" + id_quote + "]").attr('data-type', otherType);
 
 					$(".favorite-action[data-id=" + id_quote + "]").html("<i class='fa animated fadeIn " + otherIcon + "'></i>");
+
+					// If we are viewing a single quote, update users who favorited this quote
+					if (typeof laravel.urlFavoritesInfo !== 'undefined') {
+						$.ajax({
+							type: 'post',
+							cache: false,
+							crossDomain: true,
+							url: laravel.urlFavoritesInfo,
+							dataType: 'json',
+							data: {
+								'id': id_quote
+							},
+							success: function(data) {
+								var translate = data.translate;
+								$('.favorites-info .text').fadeOut(function() {
+									$(this).html(translate).fadeIn();
+								});
+							},
+							error: function(xhr, textStatus, thrownError) {
+								console.log(xhr);
+								console.log(textStatus);
+								console.log(thrownError);
+								console.log(xhr.responseText);
+								alert('Something went to wrong. Please try again later.');
+							}
+						});
+					}
 				}
 			},
 			error: function(xhr, textStatus, thrownError) {

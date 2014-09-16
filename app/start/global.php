@@ -150,8 +150,8 @@ require app_path().'/filters.php';
 |--------------------------------------------------------------------------
 |
 */
-require app_path().'/src/TeenQuotes/Api/V1/routes.php';
 
+require app_path().'/src/TeenQuotes/Api/V1/routes.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -167,6 +167,8 @@ View::composers([
 	'TeenQuotes\Composers\Users\ProfileEditComposer' => ['users.edit'],
 	// Reset a password with a token
 	'TeenQuotes\Composers\Password\ResetComposer'    => ['password.reset'],
+	// View a single quote
+	'TeenQuotes\Composers\Quotes\SingleComposer' 	 => ['quotes.singleQuote'],
 	// Associated URLs: ['home', 'contact', 'apps', 'signin', 'legal', 'signup', 'password/remind', 'random', 'addquote'],
 	'TeenQuotes\Composers\Pages\SimplePageComposer'  => ['quotes.index', 'contact.show', 'apps.download', 'auth.signin', 'legal.show', 'auth.signup', 'password.remind', 'quotes.addquote'],
 ]);

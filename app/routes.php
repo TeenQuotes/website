@@ -66,10 +66,8 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	/* --- QUOTES --- */
 	Route::get('random', ['as' => 'random', 'uses' => 'QuotesController@index']);
 	Route::get('addquote', ['as' => 'addquote', 'before' => 'auth', 'uses' => 'QuotesController@getAddQuote']);
-	Route::get('quote-{quote_id}', function($id)
-	{
-		return Redirect::route('quotes.show', array($id), 301);
-	});
+	Route::get('quote-{quote_id}', ['uses' => 'QuotesController@redirectOldUrl']);
+	Route::post('quotes/favorites-info', ['as' => 'quotes.favoritesInfo', 'uses' => 'QuotesController@getDataFavoritesInfo']);
 	Route::resource('quotes', 'QuotesController', ['only' => ['index', 'show', 'store']]);
 
 	/* --- COMMENTS --- */
