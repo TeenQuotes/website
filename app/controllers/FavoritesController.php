@@ -24,31 +24,34 @@ class FavoritesController extends \BaseController {
 			$quote = Quote::find($data['quote_id']);
 
 			// Check if the form validates with success.
-			if ($validator->passes() AND !is_null($quote) AND $quote->isPublished()) {
+			if ($validator->passes() AND ! is_null($quote) AND $quote->isPublished()) {
 
 				// Try to find if the user has a this quote in favorite from cache
 				if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']))
 					$alreadyFavorite = in_array($data['quote_id'], Cache::get(FavoriteQuote::$cacheNameFavoritesForUser.$data['user_id']));
 				else {
 					$favorite = FavoriteQuote::where('quote_id', '=' , $data['quote_id'])->where('user_id', '=' , $data['user_id'])->first();
-					$alreadyFavorite = !is_null($favorite);
+					$alreadyFavorite = ! is_null($favorite);
 				}
 
 				// Oops, the quote was already in its favorite
-				if ($alreadyFavorite) {
-					return Response::json(['success' => false, 'alreadyFavorite' => true]);
-				}
-					
+				if ($alreadyFavorite)
+					return Response::json([
+						'success'         => false,
+						'alreadyFavorite' => true
+					]);
+
 				// Call the API to store the favorite
 				$response = App::make('TeenQuotes\Api\V1\Controllers\FavQuotesController')->postFavorite($quote_id, false);
 				
 				if ($response->getStatusCode() == 200)
-					return Response::json(['success' => true], 200);
-				
-				return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
+					return Response::json(['success' => true], 200);				
 			}
 
-			return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
+			return Response::json([
+				'success' => false, 
+				'errors'  => $validator->getMessageBag()->toArray()
+			]);
 		}
 	}
 
@@ -75,14 +78,15 @@ class FavoritesController extends \BaseController {
 
 				// Call the API to delete the favorite
 				$response = App::make('TeenQuotes\Api\V1\Controllers\FavQuotesController')->deleteFavorite($quote_id, false);
-				
+								
 				if ($response->getStatusCode() == 200)
 					return Response::json(['success' => true], 200);
-
-				return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
 			}
 
-			return Response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
+			return Response::json([
+				'success' => false,
+				'errors'  => $validator->getMessageBag()->toArray()
+			]);
 		}
 	}
 }

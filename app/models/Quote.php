@@ -176,7 +176,10 @@ class Quote extends Toloquent {
 			// want to create a User model just to call the dedicated method
 			$favoriteQuotes = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$id, $expiresAt, function() use($id)
 			{
-				return FavoriteQuote::forUser($id)->select('quote_id')->get()->lists('quote_id');
+				return FavoriteQuote::forUser($id)
+					->select('quote_id')
+					->get()
+					->lists('quote_id');
 			});
 
 			return in_array($this->id, $favoriteQuotes);
