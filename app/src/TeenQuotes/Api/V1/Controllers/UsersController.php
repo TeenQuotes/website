@@ -193,7 +193,7 @@ class UsersController extends APIGlobalController {
 		}
 
 		// Everything went fine, update the user
-		$user = ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
+		$user = $this->retrieveUser();
 		
 		if (!empty($data['gender']))
 			$user->gender    = $data['gender'];
@@ -314,8 +314,7 @@ class UsersController extends APIGlobalController {
 
 		// Retrieve setting by the attributes
 		// or instantiate a new instance
-		$colorSetting = Setting::firstOrNew(
-		[
+		$colorSetting = Setting::firstOrNew([
 			'user_id' => $user->id,
 			'key'     => 'colorsQuotesPublished'
 		]);
@@ -336,11 +335,11 @@ class UsersController extends APIGlobalController {
         $skip = $pagesize * ($page - 1);
 
         $users = User::partialLogin($query)
-        ->notHidden()
-        ->with('countryObject')
-        ->skip($skip)
-        ->take($pagesize)
-        ->get();
+        	->notHidden()
+        	->with('countryObject')
+        	->skip($skip)
+        	->take($pagesize)
+        	->get();
 
         return $users;
 	}

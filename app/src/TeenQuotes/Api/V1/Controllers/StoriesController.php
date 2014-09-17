@@ -70,7 +70,7 @@ class StoriesController extends APIGlobalController {
 
 	public function store($doValidation = true)
 	{
-		$user = ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
+		$user = $this->retrieveUser();
 		$represent_txt = Input::get('represent_txt');
 		$frequence_txt = Input::get('frequence_txt');
 
