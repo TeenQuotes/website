@@ -14,15 +14,13 @@ class APIGlobalController extends BaseController {
 
 	public function showWelcome()
 	{
-		$data = [
+		return Response::json([
 			'status'            => 'You have arrived',
 			'message'           => 'Welcome to the Teen Quotes API',
 			'version'           => '1.0alpha',
 			'url_documentation' => 'https://github.com/TeenQuotes/api-documentation',
 			'contact'           => 'antoine.augusti@teen-quotes.com',
-		];
-
-		return Response::json($data, 200);
+		], 200);
 	}
 
 	public function postOauth()
@@ -41,7 +39,7 @@ class APIGlobalController extends BaseController {
 	 */
 	public static function paginateContent($page, $pagesize, $totalContent, $content, $contentName = 'quotes')
 	{
-        $totalPages = ceil($totalContent / $pagesize);
+		$totalPages = ceil($totalContent / $pagesize);
 		
 		$data = [
 			$contentName          => $content->toArray(),
@@ -50,30 +48,29 @@ class APIGlobalController extends BaseController {
 			'page'                => (int) $page,
 			'pagesize'            => (int) $pagesize,
 			'url'                 => URL::current()
-        ];
-        
-        $additionalGet = null;
-        if (Input::has('quote'))
-        	$additionalGet = '&quote=true';
+		];
+		
+		$additionalGet = null;
+		if (Input::has('quote'))
+			$additionalGet = '&quote=true';
 
-        // Add next page URL
-        if ($page < $totalPages) {
-        	$data['has_next_page'] = true;
-        	$data['next_page'] = $data['url'].'?page='.($page + 1).'&pagesize='.$pagesize.$additionalGet;
-        }
-        else
-        	$data['has_next_page'] = false;
+		// Add next page URL
+		if ($page < $totalPages) {
+			$data['has_next_page'] = true;
+			$data['next_page'] = $data['url'].'?page='.($page + 1).'&pagesize='.$pagesize.$additionalGet;
+		}
+		else
+			$data['has_next_page'] = false;
 
-        // Add previous page URL
-        if ($page >= 2) {
-        	$data['has_previous_page'] = true;
-        	$data['previous_page'] = $data['url'].'?page='.($page - 1).'&pagesize='.$pagesize.$additionalGet;
-        }
-        else
-        	$data['has_previous_page'] = false;
+		// Add previous page URL
+		if ($page >= 2) {
+			$data['has_previous_page'] = true;
+			$data['previous_page'] = $data['url'].'?page='.($page - 1).'&pagesize='.$pagesize.$additionalGet;
+		}
+		else
+			$data['has_previous_page'] = false;
 
-
-        return $data;
+		return $data;
 	}
 
 	/**

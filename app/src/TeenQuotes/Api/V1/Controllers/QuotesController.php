@@ -17,23 +17,19 @@ class QuotesController extends APIGlobalController {
 	public function getSingleQuote($quote_id)
 	{
 		$quote = Quote::whereId($quote_id)
-		->with('comments')
-		->withSmallUser('comments.user')
-		->withSmallUser('favorites.user')
-		->withSmallUser()
-		->first();
+			->with('comments')
+			->withSmallUser('comments.user')
+			->withSmallUser('favorites.user')
+			->withSmallUser()
+			->first();
 
 		// Handle not found
-		if (empty($quote) OR $quote->count() == 0) {
-
-			$data = [
+		if (empty($quote) OR $quote->count() == 0)
+			return Response::json([
 				'status' => 'quote_not_found',
 				'error'  => "The quote #".$quote_id." was not found",
-			];
-
-			return Response::json($data, 404);
-		}
-		
+			], 404);
+					
 		// Register the view in the recommendation engine
 		$quote->registerViewAction();
 
@@ -42,11 +38,8 @@ class QuotesController extends APIGlobalController {
 
 	public function indexFavoritesQuotes($user_id)
 	{
-		$page = Input::get('page', 1);
+		$page = max(1, Input::get('page', 1));
 		$pagesize = Input::get('pagesize', Config::get('app.users.nbQuotesPerPage'));
-
-        if ($page <= 0)
-			$page = 1;
 
 		$user = User::find($user_id);
 		
@@ -87,11 +80,8 @@ class QuotesController extends APIGlobalController {
 
 	public function indexByApprovedQuotes($quote_approved_type, $user_id)
 	{
-		$page = Input::get('page', 1);
+		$page = max(1, Input::get('page', 1));
 		$pagesize = Input::get('pagesize', Config::get('app.users.nbQuotesPerPage'));
-
-        if ($page <= 0)
-			$page = 1;
 
 		$user = User::find($user_id);
 		
@@ -129,19 +119,16 @@ class QuotesController extends APIGlobalController {
 
 	public function indexQuotes($random = null)
 	{
-		$page = Input::get('page', 1);
+		$page = max(1, Input::get('page', 1));
 		$pagesize = Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
-
-        if ($page <= 0)
-			$page = 1;
 
 		$totalQuotes = Quote::nbQuotesPublished();
 
-        // Get quotes
-        if (is_null($random))
-        	$content = $this->getQuotesHome($page, $pagesize);
-        else
-        	$content = $this->getQuotesRandom($page, $pagesize);
+		// Get quotes
+		if (is_null($random))
+			$content = $this->getQuotesHome($page, $pagesize);
+		else
+			$content = $this->getQuotesRandom($page, $pagesize);
 
 		// Handle no quotes found
 		if (is_null($content) OR $content->count() == 0) {
@@ -160,35 +147,28 @@ class QuotesController extends APIGlobalController {
 
 	public function getSearch($query)
 	{
-		$page = Input::get('page', 1);
+		$page = max(1, Input::get('page', 1));
 		$pagesize = Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
-
-        if ($page <= 0)
-			$page = 1;
 				
 		// Get quotes
 		$content = self::getQuotesSearch($page, $pagesize, $query);
 
 		// Handle no quotes found
 		$totalQuotes = 0;
-		if (is_null($content) OR empty($content) OR $content->count() == 0) {
-			$data = [
+		if (is_null($content) OR empty($content) OR $content->count() == 0)
+			return Response::json([
 				'status' => 404,
 				'error' => 'No quotes have been found.'
-			];
+			], 404);
 
-			return Response::json($data, 404);
-		}
-
-		$totalQuotes = Quote::
-		// $query will NOT be bind here
-		// it will be bind when calling setBindings
-		whereRaw("MATCH(content) AGAINST(?)", array($query))
-		->where('approved', '=', 1)
-		// WARNING 1 corresponds to approved = 1
-		// We need to bind it again
-		->setBindings([$query, 1])
-		->count();
+		$totalQuotes = Quote::whereRaw("MATCH(content) AGAINST(?)", array($query))
+			// $query will NOT be bind here
+			// it will be bind when calling setBindings
+			->where('approved', '=', Quote::PUBLISHED)
+			// WARNING 1 corresponds to approved = 1
+			// We need to bind it again
+			->setBindings([$query, Quote::PUBLISHED])
+			->count();
 
 		$data = self::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
@@ -201,6 +181,7 @@ class QuotesController extends APIGlobalController {
 		$content = Input::get('content');
 
 		if ($doValidation) {		
+			
 			// Validate content of the quote
 			$validatorContent = Validator::make(compact('content'), ['content' => Quote::$rulesAdd['content']]);
 			if ($validatorContent->fails()) {
@@ -238,31 +219,31 @@ class QuotesController extends APIGlobalController {
 		// Time to store in cache
 		$expiresAt = Carbon::now()->addMinutes(1);
 
-        // Number of quotes to skip
-        $skip = $pagesize * ($page - 1);
+		// Number of quotes to skip
+		$skip = $pagesize * ($page - 1);
 
-        if ($pagesize == Config::get('app.quotes.nbQuotesPerPage')) {
-
-        	$content = Cache::remember(Quote::$cacheNameQuotesAPIPage.$page, $expiresAt, function() use($pagesize, $skip)
-        	{
-		        return Quote::published()
+		// We will hit the cache / remember in cache if we have the same pagesize
+		// that the one of the website
+		if ($pagesize == Config::get('app.quotes.nbQuotesPerPage')) {
+			$content = Cache::remember(Quote::$cacheNameQuotesAPIPage.$page, $expiresAt, function() use($pagesize, $skip) {
+				return Quote::published()
+					->withSmallUser()
+					->orderDescending()
+					->take($pagesize)
+					->skip($skip)
+					->get();
+			});
+		}
+		else {
+			$content = Quote::published()
 				->withSmallUser()
 				->orderDescending()
 				->take($pagesize)
 				->skip($skip)
 				->get();
-        	});
-        }
-        else {
-        	$content = Quote::published()
-				->withSmallUser()
-				->orderDescending()
-				->take($pagesize)
-				->skip($skip)
-				->get();
-        }
+		}
 
-        return $content;
+		return $content;
 	}
 
 	private function getQuotesRandom($page, $pagesize)
@@ -270,37 +251,37 @@ class QuotesController extends APIGlobalController {
 		// Time to store in cache
 		$expiresAt = Carbon::now()->addMinutes(1);
 
-        // Number of quotes to skip
-        $skip = $pagesize * ($page - 1);
+		// Number of quotes to skip
+		$skip = $pagesize * ($page - 1);
 
-        if ($pagesize == Config::get('app.quotes.nbQuotesPerPage')) {
-
-        	$content = Cache::remember(Quote::$cacheNameRandomAPIPage.$page, $expiresAt, function() use($pagesize, $skip)
-        	{
-		        return Quote::published()
+		// We will hit the cache / remember in cache if we have the same pagesize
+		// that the one of the website
+		if ($pagesize == Config::get('app.quotes.nbQuotesPerPage')) {
+			$content = Cache::remember(Quote::$cacheNameRandomAPIPage.$page, $expiresAt, function() use($pagesize, $skip) {
+				return Quote::published()
+					->withSmallUser()
+					->random()
+					->take($pagesize)
+					->skip($skip)
+					->get();
+			});
+		}
+		else {
+			$content = Quote::published()
 				->withSmallUser()
 				->random()
 				->take($pagesize)
 				->skip($skip)
 				->get();
-        	});
-        }
-        else {
-        	$content = Quote::published()
-				->withSmallUser()
-				->random()
-				->take($pagesize)
-				->skip($skip)
-				->get();
-        }
+		}
 
-        return $content;
+		return $content;
 	}
 
 	private function getQuotesFavorite($page, $pagesize, $user, $arrayIDFavoritesQuotesForUser)
 	{
 		// Number of quotes to skip
-        $skip = $pagesize * ($page - 1);
+		$skip = $pagesize * ($page - 1);
 
 		$content = Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
 			->withSmallUser()
@@ -315,22 +296,21 @@ class QuotesController extends APIGlobalController {
 	public static function getQuotesSearch($page, $pagesize, $query)
 	{
 		// Number of quotes to skip
-        $skip = $pagesize * ($page - 1);
+		$skip = $pagesize * ($page - 1);
 
-        $quotes = Quote::
-		select('id', 'content', 'user_id', 'approved', 'created_at', 'updated_at', DB::raw("MATCH(content) AGAINST(?) AS `rank`"))
-		// $search will NOT be bind here
-		// it will be bind when calling setBindings
-		->whereRaw("MATCH(content) AGAINST(?)", array($query))
-		->where('approved', '=', 1)
-		->orderBy('rank', 'DESC')
-		->withSmallUser()
-		->skip($skip)
-		->take($pagesize)
-		// WARNING 1 corresponds to approved = 1
-		// We need to bind it again
-		->setBindings([$query, $query, 1])
-		->get();
+		$quotes = Quote::select('id', 'content', 'user_id', 'approved', 'created_at', 'updated_at', DB::raw("MATCH(content) AGAINST(?) AS `rank`"))
+			// $search will NOT be bind here
+			// it will be bind when calling setBindings
+			->whereRaw("MATCH(content) AGAINST(?)", array($query))
+			->where('approved', '=', 1)
+			->orderBy('rank', 'DESC')
+			->withSmallUser()
+			->skip($skip)
+			->take($pagesize)
+			// WARNING 1 corresponds to approved = 1
+			// We need to bind it again
+			->setBindings([$query, $query, 1])
+			->get();
 
 		return $quotes;
 	}
@@ -338,7 +318,7 @@ class QuotesController extends APIGlobalController {
 	private function getQuotesByApprovedForUser($page, $pagesize, $user, $quote_approved_type)
 	{
 		// Number of quotes to skip
-        $skip = $pagesize * ($page - 1);
+		$skip = $pagesize * ($page - 1);
 
 		$content = Quote::$quote_approved_type()
 			->withSmallUser()

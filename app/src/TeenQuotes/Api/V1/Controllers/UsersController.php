@@ -26,13 +26,11 @@ class UsersController extends APIGlobalController {
 	public function deleteUsers()
 	{
 		User::find(ResourceServer::getOwnerId())->delete();
-		
-		$data = [
+
+		return Response::json([
 			'status'  => 'user_deleted',
 			'message' => 'The user has been deleted.'
-		];
-
-		return Response::json($data, 200);
+		], 200);
 	}
 
 	public function getUsers()
@@ -51,16 +49,13 @@ class UsersController extends APIGlobalController {
 		if ($doValidation) {
 
 			// Validate login, password and email
-			foreach (array_keys(User::$rulesSignup) as $value) {
-				
+			foreach (array_keys(User::$rulesSignup) as $value) {	
 				$validator = Validator::make([$value => $data[$value]], [$value => User::$rulesSignup[$value]]);
 				if ($validator->fails()) {
-					$data = [
+					return Response::json([
 						'status' => 'wrong_'.$value,
 						'error'  => $validator->messages()->first($value),
-					];
-
-					return Response::json($data, 400);
+					], 400);
 				}
 			}
 		}
@@ -87,6 +82,7 @@ class UsersController extends APIGlobalController {
 		if (!$doValidation)
 			Auth::login($user);
 
+		// TODO: move to an observer
 		// Subscribe the user to the weekly newsletter
 		Newsletter::createNewsletterForUser($user, 'weekly');
 
@@ -103,26 +99,21 @@ class UsersController extends APIGlobalController {
 	public function getSingleUser($user_id)
 	{
 		$user = User::where('login', '=', $user_id)
-		->orWhere('id', '=', $user_id)
-		->with(array('countryObject' => function($q)
-		{
-			$q->addSelect(array('id', 'name'));
-		}))
-		->with(array('newsletters' => function($q)
-		{
-			$q->addSelect('user_id', 'type', 'created_at');
-		}))
-		->first();
+			->orWhere('id', '=', $user_id)
+			->with(array('countryObject' => function($q) {
+				$q->addSelect(array('id', 'name'));
+			}))
+			->with(array('newsletters' => function($q) {
+				$q->addSelect('user_id', 'type', 'created_at');
+			}))
+			->first();
 
 		// User not found
-		if (empty($user) OR $user->count() == 0) {
-			$data = [
+		if (empty($user) OR $user->count() == 0)
+			return Response::json([
 				'status' => 404,
 				'error' => 'User not found.'
-			];
-
-			return Response::json($data, 404);
-		}
+			], 404);
 
 		$data = $user->toArray();
 		foreach (User::$appendsFull as $key) {
@@ -135,25 +126,19 @@ class UsersController extends APIGlobalController {
 
 	public function getSearch($query)
 	{
-		$page = Input::get('page', 1);
+		$page = max(1, Input::get('page', 1));
 		$pagesize = Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
 
-        if ($page <= 0)
-			$page = 1;
-				
 		// Get users
 		$content = self::getUsersSearch($page, $pagesize, $query);
 
 		// Handle no users found
 		$totalUsers = 0;
-		if (is_null($content) OR empty($content) OR $content->count() == 0) {
-			$data = [
+		if (is_null($content) OR empty($content) OR $content->count() == 0)
+			return Response::json([
 				'status' => 404,
 				'error' => 'No users have been found.'
-			];
-
-			return Response::json($data, 404);
-		}
+			], 404);
 
 		$totalUsers = User::partialLogin($query)->notHidden()->count();
 
@@ -164,7 +149,6 @@ class UsersController extends APIGlobalController {
 
 	public function putProfile($doValidation = true)
 	{
-		
 		$data = [
 			'gender'    => Input::get('gender'),
 			'birthdate' => Input::get('birthdate'),
@@ -175,19 +159,15 @@ class UsersController extends APIGlobalController {
 		];
 
 		if ($doValidation) {
-
+			
 			// Validate login, password and email
 			foreach (array_keys(User::$rulesUpdate) as $value) {
-				
 				$validator = Validator::make([$value => $data[$value]], [$value => User::$rulesUpdate[$value]]);
-				if ($validator->fails()) {
-					$data = [
+				if ($validator->fails())
+					return Response::json([
 						'status' => 'wrong_'.$value,
 						'error'  => $validator->messages()->first($value),
-					];
-
-					return Response::json($data, 400);
-				}
+					], 400);
 			}
 		}
 
@@ -215,12 +195,10 @@ class UsersController extends APIGlobalController {
 
 		$user->save();
 
-		$data = [
+		return Response::json([
 			'status'  => 'profile_updated',
 			'success' => 'The profile has been updated.'
-		];
-
-		return Response::json($data, 200);
+		], 200);
 	}
 
 	public function putPassword()
@@ -235,25 +213,20 @@ class UsersController extends APIGlobalController {
 		$validatorPassword = Validator::make($data, User::$rulesUpdatePassword);
 
 		// Validate password
-		if ($validatorPassword->fails()) {
-			$data = [
+		if ($validatorPassword->fails())
+			return Response::json([
 				'status' => 'wrong_password',
 				'error'  => $validatorPassword->messages()->first('password'),
-			];
-
-			return Response::json($data, 400);
-		}
+			], 400);
 
 		// Update new password
 		$user->password = Hash::make($data['password']);
 		$user->save();
 
-		$data = [
+		return Response::json([
 			'status'  => 'password_updated',
 			'success' => 'The new password has been set.',
-		];
-
-		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
+		], 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function putSettings($userInstance = null)
@@ -298,18 +271,11 @@ class UsersController extends APIGlobalController {
 		}
 
 		// Update colors for quotes
-		if (!in_array($data['colors'], Config::get('app.users.colorsAvailableQuotesPublished'))) {
-
-			$data = [
+		if (!in_array($data['colors'], Config::get('app.users.colorsAvailableQuotesPublished')))
+			return Response::json([
 				'status' => 'wrong_color',
 				'error'  => 'This color is not allowed.'
-			];
-
-			return Response::json($data, 400);
-		}
-
-		// Forget value in cache
-		Cache::forget(User::$cacheNameForColorsQuotesPublished.$user->id);
+			], 400);
 
 		// Retrieve setting by the attributes
 		// or instantiate a new instance
@@ -320,12 +286,14 @@ class UsersController extends APIGlobalController {
 		$colorSetting->value = $data['colors'];
 		$colorSetting->save();
 
-		$data = [
+		// TODO: move to an observer
+		// Forget value in cache
+		Cache::forget(User::$cacheNameForColorsQuotesPublished.$user->id);
+
+		return Response::json([
 			'status'  => 'profile_updated',
 			'success' => 'The profile has been updated.'
-		];
-
-		return Response::json($data, 200);
+		], 200);
 	}
 
 	public static function getUsersSearch($page, $pagesize, $query)

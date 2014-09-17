@@ -18,39 +18,31 @@ class CommentsController extends APIGlobalController {
 
 	public function index()
 	{
-		$page = Input::get('page', 1);
+		$page = max(1, Input::get('page', 1));
 		$pagesize = Input::get('pagesize', Config::get('app.comments.nbCommentsPerPage'));
-
-        if ($page <= 0)
-			$page = 1;
-
+		
 		// Number of comments to skip
-        $skip = $pagesize * ($page - 1);
+		$skip = $pagesize * ($page - 1);
 
 		$totalComments = Comment::count();
 
-        // Get comments
-        $contentQuery = Comment::
-			withSmallUser()
+		// Get comments
+		$contentQuery = Comment::withSmallUser()
 			->orderDescending();
 
 		if (Input::has('quote'))
 			$contentQuery = $contentQuery->with('quote');
 
-		$content = $contentQuery
-			->take($pagesize)
+		$content = $contentQuery->take($pagesize)
 			->skip($skip)
 			->get();
 
 		// Handle no comments found
-		if (is_null($content) OR $content->count() == 0) {
-			$data = [
+		if (is_null($content) OR $content->count() == 0)
+			return Response::json([
 				'status' => 404,
 				'error' => 'No comments have been found.'
-			];
-
-			return Response::json($data, 404);
-		}
+			], 404);
 
 		$data = self::paginateContent($page, $pagesize, $totalComments, $content, 'comments');
 		
@@ -68,17 +60,13 @@ class CommentsController extends APIGlobalController {
 		$comment = $commentQuery->first();
 
 		// Handle not found
-		if (is_null($comment)) {
-
-			$data = [
+		if (is_null($comment))
+			return Response::json([
 				'status' => 'comment_not_found',
 				'error'  => "The comment #".$comment_id." was not found",
-			];
-
-			return Response::json($data, 404);
-		}
-		else
-			return Response::json($comment, 200, [], JSON_NUMERIC_CHECK);
+			], 404);
+		
+		return Response::json($comment, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function store($quote_id, $doValidation = true)
@@ -86,42 +74,29 @@ class CommentsController extends APIGlobalController {
 		$user = $this->retrieveUser();
 		$content = Input::get('content');
 
-		if ($doValidation) {		
-			
-			// Validate quote_id
-			$validatorQuote = Validator::make(compact('quote_id'), ['quote_id' => Comment::$rulesAdd['quote_id']]);
-			if ($validatorQuote->fails()) {
-				$data = [
-					'status' => 'wrong_quote_id',
-					'error' => $validatorQuote->messages()->first('quote_id')
-				];
+		if ($doValidation) {
 
-				return Response::json($data, 400);
-			}
-
-			// Validate content
-			$validatorContent = Validator::make(compact('content'), ['content' => Comment::$rulesAdd['content']]);
-			if ($validatorContent->fails()) {
-				$data = [
-					'status' => 'wrong_content',
-					'error' => $validatorContent->messages()->first('content')
-				];
-
-				return Response::json($data, 400);
+			// Validate quote_id and content
+			foreach (['quote_id', 'content'] as $value) {
+				$validator = Validator::make(compact($value), [$value => Comment::$rulesAdd[$value]]);
+				if ($validator->fails())
+					return Response::json([
+						'status' => 'wrong_'.$value,
+						'error' => $validator->messages()->first($value)
+					], 400);
 			}
 		}
 
-		$quote = Quote::where('id', '=', $quote_id)->with('user')->first();
+		$quote = Quote::where('id', '=', $quote_id)
+			->with('user')
+			->first();
 		
 		// Check if the quote is published
-		if (!$quote->isPublished()) {
-			$data = [
+		if ( ! $quote->isPublished())
+			return Response::json([
 				'status' => 'wrong_quote_id',
 				'error' => 'The quote should be published.'
-			];
-
-			return Response::json($data, 400);
-		}
+			], 400);
 
 		// Store the comment
 		$comment = new Comment;
@@ -130,6 +105,7 @@ class CommentsController extends APIGlobalController {
 		$comment->user_id  = $user->id;
 		$comment->save();
 
+		// TODO: move to an observer
 		// Send an email to the author of the quote if he wants it
 		if ($quote->user->wantsEmailComment()) {
 			$emailData            = array();
@@ -157,38 +133,30 @@ class CommentsController extends APIGlobalController {
 		$comment = Comment::find($id);
 
 		// Handle not found
-		if (is_null($comment)) {
-
-			$data = [
+		if (is_null($comment))
+			return Response::json([
 				'status' => 'comment_not_found',
 				'error'  => "The comment #".$id." was not found.",
-			];
+			], 404);
 
-			return Response::json($data, 404);
-		}
-
-		if (!$comment->isPostedByUser($user)) {
-
-			$data = [
+		// Check that the user is the owner of the comment
+		if ( ! $comment->isPostedByUser($user))
+			return Response::json([
 				'status' => 'comment_not_self',
 				'error'  => "The comment #".$id." was not posted by user #".$user->id.".",
-			];
+			], 400);
 
-			return Response::json($data, 400);
-		}
-
+		// Delete the comment
+		$comment->delete();
+		
+		// TODO: move to an observer
 		// Update the number of comments on the related quote in cache
 		if (Cache::has(Quote::$cacheNameNbComments.$comment->quote_id))
 			Cache::decrement(Quote::$cacheNameNbComments.$comment->quote_id);
 
-		// Delete the comment
-		$comment->delete();
-
-		$data = [
+		return Response::json([
 			'status'  => 'comment_deleted',
 			'success' => "The comment #".$id." was deleted.",
-		];
-
-		return Response::json($data, 200);
+		], 200);
 	}
 }
