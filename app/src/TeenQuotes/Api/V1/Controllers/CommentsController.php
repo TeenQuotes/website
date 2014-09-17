@@ -1,6 +1,6 @@
-<?php
-namespace TeenQuotes\Api\V1\Controllers;
+<?php namespace TeenQuotes\Api\V1\Controllers;
 
+use Comment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
@@ -10,10 +10,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
+use Quote;
 use TeenQuotes\Mail\MailSwitcher;
-use \Comment;
-use \User;
-use \Quote;
+use User;
 
 class CommentsController extends APIGlobalController {
 

@@ -1,17 +1,16 @@
-<?php
-namespace TeenQuotes\Api\V1\Controllers;
+<?php namespace TeenQuotes\Api\V1\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
-use Carbon\Carbon;
 use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
-use \Quote;
-use \User;
+use Quote;
+use User;
 
 class QuotesController extends APIGlobalController {
 
