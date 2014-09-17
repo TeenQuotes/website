@@ -201,7 +201,7 @@ class Quote extends Toloquent {
 		// $search will NOT be bind here
 		// it will be bind when calling setBindings
 		->whereRaw("MATCH(content) AGAINST(?)", array($search))
-		->where('approved', '=', 1)
+		->where('approved', '=', self::PUBLISHED)
 		->orderBy('rank', 'DESC')
 		->with('user')
 		// WARNING 1 corresponds to approved = 1
