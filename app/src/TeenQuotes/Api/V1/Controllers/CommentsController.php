@@ -84,7 +84,7 @@ class CommentsController extends APIGlobalController {
 
 	public function store($quote_id, $doValidation = true)
 	{
-		$user = ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
+		$user = $this->retrieveUser();
 		$content = Input::get('content');
 
 		if ($doValidation) {		
@@ -154,7 +154,7 @@ class CommentsController extends APIGlobalController {
 
 	public function destroy($id)
 	{
-		$user = ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
+		$user = $this->retrieveUser();
 		$comment = Comment::find($id);
 
 		// Handle not found

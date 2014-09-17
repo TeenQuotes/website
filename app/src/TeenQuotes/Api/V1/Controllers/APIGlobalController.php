@@ -1,11 +1,15 @@
 <?php
 namespace TeenQuotes\Api\V1\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\URL;
 use LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade as AuthorizationServer;
-use \BaseController;
+use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
+
+use BaseController;
+use User;
 
 class APIGlobalController extends BaseController {
 
@@ -71,5 +75,14 @@ class APIGlobalController extends BaseController {
 
 
         return $data;
+	}
+
+	/**
+	 * Retrieve the authenticated user from the website or via the API
+	 * @return \User The user object
+	 */
+	public function retrieveUser()
+	{
+		return ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
 	}
 }

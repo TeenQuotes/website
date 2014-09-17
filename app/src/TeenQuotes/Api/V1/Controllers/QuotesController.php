@@ -198,7 +198,7 @@ class QuotesController extends APIGlobalController {
 
 	public function postStoreQuote($doValidation = true)
 	{
-		$user = ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
+		$user = $this->retrieveUser();
 		$content = Input::get('content');
 
 		if ($doValidation) {		

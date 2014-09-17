@@ -15,8 +15,8 @@ class FavQuotesController extends APIGlobalController {
 	
 	public function postFavorite($quote_id, $doValidation = true)
 	{
-		$user = ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
-
+		$user = $this->retrieveUser();
+		
 		if ($doValidation) {		
 			$validatorQuote = Validator::make(compact('quote_id'), ['quote_id' => FavoriteQuote::$rulesAddFavorite['quote_id']]);
 			
@@ -65,8 +65,8 @@ class FavQuotesController extends APIGlobalController {
 
 	public function deleteFavorite($quote_id, $doValidation = true)
 	{
-		$user = ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
-
+		$user = $this->retrieveUser();
+		
 		if ($doValidation) {		
 
 			$validatorFavoriteQuote = Validator::make(compact('quote_id'), ['quote_id' => 'exists:favorite_quotes,quote_id,user_id,'.$user->id]);
