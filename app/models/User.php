@@ -123,7 +123,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function isHiddenProfile()
 	{
-		return ($this->hide_profile == 1);
+		return $this->hide_profile == 1;
 	}
 
 	/**
@@ -132,7 +132,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function isMale()
 	{
-		return ($this->gender == 'M');
+		return $this->gender == 'M';
 	}
 
 	/**
@@ -141,7 +141,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function isFemale()
 	{
-		return !$this->isMale();
+		return ! $this->isMale();
 	}
 
 	public function getWantsNotificationCommentQuoteAttribute()
@@ -151,7 +151,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function getIsAdminAttribute()
 	{
-		return ($this->security_level == 1);
+		return $this->security_level == 1;
 	}
 
 	public function getTotalComments()
@@ -197,7 +197,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function getPublishedQuotesCount()
 	{
-		return Quote::forUser($this)->published()->count();
+		return Quote::forUser($this)
+			->published()
+			->count();
 	}
 
 	/**
@@ -207,7 +209,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function wantsEmailComment()
 	{
-		return ($this->notification_comment_quote == 1);
+		return $this->notification_comment_quote == 1;
 	}
 
 	/**
