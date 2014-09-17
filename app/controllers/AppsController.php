@@ -37,7 +37,7 @@ class AppsController extends BaseController {
 		]);
 
 		// Retrieve devices info from settings.json
-		$devicesInfo = LaraSetting::get('devicesInfo')[2];
+		$devicesInfo = LaraSetting::get('devicesInfo')[0];
 
 		$data = [
 			'title'           => Lang::get('apps.'.$device.'Title'),
