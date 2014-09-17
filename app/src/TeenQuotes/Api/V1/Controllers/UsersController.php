@@ -1,10 +1,12 @@
-<?php
-namespace TeenQuotes\Api\V1\Controllers;
+<?php namespace TeenQuotes\Api\V1\Controllers;
 
+use Buonzz\GeoIP\Laravel4\Facades\GeoIP;
+use Carbon\Carbon;
+use Country;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
@@ -12,15 +14,12 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
 use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
-use Thomaswelton\LaravelGravatar\Facades\Gravatar;
-use Buonzz\GeoIP\Laravel4\Facades\GeoIP;
+use Newsletter;
+use Setting;
 use TeenQuotes\Mail\MailSwitcher;
-use \Country;
-use \Newsletter;
-use \Setting;
-use \User;
+use Thomaswelton\LaravelGravatar\Facades\Gravatar;
+use User;
 
 class UsersController extends APIGlobalController {
 	

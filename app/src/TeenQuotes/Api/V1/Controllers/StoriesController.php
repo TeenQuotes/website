@@ -1,5 +1,4 @@
-<?php
-namespace TeenQuotes\Api\V1\Controllers;
+<?php namespace TeenQuotes\Api\V1\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -7,8 +6,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
-use \Story;
-use \User;
+use Story;
+use User;
 
 class StoriesController extends APIGlobalController {
 	

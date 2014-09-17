@@ -1,15 +1,14 @@
-<?php
-namespace TeenQuotes\Api\V1\Controllers;
+<?php namespace TeenQuotes\Api\V1\Controllers;
 
+use FavoriteQuote;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
-use \FavoriteQuote;
-use \User;
-use \Quote;
+use Quote;
+use User;
 
 class FavQuotesController extends APIGlobalController {
 	

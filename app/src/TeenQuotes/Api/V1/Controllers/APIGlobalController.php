@@ -1,14 +1,13 @@
-<?php
-namespace TeenQuotes\Api\V1\Controllers;
+<?php namespace TeenQuotes\Api\V1\Controllers;
 
+
+use BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\URL;
 use LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade as AuthorizationServer;
 use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
-
-use BaseController;
 use User;
 
 class APIGlobalController extends BaseController {
