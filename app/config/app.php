@@ -139,7 +139,8 @@ return array(
 		'Antoineaugusti\LaravelSentimentAnalysis\LaravelSentimentAnalysisServiceProvider',
 		'Philf\Setting\SettingServiceProvider',
 		'Antoineaugusti\LaravelEasyrec\LaravelEasyrecServiceProvider',
-		'Philo\Translate\TranslateServiceProvider'
+		'Philo\Translate\TranslateServiceProvider',
+		'TeenQuotes\Models\Observers\ObserversServiceProvider'
 	),
 
 	/*
