@@ -15,6 +15,30 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 	protected $response;
 
 	/**
+	 * The current page of an endpoint of the API
+	 * @var int
+	 */
+	protected $page = null;
+
+	/**
+	 * The current pagesize of an endpoint of the API
+	 * @var int
+	 */
+	protected $pagesize = null;
+
+	/**
+	 * Tells if an endpoint embed a small user in its response
+	 * @var boolean
+	 */
+	protected $containsSmallUser = false;
+
+	/**
+	 * Number of ressources to create
+	 * @var integer
+	 */
+	protected $nbRessources = 3;
+
+	/**
 	 * Creates the application.
 	 *
 	 * @return \Symfony\Component\HttpKernel\HttpKernelInterface
@@ -58,20 +82,108 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		}
 	}
 
+	protected function tryPaginatedContentNotFound($status, $error)
+	{
+		$this->page = $this->nbRessources + 1;
+		$this->pagesize = $this->nbRessources;
+		Input::replace([
+			'page' => $this->page,
+			'pagesize' => $this->pagesize
+		]);
+
+		$this->response = $this->controller->index();
+		
+		$this->assertResponseIsNotFound();
+		$this->assertResponseKeyIs('status', $status);
+		$this->assertResponseKeyIs('error', $error);
+	}
+
+	protected function tryMiddlePage()
+	{
+		$this->page = max(2, ($this->nbRessources / 2));
+		$this->pagesize = 1;
+		Input::replace([
+			'page' => $this->page,
+			'pagesize' => $this->pagesize
+		]);
+
+		$this->response = $this->controller->index();
+		$this->assertIsPaginatedResponse();
+		$this->assertHasNextAndPreviousPage();
+		
+		$objectName = $this->contentType;
+		$objects = $this->retrieveJson()->$objectName;
+		if ($this->containsSmallUser)
+			$this->assertObjectContainsSmallUser(reset($objects));
+		$this->assertObjectHasAttributes(reset($objects), $this->requiredAttributes);
+
+		$this->assertNeighborsPagesMatch();
+	}
+
+	protected function tryShowNotFound($status, $error)
+	{
+		$this->response = $this->controller->show($this->nbRessources + 1);
+
+		$this->assertResponseIsNotFound();
+		$this->assertResponseKeyIs('status', $status);
+		$this->assertResponseKeyIs('error', $error);
+	}
+
+	protected function tryShowFound($id)
+	{
+		$this->response = $this->controller->show($id);
+		if ($this->containsSmallUser)
+			$this->assertResponseHasSmallUser();
+		$this->assertResponseHasAttributes($this->requiredAttributes);	
+	}
+
+	protected function tryFirstPage()
+	{
+		$this->page = 1;
+		$this->pagesize = $this->nbRessources;
+		Input::replace([
+			'page' => $this->page,
+			'pagesize' => $this->pagesize
+		]);
+
+		$this->response = $this->controller->index();
+		$this->assertIsPaginatedResponse();
+
+		$objectName = $this->contentType;
+		$objects = $this->retrieveJson()->$objectName;
+		for ($i = 0; $i < $this->nbRessources; $i++) { 
+			if ($this->containsSmallUser)
+				$this->assertObjectContainsSmallUser($objects[$i]);
+			$this->assertObjectHasAttributes($objects[$i], $this->requiredAttributes);
+		}
+
+		$this->assertNeighborsPagesMatch();
+	}
+
 	protected function assertObjectContainsSmallUser($object)
 	{
 		return $this->assertObjectIsSmallUser($object->user);
 	}
 
-	protected function assertNeighborsPagesMatch($currentPage, $pagesize)
+	protected function assertResponseKeyIs($key, $value)
 	{
 		$object = $this->retrieveJson();
-		
-		$nextPage = $currentPage + 1;
-		$previousPage = $currentPage - 1;
+		$this->assertEquals($object->$key, $value);
+	}
 
-		$this->assertTrue(Str::contains($object->next_page, 'page='.$nextPage.'&pagesize='.$pagesize));
-		$this->assertTrue(Str::contains($object->previous_page, 'page='.$previousPage.'&pagesize='.$pagesize));
+	protected function assertNeighborsPagesMatch()
+	{
+		$this->checkPagesAreSet();
+
+		$object = $this->retrieveJson();
+		
+		$nextPage = $this->page + 1;
+		$previousPage = $this->page - 1;
+
+		if ($nextPage < $this->computeTotalPages())
+			$this->assertTrue(Str::contains($object->next_page, 'page='.$nextPage.'&pagesize='.$this->pagesize));
+		if ($previousPage >= 1 AND $this->computeTotalPages() > 1)
+			$this->assertTrue(Str::contains($object->previous_page, 'page='.$previousPage.'&pagesize='.$this->pagesize));
 	}
 
 	protected function assertObjectIsSmallUser($object)
@@ -94,6 +206,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
 	protected function assertIsPaginatedResponse()
 	{
+		$this->checkPagesAreSet();
+		
 		$object = $this->retrieveJson();
 
 		// Assert attributes
@@ -104,9 +218,13 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$this->assertObjectHasAttribute('pagesize', $object);
 		$this->assertObjectHasAttribute('url', $object);
 		$this->assertObjectHasAttribute('has_next_page', $object);
-		$this->assertObjectHasAttribute('next_page', $object);
 		$this->assertObjectHasAttribute('has_previous_page', $object);
-		$this->assertObjectHasAttribute('previous_page', $object);
+		
+		if ($object->has_next_page)
+			$this->assertObjectHasAttribute('next_page', $object);
+		
+		if ($object->has_previous_page)
+			$this->assertObjectHasAttribute('previous_page', $object);
 
 		// Assert types
 		$this->assertTrue(is_integer($object->$attributeName));
@@ -116,11 +234,33 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$this->assertTrue(is_bool($object->has_next_page));
 		$this->assertTrue(is_bool($object->has_previous_page));
 
+		// Assert values
+		$this->assertEquals($this->page, $object->page);
+		$this->assertEquals($this->pagesize, $object->pagesize);
+		$this->assertEquals($this->nbRessources, $object->$attributeName);
+		$this->assertEquals($this->computeTotalPages(), $object->total_pages);
+
+		// Check URL format		
 		if ($object->has_next_page)
 			$this->assertTrue(Str::startsWith($object->next_page, 'http'));
+		else
+			$this->assertObjectNotHasAttribute('next_page', $object);
 		
 		if ($object->has_previous_page)
 			$this->assertTrue(Str::startsWith($object->previous_page, 'http'));
+		else
+			$this->assertObjectNotHasAttribute('previous_page', $object);
+	}
+
+	private function computeTotalPages()
+	{
+		return ceil($this->nbRessources / $this->pagesize);
+	}
+
+	private function checkPagesAreSet()
+	{
+		if (is_null($this->page) OR is_null($this->pagesize))
+			throw new \InvalidArgumentException("Page and pagesize must be set before calling this method", 1);	
 	}
 
 	protected function assertHasNextAndPreviousPage()
@@ -128,6 +268,22 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		$object = $this->retrieveJson();
 		
 		$this->assertTrue($object->has_next_page);
+		$this->assertTrue($object->has_previous_page);
+	}
+
+	protected function assertHasNextPage()
+	{
+		$object = $this->retrieveJson();
+		
+		$this->assertTrue($object->has_next_page);
+		$this->assertFalse($object->has_previous_page);
+	}
+
+	protected function assertHasPreviousPage()
+	{
+		$object = $this->retrieveJson();
+		
+		$this->assertFalse($object->has_next_page);
 		$this->assertTrue($object->has_previous_page);
 	}
 
