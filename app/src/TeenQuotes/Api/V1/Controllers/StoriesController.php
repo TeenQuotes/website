@@ -82,6 +82,6 @@ class StoriesController extends APIGlobalController {
 		$story->user_id = $user->id;
 		$story->save();
 
-		return Response::json($story, 200, [], JSON_NUMERIC_CHECK);
+		return Response::json($story, 201, [], JSON_NUMERIC_CHECK);
 	}
 }

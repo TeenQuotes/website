@@ -1,6 +1,7 @@
 <?php
 
 use Laracasts\TestDummy\DbTestCase;
+use Faker\Factory as Faker;
 
 abstract class ApiTest extends DbTestCase {
 
@@ -40,14 +41,44 @@ abstract class ApiTest extends DbTestCase {
 	 */
 	protected $nbRessources = 3;
 
+	/**
+	 * The Faker instance
+	 * @var Faker\Factory
+	 */
+	protected $faker;
+
+	/**
+	 * The ID of the logged in user
+	 * @var [type]
+	 */
+	protected $userIdLoggedIn;
+
+	public function setUp()
+	{
+		parent::setUp();
+		$this->faker = Faker::create();
+	}
+
 	protected function assertResponseIsNotFound()
 	{		
-		$this->assertEquals(404, $this->response->getStatusCode());
+		$this->assertStatusCodeIs(404);
 		
 		$json = $this->retrieveJson($this->response);
 
 		$this->assertObjectHasAttribute('status', $json);
 		$this->assertObjectHasAttribute('error', $json);
+	}
+
+	protected function logUserWithId($id)
+	{
+		$this->userIdLoggedIn = $id;
+		$this->be(User::find($id));
+	}
+
+	protected function assertStatusCodeIs($code)
+	{
+		$this->assertEquals($code, $this->response->getStatusCode());
+		return $this;
 	}
 
 	protected function assertResponseHasAttributes($array)
@@ -98,6 +129,12 @@ abstract class ApiTest extends DbTestCase {
 		return $this;
 	}
 
+	protected function tryStore($method = 'store')
+	{
+		$this->response = $this->controller->$method();
+		return $this;
+	}
+
 	protected function tryMiddlePage()
 	{
 		$this->page = max(2, ($this->nbRessources / 2));
@@ -123,10 +160,16 @@ abstract class ApiTest extends DbTestCase {
 	protected function tryShowNotFound()
 	{
 		$this->response = $this->controller->show($this->nbRessources + 1);
-		
+
 		$this->assertResponseIsNotFound();
 
 		return $this;
+	}
+
+	protected function assertBelongsToLoggedInUser()
+	{
+		$json = $this->retrieveJson();
+		$this->assertEquals($json->user_id, $this->userIdLoggedIn);
 	}
 
 	protected function tryShowFound($id)
