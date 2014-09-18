@@ -51,8 +51,8 @@ class StoriesTest extends ApiTest {
 			
 			$otherValue = $this->otherValue($value);
 			Input::replace([
-				$value => $this->faker->text(50),
-				$otherValue => $this->faker->text(200)
+				$value => $this->generateString(50),
+				$otherValue => $this->generateString(200)
 			]);
 			
 			$this->tryStore()
@@ -65,8 +65,8 @@ class StoriesTest extends ApiTest {
 			
 			$otherValue = $this->otherValue($value);
 			Input::replace([
-				$value => $this->faker->text(1500),
-				$otherValue => $this->faker->text(200)
+				$value => $this->generateString(1500),
+				$otherValue => $this->generateString(200)
 			]);
 			
 			$this->tryStore()
@@ -76,8 +76,8 @@ class StoriesTest extends ApiTest {
 
 		// Successfull store
 		Input::replace([
-			'represent_txt' => $this->faker->text(200),
-			'frequence_txt' => $this->faker->text(200)
+			'represent_txt' => $this->generateString(200),
+			'frequence_txt' => $this->generateString(200)
 		]);
 		
 		$this->tryStore()
