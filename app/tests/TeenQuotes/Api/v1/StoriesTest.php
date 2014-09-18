@@ -22,7 +22,7 @@ class StoriesTest extends ApiTest {
 		// No found story
 		$this->tryShowNotFound()
 			->withStatusMessage('story_not_found')
-			->withErrorMessage('The story #4 was not found');
+			->withErrorMessage('The story #'.($this->nbRessources + 1).' was not found');
 
 		// Regular story
 		$this->tryShowFound(1);	
@@ -42,7 +42,7 @@ class StoriesTest extends ApiTest {
 			->withErrorMessage('No stories have been found.');
 	}
 
-	public function testStore()
+	public function testStoreErrors()
 	{
 		$this->logUserWithId(1);
 
@@ -73,7 +73,12 @@ class StoriesTest extends ApiTest {
 				->assertStatusCodeIs(400)
 				->withStatusMessage('wrong_'.$value);
 		}
+	}
 
+	public function testStoreSuccess()
+	{
+		$this->logUserWithId(1);
+		
 		// Successfull store
 		Input::replace([
 			'represent_txt' => $this->generateString(200),
