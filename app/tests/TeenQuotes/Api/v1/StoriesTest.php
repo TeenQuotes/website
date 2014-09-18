@@ -11,6 +11,7 @@ class StoriesTest extends ApiTest {
 	public function setUp()
 	{
 		parent::setUp();
+		
 		Factory::times($this->nbRessources)->create('Story');
 
 		$this->controller = App::make('TeenQuotes\Api\V1\Controllers\StoriesController');
@@ -19,7 +20,9 @@ class StoriesTest extends ApiTest {
 	public function testShow()
 	{
 		// No found story
-		$this->tryShowNotFound('story_not_found', 'The story #4 was not found');
+		$this->tryShowNotFound()
+			->withStatusMessage('story_not_found')
+			->withErrorMessage('The story #4 was not found');
 
 		// Regular story
 		$this->tryShowFound(1);	
@@ -34,6 +37,8 @@ class StoriesTest extends ApiTest {
 		$this->tryFirstPage();
 
 		// Test not found
-		$this->tryPaginatedContentNotFound(404, 'No stories have been found.');
+		$this->tryPaginatedContentNotFound()
+			->withStatusMessage(404)
+			->withErrorMessage('No stories have been found.');
 	}
 }
