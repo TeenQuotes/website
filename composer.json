@@ -30,11 +30,14 @@
 		"philf/setting": "dev-master",
 		"antoineaugusti/laravel-easyrec": "~0.1",
 		"laracasts/presenter": "0.1.*",
-		"philo/laravel-translate": "1.0.*"
+		"philo/laravel-translate": "1.0.*",
+		"laracasts/testdummy": "1.*"
 	},
 	"require-dev": {
 		"way/generators": "2.*",
-		"fzaninotto/faker": "dev-master"
+		"fzaninotto/faker": "dev-master",
+		"phpunit/phpunit": "4.2.*",
+		"mockery/mockery": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

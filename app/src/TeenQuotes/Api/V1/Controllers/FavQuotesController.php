@@ -17,8 +17,8 @@ class FavQuotesController extends APIGlobalController {
 		$user = $this->retrieveUser();
 		
 		if ($doValidation) {		
-			$validatorQuote = Validator::make(compact('quote_id'), ['quote_id' => FavoriteQuote::$rulesAddFavorite['quote_id']]);
 			
+			$validatorQuote = Validator::make(compact('quote_id'), ['quote_id' => FavoriteQuote::$rulesAddFavorite['quote_id']]);
 			if ($validatorQuote->fails())
 				return Response::json([
 					'status' => 'quote_not_found',

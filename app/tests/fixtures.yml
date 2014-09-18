@@ -1,0 +1,12 @@
+User:
+    login: $string$integer
+    password: $string$string
+    email: $string@example.com
+    ip: 127.0.0.1
+    gender: F
+
+Story:
+    represent_txt: $text
+    frequence_txt: $text
+    user_id:
+        type: User

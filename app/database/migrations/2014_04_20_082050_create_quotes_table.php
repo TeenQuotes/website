@@ -24,7 +24,8 @@ class CreateQuotesTable extends Migration {
 			$table->timestamps();
 		});
 
-		DB::statement('ALTER TABLE quotes ADD FULLTEXT search(content)');
+		if (App::environment() != 'testing')
+			DB::statement('ALTER TABLE quotes ADD FULLTEXT search(content)');
 	}
 
 

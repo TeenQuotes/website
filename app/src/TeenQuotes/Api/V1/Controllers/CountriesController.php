@@ -15,15 +15,12 @@ class CountriesController extends APIGlobalController {
 		$country = Country::find($country_id);
 
 		// Country not found
-		if (is_null($country)) {
-			$data = [
+		if (is_null($country))
+			return Response::json([
 				'status' => 'country_not_found',
 				'error'  => "The country #".$country_id." was not found",
-			];
-
-			return Response::json($data, 404);
-		}
-
+			], 404);
+		
 		return Response::json($country, 200, [], JSON_NUMERIC_CHECK);
 	}
 }
