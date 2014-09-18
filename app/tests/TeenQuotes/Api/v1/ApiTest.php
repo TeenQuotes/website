@@ -69,6 +69,11 @@ abstract class ApiTest extends DbTestCase {
 		$this->assertObjectHasAttribute('error', $json);
 	}
 
+	protected function generateString($length)
+	{
+		return str_repeat("a", $length);
+	}
+
 	protected function logUserWithId($id)
 	{
 		$this->userIdLoggedIn = $id;
