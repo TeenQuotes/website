@@ -1,9 +1,8 @@
 <?php
 
 use Laracasts\TestDummy\Factory;
-use Laracasts\TestDummy\DbTestCase;
 
-class StoriesTest extends DbTestCase {
+class StoriesTest extends ApiTest {
 
 	protected $contentType = 'stories';
 	protected $containsSmallUser = true;
