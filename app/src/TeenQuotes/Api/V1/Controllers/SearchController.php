@@ -15,8 +15,7 @@ class SearchController extends APIGlobalController {
 		$page = 1;
 		$pagesize = Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
 
-        if ($page <= 0)
-			$page = 1;
+		$page = max(1, $page);
 				
 		// Get content
 		$quotes = App::make('TeenQuotes\Api\V1\Controllers\QuotesController')->getQuotesSearch($page, $pagesize, $query);
@@ -26,39 +25,35 @@ class SearchController extends APIGlobalController {
 		$totalUsers = 0;
 
 		if (!is_null($quotes) AND !empty($quotes) AND $quotes->count() > 0) {
-			$totalQuotes = Quote::
-			// $query will NOT be bind here
-			// it will be bind when calling setBindings
-			whereRaw("MATCH(content) AGAINST(?)", array($query))
-			->where('approved', '=', 1)
-			// WARNING 1 corresponds to approved = 1
-			// We need to bind it again
-			->setBindings([$query, 1])
-			->count();
+			$totalQuotes = Quote::whereRaw("MATCH(content) AGAINST(?)", array($query))
+				// $query will NOT be bind here
+				// it will be bind when calling setBindings
+				->where('approved', '=', Quote::APPROVED)
+				// WARNING 1 corresponds to approved = 1
+				// We need to bind it again
+				->setBindings([$query, Quote::APPROVED])
+				->count();
 		}
 
 		if (!is_null($users) AND !empty($users) AND $users->count() > 0)
-			$totalUsers = User::partialLogin($query)->notHidden()->count();
+			$totalUsers = User::partialLogin($query)
+				->notHidden()
+				->count();
 
 		// Handle no results
-		if ($totalQuotes == 0 AND $totalUsers == 0) {
-			$data = [
+		if ($totalQuotes == 0 AND $totalUsers == 0)
+			return Response::json([
 				'status' => 404,
 				'error'  => 'No results have been found.'
-			];
+			], 404);
 
-			return Response::json($data, 404);
-		}
-
-		$data = [
+		return Response::json([
 			'quotes'       => $quotes->toArray(),
 			'users'        => $users->toArray(),
 			'total_quotes' => $totalQuotes,
 			'total_users'  => $totalUsers,
 			'pagesize'     => (int) $pagesize,
 			'url'          => URL::current(),
-		];
-
-		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
+		], 200, [], JSON_NUMERIC_CHECK);
 	}
 }

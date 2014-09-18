@@ -30,7 +30,7 @@ class CreateUsersTable extends Migration {
 			$table->string('about_me', 500)->nullable();
 			$table->tinyInteger('hide_profile')->unsigned()->default(0);
 			$table->tinyInteger('notification_comment_quote')->unsigned()->default(1);
-			$table->dateTime('last_visit');
+			$table->dateTime('last_visit')->nullable();
 			$table->rememberToken();
 			$table->timestamps();
 		});
