@@ -70,7 +70,7 @@ abstract class ApiTest extends DbTestCase {
 		}
 	}
 
-	protected function tryPaginatedContentNotFound($status, $error)
+	protected function tryPaginatedContentNotFound()
 	{
 		$this->page = $this->nbRessources + 1;
 		$this->pagesize = $this->nbRessources;
@@ -82,8 +82,20 @@ abstract class ApiTest extends DbTestCase {
 		$this->response = $this->controller->index();
 		
 		$this->assertResponseIsNotFound();
+
+		return $this;
+	}
+
+	protected function withStatusMessage($status)
+	{
 		$this->assertResponseKeyIs('status', $status);
+		return $this;
+	}
+
+	protected function withErrorMessage($error)
+	{
 		$this->assertResponseKeyIs('error', $error);
+		return $this;
 	}
 
 	protected function tryMiddlePage()
@@ -108,13 +120,13 @@ abstract class ApiTest extends DbTestCase {
 		$this->assertNeighborsPagesMatch();
 	}
 
-	protected function tryShowNotFound($status, $error)
+	protected function tryShowNotFound()
 	{
 		$this->response = $this->controller->show($this->nbRessources + 1);
-
+		
 		$this->assertResponseIsNotFound();
-		$this->assertResponseKeyIs('status', $status);
-		$this->assertResponseKeyIs('error', $error);
+
+		return $this;
 	}
 
 	protected function tryShowFound($id)
