@@ -124,7 +124,7 @@ class CommentsController extends APIGlobalController {
 		if (Cache::has(Quote::$cacheNameNbComments.$quote_id))
 			Cache::increment(Quote::$cacheNameNbComments.$quote_id);
 
-		return Response::json($comment, 200, [], JSON_NUMERIC_CHECK);
+		return Response::json($comment, 201, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function destroy($id)
