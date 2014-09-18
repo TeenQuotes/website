@@ -93,7 +93,7 @@ class UsersController extends APIGlobalController {
 			$m->to($data['email'], $data['login'])->subject(Lang::get('auth.subjectWelcomeEmail', ['login' => $data['login']]));
 		});
 
-		return Response::json($user, 200, [], JSON_NUMERIC_CHECK);
+		return Response::json($user, 201, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function getSingleUser($user_id)

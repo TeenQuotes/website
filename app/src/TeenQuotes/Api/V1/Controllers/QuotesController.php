@@ -211,7 +211,7 @@ class QuotesController extends APIGlobalController {
 		$quote->content = $content;
 		$user->quotes()->save($quote);
 
-		return Response::json($quote, 200, [], JSON_NUMERIC_CHECK);
+		return Response::json($quote, 201, [], JSON_NUMERIC_CHECK);
 	}
 
 	private function getQuotesHome($page, $pagesize)

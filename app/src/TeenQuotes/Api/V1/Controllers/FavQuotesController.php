@@ -59,7 +59,7 @@ class FavQuotesController extends APIGlobalController {
 
 		// The cache flush will be handled by the observer
 
-		return Response::json($favorite, 200, [], JSON_NUMERIC_CHECK);
+		return Response::json($favorite, 201, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function deleteFavorite($quote_id, $doValidation = true)
