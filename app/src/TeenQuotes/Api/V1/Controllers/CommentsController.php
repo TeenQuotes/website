@@ -133,10 +133,7 @@ class CommentsController extends APIGlobalController {
 		// Delete the comment
 		$comment->delete();
 		
-		// TODO: move to an observer
-		// Update the number of comments on the related quote in cache
-		if (Cache::has(Quote::$cacheNameNbComments.$comment->quote_id))
-			Cache::decrement(Quote::$cacheNameNbComments.$comment->quote_id);
+		// Decrease the number of comments on the quote in cache
 
 		return Response::json([
 			'status'  => 'comment_deleted',

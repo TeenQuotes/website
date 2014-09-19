@@ -9,7 +9,7 @@ use TeenQuotes\Mail\MailSwitcher;
 class CommentObserver {
 	
 	/**
-	 * Will be triggered when a model will be created
+	 * Will be triggered when a model is created
 	 * @param Comment $comment
 	 */
 	public function created($comment)
@@ -20,7 +20,7 @@ class CommentObserver {
 
 		// Send an email to the author of the quote if he wants it
 		if ($quote->user->wantsEmailComment()) {
-			
+
 			// Send the email via SMTP
 			new MailSwitcher('smtp');
 			Mail::send('emails.comments.posted', compact('quote'), function($m) use($quote)
@@ -32,5 +32,16 @@ class CommentObserver {
 		// If we have the number of comments in cache, increment it
 		if (Cache::has(Quote::$cacheNameNbComments.$comment->quote_id))
 			Cache::increment(Quote::$cacheNameNbComments.$comment->quote_id);
+	}
+
+	/**
+	 * Will be triggered when a model is deleted
+	 * @param Comment $comment
+	 */
+	public function deleted($comment)
+	{
+		// Update the number of comments on the related quote in cache
+		if (Cache::has(Quote::$cacheNameNbComments.$comment->quote_id))
+			Cache::decrement(Quote::$cacheNameNbComments.$comment->quote_id);
 	}
 }
