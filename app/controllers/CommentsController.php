@@ -46,7 +46,7 @@ class CommentsController extends \BaseController {
 
 			// Call the API - skip the API validator
 			$response = App::make('TeenQuotes\Api\V1\Controllers\CommentsController')->store($data['quote_id'], false);
-			if ($response->getStatusCode() != 200)
+			if ($response->getStatusCode() != 201)
 				return Redirect::action('QuotesController@show',  ['id' => $data['quote_id']])->withErrors($validator)->withInput(Input::all());
 
 			return Redirect::action('QuotesController@show',  ['id' => $data['quote_id']])->with('success', Lang::get('comments.commentAddedSuccessfull'));
