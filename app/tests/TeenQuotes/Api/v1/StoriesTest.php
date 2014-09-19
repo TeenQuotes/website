@@ -56,7 +56,7 @@ class StoriesTest extends ApiTest {
 			]);
 			
 			$this->tryStore()
-				->assertStatusCodeIs(400)
+				->assertStatusCodeIs(self::HTTP_BAD_REQUEST)
 				->withStatusMessage('wrong_'.$value);
 		}
 
@@ -70,7 +70,7 @@ class StoriesTest extends ApiTest {
 			]);
 			
 			$this->tryStore()
-				->assertStatusCodeIs(400)
+				->assertStatusCodeIs(self::HTTP_BAD_REQUEST)
 				->withStatusMessage('wrong_'.$value);
 		}
 	}
@@ -86,7 +86,7 @@ class StoriesTest extends ApiTest {
 		]);
 		
 		$this->tryStore()
-			->assertStatusCodeIs(201)
+			->assertStatusCodeIs(self::HTTP_CREATED)
 			->assertBelongsToLoggedInUser();
 
 		// Check that we can retrieve the new item
