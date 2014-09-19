@@ -67,7 +67,12 @@ class QuotesPublishCommand extends ScheduledCommand {
 		$nbQuotes = is_null($this->argument('nb_quotes')) ? Config::get('app.quotes.nbQuotesToPublishPerDay') : $this->argument('nb_quotes');
 
 		// Get the quotes that will be published today
-		$quotes = Quote::pending()->orderAscending()->take($nbQuotes)->with('user')->get();
+		$quotes = Quote::pending()
+			->orderAscending()
+			->take($nbQuotes)
+			->with('user')
+			->get();
+
 		$arrayUsers = array();
 		$quotes->each(function($quote)
 		{
@@ -77,15 +82,13 @@ class QuotesPublishCommand extends ScheduledCommand {
 
 			$arrayUsers[] = $quote->user;
 
-			$quoteArray = array('quote' => $quote->toArray());
-
 			// Log this info
 			$this->info("Published quote #".$quote->id);
-			Log::info("Published quote #".$quote->id, array('quote' => $quoteArray));
+			Log::info("Published quote #".$quote->id, array('quote' => $quote->toArray()));
 
 			// Send an email to the author via SMTP
 			new MailSwitcher('smtp');
-			Mail::send('emails.quotes.published', $quoteArray, function($m) use($quote)
+			Mail::send('emails.quotes.published', compact('quote'), function($m) use($quote)
 			{
 				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('quotes.quotePublishedSubjectEmail'));
 			});
@@ -121,7 +124,7 @@ class QuotesPublishCommand extends ScheduledCommand {
 			$nbPagesQuotesPublished = ceil($nbQuotesPublishedForUser / Config::get('app.users.nbQuotesPerPage'));
 
 			// Forgot every page
-			for($i = 1; $i <= $nbPagesQuotesPublished; $i++)
+			for ($i = 1; $i <= $nbPagesQuotesPublished; $i++)
 				Cache::forget(User::$cacheNameForPublished.$user->id.'_'.$i);
 		}
 
