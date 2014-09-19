@@ -114,7 +114,7 @@ class QuotesController extends \BaseController {
 
 			// Call the API to store the quote
 			$response = App::make('TeenQuotes\Api\V1\Controllers\QuotesController')->postStoreQuote(false);
-			if ($response->getStatusCode() == 200)
+			if ($response->getStatusCode() == 201)
 				return Redirect::route('home')->with('success', Lang::get('quotes.quoteAddedSuccessfull', ['login' => $user->login]));
 			
 			App::abort(500, "Can't create quote.");

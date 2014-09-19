@@ -44,7 +44,7 @@ class FavoritesController extends \BaseController {
 				// Call the API to store the favorite
 				$response = App::make('TeenQuotes\Api\V1\Controllers\FavQuotesController')->postFavorite($quote_id, false);
 				
-				if ($response->getStatusCode() == 200)
+				if ($response->getStatusCode() == 201)
 					return Response::json(['success' => true], 200);				
 			}
 
