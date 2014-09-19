@@ -62,6 +62,11 @@ class ViewComposersServiceProvider extends ServiceProvider {
 			'password.remind',
 			'quotes.addquote'
 		], 'TeenQuotes\Composers\Pages\SimplePageComposer');
+
+		// Welcome email
+		View::composer([
+			'emails.welcome'
+		], 'TeenQuotes\Composers\Emails\WelcomeViewComposer');
 	}
 
 	/**

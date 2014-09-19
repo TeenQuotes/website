@@ -1,17 +1,8 @@
-@extends('emails/default')
-<?php
-$urlProfile = URL::route('users.show', array($login));
-$urlCampaignProfile = TextTools::linkCampaign($urlProfile, 'callToProfile', 'email', 'welcome', 'linkBodyEmail');
-
-$data = [
-	'login'              => $login,
-	'urlCampaignProfile' => $urlCampaignProfile,
-	'urlProfile'         => $urlProfile,
-];
-?>
+@extends('emails.default')
 
 @section('content')
-	{{ Lang::get('auth.welcomeEmailWithUsername', array('login' => $login)) }}
+	{{ Lang::get('auth.welcomeEmailWithUsername', compact('login')) }}
 	<br/><br/>
+	{{-- The data array is created from a view composer --}}
 	{{ Lang::get('auth.bodyWelcomeEmail', $data) }}
 @stop
