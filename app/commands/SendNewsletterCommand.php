@@ -73,36 +73,21 @@ class SendNewsletterCommand extends ScheduledCommand {
 	 */
 	public function fire()
 	{
-		$type = $this->argument('type');
-		if (is_null($type) OR !in_array($type, ['daily', 'weekly']))
-			$this->error('Wrong type for the newsletter !');
+		$this->verifyType();
+		
+		$type = $this->getType();
 
-		// Get the number of quotes to publish
-		$nbQuotes = is_null($this->argument('nb_quotes')) ? Config::get('app.newsletters.nbQuotesToSend'.ucfirst($type)) : $this->argument('nb_quotes');
-
-		// Get the quotes that will be published today
-		if ($type == 'weekly') {
-			$quotes = Quote::published()
-						->with('user')
-						->random()
-						->take($nbQuotes)
-						->get();
-		}
-		else {
-			$quotes = Quote::published()
-						->updatedToday()
-						->random()
-						->with('user')
-						->take($nbQuotes)
-						->get();
-		}
+		$quotes = ($type == 'weekly') ? $this->retrieveWeeklyQuotes() : $this->retrieveDailyQuotes();
 
 		// Send the newsletter only if we have
 		// at least 1 quote
 		if ( ! $quotes->isEmpty()) {
 
 			// Get users that are subscribed to the newsletter
-			$rowNewsletters = Newsletter::whereType($type)->with('user')->get();
+			$rowNewsletters = Newsletter::whereType($type)
+				->with('user')
+				->get();
+			
 			$rowNewsletters->each(function($newsletter) use($type, $quotes)
 			{
 				// Log this info
@@ -120,6 +105,58 @@ class SendNewsletterCommand extends ScheduledCommand {
 				});
 			});
 		}
+	}
+
+	private function retrieveWeeklyQuotes()
+	{
+		$nbQuotes = $this->getNbQuotes();
+		
+		$quotes = Quote::published()
+			->with('user')
+			->random()
+			->take($nbQuotes)
+			->get();
+
+		return $quotes;
+	}
+
+	private function retrieveDailyQuotes()
+	{
+		$nbQuotes = $this->getNbQuotes();
+		
+		$quotes = Quote::published()
+			->updatedToday()
+			->random()
+			->with('user')
+			->take($nbQuotes)
+			->get();
+
+		return $quotes;
+	}
+
+	private function getType()
+	{
+		return $this->argument('type');
+	}
+
+	private function getNbQuotes()
+	{
+		$type = $this->getType();
+
+		// Get the number of quotes to publish
+		$nbQuotes = is_null($this->argument('nb_quotes')) ? Config::get('app.newsletters.nbQuotesToSend'.ucfirst($type)) : $this->argument('nb_quotes');
+
+		return $nbQuotes;
+	}
+
+	private function verifyType()
+	{
+		$type = $this->getType();
+
+		$possibleTypes = ['daily', 'weekly'];
+
+		if (is_null($type) OR !in_array($type, $possibleTypes))
+			$this->error('Wrong type for the newsletter! Can only be '.implode('|', $possibleTypes).'. '.$type.' was given.');
 	}
 
 	/**
