@@ -1,7 +1,8 @@
 <?php
 
-use Laracasts\TestDummy\DbTestCase;
 use Faker\Factory as Faker;
+use Laracasts\TestDummy\DbTestCase;
+use Illuminate\Http\Response;
 
 abstract class ApiTest extends DbTestCase {
 
@@ -53,10 +54,11 @@ abstract class ApiTest extends DbTestCase {
 	 */
 	protected $userIdLoggedIn;
 
-	const HTTP_OK = 200;
-	const HTTP_CREATED = 201;
-	const HTTP_BAD_REQUEST = 400;
-	const HTTP_NOT_FOUND = 404;
+	/**
+	 * The JSON response in an object format
+	 * @var stdClas
+	 */
+	protected $json;
 
 	public function setUp()
 	{
@@ -66,12 +68,9 @@ abstract class ApiTest extends DbTestCase {
 
 	protected function assertResponseIsNotFound()
 	{		
-		$this->assertStatusCodeIs(self::HTTP_NOT_FOUND);
-		
-		$json = $this->retrieveJson($this->response);
-
-		$this->assertObjectHasAttribute('status', $json);
-		$this->assertObjectHasAttribute('error', $json);
+		$this->assertStatusCodeIs(Response::HTTP_NOT_FOUND);
+		$this->assertObjectHasAttribute('status', $this->json);
+		$this->assertObjectHasAttribute('error', $this->json);
 	}
 
 	protected function generateString($length)
@@ -88,18 +87,13 @@ abstract class ApiTest extends DbTestCase {
 	protected function assertStatusCodeIs($code)
 	{
 		$this->assertEquals($code, $this->response->getStatusCode());
+		
 		return $this;
 	}
 
 	protected function assertResponseHasAttributes($array)
 	{
-		$this->assertObjectHasAttributes($this->retrieveJson(), $array);
-	}
-
-	protected function retrieveJson()
-	{
-		$content = $this->response->getContent();
-		return json_decode($content);
+		$this->assertObjectHasAttributes($this->json, $array);
 	}
 
 	protected function assertObjectHasAttributes($object, $array)
@@ -120,8 +114,8 @@ abstract class ApiTest extends DbTestCase {
 			'pagesize' => $this->pagesize
 		]);
 
-		$this->response = $this->controller->index();
-		
+		$this->doRequest('index');
+
 		$this->assertResponseIsNotFound();
 
 		return $this;
@@ -130,19 +124,34 @@ abstract class ApiTest extends DbTestCase {
 	protected function withStatusMessage($status)
 	{
 		$this->assertResponseKeyIs('status', $status);
+		
 		return $this;
 	}
 
 	protected function withErrorMessage($error)
 	{
 		$this->assertResponseKeyIs('error', $error);
+		
 		return $this;
 	}
 
 	protected function tryStore($method = 'store')
 	{
-		$this->response = $this->controller->$method();
+		$this->doRequest($method);
+		
 		return $this;
+	}
+
+	private function bindJson()
+	{
+		$content = $this->response->getContent();
+		$this->json = json_decode($content);
+	}
+
+	protected function doRequest($method)
+	{
+		$this->response = $this->controller->$method();
+		$this->bindJson();
 	}
 
 	protected function tryMiddlePage()
@@ -154,12 +163,12 @@ abstract class ApiTest extends DbTestCase {
 			'pagesize' => $this->pagesize
 		]);
 
-		$this->response = $this->controller->index();
+		$this->doRequest('index');
 		$this->assertIsPaginatedResponse();
 		$this->assertHasNextAndPreviousPage();
 		
 		$objectName = $this->contentType;
-		$objects = $this->retrieveJson()->$objectName;
+		$objects = $this->json->$objectName;
 		if ($this->containsSmallUser)
 			$this->assertObjectContainsSmallUser(reset($objects));
 		$this->assertObjectHasAttributes(reset($objects), $this->requiredAttributes);
@@ -167,9 +176,15 @@ abstract class ApiTest extends DbTestCase {
 		$this->assertNeighborsPagesMatch();
 	}
 
+	protected function getIdNonExistingRessource()
+	{
+		return $this->nbRessources + 1;
+	}
+
 	protected function tryShowNotFound()
 	{
-		$this->response = $this->controller->show($this->nbRessources + 1);
+		$this->response = $this->controller->show($this->getIdNonExistingRessource());
+		$this->bindJson();
 
 		$this->assertResponseIsNotFound();
 
@@ -178,13 +193,14 @@ abstract class ApiTest extends DbTestCase {
 
 	protected function assertBelongsToLoggedInUser()
 	{
-		$json = $this->retrieveJson();
-		$this->assertEquals($json->user_id, $this->userIdLoggedIn);
+		$this->assertEquals($this->json->user_id, $this->userIdLoggedIn);
 	}
 
 	protected function tryShowFound($id)
 	{
 		$this->response = $this->controller->show($id);
+		$this->bindJson();
+
 		if ($this->containsSmallUser)
 			$this->assertResponseHasSmallUser();
 		$this->assertResponseHasAttributes($this->requiredAttributes);	
@@ -199,11 +215,11 @@ abstract class ApiTest extends DbTestCase {
 			'pagesize' => $this->pagesize
 		]);
 
-		$this->response = $this->controller->index();
+		$this->doRequest('index');
 		$this->assertIsPaginatedResponse();
 
 		$objectName = $this->contentType;
-		$objects = $this->retrieveJson()->$objectName;
+		$objects = $this->json->$objectName;
 		for ($i = 0; $i < $this->nbRessources; $i++) { 
 			if ($this->containsSmallUser)
 				$this->assertObjectContainsSmallUser($objects[$i]);
@@ -220,23 +236,20 @@ abstract class ApiTest extends DbTestCase {
 
 	protected function assertResponseKeyIs($key, $value)
 	{
-		$object = $this->retrieveJson();
-		$this->assertEquals($object->$key, $value);
+		$this->assertEquals($this->json->$key, $value);
 	}
 
 	protected function assertNeighborsPagesMatch()
 	{
 		$this->checkPagesAreSet();
-
-		$object = $this->retrieveJson();
 		
 		$nextPage = $this->page + 1;
 		$previousPage = $this->page - 1;
 
 		if ($nextPage < $this->computeTotalPages())
-			$this->assertTrue(Str::contains($object->next_page, 'page='.$nextPage.'&pagesize='.$this->pagesize));
+			$this->assertTrue(Str::contains($this->json->next_page, 'page='.$nextPage.'&pagesize='.$this->pagesize));
 		if ($previousPage >= 1 AND $this->computeTotalPages() > 1)
-			$this->assertTrue(Str::contains($object->previous_page, 'page='.$previousPage.'&pagesize='.$this->pagesize));
+			$this->assertTrue(Str::contains($this->json->previous_page, 'page='.$previousPage.'&pagesize='.$this->pagesize));
 	}
 
 	protected function assertObjectIsSmallUser($object)
@@ -261,48 +274,46 @@ abstract class ApiTest extends DbTestCase {
 	{
 		$this->checkPagesAreSet();
 		
-		$object = $this->retrieveJson();
-
 		// Assert attributes
 		$attributeName = 'total_'.$this->contentType;
-		$this->assertObjectHasAttribute($attributeName, $object);
-		$this->assertObjectHasAttribute('total_pages', $object);
-		$this->assertObjectHasAttribute('page', $object);
-		$this->assertObjectHasAttribute('pagesize', $object);
-		$this->assertObjectHasAttribute('url', $object);
-		$this->assertObjectHasAttribute('has_next_page', $object);
-		$this->assertObjectHasAttribute('has_previous_page', $object);
+		$this->assertObjectHasAttribute($attributeName, $this->json);
+		$this->assertObjectHasAttribute('total_pages', $this->json);
+		$this->assertObjectHasAttribute('page', $this->json);
+		$this->assertObjectHasAttribute('pagesize', $this->json);
+		$this->assertObjectHasAttribute('url', $this->json);
+		$this->assertObjectHasAttribute('has_next_page', $this->json);
+		$this->assertObjectHasAttribute('has_previous_page', $this->json);
 		
-		if ($object->has_next_page)
-			$this->assertObjectHasAttribute('next_page', $object);
+		if ($this->json->has_next_page)
+			$this->assertObjectHasAttribute('next_page', $this->json);
 		
-		if ($object->has_previous_page)
-			$this->assertObjectHasAttribute('previous_page', $object);
+		if ($this->json->has_previous_page)
+			$this->assertObjectHasAttribute('previous_page', $this->json);
 
 		// Assert types
-		$this->assertTrue(is_integer($object->$attributeName));
-		$this->assertTrue(is_integer($object->total_pages));
-		$this->assertTrue(is_integer($object->page));
-		$this->assertTrue(is_integer($object->pagesize));
-		$this->assertTrue(is_bool($object->has_next_page));
-		$this->assertTrue(is_bool($object->has_previous_page));
+		$this->assertTrue(is_integer($this->json->$attributeName));
+		$this->assertTrue(is_integer($this->json->total_pages));
+		$this->assertTrue(is_integer($this->json->page));
+		$this->assertTrue(is_integer($this->json->pagesize));
+		$this->assertTrue(is_bool($this->json->has_next_page));
+		$this->assertTrue(is_bool($this->json->has_previous_page));
 
 		// Assert values
-		$this->assertEquals($this->page, $object->page);
-		$this->assertEquals($this->pagesize, $object->pagesize);
-		$this->assertEquals($this->nbRessources, $object->$attributeName);
-		$this->assertEquals($this->computeTotalPages(), $object->total_pages);
+		$this->assertEquals($this->page, $this->json->page);
+		$this->assertEquals($this->pagesize, $this->json->pagesize);
+		$this->assertEquals($this->nbRessources, $this->json->$attributeName);
+		$this->assertEquals($this->computeTotalPages(), $this->json->total_pages);
 
 		// Check URL format		
-		if ($object->has_next_page)
-			$this->assertTrue(Str::startsWith($object->next_page, 'http'));
+		if ($this->json->has_next_page)
+			$this->assertTrue(Str::startsWith($this->json->next_page, 'http'));
 		else
-			$this->assertObjectNotHasAttribute('next_page', $object);
+			$this->assertObjectNotHasAttribute('next_page', $this->json);
 		
-		if ($object->has_previous_page)
-			$this->assertTrue(Str::startsWith($object->previous_page, 'http'));
+		if ($this->json->has_previous_page)
+			$this->assertTrue(Str::startsWith($this->json->previous_page, 'http'));
 		else
-			$this->assertObjectNotHasAttribute('previous_page', $object);
+			$this->assertObjectNotHasAttribute('previous_page', $this->json);
 	}
 
 	private function computeTotalPages()
@@ -317,33 +328,26 @@ abstract class ApiTest extends DbTestCase {
 	}
 
 	protected function assertHasNextAndPreviousPage()
-	{
-		$object = $this->retrieveJson();
-		
-		$this->assertTrue($object->has_next_page);
-		$this->assertTrue($object->has_previous_page);
+	{		
+		$this->assertTrue($this->json->has_next_page);
+		$this->assertTrue($this->json->has_previous_page);
 	}
 
 	protected function assertHasNextPage()
-	{
-		$object = $this->retrieveJson();
-		
-		$this->assertTrue($object->has_next_page);
-		$this->assertFalse($object->has_previous_page);
+	{		
+		$this->assertTrue($this->json->has_next_page);
+		$this->assertFalse($this->json->has_previous_page);
 	}
 
 	protected function assertHasPreviousPage()
-	{
-		$object = $this->retrieveJson();
-		
-		$this->assertFalse($object->has_next_page);
-		$this->assertTrue($object->has_previous_page);
+	{		
+		$this->assertFalse($this->json->has_next_page);
+		$this->assertTrue($this->json->has_previous_page);
 	}
 
 	protected function assertResponseHasSmallUser()
 	{
-		$json = $this->retrieveJson();
-		$this->assertObjectHasAttribute('user', $json);
-		$this->assertObjectIsSmallUser($json->user);
+		$this->assertObjectHasAttribute('user', $this->json);
+		$this->assertObjectIsSmallUser($this->json->user);
 	}
 }

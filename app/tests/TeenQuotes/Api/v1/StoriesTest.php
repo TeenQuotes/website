@@ -1,6 +1,8 @@
 <?php
 
 use Laracasts\TestDummy\Factory;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Input;
 
 class StoriesTest extends ApiTest {
 
@@ -22,7 +24,7 @@ class StoriesTest extends ApiTest {
 		// No found story
 		$this->tryShowNotFound()
 			->withStatusMessage('story_not_found')
-			->withErrorMessage('The story #'.($this->nbRessources + 1).' was not found');
+			->withErrorMessage('The story #'.$this->getIdNonExistingRessource().' was not found');
 
 		// Regular story
 		$this->tryShowFound(1);	
@@ -56,7 +58,7 @@ class StoriesTest extends ApiTest {
 			]);
 			
 			$this->tryStore()
-				->assertStatusCodeIs(self::HTTP_BAD_REQUEST)
+				->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 				->withStatusMessage('wrong_'.$value);
 		}
 
@@ -70,7 +72,7 @@ class StoriesTest extends ApiTest {
 			]);
 			
 			$this->tryStore()
-				->assertStatusCodeIs(self::HTTP_BAD_REQUEST)
+				->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 				->withStatusMessage('wrong_'.$value);
 		}
 	}
@@ -86,7 +88,7 @@ class StoriesTest extends ApiTest {
 		]);
 		
 		$this->tryStore()
-			->assertStatusCodeIs(self::HTTP_CREATED)
+			->assertStatusCodeIs(Response::HTTP_CREATED)
 			->assertBelongsToLoggedInUser();
 
 		// Check that we can retrieve the new item
