@@ -1,7 +1,8 @@
 <?php namespace TeenQuotes\Models\Observers;
 
-use Illuminate\Support\ServiceProvider;
 use FavoriteQuote;
+use Illuminate\Support\ServiceProvider;
+use User;
 
 class ObserversServiceProvider extends ServiceProvider {
 
@@ -21,6 +22,7 @@ class ObserversServiceProvider extends ServiceProvider {
 	{
 		parent::boot();
 		FavoriteQuote::observe(new FavoriteQuoteObserver);
+		User::observe(new UserObserver);
 	}
 
 	/**

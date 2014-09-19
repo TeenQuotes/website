@@ -77,21 +77,13 @@ class UsersController extends APIGlobalController {
 
 		$user->save();
 
+		// Send a welcome e-mail and subscribe the user to the 
+		// weekly newsletter thanks to its observer
+
 		// Log the user in
 		// The call was made from the UsersController
 		if (!$doValidation)
 			Auth::login($user);
-
-		// TODO: move to an observer
-		// Subscribe the user to the weekly newsletter
-		Newsletter::createNewsletterForUser($user, 'weekly');
-
-		// Send the welcome email via Postfix
-		new MailSwitcher('sendmail');
-		Mail::send('emails.welcome', $data, function($m) use($data)
-		{
-			$m->to($data['email'], $data['login'])->subject(Lang::get('auth.subjectWelcomeEmail', ['login' => $data['login']]));
-		});
 
 		return Response::json($user, 201, [], JSON_NUMERIC_CHECK);
 	}
