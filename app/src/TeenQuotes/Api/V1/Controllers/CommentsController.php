@@ -105,24 +105,8 @@ class CommentsController extends APIGlobalController {
 		$comment->user_id  = $user->id;
 		$comment->save();
 
-		// TODO: move to an observer
-		// Send an email to the author of the quote if he wants it
-		if ($quote->user->wantsEmailComment()) {
-			$emailData            = array();
-			$emailData['quote']   = $quote;
-			$emailData['comment'] = $comment->toArray();
-
-			// Send the email via SMTP
-			new MailSwitcher('smtp');
-			Mail::send('emails.comments.posted', $emailData, function($m) use($quote)
-			{
-				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('comments.commentAddedSubjectEmail', ['id' => $quote->id]));
-			});
-		}
-
-		// If we have the number of comments in cache, increment it
-		if (Cache::has(Quote::$cacheNameNbComments.$quote_id))
-			Cache::increment(Quote::$cacheNameNbComments.$quote_id);
+		// Send an e-mail to the author of the quote if he wants it
+		// Delete number of comments in cache
 
 		return Response::json($comment, 201, [], JSON_NUMERIC_CHECK);
 	}
