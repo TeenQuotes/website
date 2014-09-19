@@ -71,12 +71,9 @@ class SendBirthdayCommand extends ScheduledCommand {
 			$this->info("Wishing happy birthday to ".$user->login." - ".$user->email);
 			Log::info("Wishing happy birthday to ".$user->login." - ".$user->email);
 
-			$data = array();
-			$data['user'] = $user->toArray();
-
 			// Send the email to the user via SMTP
 			new MailSwitcher('smtp');
-			Mail::send('emails.birthday', $data, function($m) use($user)
+			Mail::send('emails.events.birthday', compact('user'), function($m) use($user)
 			{
 				$m->to($user->email, $user->login)->subject(Lang::get('email.happyBirthdaySubjectEmail'));
 			});
