@@ -99,7 +99,7 @@ class UsersController extends \BaseController {
 
 			// Call the API - skip the API validator
 			$response = App::make('TeenQuotes\Api\V1\Controllers\UsersController')->postUsers(false);
-			if ($response->getStatusCode() == 200) {
+			if ($response->getStatusCode() == 201) {
 				if (Session::has('url.intended'))
 					return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', array('login' => $data['login'])));
 				else
