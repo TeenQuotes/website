@@ -53,6 +53,11 @@ abstract class ApiTest extends DbTestCase {
 	 */
 	protected $userIdLoggedIn;
 
+	const HTTP_OK = 200;
+	const HTTP_CREATED = 201;
+	const HTTP_BAD_REQUEST = 400;
+	const HTTP_NOT_FOUND = 404;
+
 	public function setUp()
 	{
 		parent::setUp();
@@ -61,7 +66,7 @@ abstract class ApiTest extends DbTestCase {
 
 	protected function assertResponseIsNotFound()
 	{		
-		$this->assertStatusCodeIs(404);
+		$this->assertStatusCodeIs(self::HTTP_NOT_FOUND);
 		
 		$json = $this->retrieveJson($this->response);
 
