@@ -278,9 +278,7 @@ class UsersController extends APIGlobalController {
 		$colorSetting->value = $data['colors'];
 		$colorSetting->save();
 
-		// TODO: move to an observer
-		// Forget value in cache
-		Cache::forget(User::$cacheNameForColorsQuotesPublished.$user->id);
+		// Observer: clean setting cache
 
 		return Response::json([
 			'status'  => 'profile_updated',

@@ -3,6 +3,7 @@
 use Comment;
 use FavoriteQuote;
 use Illuminate\Support\ServiceProvider;
+use Setting;
 use User;
 
 class ObserversServiceProvider extends ServiceProvider {
@@ -22,9 +23,10 @@ class ObserversServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		parent::boot();
-		FavoriteQuote::observe(new FavoriteQuoteObserver);
-		User::observe(new UserObserver);
 		Comment::observe(new CommentObserver);
+		FavoriteQuote::observe(new FavoriteQuoteObserver);
+		Setting::observe(new SettingObserver);
+		User::observe(new UserObserver);
 	}
 
 	/**
