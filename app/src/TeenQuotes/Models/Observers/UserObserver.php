@@ -8,8 +8,8 @@ use TeenQuotes\Mail\MailSwitcher;
 class UserObserver {
 	
 	/**
-	 * Will be triggered when a model will be saved
-	 * @param  User $model
+	 * Will be triggered when a model will be created
+	 * @param User $user
 	 */
 	public function created($user)
 	{
