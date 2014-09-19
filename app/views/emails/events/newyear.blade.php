@@ -1,4 +1,4 @@
-@extends('emails/default')
+@extends('emails.default')
 
 @section('content')
 	<img src="{{ Lang::get('email.imageNewyear') }}" id="img-event" />
