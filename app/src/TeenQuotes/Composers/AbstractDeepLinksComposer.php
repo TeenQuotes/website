@@ -1,9 +1,8 @@
-<?php
-namespace TeenQuotes\Composers;
+<?php namespace TeenQuotes\Composers;
 
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
 
 abstract class AbstractDeepLinksComposer {
 

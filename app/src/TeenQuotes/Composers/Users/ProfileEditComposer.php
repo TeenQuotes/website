@@ -1,5 +1,4 @@
-<?php
-namespace TeenQuotes\Composers\Users;
+<?php namespace TeenQuotes\Composers\Users;
 
 use TeenQuotes\Composers\AbstractDeepLinksComposer;
 
