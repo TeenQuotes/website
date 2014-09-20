@@ -75,11 +75,6 @@ class QuotesController extends \BaseController {
 			'paginator'       => Paginator::make($quotes, $numberQuotesPublished, Config::get('app.quotes.nbQuotesPerPage')),
 		];
 
-		// The AdBlock disclaimer
-		JavaScript::put([
-			'moneyDisclaimer' => Lang::get('quotes.adblockDisclaimer'),
-		]);
-
 		return View::make('quotes.index', $data);
 	}
 
@@ -136,14 +131,7 @@ class QuotesController extends \BaseController {
 			'pageDescription' => Lang::get('quotes.addquotePageDescription'),
 		];
 
-		// Put variables that we will use in JavaScript
-		JavaScript::put([
-			'contentShortHint' => Lang::get('quotes.contentShortHint'),
-			'contentGreatHint' => Lang::get('quotes.contentGreatHint'),
-			'eventCategory'    => 'addquote',
-			'eventAction'      => 'logged-in',
-			'eventLabel'       => 'addquote-page'
-		]);
+		// JS variables are set in a view composer
 
 		return View::make('quotes.addquote', $data);
 	}
@@ -187,11 +175,7 @@ class QuotesController extends \BaseController {
 			'colors'          => $colors,
 		];
 
-		// Put variables that we will use in JavaScript
-		JavaScript::put([
-			'contentShortHint' => Lang::get('comments.contentShortHint'),
-			'contentGreatHint' => Lang::get('comments.contentGreatHint'),
-		]);
+		// JS variables are set in a view composer
 
 		// Register the view in the recommendation engine
 		$quote->registerViewAction();

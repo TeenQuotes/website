@@ -67,6 +67,41 @@ class ViewComposersServiceProvider extends ServiceProvider {
 		View::composer([
 			'emails.welcome'
 		], 'TeenQuotes\Composers\Emails\WelcomeViewComposer');
+
+		// Apps download page
+		View::composer([
+			'apps.download'
+		], 'TeenQuotes\Composers\Pages\AppsComposer');
+
+		// Send event to GA when not logged in
+		View::composer([
+			'auth.signin'
+		], 'TeenQuotes\Composers\Pages\SigninComposer');
+
+		// JS variables used when moderating quotes
+		View::composer([
+			'admin.index'
+		], 'TeenQuotes\Composers\Pages\ModerationIndexComposer');
+
+		// Bind the AdBlock disclaimer when indexing quotes
+		View::composer([
+			'quotes.index'
+		], 'TeenQuotes\Composers\Pages\QuotesIndexComposer');
+
+		// When adding a quote
+		View::composer([
+			'quotes.addquote'
+		], 'TeenQuotes\Composers\Pages\AddQuoteComposer');
+
+		// When adding a comment on a single quote
+		View::composer([
+			'quotes.show'
+		], 'TeenQuotes\Composers\Pages\QuoteSingleComposer');
+
+		// When signing up
+		View::composer([
+			'auth.signup'
+		], 'TeenQuotes\Composers\Pages\SignupComposer');
 	}
 
 	/**

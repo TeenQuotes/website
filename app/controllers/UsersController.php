@@ -22,15 +22,6 @@ class UsersController extends \BaseController {
 			'pageDescription' => Lang::get('auth.signupPageDescription'),
 		];
 
-		JavaScript::put([
-			'didYouMean'         => Lang::get('auth.didYouMean'),
-			'mailAddressInvalid' => Lang::get('auth.mailAddressInvalid'),
-			'mailAddressValid'   => Lang::get('auth.mailAddressValid'),
-			'mailAddressUpdated' => Lang::get('auth.mailAddressUpdated'),
-			'mailgunPubKey'      => Config::get('services.mailgun.pubkey'),
-			'urlLoginValidator'  => URL::route('users.loginValidator', [], true),
-    	]);
-
 		return View::make('auth.signup', $data);
 	}
 
