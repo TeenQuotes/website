@@ -87,6 +87,11 @@ class ViewComposersServiceProvider extends ServiceProvider {
 		View::composer([
 			'quotes.index'
 		], 'TeenQuotes\Composers\Pages\QuotesIndexComposer');
+
+		// When adding a quote
+		View::composer([
+			'quotes.addquote'
+		], 'TeenQuotes\Composers\Pages\AddQuoteComposer');
 	}
 
 	/**

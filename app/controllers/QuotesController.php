@@ -131,14 +131,7 @@ class QuotesController extends \BaseController {
 			'pageDescription' => Lang::get('quotes.addquotePageDescription'),
 		];
 
-		// Put variables that we will use in JavaScript
-		JavaScript::put([
-			'contentShortHint' => Lang::get('quotes.contentShortHint'),
-			'contentGreatHint' => Lang::get('quotes.contentGreatHint'),
-			'eventCategory'    => 'addquote',
-			'eventAction'      => 'logged-in',
-			'eventLabel'       => 'addquote-page'
-		]);
+		// JS variables are set in a view composer
 
 		return View::make('quotes.addquote', $data);
 	}
