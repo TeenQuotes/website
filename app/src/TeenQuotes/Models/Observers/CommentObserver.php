@@ -19,7 +19,9 @@ class CommentObserver {
 			->first();
 
 		// Send an email to the author of the quote if he wants it
-		if ($quote->user->wantsEmailComment()) {
+		// Do not send an e-mail if the author of the comment has written
+		// the quote
+		if ($quote->user->wantsEmailComment() AND $comment->user_id != $quote->user->id) {
 
 			// Send the email via SMTP
 			new MailSwitcher('smtp');
