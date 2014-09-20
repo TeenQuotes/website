@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
-use Indatus\Dispatcher\Scheduling\ScheduledCommand;
-use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Drivers\Cron\Scheduler;
+use Indatus\Dispatcher\Scheduling\Schedulable;
+use Indatus\Dispatcher\Scheduling\ScheduledCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class EmailSpecialEventCommand extends ScheduledCommand {
 
@@ -22,6 +22,12 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 	 * @var string
 	 */
 	protected $description = 'Send an email to all users for a special event.';
+
+	/**
+	 * Allowed newsletter types
+	 * @var array
+	 */
+	private $possibleEvents = ['christmas', 'newyear'];
 
 	/**
 	 * Create a new command instance.
@@ -69,31 +75,49 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 
 	/**
 	 * Execute the console command.
-	 *
-	 * @return mixed
 	 */
 	public function fire()
 	{
-		$event = $this->argument('event');
-		if (is_null($event) OR !in_array($event, ['christmas', 'newyear']))
-			$this->error('Wrong type of event!');
+		if ($this->eventTypeIsValid()) {		
+			$event = $this->getEvent();
 
-		$users = User::get();
-		$users->each(function($user) use($event)
-		{
-			// Log this info
-			$this->info("Sending email for event ".$event." to ".$user->login." - ".$user->email);
-			Log::info("Sending email for event ".$event." to ".$user->login." - ".$user->email);
-
-			$data = array();
-			$data['user'] = $user->toArray();
-
-			// Send the email to the user
-			Mail::send('emails.events.'.$event, $data, function($m) use($user, $event)
+			$users = User::all();
+			
+			$users->each(function($user) use($event)
 			{
-				$m->to($user->email, $user->login)->subject(Lang::get('email.event'.ucfirst($event).'SubjectEmail'));
+				// Log this info
+				$this->info("Sending email for event ".$event." to ".$user->login." - ".$user->email);
+				Log::info("Sending email for event ".$event." to ".$user->login." - ".$user->email);
+
+				// Send the email to the user
+				Mail::send('emails.events.'.$event, compact('user'), function($m) use($user, $event)
+				{
+					$m->to($user->email, $user->login)->subject(Lang::get('email.event'.ucfirst($event).'SubjectEmail'));
+				});
 			});
-		});
+		}
+	}
+
+	private function eventTypeIsValid()
+	{
+		$event = $this->getEvent();
+
+		if (is_null($event) OR !in_array($event, $this->possibleEvents)) {
+			$this->error('Wrong type of event! Got '.$event.'. Possible values are: '.$this->presentPossibleEvents().'.');
+			return false;
+		}
+
+		return true;
+	}
+
+	private function getEvent()
+	{
+		return $this->argument('event');
+	}
+
+	private function presentPossibleEvents()
+	{
+		return implode('|', $this->possibleEvents);
 	}
 
 	/**
@@ -104,7 +128,7 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 	protected function getArguments()
 	{
 		return array(
-			array('event', InputArgument::REQUIRED, 'The name of the event: christmas|newyear'),
+			array('event', InputArgument::REQUIRED, 'The name of the event. '.$this->presentPossibleEvents()),
 		);
 	}
 

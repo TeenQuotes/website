@@ -24,6 +24,12 @@ class SendNewsletterCommand extends ScheduledCommand {
 	protected $description = 'Send a newsletter to the subscribed users.';
 
 	/**
+	 * Allowed event types
+	 * @var array
+	 */
+	private $possibleTypes = ['daily', 'weekly'];
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
@@ -72,33 +78,33 @@ class SendNewsletterCommand extends ScheduledCommand {
 	 */
 	public function fire()
 	{
-		$this->verifyType();
-		
-		$type = $this->getType();
+		if ($this->eventTypeIsValid()) {		
+			$type = $this->getType();
 
-		$quotes = ($type == 'weekly') ? $this->retrieveWeeklyQuotes() : $this->retrieveDailyQuotes();
+			$quotes = ($type == 'weekly') ? $this->retrieveWeeklyQuotes() : $this->retrieveDailyQuotes();
 
-		// Send the newsletter only if we have
-		// at least 1 quote
-		if ( ! $quotes->isEmpty()) {
+			// Send the newsletter only if we have
+			// at least 1 quote
+			if ( ! $quotes->isEmpty()) {
 
-			// Get users that are subscribed to the newsletter
-			$rowNewsletters = Newsletter::whereType($type)
-				->with('user')
-				->get();
-			
-			$rowNewsletters->each(function($newsletter) use($type, $quotes)
-			{
-				// Log this info
-				$this->info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
-				Log::info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
-
-				// Send the email to the user
-				Mail::send('emails.newsletters.'.$type, compact('newsletter', 'quotes'), function($m) use($newsletter, $type)
+				// Get users that are subscribed to the newsletter
+				$rowNewsletters = Newsletter::whereType($type)
+					->with('user')
+					->get();
+				
+				$rowNewsletters->each(function($newsletter) use($type, $quotes)
 				{
-					$m->to($newsletter->user->email, $newsletter->user->login)->subject(Lang::get('newsletters.'.$type.'SubjectEmail'));
+					// Log this info
+					$this->info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
+					Log::info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
+
+					// Send the email to the user
+					Mail::send('emails.newsletters.'.$type, compact('newsletter', 'quotes'), function($m) use($newsletter, $type)
+					{
+						$m->to($newsletter->user->email, $newsletter->user->login)->subject(Lang::get('newsletters.'.$type.'SubjectEmail'));
+					});
 				});
-			});
+			}
 		}
 	}
 
@@ -144,14 +150,21 @@ class SendNewsletterCommand extends ScheduledCommand {
 		return $nbQuotes;
 	}
 
-	private function verifyType()
+	private function eventTypeIsValid()
 	{
 		$type = $this->getType();
 
-		$possibleTypes = ['daily', 'weekly'];
+		if (is_null($type) OR !in_array($type, $this->possibleTypes)) {
+			$this->error('Wrong type for the newsletter! Can only be '.$this->presentPossibleTypes().'. '.$type.' was given.');
+			return false;
+		}
 
-		if (is_null($type) OR !in_array($type, $possibleTypes))
-			$this->error('Wrong type for the newsletter! Can only be '.implode('|', $possibleTypes).'. '.$type.' was given.');
+		return true;
+	}
+
+	private function presentPossibleTypes()
+	{
+		return implode('|', $this->possibleTypes);
 	}
 
 	/**
@@ -162,7 +175,7 @@ class SendNewsletterCommand extends ScheduledCommand {
 	protected function getArguments()
 	{
 		return array(
-			array('type', InputArgument::REQUIRED, 'The type of newsletter we will send. weekly|daily'),
+			array('type', InputArgument::REQUIRED, 'The type of newsletter we will send. '.$this->presentPossibleTypes()),
 			array('nb_quotes', InputArgument::OPTIONAL, 'The number of quotes to send.'),
 		);
 	}
