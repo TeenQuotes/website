@@ -77,6 +77,11 @@ class ViewComposersServiceProvider extends ServiceProvider {
 		View::composer([
 			'auth.signin'
 		], 'TeenQuotes\Composers\Pages\SigninComposer');
+
+		// JS variables used when moderating quotes
+		View::composer([
+			'admin.index'
+		], 'TeenQuotes\Composers\Pages\ModerationIndexComposer');
 	}
 
 	/**
