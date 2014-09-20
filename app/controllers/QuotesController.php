@@ -175,11 +175,7 @@ class QuotesController extends \BaseController {
 			'colors'          => $colors,
 		];
 
-		// Put variables that we will use in JavaScript
-		JavaScript::put([
-			'contentShortHint' => Lang::get('comments.contentShortHint'),
-			'contentGreatHint' => Lang::get('comments.contentGreatHint'),
-		]);
+		// JS variables are set in a view composer
 
 		// Register the view in the recommendation engine
 		$quote->registerViewAction();

@@ -92,6 +92,11 @@ class ViewComposersServiceProvider extends ServiceProvider {
 		View::composer([
 			'quotes.addquote'
 		], 'TeenQuotes\Composers\Pages\AddQuoteComposer');
+
+		// When adding a comment on a single quote
+		View::composer([
+			'quotes.show'
+		], 'TeenQuotes\Composers\Pages\QuoteSingleComposer');
 	}
 
 	/**
