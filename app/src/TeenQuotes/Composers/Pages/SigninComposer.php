@@ -7,11 +7,13 @@ class SigninComposer {
 
 	public function compose($view)
 	{
-		// Data for Google Analytics
-		JavaScript::put([
-			'eventCategory' => 'apps',
-			'eventAction'   => 'download-page',
-			'eventLabel'    => Agent::platform().' - '.Agent::device()
-		]);
+		$data = $view->getData();
+
+		if ($data['requireLoggedInAddQuote'])
+			JavaScript::put([
+				'eventCategory' => 'addquote',
+				'eventAction'   => 'not-logged-in',
+				'eventLabel'    => 'signin-page'
+			]);
 	}
 }

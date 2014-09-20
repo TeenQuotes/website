@@ -72,6 +72,11 @@ class ViewComposersServiceProvider extends ServiceProvider {
 		View::composer([
 			'apps.download'
 		], 'TeenQuotes\Composers\Pages\AppsComposer');
+
+		// Send event to GA when not logged in
+		View::composer([
+			'auth.signin'
+		], 'TeenQuotes\Composers\Pages\SigninComposer');
 	}
 
 	/**
