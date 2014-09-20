@@ -29,12 +29,7 @@ class AppsController extends BaseController {
 
 	public function getDevice($device)
 	{
-		// Send event to Google Analytics
-		JavaScript::put([
-			'eventCategory' => 'apps',
-			'eventAction'   => 'download-page',
-			'eventLabel'    => Agent::platform().' - '.Agent::device()
-		]);
+		// Add data for Google Analytics in a view composer
 
 		// Retrieve devices info from settings.json
 		$devicesInfo = LaraSetting::get('devicesInfo')[0];

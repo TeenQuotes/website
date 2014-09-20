@@ -67,6 +67,11 @@ class ViewComposersServiceProvider extends ServiceProvider {
 		View::composer([
 			'emails.welcome'
 		], 'TeenQuotes\Composers\Emails\WelcomeViewComposer');
+
+		// Apps download page
+		View::composer([
+			'apps.download'
+		], 'TeenQuotes\Composers\Pages\AppsComposer');
 	}
 
 	/**
