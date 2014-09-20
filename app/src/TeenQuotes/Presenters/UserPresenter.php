@@ -30,7 +30,7 @@ class UserPresenter extends Presenter {
 	 */
 	public function iconGender()
 	{
-		return ($this->gender == 'M') ? 'fa-male' : 'fa-female';
+		return $this->entity->isMale() ? 'fa-male' : 'fa-female';
 	}
 
 	/**
