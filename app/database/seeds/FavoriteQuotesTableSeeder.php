@@ -6,11 +6,8 @@ class FavoriteQuotesTableSeeder extends Seeder {
 	public function run()
 	{
 		$this->command->info('Deleting existing FavoriteQuote table ...');
-		DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 		FavoriteQuote::truncate();
-		DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
-		Eloquent::unguard();
 		$faker = Faker::create();
 
 		$this->command->info('Seeding FavoriteQuote table using Faker...');

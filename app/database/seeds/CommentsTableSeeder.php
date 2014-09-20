@@ -6,11 +6,8 @@ class CommentsTableSeeder extends Seeder {
 	public function run()
 	{
 		$this->command->info('Deleting existing Comments table ...');
-		DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 		Comment::truncate();
-		DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
-		Eloquent::unguard();
 		$faker = Faker::create();
 
 		$this->command->info('Seeding Comments table using Faker...');

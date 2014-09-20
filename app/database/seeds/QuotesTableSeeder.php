@@ -6,11 +6,8 @@ class QuotesTableSeeder extends Seeder {
 	public function run()
 	{
 		$this->command->info('Deleting existing Quotes table ...');
-		DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 		Quote::truncate();
-		DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
-		Eloquent::unguard();
 		$faker = Faker::create();
 
 		$this->command->info('Seeding Quotes table using Faker...');

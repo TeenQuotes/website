@@ -6,11 +6,8 @@ class UsersTableSeeder extends Seeder {
 	public function run()
 	{
 		$this->command->info('Deleting existing Users table ...');
-		DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 		User::truncate();
-		DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
-		Eloquent::unguard();
 		$faker = Faker::create();
 
 		$this->command->info('Seeding Users table using Faker...');

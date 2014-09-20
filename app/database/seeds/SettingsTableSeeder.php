@@ -6,11 +6,8 @@ class SettingsTableSeeder extends Seeder {
 	public function run()
 	{
 		$this->command->info('Deleting existing Settings table ...');
-		DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 		Setting::truncate();
-		DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
-		Eloquent::unguard();
 		$faker = Faker::create();
 
 		$this->command->info('Seeding Settings table using Faker...');
