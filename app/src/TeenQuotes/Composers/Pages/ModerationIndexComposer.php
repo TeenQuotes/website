@@ -12,6 +12,6 @@ class ModerationIndexComposer {
 			'nbQuotesPerDay' => Config::get('app.quotes.nbQuotesToPublishPerDay'),
 			'quotesPlural'   => Lang::choice('quotes.quotesText', 2),
 			'daysPlural'     => Lang::choice('quotes.daysText', 2),
-    	]);
+		]);
 	}
 }
