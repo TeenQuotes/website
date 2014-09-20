@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
-use Indatus\Dispatcher\Scheduling\ScheduledCommand;
-use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Drivers\Cron\Scheduler;
+use Indatus\Dispatcher\Scheduling\Schedulable;
+use Indatus\Dispatcher\Scheduling\ScheduledCommand;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class SendNewsletterCommand extends ScheduledCommand {
 
@@ -69,7 +69,6 @@ class SendNewsletterCommand extends ScheduledCommand {
 	/**
 	 * Execute the console command.
 	 *
-	 * @return mixed
 	 */
 	public function fire()
 	{
@@ -94,12 +93,8 @@ class SendNewsletterCommand extends ScheduledCommand {
 				$this->info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
 				Log::info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
 
-				$data = array();
-				$data['newsletter'] = $newsletter->toArray();
-				$data['quotes']     = $quotes;
-
 				// Send the email to the user
-				Mail::send('emails.newsletters.'.$type, $data, function($m) use($newsletter, $type)
+				Mail::send('emails.newsletters.'.$type, compact('newsletter', 'quotes'), function($m) use($newsletter, $type)
 				{
 					$m->to($newsletter->user->email, $newsletter->user->login)->subject(Lang::get('newsletters.'.$type.'SubjectEmail'));
 				});
