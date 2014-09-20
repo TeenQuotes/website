@@ -7,10 +7,10 @@
 
 	@include('emails.quotes.single')
 
-	{{ Lang::get('comments.ifWantsToSeeComment', array('url' => URL::route('quotes.show', array($quote->id)))) }}
+	{{ Lang::get('comments.ifWantsToSeeComment', ['url' => URL::route('quotes.show', $quote->id)]) }}
 @stop
 
 <!-- Link to edit email settings -->
 @section('add-footer')
-	{{ Lang::get('email.manageEmailSettings', ['url' => URL::route('users.edit', [$quote->user->login])])}}
+	{{ Lang::get('email.manageEmailSettings', ['url' => URL::route('users.edit', $quote->user->login)]) }}
 @stop
