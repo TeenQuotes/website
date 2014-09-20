@@ -1,9 +1,10 @@
 @extends('emails.default')
 
 @section('content')
-	{{ Lang::get('email.hiWithLogin', array('login' => $newsletter['user']['login'])) }}
+	{{ Lang::get('email.hiWithLogin', ['login' => $newsletter->user->login]) }}
 	<br/><br/>
 	{{ Lang::get('newsletters.beenWaitingForLong') }}
+	
 	@foreach ($quotes as $quote)
 		@include('emails.quotes.single', compact('quote'))
 	@endforeach
