@@ -1,6 +1,5 @@
 <?php namespace TeenQuotes\Composers\Pages;
 
-use Agent;
 use JavaScript;
 
 class SigninComposer {
