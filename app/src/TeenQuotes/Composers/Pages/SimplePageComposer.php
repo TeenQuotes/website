@@ -1,5 +1,4 @@
-<?php
-namespace TeenQuotes\Composers\Pages;
+<?php namespace TeenQuotes\Composers\Pages;
 
 use Illuminate\Support\Facades\Route;
 use TeenQuotes\Composers\AbstractDeepLinksComposer;

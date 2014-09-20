@@ -6,11 +6,8 @@ class NewslettersTableSeeder extends Seeder {
 	public function run()
 	{
 		$this->command->info('Deleting existing Newsletter table ...');
-		DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 		Newsletter::truncate();
-		DB::statement('SET FOREIGN_KEY_CHECKS = 1');
 
-		Eloquent::unguard();
 		$faker = Faker::create();
 
 		$this->command->info('Seeding Newsletter table using Faker...');

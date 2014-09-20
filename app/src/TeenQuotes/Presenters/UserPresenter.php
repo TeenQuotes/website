@@ -1,9 +1,10 @@
 <?php namespace TeenQuotes\Presenters;
 
-use Laracasts\Presenter\Presenter;
+use Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
+use Laracasts\Presenter\Presenter;
 
 class UserPresenter extends Presenter {
 	
@@ -30,5 +31,15 @@ class UserPresenter extends Presenter {
 	public function iconGender()
 	{
 		return ($this->gender == 'M') ? 'fa-male' : 'fa-female';
+	}
+
+	/**
+	 * The age of the user
+	 * @return int
+	 */
+	public function age()
+	{
+		$carbon = Carbon::createFromFormat('Y-m-d', $this->birthdate);
+		return $carbon->age;
 	}
 }

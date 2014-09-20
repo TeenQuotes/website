@@ -1,4 +1,4 @@
-@extends('emails/default')
+@extends('emails.default')
 
 @section('content')
 	{{ Lang::get('email.hiWithLogin', array('login' => $newsletter['user']['login'])) }}

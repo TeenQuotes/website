@@ -1,5 +1,7 @@
 <?php namespace TeenQuotes\Models\Scopes;
 
+use Illuminate\Support\Facades\DB;
+
 trait UserTrait {
 
 	public function scopeBirthdayToday($query)

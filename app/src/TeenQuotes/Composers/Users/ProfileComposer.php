@@ -1,9 +1,8 @@
-<?php
-namespace TeenQuotes\Composers\Users;
+<?php namespace TeenQuotes\Composers\Users;
 
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use TeenQuotes\Composers\AbstractDeepLinksComposer;
 
 class ProfileComposer extends AbstractDeepLinksComposer {
