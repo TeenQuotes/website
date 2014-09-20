@@ -97,6 +97,11 @@ class ViewComposersServiceProvider extends ServiceProvider {
 		View::composer([
 			'quotes.show'
 		], 'TeenQuotes\Composers\Pages\QuoteSingleComposer');
+
+		// When signing up
+		View::composer([
+			'auth.signup'
+		], 'TeenQuotes\Composers\Pages\SignupComposer');
 	}
 
 	/**
