@@ -11,7 +11,7 @@
 |
 */
 
-$app = new TeenQuotes\Foundation\Application;
+$app = new Illuminate\Foundation\Application;
 
 /*
 |--------------------------------------------------------------------------
