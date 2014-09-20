@@ -82,6 +82,11 @@ class ViewComposersServiceProvider extends ServiceProvider {
 		View::composer([
 			'admin.index'
 		], 'TeenQuotes\Composers\Pages\ModerationIndexComposer');
+
+		// Bind the AdBlock disclaimer when indexing quotes
+		View::composer([
+			'quotes.index'
+		], 'TeenQuotes\Composers\Pages\QuotesIndexComposer');
 	}
 
 	/**
