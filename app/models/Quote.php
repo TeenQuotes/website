@@ -168,7 +168,7 @@ class Quote extends Toloquent {
 		$idUserApi = ResourceServer::getOwnerId();
 		
 		// Try to get information from cache
-		if (Auth::check() OR !empty($idUserApi)) {
+		if (Auth::check() OR ! empty($idUserApi)) {
 			// Time for cache
 			$expiresAt = Carbon::now()->addMinutes(10);
 
@@ -248,8 +248,10 @@ class Quote extends Toloquent {
 	public function registerViewAction()
 	{
 		// Try to retrieve the ID of the user
-		if (Auth::guest())
-			$userRecommendation = !empty(ResourceServer::getOwnerId()) ? ResourceServer::getOwnerId() : null;
+		if (Auth::guest()) {
+			$idUserApi = ResourceServer::getOwnerId();
+			$userRecommendation = ! empty($idUserApi) ? $idUserApi : null;
+		}
 		else
 			$userRecommendation = Auth::id();
 		
