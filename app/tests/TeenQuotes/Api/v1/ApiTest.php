@@ -96,6 +96,11 @@ abstract class ApiTest extends DbTestCase {
 		$this->assertObjectHasAttributes($this->json, $array);
 	}
 
+	protected function assertResponseHasRequiredAttributes()
+	{
+		$this->assertObjectHasAttributes($this->json, $this->requiredAttributes);
+	}
+
 	protected function assertObjectHasRequiredAttributes($object)
 	{
 		return $this->assertObjectHasAttributes($object, $this->requiredAttributes);
@@ -154,7 +159,7 @@ abstract class ApiTest extends DbTestCase {
 		return $this;
 	}
 
-	private function bindJson()
+	protected function bindJson()
 	{
 		$content = $this->response->getContent();
 		$this->json = json_decode($content);

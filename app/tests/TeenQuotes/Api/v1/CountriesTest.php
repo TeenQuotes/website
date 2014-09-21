@@ -24,7 +24,6 @@ class CountriesTest extends ApiTest {
 		$this->tryShowNotFound()
 			->withStatusMessage('country_not_found')
 			->withErrorMessage('The country #'.$this->getIdNonExistingRessource().' was not found');
-
 	}
 
 	public function testShowFound()
