@@ -19,15 +19,20 @@ class StoriesTest extends ApiTest {
 		$this->controller = App::make('TeenQuotes\Api\V1\Controllers\StoriesController');
 	}
 
-	public function testShow()
+	public function testShowNotFound()
 	{
 		// No found story
 		$this->tryShowNotFound()
 			->withStatusMessage('story_not_found')
 			->withErrorMessage('The story #'.$this->getIdNonExistingRessource().' was not found');
 
+	}
+
+	public function testShowFound()
+	{
 		// Regular story
-		$this->tryShowFound(1);	
+		for ($i = 1; $i <= $this->nbRessources; $i++)
+			$this->tryShowFound($i);
 	}
 
 	public function testIndex()
@@ -53,7 +58,7 @@ class StoriesTest extends ApiTest {
 			
 			$otherValue = $this->otherValue($value);
 			Input::replace([
-				$value => $this->generateString(50),
+				$value      => $this->generateString(50),
 				$otherValue => $this->generateString(200)
 			]);
 			
@@ -67,7 +72,7 @@ class StoriesTest extends ApiTest {
 			
 			$otherValue = $this->otherValue($value);
 			Input::replace([
-				$value => $this->generateString(1500),
+				$value      => $this->generateString(1500),
 				$otherValue => $this->generateString(200)
 			]);
 			
