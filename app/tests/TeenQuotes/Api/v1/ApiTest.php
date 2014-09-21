@@ -75,7 +75,7 @@ abstract class ApiTest extends DbTestCase {
 
 	protected function generateString($length)
 	{
-		return str_repeat("a", $length);
+		return str_random($length);
 	}
 
 	protected function logUserWithId($id)
@@ -94,6 +94,11 @@ abstract class ApiTest extends DbTestCase {
 	protected function assertResponseHasAttributes($array)
 	{
 		$this->assertObjectHasAttributes($this->json, $array);
+	}
+
+	protected function assertObjectHasRequiredAttributes($object)
+	{
+		return $this->assertObjectHasAttributes($object, $this->requiredAttributes);
 	}
 
 	protected function assertObjectHasAttributes($object, $array)
@@ -201,9 +206,17 @@ abstract class ApiTest extends DbTestCase {
 		$this->response = $this->controller->show($id);
 		$this->bindJson();
 
+		$this->assertStatusCodeIs(Response::HTTP_OK);
+
 		if ($this->containsSmallUser)
 			$this->assertResponseHasSmallUser();
+		
 		$this->assertResponseHasAttributes($this->requiredAttributes);	
+	}
+
+	protected function getDecodedJson()
+	{
+		return $this->json;
 	}
 
 	protected function tryFirstPage()
