@@ -10,3 +10,6 @@ Story:
     frequence_txt: $text
     user_id:
         type: User
+
+Country:
+    name: $string $string$
