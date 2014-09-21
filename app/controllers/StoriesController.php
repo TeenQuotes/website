@@ -5,15 +5,16 @@ class StoriesController extends BaseController {
 	public function index()
 	{
 		// Retrieve stories
-		$stories = Story::withSmallUser()->orderDescending()->paginate(Config::get('app.stories.nbStoriesPerPage'));
+		$stories = Story::withSmallUser()
+			->orderDescending()
+			->paginate(Config::get('app.stories.nbStoriesPerPage'));
 
-		// Round to nearest thousand
-		$nbQuotes = number_format(round(Quote::nbQuotesPublished(), -3), 0 , '.' , ',' );
-		
+		$totalQuotes = $stories->first()->present()->totalQuotes;
+
 		$data = [
 			'pageTitle'       => Lang::get('stories.pageTitleIndex'),
 			'pageDescription' => Lang::get('stories.pageDescriptionIndex'),
-			'heroText'        => Lang::get('stories.heroText', ['nb' => $nbQuotes]),
+			'heroText'        => Lang::get('stories.heroText', ['nb' => $totalQuotes]),
 			'stories'         => $stories,
 			'tellUsYourStory' => Lang::get('stories.storiesTellTitle').'.',
 			'mustBeLogged'    => Lang::get('stories.mustBeLogged'),
@@ -25,7 +26,9 @@ class StoriesController extends BaseController {
 
 	public function show($id)
 	{
-		$story = Story::where('id', '=', $id)->withSmallUser()->first();
+		$story = Story::where('id', '=', $id)
+			->withSmallUser()
+			->first();
 
 		if (is_null($story) OR $story->count() == 0)
 			throw new StoryNotFoundException();
