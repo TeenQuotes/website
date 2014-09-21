@@ -2,7 +2,6 @@
 
 use Laracasts\TestDummy\Factory;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Input;
 
 class CountriesTest extends ApiTest {
 
