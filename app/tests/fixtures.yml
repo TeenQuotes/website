@@ -12,4 +12,4 @@ Story:
         type: User
 
 Country:
-    name: $string $string$
+    name: $string $string
