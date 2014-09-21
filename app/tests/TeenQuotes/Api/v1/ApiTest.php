@@ -133,6 +133,13 @@ abstract class ApiTest extends DbTestCase {
 		return $this;
 	}
 
+	protected function withSuccessMessage($status)
+	{
+		$this->assertResponseKeyIs('success', $status);
+		
+		return $this;
+	}
+
 	protected function withErrorMessage($error)
 	{
 		$this->assertResponseKeyIs('error', $error);
