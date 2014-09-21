@@ -72,7 +72,7 @@ class FavQuotesController extends APIGlobalController {
 			if ($validatorFavoriteQuote->fails())
 				return Response::json([
 					'status' => 'quote_not_found',
-					'error'  => "The quote #".$quote_id." was not found",
+					'error'  => "The quote #".$quote_id." was not found.",
 				], 400);
 		}
 
@@ -85,7 +85,7 @@ class FavQuotesController extends APIGlobalController {
 
 		return Response::json([
 			'status'  => 'favorite_deleted',
-			'success' => "The quote #".$quote_id." was deleted from favorites",
+			'success' => "The quote #".$quote_id." was deleted from favorites.",
 		], 200, [], JSON_NUMERIC_CHECK);
 	}
 }
