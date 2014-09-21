@@ -165,8 +165,10 @@ class Quote extends Toloquent {
 
 	public function isFavoriteForCurrentUser()
 	{
+		$idUserApi = ResourceServer::getOwnerId();
+		
 		// Try to get information from cache
-		if (Auth::check() OR !empty(ResourceServer::getOwnerId())) {
+		if (Auth::check() OR !empty($idUserApi)) {
 			// Time for cache
 			$expiresAt = Carbon::now()->addMinutes(10);
 
