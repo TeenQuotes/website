@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Response;
 
 class CountriesController extends APIGlobalController {
 	
-	public function getCountry($country_id = null)
+	public function show($country_id = null)
 	{
 		// List all countries
 		if (is_null($country_id))

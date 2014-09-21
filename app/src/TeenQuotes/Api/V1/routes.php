@@ -28,7 +28,7 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth|sessi
 	Route::get('comments/{comment_id}', ['uses' => 'CommentsController@show']);
 
 	// Countries
-	Route::get('countries/{country_id?}', ['uses' => 'CountriesController@getCountry']);		
+	Route::get('countries/{country_id?}', ['uses' => 'CountriesController@show']);		
 
 	// Favorite quotes
 	Route::post('favorites/{quote_id}', ['uses' => 'FavQuotesController@postFavorite']);
