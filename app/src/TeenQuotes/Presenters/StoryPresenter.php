@@ -2,6 +2,7 @@
 
 use Laracasts\Presenter\Presenter;
 use Quote;
+use Str;
 
 class StoryPresenter extends Presenter {
 
@@ -14,5 +15,10 @@ class StoryPresenter extends Presenter {
 	{
 		// Round to nearest thousand
 		return number_format(round(Quote::nbQuotesPublished(), - 3), 0, '.', ',');
+	}
+
+	public function pageDescription()
+	{
+		return Str::limit($this->frequence_txt, 200);
 	}
 }

@@ -35,7 +35,7 @@ class StoriesController extends BaseController {
 
 		$data = [
 			'pageTitle'       => Lang::get('stories.pageTitleShow', ['nb' => $story->id]),
-			'pageDescription' => substr($story->frequence_txt, 0, 200),
+			'pageDescription' => $story->present()->pageDescription,
 			'story'           => $story,
 			'goBack'          => Lang::get('layout.goBack'),
 			'storyTitle'      => Lang::get('stories.storyTitle'),
@@ -60,7 +60,7 @@ class StoriesController extends BaseController {
 			// Call the API - skip the API validator
 			$response = App::make('TeenQuotes\Api\V1\Controllers\StoriesController')->store(false);
 			if ($response->getStatusCode() == 201)
-				return Redirect::route('stories')->with('success', Lang::get('stories.storyAddedSuccessfull', array('login' => Auth::user()->login)));
+				return Redirect::route('stories')->with('success', Lang::get('stories.storyAddedSuccessfull', ['login' => Auth::user()->login]));
 			
 			return Redirect::route('stories')->withErrors($validator)->withInput(Input::all());
 		}
