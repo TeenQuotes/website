@@ -22,7 +22,7 @@ Route::pattern('random', 'random');
 Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth|session.remove', 'prefix' => 'v1', 'namespace' => 'TeenQuotes\Api\V1\Controllers'], function()
 {
 	// Comments
-	Route::get('comments', ['uses' => 'CommentsController@index']);
+	Route::get('comments/{quote_id}', ['uses' => 'CommentsController@index']);
 	Route::post('comments/{quote_id}', ['uses' => 'CommentsController@store']);
 	Route::delete('comments/{comment_id}', ['uses' => 'CommentsController@destroy']);
 	Route::get('comments/{comment_id}', ['uses' => 'CommentsController@show']);

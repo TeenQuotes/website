@@ -16,7 +16,7 @@ use User;
 
 class CommentsController extends APIGlobalController {
 
-	public function index()
+	public function index($quote_id)
 	{
 		$page = max(1, Input::get('page', 1));
 		$pagesize = Input::get('pagesize', Config::get('app.comments.nbCommentsPerPage'));
@@ -24,10 +24,11 @@ class CommentsController extends APIGlobalController {
 		// Number of comments to skip
 		$skip = $pagesize * ($page - 1);
 
-		$totalComments = Comment::count();
+		$totalComments = Comment::forQuoteId($quote_id)->count();
 
 		// Get comments
-		$contentQuery = Comment::withSmallUser()
+		$contentQuery = Comment::forQuoteId($quote_id)
+			->withSmallUser()
 			->orderDescending();
 
 		if (Input::has('quote'))
