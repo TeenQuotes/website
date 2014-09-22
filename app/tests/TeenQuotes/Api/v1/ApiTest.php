@@ -87,7 +87,7 @@ abstract class ApiTest extends DbTestCase {
 	protected function logUserWithId($id)
 	{
 		$this->userIdLoggedIn = $id;
-		$this->be(User::find($id));
+		Auth::loginUsingId($id);
 	}
 
 	protected function assertStatusCodeIs($code)
@@ -217,6 +217,8 @@ abstract class ApiTest extends DbTestCase {
 	protected function assertBelongsToLoggedInUser()
 	{
 		$this->assertEquals($this->json->user_id, $this->userIdLoggedIn);
+
+		return $this;
 	}
 
 	protected function tryShowFound($id)
