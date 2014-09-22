@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Input;
 class StoriesTest extends ApiTest {
 
 	protected $contentType = 'stories';
-	protected $containsSmallUser = true;
+	protected $embedsRelation = ['user_small'];
 	protected $requiredAttributes = ['id', 'represent_txt', 'frequence_txt', 'user_id', 'created_at', 'updated_at'];
 
 	public function setUp()

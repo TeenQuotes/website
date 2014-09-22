@@ -31,10 +31,10 @@ abstract class ApiTest extends DbTestCase {
 	protected $pagesize = null;
 
 	/**
-	 * Tells if an endpoint embed a small user in its response
-	 * @var boolean
+	 * Describes relations embedded
+	 * @var array
 	 */
-	protected $containsSmallUser = false;
+	protected $embedsRelation = [];
 
 	/**
 	 * Number of ressources to create
@@ -186,11 +186,21 @@ abstract class ApiTest extends DbTestCase {
 		
 		$objectName = $this->contentType;
 		$objects = $this->json->$objectName;
-		if ($this->containsSmallUser)
+		if ($this->embedsSmallUser())
 			$this->assertObjectContainsSmallUser(reset($objects));
 		$this->assertObjectHasAttributes(reset($objects), $this->requiredAttributes);
 
 		$this->assertNeighborsPagesMatch();
+	}
+
+	protected function embedsSmallUser()
+	{
+		return in_array('small_user', $this->embedsRelation);
+	}
+
+	protected function embedsQuote()
+	{
+		return in_array('quote', $this->embedsRelation);
 	}
 
 	protected function getIdNonExistingRessource()
@@ -220,7 +230,7 @@ abstract class ApiTest extends DbTestCase {
 
 		$this->assertStatusCodeIs(Response::HTTP_OK);
 
-		if ($this->containsSmallUser)
+		if ($this->embedsSmallUser())
 			$this->assertResponseHasSmallUser();
 		
 		$this->assertResponseHasAttributes($this->requiredAttributes);	
@@ -246,7 +256,7 @@ abstract class ApiTest extends DbTestCase {
 		$objectName = $this->contentType;
 		$objects = $this->json->$objectName;
 		for ($i = 0; $i < $this->nbRessources; $i++) { 
-			if ($this->containsSmallUser)
+			if ($this->embedsSmallUser())
 				$this->assertObjectContainsSmallUser($objects[$i]);
 			$this->assertObjectHasAttributes($objects[$i], $this->requiredAttributes);
 		}

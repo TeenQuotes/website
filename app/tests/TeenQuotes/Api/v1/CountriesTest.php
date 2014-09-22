@@ -6,7 +6,6 @@ use Illuminate\Http\Response;
 class CountriesTest extends ApiTest {
 
 	protected $contentType = 'countries';
-	protected $containsSmallUser = false;
 	protected $requiredAttributes = ['id', 'name'];
 
 	public function setUp()
