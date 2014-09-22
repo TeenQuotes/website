@@ -14,7 +14,7 @@ use User;
 
 class QuotesController extends APIGlobalController {
 
-	public function getSingleQuote($quote_id)
+	public function show($quote_id)
 	{
 		$quote = Quote::whereId($quote_id)
 			->with('comments')
@@ -117,7 +117,7 @@ class QuotesController extends APIGlobalController {
 	}
 
 
-	public function indexQuotes($random = null)
+	public function index($random = null)
 	{
 		$page = max(1, Input::get('page', 1));
 		$pagesize = Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
@@ -175,7 +175,7 @@ class QuotesController extends APIGlobalController {
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
-	public function postStoreQuote($doValidation = true)
+	public function store($doValidation = true)
 	{
 		$user = $this->retrieveUser();
 		$content = Input::get('content');
@@ -187,7 +187,7 @@ class QuotesController extends APIGlobalController {
 			if ($validatorContent->fails()) {
 				$data = [
 					'status' => 'wrong_content',
-					'error'  => 'Content of the quote should be between 50 and 300 characters'
+					'error'  => 'Content of the quote should be between 50 and 300 characters.'
 				];
 
 				return Response::json($data, 400);
@@ -199,7 +199,7 @@ class QuotesController extends APIGlobalController {
 			if ($validatorNbQuotes->fails()) {
 				$data = [
 					'status' => 'too_much_submitted_quotes',
-					'error'  => "The maximum number of quotes you can submit is 5 per day"
+					'error'  => "The maximum number of quotes you can submit is 5 per day."
 				];
 
 				return Response::json($data, 400);

@@ -39,9 +39,9 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth|sessi
 	Route::post('password/reset', ['uses' => 'PasswordController@postReset']);
 
 	// Quotes
-	Route::post('quotes', ['uses' => 'QuotesController@postStoreQuote']);
-	Route::get('quotes/{quote_id}', ['uses' => 'QuotesController@getSingleQuote']);
-	Route::get('quotes/{random?}', ['uses' => 'QuotesController@indexQuotes']);
+	Route::post('quotes', ['uses' => 'QuotesController@store']);
+	Route::get('quotes/{quote_id}', ['uses' => 'QuotesController@show']);
+	Route::get('quotes/{random?}', ['uses' => 'QuotesController@index']);
 	Route::get('quotes/favorites/{user_id?}', ['uses' => 'QuotesController@indexFavoritesQuotes']);
 	Route::get('quotes/{quote_approved_type}/{user_id}', ['uses' => 'QuotesController@indexByApprovedQuotes']);
 	Route::get('quotes/search/{query}', ['uses' => 'QuotesController@getSearch']);

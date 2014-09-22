@@ -1,6 +1,7 @@
 <?php namespace TeenQuotes\Models\Scopes;
 
 use Carbon;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 trait QuoteTrait {
@@ -52,6 +53,9 @@ trait QuoteTrait {
 
 	public function scopeRandom($query)
 	{
+		if (Config::get('database.default') != 'mysql')
+			return $query;
+
 		// Here we use a constant in the MySQL RAND function
 		// so that quotes will be always be in the same "order"
 		// even if they are not ordered
