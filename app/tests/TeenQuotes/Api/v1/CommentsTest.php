@@ -28,21 +28,21 @@ class CommentsTest extends ApiTest {
 		$this->doNotEmbedsQuote();
 
 		// Test with the middle page
-		$this->tryMiddlePage($this->quoteId);
+		$this->tryMiddlePage('index', $this->quoteId);
 
 		// Test first page
-		$this->tryFirstPage($this->quoteId);
+		$this->tryFirstPage('index', $this->quoteId);
 	}
 
 	public function testIndexWithQuote()
 	{
 		// Test with the middle page
 		$this->activateEmbedsQuote();
-		$this->tryMiddlePage($this->quoteId);
+		$this->tryMiddlePage('index', $this->quoteId);
 
 		// Test first page
 		$this->activateEmbedsQuote();
-		$this->tryFirstPage($this->quoteId);
+		$this->tryFirstPage('index', $this->quoteId);
 	}
 
 	public function testIndexNotFound()

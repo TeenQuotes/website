@@ -77,6 +77,8 @@ abstract class ApiTest extends DbTestCase {
 		$this->assertStatusCodeIs(Response::HTTP_NOT_FOUND);
 		$this->assertObjectHasAttribute('status', $this->json);
 		$this->assertObjectHasAttribute('error', $this->json);
+
+		return $this;
 	}
 
 	protected function generateString($length)
@@ -121,7 +123,7 @@ abstract class ApiTest extends DbTestCase {
 		}
 	}
 
-	protected function tryPaginatedContentNotFound($param = null)
+	protected function tryPaginatedContentNotFound($params = null)
 	{
 		$data = [
 			'page' => $this->getIdNonExistingRessource(),
@@ -130,10 +132,7 @@ abstract class ApiTest extends DbTestCase {
 
 		$this->addInputReplace($data);
 
-		if (is_null($param))
-			$this->doRequest('index');
-		else
-			$this->doRequest('index', $param);
+		$this->doRequest('index', $params);
 
 		$this->assertResponseIsNotFound();
 
@@ -161,12 +160,9 @@ abstract class ApiTest extends DbTestCase {
 		return $this;
 	}
 
-	protected function tryStore($method = 'store', $requestParam = null)
+	protected function tryStore($method = 'store', $requestParams = null)
 	{
-		if (is_null($requestParam))
-			$this->doRequest($method);
-		else
-			$this->doRequest($method, $requestParam);
+		$this->doRequest($method, $requestParams);
 		
 		return $this;
 	}
@@ -177,16 +173,18 @@ abstract class ApiTest extends DbTestCase {
 		$this->json = json_decode($content);
 	}
 
-	protected function doRequest($method, $param = null)
+	protected function doRequest($method, $params = null)
 	{
 		Input::replace($this->addArray);
-		
-		if (is_null($param))
+
+		if (is_null($params))
 			$this->response = $this->controller->$method();
 		else
-			$this->response = $this->controller->$method($param);
+			$this->response = call_user_func_array([$this->controller, $method], (array) $params);
 		
 		$this->bindJson();
+
+		return $this;
 	}
 
 	protected function embedsSmallUser()
@@ -236,17 +234,14 @@ abstract class ApiTest extends DbTestCase {
 		return $this->json;
 	}
 
-	protected function tryFirstPage($requestParam = null)
+	protected function tryFirstPage($method = 'index', $requestParams = null)
 	{
 		$this->page = 1;
 		$this->pagesize = $this->nbRessources;
 
 		$this->replacePagesInput();
 
-		if (is_null($requestParam))
-			$this->doRequest('index');
-		else
-			$this->doRequest('index', $requestParam);
+		$this->doRequest('index', $requestParams);
 		
 		$this->assertIsPaginatedResponse();
 
@@ -268,17 +263,14 @@ abstract class ApiTest extends DbTestCase {
 			$this->assertObjectContainsQuote($object);
 	}
 
-	protected function tryMiddlePage($requestParam = null)
+	protected function tryMiddlePage($method = 'index', $requestParams = null)
 	{
 		$this->page = max(2, ($this->nbRessources / 2));
 		$this->pagesize = 1;
 
 		$this->replacePagesInput();
 
-		if (is_null($requestParam))
-			$this->doRequest('index');
-		else
-			$this->doRequest('index', $requestParam);
+		$this->doRequest($method, $requestParams);
 
 		$this->assertIsPaginatedResponse();
 		$this->assertHasNextAndPreviousPage();
