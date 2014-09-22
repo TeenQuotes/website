@@ -18,7 +18,7 @@ class PasswordTest extends ApiTest {
 
 	public function testRemindNotFound()
 	{
-		Input::replace(['email' => 'foo']);
+		$this->addInputReplace(['email' => 'foo']);
 
 		$this->doRequest('postRemind');
 		$this->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
@@ -30,9 +30,7 @@ class PasswordTest extends ApiTest {
 	{
 		$user = User::find(1);
 
-		Input::replace([
-			'email' => $user->email
-		]);
+		$this->addInputReplace(['email' => $user->email]);
 
 		$this->doRequest('postRemind');
 		$this->assertStatusCodeIs(Response::HTTP_OK)

@@ -57,7 +57,7 @@ class StoriesTest extends ApiTest {
 		foreach (['frequence_txt', 'represent_txt'] as $value) {
 			
 			$otherValue = $this->otherValue($value);
-			Input::replace([
+			$this->addInputReplace([
 				$value      => $this->generateString(50),
 				$otherValue => $this->generateString(200)
 			]);
@@ -71,7 +71,7 @@ class StoriesTest extends ApiTest {
 		foreach (['frequence_txt', 'represent_txt'] as $value) {
 			
 			$otherValue = $this->otherValue($value);
-			Input::replace([
+			$this->addInputReplace([
 				$value      => $this->generateString(1500),
 				$otherValue => $this->generateString(200)
 			]);
@@ -87,7 +87,7 @@ class StoriesTest extends ApiTest {
 		$this->logUserWithId(1);
 		
 		// Successfull store
-		Input::replace([
+		$this->addInputReplace([
 			'represent_txt' => $this->generateString(200),
 			'frequence_txt' => $this->generateString(200)
 		]);

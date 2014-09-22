@@ -56,9 +56,15 @@ abstract class ApiTest extends DbTestCase {
 
 	/**
 	 * The JSON response in an object format
-	 * @var stdClas
+	 * @var stdClass
 	 */
 	protected $json;
+
+	/**
+	 * Parameters that will be added when replacing inputs
+	 * @var array
+	 */
+	protected $addArray = [];
 
 	public function setUp()
 	{
@@ -115,16 +121,19 @@ abstract class ApiTest extends DbTestCase {
 		}
 	}
 
-	protected function tryPaginatedContentNotFound()
+	protected function tryPaginatedContentNotFound($param = null)
 	{
-		$this->page = $this->nbRessources + 1;
-		$this->pagesize = $this->nbRessources;
-		Input::replace([
-			'page' => $this->page,
-			'pagesize' => $this->pagesize
-		]);
+		$data = [
+			'page' => $this->getIdNonExistingRessource(),
+			'pagesize' => $this->nbRessources
+		];
 
-		$this->doRequest('index');
+		$this->addInputReplace($data);
+
+		if (is_null($param))
+			$this->doRequest('index');
+		else
+			$this->doRequest('index', $param);
 
 		$this->assertResponseIsNotFound();
 
@@ -152,9 +161,12 @@ abstract class ApiTest extends DbTestCase {
 		return $this;
 	}
 
-	protected function tryStore($method = 'store')
+	protected function tryStore($method = 'store', $requestParam = null)
 	{
-		$this->doRequest($method);
+		if (is_null($requestParam))
+			$this->doRequest($method);
+		else
+			$this->doRequest($method, $requestParam);
 		
 		return $this;
 	}
@@ -165,32 +177,16 @@ abstract class ApiTest extends DbTestCase {
 		$this->json = json_decode($content);
 	}
 
-	protected function doRequest($method)
+	protected function doRequest($method, $param = null)
 	{
-		$this->response = $this->controller->$method();
-		$this->bindJson();
-	}
-
-	protected function tryMiddlePage()
-	{
-		$this->page = max(2, ($this->nbRessources / 2));
-		$this->pagesize = 1;
-		Input::replace([
-			'page' => $this->page,
-			'pagesize' => $this->pagesize
-		]);
-
-		$this->doRequest('index');
-		$this->assertIsPaginatedResponse();
-		$this->assertHasNextAndPreviousPage();
+		Input::replace($this->addArray);
 		
-		$objectName = $this->contentType;
-		$objects = $this->json->$objectName;
-		if ($this->embedsSmallUser())
-			$this->assertObjectContainsSmallUser(reset($objects));
-		$this->assertObjectHasAttributes(reset($objects), $this->requiredAttributes);
-
-		$this->assertNeighborsPagesMatch();
+		if (is_null($param))
+			$this->response = $this->controller->$method();
+		else
+			$this->response = $this->controller->$method($param);
+		
+		$this->bindJson();
 	}
 
 	protected function embedsSmallUser()
@@ -225,15 +221,12 @@ abstract class ApiTest extends DbTestCase {
 
 	protected function tryShowFound($id)
 	{
-		$this->response = $this->controller->show($id);
+		$this->doRequest('show', $id);
 		$this->bindJson();
 
 		$this->assertStatusCodeIs(Response::HTTP_OK);
 
-		if ($this->embedsSmallUser())
-			$this->assertResponseHasSmallUser();
-		
-		$this->assertResponseHasAttributes($this->requiredAttributes);	
+		$this->assertObjectMatchesExpectedSchema($this->json);
 	}
 
 	protected function getDecodedJson()
@@ -241,32 +234,85 @@ abstract class ApiTest extends DbTestCase {
 		return $this->json;
 	}
 
-	protected function tryFirstPage()
+	protected function tryFirstPage($requestParam = null)
 	{
 		$this->page = 1;
 		$this->pagesize = $this->nbRessources;
-		Input::replace([
-			'page' => $this->page,
-			'pagesize' => $this->pagesize
-		]);
 
-		$this->doRequest('index');
+		$this->replacePagesInput();
+
+		if (is_null($requestParam))
+			$this->doRequest('index');
+		else
+			$this->doRequest('index', $requestParam);
+		
 		$this->assertIsPaginatedResponse();
 
 		$objectName = $this->contentType;
 		$objects = $this->json->$objectName;
-		for ($i = 0; $i < $this->nbRessources; $i++) { 
-			if ($this->embedsSmallUser())
-				$this->assertObjectContainsSmallUser($objects[$i]);
-			$this->assertObjectHasAttributes($objects[$i], $this->requiredAttributes);
-		}
+		for ($i = 0; $i < $this->nbRessources; $i++)
+			$this->assertObjectMatchesExpectedSchema($objects[$i]);
 
 		$this->assertNeighborsPagesMatch();
+	}
+
+	protected function assertObjectMatchesExpectedSchema($object)
+	{
+		$this->assertObjectHasAttributes($object, $this->requiredAttributes);
+			
+		if ($this->embedsSmallUser())
+			$this->assertObjectContainsSmallUser($object);
+		if ($this->embedsQuote())
+			$this->assertObjectContainsQuote($object);
+	}
+
+	protected function tryMiddlePage($requestParam = null)
+	{
+		$this->page = max(2, ($this->nbRessources / 2));
+		$this->pagesize = 1;
+
+		$this->replacePagesInput();
+
+		if (is_null($requestParam))
+			$this->doRequest('index');
+		else
+			$this->doRequest('index', $requestParam);
+
+		$this->assertIsPaginatedResponse();
+		$this->assertHasNextAndPreviousPage();
+		
+		$objectName = $this->contentType;
+		$objects = $this->json->$objectName;
+
+		$this->assertObjectMatchesExpectedSchema(reset($objects));
+
+		$this->assertNeighborsPagesMatch();
+	}
+
+	protected function addInputReplace($addArray)
+	{
+		foreach ($addArray as $key => $value)
+			$this->addArray[$key] = $value;
+	}
+
+	protected function replacePagesInput()
+	{
+		$data = [
+			'page' => $this->page,
+			'pagesize' => $this->pagesize,
+		];
+
+		$this->addInputReplace($data);
 	}
 
 	protected function assertObjectContainsSmallUser($object)
 	{
 		return $this->assertObjectIsSmallUser($object->user);
+	}
+
+	protected function assertObjectContainsQuote($object)
+	{
+		return $this->assertObjectIsQuote($object->quote);
 	}
 
 	protected function assertResponseKeyIs($key, $value)
@@ -303,6 +349,29 @@ abstract class ApiTest extends DbTestCase {
 		$this->assertTrue(is_bool($object->profile_hidden));
 		$this->assertTrue(is_bool($object->wants_notification_comment_quote));
 		$this->assertTrue(Str::startsWith($object->url_avatar, 'http'));
+	}
+
+	protected function assertObjectIsQuote($object)
+	{
+		// Assert attributes
+		$this->assertObjectHasAttribute('id', $object);
+		$this->assertObjectHasAttribute('content', $object);
+		$this->assertObjectHasAttribute('user_id', $object);
+		$this->assertObjectHasAttribute('approved', $object);
+		$this->assertObjectHasAttribute('created_at', $object);
+		$this->assertObjectHasAttribute('has_comments', $object);
+		$this->assertObjectHasAttribute('total_comments', $object);
+		$this->assertObjectHasAttribute('is_favorite', $object);
+		
+		// Assert types
+		$this->assertTrue(is_integer($object->id));
+		$this->assertTrue(is_string($object->content));
+		$this->assertTrue(is_integer($object->user_id));
+		$this->assertTrue(is_integer($object->approved));
+		$this->assertTrue(is_string($object->created_at));
+		$this->assertTrue(is_bool($object->has_comments));
+		$this->assertTrue(is_integer($object->total_comments));
+		$this->assertTrue(is_bool($object->is_favorite));
 	}
 
 	protected function assertIsPaginatedResponse()
