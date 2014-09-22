@@ -54,7 +54,7 @@ class CommentsController extends APIGlobalController {
 	{
 		$commentQuery = Comment::where('id', '=', $comment_id)
 			->withSmallUser();
-		
+					
 		if (Input::has('quote'))
 			$commentQuery = $commentQuery->with('quote');
 		
