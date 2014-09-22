@@ -34,7 +34,7 @@ class Quote extends Toloquent {
 	 */
 	public static $rulesAdd = [
 		'content'              => 'required|min:50|max:300|unique:quotes,content',
-		'quotesSubmittedToday' => 'required|integer|between:0,5',
+		'quotesSubmittedToday' => 'required|integer|between:0,4',
 	];
 
 	/**
@@ -247,16 +247,18 @@ class Quote extends Toloquent {
 	 */
 	public function registerViewAction()
 	{
-		// Try to retrieve the ID of the user
-		if (Auth::guest()) {
-			$idUserApi = ResourceServer::getOwnerId();
-			$userRecommendation = ! empty($idUserApi) ? $idUserApi : null;
+		if (App::environment() != 'testing') {		
+			// Try to retrieve the ID of the user
+			if (Auth::guest()) {
+				$idUserApi = ResourceServer::getOwnerId();
+				$userRecommendation = ! empty($idUserApi) ? $idUserApi : null;
+			}
+			else
+				$userRecommendation = Auth::id();
+			
+			// Register in the recommendation system
+			Easyrec::view($this->id, "Quote ".$this->id, URL::route("quotes.show", $this->id, false), $userRecommendation, null, null, "QUOTE");
 		}
-		else
-			$userRecommendation = Auth::id();
-		
-		// Register in the recommendation system
-		Easyrec::view($this->id, "Quote ".$this->id, URL::route("quotes.show", $this->id, false), $userRecommendation, null, null, "QUOTE");
 	}
 
 	/**
