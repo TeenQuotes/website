@@ -283,12 +283,15 @@ class QuotesController extends APIGlobalController {
 		// Number of quotes to skip
 		$skip = $pagesize * ($page - 1);
 
-		$content = Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
+		$query = Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
 			->withSmallUser()
-			->orderBy(DB::raw("FIELD(id, ".implode(',', $arrayIDFavoritesQuotesForUser).")"))
 			->take($pagesize)
-			->skip($skip)
-			->get();
+			->skip($skip);
+
+		if (Config::get('database.default') == 'mysql')
+			$query = $query->orderBy(DB::raw("FIELD(id, ".implode(',', $arrayIDFavoritesQuotesForUser).")"));
+		
+		$content = $query->get();
 
 		return $content;
 	}
