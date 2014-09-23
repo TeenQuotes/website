@@ -47,11 +47,11 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth|sessi
 	Route::get('quotes/search/{query}', ['uses' => 'QuotesController@getSearch']);
 
 	// Users
-	Route::delete('users',['uses' => 'UsersController@deleteUsers']);
-	Route::post('users', ['uses' => 'UsersController@postUsers']);
+	Route::delete('users',['uses' => 'UsersController@destroy']);
+	Route::post('users', ['uses' => 'UsersController@store']);
 	Route::get('users', ['uses' => 'UsersController@getUsers']);
 	Route::put('users/profile', ['uses' => 'UsersController@putProfile']);
-	Route::get('users/{user_id}', ['uses' => 'UsersController@getSingleUser']);
+	Route::get('users/{user_id}', ['uses' => 'UsersController@show']);
 	Route::put('users/password', ['uses' => 'UsersController@putPassword']);
 	Route::put('users/settings', ['uses' => 'UsersController@putSettings']);
 	Route::get('users/search/{query}', ['uses' => 'UsersController@getSearch']);

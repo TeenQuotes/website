@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
 use Newsletter;
 use Setting;
 use TeenQuotes\Mail\MailSwitcher;
@@ -23,22 +22,24 @@ use User;
 
 class UsersController extends APIGlobalController {
 	
-	public function deleteUsers()
+	public function destroy()
 	{
-		User::find(ResourceServer::getOwnerId())->delete();
+		$this->retrieveUser()->delete();
 
 		return Response::json([
 			'status'  => 'user_deleted',
-			'message' => 'The user has been deleted.'
+			'success' => 'The user has been deleted.'
 		], 200);
 	}
 
 	public function getUsers()
 	{
-		return $this->getSingleUser(ResourceServer::getOwnerId());
+		$u = $this->retrieveUser();
+
+		return $this->show($u->id);
 	}
 
-	public function postUsers($doValidation = true)
+	public function store($doValidation = true)
 	{
 		$data = [
 			'login'    => Input::get('login'),
@@ -88,7 +89,7 @@ class UsersController extends APIGlobalController {
 		return Response::json($user, 201, [], JSON_NUMERIC_CHECK);
 	}
 
-	public function getSingleUser($user_id)
+	public function show($user_id)
 	{
 		$user = User::where('login', '=', $user_id)
 			->orWhere('id', '=', $user_id)
@@ -195,7 +196,7 @@ class UsersController extends APIGlobalController {
 
 	public function putPassword()
 	{
-		$user = User::find(ResourceServer::getOwnerId());
+		$user = $this->retrieveUser();
 
 		$data = [
 			'password'              => Input::get('password'),
@@ -224,7 +225,7 @@ class UsersController extends APIGlobalController {
 	public function putSettings($userInstance = null)
 	{
 		if (is_null($userInstance))
-			$user = User::find(ResourceServer::getOwnerId());
+			$user = $this->retrieveUser();
 		else
 			$user = $userInstance;
 		
