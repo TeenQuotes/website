@@ -19,9 +19,8 @@ class FavoriteQuotesTest extends ApiTest {
 		
 		// Create a user and log him in
 		$user = Factory::create('User');
-		$this->logUserWithId($user['id']);
+		$this->user = $this->logUserWithId($user['id']);
 		
-		$this->user = User::find($user['id']);
 		$this->idRefusedQuote = $this->getIdRefusedQuote();
 		$this->idPublishedQuote = $this->getIdPublishedQuote();
 	}

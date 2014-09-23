@@ -174,6 +174,57 @@ class UsersTest extends ApiTest {
 			$this->tryShowFound($i);
 	}
 
+	public function testPutPasswordTooSmall()
+	{
+		$this->addInputReplace([
+			'password'              => 'azert',
+			'password_confirmation' => 'azert',
+		]);
+
+		$this->assertPutPasswordError('wrong_password', 'The password must be at least 6 characters.');
+	}
+
+	public function testPutPasswordNotSame()
+	{
+		$this->addInputReplace([
+			'password'              => 'azerty',
+			'password_confirmation' => 'azert',
+		]);
+
+		$this->assertPutPasswordError('wrong_password', 'The password confirmation does not match.');
+	}
+
+	public function testPutPasswordSuccess()
+	{
+		$newPassword = 'azerty';
+		$idUser = 1;
+
+		$this->addInputReplace([
+			'password'              => $newPassword,
+			'password_confirmation' => $newPassword,
+		]);
+
+		$u = $this->logUserWithId($idUser);
+
+		$this->doRequest('putPassword')
+			->assertStatusCodeIs(Response::HTTP_OK)
+			->withStatusMessage('password_updated')
+			->withSuccessMessage('The new password has been set.');
+
+		// Check that the new password has been set
+		$this->assertTrue(Auth::attempt(['login' => $u['login'], 'password' => $newPassword]));
+	}
+
+	private function assertPutPasswordError($status, $error)
+	{
+		$this->logUserWithId(1);
+
+		$this->doRequest('putPassword')
+			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+			->withStatusMessage($status)
+			->withErrorMessage($error);
+	}
+
 	private function assertStoreError($status, $error)
 	{
 		$this->tryStore()

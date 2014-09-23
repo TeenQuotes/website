@@ -90,6 +90,8 @@ abstract class ApiTest extends DbTestCase {
 	{
 		$this->userIdLoggedIn = $id;
 		Auth::loginUsingId($id);
+
+		return Auth::user();
 	}
 
 	protected function assertStatusCodeIs($code)
