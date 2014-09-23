@@ -215,11 +215,142 @@ class UsersTest extends ApiTest {
 		$this->assertTrue(Auth::attempt(['login' => $u['login'], 'password' => $newPassword]));
 	}
 
+	public function testPutProfileWrongGender()
+	{
+		$this->addInputReplace([
+			'gender' => 'foo',
+		]);
+
+		$this->assertPutProfileError('wrong_gender', 'The selected gender is invalid.');
+	}
+
+	public function testPutProfileWrongBirthdate()
+	{
+		$this->addInputReplace([
+			'gender'    => 'M',
+			'birthdate' => '1975-01-32'
+		]);
+
+		$this->assertPutProfileError('wrong_birthdate', 'The birthdate does not match the format Y-m-d.');
+	}
+
+	public function testPutProfileWrongCountry()
+	{
+		$this->addInputReplace([
+			'gender'    => 'M',
+			'birthdate' => '1975-01-25',
+			'country'   => Country::all()->count() + 1
+		]);
+
+		$this->assertPutProfileError('wrong_country', 'The selected country was not found.');
+	}
+
+	public function testPutProfileWrongAboutMe()
+	{
+		$this->addInputReplace([
+			'gender'    => 'M',
+			'birthdate' => '1975-01-25',
+			'country'   => Country::first()->id,
+			'about_me'  => $this->generateString(501)
+		]);
+
+		$this->assertPutProfileError('wrong_about_me', 'The about me may not be greater than 500 characters.');
+	}
+
+	// TODO: write tests for uploaded files
+
+	public function testPutProfileSuccess()
+	{
+		$gender = 'M';
+		$birthdate = '1975-01-25';
+		$country = Country::first()->id;
+		$about_me = $this->generateString(200);
+
+		$data = compact('gender', 'birthdate', 'country', 'about_me');
+		$this->addInputReplace($data);
+
+		$this->logUserWithId(1);
+
+		$this->doRequest('putProfile')
+			->assertStatusCodeIs(Response::HTTP_OK)
+			->withStatusMessage('profile_updated')
+			->withSuccessMessage('The profile has been updated.');
+	}
+
+	public function testPutSettingsWrongColor()
+	{
+		$this->addInputReplace([
+			'notification_comment_quote' => true,
+			'hide_profile'               => true,
+			'weekly_newsletter'          => true,
+			'daily_newsletter'           => true,
+			'colors'                     => 'foo'
+		]);
+
+		$this->logUserWithId(1);
+
+		$this->doRequest('putSettings')
+			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+			->withStatusMessage('wrong_color')
+			->withErrorMessage('This color is not allowed.');
+	}
+
+	public function testPutSettingsSuccess()
+	{
+		$u = $this->logUserWithId(1);
+
+		// Check default values for a new profile
+		$this->assertTrue($u->getIsSubscribedToWeekly());
+		$this->assertFalse($u->getIsSubscribedToDaily());
+		$this->assertFalse($u->isHiddenProfile());
+		$this->assertTrue($u->wantsEmailComment());
+		$this->assertEquals($u->getColorsQuotesPublished(), Config::get('app.users.defaultColorQuotesPublished'));
+
+		// New color for quotes published
+		$newColor = 'red';
+		// Check that this is not the default value!
+		$this->assertNotEquals(Config::get('app.users.defaultColorQuotesPublished'), $newColor);
+
+		$this->addInputReplace([
+			'notification_comment_quote' => false,
+			'hide_profile'               => true,
+			'weekly_newsletter'          => false,
+			'daily_newsletter'           => true,
+			'colors'                     => $newColor
+		]);
+
+		$this->doRequest('putSettings')
+			->assertStatusCodeIs(Response::HTTP_OK)
+			->withStatusMessage('profile_updated')
+			->withSuccessMessage('The profile has been updated.');
+
+		// Check that values have changed accordingly
+		$this->assertFalse($u->getIsSubscribedToWeekly());
+		$this->assertTrue($u->getIsSubscribedToDaily());
+		$this->assertTrue($u->isHiddenProfile());
+		$this->assertFalse($u->wantsEmailComment());
+		
+		// Verify cache for quotes published color
+		$this->assertFalse(Cache::has(User::$cacheNameForColorsQuotesPublished.$u->id));
+		$this->assertEquals($u->getColorsQuotesPublished(), $newColor);
+		$this->assertEquals(Cache::get(User::$cacheNameForColorsQuotesPublished.$u->id), $newColor);
+	}
+
 	private function assertPutPasswordError($status, $error)
 	{
 		$this->logUserWithId(1);
 
 		$this->doRequest('putPassword')
+			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+			->withStatusMessage($status)
+			->withErrorMessage($error);
+	}
+
+	private function assertPutProfileError($status, $error)
+	{
+		$this->logUserWithId(1);
+
+		$this->doRequest('putProfile')
 			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage($status)
 			->withErrorMessage($error);
