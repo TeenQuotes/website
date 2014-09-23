@@ -197,6 +197,16 @@ abstract class ApiTest extends DbTestCase {
 		return in_array('quote', $this->embedsRelation);
 	}
 
+	protected function embedsCountry()
+	{
+		return in_array('country', $this->embedsRelation);
+	}
+
+	protected function embedsNewsletters()
+	{
+		return in_array('newsletters', $this->embedsRelation);
+	}
+
 	protected function getIdNonExistingRessource()
 	{
 		return $this->nbRessources + 1;
@@ -253,6 +263,11 @@ abstract class ApiTest extends DbTestCase {
 		$this->assertNeighborsPagesMatch();
 	}
 
+	protected function assertResponseMatchesExpectedSchema()
+	{
+		$this->assertObjectMatchesExpectedSchema($this->json);
+	}
+
 	protected function assertObjectMatchesExpectedSchema($object)
 	{
 		$this->assertObjectHasAttributes($object, $this->requiredAttributes);
@@ -261,6 +276,10 @@ abstract class ApiTest extends DbTestCase {
 			$this->assertObjectContainsSmallUser($object);
 		if ($this->embedsQuote())
 			$this->assertObjectContainsQuote($object);
+		if ($this->embedsCountry())
+			$this->assertObjectContainsCountry($object);
+		if ($this->embedsNewsletters())
+			$this->assertObjectContainsNewsletters($object);
 	}
 
 	protected function tryMiddlePage($method = 'index', $requestParams = null)
@@ -307,6 +326,21 @@ abstract class ApiTest extends DbTestCase {
 	protected function assertObjectContainsQuote($object)
 	{
 		return $this->assertObjectIsQuote($object->quote);
+	}
+
+	protected function assertObjectContainsCountry($object)
+	{
+		return $this->assertObjectIsCountry($object->country_object);
+	}
+
+	protected function assertObjectContainsNewsletters($object)
+	{
+		$newsletters = $object->newsletters;
+		
+		// Check the format for each newsletter
+		foreach ($newsletters as $o) {
+			$this->assertObjectIsNewsletter($o);
+		}
 	}
 
 	protected function assertResponseKeyIs($key, $value)
@@ -366,6 +400,31 @@ abstract class ApiTest extends DbTestCase {
 		$this->assertTrue(is_bool($object->has_comments));
 		$this->assertTrue(is_integer($object->total_comments));
 		$this->assertTrue(is_bool($object->is_favorite));
+	}
+
+	protected function assertObjectIsCountry($object)
+	{
+		// Assert attributes
+		$this->assertObjectHasAttribute('id', $object);
+		$this->assertObjectHasAttribute('name', $object);
+		
+		// Assert types
+		$this->assertTrue(is_integer($object->id));
+		$this->assertTrue(is_string($object->name));
+	}
+
+	protected function assertObjectIsNewsletter($object)
+	{
+		// Assert attributes
+		$this->assertObjectHasAttribute('user_id', $object);
+		$this->assertObjectHasAttribute('type', $object);
+		$this->assertObjectHasAttribute('created_at', $object);
+		
+		// Assert types
+		$this->assertTrue(is_integer($object->user_id));
+		$this->assertTrue(is_string($object->type));
+		$this->assertTrue(in_array($object->type, ['weekly', 'daily']));
+		$this->assertTrue(is_string($object->created_at));
 	}
 
 	protected function assertIsPaginatedResponse()
