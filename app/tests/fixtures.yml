@@ -14,6 +14,11 @@ FavoriteQuote:
     user_id:
         type: User
 
+Newsletter:
+    user_id:
+        type: User
+    type: weekly
+
 Quote:
     content: $text
     user_id:
