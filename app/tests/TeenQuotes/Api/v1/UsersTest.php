@@ -19,13 +19,7 @@ class UsersTest extends ApiTest {
 
 		Factory::times($this->nbRessources)->create('User');
 		
-		// Attach a country for each user
-		for ($i = 1; $i <= $this->nbRessources; $i++) { 
-			$c = Factory::create('Country');
-			$u = User::find($i);
-			$u->country = $c['id'];
-			$u->save();
-		}
+		$this->attachCountryForAllUsers();
 	}
 
 	public function testStoreSmallLogin()
@@ -336,6 +330,67 @@ class UsersTest extends ApiTest {
 		$this->assertEquals(Cache::get(User::$cacheNameForColorsQuotesPublished.$u->id), $newColor);
 	}
 
+	public function testSearchUsersNotFound()
+	{
+		$this->deleteAllUsers();
+
+		// Create a single user with a non-matching login
+		Factory::create('User', ['login' => 'abc']);
+
+		$this->assertEquals(1, User::all()->count());
+
+		$this->doRequest('getSearch', 'foo')
+			->assertResponseIsNotFound()
+			->withStatusMessage(404)
+			->withErrorMessage('No users have been found.');
+	}
+
+	public function testSearchSuccess()
+	{
+		// We don't display newsletters info when searching for users
+		$this->disableEmbedsNewsletter();
+
+		$this->generateUsersWithPartialLogin('abc');
+
+		$this->assertEquals($this->nbRessources, User::all()->count());
+
+		// Verify that we can retrieve our users even
+		// with partials login
+		$this->tryFirstPage('getSearch', 'ab');
+		$this->tryFirstPage('getSearch', 'a');
+		$this->tryFirstPage('getSearch', 'abc');
+		$this->tryFirstPage('getSearch', 'c');
+	}
+
+	public function testSearchFailsWrongPage()
+	{
+		$this->generateUsersWithPartialLogin('abc');
+
+		// Go to a page where we should not find any results
+		// matching our query
+		$this->addInputReplace([
+			'page'     => 2,
+			'pagesize' => $this->nbRessources
+		]);
+
+		$this->doRequest('getSearch', 'abc')
+			->assertResponseIsNotFound()
+			->withStatusMessage(404)
+			->withErrorMessage('No users have been found.');
+	}
+
+	private function generateUsersWithPartialLogin($string)
+	{
+		$this->deleteAllUsers();
+
+		for ($i = 1; $i <= $this->nbRessources; $i++) {
+			$login = $this->generateString(2).$string.$i;
+			Factory::create('User', compact('login'));
+		}
+
+		$this->attachCountryForAllUsers();
+	}
+
 	private function assertPutPasswordError($status, $error)
 	{
 		$this->logUserWithId(1);
@@ -354,6 +409,31 @@ class UsersTest extends ApiTest {
 			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage($status)
 			->withErrorMessage($error);
+	}
+
+	private function deleteAllUsers()
+	{
+		$users = User::all();
+
+		$users->each(function($u){
+			$u->delete();
+		});
+	}
+
+	private function attachCountryForAllUsers()
+	{
+		$users = User::all();
+
+		$users->each(function($u){
+			$c = Factory::create('Country');
+			$u->country = $c['id'];
+			$u->save();
+		});
+	}
+
+	private function disableEmbedsNewsletter()
+	{
+		$this->embedsRelation = ['country'];
 	}
 
 	private function assertStoreError($status, $error)
