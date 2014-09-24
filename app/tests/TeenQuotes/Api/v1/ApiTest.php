@@ -186,6 +186,10 @@ abstract class ApiTest extends DbTestCase {
 		
 		$this->bindJson();
 
+		// Delete overriden request parameters
+		// when the request has been made
+		$this->addArray = [];
+
 		return $this;
 	}
 
@@ -253,7 +257,7 @@ abstract class ApiTest extends DbTestCase {
 
 		$this->replacePagesInput();
 
-		$this->doRequest('index', $requestParams);
+		$this->doRequest($method, $requestParams);
 		
 		$this->assertIsPaginatedResponse();
 
@@ -312,12 +316,15 @@ abstract class ApiTest extends DbTestCase {
 
 	protected function replacePagesInput()
 	{
-		$data = [
-			'page' => $this->page,
-			'pagesize' => $this->pagesize,
-		];
+		$array = $this->addArray;
 
-		$this->addInputReplace($data);
+		// Replace page and pagesize only if values were not bind before
+		if (! array_key_exists('page', $array) AND ! array_key_exists('pagesize', $array)) {
+			$this->addInputReplace([
+				'page'     => $this->page,
+				'pagesize' => $this->pagesize,
+			]);
+		}
 	}
 
 	protected function assertObjectContainsSmallUser($object)
