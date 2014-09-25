@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Lang;
 use JavaScript;
 use Quote;
+use TeenQuotes\Composers\Interfaces\QuotesColorsExtractor;
 
-class IndexComposer {
+class IndexComposer implements QuotesColorsExtractor {
 	
 	public function compose($view)
 	{
@@ -17,6 +18,13 @@ class IndexComposer {
 
 		// Build the associative array #quote->id => "color"
 		// and store it in session
-		$view->with('colors', Quote::storeQuotesColors($data['quotes']->lists('id')));
+		$view->with('colors', $this->extractAndStoreColors($data['quotes']));
+	}
+
+	public function extractAndStoreColors($quotes)
+	{
+		$colors = Quote::storeQuotesColors($quotes->lists('id'));
+		
+		return $colors;
 	}
 }
