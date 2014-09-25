@@ -6,8 +6,8 @@ class UsersController extends \BaseController {
 
 	public function __construct()
 	{
-		$this->beforeFilter('guest', array('only' => 'store'));
-		$this->beforeFilter('auth', array('only' => array('edit', 'update', 'putPassword', 'putSettings')));
+		$this->beforeFilter('guest', ['only' => 'store']);
+		$this->beforeFilter('auth', ['only' => ['edit', 'update', 'putPassword', 'putSettings']]);
 	}
 
 	/**
@@ -33,21 +33,17 @@ class UsersController extends \BaseController {
 		];
 
 		$validator = Validator::make($data, ['login' => User::$rulesSignup['login']]);
-		if ($validator->fails()) {
-			$data = [
+		
+		if ($validator->fails())
+			return Response::json([
 				'success' => false,
 				'message' => $validator->messages()->first('login')
-			];
+			]);
 
-			return Response::json($data);
-		}
-
-		$data = [
+		return Response::json([
 			'success' => true,
 			'message' => $data['login'].'? '.Lang::get('auth.loginAwesome')
-		];
-
-		return Response::json($data);
+		]);
 	}
 
 	/**
@@ -139,7 +135,7 @@ class UsersController extends \BaseController {
 		// If we have nothing to show, try to redirect somewhere else
 		switch ($type) {
 			case 'favorites':
-				if (!$favoritesPossible) {
+				if ( ! $favoritesPossible) {
 					if ($publishPossible)
 						return Redirect::route('users.show', $user->login);
 					if ($commentsPossible)
@@ -150,7 +146,7 @@ class UsersController extends \BaseController {
 				break;
 
 			case 'comments':
-				if (!$commentsPossible) {
+				if ( ! $commentsPossible) {
 					if ($publishPossible)
 						return Redirect::route('users.show', $user->login);
 					if ($favoritesPossible)
@@ -162,7 +158,7 @@ class UsersController extends \BaseController {
 
 			// Asked for published quotes
 			default:
-				if (!$publishPossible) {
+				if ( ! $publishPossible) {
 					if ($favoritesPossible)
 						return Redirect::route('users.show', [$user->login, 'favorites']);
 					if ($commentsPossible)
@@ -173,7 +169,6 @@ class UsersController extends \BaseController {
 		// We failed to redirect, we will redirect to the default page
 		if (isset($redirectFailed) AND $redirectFailed)
 			return Redirect::route('users.show', $user->login);
-
 
 		// Build the data array
 		// Keys: quotes, paginator, colors, type
@@ -223,8 +218,7 @@ class UsersController extends \BaseController {
 
 		// Build the associated paginator
 		$paginator = Paginator::make($quotes, count($arrayIDFavoritesQuotesForUser), Config::get('app.users.nbQuotesPerPage'));
-		// FIXME: could be prettier
-		$paginator->setBaseUrl('/users/'.$user->login.'/favorites');
+		$paginator->setBaseUrl(URL::route('users.show', [$user->login, 'favorites'], false));
 
 		// Build the associative array  #quote->id => "color"
 		$IDsQuotes = array();
@@ -234,21 +228,17 @@ class UsersController extends \BaseController {
 		// Store it in session
 		$colors = Quote::storeQuotesColors($IDsQuotes);
 
-		// Fix the type of quotes we will display
-		$type = 'favorites';
-
 		return [
 			'quotes'    => $quotes,
 			'paginator' => $paginator,
 			'colors'    => $colors,
-			'type'      => $type,
+			'type'      => 'favorites',
 		];
 	}
 
 	private static function dataShowComments(User $user, $pageNumber)
 	{
-		$comments = $user
-			->comments()
+		$comments = $user->comments()
 			->with('user', 'quote')
 			->orderDescending()
 			->paginate(Config::get('app.users.nbQuotesPerPage'))
@@ -256,16 +246,12 @@ class UsersController extends \BaseController {
 
 		// Build the associated paginator
 		$paginator = Paginator::make($comments, $user->getTotalComments(), Config::get('app.users.nbQuotesPerPage'));
-		// FIXME: could be prettier
-		$paginator->setBaseUrl('/users/'.$user->login.'/comments');
-
-		// Fix the type of quotes we will display
-		$type = 'comments';
+		$paginator->setBaseUrl(URL::route('users.show', [$user->login, 'comments'], false));
 
 		return [
 			'quotes'    => $comments,
 			'paginator' => $paginator,
-			'type'      => $type,
+			'type'      => 'comments',
 		];
 	}
 
@@ -303,14 +289,11 @@ class UsersController extends \BaseController {
 		// Store it in session
 		$colors = Quote::storeQuotesColors($IDsQuotes, $user->getColorsQuotesPublished());
 
-		// Fix the type of quotes we will display
-		$type = 'published';
-
 		return [
 			'quotes'    => $quotes,
 			'paginator' => $paginator,
 			'colors'    => $colors,
-			'type'      => $type,
+			'type'      => 'published',
 		];
 	}
 
@@ -325,13 +308,12 @@ class UsersController extends \BaseController {
 	{
 		$user = User::whereLogin($id)->orWhere('id', $id)->first();
 
-		if (is_null($user) OR $user->login != Auth::user()->login)
+		if (is_null($user) OR ! $this->userIsAllowedToEdit($user))
 			throw new UserNotFoundException;
 		else {
 
 			// The color for published quotes
-			$confColor = Setting::
-				where('user_id', '=', $user->id)
+			$confColor = Setting::where('user_id', '=', $user->id)
 				->where('key', '=', 'colorsQuotesPublished')
 				->first();
 
@@ -353,7 +335,7 @@ class UsersController extends \BaseController {
 
 			// If the user hasn't filled its country yet we will try to auto-detect it
 			// If it's not possible, we will fall back to the most common country: the USA
-			$selectedCountry = is_null($user->country) ? UsersAPIController::detectCountry() : $selectedCountry = $user->country;
+			$selectedCountry = is_null($user->country) ? UsersAPIController::detectCountry() : $user->country;
 
 			// If the user hasn't filled its city yet we will try to auto-detect it
 			if (empty(Input::old('city')) AND is_null($user->city))
@@ -379,6 +361,11 @@ class UsersController extends \BaseController {
 		}
 	}
 
+	private function userIsAllowedToEdit($user)
+	{
+		return ($user->login == Auth::user()->login);
+	}
+
 	/**
 	 * Update the specified resource in storage.
 	 *
@@ -399,7 +386,6 @@ class UsersController extends \BaseController {
 		$validator = Validator::make($data, User::$rulesUpdate);
 
 		if ($validator->passes()) {
-			
 			// Call the API
 			$response = App::make('TeenQuotes\Api\V1\Controllers\UsersController')->putProfile(false);
 			if ($response->getStatusCode() == 200)
@@ -450,7 +436,7 @@ class UsersController extends \BaseController {
 	public function putSettings($id)
 	{
 		$user = User::whereLogin($id)->orWhere('id', $id)->first();
-		if ($user->login != Auth::user()->login)
+		if ( ! $this->userIsAllowedToEdit($user))
 			App::abort(401, 'Refused');
 		
 		$response = App::make('TeenQuotes\Api\V1\Controllers\UsersController')->putSettings($user);
@@ -458,6 +444,7 @@ class UsersController extends \BaseController {
 		// Handle error
 		if ($response->getStatusCode() == 400) {
 			$json = json_decode($response->getContent());
+			
 			// If the color was wrong
 			if ($json->status == 'wrong_color')
 				return Redirect::back()->with('warning', Lang::get('users.colorNotAllowed'));
@@ -480,7 +467,7 @@ class UsersController extends \BaseController {
 			'login'               => Auth::user()->login
 		];
 
-		// We will use a custom messagefor the delete confirmation input
+		// We will use a custom message for the delete confirmation input
 		$messages = [
     		'delete-confirmation.in' => Lang::get('users.writeDeleteHere'),
 		];
@@ -491,7 +478,7 @@ class UsersController extends \BaseController {
 			return Redirect::to(URL::route('users.edit', Auth::user()->login)."#delete-account")->withErrors($validator)->withInput(Input::except('password'));
 		else {
 			unset($data['delete-confirmation']);
-			if (!Auth::validate($data))
+			if ( ! Auth::validate($data))
 				return Redirect::to(URL::route('users.edit', Auth::user()->login)."#delete-account")->withErrors(array('password' => Lang::get('auth.passwordInvalid')))->withInput(Input::except('password'));
 		}
 
@@ -502,5 +489,4 @@ class UsersController extends \BaseController {
 
 		return Redirect::home()->with('success', Lang::get('users.deleteAccountSuccessfull'));
 	}
-
 }
