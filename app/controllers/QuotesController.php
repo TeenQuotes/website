@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class QuotesController extends \BaseController {
@@ -59,20 +60,14 @@ class QuotesController extends \BaseController {
 		if (is_null($quotes))
 			throw new QuoteNotFoundException;
 
-		// Build the associative array  #quote->id => "color"
-		$IDsQuotes = array();
-		foreach ($quotes as $quote)
-			$IDsQuotes[] = $quote->id;
-		
-		// Store it in session
-		$colors = Quote::storeQuotesColors($IDsQuotes);
+		// Transform quotes into a collection
+		$quotes = new Collection($quotes);
 
 		$data = [
 			'quotes'          => $quotes,
-			'colors'          => $colors,
 			'pageTitle'       => Lang::get('quotes.'.Route::currentRouteName().'PageTitle'),
 			'pageDescription' => Lang::get('quotes.'.Route::currentRouteName().'PageDescription'),
-			'paginator'       => Paginator::make($quotes, $numberQuotesPublished, Config::get('app.quotes.nbQuotesPerPage')),
+			'paginator'       => Paginator::make($quotes->toArray(), $numberQuotesPublished, Config::get('app.quotes.nbQuotesPerPage')),
 		];
 
 		return View::make('quotes.index', $data);
@@ -160,22 +155,13 @@ class QuotesController extends \BaseController {
 		if (Auth::guest())
 			Session::put('url.intended', URL::route('quotes.show', $id));
 
-		// Load colors for the quote
-		if (Session::has('colors.quote') AND array_key_exists($id, Session::get('colors.quote')))
-			$colors = Session::get('colors.quote');
-		else {
-			$colors = array();
-			$colors[$id] = 'color-1';
-		}
-
 		$data = [
 			'quote'           => $quote,
-			'pageTitle'       => Lang::get('quotes.singleQuotePageTitle', array('id' => $id)),
+			'pageTitle'       => Lang::get('quotes.singleQuotePageTitle', compact('id')),
 			'pageDescription' => $quote->content,
-			'colors'          => $colors,
 		];
 
-		// JS variables are set in a view composer
+		// JS variables and colors are set in a view composer
 
 		// Register the view in the recommendation engine
 		$quote->registerViewAction();

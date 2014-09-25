@@ -83,11 +83,6 @@ class ViewComposersServiceProvider extends ServiceProvider {
 			'admin.index'
 		], 'TeenQuotes\Composers\Pages\ModerationIndexComposer');
 
-		// Bind the AdBlock disclaimer when indexing quotes
-		View::composer([
-			'quotes.index'
-		], 'TeenQuotes\Composers\Pages\QuotesIndexComposer');
-
 		// When adding a quote
 		View::composer([
 			'quotes.addquote'
@@ -96,12 +91,17 @@ class ViewComposersServiceProvider extends ServiceProvider {
 		// When adding a comment on a single quote
 		View::composer([
 			'quotes.show'
-		], 'TeenQuotes\Composers\Pages\QuoteSingleComposer');
+		], 'TeenQuotes\Composers\Quotes\ShowComposer');
 
 		// When signing up
 		View::composer([
 			'auth.signup'
 		], 'TeenQuotes\Composers\Pages\SignupComposer');
+
+		// When indexing quotes
+		View::composer([
+			'quotes.index'
+		], 'TeenQuotes\Composers\Quotes\IndexComposer');
 	}
 
 	/**
