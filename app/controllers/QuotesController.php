@@ -17,7 +17,7 @@ class QuotesController extends \BaseController {
 	 */
 	public function redirectOldUrl($id)
 	{
-		return Redirect::route('quotes.show', array($id), 301);
+		return Redirect::route('quotes.show', $id, 301);
 	}
 
 	/**
@@ -26,39 +26,9 @@ class QuotesController extends \BaseController {
 	 * @return Response
 	 */
 	public function index()
-	{
-		// Page number for quotes
-		$pageNumber = Input::get('page', 1);
-
-		// Time to store quotes
-		$expiresAt = Carbon::now()->addMinutes(1);
-
-		$numberQuotesPublished = Quote::nbQuotesPublished();
-		
+	{		
 		// Random quotes or not?
-		if (Route::currentRouteName() != 'random') {
-			$quotes = Cache::remember(Quote::$cacheNameQuotesPage.$pageNumber, $expiresAt, function()
-			{
-				return Quote::published()
-					->with('user')
-					->orderDescending()
-					->paginate(Config::get('app.quotes.nbQuotesPerPage'))
-					->getItems();
-			});
-		}
-		else {
-			$quotes = Cache::remember(Quote::$cacheNameRandomPage.$pageNumber, $expiresAt, function()
-			{
-				return Quote::published()
-					->with('user')
-					->random()
-					->paginate(Config::get('app.quotes.nbQuotesPerPage'))
-					->getItems();
-			});
-		}
-
-		if (is_null($quotes))
-			throw new QuoteNotFoundException;
+		$quotes = (Route::currentRouteName() == 'random') ? $this->retrieveRandomQuotes() : $this->retrieveLastQuotes();
 
 		// Transform quotes into a collection
 		$quotes = new Collection($quotes);
@@ -67,10 +37,59 @@ class QuotesController extends \BaseController {
 			'quotes'          => $quotes,
 			'pageTitle'       => Lang::get('quotes.'.Route::currentRouteName().'PageTitle'),
 			'pageDescription' => Lang::get('quotes.'.Route::currentRouteName().'PageDescription'),
-			'paginator'       => Paginator::make($quotes->toArray(), $numberQuotesPublished, Config::get('app.quotes.nbQuotesPerPage')),
+			'paginator'       => Paginator::make($quotes->toArray(), Quote::nbQuotesPublished(), Config::get('app.quotes.nbQuotesPerPage')),
 		];
 
 		return View::make('quotes.index', $data);
+	}
+
+	private function getPageAndExpireCacheTime()
+	{
+		// Page number for quotes
+		$pageNumber = Input::get('page', 1);
+
+		// Time to store quotes
+		$expiresAt = Carbon::now()->addMinutes(1);
+
+		return [$pageNumber, $expiresAt];
+	}
+
+	private function retrieveLastQuotes()
+	{
+		list($pageNumber, $expiresAt) = $this->getPageAndExpireCacheTime();
+		
+		$quotes = Cache::remember(Quote::$cacheNameQuotesPage.$pageNumber, $expiresAt, function()
+		{
+			return Quote::published()
+				->with('user')
+				->orderDescending()
+				->paginate(Config::get('app.quotes.nbQuotesPerPage'))
+				->getItems();
+		});
+
+		if (empty($quotes))
+			throw new QuoteNotFoundException;
+
+		return $quotes;
+	}
+
+	private function retrieveRandomQuotes()
+	{
+		list($pageNumber, $expiresAt) = $this->getPageAndExpireCacheTime();
+
+		$quotes = Cache::remember(Quote::$cacheNameRandomPage.$pageNumber, $expiresAt, function()
+		{
+			return Quote::published()
+				->with('user')
+				->random()
+				->paginate(Config::get('app.quotes.nbQuotesPerPage'))
+				->getItems();
+		});
+
+		if (empty($quotes))
+			throw new QuoteNotFoundException;
+
+		return $quotes;
 	}
 
 	/**
