@@ -1,4 +1,6 @@
-[![Software License](http://img.shields.io/badge/license-CC%20BY--NC--SA-brightgreen.svg?style=flat)](LICENSE.md)
+[![Travis CI](http://img.shields.io/travis/TeenQuotes/website/v3.0.svg?style=flat)](https://travis-ci.org/TeenQuotes/website)
+[![Software License](http://img.shields.io/badge/License-CC%20BY--NC--SA-orange.svg?style=flat)](https://github.com/TeenQuotes/website/blob/v3.0/LICENSE.md)
+[![API version](http://img.shields.io/badge/API%20version-1.0alpha-blue.svg?style=flat)](https://github.com/TeenQuotes/api-documentation)
 
 # What is it?
 This is the source code for the next release of Teen Quotes, using the awesome PHP framework Laravel.
