@@ -8,5 +8,5 @@
 
 	@include('emails.quotes.single')
 
-	{{ Lang::get('quotes.quoteHasBeenRefusedEnd', ['login' => $quote->user->login]) }}
+	{{ Lang::get('quotes.quoteHasBeenRefusedAlertSad', ['urlHelp' => Config::get('app.quotes.moderationURLHelp')]) }}
 @stop
