@@ -9,7 +9,7 @@ Route::pattern('quote_id', '[0-9]+');
 Route::pattern('country_id', '[0-9]+');
 Route::pattern('story_id', '[0-9]+');
 Route::pattern('user_id', '[a-zA-Z0-9_]+');
-Route::pattern('decision', 'approve|unapprove');
+Route::pattern('decision', 'approve|unapprove|alert');
 Route::pattern('quote_approved_type', 'waiting|refused|pending|published');
 Route::pattern('device_type', 'tablet|ios|android|mobile|desktop');
 Route::pattern('display_type', 'favorites|comments');
