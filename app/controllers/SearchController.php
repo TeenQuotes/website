@@ -4,7 +4,7 @@ class SearchController extends \BaseController {
 
 	public function __construct()
 	{
-		$this->beforeFilter('search.isValid', array('only' => array('getResults', 'dispatcher')));
+		$this->beforeFilter('search.isValid', ['only' => ['getResults', 'dispatcher']]);
 	}
 
 	/**
@@ -28,35 +28,34 @@ class SearchController extends \BaseController {
 	 */
 	public function getResults($query)
 	{
-		// filter search.isValid before
 		$quotes = Quote::searchQuotes($query);
 
-		if (str_word_count($query) == 1)
-			$users = User::partialLogin($query)->notHidden()->with('countryObject')->get();
-		else
-			$users = null;
+		$users = null;
+		if ($this->stringIsASingleWord($query))
+			$users = User::partialLogin($query)
+				->notHidden()
+				->with('countryObject')
+				->get();
 
 		// Handle no results
 		if ($quotes->count() == 0 AND (is_null($users) OR $users->count() == 0))
 			return Redirect::route('search.form')->with('warning', Lang::get('search.noResultsAtAll'));
-
-		// Build the associative array  #quote->id => "color"
-		$IDsQuotes = $quotes->take(Config::get('app.search.maxResultsPerCategory'))->lists('id');
-
-		// Store it in session
-		$colors = Quote::storeQuotesColors($IDsQuotes);
 
 		$data = [
 			'quotes'                 => $quotes,
 			'users'                  => $users,
 			'query'                  => $query,
 			'maxNbResultPerCategory' => Config::get('app.search.maxResultsPerCategory'),
-			'colors'                 => $colors,
 			'pageTitle'              => Lang::get('search.resultsPageTitle', compact('query')),
 			'pageDescription'        => Lang::get('search.resultsPageDescription', compact('query')),
 		];
 
 		return View::make('search.results', $data);
+	}
+
+	private function stringIsASingleWord($string)
+	{
+		return (str_word_count($string) == 1);
 	}
 
 	/**

@@ -102,6 +102,11 @@ class ViewComposersServiceProvider extends ServiceProvider {
 		View::composer([
 			'quotes.index'
 		], 'TeenQuotes\Composers\Quotes\IndexComposer');
+
+		// When showing search results
+		View::composer([
+			'search.results'
+		], 'TeenQuotes\Composers\Search\ResultsComposer');
 	}
 
 	/**
