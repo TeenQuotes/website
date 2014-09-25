@@ -234,7 +234,7 @@ class Quote extends Toloquent {
 
 	public static function nbQuotesPublished()
 	{
-		$totalQuotes = Cache::rememberForever(Quote::$cacheNameNumberPublished, function()
+		$totalQuotes = Cache::remember(Quote::$cacheNameNumberPublished, Carbon::now()->addMinutes(10), function()
 		{
 			return Quote::published()->count();
 		});
