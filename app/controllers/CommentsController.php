@@ -4,7 +4,7 @@ class CommentsController extends \BaseController {
 
 	public function __construct()
 	{
-		$this->beforeFilter('auth', array('on' => 'store'));
+		$this->beforeFilter('auth', ['on' => 'store']);
 	}
 
 	/**

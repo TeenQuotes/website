@@ -2,6 +2,12 @@
 
 class AuthController extends \BaseController {
 
+	public function __construct()
+	{
+		$this->beforeFilter('guest', ['only' => 'getSignin']);
+		$this->beforeFilter('auth', ['only' => 'getLogout']);
+	}
+
 	/**
 	 * Displays the signin form
 	 *
@@ -9,19 +15,11 @@ class AuthController extends \BaseController {
 	 */
 	public function getSignin()
 	{
-		// Check if we are already logged in
-		if (Auth::check()) {
-			// Redirect to homepage
-			return Redirect::route('home')->with('success', Lang::get('auth.alreadyLoggedIn'));
-		}
-
 		$data = [
-			'pageTitle'       => Lang::get('auth.signinPageTitle'),
-			'pageDescription' => Lang::get('auth.signinPageDescription'),
+			'pageTitle'               => Lang::get('auth.signinPageTitle'),
+			'pageDescription'         => Lang::get('auth.signinPageDescription'),
+			'requireLoggedInAddQuote' => Session::has('requireLoggedInAddQuote'),
 		];
-
-		// Will be use to send event to Google Analytics in a view composer
-		$data ['requireLoggedInAddQuote'] = Session::has('requireLoggedInAddQuote');
 
 		return View::make('auth.signin', $data);
 	}
@@ -73,15 +71,16 @@ class AuthController extends \BaseController {
 		return Redirect::route('signin')->withErrors($validator)->withInput(Input::except('password'));
 	}
 
+	/**
+	 * Log a user out
+	 *
+	 * @return Response
+	 */
 	public function getLogout()
 	{
-		if (Auth::check()) {
-			$login = Auth::user()->login;
-			Auth::logout();
+		$login = Auth::user()->login;
+		Auth::logout();
 
-			return Redirect::route('home')->with('success', Lang::get('auth.logoutSuccessfull', array('login' => $login)));
-		}
-		else
-			return Redirect::route('home')->with('warning', Lang::get('auth.logoutNotLoggedIn'));
+		return Redirect::route('home')->with('success', Lang::get('auth.logoutSuccessfull', compact('login')));
 	}
 }
