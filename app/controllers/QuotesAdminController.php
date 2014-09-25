@@ -9,7 +9,9 @@ class QuotesAdminController extends \BaseController {
 	 */
 	public function index()
 	{
-		$quotes = Quote::waiting()->orderAscending()->get();
+		$quotes = Quote::waiting()
+			->orderAscending()
+			->get();
 
 		$data = [
 			'quotes'          => $quotes,
@@ -78,9 +80,13 @@ class QuotesAdminController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		$quote = Quote::waiting()->where('id', '=', $id)->with('user')->first();
+		$quote = Quote::waiting()
+			->where('id', '=', $id)
+			->with('user')
+			->first();
+		
 		if (is_null($quote))
-			App::abort(404, "Can't find quote ".$id);
+			throw new QuoteNotFoundException;
 
 		$data = [
 			'content'              => Input::get('content'),
@@ -106,7 +112,7 @@ class QuotesAdminController extends \BaseController {
 				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('quotes.quoteApproveSubjectEmail'));
 			});
 
-			return Redirect::route('admin.quotes.index')->with('success', Lang::get('The quote has been edited and approved!'));
+			return Redirect::route('admin.quotes.index')->with('success', 'The quote has been edited and approved!');
 		}
 
 		// Something went wrong.
@@ -123,17 +129,22 @@ class QuotesAdminController extends \BaseController {
 	 */
 	public function postModerate($id, $type)
 	{
-		if (!in_array($type, array('approve', 'unapprove')))
-			throw new InvalidArgumentException("Expected type approve or unapprove. Got ".$type);
+		$availableTypes = ['approve', 'unapprove', 'alert'];
+
+		if ( ! in_array($type, $availableTypes))
+			throw new InvalidArgumentException("Wrong type. Got ".$type.". Available values: ".implode('|', $availableTypes));
 
 		if (Request::ajax()) {
-			$quote = Quote::waiting()->where('id', '=', $id)->with('user')->first();
+			$quote = Quote::waiting()
+				->where('id', '=', $id)
+				->with('user')
+				->first();
 
 			// Handle quote not found
 			if (is_null($quote))
 				throw new InvalidArgumentException("Quote ".$id." is not a waiting quote.");
 
-			$quote->approved = ($type == 'approve') ? 2 : -1;
+			$quote->approved = ($type == 'approve') ? Quote::PENDING : Quote::REFUSED;
 			$quote->save();
 
 			// Contact the author of the quote

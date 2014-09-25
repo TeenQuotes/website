@@ -234,6 +234,9 @@ return array(
 	
 	'quotes.nbQuotesPerPage'           => 10,
 	
+	// International Association for Suicide Prevention
+	'quotes.moderationURLHelp'         => 'http://www.iasp.info/resources/Crisis_Centres/',
+	
 	'newsletters.nbQuotesToSendWeekly' => 10,
 	
 	'newsletters.nbQuotesToSendDaily'  => 2,
