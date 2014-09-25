@@ -96,7 +96,7 @@ class RemindersController extends Controller {
 				return Redirect::back()->with('warning', Lang::get($response))->withInput(Input::only('email', 'token'));
 
 			case Password::PASSWORD_RESET:
-				return Redirect::route('home')->with('success', Lang::get('auth.welcomeBackPasswordChanged', array('login' => Auth::user()->login)));
+				return Redirect::route('home')->with('success', Lang::get('auth.welcomeBackPasswordChanged', ['login' => Auth::user()->login]));
 		}
 	}
 }
