@@ -273,12 +273,15 @@ class UsersTest extends ApiTest {
 
 	public function testPutSettingsWrongColor()
 	{
+		$newColor = 'foo';
+		$this->assertFalse(in_array($newColor, Config::get('app.users.colorsAvailableQuotesPublished')));
+		
 		$this->addInputReplace([
 			'notification_comment_quote' => true,
 			'hide_profile'               => true,
 			'weekly_newsletter'          => true,
 			'daily_newsletter'           => true,
-			'colors'                     => 'foo'
+			'colors'                     => $newColor
 		]);
 
 		$this->logUserWithId(1);
@@ -304,6 +307,7 @@ class UsersTest extends ApiTest {
 		$newColor = 'red';
 		// Check that this is not the default value!
 		$this->assertNotEquals(Config::get('app.users.defaultColorQuotesPublished'), $newColor);
+		$this->assertTrue(in_array($newColor, Config::get('app.users.colorsAvailableQuotesPublished')));
 
 		$this->addInputReplace([
 			'notification_comment_quote' => false,
@@ -362,6 +366,25 @@ class UsersTest extends ApiTest {
 		$this->tryFirstPage('getSearch', 'c');
 	}
 
+	public function testSearchMatchingUsersWithHiddenProfile()
+	{
+		$partLogin = 'abc';
+		$this->generateUsersWithPartialLogin($partLogin);
+
+		// Hide all users profile
+		User::all()->each(function($u)
+		{
+			$u->hide_profile = 1;
+			$u->save();
+		});
+
+		// Search results should not display hidden profiles
+		$this->doRequest('getSearch', $partLogin)
+			->assertResponseIsNotFound()
+			->withStatusMessage(404)
+			->withErrorMessage('No users have been found.');
+	}
+
 	public function testSearchFailsWrongPage()
 	{
 		$this->generateUsersWithPartialLogin('abc');
@@ -413,18 +436,14 @@ class UsersTest extends ApiTest {
 
 	private function deleteAllUsers()
 	{
-		$users = User::all();
-
-		$users->each(function($u){
+		User::all()->each(function($u){
 			$u->delete();
 		});
 	}
 
 	private function attachCountryForAllUsers()
 	{
-		$users = User::all();
-
-		$users->each(function($u){
+		User::all()->each(function($u){
 			$c = Factory::create('Country');
 			$u->country = $c['id'];
 			$u->save();
