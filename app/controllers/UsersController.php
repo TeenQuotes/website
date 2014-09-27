@@ -100,31 +100,8 @@ class UsersController extends \BaseController {
 		return Redirect::route('signup')->withErrors($validator)->withInput(Input::except('password'));
 	}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param string $user_id The id or the login of the user
-	 * @param string $type If it's not false, it could be 'favorites' or 'comments'
-	 * @return Response
-	 */
-	public function show($user_id, $type = false)
+	private function redirectUserIfContentNotAvailable($user, $type)
 	{
-		// Page number for quotes
-		$pageNumber = Input::get('page', 1);
-
-		// Get the user
-		$user = User::where('login', $user_id)->orWhere('id', $user_id)->first();
-
-		if (is_null($user))
-			throw new UserNotFoundException;
-
-		// Throw an exception if the user has an hidden profile
-		// We do not throw this exception if the user is currently
-		// viewing its own hidden profile
-		$viewingSelfProfile = (Auth::check() AND Auth::user()->login == $user->login);
-		if ($user->isHiddenProfile() AND !$viewingSelfProfile)
-			throw new HiddenProfileException;
-
 		// Check where we can redirect the user
 		$publishPossible   = $user->hasPublishedQuotes();
 		$favoritesPossible = $user->hasFavoriteQuotes();
@@ -133,6 +110,7 @@ class UsersController extends \BaseController {
 		
 		// Check if we have content to display
 		// If we have nothing to show, try to redirect somewhere else
+		$redirectFailed = false;
 		switch ($type) {
 			case 'favorites':
 				if ( ! $favoritesPossible) {
@@ -157,7 +135,7 @@ class UsersController extends \BaseController {
 				break;
 
 			// Asked for published quotes
-			default:
+			case 'published':
 				if ( ! $publishPossible) {
 					if ($favoritesPossible)
 						return Redirect::route('users.show', [$user->login, 'favorites']);
@@ -167,39 +145,72 @@ class UsersController extends \BaseController {
 		}
 
 		// We failed to redirect, we will redirect to the default page
-		if (isset($redirectFailed) AND $redirectFailed)
+		if ($redirectFailed)
 			return Redirect::route('users.show', $user->login);
+	}
+
+	private function userViewingSelfProfile($user)
+	{
+		return (Auth::check() AND Auth::user()->login == $user->login);
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param string $user_id The login of the user
+	 * @param string $type If it's not false, it could be 'favorites' or 'comments'
+	 * @return Response
+	 */
+	public function show($user_id, $type = 'published')
+	{
+		// Get the user
+		$user = User::where('login', $user_id)->first();
+
+		if (is_null($user))
+			throw new UserNotFoundException;
+
+		$this->redirectUserIfContentNotAvailable($user, $type);
+
+		// Throw an exception if the user has an hidden profile
+		// We do not throw this exception if the user is currently
+		// viewing its own hidden profile
+		if ($user->isHiddenProfile() AND ! $this->userViewingSelfProfile($user))
+			throw new HiddenProfileException;
 
 		// Build the data array
-		// Keys: quotes, paginator, colors, type
-		if ($type == 'favorites')
-			$data = self::dataShowFavoriteQuotes($user, $pageNumber);
-		elseif ($type == 'comments')
-			$data = self::dataShowComments($user, $pageNumber);
-		else
-			$data = self::dataShowPublishedQuotes($user, $pageNumber);
+		// Keys: quotes, paginator
+		switch ($type) {
+			case 'favorites':
+				$data = self::dataShowFavoriteQuotes($user);
+				break;
 
-		$data['user']                 = $user;
-		$data['pageTitle']            = Lang::get('users.profilePageTitle', array('login' => $user->login));
-		$data['pageDescription']      = Lang::get('users.profilePageDescription', array('login' => $user->login));
-		$data['hideAuthorQuote']      = ($data['type'] == 'published');
-		$data['commentsCount']        = $totalComments;
-		$data['addedFavCount']        = $user->getAddedFavCount();
-		$data['quotesPublishedCount'] = $user->getPublishedQuotesCount();
-		$data['favCount']             = $user->getFavoriteCount();
-		$data['viewingSelfProfile']   = $viewingSelfProfile;
+			case 'comments':
+				$data = self::dataShowComments($user);
+				break;
+
+			case 'published':
+				$data = self::dataShowPublishedQuotes($user);
+				break;
+		}
+
+		$data['user']               = $user;
 		// Used for deep linking in ProfileComposer
-		$data['showType']             = ($type === false) ? 'published' : $type;
+		$data['type']               = $type;
+		$data['viewingSelfProfile'] = $this->userViewingSelfProfile($user);
+		$data['pageTitle']          = Lang::get('users.profilePageTitle', ['login' => $user->login]);
+		$data['pageDescription']    = Lang::get('users.profilePageDescription', ['login' => $user->login]);
 
 		// If the user is new and is viewing its own profile, a small welcome tutorial
-		if (empty($data['quotes']) AND $viewingSelfProfile)
+		if (empty($data['quotes']) AND $this->userViewingSelfProfile($user))
 			return View::make('users.welcome', $data);
 
 		return View::make('users.show', $data);
 	}
 
-	private static function dataShowFavoriteQuotes(User $user, $pageNumber)
+	private static function dataShowFavoriteQuotes(User $user)
 	{
+		$pageNumber = Input::get('page', 1);
+
 		// Time to store quotes in cache
 		$expiresAt = Carbon::now()->addMinutes(10);
 
@@ -207,37 +218,23 @@ class UsersController extends \BaseController {
 		$arrayIDFavoritesQuotesForUser = $user->arrayIDFavoritesQuotes();
 
 		// Fetch the quotes
-		$quotes = Cache::remember(User::$cacheNameForFavorited.$user->id.'_'.$pageNumber, $expiresAt, function() use ($user, $arrayIDFavoritesQuotesForUser)
-		{
-			return Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
+		$quotes = Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
 				->with('user')
 				->orderBy(DB::raw("FIELD(id, ".implode(',', $arrayIDFavoritesQuotesForUser).")"))
 				->paginate(Config::get('app.users.nbQuotesPerPage'))
 				->getItems();
-		});
 
 		// Build the associated paginator
 		$paginator = Paginator::make($quotes, count($arrayIDFavoritesQuotesForUser), Config::get('app.users.nbQuotesPerPage'));
 		$paginator->setBaseUrl(URL::route('users.show', [$user->login, 'favorites'], false));
 
-		// Build the associative array  #quote->id => "color"
-		$IDsQuotes = array();
-		foreach ($quotes as $quote)
-			$IDsQuotes[] = $quote->id;
-		
-		// Store it in session
-		$colors = Quote::storeQuotesColors($IDsQuotes);
-
-		return [
-			'quotes'    => $quotes,
-			'paginator' => $paginator,
-			'colors'    => $colors,
-			'type'      => 'favorites',
-		];
+		return compact('quotes', 'paginator');
 	}
 
-	private static function dataShowComments(User $user, $pageNumber)
+	private static function dataShowComments(User $user)
 	{
+		$pageNumber = Input::get('page', 1);
+
 		$comments = $user->comments()
 			->with('user', 'quote')
 			->orderDescending()
@@ -251,12 +248,13 @@ class UsersController extends \BaseController {
 		return [
 			'quotes'    => $comments,
 			'paginator' => $paginator,
-			'type'      => 'comments',
 		];
 	}
 
-	private static function dataShowPublishedQuotes(User $user, $pageNumber)
+	private static function dataShowPublishedQuotes(User $user)
 	{
+		$pageNumber = Input::get('page', 1);
+
 		// Time to store quotes in cache
 		$expiresAt = Carbon::now()->addMinutes(10);
 
@@ -270,95 +268,76 @@ class UsersController extends \BaseController {
 				->getItems();
 		});
 
-		$numberQuotesPublishedForUser = Cache::remember(User::$cacheNameForNumberQuotesPublished.$user->id, $expiresAt, function() use ($user)
-		{
-			return Quote::forUser($user)
+		$numberQuotesPublishedForUser = Quote::forUser($user)
 				->published()
 				->count();
-		});
 
 		// Build the associated paginator
 		$paginator = Paginator::make($quotes, $numberQuotesPublishedForUser, Config::get('app.users.nbQuotesPerPage'));
 
-		// Colors that will be used for quotes
-		// Build the associative array  #quote->id => "color"
-		$IDsQuotes = array();
-		foreach ($quotes as $quote)
-			$IDsQuotes[] = $quote->id;
-		
-		// Store it in session
-		$colors = Quote::storeQuotesColors($IDsQuotes, $user->getColorsQuotesPublished());
-
-		return [
-			'quotes'    => $quotes,
-			'paginator' => $paginator,
-			'colors'    => $colors,
-			'type'      => 'published',
-		];
+		return compact('quotes', 'paginator');
 	}
 
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  string $id The login or the ID of the user
+	 * @param  string $id The login of the user
 	 * @throws UserNotFoundException
 	 * @return Response
 	 */
 	public function edit($id)
 	{
-		$user = User::whereLogin($id)->orWhere('id', $id)->first();
+		$user = User::whereLogin($id)->first();
 
 		if (is_null($user) OR ! $this->userIsAllowedToEdit($user))
 			throw new UserNotFoundException;
-		else {
 
-			// The color for published quotes
-			$confColor = Setting::where('user_id', '=', $user->id)
-				->where('key', '=', 'colorsQuotesPublished')
-				->first();
+		// The color for published quotes
+		$confColor = Setting::where('user_id', '=', $user->id)
+			->where('key', '=', 'colorsQuotesPublished')
+			->first();
 
-			// Set the default color
-			if (is_null($confColor))
-				$selectedColor = Config::get('app.users.defaultColorQuotesPublished');
-			else
-				$selectedColor = $confColor->value;
+		// Set the default color
+		if (is_null($confColor))
+			$selectedColor = Config::get('app.users.defaultColorQuotesPublished');
+		else
+			$selectedColor = $confColor->value;
 
-			// Create an array like
-			// ['blue' => 'Blue', 'red' => 'Red']
-			$colorsInConf = Config::get('app.users.colorsAvailableQuotesPublished');
-			$func = function ($colorName) {
-				return Lang::get('colors.'.$colorName);
-			};
-			$colorsAvailable = array_combine($colorsInConf, array_map($func, $colorsInConf));
+		// Create an array like
+		// ['blue' => 'Blue', 'red' => 'Red']
+		$colorsInConf = Config::get('app.users.colorsAvailableQuotesPublished');
+		$func = function ($colorName) {
+			return Lang::get('colors.'.$colorName);
+		};
+		$colorsAvailable = array_combine($colorsInConf, array_map($func, $colorsInConf));
 
-			$listCountries = Country::lists('name', 'id');
+		$listCountries = Country::lists('name', 'id');
 
-			// If the user hasn't filled its country yet we will try to auto-detect it
-			// If it's not possible, we will fall back to the most common country: the USA
-			$selectedCountry = is_null($user->country) ? UsersAPIController::detectCountry() : $user->country;
+		// If the user hasn't filled its country yet we will try to auto-detect it
+		// If it's not possible, we will fall back to the most common country: the USA
+		$selectedCountry = is_null($user->country) ? UsersAPIController::detectCountry() : $user->country;
 
-			// If the user hasn't filled its city yet we will try to auto-detect it
-			if (empty(Input::old('city')) AND is_null($user->city))
-				$selectedCity = UsersAPIController::detectCity();
-			else
-				$selectedCity = Input::old('city');
+		// If the user hasn't filled its city yet we will try to auto-detect it
+		if (empty(Input::old('city')) AND is_null($user->city))
+			$selectedCity = UsersAPIController::detectCity();
+		else
+			$selectedCity = Input::old('city');
 
-			$data = [
-				'gender'           => $user->gender,
-				'listCountries'    => $listCountries,
-				'selectedCountry'  => $selectedCountry,
-				'selectedCity'     => $selectedCity,
-				'user'             => $user,
-				'selectedColor'    => $selectedColor,
-				'colorsAvailable'  => $colorsAvailable,
-				'pageTitle'        => Lang::get('users.editPageTitle'),
-				'pageDescription'  => Lang::get('users.editPageDescription'),
-				'weeklyNewsletter' => $user->isSubscribedToNewsletter('weekly'),
-				'dailyNewsletter'  => $user->isSubscribedToNewsletter('daily'),
-			];
+		$data = [
+			'gender'           => $user->gender,
+			'listCountries'    => $listCountries,
+			'selectedCountry'  => $selectedCountry,
+			'selectedCity'     => $selectedCity,
+			'user'             => $user,
+			'selectedColor'    => $selectedColor,
+			'colorsAvailable'  => $colorsAvailable,
+			'pageTitle'        => Lang::get('users.editPageTitle'),
+			'pageDescription'  => Lang::get('users.editPageDescription'),
+			'weeklyNewsletter' => $user->isSubscribedToNewsletter('weekly'),
+			'dailyNewsletter'  => $user->isSubscribedToNewsletter('daily'),
+		];
 
-			return View::make('users.edit', $data);
-		}
+		return View::make('users.edit', $data);
 	}
 
 	private function userIsAllowedToEdit($user)
