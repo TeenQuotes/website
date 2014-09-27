@@ -29,27 +29,6 @@ class ViewComposersServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		// Show a user's profile
-		View::composer([
-			'users.show',
-			'users.welcome'
-		], 'TeenQuotes\Composers\Users\ProfileComposer');
-
-		// Self edit user's profile
-		View::composer([
-			'users.edit'
-		], 'TeenQuotes\Composers\Users\ProfileEditComposer');
-
-		// Reset a password with a token
-		View::composer([
-			'password.reset'
-		], 'TeenQuotes\Composers\Password\ResetComposer');
-
-		// View a single quote
-		View::composer([
-			'quotes.singleQuote'
-		], 'TeenQuotes\Composers\Quotes\SingleComposer');
-
 		// Associated URLs: ['home', 'contact', 'apps', 'signin', 'legal', 
 		// 'signup', 'password/remind', 'random', 'addquote'],
 		View::composer([
@@ -73,40 +52,78 @@ class ViewComposersServiceProvider extends ServiceProvider {
 			'apps.download'
 		], 'TeenQuotes\Composers\Pages\AppsComposer');
 
-		// Send event to GA when not logged in
-		View::composer([
-			'auth.signin'
-		], 'TeenQuotes\Composers\Pages\SigninComposer');
-
 		// JS variables used when moderating quotes
 		View::composer([
 			'admin.index'
 		], 'TeenQuotes\Composers\Pages\ModerationIndexComposer');
 
+		// When showing search results
+		View::composer([
+			'search.results'
+		], 'TeenQuotes\Composers\Search\ResultsComposer');
+
+		// Reset a password with a token
+		View::composer([
+			'password.reset'
+		], 'TeenQuotes\Composers\Password\ResetComposer');
+
+		$this->registerAuthComposers();
+		$this->registerQuotesComposers();
+		$this->registerUsersComposers();
+	}
+
+	private function registerAuthComposers()
+	{
+		// Send event to GA when not logged in
+		View::composer([
+			'auth.signin'
+		], 'TeenQuotes\Composers\Auth\SigninComposer');
+
+		// When signing up
+		View::composer([
+			'auth.signup'
+		], 'TeenQuotes\Composers\Auth\SignupComposer');
+	}
+
+	private function registerUsersComposers()
+	{
+		// When showing a user's profile
+		View::composer([
+			'users.show'
+		], 'TeenQuotes\Composers\Users\ShowComposer');
+
+		// Welcome page
+		View::composer([
+			'users.welcome'
+		], 'TeenQuotes\Composers\Users\WelcomeComposer');
+
+		// Self edit user's profile
+		View::composer([
+			'users.edit'
+		], 'TeenQuotes\Composers\Users\ProfileEditComposer');
+	}
+
+	private function registerQuotesComposers()
+	{
+		// When indexing quotes
+		View::composer([
+			'quotes.index'
+		], 'TeenQuotes\Composers\Quotes\IndexComposer');
+
 		// When adding a quote
 		View::composer([
 			'quotes.addquote'
-		], 'TeenQuotes\Composers\Pages\AddQuoteComposer');
+		], 'TeenQuotes\Composers\Quotes\AddComposer');
 
 		// When adding a comment on a single quote
 		View::composer([
 			'quotes.show'
 		], 'TeenQuotes\Composers\Quotes\ShowComposer');
 
-		// When signing up
+		// View a single quote
 		View::composer([
-			'auth.signup'
-		], 'TeenQuotes\Composers\Pages\SignupComposer');
-
-		// When indexing quotes
-		View::composer([
-			'quotes.index'
-		], 'TeenQuotes\Composers\Quotes\IndexComposer');
-
-		// When showing search results
-		View::composer([
-			'search.results'
-		], 'TeenQuotes\Composers\Search\ResultsComposer');
+			'quotes.singleQuote'
+		], 'TeenQuotes\Composers\Quotes\SingleComposer');
 	}
 
 	/**

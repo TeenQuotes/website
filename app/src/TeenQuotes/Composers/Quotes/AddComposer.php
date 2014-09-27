@@ -1,9 +1,9 @@
-<?php namespace TeenQuotes\Composers\Pages;
+<?php namespace TeenQuotes\Composers\Quotes;
 
+use Illuminate\Support\Facades\Lang;
 use JavaScript;
-use Lang;
 
-class AddQuoteComposer {
+class AddComposer {
 
 	public function compose($view)
 	{

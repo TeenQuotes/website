@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Composers\Pages;
+<?php namespace TeenQuotes\Composers\Auth;
 
 use JavaScript;
 

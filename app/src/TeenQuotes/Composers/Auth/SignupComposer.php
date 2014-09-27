@@ -1,9 +1,9 @@
-<?php namespace TeenQuotes\Composers\Pages;
+<?php namespace TeenQuotes\Composers\Auth;
 
-use Config;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\URL;
 use JavaScript;
-use Lang;
-use URL;
 
 class SignupComposer {
 

@@ -5,13 +5,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use TeenQuotes\Composers\AbstractDeepLinksComposer;
 
-class ProfileComposer extends AbstractDeepLinksComposer {
+class WelcomeComposer extends AbstractDeepLinksComposer {
 
 	public function compose($view)
 	{
 		$viewData = $view->getData();
 		$login = $viewData['user']->login;
-		$showType = $viewData['showType'];
+		$type = $viewData['type'];
 
 		$welcomeText = Lang::get('users.newUserWelcomeProfile', ['login' => $login]);
 		
@@ -27,7 +27,6 @@ class ProfileComposer extends AbstractDeepLinksComposer {
 		$editSettingsTitle = Lang::get('users.newUserTutorialSettingsTitle');
 		$editSettingsContent = Lang::get('users.newUserTutorialSettingsContent', ['url' => URL::route('users.edit', $login)."#edit-settings"]);
 
-
 		// Content
 		$view->with('welcomeText', $welcomeText);
 		$view->with('updateProfileTitle', $updateProfileTitle);
@@ -40,6 +39,6 @@ class ProfileComposer extends AbstractDeepLinksComposer {
 		$view->with('editSettingsContent', $editSettingsContent);
 
 		// For deep links
-		$view->with('deepLinksArray', $this->createDeepLinks('users/'.$login.'/'.$showType));
+		$view->with('deepLinksArray', $this->createDeepLinks('users/'.$login.'/'.$type));
 	}
 }
