@@ -318,7 +318,7 @@ class UsersController extends APIGlobalController {
 		}
 
 		// If the detected country in the possible countries, we will select it
-		if (!isset($selectedCountry) AND in_array($countryDetected, array_values($availableCountries)))
+		if ( ! isset($selectedCountry) AND in_array($countryDetected, array_values($availableCountries)))
 			$selectedCountry = array_search($countryDetected, $availableCountries);
 		else
 			$selectedCountry = Country::getDefaultCountry();

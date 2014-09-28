@@ -186,13 +186,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function getAddedFavCount()
 	{
-		$idsQuotesPublished = Quote::forUser($this)->published()->lists('id');
-		if (empty($idsQuotesPublished))
-			$addedFavCount = 0;
-		else
-			$addedFavCount = FavoriteQuote::whereIn('quote_id', $idsQuotesPublished)->count();
+		$idsQuotesPublished = Quote::forUser($this)
+			->published()
+			->lists('id');
 
-		return $addedFavCount;
+		if (empty($idsQuotesPublished))
+			return 0;
+		
+		return FavoriteQuote::whereIn('quote_id', $idsQuotesPublished)->count();
 	}
 
 	public function getPublishedQuotesCount()
@@ -255,22 +256,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->present()->avatarLink;
 	}
 
-	public function hasPublishedQuotes()
-	{
-		// Time to store quotes in cache
-		$expiresAt = Carbon::now()->addMinutes(10);
-		$user = $this;
-
-		$numberQuotesPublishedForUser = Cache::remember(self::$cacheNameForNumberQuotesPublished.$this->id, $expiresAt, function() use ($user)
-		{
-			return Quote::forUser($user)
-				->published()
-				->count();
-		});
-
-		return $numberQuotesPublishedForUser > 0;
-	}
-
 	/**
 	 * Returns the array of the ID of the quotes in the favorites of the user
 	 * @return array 
@@ -292,8 +277,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $arrayIDFavoritesQuotesForUser;
 	}
 
+	public function hasPublishedQuotes()
+	{
+		return $this->getPublishedQuotesCount() > 0;
+	}
+
 	public function hasFavoriteQuotes()
 	{
-		return FavoriteQuote::forUser($this)->count() > 0;
+		return $this->getFavoriteCount() > 0;
+	}
+
+	public function hasPostedComments()
+	{
+		return $this->getTotalComments() > 0;
 	}
 }
