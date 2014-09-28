@@ -111,16 +111,8 @@ class QuotesPublishCommand extends ScheduledCommand {
 		$expiresAt = Carbon::now()->addMinutes(10);
 		foreach ($arrayUsers as $user)
 		{
-			// Update in cache the number of published quotes for the user
-			$nbQuotesPublishedForUser = Cache::remember(
-				User::$cacheNameForNumberQuotesPublished.$user->id,
-				$expiresAt,
-				function() use ($user)
-			{
-				return Quote::forUser($user)
-					->published()
-					->count();
-			});
+			// The number of published quotes for the user
+			$nbQuotesPublishedForUser = $user->getPublishedQuotesCount();
 			$nbPagesQuotesPublished = ceil($nbQuotesPublishedForUser / Config::get('app.users.nbQuotesPerPage'));
 
 			// Forgot every page
