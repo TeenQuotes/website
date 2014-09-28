@@ -4,10 +4,14 @@ use TeenQuotes\Api\V1\Controllers\UsersController as UsersAPIController;
 
 class UsersController extends \BaseController {
 
+	private $usersAPIController;
+
 	public function __construct()
 	{
 		$this->beforeFilter('guest', ['only' => 'store']);
 		$this->beforeFilter('auth', ['only' => ['edit', 'update', 'putPassword', 'putSettings']]);
+		
+		$this->usersAPIController = App::make('TeenQuotes\Api\V1\Controllers\UsersController');
 	}
 
 	/**
@@ -27,7 +31,6 @@ class UsersController extends \BaseController {
 
 	public function postLoginValidator()
 	{
-
 		$data = [
 			'login' => Input::get('login')
 		];
@@ -85,18 +88,18 @@ class UsersController extends \BaseController {
 		if ($validator->passes()) {
 
 			// Call the API - skip the API validator
-			$response = App::make('TeenQuotes\Api\V1\Controllers\UsersController')->store(false);
+			$response = $this->usersAPIController->store(false);
 			if ($response->getStatusCode() == 201) {
 				if (Session::has('url.intended'))
-					return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', array('login' => $data['login'])));
+					return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', ['login' => $data['login']]));
 				else
-					return Redirect::route('users.show', $data['login'])->with('success', Lang::get('auth.signupSuccessfull', array('login' => $data['login'])));
+					return Redirect::route('users.show', $data['login'])->with('success', Lang::get('auth.signupSuccessfull', ['login' => $data['login']]));
 			}
 
 			return Redirect::route('signup')->withErrors($validator)->withInput(Input::except('password'));
 		}
 
-		// Something went wrong.
+		// Something went wrong
 		return Redirect::route('signup')->withErrors($validator)->withInput(Input::except('password'));
 	}
 
@@ -105,8 +108,7 @@ class UsersController extends \BaseController {
 		// Check where we can redirect the user
 		$publishPossible   = $user->hasPublishedQuotes();
 		$favoritesPossible = $user->hasFavoriteQuotes();
-		$totalComments     = $user->getTotalComments();
-		$commentsPossible  = ($totalComments > 0);
+		$commentsPossible  = $user->hasPostedComments();
 		
 		// Check if we have content to display
 		// If we have nothing to show, try to redirect somewhere else
@@ -158,7 +160,7 @@ class UsersController extends \BaseController {
 	 * Display the specified resource.
 	 *
 	 * @param string $user_id The login of the user
-	 * @param string $type If it's not false, it could be 'favorites' or 'comments'
+	 * @param string $type Can be 'favorites'|'comments'|'published'
 	 * @return Response
 	 */
 	public function show($user_id, $type = 'published')
@@ -177,8 +179,7 @@ class UsersController extends \BaseController {
 		if ($user->isHiddenProfile() AND ! $this->userViewingSelfProfile($user))
 			throw new HiddenProfileException;
 
-		// Build the data array
-		// Keys: quotes, paginator
+		// Build the data array. Keys: quotes, paginator
 		switch ($type) {
 			case 'favorites':
 				$data = self::dataShowFavoriteQuotes($user);
@@ -268,9 +269,7 @@ class UsersController extends \BaseController {
 				->getItems();
 		});
 
-		$numberQuotesPublishedForUser = Quote::forUser($user)
-				->published()
-				->count();
+		$numberQuotesPublishedForUser = $user->getPublishedQuotesCount();
 
 		// Build the associated paginator
 		$paginator = Paginator::make($quotes, $numberQuotesPublishedForUser, Config::get('app.users.nbQuotesPerPage'));
@@ -303,16 +302,29 @@ class UsersController extends \BaseController {
 		else
 			$selectedColor = $confColor->value;
 
-		// Create an array like
-		// ['blue' => 'Blue', 'red' => 'Red']
-		$colorsInConf = Config::get('app.users.colorsAvailableQuotesPublished');
-		$func = function ($colorName) {
-			return Lang::get('colors.'.$colorName);
-		};
-		$colorsAvailable = array_combine($colorsInConf, array_map($func, $colorsInConf));
+		list($selectedCountry, $selectedCity) = $this->getCountryAndCity($user);
 
-		$listCountries = Country::lists('name', 'id');
+		$data = [
+			'gender'           => $user->gender,
+			'listCountries'    => Country::lists('name', 'id'),
+			'selectedCountry'  => $selectedCountry,
+			'selectedCity'     => $selectedCity,
+			'user'             => $user,
+			'selectedColor'    => $selectedColor,
+			'pageTitle'        => Lang::get('users.editPageTitle'),
+			'pageDescription'  => Lang::get('users.editPageDescription'),
+		];
 
+		return View::make('users.edit', $data);
+	}
+
+	/**
+	 * Get country and city for a given user. If we have no information, try to guess it!
+	 * @param  User $user The user model
+	 * @return array The country and the city
+	 */
+	private function getCountryAndCity(User $user)
+	{
 		// If the user hasn't filled its country yet we will try to auto-detect it
 		// If it's not possible, we will fall back to the most common country: the USA
 		$selectedCountry = is_null($user->country) ? UsersAPIController::detectCountry() : $user->country;
@@ -323,21 +335,7 @@ class UsersController extends \BaseController {
 		else
 			$selectedCity = Input::old('city');
 
-		$data = [
-			'gender'           => $user->gender,
-			'listCountries'    => $listCountries,
-			'selectedCountry'  => $selectedCountry,
-			'selectedCity'     => $selectedCity,
-			'user'             => $user,
-			'selectedColor'    => $selectedColor,
-			'colorsAvailable'  => $colorsAvailable,
-			'pageTitle'        => Lang::get('users.editPageTitle'),
-			'pageDescription'  => Lang::get('users.editPageDescription'),
-			'weeklyNewsletter' => $user->isSubscribedToNewsletter('weekly'),
-			'dailyNewsletter'  => $user->isSubscribedToNewsletter('daily'),
-		];
-
-		return View::make('users.edit', $data);
+		return [$selectedCountry, $selectedCity];
 	}
 
 	private function userIsAllowedToEdit($user)
@@ -348,7 +346,7 @@ class UsersController extends \BaseController {
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  string $id The login or the ID of the user
+	 * @param  string $id The login of the user
 	 * @return Response
 	 */
 	public function update($id)
@@ -366,21 +364,21 @@ class UsersController extends \BaseController {
 
 		if ($validator->passes()) {
 			// Call the API
-			$response = App::make('TeenQuotes\Api\V1\Controllers\UsersController')->putProfile(false);
+			$response = $this->usersAPIController->putProfile(false);
 			if ($response->getStatusCode() == 200)
-				return Redirect::back()->with('success', Lang::get('users.updateProfileSuccessfull', array('login' => Auth::user()->login)));
+				return Redirect::back()->with('success', Lang::get('users.updateProfileSuccessfull', ['login' => Auth::user()->login]));
 
 			App::abort(500, "Can't update profile");
 		}
 
-		// Something went wrong.
+		// Something went wrong
 		return Redirect::back()->withErrors($validator)->withInput(Input::except('avatar'));
 	}
 
 	/**
 	 * Update the password in storage
 	 *
-	 * @param  string $id The login or the ID of the user
+	 * @param  string $id The login of the user
 	 * @return Response
 	 */
 	public function putPassword($id)
@@ -393,32 +391,32 @@ class UsersController extends \BaseController {
 		$validator = Validator::make($data, User::$rulesUpdatePassword);
 
 		if ($validator->passes()) {
-			$user = User::whereLogin($id)->orWhere('id', $id)->first();
-			if ($user->login != Auth::user()->login)
+			$user = User::whereLogin($id)->first();
+			if (! $this->userIsAllowedToEdit($user))
 				App::abort(401, 'Refused');
 			$user->password = Hash::make($data['password']);
 			$user->save();
 
-			return Redirect::back()->with('success', Lang::get('users.updatePasswordSuccessfull', array('login' => $user->login)));
+			return Redirect::back()->with('success', Lang::get('users.updatePasswordSuccessfull', ['login' => $user->login]));
 		}
 
-		// Something went wrong.
+		// Something went wrong
 		return Redirect::to(URL::route('users.edit', Auth::user()->login)."#edit-password")->withErrors($validator)->withInput(Input::all());
 	}
 
 	/**
 	 * Update settings for the user
 	 *
-	 * @param  string $id The login or the ID of the user
+	 * @param  string $id The login of the user
 	 * @return Response
 	 */
 	public function putSettings($id)
 	{
-		$user = User::whereLogin($id)->orWhere('id', $id)->first();
+		$user = User::whereLogin($id)->first();
 		if ( ! $this->userIsAllowedToEdit($user))
 			App::abort(401, 'Refused');
 		
-		$response = App::make('TeenQuotes\Api\V1\Controllers\UsersController')->putSettings($user);
+		$response = $this->usersAPIController->putSettings($user);
 
 		// Handle error
 		if ($response->getStatusCode() == 400) {
@@ -430,7 +428,7 @@ class UsersController extends \BaseController {
 		}
 
 		if ($response->getStatusCode() == 200)
-			return Redirect::back()->with('success', Lang::get('users.updateSettingsSuccessfull', array('login' => $user->login)));
+			return Redirect::back()->with('success', Lang::get('users.updateSettingsSuccessfull', ['login' => $user->login]));
 	}
 
 	/**
@@ -458,13 +456,11 @@ class UsersController extends \BaseController {
 		else {
 			unset($data['delete-confirmation']);
 			if ( ! Auth::validate($data))
-				return Redirect::to(URL::route('users.edit', Auth::user()->login)."#delete-account")->withErrors(array('password' => Lang::get('auth.passwordInvalid')))->withInput(Input::except('password'));
+				return Redirect::to(URL::route('users.edit', Auth::user()->login)."#delete-account")->withErrors(['password' => Lang::get('auth.passwordInvalid')])->withInput(Input::except('password'));
 		}
 
 		// Delete the user
-		User::find(Auth::id())->delete();
-		// Log him out
-		Auth::logout();
+		$this->usersAPIController->destroy();
 
 		return Redirect::home()->with('success', Lang::get('users.deleteAccountSuccessfull'));
 	}
