@@ -119,7 +119,7 @@ class Quote extends Toloquent {
 	public function getTotalCommentsAttribute()
 	{
 		// If the quote is not published, obviously we have no comments
-		if (!$this->isPublished())
+		if ( ! $this->isPublished())
 			return 0;
 
 		return Cache::rememberForever(self::$cacheNameNbComments.$this->id, function()
@@ -136,7 +136,7 @@ class Quote extends Toloquent {
 	public function getTotalFavoritesAttribute()
 	{
 		// If the quote is not published, obviously we have no favorites
-		if (!$this->isPublished())
+		if ( ! $this->isPublished())
 			return 0;
 
 		return Cache::rememberForever(self::$cacheNameNbFavorites.$this->id, function()

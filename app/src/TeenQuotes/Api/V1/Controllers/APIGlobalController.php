@@ -73,6 +73,11 @@ class APIGlobalController extends BaseController {
 		return $data;
 	}
 
+	public function getPage()
+	{
+		return max(1, Input::get('page', 1));
+	}
+
 	/**
 	 * Retrieve the authenticated user from the website or via the API
 	 * @return \User The user object

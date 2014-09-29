@@ -1,12 +1,10 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
 use FavoriteQuote;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
-use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
 use Quote;
 use User;
 

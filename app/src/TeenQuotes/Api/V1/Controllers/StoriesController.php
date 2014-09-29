@@ -1,11 +1,9 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
-use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
 use Story;
 use User;
 
@@ -13,7 +11,7 @@ class StoriesController extends APIGlobalController {
 	
 	public function index()
 	{
-		$page = max(1, Input::get('page', 1));
+		$page = $this->getPage();
 		$pagesize = Input::get('pagesize', Config::get('app.stories.nbStoriesPerPage'));
 
 		// Number of stories to skip

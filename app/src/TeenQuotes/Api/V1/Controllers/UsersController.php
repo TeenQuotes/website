@@ -4,13 +4,10 @@ use Buonzz\GeoIP\Laravel4\Facades\GeoIP;
 use Carbon\Carbon;
 use Country;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -83,7 +80,7 @@ class UsersController extends APIGlobalController {
 
 		// Log the user in
 		// The call was made from the UsersController
-		if (!$doValidation)
+		if ( ! $doValidation)
 			Auth::login($user);
 
 		return Response::json($user, 201, [], JSON_NUMERIC_CHECK);
@@ -119,7 +116,7 @@ class UsersController extends APIGlobalController {
 
 	public function getSearch($query)
 	{
-		$page = max(1, Input::get('page', 1));
+		$page = $this->getPage();
 		$pagesize = Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
 
 		// Get users
@@ -167,18 +164,18 @@ class UsersController extends APIGlobalController {
 		// Everything went fine, update the user
 		$user = $this->retrieveUser();
 		
-		if (!empty($data['gender']))
+		if ( ! empty($data['gender']))
 			$user->gender    = $data['gender'];
-		if (!empty($data['country']))
+		if ( ! empty($data['country']))
 			$user->country   = $data['country'];
-		if (!empty($data['city']))
+		if ( ! empty($data['city']))
 			$user->city      = $data['city'];
-		if (!empty($data['about_me']))
+		if ( ! empty($data['about_me']))
 			$user->about_me  = $data['about_me'];
 		$user->birthdate = empty($data['birthdate']) ? NULL : $data['birthdate'];
 
 		// Move the avatar
-		if (!is_null($data['avatar'])) {
+		if ( ! is_null($data['avatar'])) {
 			$filename = $user->id.'.'.$data['avatar']->getClientOriginalExtension();
 
 			Input::file('avatar')->move(Config::get('app.users.avatarPath'), $filename);
@@ -248,7 +245,7 @@ class UsersController extends APIGlobalController {
 			// The user wants the newsletter
 			if ($data[$newsletterType.'_newsletter']) {
 				// He was NOT already subscribed, store this in storage
-				if (!$user->isSubscribedToNewsletter($newsletterType))
+				if ( ! $user->isSubscribedToNewsletter($newsletterType))
 					Newsletter::createNewsletterForUser($user, $newsletterType);
 
 				// He was already subscribed, do nothing
@@ -264,7 +261,7 @@ class UsersController extends APIGlobalController {
 		}
 
 		// Update colors for quotes
-		if (!in_array($data['colors'], Config::get('app.users.colorsAvailableQuotesPublished')))
+		if ( ! in_array($data['colors'], Config::get('app.users.colorsAvailableQuotesPublished')))
 			return Response::json([
 				'status' => 'wrong_color',
 				'error'  => 'This color is not allowed.'

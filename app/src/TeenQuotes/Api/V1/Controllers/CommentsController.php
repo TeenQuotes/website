@@ -1,30 +1,24 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
 use Comment;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
-use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
 use Quote;
+use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Mail\MailSwitcher;
 use User;
 
-class CommentsController extends APIGlobalController {
+class CommentsController extends APIGlobalController implements PaginatedContentInterface {
 
 	public function index($quote_id)
 	{
-		$page = max(1, Input::get('page', 1));
-		$pagesize = Input::get('pagesize', Config::get('app.comments.nbCommentsPerPage'));
+		$page = $this->getPage();
+		$pagesize = $this->getPagesize();
 		
 		// Number of comments to skip
 		$skip = $pagesize * ($page - 1);
-
-		$totalComments = Comment::forQuoteId($quote_id)->count();
 
 		// Get comments
 		$contentQuery = Comment::forQuoteId($quote_id)
@@ -44,6 +38,10 @@ class CommentsController extends APIGlobalController {
 				'status' => 404,
 				'error' => 'No comments have been found.'
 			], 404);
+		
+		// Get the total number of comments for the related quote
+		$relatedQuote = Quote::find($quote_id);
+		$totalComments = $relatedQuote->total_comments;
 
 		$data = self::paginateContent($page, $pagesize, $totalComments, $content, 'comments');
 		
@@ -77,8 +75,7 @@ class CommentsController extends APIGlobalController {
 
 		if ($doValidation) {
 
-			// Validate quote_id and content
-			foreach (['quote_id', 'content'] as $value) {
+			foreach (array_keys(Comment::$rulesAdd) as $value) {
 				$validator = Validator::make(compact($value), [$value => Comment::$rulesAdd[$value]]);
 				if ($validator->fails())
 					return Response::json([
@@ -88,9 +85,7 @@ class CommentsController extends APIGlobalController {
 			}
 		}
 
-		$quote = Quote::where('id', '=', $quote_id)
-			->with('user')
-			->first();
+		$quote = Quote::find($quote_id);
 		
 		// Check if the quote is published
 		if ( ! $quote->isPublished())
@@ -107,9 +102,14 @@ class CommentsController extends APIGlobalController {
 		$comment->save();
 
 		// Send an e-mail to the author of the quote if he wants it
-		// Delete number of comments in cache
+		// Update number of comments in cache
 
 		return Response::json($comment, 201, [], JSON_NUMERIC_CHECK);
+	}
+
+	public function getPagesize()
+	{
+		return Input::get('pagesize', Config::get('app.comments.nbCommentsPerPage'));
 	}
 
 	public function destroy($id)

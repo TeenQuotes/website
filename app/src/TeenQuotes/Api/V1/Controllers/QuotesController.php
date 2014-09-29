@@ -1,18 +1,19 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
-use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
 use Quote;
+use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use User;
 
-class QuotesController extends APIGlobalController {
+class QuotesController extends APIGlobalController implements PaginatedContentInterface {
+
+	private $relationInvolved = 'quotes';
 
 	public function show($quote_id)
 	{
@@ -38,8 +39,9 @@ class QuotesController extends APIGlobalController {
 
 	public function indexFavoritesQuotes($user_id)
 	{
-		$page = max(1, Input::get('page', 1));
-		$pagesize = Input::get('pagesize', Config::get('app.users.nbQuotesPerPage'));
+		$page = $this->getPage();
+		$this->relationInvolved = 'users';
+		$pagesize = $this->getPagesize();
 
 		$user = User::find($user_id);
 		
@@ -80,8 +82,9 @@ class QuotesController extends APIGlobalController {
 
 	public function indexByApprovedQuotes($quote_approved_type, $user_id)
 	{
-		$page = max(1, Input::get('page', 1));
-		$pagesize = Input::get('pagesize', Config::get('app.users.nbQuotesPerPage'));
+		$page = $this->getPage();
+		$this->relationInvolved = 'users';
+		$pagesize = $this->getPagesize();
 
 		$user = User::find($user_id);
 		
@@ -116,11 +119,10 @@ class QuotesController extends APIGlobalController {
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
-
 	public function index($random = null)
 	{
-		$page = max(1, Input::get('page', 1));
-		$pagesize = Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
+		$page = $this->getPage();
+		$pagesize = $this->getPagesize();
 
 		$totalQuotes = Quote::nbQuotesPublished();
 
@@ -147,9 +149,9 @@ class QuotesController extends APIGlobalController {
 
 	public function getSearch($query)
 	{
-		$page = max(1, Input::get('page', 1));
-		$pagesize = Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
-				
+		$page = $this->getPage();
+		$pagesize = $this->getPagesize();
+
 		// Get quotes
 		$content = self::getQuotesSearch($page, $pagesize, $query);
 
@@ -214,6 +216,22 @@ class QuotesController extends APIGlobalController {
 		return Response::json($quote, 201, [], JSON_NUMERIC_CHECK);
 	}
 
+	public function getPagesize()
+	{
+		switch ($this->relationInvolved) {
+			case 'users':
+				return Input::get('pagesize', Config::get('app.users.nbQuotesPerPage'));
+
+			case 'quotes':
+				return Input::get('pagesize', $this->getDefaultNbQuotesPerPage());
+		}
+	}
+
+	private function getDefaultNbQuotesPerPage()
+	{
+		return Config::get('app.quotes.nbQuotesPerPage');
+	}
+
 	private function getQuotesHome($page, $pagesize)
 	{
 		// Time to store in cache
@@ -224,7 +242,7 @@ class QuotesController extends APIGlobalController {
 
 		// We will hit the cache / remember in cache if we have the same pagesize
 		// that the one of the website
-		if ($pagesize == Config::get('app.quotes.nbQuotesPerPage')) {
+		if ($pagesize == $this->getDefaultNbQuotesPerPage()) {
 			$content = Cache::remember(Quote::$cacheNameQuotesAPIPage.$page, $expiresAt, function() use($pagesize, $skip) {
 				return Quote::published()
 					->withSmallUser()
@@ -256,7 +274,7 @@ class QuotesController extends APIGlobalController {
 
 		// We will hit the cache / remember in cache if we have the same pagesize
 		// that the one of the website
-		if ($pagesize == Config::get('app.quotes.nbQuotesPerPage')) {
+		if ($pagesize == $this->getDefaultNbQuotesPerPage()) {
 			$content = Cache::remember(Quote::$cacheNameRandomAPIPage.$page, $expiresAt, function() use($pagesize, $skip) {
 				return Quote::published()
 					->withSmallUser()

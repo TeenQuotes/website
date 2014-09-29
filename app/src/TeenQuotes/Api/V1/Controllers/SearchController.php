@@ -6,16 +6,15 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\URL;
 use Quote;
+use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use User;
 
-class SearchController extends APIGlobalController {
+class SearchController extends APIGlobalController implements PaginatedContentInterface {
 	
 	public function getSearch($query)
 	{
-		$page = 1;
-		$pagesize = Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
-
-		$page = max(1, $page);
+		$page = $this->getPage();
+		$pagesize = $this->getPagesize();
 				
 		// Get content
 		$quotes = App::make('TeenQuotes\Api\V1\Controllers\QuotesController')->getQuotesSearch($page, $pagesize, $query);
@@ -24,7 +23,7 @@ class SearchController extends APIGlobalController {
 		$totalQuotes = 0;
 		$totalUsers = 0;
 
-		if (!is_null($quotes) AND !empty($quotes) AND $quotes->count() > 0) {
+		if ( ! is_null($quotes) AND ! empty($quotes) AND $quotes->count() > 0) {
 			$totalQuotes = Quote::whereRaw("MATCH(content) AGAINST(?)", array($query))
 				// $query will NOT be bind here
 				// it will be bind when calling setBindings
@@ -35,7 +34,7 @@ class SearchController extends APIGlobalController {
 				->count();
 		}
 
-		if (!is_null($users) AND !empty($users) AND $users->count() > 0)
+		if ( ! is_null($users) AND ! empty($users) AND $users->count() > 0)
 			$totalUsers = User::partialLogin($query)
 				->notHidden()
 				->count();
@@ -55,5 +54,10 @@ class SearchController extends APIGlobalController {
 			'pagesize'     => (int) $pagesize,
 			'url'          => URL::current(),
 		], 200, [], JSON_NUMERIC_CHECK);
+	}
+
+	public function getPagesize()
+	{
+		return Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
 	}
 }
