@@ -24,6 +24,18 @@ class QuotesPublishCommand extends ScheduledCommand {
 	protected $description = 'Publish quotes for today.';
 
 	/**
+	 * Users that have published quotes
+	 * @var array
+	 */
+	protected $users = [];
+
+	/**
+	 * Effective number of quotes published today
+	 * @var int
+	 */
+	protected $nbQuotesPublished = 0;
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
@@ -56,6 +68,14 @@ class QuotesPublishCommand extends ScheduledCommand {
 		return ['production'];
 	}
 
+	private function getNbQuotesArgument()
+	{
+		if (is_null($this->argument('nb_quotes')))
+			return Config::get('app.quotes.nbQuotesToPublishPerDay');
+		else 
+			return $this->argument('nb_quotes');
+	}
+
 	/**
 	 * Execute the console command.
 	 *
@@ -63,28 +83,27 @@ class QuotesPublishCommand extends ScheduledCommand {
 	 */
 	public function fire()
 	{
-		// Get the number of quotes to publish
-		$nbQuotes = is_null($this->argument('nb_quotes')) ? Config::get('app.quotes.nbQuotesToPublishPerDay') : $this->argument('nb_quotes');
-
 		// Get the quotes that will be published today
 		$quotes = Quote::pending()
 			->orderAscending()
-			->take($nbQuotes)
+			->take($this->getNbQuotesArgument())
 			->with('user')
 			->get();
 
-		$arrayUsers = array();
+		// Remember the effective number of published quotes
+		$this->nbQuotesPublished = $quotes->count();
+
 		$quotes->each(function($quote)
 		{
 			// Save the quote in storage
-			$quote->approved = 1;
+			$quote->approved = Quote::PUBLISHED;
 			$quote->save();
 
-			$arrayUsers[] = $quote->user;
+			$this->users[] = $quote->user;
 
 			// Log this info
 			$this->info("Published quote #".$quote->id);
-			Log::info("Published quote #".$quote->id, array('quote' => $quote->toArray()));
+			Log::info("Published quote #".$quote->id, ['quote' => $quote->toArray()]);
 
 			// Send an email to the author via SMTP
 			new MailSwitcher('smtp');
@@ -94,24 +113,44 @@ class QuotesPublishCommand extends ScheduledCommand {
 			});
 		});
 
-		// Update number of published quotes in cache
-		if (Cache::has(Quote::$cacheNameNumberPublished))
-			Cache::increment(Quote::$cacheNameNumberPublished, $nbQuotes);
+		$this->updateNumberPublishedQuotes();
 
-		// We need to forget pages of quotes that are stored in cache
-		// where the published quotes should be displayed
-		$nbPages = ceil($nbQuotes / Config::get('app.quotes.nbQuotesPerPage'));
+		$this->forgetPagesStoredInCache();
+
+		$this->forgetPublishedQuotesPagesForUser();
+	}
+
+	/**
+	 * Update number of published quotes in cache
+	 */
+	private function updateNumberPublishedQuotes()
+	{
+		if (Cache::has(Quote::$cacheNameNumberPublished))
+			Cache::increment(Quote::$cacheNameNumberPublished, $this->nbQuotesPublished);
+	}
+	
+	/**
+	 * We need to forget pages of quotes that are stored in cache
+	 * where the published quotes should be displayed
+	 */
+	private function forgetPagesStoredInCache()
+	{
+		$nbPages = ceil($this->nbQuotesPublished / Config::get('app.quotes.nbQuotesPerPage'));
+		
 		for ($i = 1; $i <= $nbPages; $i++) {
 			Cache::forget(Quote::$cacheNameQuotesPage.$i);
 			Cache::forget(Quote::$cacheNameQuotesAPIPage.$i);
 		}
-
-		// We forgot EVERY published quotes stored in cache for every user
-		// that has published a quote this time
-		$expiresAt = Carbon::now()->addMinutes(10);
-		foreach ($arrayUsers as $user)
+	}
+	
+	/**
+	 * We forgot EVERY published quotes stored in cache for every user
+	 * that has published a quote this time
+	 */
+	private function forgetPublishedQuotesPagesForUser()
+	{
+		foreach ($this->users as $user)
 		{
-			// The number of published quotes for the user
 			$nbQuotesPublishedForUser = $user->getPublishedQuotesCount();
 			$nbPagesQuotesPublished = ceil($nbQuotesPublishedForUser / Config::get('app.users.nbQuotesPerPage'));
 
@@ -119,7 +158,6 @@ class QuotesPublishCommand extends ScheduledCommand {
 			for ($i = 1; $i <= $nbPagesQuotesPublished; $i++)
 				Cache::forget(User::$cacheNameForPublished.$user->id.'_'.$i);
 		}
-
 	}
 
 	/**
