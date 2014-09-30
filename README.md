@@ -9,7 +9,7 @@ This is the source code for the next release of Teen Quotes, using the awesome P
 Teen Quotes lets teenagers share their daily thoughts and feelings. It describes their daily life and feelings in a few words that they can share with their friends.
 
 # Basic dependencies
-- PHP >= 5.4 with the PDO and MCrypt extensions
+- PHP >= 5.5 with the PDO and MCrypt extensions
 - MySQL >= 5.6 (because we need to perform FULLTEXT search on InnoDB tables)
 - Memcached >= 1.4 or another cache storage (Redis for example)
 
