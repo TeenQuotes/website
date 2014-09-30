@@ -10,7 +10,8 @@ class FunctionalHelper extends \Codeception\Module
 	{
 		$login = 'foobar42';
 		$passwordClear = 'azerty22';
-		$password = Hash::make($passwordClear);
+		// Will be automatically hashed
+		$password = $passwordClear;
 
 		$this->createSomePublishedQuotes();
 		$this->haveAnAccount(compact('login', 'password'));

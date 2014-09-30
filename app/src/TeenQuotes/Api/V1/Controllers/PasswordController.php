@@ -48,7 +48,7 @@ class PasswordController extends APIGlobalController {
 		$response = Password::reset($credentials, function($user, $password)
 		{
 			// Update the password in database
-			$user->password = Hash::make($password);
+			$user->password = $password;
 			$user->save();
 		});
 

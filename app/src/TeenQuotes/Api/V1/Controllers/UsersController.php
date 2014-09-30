@@ -62,7 +62,7 @@ class UsersController extends APIGlobalController {
 		$user             = new User;
 		$user->login      = $data['login'];
 		$user->email      = $data['email'];
-		$user->password   = Hash::make($data['password']);
+		$user->password   = $data['password'];
 		$user->ip         = $_SERVER['REMOTE_ADDR'];
 		$user->last_visit = Carbon::now()->toDateTimeString();
 		// Try to detect city and country
@@ -210,7 +210,7 @@ class UsersController extends APIGlobalController {
 			], 400);
 
 		// Update new password
-		$user->password = Hash::make($data['password']);
+		$user->password = $data['password'];
 		$user->save();
 
 		return Response::json([

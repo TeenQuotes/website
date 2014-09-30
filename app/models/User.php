@@ -117,6 +117,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->isHiddenProfile();
 	}
 
+	public function setPasswordAttribute($value)
+	{
+		$this->attributes['password'] = Hash::make($value);
+	}
+
 	/**
 	 * Tells if the user wants to hide his profile
 	 * @return boolean true if we should hide his profile, false otherwise

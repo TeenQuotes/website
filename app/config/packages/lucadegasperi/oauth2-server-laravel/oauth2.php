@@ -86,7 +86,7 @@ return array(
                     // Maybe the user uses the old hash method
                     if (!is_null($user) AND ($user->password == User::oldHashMethod($credentials))) {
                         // Update the password in database
-                        $user->password   = Hash::make($credentials['password']);
+                        $user->password   = $credentials['password'];
                         $user->last_visit = Carbon::now()->toDateTimeString();
                         $user->save();
 

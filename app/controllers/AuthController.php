@@ -54,7 +54,7 @@ class AuthController extends \BaseController {
 
 				if (!is_null($user) AND ($user->password == User::oldHashMethod($data))) {
 					// Update the password in database
-					$user->password   = Hash::make($data['password']);
+					$user->password   = $data['password'];
 					$user->last_visit = Carbon::now()->toDateTimeString();
 					$user->save();
 

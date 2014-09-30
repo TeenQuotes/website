@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder {
 			if ($index != 42) {
 				User::create([
 					'login'                      => $faker->bothify('?????##'),
-					'password'                   => Hash::make("1234"),
+					'password'                   => "1234",
 					'email'                      => $faker->email,
 					'ip'                         => $faker->ipv4,
 					'birthdate'                  => $faker->date('Y-m-d', 'now'),
@@ -36,7 +36,7 @@ class UsersTableSeeder extends Seeder {
 			else {
 				User::create([
 					'login'                      => 'antoineaugusti',
-					'password'                   => Hash::make("123456"),
+					'password'                   => "123456",
 					'email'                      => 'antoine.augusti@gmail.com',
 					'security_level'             => 1,
 					'ip'                         => $faker->ipv4,

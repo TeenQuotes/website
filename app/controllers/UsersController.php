@@ -394,7 +394,7 @@ class UsersController extends \BaseController {
 			$user = User::whereLogin($id)->first();
 			if (! $this->userIsAllowedToEdit($user))
 				App::abort(401, 'Refused');
-			$user->password = Hash::make($data['password']);
+			$user->password = $data['password'];
 			$user->save();
 
 			return Redirect::back()->with('success', Lang::get('users.updatePasswordSuccessfull', ['login' => $user->login]));
