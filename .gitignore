@@ -15,4 +15,5 @@ public/assets/css/print.css
 .sass-cache
 /node_modules
 migrate*
-tests/_output/*
+app/tests/_output/*
+app/tests/_data/db.sqlite_snapshot
