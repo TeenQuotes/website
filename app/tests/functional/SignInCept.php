@@ -1,6 +1,4 @@
-<?php 
-var_dump(Config::get('database.default'));
-
+<?php
 $I = new FunctionalTester($scenario);
 $I->am('a Teen Quotes member');
 $I->wantTo('sign in to my Teen Quotes account');

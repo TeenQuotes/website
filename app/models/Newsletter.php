@@ -33,7 +33,7 @@ class Newsletter extends Eloquent {
 	 */
 	public static function createNewsletterForUser(User $user, $type)
 	{
-		if (!in_array($type, [self::WEEKLY, self::DAILY]))
+		if ( ! in_array($type, [self::WEEKLY, self::DAILY]))
 			throw new InvalidArgumentException("Newsletter's type only accepts weekly or daily. ".$type." was given.");
 
 		if ($user->isSubscribedToNewsletter($type))

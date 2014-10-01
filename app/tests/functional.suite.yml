@@ -10,3 +10,5 @@ modules:
     config:
         Laravel4:
             environment: codeception
+            cleanup: true
+            filters: true
