@@ -26,7 +26,7 @@ class FunctionalHelper extends \Codeception\Module
 		$I = $this->getModule('Laravel4');
 		
 		$I->amOnRoute('home');
-		$I->see('Nice to see you :)', '.alert-success');
+		$this->seeSuccessFlashMessage('Nice to see you :)');
 		$I->see('My profile', '.navbar');
 		$I->assertTrue(Auth::check());
 	}
@@ -111,7 +111,7 @@ class FunctionalHelper extends \Codeception\Module
 		$this->fillAddQuoteForm();
 
 		$I->amOnRoute('home');
-		$I->see('Your quote has been submitted', '.alert-success');
+		$this->seeSuccessFlashMessage('Your quote has been submitted');
 
 		$currentNbWaitingQuotes = $this->numberWaitingQuotesForUser();
 		
@@ -161,6 +161,17 @@ class FunctionalHelper extends \Codeception\Module
 		$I->assertTrue(Auth::check());
 		$I->seeRecord('users', compact('login'));
 		$I->seeElement('#welcome-profile');
+	}
+
+	/**
+	 * Assert that we can see a success alert with a given message
+	 * @param  string $message The expected message
+	 */
+	public function seeSuccessFlashMessage($message)
+	{
+		$I = $this->getModule('Laravel4');
+		
+		$I->see($message, '.alert-success');
 	}
 
 	/**
