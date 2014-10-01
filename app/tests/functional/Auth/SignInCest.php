@@ -13,10 +13,6 @@ class SignInCest {
 		$I->wantTo('sign in to my Teen Quotes account');
 
 		$I->signIn();
-		$I->amOnRoute('home');
-
-		$I->see('Nice to see you :)', '.alert-success');
-		$I->see('My profile', '.navbar');
-		$I->assertTrue(Auth::check());
+		$I->checkThatIHaveBeenLoggedIn();
 	}
 }
