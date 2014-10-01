@@ -14,7 +14,6 @@ class FunctionalHelper extends \Codeception\Module
 		// Will be automatically hashed
 		$password = $passwordClear;
 
-		$this->createSomePublishedQuotes();
 		$this->haveAnAccount(compact('login', 'password'));
 		$this->navigateToTheSignInPage();
 
@@ -28,9 +27,6 @@ class FunctionalHelper extends \Codeception\Module
 	public function navigateToTheSignInPage()
 	{
 		$I = $this->getModule('Laravel4');
-
-		// TODO: always do this
-		$this->createSomePublishedQuotes();
 		
 		$I->amOnRoute('home');
 		$I->click('Log in');
@@ -40,10 +36,7 @@ class FunctionalHelper extends \Codeception\Module
 	public function navigateToTheSignUpPage()
 	{
 		$I = $this->getModule('Laravel4');
-		
-		// TODO: always do this
-		$this->createSomePublishedQuotes();
-		
+				
 		$I->amOnRoute('home');
 		$I->click('Log in');
 		$I->seeCurrentRouteIs('signin');
