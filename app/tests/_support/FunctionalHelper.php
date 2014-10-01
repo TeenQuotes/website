@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laracasts\TestDummy\Factory as TestDummy;
 use Quote;
+use User;
 
 class FunctionalHelper extends \Codeception\Module
 {
@@ -100,6 +101,15 @@ class FunctionalHelper extends \Codeception\Module
 		$I->amOnRoute('users.show', $u->login);
 	}
 
+	public function navigateToTheResetPasswordPage()
+	{
+		$I = $this->getModule('Laravel4');
+		
+		$this->navigateToTheSignInPage();
+		$I->click("I don't remember my password!");
+		$I->seeCurrentRouteIs('passwordReminder');
+	}
+
 	public function submitANewQuote()
 	{
 		$I = $this->getModule('Laravel4');
@@ -164,6 +174,29 @@ class FunctionalHelper extends \Codeception\Module
 	}
 
 	/**
+	 * Assert that I can see an error message on a form
+	 * @param  string $message The expected message
+	 */
+	public function seeFormError($message)
+	{
+		$I = $this->getModule('Laravel4');
+		
+		$I->see($message, '.error-form');
+	}
+
+	/**
+	 * Fill the password reset form for a given user
+	 * @param  User   $u The given user
+	 */
+	public function fillPasswordResetFormFor(User $u)
+	{
+		$I = $this->getModule('Laravel4');
+		
+		$I->fillField('#email', $u->email);
+		$I->click('Reset my password!');
+	}
+
+	/**
 	 * Assert that we can see a success alert with a given message
 	 * @param  string $message The expected message
 	 */
@@ -175,13 +208,25 @@ class FunctionalHelper extends \Codeception\Module
 	}
 
 	/**
-	 * Create a new user. Can pass an array (key-value) to override dummy values
+	 * Create a new user and store it in database. Can pass an array (key-value) to override dummy values
 	 * @param  array $overrides The key-value array used to override dummy values
 	 * @return User The created user instance
 	 */
 	public function haveAnAccount($overrides = [])
 	{
 		$user = TestDummy::create('User', $overrides);
+		
+		return $user;
+	}
+
+	/**
+	 * Create a new user. Can pass an array (key-value) to override dummy values
+	 * @param  array $overrides The key-value array used to override dummy values
+	 * @return User The created user instance
+	 */
+	public function buildUser($overrides = [])
+	{
+		$user = TestDummy::build('User', $overrides);
 		
 		return $user;
 	}
