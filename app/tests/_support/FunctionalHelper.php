@@ -92,6 +92,14 @@ class FunctionalHelper extends \Codeception\Module
 			->count();
 	}
 
+	public function navigateToMyProfile()
+	{
+		$I = $this->getModule('Laravel4');
+		
+		$u = Auth::user();
+		$I->amOnRoute('users.show', $u->login);
+	}
+
 	public function submitANewQuote()
 	{
 		$I = $this->getModule('Laravel4');

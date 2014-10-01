@@ -5,6 +5,7 @@ class AddQuoteCest {
 	public function _before(FunctionalTester $I)
 	{
 		$I->logANewUser();
+		$I->createSomePublishedQuotes();
 	}
 
 	public function submitAQuote(FunctionalTester $I)
