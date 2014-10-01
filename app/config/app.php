@@ -228,11 +228,13 @@ return array(
 	|
 	*/
 
-	'comments.nbCommentsPerPage'       => 10,
+	'comments.nbCommentsPerPage'     => 10,
 	
-	'quotes.nbQuotesToPublishPerDay'   => 5,
+	'quotes.nbQuotesToPublishPerDay' => 5,
 	
-	'quotes.nbQuotesPerPage'           => 10,
+	'quotes.nbQuotesPerPage'         => 10,
+	
+	'quotes.maxSubmitPerDay'         => 5,
 	
 	// International Association for Suicide Prevention
 	'quotes.moderationURLHelp'         => 'http://www.iasp.info/resources/Crisis_Centres/',

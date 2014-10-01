@@ -21,10 +21,15 @@ class AddQuoteCest {
 		$I->wantTo("submit too much quotes for today");
 
 		// Submit the maximum allowed number of quotes per day
-		for ($i = 1; $i <= 5; $i++)
+		for ($i = 1; $i <= $this->maxPublishQuotesPerDay(); $i++)
 			$I->submitANewQuote();
 
 		// Try to add another quote, we should exceed the quota
 		$I->cantSubmitANewQuote();
+	}
+
+	private function maxPublishQuotesPerDay()
+	{
+		return Config::get('app.quotes.maxSubmitPerDay');
 	}
 }
