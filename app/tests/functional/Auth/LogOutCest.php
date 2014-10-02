@@ -14,8 +14,7 @@ class LogOutCest {
 
 		$I->logANewUser();
 		
-		$I->navigateToMyProfile();
-		$I->click('Log out');
+		$I->performLogoutFlow();
 
 		$I->seeSuccessFlashMessage('You have been logged out.');
 		$I->assertFalse(Auth::check());

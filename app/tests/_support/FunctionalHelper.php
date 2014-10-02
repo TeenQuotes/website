@@ -61,7 +61,15 @@ class FunctionalHelper extends \Codeception\Module
 		$I->seeCurrentRouteIs('addquote');
 	}
 
-	private function fillSigninForm($login, $password)
+	public function performLogoutFlow()
+	{
+		$I = $this->getModule('Laravel4');
+		
+		$this->navigateToMyProfile();
+		$I->click('Log out');
+	}
+
+	public function fillSigninForm($login, $password)
 	{
 		$I = $this->getModule('Laravel4');
 		
@@ -99,6 +107,47 @@ class FunctionalHelper extends \Codeception\Module
 		
 		$u = Auth::user();
 		$I->amOnRoute('users.show', $u->login);
+	}
+
+	public function navigateToMyEditProfilePage()
+	{
+		$I = $this->getModule('Laravel4');
+		$u = Auth::user();
+
+		$this->navigateToMyProfile();
+
+		$I->click('Edit my profile');
+		
+		// Assert that we can do several actions
+		$I->seeCurrentRouteIs('users.edit', $u->login);
+		$I->seeInTitle('Edit your profile');
+		$I->see('Edit my profile');
+		$I->see('Change my password');
+		$I->see('Edit my settings');
+		$I->see('Delete my account');
+	}
+
+	/**
+	 * Fill the "update my password" form on the user's profile
+	 * @param  string $password       The new password
+	 * @param  string $passwordRepeat The new repeated password
+	 */
+	public function fillChangePasswordForm($password, $passwordRepeat)
+	{
+		$I = $this->getModule('Laravel4');
+
+		$I->fillField('New password', $password);
+		$I->fillField('Confirm your password', $passwordRepeat);
+		$I->click('Change my password!');
+	}
+
+	public function assertPasswordHasBeenChanged()
+	{
+		$I = $this->getModule('Laravel4');
+		$u = Auth::user();
+		
+		$I->seeCurrentRouteIs('users.edit', $u->login);
+		$this->seeSuccessFlashMessage('Your password has been changed');
 	}
 
 	public function navigateToTheResetPasswordPage()
@@ -234,12 +283,15 @@ class FunctionalHelper extends \Codeception\Module
 	/**
 	 * Log a new user. Can pass an array (key-value) to override dummy values
 	 * @param  array $overrides The key-value array used to override dummy values
+	 * @return User The logged in user
 	 */
 	public function logANewUser($overrides = [])
 	{
 		$u = $this->haveAnAccount($overrides);
 
 		Auth::loginUsingId($u->id);
+
+		return $u;
 	}
 
 	public function createSomePublishedQuotes($overrides = [])
