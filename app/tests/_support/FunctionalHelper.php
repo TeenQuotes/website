@@ -11,10 +11,14 @@ use User;
 
 class FunctionalHelper extends \Codeception\Module
 {
-	public function signIn()
+	
+	/**
+	 * Fill the sign in form and log in
+	 * @param  string $login         
+	 * @param  string $passwordClear
+	 */
+	public function signIn($login, $passwordClear)
 	{
-		$login = 'foobar42';
-		$passwordClear = 'azerty22';
 		// Will be automatically hashed
 		$password = $passwordClear;
 
@@ -269,6 +273,20 @@ class FunctionalHelper extends \Codeception\Module
 		$I->assertTrue(Auth::check());
 		$I->seeRecord('users', compact('login'));
 		$I->seeElement('#welcome-profile');
+	}
+
+	/**
+	 * Fill the delete account form
+	 * @param  string $password     The clear password
+	 * @param  string $confirmation The confirmation word
+	 */
+	public function fillDeleteAccountForm($password, $confirmation)
+	{
+		$I = $this->getModule('Laravel4');
+		
+		$I->fillField('#delete-account #password', $password);
+		$I->fillField('#delete-confirmation', $confirmation);
+		$I->click('Delete my account');
 	}
 
 	/**

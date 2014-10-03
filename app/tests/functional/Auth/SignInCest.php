@@ -12,7 +12,7 @@ class SignInCest {
 		$I->am('a Teen Quotes member');
 		$I->wantTo('sign in to my Teen Quotes account');
 
-		$I->signIn();
+		$I->signIn('foobar42', 'azerty22');
 		$I->checkThatIHaveBeenLoggedIn();
 	}
 }
