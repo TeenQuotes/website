@@ -1,8 +1,7 @@
 @extends('layouts/page')
-<?php
-$i = 0;
-$nbDays = floor($nbQuotesPending / $nbQuotesPerDay);
-?>
+
+<?php $i = 0; ?>
+
 @section('content')
 	<div id="admin-page">
 		<h2><span id="nb-quotes-waiting">{{ count($quotes) }}</span> Waiting quotes</h2>
@@ -12,9 +11,8 @@ $nbDays = floor($nbQuotesPending / $nbQuotesPerDay);
 
 		@foreach ($quotes as $quote)
 			@include('quotes.singleQuoteAdmin', compact("quote"))
-		<?php
-		$i = ($i == (count($colors) - 1)) ? 0 : $i + 1;
-		?>
+
+			<?php $i = ($i == (count($colors) - 1)) ? 0 : $i + 1; ?>
 		@endforeach
 	</div>
 @stop
