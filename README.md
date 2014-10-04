@@ -21,19 +21,26 @@ Add the following configuration files from the [Laravel framework](https://githu
 
 And then run:
 
-    $ composer install
-    $ php artisan migrate
-    $ php artisan db:seed
-    $ php artisan serve
+```bash
+$ composer install
+$ php artisan migrate
+$ php artisan db:seed
+$ php artisan serve
+```
 
 ## Editing the front-end
-If you want to edit JS files and Compass files, you will need to install [Compass](http://compass-style.org/install/), [node.js](http://nodejs.org/) and some node.js packages. You can install them by running:
-
-	$ npm install
+If you want to edit JS files and Compass files, you will need to install [Compass](http://compass-style.org/install/), [node.js](http://nodejs.org/) and some node.js packages. You can install them by running the following commands from the root directory:
+```bash
+# Install Gulp globally
+$ sudo npm install -g gulp
+# Grap required packages
+$ npm install
+```
 
 And then take advantage of the Gulpfile:
-
-	$ gulp
+```bash
+$ gulp
+```
 
 ## Who did this?
 **Antoine AUGUSTI** - http://www.antoine-augusti.fr
