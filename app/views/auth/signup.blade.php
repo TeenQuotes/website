@@ -25,7 +25,7 @@
 
 				<!-- Login -->
 				<div class="form-group {{{ $errors->has('login') ? 'error' : '' }}}">
-					{{ Form::label('login', Lang::get('auth.login'), array('class' => 'col-sm-2 control-label')) }}
+					{{ Form::label('login', Lang::get('auth.login'), ['class' => 'col-sm-2 control-label']) }}
 
 					<div class="col-sm-10">
 						{{ Form::text('login', Input::old('login'), array('class' => 'form-control', 'id' => 'login-signup')) }}
@@ -42,7 +42,7 @@
 
 				<!-- Email address -->
 				<div class="form-group {{{ $errors->has('email') ? 'error' : '' }}}">
-					{{ Form::label('email', Lang::get('auth.emailAddress'), array('class' => 'col-sm-2 control-label')) }}
+					{{ Form::label('email', Lang::get('auth.emailAddress'), ['class' => 'col-sm-2 control-label']) }}
 
 					<div class="col-sm-10">
 						{{ Form::email('email', Input::old('email'), array('class' => 'form-control', 'id' => 'email-signup')) }}
@@ -59,10 +59,10 @@
 
 				<!-- Password -->
 				<div class="form-group {{{ $errors->has('password') ? 'error' : '' }}}">
-					{{ Form::label('password', Lang::get('auth.password'), array('class' => 'col-sm-2 control-label')) }}
+					{{ Form::label('password', Lang::get('auth.password'), ['class' => 'col-sm-2 control-label']) }}
 
 					<div class="col-sm-10">
-						{{ Form::password('password', array('class' => 'form-control', 'id' => 'password')) }}
+						{{ Form::password('password', ['class' => 'form-control', 'id' => 'password']) }}
 						@if ( ! empty($errors->first('password')))
 							{{ TextTools::warningTextForm($errors->first('password')) }}
 						@endif

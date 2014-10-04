@@ -34,6 +34,7 @@
 				<!-- Quotes -->
 				@if ($type != 'comments')
 					@include('quotes.singleQuote', compact("quote"))
+				
 				<!-- Comments -->
 				@else
 					<?php $comment = $quote; ?>
@@ -42,7 +43,8 @@
 						<a href="{{URL::route('quotes.show', $comment->quote->id)}}">#{{$comment->quote->id}}</a> - {{{ $comment->quote->content }}}
 					</div>
 				@endif
-			<?php $i++ ?>
+				
+				<?php $i++ ?>
 			@endforeach
 
 			<div class="text-center">

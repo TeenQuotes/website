@@ -3,7 +3,7 @@
 
 		<!-- Comment's content -->
 		<div class="form-group {{{ $errors->has('content') ? 'error' : '' }}}">
-			{{ Form::label('content', Lang::get('comments.yourComment'), array('class' => 'col-sm-2 control-label')) }}
+			{{ Form::label('content', Lang::get('comments.yourComment'), ['class' => 'col-sm-2 control-label']) }}
 
 			<div class="col-sm-10">
 				{{ Form::textarea('content', Input::old('content'), array('class' => 'form-control', 'id' => 'content-comment', 'rows' => '3')) }}

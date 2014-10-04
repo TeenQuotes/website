@@ -5,7 +5,7 @@
 			<img class="avatar img-responsive" src="{{{ $user->present()->avatarLink }}}"/>
 		</div>
 
-		<!-- Users stat -->
+		<!-- Users stats -->
 		<div class="user-info col-xs-9 col-sm-3">
 			<h2> {{{ $user->login }}}</h2>
 			<!-- Age -->

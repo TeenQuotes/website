@@ -15,10 +15,10 @@
 
 			<!-- Email address -->
 			<div class="form-group">
-				{{ Form::label('email', Lang::get('auth.emailAddress'), array('class' => 'col-sm-2 control-label')) }}
+				{{ Form::label('email', Lang::get('auth.emailAddress'), ['class' => 'col-sm-2 control-label']) }}
 
 				<div class="col-sm-10">
-					{{ Form::email('email', Input::old('email'), array('class' => 'form-control')) }}
+					{{ Form::email('email', Input::old('email'), ['class' => 'form-control']) }}
 					@if (Session::has('error'))
 						{{ TextTools::warningTextForm(Session::get('error')) }}
 					@endif
@@ -26,10 +26,10 @@
 			</div>
 
 			<div class="form-group">
-				{{ Form::label('password', Lang::get('auth.password'), array('class' => 'col-sm-2 control-label')) }}
+				{{ Form::label('password', Lang::get('auth.password'), ['class' => 'col-sm-2 control-label']) }}
 
 				<div class="col-sm-10">
-					{{ Form::password('password', array('class' => 'form-control')) }}
+					{{ Form::password('password', ['class' => 'form-control']) }}
 					@if (Session::has('error'))
 						{{ TextTools::warningTextForm(Session::get('error')) }}
 					@endif
@@ -39,7 +39,7 @@
 			<!-- Submit button -->
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					{{ Form::submit(Lang::get('auth.changeMyPasswordButton'), array('class' => 'transition btn btn-primary btn-lg')) }}
+					{{ Form::submit(Lang::get('auth.changeMyPasswordButton'), ['class' => 'transition btn btn-primary btn-lg']) }}
 				</div>
 			</div>
 		{{ Form::close() }}

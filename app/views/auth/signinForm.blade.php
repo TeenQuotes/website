@@ -12,10 +12,10 @@ $addClass = Session::has('requireLoggedInAddQuote') ? ' col-md-pull-6' : '';
 		</div>
 		<!-- Login -->
 		<div class="form-group {{{ $errors->has('login') ? 'error' : '' }}}">
-			{{ Form::label('login', Lang::get('auth.login'), array('class' => 'col-sm-2 control-label')) }}
+			{{ Form::label('login', Lang::get('auth.login'), ['class' => 'col-sm-2 control-label']) }}
 
 			<div class="col-sm-10">
-				{{ Form::text('login', Input::old('login'), array('class' => 'form-control')) }}
+				{{ Form::text('login', Input::old('login'), ['class' => 'form-control']) }}
 				@if ( ! empty($errors->first('login')))
 					{{ TextTools::warningTextForm($errors->first('login')) }}
 				@endif
@@ -24,10 +24,10 @@ $addClass = Session::has('requireLoggedInAddQuote') ? ' col-md-pull-6' : '';
 
 		<!-- Password -->
 		<div class="form-group {{{ $errors->has('password') ? 'error' : '' }}}">
-			{{ Form::label('password', Lang::get('auth.password'), array('class' => 'col-sm-2 control-label')) }}
+			{{ Form::label('password', Lang::get('auth.password'), ['class' => 'col-sm-2 control-label']) }}
 
 			<div class="col-sm-10">
-				{{ Form::password('password', array('class' => 'form-control', 'id' => 'password')) }}
+				{{ Form::password('password', ['class' => 'form-control', 'id' => 'password']) }}
 				@if ( ! empty($errors->first('password')))
 					{{ TextTools::warningTextForm($errors->first('password')) }}
 				@endif

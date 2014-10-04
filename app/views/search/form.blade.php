@@ -21,7 +21,7 @@
 				<!-- Submit button -->
 				<div class="form-group">
 					<div class="col-sm-offset-4 col-sm-10">
-						{{ Form::submit(Lang::get('search.searchSubmit'), array('class' => 'transition btn btn-primary btn-lg')) }}
+						{{ Form::submit(Lang::get('search.searchSubmit'), ['class' => 'transition btn btn-primary btn-lg']) }}
 					</div>
 				</div>
 			{{ Form::close() }}

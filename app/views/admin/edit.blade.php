@@ -7,7 +7,7 @@
 
 		<!-- Quote's content -->
 		<div class="form-group">
-			{{ Form::label('content', 'Content of the quote', array('class' => 'col-sm-2 control-label')) }}
+			{{ Form::label('content', 'Content of the quote', ['class' => 'col-sm-2 control-label']) }}
 
 			<div class="col-sm-10">
 				{{ Form::textarea('content', Input::old('content'), array('class' => 'form-control', 'rows' => '3')) }}
@@ -20,7 +20,7 @@
 		<!-- Submit button -->
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-				{{ Form::submit('Edit this quote!', array('class' => 'transition btn btn-primary btn-lg')) }}
+				{{ Form::submit('Edit this quote!', ['class' => 'transition btn btn-primary btn-lg']) }}
 			</div>
 		</div>
 
