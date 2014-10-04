@@ -10,17 +10,17 @@ $transition = ($i % 2 == 1) ? 'fadeInRight' : 'fadeInLeft';
 	<div class="row quotes-info">
 		<!-- COMMENTS -->
 		<div class="col-md-3 col-sm-3 col-xs-2">
-			<a class="hidden-sm hidden-xs badge" href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}">#{{{ $quote->id }}}</a>
+			<a class="hidden-sm hidden-xs badge" href="{{ URL::route('quotes.show', ['id' => $quote->id]) }}">#{{{ $quote->id }}}</a>
 
 			<!-- Has comments -->
 			@if ($quote->has_comments)
-				<a href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}" class="badge hidden-xs hidden-sm">{{{ Lang::choice('quotes.commentComments', $quote->total_comments, array('nb' => $quote->total_comments)) }}}</a>
+				<a href="{{ URL::route('quotes.show', ['id' => $quote->id]) }}" class="badge hidden-xs hidden-sm">{{{ Lang::choice('quotes.commentComments', $quote->total_comments, array('nb' => $quote->total_comments)) }}}</a>
 
-				<a href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}" class="badge hidden-md hidden-lg"><i class="fa fa-comment"></i> {{{ $quote->total_comments }}}</a>
+				<a href="{{ URL::route('quotes.show', ['id' => $quote->id]) }}" class="badge hidden-md hidden-lg"><i class="fa fa-comment"></i> {{{ $quote->total_comments }}}</a>
 
 			<!-- No comments -->
 			@else
-				<a href="{{ URL::action('QuotesController@show', ['id' => $quote->id]) }}" class="badge hidden-md hidden-lg"><i class="fa fa-comment"></i> {{{ $quote->total_comments }}}</a>
+				<a href="{{ URL::route('quotes.show', ['id' => $quote->id]) }}" class="badge hidden-md hidden-lg"><i class="fa fa-comment"></i> {{{ $quote->total_comments }}}</a>
 			@endif
 		</div>
 
@@ -37,9 +37,9 @@ $transition = ($i % 2 == 1) ? 'fadeInRight' : 'fadeInLeft';
 
 		<!-- AUTHOR -->
 		<div class="col-md-5 col-sm-5 col-xs-5">
-			@if (!(isset($hideAuthorQuote) AND $hideAuthorQuote))
-				@if (!$quote->user->isHiddenProfile())
-					<a href="{{ URL::action('UsersController@show', ['id' => $quote->user->login]) }}" class="link-author-profile">
+			@if ( ! (isset($hideAuthorQuote) AND $hideAuthorQuote))
+				@if ( ! $quote->user->isHiddenProfile())
+					<a href="{{ URL::route('users.show', ['id' => $quote->user->login]) }}" class="link-author-profile">
 					<?php $openedLink = true; ?>
 				@else
 					<span class="link-author-profile">

@@ -26,7 +26,7 @@
 			<input type="radio" name="gender" value="M" id="gender_m" class="register-switch-input" {{{ ($gender == 'M') ? 'checked' : ''}}}>
 			<label for="gender_m" class="register-switch-label"><i class="fa fa-male "></i> {{ Lang::get('users.maleLabel') }}</label>
 		</div>
-		@if (!empty($errors->first('gender')))
+		@if ( ! empty($errors->first('gender')))
 			{{ TextTools::warningTextForm($errors->first('gender')) }}
 		@endif
 	</div>
@@ -41,7 +41,7 @@
 		<div class="input-hint">
 			{{ Lang::get('users.hintBirthdate') }}
 		</div>
-		@if (!empty($errors->first('birthdate')))
+		@if ( ! empty($errors->first('birthdate')))
 			{{ TextTools::warningTextForm($errors->first('birthdate')) }}
 		@endif
 	</div>
@@ -53,7 +53,7 @@
 
 	<div class="col-sm-10">
 		{{ Form::select('country', $listCountries, $selectedCountry, array('class' => 'form-control')) }}
-		@if (!empty($errors->first('country')))
+		@if ( ! empty($errors->first('country')))
 		{{ TextTools::warningTextForm($errors->first('country')) }}
 		@endif
 	</div>
@@ -65,7 +65,7 @@
 
 	<div class="col-sm-10">
 		{{ Form::text('city', $selectedCity, array('class' => 'form-control', 'placeholder' => Lang::get('users.cityPlaceholder'))) }}
-		@if (!empty($errors->first('city')))
+		@if ( ! empty($errors->first('city')))
 		{{ TextTools::warningTextForm($errors->first('city')) }}
 		@endif
 	</div>
@@ -80,7 +80,7 @@
 		<div class="input-hint">
 			{{ Lang::get('users.hintAvatar') }}
 		</div>
-		@if (!empty($errors->first('avatar')))
+		@if ( ! empty($errors->first('avatar')))
 			{{ TextTools::warningTextForm($errors->first('avatar')) }}
 		@endif
 	</div>
@@ -92,7 +92,7 @@
 
 	<div class="col-sm-10">
 		{{ Form::textarea('about_me', Input::old('about_me'), array('class' => 'form-control', 'rows' => '3', 'placeholder' => Lang::get('users.aboutMePlacehoolder'))) }}
-		@if (!empty($errors->first('about_me')))
+		@if ( ! empty($errors->first('about_me')))
 			{{ TextTools::warningTextForm($errors->first('about_me')) }}
 		@endif
 	</div>

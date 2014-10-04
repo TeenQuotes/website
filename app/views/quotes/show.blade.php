@@ -24,7 +24,7 @@ $i = $quote->id % count($colors);
 	<!-- ADD A COMMENT -->
 	<h2 id="title-add-comment"><i class="fa fa-pencil-square-o"></i>{{ Lang::get('comments.addComment')}}</h2>
 	<!-- Banner no comments yet -->
-	@if (!$quote->has_comments)
+	@if ( ! $quote->has_comments)
 		<div class="alert alert-info no-hide">
 			{{ Lang::get('comments.noCommentsYet')}}
 		</div>

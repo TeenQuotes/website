@@ -8,7 +8,7 @@
 			<div class="col-sm-10">
 				{{ Form::textarea('content', Input::old('content'), array('class' => 'form-control', 'id' => 'content-comment', 'rows' => '3')) }}
 				<span id="countLetters" class="orange">0 characters</span>
-				@if (!empty($errors->first('content')))
+				@if ( ! empty($errors->first('content')))
 					{{ TextTools::warningTextForm($errors->first('content')) }}
 				@endif
 			</div>

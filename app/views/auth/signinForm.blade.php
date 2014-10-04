@@ -16,7 +16,7 @@ $addClass = Session::has('requireLoggedInAddQuote') ? ' col-md-pull-6' : '';
 
 			<div class="col-sm-10">
 				{{ Form::text('login', Input::old('login'), array('class' => 'form-control')) }}
-				@if (!empty($errors->first('login')))
+				@if ( ! empty($errors->first('login')))
 					{{ TextTools::warningTextForm($errors->first('login')) }}
 				@endif
 			</div>
@@ -28,7 +28,7 @@ $addClass = Session::has('requireLoggedInAddQuote') ? ' col-md-pull-6' : '';
 
 			<div class="col-sm-10">
 				{{ Form::password('password', array('class' => 'form-control', 'id' => 'password')) }}
-				@if (!empty($errors->first('password')))
+				@if ( ! empty($errors->first('password')))
 					{{ TextTools::warningTextForm($errors->first('password')) }}
 				@endif
 			</div>

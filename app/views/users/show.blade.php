@@ -20,7 +20,7 @@
 		@endif
 
 		<!-- Content: quotes or comments -->
-		@if (!empty($quotes))
+		@if ( ! empty($quotes))
 			@if ($type == 'favorites')
 				<h2><i class="fa fa-heart"></i> {{ Lang::get('users.favoriteQuotes') }}</h2>
 			@elseif ($type == 'comments')	

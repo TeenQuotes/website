@@ -8,14 +8,14 @@
 		<a href="{{ URL::route('users.show', array($user->login)) }}" class="username"><i class="fa {{ $user->present()->iconGender}}"></i> {{{ $user->login }}}</a>
 
 		<!-- Country -->
-		@if (!is_null($user->country))
+		@if ( ! is_null($user->country))
 			<div class="country">
 				{{ $user->country_object->name}}
 			</div>
 		@endif
 
 		<!-- About me -->
-		@if (!is_null($user->about_me))
+		@if ( ! is_null($user->about_me))
 			<div class="clearfix"></div>
 			<div class="about-me">
 				{{{ $user->about_me }}}

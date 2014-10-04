@@ -1,9 +1,9 @@
-@include('layouts/header')
+@include('layouts.header')
 
 <div class="container stories-container">
 	
 	<!-- Hero image -->
-	@if (!$heroHide)
+	@if ( ! $heroHide)
 		<div id="hero" class="animated fadeInDown">
 			{{ HTML::image('assets/images/stories/hero.jpg', "Hero") }}
 			<div class="text animated fadeInLeft">
@@ -32,4 +32,4 @@
 	@yield('content')
 </div>
 
-@include('layouts/footer')
+@include('layouts.footer')

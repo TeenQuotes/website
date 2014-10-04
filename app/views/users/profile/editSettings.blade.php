@@ -11,7 +11,7 @@
 
 	<div class="col-sm-10">
 		{{ Form::select('colors', $colorsAvailable, $selectedColor, array('class' => 'form-control')) }}
-		@if (!empty($errors->first('colors')))
+		@if ( ! empty($errors->first('colors')))
 			{{ TextTools::warningTextForm($errors->first('colors')) }}
 		@endif
 	</div>
@@ -22,7 +22,7 @@
 	<div class="col-xs-10 col-xs-offset-2">
 		{{ Form::checkbox('notification_comment_quote', "true", null, array('id' => 'notification_comment_quote')) }}
 		{{ Form::label('notification_comment_quote', Lang::get('users.notificationCommentQuoteInput'), array('id' => 'notification_comment_quote')) }}
-		@if (!empty($errors->first('notification_comment_quote')))
+		@if ( ! empty($errors->first('notification_comment_quote')))
 			{{ TextTools::warningTextForm($errors->first('notification_comment_quote')) }}
 		@endif
 	</div>
@@ -33,7 +33,7 @@
 	<div class="col-xs-10 col-xs-offset-2">
 		{{ Form::checkbox('hide_profile', "true", null, array('id' => 'hide_profile')) }}
 		{{ Form::label('hide_profile', Lang::get('users.hideProfileInput'), array('id' => 'hide_profile')) }}
-		@if (!empty($errors->first('hide_profile')))
+		@if ( ! empty($errors->first('hide_profile')))
 			{{ TextTools::warningTextForm($errors->first('hide_profile')) }}
 		@endif
 	</div>
@@ -45,7 +45,7 @@
 		<div class="col-xs-10 col-xs-offset-2">
 			{{ Form::checkbox($newsletterType.'_newsletter', "true", ${$newsletterType."Newsletter"}, array('id' => $newsletterType.'_newsletter')) }}
 			{{ Form::label($newsletterType.'_newsletter', Lang::get('users.'.$newsletterType.'NewsletterInput'), array('id' => $newsletterType.'_newsletter')) }}
-			@if (!empty($errors->first($newsletterType.'_newsletter')))
+			@if ( ! empty($errors->first($newsletterType.'_newsletter')))
 				{{ TextTools::warningTextForm($errors->first($newsletterType.'_newsletter')) }}
 			@endif
 		</div>

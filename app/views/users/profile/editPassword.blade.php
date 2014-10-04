@@ -11,7 +11,7 @@
 
 	<div class="col-sm-10">
 		{{ Form::password('password', array('class' => 'form-control', 'id' => 'password')) }}
-		@if (!empty($errors->first('password')))
+		@if ( ! empty($errors->first('password')))
 			{{ TextTools::warningTextForm($errors->first('password')) }}
 		@endif
 	</div>
@@ -23,7 +23,7 @@
 
 	<div class="col-sm-10">
 		{{ Form::password('password_confirmation', array('class' => 'form-control')) }}
-		@if (!empty($errors->first('password_confirmation')))
+		@if ( ! empty($errors->first('password_confirmation')))
 			{{ TextTools::warningTextForm($errors->first('password_confirmation')) }}
 		@endif
 	</div>

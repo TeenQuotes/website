@@ -4,7 +4,7 @@
 <div id="search-page">
 	<h1><i class="fa fa-search"></i> {{ Lang::get('search.resultForQuery', ['query' => $query]) }}</h1>
 	<!-- SCROLLTO IF WE HAVE QUOTES AND USERS -->
-	@if ($quotes->count() > 0 AND !is_null($users) AND $users->count() > 0)
+	@if ($quotes->count() > 0 AND ! is_null($users) AND $users->count() > 0)
 		<div id="result-info" class="row">
 			@foreach (['quotes', 'users'] as $element)
 				<div class="col-xs-6 text-center">
@@ -28,7 +28,7 @@
 	@foreach (['quotes', 'users'] as $element)
 		<?php $i = 0; ?>
 
-		@if (!is_null($$element) AND $$element->count() > 0)
+		@if ( ! is_null($$element) AND $$element->count() > 0)
 			<!-- Title -->
 			<h2 id="{{ $element }}">
 				@if ($element == 'quotes')
@@ -57,7 +57,7 @@
 			@endforeach
 		@endif
 
-		@if (($element == 'quotes' AND $quotes->count() > 0) OR ($element == 'users' AND $quotes->count() > 0) OR (!is_null($users) AND $users->count() > 0 AND $element == 'users'))
+		@if (($element == 'quotes' AND $quotes->count() > 0) OR ($element == 'users' AND $quotes->count() > 0) OR ( ! is_null($users) AND $users->count() > 0 AND $element == 'users'))
 			<div class="margin-bottom"></div>
 		@endif
 

@@ -32,7 +32,7 @@
 						<div id="login-validator">
 
 						</div>
-						@if (!empty($errors->first('login')))
+						@if ( ! empty($errors->first('login')))
 							<div id="login-error">
 								{{ TextTools::warningTextForm($errors->first('login')) }}
 							</div>
@@ -49,7 +49,7 @@
 						<div id="respect-privacy">
 							{{ Lang::get('auth.carefulPrivacy') }}
 						</div>
-						@if (!empty($errors->first('email')))
+						@if ( ! empty($errors->first('email')))
 							<div id="email-error">
 								{{ TextTools::warningTextForm($errors->first('email')) }}
 							</div>
@@ -63,7 +63,7 @@
 
 					<div class="col-sm-10">
 						{{ Form::password('password', array('class' => 'form-control', 'id' => 'password')) }}
-						@if (!empty($errors->first('password')))
+						@if ( ! empty($errors->first('password')))
 							{{ TextTools::warningTextForm($errors->first('password')) }}
 						@endif
 					</div>

@@ -1,7 +1,3 @@
-<?php
-if (!is_null($user->birthdate))
-	$carbonBirthdate = new Carbon($user->birthdate);
-?>
 <div id="profile-info" class="animated fadeInDown">
 	<div class="row">
 		<!-- Avatar -->
@@ -13,16 +9,16 @@ if (!is_null($user->birthdate))
 		<div class="user-info col-xs-9 col-sm-3">
 			<h2> {{{ $user->login }}}</h2>
 			<!-- Age -->
-			@if(!is_null($user->birthdate))
-				<i class="fa fa-clock-o"></i> {{ $carbonBirthdate->age.' '.Lang::get('users.yearsOldAbbreviation') }}<br/>
+			@if( ! is_null($user->birthdate))
+				<i class="fa fa-clock-o"></i> {{ $user->present()->age.' '.Lang::get('users.yearsOldAbbreviation') }}<br/>
 			@endif
 
 			<!-- City and country -->
-			@if (!is_null($user->country) OR !is_null($user->city) AND (!empty($user->country) OR !empty($user->city)))
+			@if ( ! is_null($user->country) OR ! is_null($user->city) AND ( ! empty($user->country) OR ! empty($user->city)))
 				<i class="fa fa-map-marker"></i>
 				<!-- City -->
-				@if (!is_null($user->city) AND !empty($user->city))
-					@if(!is_null($user->country))
+				@if ( ! is_null($user->city) AND ! empty($user->city))
+					@if( ! is_null($user->country))
 						{{{ $user->city }}},
 					@else
 						{{{ $user->city }}}
@@ -30,7 +26,7 @@ if (!is_null($user->birthdate))
 				@endif
 
 				<!-- Country -->
-				@if (!is_null($user->country) AND !empty($user->country))
+				@if ( ! is_null($user->country) AND ! empty($user->country))
 					{{{ $user->country_object->name }}}
 				@endif
 				<br/>
@@ -50,7 +46,7 @@ if (!is_null($user->birthdate))
 		<div class="col-xs-12 col-sm-7">
 			@include('users.profile.counters')
 			<!-- About me -->
-			@if (!empty($user->about_me))
+			@if ( ! empty($user->about_me))
 				<div class="col-xs-12 about-me hidden-xs hidden-sm">
 					{{{ $user->about_me }}}
 				</div>
@@ -58,7 +54,7 @@ if (!is_null($user->birthdate))
 		</div>
 
 		<!-- About me -->
-		@if (!empty($user->about_me))
+		@if ( ! empty($user->about_me))
 			<div class="col-xs-12 about-me hidden-md hidden-lg">
 				{{{ $user->about_me }}}
 			</div>

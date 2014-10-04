@@ -12,12 +12,12 @@ else
 	<div class="row quotes-info">
 		<!-- Approve -->
 		<div class="col-xs-1">
-			<span class="badge quote-moderation" data-id="{{{ $quote->id }}}" data-url="{{{ URL::action('QuotesAdminController@postModerate', [$quote->id, 'approve']) }}}" data-decision="approve"><i class="fa fa-thumbs-up"></i></span>
+			<span class="badge quote-moderation" data-id="{{{ $quote->id }}}" data-url="{{{ URL::route('admin.quotes.moderate', [$quote->id, 'approve']) }}}" data-decision="approve"><i class="fa fa-thumbs-up"></i></span>
 		</div>
 
 		<!-- Unapprove -->
 		<div class="col-xs-1">
-			<span class="badge quote-moderation" data-id="{{{ $quote->id }}}" data-url="{{{ URL::action('QuotesAdminController@postModerate', [$quote->id, 'unapprove']) }}}" data-decision="unapprove"><i class="fa fa-thumbs-down"></i></span>
+			<span class="badge quote-moderation" data-id="{{{ $quote->id }}}" data-url="{{{ URL::route('admin.quotes.moderate', [$quote->id, 'unapprove']) }}}" data-decision="unapprove"><i class="fa fa-thumbs-down"></i></span>
 		</div>
 
 		<!-- Edit -->
@@ -27,7 +27,7 @@ else
 
 		<!-- Alert sad content -->
 		<div class="col-xs-1">
-			<span class="badge quote-moderation" data-id="{{{ $quote->id }}}" data-url="{{{ URL::action('QuotesAdminController@postModerate', [$quote->id, 'alert']) }}}" data-decision="alert"><i class="fa fa-warning"></i></span>
+			<span class="badge quote-moderation" data-id="{{{ $quote->id }}}" data-url="{{{ URL::route('admin.quotes.moderate', [$quote->id, 'alert']) }}}" data-decision="alert"><i class="fa fa-warning"></i></span>
 		</div>
 	</div>
 </div>

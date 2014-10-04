@@ -18,10 +18,10 @@
 					<div class="col-sm-10">
 						{{ Form::textarea('content', Input::old('content'), array('class' => 'form-control', 'id' => 'content-quote', 'rows' => '3')) }}
 						<span id="countLetters" class="orange">0 characters</span>
-						@if (!empty($errors->first('content')))
+						@if ( ! empty($errors->first('content')))
 							{{ TextTools::warningTextForm($errors->first('content')) }}
 						@endif
-						@if (!empty($errors->first('quotesSubmittedToday')))
+						@if ( ! empty($errors->first('quotesSubmittedToday')))
 							{{ TextTools::warningTextForm($errors->first('quotesSubmittedToday')) }}
 						@endif
 					</div>

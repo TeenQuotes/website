@@ -8,7 +8,7 @@
 
 		<div class="col-sm-10">
 			{{ Form::textarea('represent_txt', Input::old('represent_txt'), array('class' => 'form-control', 'rows' => '3', 'placeholder' => Lang::get('stories.placeholderRepresent'))) }}
-			@if (!empty($errors->first('represent_txt')))
+			@if ( ! empty($errors->first('represent_txt')))
 				{{ TextTools::warningTextForm($errors->first('represent_txt')) }}
 			@endif
 		</div>
@@ -20,7 +20,7 @@
 
 		<div class="col-sm-10">
 			{{ Form::textarea('frequence_txt', Input::old('frequence_txt'), array('class' => 'form-control', 'rows' => '3', 'placeholder' => Lang::get('stories.placeholderFrequence'))) }}
-			@if (!empty($errors->first('frequence_txt')))
+			@if ( ! empty($errors->first('frequence_txt')))
 				{{ TextTools::warningTextForm($errors->first('frequence_txt')) }}
 			@endif
 		</div>

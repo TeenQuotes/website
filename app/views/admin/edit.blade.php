@@ -11,7 +11,7 @@
 
 			<div class="col-sm-10">
 				{{ Form::textarea('content', Input::old('content'), array('class' => 'form-control', 'rows' => '3')) }}
-				@if (!empty($errors->first('content')))
+				@if ( ! empty($errors->first('content')))
 					{{ TextTools::warningTextForm($errors->first('content')) }}
 				@endif
 			</div>

@@ -40,6 +40,7 @@ class UserPresenter extends Presenter {
 	public function age()
 	{
 		$carbon = Carbon::createFromFormat('Y-m-d', $this->birthdate);
+		
 		return $carbon->age;
 	}
 }

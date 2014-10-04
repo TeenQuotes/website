@@ -12,7 +12,7 @@
 
 					<div class="col-sm-8">
 						{{ Form::text('search', Input::old('search'), array('class' => 'form-control', 'placeholder' => Lang::get('search.searchInputPlaceholder'))) }}
-						@if (!empty($errors->first('search')))
+						@if ( ! empty($errors->first('search')))
 							{{ TextTools::warningTextForm($errors->first('search')) }}
 						@endif
 					</div>

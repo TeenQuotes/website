@@ -11,7 +11,7 @@ return [
     | you want to prepend the JavaScript variables to.
     |
     */
-    'bind_js_vars_to_this_view' => 'layouts/footer',
+    'bind_js_vars_to_this_view' => 'layouts.footer',
 
     /*
     |--------------------------------------------------------------------------
