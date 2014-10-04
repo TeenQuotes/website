@@ -14,7 +14,7 @@
 	@yield('social-networks-cards')
 	
 	<!-- Deep links  -->
-	@if (isset($deepLinksArray) AND !empty($deepLinksArray))
+	@if (isset($deepLinksArray) AND ! empty($deepLinksArray))
 		@include('layouts.deepLinks')
 	@endif
 

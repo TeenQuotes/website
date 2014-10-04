@@ -18,7 +18,7 @@
 		</div>
 	</footer><!-- END FOOTER -->
 
-	@include('js/js')
+	@include('js.js')
 
 	@yield('add-js')
 </body>

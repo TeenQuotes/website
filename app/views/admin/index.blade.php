@@ -1,4 +1,4 @@
-@extends('layouts/page')
+@extends('layouts.page')
 
 <?php $i = 0; ?>
 

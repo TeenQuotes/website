@@ -1,4 +1,4 @@
-@extends('layouts/page')
+@extends('layouts.page')
 @section('content')
 
 	<div id="signin-page" class="row">

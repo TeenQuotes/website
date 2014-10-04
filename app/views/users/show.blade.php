@@ -1,5 +1,5 @@
 <!-- This view is extended by users.welcome -->
-@extends('layouts/page')
+@extends('layouts.page')
 
 @section('content')
 	<div id="user-profile">
