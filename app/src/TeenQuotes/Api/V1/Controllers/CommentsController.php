@@ -3,10 +3,10 @@
 use Comment;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Quote;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
+use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Mail\MailSwitcher;
 use User;
 

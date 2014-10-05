@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Story;
+use TeenQuotes\Http\Facades\Response;
 use User;
 
 class StoriesController extends APIGlobalController {

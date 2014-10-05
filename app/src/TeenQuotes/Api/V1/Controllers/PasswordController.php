@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Response;
 use Password;
+use TeenQuotes\Http\Facades\Response;
 
 class PasswordController extends APIGlobalController {
 	

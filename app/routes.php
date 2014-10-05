@@ -74,8 +74,8 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	Route::resource('comments', 'CommentsController', ['only' => ['store', 'destroy']]);
 
 	/* --- FAVORITE --- */
-	Route::post('favorite/{quote_id}', ['as' => 'favorite', 'before' => 'auth', 'uses' => 'FavoritesController@store']);
-	Route::post('unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth', 'uses' => 'FavoritesController@destroy']);
+	Route::post('favorite/{quote_id}', ['as' => 'favorite', 'before' => 'auth', 'uses' => 'QuotesFavoriteController@store']);
+	Route::post('unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth', 'uses' => 'QuotesFavoriteController@destroy']);
 	
 });
 

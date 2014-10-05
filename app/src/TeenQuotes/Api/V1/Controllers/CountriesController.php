@@ -1,7 +1,7 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
 use Country;
-use Illuminate\Support\Facades\Response;
+use TeenQuotes\Http\Facades\Response;
 
 class CountriesController extends APIGlobalController {
 	

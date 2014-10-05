@@ -1,13 +1,12 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-
 use BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\URL;
 use LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade as AuthorizationServer;
 use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
+use TeenQuotes\Http\Facades\Response;
 use User;
 
 class APIGlobalController extends BaseController {
@@ -42,7 +41,7 @@ class APIGlobalController extends BaseController {
 		$totalPages = ceil($totalContent / $pagesize);
 		
 		$data = [
-			$contentName          => $content->toArray(),
+			$contentName          => $content,
 			'total_'.$contentName => $totalContent,
 			'total_pages'         => $totalPages,
 			'page'                => (int) $page,

@@ -31,8 +31,8 @@ Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'oauth|sessi
 	Route::get('countries/{country_id?}', ['uses' => 'CountriesController@show']);		
 
 	// Favorite quotes
-	Route::post('favorites/{quote_id}', ['uses' => 'FavQuotesController@postFavorite']);
-	Route::delete('favorites/{quote_id}', ['uses' => 'FavQuotesController@deleteFavorite']);
+	Route::post('favorites/{quote_id}', ['uses' => 'QuotesFavoriteController@postFavorite']);
+	Route::delete('favorites/{quote_id}', ['uses' => 'QuotesFavoriteController@deleteFavorite']);
 
 	// Password
 	Route::post('password/remind', ['uses' => 'PasswordController@postRemind']);
