@@ -395,10 +395,8 @@ class FunctionalHelper extends \Codeception\Module
 	 * @return User The created user instance
 	 */
 	public function haveAnAccount($overrides = [])
-	{
-		$user = TestDummy::create('User', $overrides);
-		
-		return $user;
+	{		
+		return $this->insertInDatabase(1, 'User', $overrides);
 	}
 
 	/**
@@ -427,10 +425,34 @@ class FunctionalHelper extends \Codeception\Module
 		return $u;
 	}
 
+	/**
+	 * Insert a record in database
+	 * @param  int $times The number of elements to insert
+	 * @param  string $class The name of the class to insert
+	 * @param  array $overrides The key-value array used to override dummy values
+	 * @return array|object The created record(s)
+	 */
+	public function insertInDatabase($times, $class, $overrides)
+	{
+		return TestDummy::times($times)->create($class, $overrides);
+	}
+
+	public function addAFavoriteForUser($quote_id, $user_id)
+	{
+		return $this->insertInDatabase(1, 'FavoriteQuote', ['quote_id' => $quote_id, 'user_id' => $user_id]);
+	}
+
 	public function createSomePublishedQuotes($overrides = [])
 	{
 		$overrides['approved'] = Quote::PUBLISHED;
+
+		if (array_key_exists('nb_quotes', $overrides)) {
+			$nbQuotes = $overrides['nb_quotes'];
+			unset($overrides['nb_quotes']);
+		}
+		else
+			$nbQuotes = 10;
 		
-		TestDummy::times(10)->create('Quote', $overrides);
+		return $this->insertInDatabase($nbQuotes, 'Quote', $overrides);
 	}
 }
