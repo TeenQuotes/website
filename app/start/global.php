@@ -143,12 +143,3 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
-
-/*
-|--------------------------------------------------------------------------
-| Additional routes
-|--------------------------------------------------------------------------
-|
-*/
-
-require app_path().'/src/TeenQuotes/Api/V1/routes.php';
