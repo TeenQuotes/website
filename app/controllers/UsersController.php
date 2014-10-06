@@ -1,17 +1,20 @@
 <?php
-
 use TeenQuotes\Api\V1\Controllers\UsersController as UsersAPIController;
 
-class UsersController extends \BaseController {
+class UsersController extends BaseController {
 
-	private $usersAPIController;
+	/**
+	 * The API controller
+	 * @var TeenQuotes\Api\V1\Controllers\UsersController
+	 */
+	private $api;
 
 	public function __construct()
 	{
 		$this->beforeFilter('guest', ['only' => 'store']);
 		$this->beforeFilter('auth', ['only' => ['edit', 'update', 'putPassword', 'putSettings']]);
 		
-		$this->usersAPIController = App::make('TeenQuotes\Api\V1\Controllers\UsersController');
+		$this->api = App::make('TeenQuotes\Api\V1\Controllers\UsersController');
 	}
 
 	/**
@@ -88,7 +91,7 @@ class UsersController extends \BaseController {
 		if ($validator->passes()) {
 
 			// Call the API - skip the API validator
-			$response = $this->usersAPIController->store(false);
+			$response = $this->api->store(false);
 			if ($response->getStatusCode() == 201) {
 				if (Session::has('url.intended'))
 					return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', ['login' => $data['login']]));
@@ -364,7 +367,7 @@ class UsersController extends \BaseController {
 
 		if ($validator->passes()) {
 			// Call the API
-			$response = $this->usersAPIController->putProfile(false);
+			$response = $this->api->putProfile(false);
 			if ($response->getStatusCode() == 200)
 				return Redirect::back()->with('success', Lang::get('users.updateProfileSuccessfull', ['login' => Auth::user()->login]));
 
@@ -416,7 +419,7 @@ class UsersController extends \BaseController {
 		if ( ! $this->userIsAllowedToEdit($user))
 			App::abort(401, 'Refused');
 		
-		$response = $this->usersAPIController->putSettings($user);
+		$response = $this->api->putSettings($user);
 
 		// Handle error
 		if ($response->getStatusCode() == 400) {
@@ -460,7 +463,7 @@ class UsersController extends \BaseController {
 		}
 
 		// Delete the user
-		$this->usersAPIController->destroy();
+		$this->api->destroy();
 
 		return Redirect::home()->with('success', Lang::get('users.deleteAccountSuccessfull'));
 	}
