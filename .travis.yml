@@ -9,7 +9,9 @@ before_script:
   - travis_retry composer self-update
   - travis_retry composer install --prefer-source --no-interaction --dev
 
-script: vendor/bin/codecept run
+script:
+  - vendor/bin/codecept build
+  - vendor/bin/codecept run
 
 matrix:
   allow_failures:

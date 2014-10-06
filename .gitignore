@@ -17,3 +17,4 @@ public/assets/css/print.css
 migrate*
 app/tests/_output/*
 app/tests/_data/db.sqlite_snapshot
+app/tests/functional/FunctionalTester.php
