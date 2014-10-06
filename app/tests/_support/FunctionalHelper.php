@@ -437,11 +437,21 @@ class FunctionalHelper extends \Codeception\Module
 		return TestDummy::times($times)->create($class, $overrides);
 	}
 
+	/**
+	 * Add a quote to the favorites of a user
+	 * @param int $quote_id The ID of the quote
+	 * @param int $user_id  The user ID
+	 */
 	public function addAFavoriteForUser($quote_id, $user_id)
 	{
 		return $this->insertInDatabase(1, 'FavoriteQuote', ['quote_id' => $quote_id, 'user_id' => $user_id]);
 	}
 
+	/**
+	 * Create some published quotes
+	 * @param  array $overrides The key-value array used to override dummy values. If the key nb_quotes is given, specifies the number of quotes to create
+	 * @return array The created quotes
+	 */
 	public function createSomePublishedQuotes($overrides = [])
 	{
 		$overrides['approved'] = Quote::PUBLISHED;
