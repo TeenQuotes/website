@@ -1,30 +1,19 @@
 <?php
 
-class CommentsController extends \BaseController {
+use Illuminate\Http\Response as ResponseClass;
+
+class CommentsController extends BaseController {
+
+	/**
+	 * The API controller
+	 * @var TeenQuotes\Api\V1\Controllers\CommentsController
+	 */
+	private $api;
 
 	public function __construct()
 	{
-		$this->beforeFilter('auth', ['on' => 'store']);
-	}
-
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		//
-	}
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
+		$this->beforeFilter('auth');
+		$this->api = App::make('TeenQuotes\Api\V1\Controllers\CommentsController');
 	}
 
 	/**
@@ -45,48 +34,15 @@ class CommentsController extends \BaseController {
 		if ($validator->passes()) {
 
 			// Call the API - skip the API validator
-			$response = App::make('TeenQuotes\Api\V1\Controllers\CommentsController')->store($data['quote_id'], false);
+			$response = $this->api->store($data['quote_id'], false);
 			if ($response->getStatusCode() != 201)
-				return Redirect::action('QuotesController@show',  ['id' => $data['quote_id']])->withErrors($validator)->withInput(Input::all());
+				return Redirect::route('quotes.show', ['id' => $data['quote_id']])->withErrors($validator)->withInput(Input::all());
 
-			return Redirect::action('QuotesController@show',  ['id' => $data['quote_id']])->with('success', Lang::get('comments.commentAddedSuccessfull'));
+			return Redirect::route('quotes.show', ['id' => $data['quote_id']])->with('success', Lang::get('comments.commentAddedSuccessfull'));
 		}
 
 		// Something went wrong.
-		return Redirect::action('QuotesController@show',  ['id' => $data['quote_id']])->withErrors($validator)->withInput(Input::all());
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
+		return Redirect::route('quotes.show', ['id' => $data['quote_id']])->withErrors($validator)->withInput(Input::all());
 	}
 
 	/**
@@ -98,14 +54,12 @@ class CommentsController extends \BaseController {
 	public function destroy($id)
 	{
 		if (Request::ajax()) {
-			// Call the API to delete the comment
-			$response = App::make('TeenQuotes\Api\V1\Controllers\CommentsController')->destroy($id);
 
-			$data = [
-				'success' => ($response->getStatusCode() == 200)
-			];
+			$response = $this->api->destroy($id);
 			
-			return Response::json($data);
+			return Response::json([
+				'success' => ($response->getStatusCode() == ResponseClass::HTTP_OK)
+			]);
 		}
 	}
 
