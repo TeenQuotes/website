@@ -4,6 +4,8 @@ use Carbon\Carbon;
 use Codeception\Module;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
+use User;
 
 class UserHelper extends Module {
 
@@ -70,13 +72,14 @@ class UserHelper extends Module {
 
 	/**
 	 * Assert that the logged in user has got the given key-values pairs for its profile
-	 * @param  array  $params The key-values pairs. Required keys: gender, birthdate (YYYY-MM-DD), country_name, city, about_me
+	 * @param  array  $params The key-values pairs. Required keys: gender, birthdate (YYYY-MM-DD), country_name, city, about_me. Optional: avatar (filename)
 	 */
 	public function assertProfileHasBeenChangedWithParams(array $params)
 	{
 		$I = $this->getModule('Laravel4');
+		$user = Auth::user();
 		
-		$I->seeCurrentRouteIs('users.edit', Auth::user()->login);
+		$I->seeCurrentRouteIs('users.edit', $user->login);
 		$this->getModule('FunctionalHelper')->seeSuccessFlashMessage('You have a brand new profile');
 
 		$this->getModule('NavigationHelper')->navigateToMyProfile();
@@ -91,6 +94,46 @@ class UserHelper extends Module {
 			$I->see("I'm a man");
 		else
 			$I->see("I'm a woman");
+
+		// Check that the URL for the avatar has been set
+		// Check that the file has been moved to the expected directory
+		if (array_key_exists('avatar', $params)) {
+			$avatar = $this->getAvatarNameForUser($user, $params['avatar']);
+			$I->assertTrue(Str::endsWith($avatar, $user->avatar));
+			$I->getModule('Filesystem')->seeFileFound($avatar, $this->getAvatarsPath());
+		}
+	}
+
+	/**
+	 * Construct the name of an avatar for a user and a filename
+	 * @param  User   $u    The user
+	 * @param  string $file The filename
+	 * @return string
+	 */
+	private function getAvatarNameForUser(User $u, $file)
+	{
+		return $u->id.'.'.$this->getExtension($file);
+	}
+
+	/**
+	 * Extract the extension of a filename in a dumb way
+	 * @param  string $filename The filename
+	 * @return string The extension
+	 */
+	private function getExtension($filename)
+	{
+		$chunks = explode('.', $filename);
+
+		return $chunks[1];
+	}
+
+	/**
+	 * Get the path where avatars are stored
+	 * @return string
+	 */
+	private function getAvatarsPath()
+	{
+		return Config::get('app.users.avatarPath').'/';
 	}
 
 	/**

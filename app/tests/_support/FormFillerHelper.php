@@ -26,7 +26,7 @@ class FormFillerHelper extends Module {
 
 	/**
 	 * Fill the edit profile form with the given key-value pairs
-	 * @param  array  $params The key-values pairs. Required keys: gender, birthdate (YYYY-MM-DD), country_name, city, about_me
+	 * @param  array  $params The key-values pairs. Required keys: gender, birthdate (YYYY-MM-DD), country_name, city, about_me. Optional: avatar (filename)
 	 */
 	public function fillEditProfileFormWith(array $params)
 	{
@@ -37,6 +37,10 @@ class FormFillerHelper extends Module {
 		$I->selectOption('select[name=country]', $params['country_name']);
 		$I->fillField('City', $params['city']);
 		$I->fillField('About me', $params['about_me']);
+
+		// If an avatar was given, attach it to the form
+		if (array_key_exists('avatar', $params))
+			$I->attachFile('input#avatar', $params['avatar']);
 
 		$I->click('Edit my profile!');
 	}

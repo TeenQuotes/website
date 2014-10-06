@@ -54,6 +54,7 @@ class EditProfileCest {
 			'city'         => 'Rouen',
 			'country_name' => 'France',
 			'gender'       => 'M',
+			'avatar'       => 'cage.jpg',
 		];
 
 		$I->fillEditProfileFormWith($newParams);
