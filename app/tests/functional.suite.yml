@@ -6,7 +6,7 @@
 
 class_name: FunctionalTester
 modules:
-    enabled: [Filesystem, QuotesHelper, NavigationHelper, FormFillerHelper, FunctionalHelper, Laravel4, Asserts, Db]
+    enabled: [Filesystem, AuthHelper, FormFillerHelper, NavigationHelper, QuotesHelper, UserHelper, FunctionalHelper, Laravel4, Asserts, Db]
     config:
         Laravel4:
             environment: codeception
