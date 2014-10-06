@@ -5,9 +5,16 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class QuotesController extends \BaseController {
 
+	/**
+	 * The API controller
+	 * @var TeenQuotes\Api\V1\Controllers\QuotesController
+	 */
+	private $api;
+
 	public function __construct()
 	{
 		$this->beforeFilter('auth', ['on' => 'store']);
+		$this->api = App::make('TeenQuotes\Api\V1\Controllers\QuotesController');
 	}
 
 	/**
@@ -93,16 +100,6 @@ class QuotesController extends \BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
@@ -122,7 +119,7 @@ class QuotesController extends \BaseController {
 		if ($validator->passes()) {
 
 			// Call the API to store the quote
-			$response = App::make('TeenQuotes\Api\V1\Controllers\QuotesController')->store(false);
+			$response = $this->api->store(false);
 			if ($response->getStatusCode() == 201)
 				return Redirect::route('home')->with('success', Lang::get('quotes.quoteAddedSuccessfull', ['login' => $user->login]));
 			
@@ -138,7 +135,7 @@ class QuotesController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function getAddQuote()
+	public function create()
 	{
 		$data = [
 			'pageTitle'       => Lang::get('quotes.addquotePageTitle'),
@@ -158,16 +155,12 @@ class QuotesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		try {
-			$quote = Quote::whereId($id)
-			->with('comments')
-			->withSmallUser('comments.user')
-			->withSmallUser('favorites.user')
-			->withSmallUser()
-			->firstOrFail();
-		} catch (ModelNotFoundException $e) {
+		// Call the API
+		$response = $this->api->show($id);
+		if ($this->responseIsNotFound($response))
 			throw new QuoteNotFoundException;
-		}
+		
+		$quote = $response->getOriginalData(); 
 
 		// If the user was not logged in, we store the current URL in its session
 		// After sign in / sign up, he will be redirected here
@@ -182,9 +175,6 @@ class QuotesController extends \BaseController {
 
 		// JS variables and colors are set in a view composer
 
-		// Register the view in the recommendation engine
-		$quote->registerViewAction();
-
 		return View::make('quotes.show', $data);
 	}
 
@@ -196,39 +186,6 @@ class QuotesController extends \BaseController {
 		$translate = Lang::choice('quotes.favoritesText', $data['nbFavorites'], $data);
 
 		return Response::json(compact('translate'), 200);
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
 	}
 
 }

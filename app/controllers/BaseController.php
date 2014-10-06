@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Http\Response;
+use TeenQuotes\Http\JsonResponse;
+
 class BaseController extends Controller {
 
 	/**
@@ -15,4 +18,8 @@ class BaseController extends Controller {
 		}
 	}
 
+	protected function responseIsNotFound(JsonResponse $r)
+	{
+		return $r->getStatusCode() == Response::HTTP_NOT_FOUND;
+	}
 }
