@@ -3,17 +3,16 @@
 use Buonzz\GeoIP\Laravel4\Facades\GeoIP;
 use Carbon\Carbon;
 use Country;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Newsletter;
 use Setting;
 use TeenQuotes\Http\Facades\Response;
-use TeenQuotes\Mail\MailSwitcher;
 use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 use User;
 
@@ -310,7 +309,7 @@ class UsersController extends APIGlobalController {
 
 		try {
 			$countryDetected = GeoIP::getCountry();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$selectedCountry = Country::getDefaultCountry();
 		}
 
@@ -332,7 +331,7 @@ class UsersController extends APIGlobalController {
 		try {
 			$cityDetected = GeoIP::getCity();
 			return $cityDetected;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			$selectedCity = "";
 			return $selectedCity;
 		}
