@@ -2,7 +2,6 @@
 
 use Codeception\Module;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 
 class NavigationHelper extends Module {
 

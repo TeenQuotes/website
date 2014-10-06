@@ -3,11 +3,9 @@
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laracasts\TestDummy\Factory as TestDummy;
 use Quote;
-use User;
 
 class FunctionalHelper extends \Codeception\Module
 {
