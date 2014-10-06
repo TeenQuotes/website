@@ -24,8 +24,8 @@ class FunctionalHelper extends \Codeception\Module
 
 		$this->haveAnAccount(compact('login', 'password'));
 		
-		$this->navigateToTheSignInPage();
-		$this->fillSigninForm($login, $passwordClear);
+		$this->getModule('NavigationHelper')->navigateToTheSignInPage();
+		$this->getModule('FormFillerHelper')->fillSigninForm($login, $passwordClear);
 	}
 
 	public function checkThatIHaveBeenLoggedIn()
@@ -77,9 +77,9 @@ class FunctionalHelper extends \Codeception\Module
 
 	public function hideProfileForCurrentUser()
 	{
-		$this->navigateToMyEditProfilePage();
+		$this->getModule('NavigationHelper')->navigateToMyEditProfilePage();
 
-		$this->fillUserSettingsForm([
+		$this->getModule('FormFillerHelper')->fillUserSettingsForm([
 			'notification_comment_quote' => 1,
 			'hide_profile'               => 1,
 			'daily_newsletter'           => 0,
@@ -88,77 +88,12 @@ class FunctionalHelper extends \Codeception\Module
 		]);
 	}
 
-	public function fillUserSettingsForm(array $params)
-	{
-		$I = $this->getModule('Laravel4');
-		
-		$I->selectOption('select[name=colors]', $params['color']);
-
-		foreach (['notification_comment_quote', 'hide_profile', 'daily_newsletter', 'weekly_newsletter'] as $value) {
-			if ($params[$value] == 1)
-				$I->checkOption('input[name='.$value.']');
-			else 
-				$I->uncheckOption('input[name='.$value.']');
-		}
-
-		// Submit the form
-		$I->click('Edit my settings!');
-		$I->seeCurrentRouteIs('users.edit', Auth::user()->login);
-		$I->see('Your settings have been changed');
-	}
-
-	public function navigateToTheSignInPage()
-	{
-		$I = $this->getModule('Laravel4');
-		
-		$I->amOnRoute('home');
-		$I->click('Log in');
-		$I->seeCurrentRouteIs('signin');
-	}
-
-	public function navigateToTheSignUpPage()
-	{
-		$I = $this->getModule('Laravel4');
-				
-		$I->amOnRoute('home');
-		$I->click('Log in');
-		$I->seeCurrentRouteIs('signin');
-		$I->click('I want an account!');
-		$I->seeCurrentRouteIs('signup');
-	}
-
-	public function navigateToTheAddQuotePage()
-	{
-		$I = $this->getModule('Laravel4');
-				
-		$I->amOnRoute('home');
-		$I->click('Add your quote');
-		$I->seeCurrentRouteIs('addquote');
-	}
-
 	public function performLogoutFlow()
 	{
 		$I = $this->getModule('Laravel4');
 		
-		$this->navigateToMyProfile();
+		$this->getModule('NavigationHelper')->navigateToMyProfile();
 		$I->click('Log out');
-	}
-
-	public function fillSigninForm($login, $password)
-	{
-		$I = $this->getModule('Laravel4');
-		
-		$I->fillField('Login', $login);
-		$I->fillField('Password', $password);
-		$I->click('Log me in!', 'form');
-	}
-
-	private function fillAddQuoteForm()
-	{
-		$I = $this->getModule('Laravel4');
-		
-		$I->fillField('#content-quote', Str::random(150));
-		$I->click('Submit my quote!');
 	}
 
 	/**
@@ -176,46 +111,6 @@ class FunctionalHelper extends \Codeception\Module
 			->count();
 	}
 
-	public function navigateToMyProfile()
-	{
-		$I = $this->getModule('Laravel4');
-		
-		$u = Auth::user();
-		$I->amOnRoute('users.show', $u->login);
-	}
-
-	public function navigateToMyEditProfilePage()
-	{
-		$I = $this->getModule('Laravel4');
-		$u = Auth::user();
-
-		$this->navigateToMyProfile();
-
-		$I->click('Edit my profile');
-		
-		// Assert that we can do several actions
-		$I->seeCurrentRouteIs('users.edit', $u->login);
-		$I->seeInTitle('Edit your profile');
-		$I->see('Edit my profile');
-		$I->see('Change my password');
-		$I->see('Edit my settings');
-		$I->see('Delete my account');
-	}
-
-	/**
-	 * Fill the "update my password" form on the user's profile
-	 * @param  string $password       The new password
-	 * @param  string $passwordRepeat The new repeated password
-	 */
-	public function fillChangePasswordForm($password, $passwordRepeat)
-	{
-		$I = $this->getModule('Laravel4');
-
-		$I->fillField('New password', $password);
-		$I->fillField('Confirm your password', $passwordRepeat);
-		$I->click('Change my password!');
-	}
-
 	public function assertPasswordHasBeenChanged()
 	{
 		$I = $this->getModule('Laravel4');
@@ -225,24 +120,15 @@ class FunctionalHelper extends \Codeception\Module
 		$this->seeSuccessFlashMessage('Your password has been changed');
 	}
 
-	public function navigateToTheResetPasswordPage()
-	{
-		$I = $this->getModule('Laravel4');
-		
-		$this->navigateToTheSignInPage();
-		$I->click("I don't remember my password!");
-		$I->seeCurrentRouteIs('passwordReminder');
-	}
-
 	public function submitANewQuote()
 	{
 		$I = $this->getModule('Laravel4');
 
-		$this->navigateToTheAddQuotePage();
+		$this->getModule('NavigationHelper')->navigateToTheAddQuotePage();
 
 		$oldNbWaitingQuotes = $this->numberWaitingQuotesForUser();
 		
-		$this->fillAddQuoteForm();
+		$this->getModule('FormFillerHelper')->fillAddQuoteForm();
 
 		$I->amOnRoute('home');
 		$this->seeSuccessFlashMessage('Your quote has been submitted');
@@ -257,11 +143,11 @@ class FunctionalHelper extends \Codeception\Module
 	{
 		$I = $this->getModule('Laravel4');
 		
-		$this->navigateToTheAddQuotePage();
+		$this->getModule('NavigationHelper')->navigateToTheAddQuotePage();
 		
 		$oldNbWaitingQuotes = $this->numberWaitingQuotesForUser();
 		
-		$this->fillAddQuoteForm();
+		$this->getModule('FormFillerHelper')->fillAddQuoteForm();
 		
 		$I->amOnRoute('addquote');
 		$I->see('You have submitted enough quotes for today');
@@ -270,21 +156,6 @@ class FunctionalHelper extends \Codeception\Module
 		
 		// Assert that the quote was not added to the DB
 		$I->assertEquals($oldNbWaitingQuotes, $currentNbWaitingQuotes);
-	}
-
-	public function fillRegistrationFormFor($login)
-	{
-		$I = $this->getModule('Laravel4');
-		
-		// Set a dummy IP address
-		$_SERVER['REMOTE_ADDR'] = '200.22.22.22';
-		
-		$I->seeInTitle('Create an account');
-		$I->see('Create your account');
-		$I->fillField('#login-signup', $login);
-		$I->fillField('#email-signup', $login.'@yahoo.com');
-		$I->fillField('#password', 'azerty22');
-		$I->click("#submit-form");
 	}
 
 	public function amOnMyNewProfile($login)
@@ -298,20 +169,6 @@ class FunctionalHelper extends \Codeception\Module
 	}
 
 	/**
-	 * Fill the delete account form
-	 * @param  string $password     The clear password
-	 * @param  string $confirmation The confirmation word
-	 */
-	public function fillDeleteAccountForm($password, $confirmation)
-	{
-		$I = $this->getModule('Laravel4');
-		
-		$I->fillField('#delete-account #password', $password);
-		$I->fillField('#delete-confirmation', $confirmation);
-		$I->click('Delete my account');
-	}
-
-	/**
 	 * Assert that I can see an error message on a form
 	 * @param  string $message The expected message
 	 */
@@ -320,18 +177,6 @@ class FunctionalHelper extends \Codeception\Module
 		$I = $this->getModule('Laravel4');
 		
 		$I->see($message, '.error-form');
-	}
-
-	/**
-	 * Fill the password reset form for a given user
-	 * @param  User   $u The given user
-	 */
-	public function fillPasswordResetFormFor(User $u)
-	{
-		$I = $this->getModule('Laravel4');
-		
-		$I->fillField('#email', $u->email);
-		$I->click('Reset my password!');
 	}
 
 	/**
@@ -357,23 +202,6 @@ class FunctionalHelper extends \Codeception\Module
 	}
 
 	/**
-	 * Fill the edit profile form with the given key-value pairs
-	 * @param  array  $params The key-values pairs. Required keys: gender, birthdate (YYYY-MM-DD), country_name, city, about_me
-	 */
-	public function fillEditProfileFormWith(array $params)
-	{
-		$I = $this->getModule('Laravel4');
-
-		$I->selectOption('input[name=gender]', $params['gender']);
-		$I->fillField('Birthdate', $params['birthdate']);
-		$I->selectOption('select[name=country]', $params['country_name']);
-		$I->fillField('City', $params['city']);
-		$I->fillField('About me', $params['about_me']);
-
-		$I->click('Edit my profile!');
-	}
-
-	/**
 	 * Assert that the logged in user has got the given key-values pairs for its profile
 	 * @param  array  $params The key-values pairs. Required keys: gender, birthdate (YYYY-MM-DD), country_name, city, about_me
 	 */
@@ -384,7 +212,7 @@ class FunctionalHelper extends \Codeception\Module
 		$I->seeCurrentRouteIs('users.edit', Auth::user()->login);
 		$this->seeSuccessFlashMessage('You have a brand new profile');
 
-		$this->navigateToMyProfile();
+		$this->getModule('NavigationHelper')->navigateToMyProfile();
 
 		$I->see($params['country_name']);
 		$I->see($params['city']);

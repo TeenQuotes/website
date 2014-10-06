@@ -9,20 +9,19 @@ class IndexQuoteCest {
 	private $user;
 
 	/**
-	 * The first quote on the first quote
+	 * The first quote on the first page
 	 * @var Quote
 	 */
 	private $firstQuote;
 
 	public function _before(FunctionalTester $I)
 	{
-		$I->logANewUser();
-		$I->createSomePublishedQuotes(['nb_quotes' => $this->getTotalNumberOfQuotesToCreate()]);
+		$I->createSomePublishedQuotes(['nb_quotes' => $I->getTotalNumberOfQuotesToCreate()]);
 
 		// Create a new user, a fresh published quote and some comments to it
 		$this->user = $I->logANewUser();
 		$this->firstQuote = $I->insertInDatabase(1, 'Quote', ['created_at' => Carbon::now()->addMonth(), 'user_id' => $this->user->id]);
-		$I->insertInDatabase($this->getNbComments(), 'Comment', ['quote_id' => $this->firstQuote->id]);
+		$I->insertInDatabase($I->getNbComments(), 'Comment', ['quote_id' => $this->firstQuote->id]);
 	}
 
 	public function browseLastQuotes(FunctionalTester $I)
@@ -33,9 +32,9 @@ class IndexQuoteCest {
 		// Go to the homepage
 		$I->amOnRoute('home');
 
-		$I->seeNumberOfElements('.quote', $this->getNbQuotesPerPage());
-		
-		for ($i = 1; $i <= $this->getNbQuotesPerPage(); $i++) { 
+		$I->seeNumberOfElements('.quote', $I->getNbQuotesPerPage());
+
+		for ($i = 1; $i <= $I->getNbQuotesPerPage(); $i++) { 
 			// Verify that we have got our quotes with different colors
 			$I->seeElement('.color-'.$i);
 			
@@ -51,7 +50,7 @@ class IndexQuoteCest {
 		$I->see('1', '#paginator-quotes ul li.active');
 		
 		// I can see that we have got our links to pages
-		for ($i = 2; $i <= $this->getNbPagesToCreate(); $i++) { 
+		for ($i = 2; $i <= $I->getNbPagesToCreate(); $i++) { 
 			$I->see($i, '#paginator-quotes li a');
 		}
 
@@ -73,7 +72,7 @@ class IndexQuoteCest {
 		$I->amOnRoute('home');
 
 		// Assert that the number of comments is displayed
-		$I->see($this->getNbComments().' comments', '.color-1');
+		$I->see($I->getNbComments().' comments', '.color-1');
 		// Assert that the quote is marked as favorited
 		$I->seeElement('.color-1 i.fa-heart');
 		// Assert that the author of the quote is displayed
@@ -95,25 +94,5 @@ class IndexQuoteCest {
 		$I->amOnRoute('home');
 		// Check that the quote is not in my favorites
 		$I->dontSeeElement('.color-1 a.link-author-profile');
-	}
-
-	private function getNbComments()
-	{
-		return 5;
-	}
-
-	private function getTotalNumberOfQuotesToCreate()
-	{
-		return $this->getNbPagesToCreate() * $this->getNbQuotesPerPage();
-	}
-
-	private function getNbPagesToCreate()
-	{
-		return 3;
-	}
-
-	private function getNbQuotesPerPage()
-	{
-		return Config::get('app.quotes.nbQuotesPerPage');
 	}
 }
