@@ -41,7 +41,7 @@ class FunctionalHelper extends \Codeception\Module
 	public function assertMySettingsHaveDefaultValues()
 	{
 		$this->assertMySettingsHaveTheseValues([
-			'color'                      => ucfirst(Config::get('app.users.defaultColorQuotesPublished')),
+			'color'                      => $this->getDefaultColorForPublishedQuotes(),
 			// Receive a notification if a comment is posted on one of my quotes
 			'notification_comment_quote' => 1,
 			// Profile not hidden
@@ -50,6 +50,15 @@ class FunctionalHelper extends \Codeception\Module
 			'daily_newsletter'           => 0,
 			'weekly_newsletter'          => 1
 		]);
+	}
+
+	/**
+	 * Get the default color for published quotes on a user's profile
+	 * @return string
+	 */
+	private function getDefaultColorForPublishedQuotes()
+	{
+		return ucfirst(Config::get('app.users.defaultColorQuotesPublished'));
 	}
 
 	public function assertMySettingsHaveTheseValues(array $params)
@@ -64,6 +73,19 @@ class FunctionalHelper extends \Codeception\Module
 			else 
 				$I->dontSeeCheckboxIsChecked('input[name='.$value.']');
 		}
+	}
+
+	public function hideProfileForCurrentUser()
+	{
+		$this->navigateToMyEditProfilePage();
+
+		$this->fillUserSettingsForm([
+			'notification_comment_quote' => 1,
+			'hide_profile'               => 1,
+			'daily_newsletter'           => 0,
+			'weekly_newsletter'          => 1,
+			'color'                      => $this->getDefaultColorForPublishedQuotes(),
+		]);
 	}
 
 	public function fillUserSettingsForm(array $params)

@@ -30,8 +30,11 @@ class IndexQuoteCest {
 		$I->am('a member of Teen Quotes');
 		$I->wantTo("browse last quotes");
 
+		// Go to the homepage
 		$I->amOnRoute('home');
 
+		$I->seeNumberOfElements('.quote', $this->getNbQuotesPerPage());
+		
 		for ($i = 1; $i <= $this->getNbQuotesPerPage(); $i++) { 
 			// Verify that we have got our quotes with different colors
 			$I->seeElement('.color-'.$i);
@@ -66,7 +69,9 @@ class IndexQuoteCest {
 		// Add to the user's favorites the first quote
 		$I->addAFavoriteForUser($this->firstQuote->id, $this->user->id);
 
+		// Go to the homepage
 		$I->amOnRoute('home');
+
 		// Assert that the number of comments is displayed
 		$I->see($this->getNbComments().' comments', '.color-1');
 		// Assert that the quote is marked as favorited
@@ -77,6 +82,19 @@ class IndexQuoteCest {
 		// I can view my profile when clicking on the author of a quote
 		$I->click('.color-1 .link-author-profile');
 		$I->seeCurrentRouteIs('users.show', $this->user->login);
+	}
+
+	public function checkAHiddenProfileCanNotBeClick(FunctionalTester $I)
+	{
+		$I->am('a member of Teen Quotes');
+		$I->wantTo("verify that I can't click on the author of a quote if its profile is hidden");
+
+		$I->hideProfileForCurrentUser();
+
+		// Go to the homepage
+		$I->amOnRoute('home');
+		// Check that the quote is not in my favorites
+		$I->dontSeeElement('.color-1 a.link-author-profile');
 	}
 
 	private function getNbComments()
