@@ -247,7 +247,7 @@ class Quote extends Toloquent {
 	 */
 	public function registerViewAction()
 	{
-		if (App::environment() != 'testing') {		
+		if ( ! in_array(App::environment(), ['testing', 'codeception'])) {		
 			// Try to retrieve the ID of the user
 			if (Auth::guest()) {
 				$idUserApi = ResourceServer::getOwnerId();
