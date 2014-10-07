@@ -9,7 +9,7 @@ class NavigationHelper extends Module {
 	{
 		$I = $this->getModule('Laravel4');
 		
-		$u = Auth::user();
+		$I->assertTrue(Auth::check());
 		$I->amOnRoute('home');
 		$I->click('My profile', '.nav');
 	}
