@@ -10,7 +10,8 @@ class NavigationHelper extends Module {
 		$I = $this->getModule('Laravel4');
 		
 		$u = Auth::user();
-		$I->amOnRoute('users.show', $u->login);
+		$I->amOnRoute('home');
+		$I->click('My profile', '.nav');
 	}
 
 	public function navigateToMyEditProfilePage()
