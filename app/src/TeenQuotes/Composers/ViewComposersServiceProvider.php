@@ -1,6 +1,5 @@
 <?php namespace TeenQuotes\Composers;
 
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class ViewComposersServiceProvider extends ServiceProvider {
