@@ -22,4 +22,13 @@ class BaseController extends Controller {
 	{
 		return $r->getStatusCode() == Response::HTTP_NOT_FOUND;
 	}
+
+	/**
+	 * Test if we are in a testing environment
+	 * @return boolean
+	 */
+	protected function isTestingEnvironment()
+	{
+		return in_array(App::environment(), ['testing', 'codeception']);
+	}
 }

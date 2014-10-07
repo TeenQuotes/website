@@ -106,6 +106,12 @@ class UsersController extends BaseController {
 		return Redirect::route('signup')->withErrors($validator)->withInput(Input::except('password'));
 	}
 
+	/**
+	 * Redirect the user to a place where we have content to show if possible
+	 * @param  User $user The user
+	 * @param  string $type The requested type to show
+	 * @return Response|null If null is returned, we can't find a better place to show content
+	 */
 	private function redirectUserIfContentNotAvailable($user, $type)
 	{
 		// Check where we can redirect the user
@@ -115,7 +121,6 @@ class UsersController extends BaseController {
 		
 		// Check if we have content to display
 		// If we have nothing to show, try to redirect somewhere else
-		$redirectFailed = false;
 		switch ($type) {
 			case 'favorites':
 				if ( ! $favoritesPossible) {
@@ -123,8 +128,6 @@ class UsersController extends BaseController {
 						return Redirect::route('users.show', $user->login);
 					if ($commentsPossible)
 						return Redirect::route('users.show', [$user->login, 'comments']);
-
-					$redirectFailed = true;
 				}
 				break;
 
@@ -134,8 +137,6 @@ class UsersController extends BaseController {
 						return Redirect::route('users.show', $user->login);
 					if ($favoritesPossible)
 						return Redirect::route('users.show', [$user->login, 'favorites']);
-
-					$redirectFailed = true;
 				}
 				break;
 
@@ -149,9 +150,7 @@ class UsersController extends BaseController {
 				}
 		}
 
-		// We failed to redirect, we will redirect to the default page
-		if ($redirectFailed)
-			return Redirect::route('users.show', $user->login);
+		return null;
 	}
 
 	private function userViewingSelfProfile($user)
@@ -174,7 +173,10 @@ class UsersController extends BaseController {
 		if (is_null($user))
 			throw new UserNotFoundException;
 
-		$this->redirectUserIfContentNotAvailable($user, $type);
+		// Try to redirect to a better place if content is available
+		$redirect = $this->redirectUserIfContentNotAvailable($user, $type);
+		if ( ! is_null($redirect))
+			return $redirect;
 
 		// Throw an exception if the user has an hidden profile
 		// We do not throw this exception if the user is currently
@@ -185,15 +187,15 @@ class UsersController extends BaseController {
 		// Build the data array. Keys: quotes, paginator
 		switch ($type) {
 			case 'favorites':
-				$data = self::dataShowFavoriteQuotes($user);
+				$data = $this->dataShowFavoriteQuotes($user);
 				break;
 
 			case 'comments':
-				$data = self::dataShowComments($user);
+				$data = $this->dataShowComments($user);
 				break;
 
 			case 'published':
-				$data = self::dataShowPublishedQuotes($user);
+				$data = $this->dataShowPublishedQuotes($user);
 				break;
 		}
 
@@ -211,7 +213,7 @@ class UsersController extends BaseController {
 		return View::make('users.show', $data);
 	}
 
-	private static function dataShowFavoriteQuotes(User $user)
+	private function dataShowFavoriteQuotes(User $user)
 	{
 		$pageNumber = Input::get('page', 1);
 
@@ -223,10 +225,13 @@ class UsersController extends BaseController {
 
 		// Fetch the quotes
 		$quotes = Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
-				->with('user')
-				->orderBy(DB::raw("FIELD(id, ".implode(',', $arrayIDFavoritesQuotesForUser).")"))
-				->paginate(Config::get('app.users.nbQuotesPerPage'))
-				->getItems();
+				->with('user');
+		
+		// TODO: this is very ugly
+		if (! $this->isTestingEnvironment())
+				$quotes = $quotes->orderBy(DB::raw("FIELD(id, ".implode(',', $arrayIDFavoritesQuotesForUser).")"));
+		
+		$quotes = $quotes->paginate(Config::get('app.users.nbQuotesPerPage'))->getItems();
 
 		// Build the associated paginator
 		$paginator = Paginator::make($quotes, count($arrayIDFavoritesQuotesForUser), Config::get('app.users.nbQuotesPerPage'));
@@ -235,7 +240,7 @@ class UsersController extends BaseController {
 		return compact('quotes', 'paginator');
 	}
 
-	private static function dataShowComments(User $user)
+	private function dataShowComments(User $user)
 	{
 		$pageNumber = Input::get('page', 1);
 
@@ -255,7 +260,7 @@ class UsersController extends BaseController {
 		];
 	}
 
-	private static function dataShowPublishedQuotes(User $user)
+	private function dataShowPublishedQuotes(User $user)
 	{
 		$pageNumber = Input::get('page', 1);
 
