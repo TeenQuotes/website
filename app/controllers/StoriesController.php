@@ -2,23 +2,39 @@
 
 class StoriesController extends BaseController {
 	
+	/**
+	 * The API controller
+	 * @var TeenQuotes\Api\V1\Controllers\StoriesController
+	 */
+	private $api;
+
+	public function __construct()
+	{
+		$this->api = App::make('TeenQuotes\Api\V1\Controllers\StoriesController');
+	}
+
 	public function index()
 	{
-		// Retrieve stories
-		$stories = Story::withSmallUser()
-			->orderDescending()
-			->paginate(Config::get('app.stories.nbStoriesPerPage'));
+		// Retrieve stories from the API
+		$apiResponse = $this->api->index();
+		if ($this->responseIsNotFound($apiResponse))
+			throw new StoryNotFoundException;
+		
+		// Extract the stories collection
+		$response = $apiResponse->getOriginalData();
+		$stories = $response['stories'];
 
 		$totalQuotes = $stories->first()->present()->totalQuotes;
 
 		$data = [
-			'pageTitle'       => Lang::get('stories.pageTitleIndex'),
-			'pageDescription' => Lang::get('stories.pageDescriptionIndex'),
+			'heroHide'        => false,
 			'heroText'        => Lang::get('stories.heroText', ['nb' => $totalQuotes]),
+			'mustBeLogged'    => Lang::get('stories.mustBeLogged'),
+			'pageDescription' => Lang::get('stories.pageDescriptionIndex'),
+			'pageTitle'       => Lang::get('stories.pageTitleIndex'),
+			'paginator'       => Paginator::make($stories->toArray(), $response['total_stories'], $response['pagesize']),
 			'stories'         => $stories,
 			'tellUsYourStory' => Lang::get('stories.storiesTellTitle').'.',
-			'mustBeLogged'    => Lang::get('stories.mustBeLogged'),
-			'heroHide'        => false,
 		];
 
 		return View::make('stories.index', $data);
@@ -26,12 +42,12 @@ class StoriesController extends BaseController {
 
 	public function show($id)
 	{
-		$story = Story::where('id', '=', $id)
-			->withSmallUser()
-			->first();
+		// Call the API
+		$apiResponse = $this->api->show($id);
+		if ($this->responseIsNotFound($apiResponse))
+			throw new StoryNotFoundException;
 
-		if (is_null($story) OR $story->count() == 0)
-			throw new StoryNotFoundException();
+		$story = $apiResponse->getOriginalData();
 
 		$data = [
 			'pageTitle'       => Lang::get('stories.pageTitleShow', ['nb' => $story->id]),
@@ -47,18 +63,13 @@ class StoriesController extends BaseController {
 
 	public function store()
 	{
-		$data = [
-			'represent_txt' => Input::get('represent_txt'),
-			'frequence_txt' => Input::get('frequence_txt'),
-		];
-
-		$validator = Validator::make($data, Story::$rules);
+		$validator = Validator::make(Input::only(['represent_txt', 'frequence_txt']), Story::$rules);
 		
 		// Check if the form validates with success
 		if ($validator->passes()) {
 
 			// Call the API - skip the API validator
-			$response = App::make('TeenQuotes\Api\V1\Controllers\StoriesController')->store(false);
+			$response = $this->api->store(false);
 			if ($response->getStatusCode() == 201)
 				return Redirect::route('stories')->with('success', Lang::get('stories.storyAddedSuccessfull', ['login' => Auth::user()->login]));
 			

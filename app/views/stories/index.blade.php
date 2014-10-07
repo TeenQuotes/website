@@ -2,8 +2,7 @@
 
 @section('content')
 	<div id="stories">
-		
-		@if ($stories->getCurrentPage() == 1)
+		@if ($paginator->getCurrentPage() == 1)
 			<!-- Form to add a story -->
 			@if (Auth::check())
 				@include('stories.add')
@@ -23,7 +22,7 @@
 
 		<!-- Links to pages -->
 		<div class="text-center">
-			{{ $stories->links() }}
+			{{ $paginator->links() }}
 		</div>
 	</div>
 @stop
