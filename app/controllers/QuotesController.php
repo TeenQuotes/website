@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use TeenQuotes\Http\JsonResponse;
 
 class QuotesController extends \BaseController {
 
@@ -20,7 +21,7 @@ class QuotesController extends \BaseController {
 	/**
 	 * Redirect to the new URL type
 	 * @param  int $id ID of the Quote
-	 * @return \Response
+	 * @return Response
 	 */
 	public function redirectOldUrl($id)
 	{
@@ -35,68 +36,48 @@ class QuotesController extends \BaseController {
 	public function index()
 	{		
 		// Random quotes or not?
-		$quotes = (Route::currentRouteName() == 'random') ? $this->retrieveRandomQuotes() : $this->retrieveLastQuotes();
+		$response = (Route::currentRouteName() == 'random') ? $this->retrieveRandomQuotes() : $this->retrieveLastQuotes();
 
-		// Transform quotes into a collection
-		$quotes = new Collection($quotes);
+		// Grab quotes
+		$quotes = $response['quotes'];
 
 		$data = [
 			'quotes'          => $quotes,
 			'pageTitle'       => Lang::get('quotes.'.Route::currentRouteName().'PageTitle'),
 			'pageDescription' => Lang::get('quotes.'.Route::currentRouteName().'PageDescription'),
-			'paginator'       => Paginator::make($quotes->toArray(), Quote::nbQuotesPublished(), Config::get('app.quotes.nbQuotesPerPage')),
+			'paginator'       => Paginator::make($quotes->toArray(), $response['total_quotes'], $response['pagesize']),
 		];
 
 		return View::make('quotes.index', $data);
 	}
 
-	private function getPageAndExpireCacheTime()
-	{
-		// Page number for quotes
-		$pageNumber = Input::get('page', 1);
-
-		// Time to store quotes
-		$expiresAt = Carbon::now()->addMinutes(1);
-
-		return [$pageNumber, $expiresAt];
-	}
-
 	private function retrieveLastQuotes()
 	{
-		list($pageNumber, $expiresAt) = $this->getPageAndExpireCacheTime();
+		$apiResponse = $this->api->index();
 		
-		$quotes = Cache::remember(Quote::$cacheNameQuotesPage.$pageNumber, $expiresAt, function()
-		{
-			return Quote::published()
-				->with('user')
-				->orderDescending()
-				->paginate(Config::get('app.quotes.nbQuotesPerPage'))
-				->getItems();
-		});
+		$this->guardAgainstNotFound($apiResponse);
 
-		if (empty($quotes))
-			throw new QuoteNotFoundException;
-
-		return $quotes;
+		return $apiResponse->getOriginalData();
 	}
 
 	private function retrieveRandomQuotes()
 	{
-		list($pageNumber, $expiresAt) = $this->getPageAndExpireCacheTime();
+		$apiResponse = $this->api->random();
+		
+		$this->guardAgainstNotFound($apiResponse);
 
-		$quotes = Cache::remember(Quote::$cacheNameRandomPage.$pageNumber, $expiresAt, function()
-		{
-			return Quote::published()
-				->with('user')
-				->random()
-				->paginate(Config::get('app.quotes.nbQuotesPerPage'))
-				->getItems();
-		});
+		return $apiResponse->getOriginalData();
+	}
 
-		if (empty($quotes))
+	/**
+	 * Throw an exception if the given response is a not found response
+	 * @param  JsonResponse $response the response
+	 * @return void|QuoteNotFoundException
+	 */
+	private function guardAgainstNotFound(JsonResponse $response)
+	{
+		if ($this->responseIsNotFound($response))
 			throw new QuoteNotFoundException;
-
-		return $quotes;
 	}
 
 	/**
@@ -155,10 +136,9 @@ class QuotesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		// Call the API
 		$response = $this->api->show($id);
-		if ($this->responseIsNotFound($response))
-			throw new QuoteNotFoundException;
+
+		$this->guardAgainstNotFound($response);
 		
 		$quote = $response->getOriginalData(); 
 
@@ -187,5 +167,4 @@ class QuotesController extends \BaseController {
 
 		return Response::json(compact('translate'), 200);
 	}
-
 }

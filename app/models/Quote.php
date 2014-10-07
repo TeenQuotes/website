@@ -58,22 +58,10 @@ class Quote extends Toloquent {
 	public static $cacheNameNbFavorites = 'nb_favorites_';
 
 	/**
-	 * The name of the key to store in cache. Describes the quotes for a given page.
-	 * @var string
-	 */
-	public static $cacheNameQuotesPage = 'quotes_homepage_';
-
-	/**
 	 * The name of the key to store in cache. Describes the quotes for a given page in API with default pagesize.
 	 * @var string
 	 */
 	public static $cacheNameQuotesAPIPage = 'quotes_api_';
-
-	/**
-	 * The name of the key to store in cache. Describes the quotes for a given "random" page.
-	 * @var string
-	 */
-	public static $cacheNameRandomPage = 'quotes_random_';
 
 	/**
 	 * The name of the key to store in cache. Describes the quotes for a given "random" page in API with default pagesize.
