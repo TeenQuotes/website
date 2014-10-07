@@ -72,7 +72,9 @@ class UserHelper extends Module {
 
 	/**
 	 * Assert that the logged in user has got the given key-values pairs for its profile
-	 * @param  array  $params The key-values pairs. Required keys: gender, birthdate (YYYY-MM-DD), country_name, city, about_me. Optional: avatar (filename)
+	 * @param  array  $params The key-values pairs.
+	 * Possible keys: gender, birthdate (YYYY-MM-DD), country_name, city, about_me, avatar (filename)
+	 * quotes-published-count, fav-count, comments-count, added-fav-count
 	 */
 	public function assertProfileHasBeenChangedWithParams(array $params)
 	{
@@ -83,17 +85,40 @@ class UserHelper extends Module {
 		$this->getModule('FunctionalHelper')->seeSuccessFlashMessage('You have a brand new profile');
 
 		$this->getModule('NavigationHelper')->navigateToMyProfile();
+		$this->assertProfileContainsInformation($params);
+	}
 
-		$I->see($params['country_name']);
-		$I->see($params['city']);
-		$I->see($params['about_me']);
-		$age = $this->computeAgeFromYYYMMDD($params['birthdate']);
-		$I->see($age.' y/o');
+	/**
+	 * Assert that the logged in user has got the given key-values pairs for its profile
+	 * @param  array  $params The key-values pairs.
+	 * Possible keys: gender, birthdate (YYYY-MM-DD), country_name, city, about_me, avatar (filename)
+	 * quotes-published-count, fav-count, comments-count, added-fav-count
+	 */
+	public function assertProfileContainsInformation(array $params)
+	{
+		$I = $this->getModule('Laravel4');
+		$user = Auth::user();
+		
+		if (array_key_exists('country_name', $params))
+			$I->see($params['country_name']);
+		
+		if (array_key_exists('city', $params))
+			$I->see($params['city']);
+		
+		if (array_key_exists('about_me', $params))
+			$I->see($params['about_me']);
+		
+		if (array_key_exists('birthdate', $params)) {
+			$age = $this->computeAgeFromYYYMMDD($params['birthdate']);
+			$I->see($age.' y/o');
+		}
 
-		if ($params['gender'] == 'M')
-			$I->see("I'm a man");
-		else
-			$I->see("I'm a woman");
+		if (array_key_exists('gender', $params)) {
+			if ($params['gender'] == 'M')
+				$I->see("I'm a man");
+			else
+				$I->see("I'm a woman");
+		}
 
 		// Check that the URL for the avatar has been set
 		// Check that the file has been moved to the expected directory
@@ -102,6 +127,19 @@ class UserHelper extends Module {
 			$I->assertTrue(Str::endsWith($avatar, $user->avatar));
 			$I->getModule('Filesystem')->seeFileFound($avatar, $this->getAvatarsPath());
 		}
+
+		// Test user statistics
+		if (array_key_exists('quotes-published-count', $params))
+			$I->see($params['quotes-published-count'], '#quotes-published-count');
+
+		if (array_key_exists('fav-count', $params))
+			$I->see($params['fav-count'], '#fav-count');
+
+		if (array_key_exists('comments-count', $params))
+			$I->see($params['comments-count'], '#comments-count');
+
+		if (array_key_exists('added-fav-count', $params))
+			$I->see($params['added-fav-count'], '#added-fav-count');
 	}
 
 	/**
