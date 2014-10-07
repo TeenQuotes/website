@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use TeenQuotes\Http\JsonResponse;
 
-class QuotesController extends \BaseController {
+class QuotesController extends BaseController {
 
 	/**
 	 * The API controller

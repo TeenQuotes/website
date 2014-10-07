@@ -1,6 +1,6 @@
 <?php
 
-class AuthController extends \BaseController {
+class AuthController extends BaseController {
 
 	public function __construct()
 	{

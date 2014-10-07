@@ -1,6 +1,6 @@
 <?php
 
-class QuotesFavoriteController extends \BaseController {
+class QuotesFavoriteController extends BaseController {
 
 	/**
 	 * Store a newly created resource in storage.

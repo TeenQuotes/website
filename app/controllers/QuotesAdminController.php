@@ -1,6 +1,6 @@
 <?php
 
-class QuotesAdminController extends \BaseController {
+class QuotesAdminController extends BaseController {
 
 	/**
 	 * Display a listing of the resource.

@@ -1,6 +1,6 @@
 <?php
 
-class SearchController extends \BaseController {
+class SearchController extends BaseController {
 
 	public function __construct()
 	{
