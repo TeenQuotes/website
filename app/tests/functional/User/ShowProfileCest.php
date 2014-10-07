@@ -58,4 +58,80 @@ class ShowProfileCest {
 		$I->navigateToMyProfile();
 		$I->assertProfileContainsInformation($data);
 	}
+
+	public function testWarningProfileHidden(FunctionalTester $I)
+	{
+		$I->am('a logged in Teen Quotes member');
+		$I->wantTo('see a warning message if my profile is hidden');
+
+		$I->hideProfileForCurrentUser();
+		$I->navigateToMyProfile();
+		$I->see('Your profile is currently hidden.');
+	}
+
+	public function testRedirectToPublishedQuotesIfNoFavorites(FunctionalTester $I)
+	{
+		$I->am('a logged in Teen Quotes member');
+		$I->wantTo('be redirected to my published quotes if I have no favorites');
+		
+		$I->insertInDatabase(5, 'Quote', ['user_id' => $this->user->id]);
+		
+		$I->amOnRoute('users.show', [$this->user->login, 'favorites']);
+		$I->seeCurrentRouteIs('users.show', $this->user->login);
+	}
+
+	public function testRedirectToCommentsIfNoFavoritesAndNoPublishedQuotes(FunctionalTester $I)
+	{
+		$I->am('a logged in Teen Quotes member');
+		$I->wantTo('be redirected to my comments if I have no favorites and no published quotes');
+		
+		$I->insertInDatabase(5, 'Comment', ['user_id' => $this->user->id]);
+		
+		$I->amOnRoute('users.show', [$this->user->login, 'favorites']);
+		$I->seeCurrentRouteIs('users.show', [$this->user->login, 'comments']);
+	}
+
+	public function testRedirectToPublishedQuotesIfNoComments(FunctionalTester $I)
+	{
+		$I->am('a logged in Teen Quotes member');
+		$I->wantTo('be redirected to my published quotes if I have no comments');
+		
+		$I->insertInDatabase(5, 'Quote', ['user_id' => $this->user->id]);
+		
+		$I->amOnRoute('users.show', [$this->user->login, 'comments']);
+		$I->seeCurrentRouteIs('users.show', $this->user->login);
+	}
+
+	public function testRedirectToFavoritesIfNoCommentsAndPublishedQuotes(FunctionalTester $I)
+	{
+		$I->am('a logged in Teen Quotes member');
+		$I->wantTo('be redirected to my published quotes if I have no comments and published quotes');
+		
+		$I->insertInDatabase(5, 'FavoriteQuote', ['user_id' => $this->user->id]);
+		
+		$I->amOnRoute('users.show', [$this->user->login, 'comments']);
+		$I->seeCurrentRouteIs('users.show', [$this->user->login, 'favorites']);
+	}
+
+	public function testRedirectToFavoritesIfNoPublishedQuotes(FunctionalTester $I)
+	{
+		$I->am('a logged in Teen Quotes member');
+		$I->wantTo('be redirected to my favorites if I have no published quotes');
+		
+		$I->insertInDatabase(5, 'FavoriteQuote', ['user_id' => $this->user->id]);
+		
+		$I->navigateToMyProfile();
+		$I->seeCurrentRouteIs('users.show', [$this->user->login, 'favorites']);
+	}
+
+	public function testRedirectToCommentsIfNoPublishedQuotesAndFavorites(FunctionalTester $I)
+	{
+		$I->am('a logged in Teen Quotes member');
+		$I->wantTo('be redirected to my comments if I have no published quotes and favorites');
+		
+		$I->insertInDatabase(5, 'Comment', ['user_id' => $this->user->id]);
+		
+		$I->navigateToMyProfile();
+		$I->seeCurrentRouteIs('users.show', [$this->user->login, 'comments']);
+	}
 }
