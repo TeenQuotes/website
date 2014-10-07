@@ -147,6 +147,11 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
+	public function random()
+	{
+		return $this->index(true);
+	}
+
 	public function getSearch($query)
 	{
 		$page = $this->getPage();
