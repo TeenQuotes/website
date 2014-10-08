@@ -4,16 +4,16 @@ class ContactController extends BaseController {
 	public function index()
 	{
 		$data = [
-			'pageTitle'          => Lang::get('contact.pageTitle'),
-			'pageDescription'    => Lang::get('contact.pageDescription'),
-			'contactTitle'       => Lang::get('contact.contactTitle'),
-			'teamTitle'       	 => Lang::get('contact.teamTitle'),
-			'stayInTouchTitle'   => Lang::get('contact.stayInTouchTitle'),
-			'stayInTouchContent' => Lang::get('contact.stayInTouchContent'),
-			'emailAddress'       => Lang::get('contact.emailAddress'),
 			'chooseYourWeapon'   => Lang::get('contact.chooseYourWeapon'),
-			'twitterAccount'     => Lang::get('layout.twitterUsername'),
+			'contactTitle'       => Lang::get('contact.contactTitle'),
+			'emailAddress'       => Lang::get('contact.emailAddress'),
+			'pageDescription'    => Lang::get('contact.pageDescription'),
+			'pageTitle'          => Lang::get('contact.pageTitle'),
+			'stayInTouchContent' => Lang::get('contact.stayInTouchContent'),
+			'stayInTouchTitle'   => Lang::get('contact.stayInTouchTitle'),
 			'teamMembers'        => LaraSetting::get('team'),
+			'teamTitle'       	 => Lang::get('contact.teamTitle'),
+			'twitterAccount'     => Lang::get('layout.twitterUsername'),
 		];
 
 		// Add description for each team member
