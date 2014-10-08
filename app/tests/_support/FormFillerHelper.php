@@ -24,6 +24,14 @@ class FormFillerHelper extends Module {
 		$I->click('Submit my quote!');
 	}
 
+	public function fillAddCommentForm($text)
+	{
+		$I = $this->getModule('Laravel4');
+		
+		$I->fillField('#content-comment', $text);
+		$I->click('Add my comment!');
+	}
+
 	/**
 	 * Fill the edit profile form with the given key-value pairs
 	 * @param  array  $params The key-values pairs. Required keys: gender, birthdate (YYYY-MM-DD), country_name, city, about_me. Optional: avatar (filename)
