@@ -35,7 +35,7 @@
 	"require-dev": {
 		"way/generators": "2.*",
 		"fzaninotto/faker": "dev-master",
-		"codeception/codeception": "2.0.*@dev",
+		"codeception/codeception": "~2.0",
 		"mockery/mockery": "dev-master"
 	},
 	"autoload": {
