@@ -63,6 +63,16 @@ class FunctionalHelper extends Module
 		return $u;
 	}
 
+	public function sendAjaxDeleteRequest($uri, $params = [])
+	{
+		$this->getModule('Laravel4')->sendAjaxRequest('DELETE', $uri, $params);
+	}
+
+	public function sendAjaxPutRequest($uri, $params = [])
+	{
+		$this->getModule('Laravel4')->sendAjaxRequest('PUT', $uri, $params);
+	}
+
 	/**
 	 * Insert a record in database
 	 * @param  int $times The number of elements to insert
