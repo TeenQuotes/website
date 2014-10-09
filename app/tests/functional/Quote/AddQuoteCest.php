@@ -29,6 +29,23 @@ class AddQuoteCest {
 		$I->cantSubmitANewQuote();
 	}
 
+	public function aGuestShouldBeRedirectedToTheSigninPage(FunctionalTester $I)
+	{
+		$I->am('a guest');
+		$I->wantTo("submit a new quote as a guest");
+
+		$I->logout();
+
+		// Navigate to the "add your quote" page
+		$I->amOnRoute('home');
+		$I->click('Add your quote');
+
+		// Assert that I should be redirected to the signin / signup page
+		$I->amOnRoute('signin');
+		// With a friendly message :)
+		$I->see('Before adding a quote, you need to be logged in.', "#addquote-warning");
+	}
+
 	private function maxPublishQuotesPerDay()
 	{
 		return Config::get('app.quotes.maxSubmitPerDay');
