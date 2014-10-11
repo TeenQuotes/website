@@ -1,4 +1,10 @@
-<?php
+<?php namespace TeenQuotes\Pages\Controllers;
+
+use BaseController;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\View;
+use LaraSetting;
+
 class ContactController extends BaseController {
 	
 	public function index()

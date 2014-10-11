@@ -6,9 +6,7 @@
 |
 */
 Route::pattern('decision', 'approve|unapprove|alert');
-Route::pattern('device_type', 'tablet|ios|android|mobile|desktop');
 Route::pattern('display_type', 'favorites|comments');
-Route::pattern('legal_page', 'tos|privacy');
 
 /*
 |--------------------------------------------------------------------------
@@ -21,22 +19,11 @@ Route::pattern('legal_page', 'tos|privacy');
 Route::group(['domain' => Config::get('app.domain')], function()
 {
 	Route::get('/', ['as' => 'home', 'uses' => 'QuotesController@index']);
-
-	/* --- CONTACT --- */
-	Route::get('contact', ['as' => 'contact', 'uses' => 'ContactController@index']);
-
-	/* --- APPS --- */
-	Route::get('apps', ['as' => 'apps', 'uses' => 'AppsController@index']);
-	Route::get('app', ['uses' => 'AppsController@redirectPlural']);
-	Route::get('apps/{device_type}', ['as' => 'apps.device', 'uses' => 'AppsController@getDevice']);
 	
 	/* --- AUTH --- */
 	Route::get('signin', ['as' => 'signin', 'uses' => 'AuthController@getSignin']);
 	Route::get('logout', ['as' => 'logout', 'uses' => 'AuthController@getLogout']);
 	Route::post('signin', 'AuthController@postSignin');
-
-	/* --- AUTH --- */
-	Route::get('legal/{legal_page?}', ['as' => 'legal.show', 'uses' => 'LegalController@show']);
 
 	/* --- SEARCH --- */
 	Route::get('search', ['as' => 'search.form', 'uses' => 'SearchController@showForm']);

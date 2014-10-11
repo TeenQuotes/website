@@ -1,4 +1,9 @@
-<?php
+<?php namespace TeenQuotes\Pages\Controllers;
+
+use BaseController;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\View;
 
 class LegalController extends BaseController {
 	

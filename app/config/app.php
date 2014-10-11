@@ -140,6 +140,7 @@ return array(
 		'TeenQuotes\Composers\ViewComposersServiceProvider',
 		'TeenQuotes\Mail\MailServiceProvider',
 		'TeenQuotes\Models\Observers\ObserversServiceProvider',
+		'TeenQuotes\Pages\PagesServiceProvider',
 		'TeenQuotes\Stories\StoriesServiceProvider',
 		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',

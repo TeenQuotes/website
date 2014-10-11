@@ -1,4 +1,12 @@
-<?php
+<?php namespace TeenQuotes\Pages\Controllers;
+
+use Agent;
+use BaseController;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
+use LaraSetting;
 
 class AppsController extends BaseController {
 
