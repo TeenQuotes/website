@@ -1,5 +1,15 @@
-<?php
+<?php namespace TeenQuotes\Stories\Controllers;
 
+use BaseController;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Paginator;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
+use StoryNotFoundException;
 use TeenQuotes\Stories\Models\Story;
 
 class StoriesController extends BaseController {
