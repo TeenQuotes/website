@@ -49,7 +49,7 @@
 			"app/tests/TestCase.php"
 		],
 		"psr-0": {
-			"TeenQuotes": "app/src"
+			"TeenQuotes": "app"
 		}
 	},
 	"scripts": {
