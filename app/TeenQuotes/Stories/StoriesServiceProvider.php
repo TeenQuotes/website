@@ -30,7 +30,8 @@ class StoriesServiceProvider extends ServiceProvider {
 	private function getRouteGroupParams()
 	{
 		return [
-			'domain' => $this->app['config']->get('app.domainStories')
+			'domain'    => $this->app['config']->get('app.domainStories'),
+			'namespace' => 'TeenQuotes\Stories\Controllers'
 		];
 	}
 
@@ -40,6 +41,6 @@ class StoriesServiceProvider extends ServiceProvider {
 	 */
 	private function getController()
 	{
-		return 'TeenQuotes\Stories\Controllers\StoriesController';
+		return 'StoriesController';
 	}
 }
