@@ -86,14 +86,6 @@ Route::group(['domain' => Config::get('app.domainAdmin'), 'before' => 'admin'], 
 	Route::post('moderate/{quote_id}/{decision}', ['uses' => 'QuotesAdminController@postModerate', 'as' => 'admin.quotes.moderate']);
 });
 
-/* --- STORIES --- */
-Route::group(['domain' => Config::get('app.domainStories')], function()
-{
-	Route::get('/', ['as' => 'stories', 'uses' => 'StoriesController@index']);
-	Route::get('story/{story_id}', ['as' => 'story.show', 'uses' => 'StoriesController@show']);
-	Route::post('story/new', ['as' => 'story.store', 'before' => 'auth', 'uses' => 'StoriesController@store']);
-});
-
 /* --- API --- */
 Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'session.remove', 'namespace' => 'TeenQuotes\Api\V1\Controllers'], function()
 {

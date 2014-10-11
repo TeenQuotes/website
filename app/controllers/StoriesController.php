@@ -1,5 +1,7 @@
 <?php
 
+use TeenQuotes\Stories\Models\Story;
+
 class StoriesController extends BaseController {
 	
 	/**

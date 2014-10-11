@@ -14,7 +14,7 @@ class StoriesTest extends ApiTest {
 	{
 		parent::setUp();
 		
-		Factory::times($this->nbRessources)->create('Story');
+		Factory::times($this->nbRessources)->create('TeenQuotes\Stories\Models\Story');
 
 		$this->controller = App::make('TeenQuotes\Api\V1\Controllers\StoriesController');
 	}

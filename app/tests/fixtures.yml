@@ -32,7 +32,7 @@ User:
     ip: 127.0.0.1
     gender: F
 
-Story:
+TeenQuotes\Stories\Models\Story:
     represent_txt: $text
     frequence_txt: $text
     user_id:

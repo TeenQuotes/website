@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Models\Relations;
+<?php namespace TeenQuotes\Stories\Models\Relations;
 
 trait StoryTrait {
 	

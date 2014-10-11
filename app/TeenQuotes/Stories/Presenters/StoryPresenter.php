@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Presenters;
+<?php namespace TeenQuotes\Stories\Presenters;
 
 use Laracasts\Presenter\Presenter;
 use Quote;

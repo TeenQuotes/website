@@ -29,7 +29,7 @@ trait UserTrait {
 
 	public function stories()
 	{
-		return $this->hasMany('Story');
+		return $this->hasMany('TeenQuotes\Stories\Models\Story');
 	}
 
 	public function usersVisitors()

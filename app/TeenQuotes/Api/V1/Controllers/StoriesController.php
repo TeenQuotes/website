@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
-use Story;
 use TeenQuotes\Http\Facades\Response;
+use TeenQuotes\Stories\Models\Story;
 use User;
 
 class StoriesController extends APIGlobalController {
