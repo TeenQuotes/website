@@ -1,8 +1,8 @@
 <?php namespace TeenQuotes\Stories\Presenters;
 
+use Illuminate\Support\Str;
 use Laracasts\Presenter\Presenter;
 use Quote;
-use Str;
 
 class StoryPresenter extends Presenter {
 
