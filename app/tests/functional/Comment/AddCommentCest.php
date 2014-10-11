@@ -18,7 +18,7 @@ class AddCommentCest {
 	{
 		$I->logANewUser();
 		$this->quotes = $I->createSomePublishedQuotes();
-		$I->insertInDatabase($this->nbComments, 'Comment', ['quote_id' => $this->quotes[0]->id]);
+		$I->insertInDatabase($this->nbComments, 'TeenQuotes\Comments\Models\Comment', ['quote_id' => $this->quotes[0]->id]);
 	}
 
 	public function postANewCommentOnAQuote(FunctionalTester $I)

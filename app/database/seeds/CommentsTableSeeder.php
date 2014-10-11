@@ -1,5 +1,7 @@
 <?php
+
 use Faker\Factory as Faker;
+use TeenQuotes\Comments\Models\Comment;
 
 class CommentsTableSeeder extends Seeder {
 

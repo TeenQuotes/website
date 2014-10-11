@@ -1,4 +1,4 @@
-Comment:
+TeenQuotes\Comments\Models\Comment:
     content: $text
     quote_id:
         type: Quote

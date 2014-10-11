@@ -21,7 +21,7 @@ class ShowQuoteCest {
 		// Create a new user, a fresh published quote and some comments to it
 		$this->user = $I->logANewUser();
 		$this->firstQuote = $I->insertInDatabase(1, 'Quote', ['created_at' => Carbon::now()->addMonth(), 'user_id' => $this->user->id]);
-		$I->insertInDatabase($I->getNbComments(), 'Comment', ['quote_id' => $this->firstQuote->id]);
+		$I->insertInDatabase($I->getNbComments(), 'TeenQuotes\Comments\Models\Comment', ['quote_id' => $this->firstQuote->id]);
 
 		// Add to the user's favorites the first quote
 		$I->addAFavoriteForUser($this->firstQuote->id, $this->user->id);

@@ -1,6 +1,15 @@
-<?php
+<?php namespace TeenQuotes\Comments\Controllers;
 
+use BaseController;
 use Illuminate\Http\Response as ResponseClass;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
+use TeenQuotes\Comments\Models\Comment;
 
 class CommentsController extends BaseController {
 

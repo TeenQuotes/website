@@ -1,13 +1,16 @@
-<?php
+<?php namespace TeenQuotes\Comments\Models;
 
+use Illuminate\Support\Facades\Auth;
 use Laracasts\Presenter\PresentableTrait;
-use TeenQuotes\Models\Relations\CommentTrait as CommentRelationsTrait;
-use TeenQuotes\Models\Scopes\CommentTrait as CommentScopesTrait;
+use TeenQuotes\Comments\Models\Relations\CommentTrait as CommentRelationsTrait;
+use TeenQuotes\Comments\Models\Scopes\CommentTrait as CommentScopesTrait;
+use Toloquent;
+use User;
 
 class Comment extends Toloquent {
 
 	use CommentRelationsTrait, CommentScopesTrait, PresentableTrait;
-	protected $presenter = 'TeenQuotes\Presenters\CommentPresenter';
+	protected $presenter = 'TeenQuotes\Comments\Presenters\CommentPresenter';
 	
 	protected $fillable = [];
 

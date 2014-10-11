@@ -3,6 +3,7 @@
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Laracasts\TestDummy\Factory;
+use TeenQuotes\Comments\Models\Comment;
 
 class CommentsTest extends ApiTest {
 
@@ -20,7 +21,7 @@ class CommentsTest extends ApiTest {
 		// Create a quote and add some comments to it
 		$q = Factory::create('Quote');
 		$this->quoteId = $q['id'];
-		Factory::times($this->nbRessources)->create('Comment', ['quote_id' => $this->quoteId]);
+		Factory::times($this->nbRessources)->create('TeenQuotes\Comments\Models\Comment', ['quote_id' => $this->quoteId]);
 	}
 	
 	public function testIndexWithoutQuote()
@@ -151,7 +152,7 @@ class CommentsTest extends ApiTest {
 	{
 		// Create a comment not owned by the logged in user
 		$u = Factory::create('User', ['id' => 500]);
-		$c = Factory::create('Comment', ['user_id' => $u['id']]);
+		$c = Factory::create('TeenQuotes\Comments\Models\Comment', ['user_id' => $u['id']]);
 
 		$idUserLoggedIn = 1;
 		$this->logUserWithId($idUserLoggedIn);

@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Presenters;
+<?php namespace TeenQuotes\Comments\Presenters;
 
 use Laracasts\Presenter\Presenter;
 

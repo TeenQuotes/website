@@ -137,6 +137,7 @@ return array(
 		'Philf\Setting\SettingServiceProvider',
 		'Philo\Translate\TranslateServiceProvider',
 		'TeenQuotes\Api\V1\ApiServiceProvider',
+		'TeenQuotes\Comments\CommentsServiceProvider',
 		'TeenQuotes\Composers\ViewComposersServiceProvider',
 		'TeenQuotes\Mail\MailServiceProvider',
 		'TeenQuotes\Models\Observers\ObserversServiceProvider',

@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Models\Relations;
+<?php namespace TeenQuotes\Comments\Models\Relations;
 
 trait CommentTrait {
 

@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Models\Observers;
+<?php namespace TeenQuotes\Comments\Observers;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Lang;

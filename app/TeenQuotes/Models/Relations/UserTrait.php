@@ -4,7 +4,7 @@ trait UserTrait {
 	
 	public function comments()
 	{
-		return $this->hasMany('Comment');
+		return $this->hasMany('TeenQuotes\Comments\Models\Comment');
 	}
 
 	public function countryObject()

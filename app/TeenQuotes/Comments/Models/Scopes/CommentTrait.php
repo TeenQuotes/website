@@ -1,4 +1,6 @@
-<?php namespace TeenQuotes\Models\Scopes;
+<?php namespace TeenQuotes\Comments\Models\Scopes;
+
+use Quote;
 
 trait CommentTrait {
 	
