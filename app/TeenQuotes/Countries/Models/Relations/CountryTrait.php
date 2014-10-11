@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Models\Relations;
+<?php namespace TeenQuotes\Countries\Models\Relations;
 
 trait CountryTrait {
 	

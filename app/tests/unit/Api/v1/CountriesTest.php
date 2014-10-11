@@ -12,7 +12,7 @@ class CountriesTest extends ApiTest {
 	{
 		parent::setUp();
 		
-		Factory::times($this->nbRessources)->create('Country');
+		Factory::times($this->nbRessources)->create('TeenQuotes\Countries\Models\Country');
 
 		$this->controller = App::make('TeenQuotes\Api\V1\Controllers\CountriesController');
 	}

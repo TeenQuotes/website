@@ -9,7 +9,7 @@ trait UserTrait {
 
 	public function countryObject()
 	{
-		return $this->belongsTo('Country', 'country', 'id');
+		return $this->belongsTo('TeenQuotes\Countries\Models\Country', 'country', 'id');
 	}
 
 	public function newsletters()

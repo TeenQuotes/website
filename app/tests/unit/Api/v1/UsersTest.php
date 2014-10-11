@@ -3,6 +3,7 @@
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Laracasts\TestDummy\Factory;
+use TeenQuotes\Countries\Models\Country;
 
 class UsersTest extends ApiTest {
 
@@ -444,7 +445,7 @@ class UsersTest extends ApiTest {
 	private function attachCountryForAllUsers()
 	{
 		User::all()->each(function($u){
-			$c = Factory::create('Country');
+			$c = Factory::create('TeenQuotes\Countries\Models\Country');
 			$u->country = $c['id'];
 			$u->save();
 		});

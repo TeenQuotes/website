@@ -2,7 +2,6 @@
 
 use Buonzz\GeoIP\Laravel4\Facades\GeoIP;
 use Carbon\Carbon;
-use Country;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -12,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Newsletter;
 use Setting;
+use TeenQuotes\Countries\Models\Country;
 use TeenQuotes\Http\Facades\Response;
 use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 use User;

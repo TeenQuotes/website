@@ -5,7 +5,7 @@ Comment:
     user_id:
         type: User
 
-Country:
+TeenQuotes\Countries\Models\Country:
     name: $string $string
 
 FavoriteQuote:

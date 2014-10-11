@@ -1,6 +1,8 @@
-<?php
+<?php namespace TeenQuotes\Countries\Models;
 
-use TeenQuotes\Models\Relations\CountryTrait as CountryRelationsTrait;
+use Eloquent;
+use LaraSetting;
+use TeenQuotes\Countries\Models\Relations\CountryTrait as CountryRelationsTrait;
 
 class Country extends Eloquent {
 	

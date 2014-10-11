@@ -1,5 +1,7 @@
 <?php
+
 use Faker\Factory as Faker;
+use TeenQuotes\Countries\Models\Country;
 
 class CountriesTableSeeder extends Seeder {
 

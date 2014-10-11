@@ -1,5 +1,7 @@
 <?php
+
 use TeenQuotes\Api\V1\Controllers\UsersController as UsersAPIController;
+use TeenQuotes\Countries\Models\Country;
 
 class UsersController extends BaseController {
 

@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use Country;
+use TeenQuotes\Countries\Models\Country;
 use TeenQuotes\Http\Facades\Response;
 
 class CountriesController extends APIGlobalController {
