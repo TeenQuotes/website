@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Factory as Faker;
-use TeenQuotes\Models\Story;
+use TeenQuotes\Stories\Models\Story;
 
 class StoriesTableSeeder extends Seeder {
 
