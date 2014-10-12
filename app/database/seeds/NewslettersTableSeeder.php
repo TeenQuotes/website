@@ -1,5 +1,7 @@
 <?php
+
 use Faker\Factory as Faker;
+use TeenQuotes\Newsletters\Models\Newsletter;
 
 class NewslettersTableSeeder extends Seeder {
 

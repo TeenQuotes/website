@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Models\Scopes;
+<?php namespace TeenQuotes\Newsletters\Models\Scopes;
 
 use InvalidArgumentException;
 use User;

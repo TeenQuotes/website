@@ -1,7 +1,10 @@
-<?php
+<?php namespace TeenQuotes\Newsletters\Models;
 
-use TeenQuotes\Models\Relations\NewsletterTrait as NewsletterRelationsTrait;
-use TeenQuotes\Models\Scopes\NewsletterTrait as NewsletterScopesTrait;
+use Eloquent;
+use InvalidArgumentException;
+use TeenQuotes\Newsletters\Models\Relations\NewsletterTrait as NewsletterRelationsTrait;
+use TeenQuotes\Newsletters\Models\Scopes\NewsletterTrait as NewsletterScopesTrait;
+use User;
 
 class Newsletter extends Eloquent {
 	
@@ -29,7 +32,8 @@ class Newsletter extends Eloquent {
 	 * Create a newsletter item for the given user
 	 * @var User $user The user instance
 	 * @var string $type The type of the newsletter : weekly|daily
- 	 * @return void
+	 * @throws InvalidArgumentException If the newsletter's type is wrong or if
+	 * the user is already subscribed to the newsletter.
 	 */
 	public static function createNewsletterForUser(User $user, $type)
 	{

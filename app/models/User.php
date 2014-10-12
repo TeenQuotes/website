@@ -1,13 +1,13 @@
 <?php
 
-use Illuminate\Auth\UserTrait;
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
-
+use Illuminate\Auth\Reminders\RemindableTrait;
+use Illuminate\Auth\UserInterface;
+use Illuminate\Auth\UserTrait;
 use Laracasts\Presenter\PresentableTrait;
 use TeenQuotes\Models\Relations\UserTrait as UserRelationsTrait;
 use TeenQuotes\Models\Scopes\UserTrait as UserScopesTrait;
+use TeenQuotes\Newsletters\Models\Newsletter;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 	

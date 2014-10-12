@@ -14,7 +14,7 @@ FavoriteQuote:
     user_id:
         type: User
 
-Newsletter:
+TeenQuotes\Newsletters\Models\Newsletter:
     user_id:
         type: User
     type: weekly

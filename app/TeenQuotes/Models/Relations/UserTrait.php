@@ -13,8 +13,8 @@ trait UserTrait {
 	}
 
 	public function newsletters()
-	{
-		return $this->hasMany('Newsletter');
+	{		
+		return $this->hasMany('TeenQuotes\Newsletters\Models\Newsletter');
 	}
 
 	public function quotes()

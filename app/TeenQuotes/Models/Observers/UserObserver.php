@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
-use Newsletter;
 use TeenQuotes\Mail\MailSwitcher;
+use TeenQuotes\Newsletters\Models\Newsletter;
 
 class UserObserver {
 	
