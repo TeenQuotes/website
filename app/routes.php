@@ -45,13 +45,3 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	Route::post('favorite/{quote_id}', ['as' => 'favorite', 'before' => 'auth', 'uses' => 'QuotesFavoriteController@store']);
 	Route::post('unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth', 'uses' => 'QuotesFavoriteController@destroy']);
 });
-
-/* --- API --- */
-Route::group(['domain' => Config::get('app.domainAPI'), 'before' => 'session.remove', 'namespace' => 'TeenQuotes\Api\V1\Controllers'], function()
-{
-	// OAuth
-	Route::post('oauth', ['uses' => 'APIGlobalController@postOauth']);
-
-	// Welcome page
-	Route::get('/', ['uses' => 'APIGlobalController@showWelcome']);
-});

@@ -11,6 +11,7 @@ class ApiServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		$this->registerOAuthRoutes();
 		$this->registerRoutesPatterns();
 
 		$this->registerCommentsRoutes();
@@ -106,6 +107,20 @@ class ApiServiceProvider extends ServiceProvider {
 			$this->app['router']->get('stories', ['uses' => 'StoriesController@index']);
 			$this->app['router']->post('stories', ['uses' => 'StoriesController@store']);
 			$this->app['router']->get('stories/{story_id}', ['uses' => 'StoriesController@show']);
+		});
+	}
+
+	private function registerOAuthRoutes()
+	{
+		$routeGroupParams = $this->getRouteGroupParams();
+		// Disable OAuth filter
+		$routeGroupParams['before'] = 'session.remove';
+		// No prefix
+		array_forget($routeGroupParams, 'prefix');
+		
+		$this->app['router']->group($routeGroupParams, function() {
+			$this->app['router']->post('oauth', ['uses' => 'APIGlobalController@postOauth']);
+			$this->app['router']->get('/', ['uses' => 'APIGlobalController@showWelcome']);
 		});
 	}
 
