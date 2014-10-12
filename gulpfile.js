@@ -7,8 +7,8 @@ var uglify = require('gulp-uglify');
 var minifyCSS = require('gulp-minify-css');
 var rename = require('gulp-rename');
 
-var inputJSDir = 'app/assets/js/';
-var inputSASSDir = 'app/assets/sass/';
+var inputJSDir = 'ressources/js/';
+var inputSASSDir = 'ressources/sass/';
 
 var outputCSS = 'public/assets/css';
 var inputCSS = 'public/assets/css/';
