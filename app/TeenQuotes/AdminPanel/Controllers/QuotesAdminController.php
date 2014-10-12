@@ -1,4 +1,19 @@
-<?php
+<?php namespace TeenQuotes\AdminPanel\Controllers;
+
+use BaseController;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
+use InvalidArgumentException;
+use Quote;
+use QuoteNotFoundException;
+use TeenQuotes\Mail\MailSwitcher;
 
 class QuotesAdminController extends BaseController {
 
@@ -24,37 +39,6 @@ class QuotesAdminController extends BaseController {
 		// Bind JS variables to the view in a view composer
 
 		return View::make('admin.index', $data);
-	}
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
 	}
 
 	/**
@@ -101,13 +85,13 @@ class QuotesAdminController extends BaseController {
 
 			// Update the quote
 			$quote->content = $data['content'];
-			$quote->approved = 2;
+			$quote->approved = Quote::PENDING;
 			$quote->save();
 
 			// Contact the author of the quote
 			// Send mail via SMTP
 			new MailSwitcher('smtp');
-			Mail::send('emails.quotes.approve', $quote, function($m) use($quote)
+			Mail::send('emails.quotes.approve', compact('quote'), function($m) use($quote)
 			{
 				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('quotes.quoteApproveSubjectEmail'));
 			});
@@ -158,16 +142,4 @@ class QuotesAdminController extends BaseController {
 			return Response::json(['success' => true], 200);
 		}
 	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
-
 }

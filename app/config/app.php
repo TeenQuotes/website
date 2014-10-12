@@ -136,6 +136,7 @@ return array(
 		'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
 		'Philf\Setting\SettingServiceProvider',
 		'Philo\Translate\TranslateServiceProvider',
+		'TeenQuotes\AdminPanel\AdminPanelServiceProvider',
 		'TeenQuotes\Api\V1\ApiServiceProvider',
 		'TeenQuotes\Auth\AuthServiceProvider',
 		'TeenQuotes\Comments\CommentsServiceProvider',
