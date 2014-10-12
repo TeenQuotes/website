@@ -1,5 +1,7 @@
 <?php
+
 use Faker\Factory as Faker;
+use TeenQuotes\Settings\Models\Setting;
 
 class SettingsTableSeeder extends Seeder {
 

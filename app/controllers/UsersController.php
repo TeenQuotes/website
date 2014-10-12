@@ -2,6 +2,7 @@
 
 use TeenQuotes\Api\V1\Controllers\UsersController as UsersAPIController;
 use TeenQuotes\Countries\Models\Country;
+use TeenQuotes\Settings\Models\Setting;
 
 class UsersController extends BaseController {
 

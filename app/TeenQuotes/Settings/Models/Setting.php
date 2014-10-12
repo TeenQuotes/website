@@ -1,6 +1,7 @@
-<?php
+<?php namespace TeenQuotes\Settings\Models;
 
-use TeenQuotes\Models\Relations\SettingTrait as SettingRelationsTrait;
+use Eloquent;
+use TeenQuotes\Settings\Models\Relations\SettingTrait as SettingRelationsTrait;
 
 class Setting extends Eloquent {
 	

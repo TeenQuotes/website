@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Setting;
 use TeenQuotes\Countries\Models\Country;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Newsletters\Models\Newsletter;
+use TeenQuotes\Settings\Models\Setting;
 use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 use User;
 

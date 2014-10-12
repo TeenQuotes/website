@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Models\Relations;
+<?php namespace TeenQuotes\Settings\Models\Relations;
 
 trait SettingTrait {
 	

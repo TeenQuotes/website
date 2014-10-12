@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Models\Observers;
+<?php namespace TeenQuotes\Settings\Observers;
 
 use Illuminate\Support\Facades\Cache;
 use User;
@@ -7,7 +7,7 @@ class SettingObserver {
 	
 	/**
 	 * Will be triggered when a model is created
-	 * @param Setting $setting
+	 * @param \TeenQuotes\Settings\Models\Setting $setting
 	 */
 	public function saved($setting)
 	{

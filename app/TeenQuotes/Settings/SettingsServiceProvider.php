@@ -1,10 +1,10 @@
-<?php namespace TeenQuotes\Models\Observers;
+<?php namespace TeenQuotes\Settings;
 
-use FavoriteQuote;
 use Illuminate\Support\ServiceProvider;
-use User;
+use TeenQuotes\Settings\Models\Setting;
+use TeenQuotes\Settings\Observers\SettingObserver;
 
-class ObserversServiceProvider extends ServiceProvider {
+class SettingsServiceProvider extends ServiceProvider {
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -20,10 +20,7 @@ class ObserversServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		parent::boot();
-
-		FavoriteQuote::observe(new FavoriteQuoteObserver);
-		User::observe(new UserObserver);
+		$this->registerObserver();
 	}
 
 	/**
@@ -36,13 +33,8 @@ class ObserversServiceProvider extends ServiceProvider {
 		//
 	}
 
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
+	private function registerObserver()
 	{
-		//
+		Setting::observe(new SettingObserver);
 	}
 }

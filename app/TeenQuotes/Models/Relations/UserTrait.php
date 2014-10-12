@@ -24,7 +24,7 @@ trait UserTrait {
 
 	public function settings()
 	{
-		return $this->hasMany('Setting');
+		return $this->hasMany('TeenQuotes\Settings\Models\Setting');
 	}
 
 	public function stories()
