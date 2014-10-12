@@ -32,6 +32,7 @@ class QuotesServiceProvider extends ServiceProvider {
 	{
 		$this->registerFavoriteQuoteRoutes();
 		$this->registerQuoteRoutes();
+		$this->registerSearchRoutes();
 	}
 
 	private function registerObservers()
@@ -63,6 +64,16 @@ class QuotesServiceProvider extends ServiceProvider {
 		});
 	}
 
+	private function registerSearchRoutes()
+	{
+		$controller = 'SearchController';
+		
+		$this->app['router']->group($this->getRouteGroupParams(), function() use ($controller) {
+			$this->app['router']->get('search', ['as' => 'search.form', 'uses' => $controller.'@showForm']);
+			$this->app['router']->post('search', ['as' => 'search.dispatcher', 'uses' => $controller.'@dispatcher']);
+			$this->app['router']->get('search/{query}', ['as' => 'search.results', 'uses' => $controller.'@getResults']);
+		});
+	}
 
 	/**
 	 * Parameters for the group of routes

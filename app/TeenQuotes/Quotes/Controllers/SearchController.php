@@ -1,5 +1,11 @@
-<?php
+<?php namespace TeenQuotes\Quotes\Controllers;
 
+use BaseController;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\View;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Users\Models\User;
 
@@ -68,6 +74,6 @@ class SearchController extends BaseController {
 	public function dispatcher()
 	{
 		// filter search.isValid before
-		return Redirect::route('search.results', array(Input::get('search')));
+		return Redirect::route('search.results', Input::get('search'));
 	}
 }

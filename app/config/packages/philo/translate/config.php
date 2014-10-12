@@ -3,5 +3,5 @@
 return array(
 	'search_ignore_folders' => array('config', 'database', 'lang', 'start', 'storage', 'tests'),
 	'search_exclude_files'  => array('pagination', 'reminders', 'validation'),
-	'digg_folders'          => array('app/models', 'app/views', 'app/controllers', 'app/commands'),
+	'digg_folders'          => array('app/views', 'app/controllers', 'app/commands'),
 );
