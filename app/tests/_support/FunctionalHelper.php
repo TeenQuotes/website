@@ -3,7 +3,7 @@
 use Codeception\Module;
 use Illuminate\Support\Facades\Auth;
 use Laracasts\TestDummy\Factory as TestDummy;
-use Quote;
+use TeenQuotes\Quotes\Models\Quote;
 
 class FunctionalHelper extends Module
 {

@@ -1,7 +1,7 @@
 TeenQuotes\Comments\Models\Comment:
     content: $text
     quote_id:
-        type: Quote
+        type: TeenQuotes\Quotes\Models\Quote
     user_id:
         type: User
 
@@ -10,7 +10,7 @@ TeenQuotes\Countries\Models\Country:
 
 TeenQuotes\Quotes\Models\FavoriteQuote:
     quote_id:
-        type: Quote
+        type: TeenQuotes\Quotes\Models\Quote
     user_id:
         type: User
 
@@ -19,7 +19,7 @@ TeenQuotes\Newsletters\Models\Newsletter:
         type: User
     type: weekly
 
-Quote:
+TeenQuotes\Quotes\Models\Quote:
     content: $text
     user_id:
         type: User

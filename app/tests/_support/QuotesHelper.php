@@ -3,7 +3,7 @@
 use Codeception\Module;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-use Quote;
+use TeenQuotes\Quotes\Models\Quote;
 
 class QuotesHelper extends Module {
 
@@ -106,6 +106,6 @@ class QuotesHelper extends Module {
 		else
 			$nbQuotes = 10;
 		
-		return $this->getModule('FunctionalHelper')->insertInDatabase($nbQuotes, 'Quote', $overrides);
+		return $this->getModule('FunctionalHelper')->insertInDatabase($nbQuotes, 'TeenQuotes\Quotes\Models\Quote', $overrides);
 	}
 }

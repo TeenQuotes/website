@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Str;
 use Laracasts\Presenter\Presenter;
-use Quote;
+use TeenQuotes\Quotes\Models\Quote;
 
 class StoryPresenter extends Presenter {
 

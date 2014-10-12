@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
-use Quote;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
+use TeenQuotes\Quotes\Models\Quote;
 use User;
 
 class QuotesFavoriteController extends APIGlobalController {

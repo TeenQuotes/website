@@ -9,6 +9,6 @@ trait CommentTrait {
 
 	public function quote()
 	{
-		return $this->belongsTo('Quote');
+		return $this->belongsTo('TeenQuotes\Quotes\Models\Quote');
 	}
 }

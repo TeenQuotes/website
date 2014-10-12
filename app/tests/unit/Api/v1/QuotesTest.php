@@ -4,6 +4,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Laracasts\TestDummy\Factory;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
+use TeenQuotes\Quotes\Models\Quote;
 
 class QuotesTest extends ApiTest {
 
@@ -18,7 +19,7 @@ class QuotesTest extends ApiTest {
 
 		$this->controller = App::make('TeenQuotes\Api\V1\Controllers\QuotesController');
 
-		Factory::times($this->nbRessources)->create('Quote');
+		Factory::times($this->nbRessources)->create('TeenQuotes\Quotes\Models\Quote');
 	}
 
 	public function testShowNotFound()
@@ -99,7 +100,7 @@ class QuotesTest extends ApiTest {
 	{
 		// Simulate that a user has already posted 5 quotes today
 		$u = Factory::create('User');
-		Factory::times(5)->create('Quote', ['user_id' => $u['id']]);
+		Factory::times(5)->create('TeenQuotes\Quotes\Models\Quote', ['user_id' => $u['id']]);
 
 		$this->addInputReplace(['content' => $this->generateString(100)]);
 		
@@ -199,17 +200,17 @@ class QuotesTest extends ApiTest {
 
 	private function createQuotesForUserWithApproved($id, $approved)
 	{
-		$approvedType = constant("Quote::".strtoupper($approved));
+		$approvedType = constant("TeenQuotes\Quotes\Models\Quote::".strtoupper($approved));
 		
-		Factory::times($this->nbRessources)->create('Quote', ['user_id' => $id, 'approved' => $approvedType]);
+		Factory::times($this->nbRessources)->create('TeenQuotes\Quotes\Models\Quote', ['user_id' => $id, 'approved' => $approvedType]);
 	}
 
 	private function createQuotesForUserWithDifferentApproved($id, $approved)
 	{
 		if ($approved == 'published')
-			Factory::create('Quote', ['user_id' => $id, 'approved' => Quote::WAITING]);
+			Factory::create('TeenQuotes\Quotes\Models\Quote', ['user_id' => $id, 'approved' => Quote::WAITING]);
 		else
-			Factory::create('Quote', ['user_id' => $id, 'approved' => Quote::PUBLISHED]);
+			Factory::create('TeenQuotes\Quotes\Models\Quote', ['user_id' => $id, 'approved' => Quote::PUBLISHED]);
 	}
 
 	private function assertStoreIsWrongContent()

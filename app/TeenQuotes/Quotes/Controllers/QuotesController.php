@@ -1,8 +1,21 @@
-<?php
+<?php namespace TeenQuotes\Quotes\Controllers;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use BaseController;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Paginator;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
+use QuoteNotFoundException;
 use TeenQuotes\Http\JsonResponse;
+use TeenQuotes\Quotes\Models\Quote;
 
 class QuotesController extends BaseController {
 

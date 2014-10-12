@@ -1,7 +1,7 @@
 <?php namespace TeenQuotes\Composers\Search;
 
-use Quote;
 use TeenQuotes\Composers\Interfaces\QuotesColorsExtractor;
+use TeenQuotes\Quotes\Models\Quote;
 
 class ResultsComposer implements QuotesColorsExtractor {
 

@@ -1,15 +1,26 @@
-<?php
+<?php namespace TeenQuotes\Quotes\Models;
 
+use Carbon;
+use Easyrec;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use Laracasts\Presenter\PresentableTrait;
-use TeenQuotes\Models\Relations\QuoteTrait as QuoteRelationsTrait;
-use TeenQuotes\Models\Scopes\QuoteTrait as QuoteScopesTrait;
+use ResourceServer;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
+use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Quotes\Models\Relations\QuoteTrait as QuoteRelationsTrait;
+use TeenQuotes\Quotes\Models\Scopes\QuoteTrait as QuoteScopesTrait;
+use Toloquent;
 
 class Quote extends Toloquent {
 	
 	use PresentableTrait, QuoteRelationsTrait, QuoteScopesTrait;
 
-	protected $presenter = 'TeenQuotes\Presenters\QuotePresenter';
+	protected $presenter = 'TeenQuotes\Quotes\Presenters\QuotePresenter';
 
 	/**
 	 * Constants associated with the approved field of the quote

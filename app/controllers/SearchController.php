@@ -1,5 +1,7 @@
 <?php
 
+use TeenQuotes\Quotes\Models\Quote;
+
 class SearchController extends BaseController {
 
 	public function __construct()

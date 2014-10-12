@@ -9,6 +9,7 @@ use TeenQuotes\Models\Relations\UserTrait as UserRelationsTrait;
 use TeenQuotes\Models\Scopes\UserTrait as UserScopesTrait;
 use TeenQuotes\Newsletters\Models\Newsletter;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
+use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Settings\Models\Setting;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {

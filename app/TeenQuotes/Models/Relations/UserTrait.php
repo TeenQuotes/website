@@ -19,7 +19,7 @@ trait UserTrait {
 
 	public function quotes()
 	{
-		return $this->hasMany('Quote');
+		return $this->hasMany('TeenQuotes\Quotes\Models\Quote');
 	}
 
 	public function settings()
@@ -44,7 +44,7 @@ trait UserTrait {
 
 	public function favoriteQuotes()
 	{
-		return $this->belongsToMany('Quote', 'favorite_quotes')
+		return $this->belongsToMany('TeenQuotes\Quotes\Models\Quote', 'favorite_quotes')
 			->with('user')
 			->orderBy('favorite_quotes.id', 'DESC');
 	}

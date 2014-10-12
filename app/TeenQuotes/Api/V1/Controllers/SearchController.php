@@ -4,9 +4,9 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\URL;
-use Quote;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Http\Facades\Response;
+use TeenQuotes\Quotes\Models\Quote;
 use User;
 
 class SearchController extends APIGlobalController implements PaginatedContentInterface {

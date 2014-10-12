@@ -4,6 +4,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Laracasts\TestDummy\Factory;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
+use TeenQuotes\Quotes\Models\Quote;
 
 class FavoriteQuotesTest extends ApiTest {
 
@@ -122,14 +123,14 @@ class FavoriteQuotesTest extends ApiTest {
 
 	private function getIdRefusedQuote()
 	{
-		$quote = Factory::create('Quote', ['approved' => Quote::REFUSED]);
+		$quote = Factory::create('TeenQuotes\Quotes\Models\Quote', ['approved' => Quote::REFUSED]);
 
 		return $quote['id'];
 	}
 
 	private function getIdPublishedQuote()
 	{
-		$quote = Factory::create('Quote', ['approved' => Quote::PUBLISHED]);
+		$quote = Factory::create('TeenQuotes\Quotes\Models\Quote', ['approved' => Quote::PUBLISHED]);
 
 		return $quote['id'];
 	}

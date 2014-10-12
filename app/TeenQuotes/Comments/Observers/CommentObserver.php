@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
-use Quote;
 use TeenQuotes\Mail\MailSwitcher;
+use TeenQuotes\Quotes\Models\Quote;
 
 class CommentObserver {
 	

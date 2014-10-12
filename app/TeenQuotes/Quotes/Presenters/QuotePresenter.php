@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Presenters;
+<?php namespace TeenQuotes\Quotes\Presenters;
 
 use Laracasts\Presenter\Presenter;
 use Illuminate\Support\Facades\Lang;

@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
-use Quote;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Http\Facades\Response;
+use TeenQuotes\Quotes\Models\Quote;
 use User;
 
 class QuotesController extends APIGlobalController implements PaginatedContentInterface {

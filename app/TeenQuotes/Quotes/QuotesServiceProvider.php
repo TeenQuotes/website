@@ -31,6 +31,7 @@ class QuotesServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->registerFavoriteQuoteRoutes();
+		$this->registerQuoteRoutes();
 	}
 
 	private function registerObservers()
@@ -47,6 +48,21 @@ class QuotesServiceProvider extends ServiceProvider {
 			$this->app['router']->post('unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth', 'uses' => $controller.'@destroy']);
 		});
 	}
+
+	private function registerQuoteRoutes()
+	{
+		$controller = 'QuotesController';
+		
+		$this->app['router']->group($this->getRouteGroupParams(), function() use ($controller) {
+			$this->app['router']->get('/', ['as' => 'home', 'uses' => $controller.'@index']);
+			$this->app['router']->get('random', ['as' => 'random', 'uses' => $controller.'@index']);
+			$this->app['router']->get('addquote', ['as' => 'addquote', 'before' => 'auth', 'uses' => $controller.'@create']);
+			$this->app['router']->get('quote-{quote_id}', ['uses' => $controller.'@redirectOldUrl']);
+			$this->app['router']->post('quotes/favorites-info', ['as' => 'quotes.favoritesInfo', 'uses' => $controller.'@getDataFavoritesInfo']);
+			$this->app['router']->resource('quotes', $controller, ['only' => ['index', 'show', 'store']]);
+		});
+	}
+
 
 	/**
 	 * Parameters for the group of routes

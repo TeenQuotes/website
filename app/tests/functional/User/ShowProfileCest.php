@@ -49,7 +49,7 @@ class ShowProfileCest {
 		$data['added-fav-count']        = 3;
 
 		// Set the database
-		$quotes = $I->insertInDatabase($data['quotes-published-count'], 'Quote', ['user_id' => $this->user->id]);
+		$quotes = $I->insertInDatabase($data['quotes-published-count'], 'TeenQuotes\Quotes\Models\Quote', ['user_id' => $this->user->id]);
 		$I->insertInDatabase($data['fav-count'], 'TeenQuotes\Quotes\Models\FavoriteQuote', ['user_id' => $this->user->id]);
 		$I->insertInDatabase($data['comments-count'], 'TeenQuotes\Comments\Models\Comment', ['user_id' => $this->user->id]);
 		$I->insertInDatabase($data['added-fav-count'], 'TeenQuotes\Quotes\Models\FavoriteQuote', ['quote_id' => $quotes[0]->id]);
@@ -74,7 +74,7 @@ class ShowProfileCest {
 		$I->am('a logged in Teen Quotes member');
 		$I->wantTo('be redirected to my published quotes if I have no favorites');
 		
-		$I->insertInDatabase(5, 'Quote', ['user_id' => $this->user->id]);
+		$I->insertInDatabase(5, 'TeenQuotes\Quotes\Models\Quote', ['user_id' => $this->user->id]);
 		
 		$I->amOnRoute('users.show', [$this->user->login, 'favorites']);
 		$I->seeCurrentRouteIs('users.show', $this->user->login);
@@ -96,7 +96,7 @@ class ShowProfileCest {
 		$I->am('a logged in Teen Quotes member');
 		$I->wantTo('be redirected to my published quotes if I have no comments');
 		
-		$I->insertInDatabase(5, 'Quote', ['user_id' => $this->user->id]);
+		$I->insertInDatabase(5, 'TeenQuotes\Quotes\Models\Quote', ['user_id' => $this->user->id]);
 		
 		$I->amOnRoute('users.show', [$this->user->login, 'comments']);
 		$I->seeCurrentRouteIs('users.show', $this->user->login);

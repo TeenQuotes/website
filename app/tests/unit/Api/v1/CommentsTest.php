@@ -4,6 +4,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Laracasts\TestDummy\Factory;
 use TeenQuotes\Comments\Models\Comment;
+use TeenQuotes\Quotes\Models\Quote;
 
 class CommentsTest extends ApiTest {
 
@@ -19,7 +20,7 @@ class CommentsTest extends ApiTest {
 		$this->controller = App::make('TeenQuotes\Api\V1\Controllers\CommentsController');
 		
 		// Create a quote and add some comments to it
-		$q = Factory::create('Quote');
+		$q = Factory::create('TeenQuotes\Quotes\Models\Quote');
 		$this->quoteId = $q['id'];
 		Factory::times($this->nbRessources)->create('TeenQuotes\Comments\Models\Comment', ['quote_id' => $this->quoteId]);
 	}

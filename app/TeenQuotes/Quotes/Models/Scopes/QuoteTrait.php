@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Models\Scopes;
+<?php namespace TeenQuotes\Quotes\Models\Scopes;
 
 use Carbon;
 use Illuminate\Support\Facades\Config;
