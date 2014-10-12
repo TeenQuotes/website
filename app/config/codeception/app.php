@@ -1,5 +1,6 @@
 <?php
 
 return [
-	'domain' => 'localhost',
+	'domain'           => 'localhost',
+	'users.avatarPath' => 'public/uploads/avatar',
 ];
