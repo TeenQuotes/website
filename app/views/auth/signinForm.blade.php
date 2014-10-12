@@ -43,6 +43,6 @@ $addClass = Session::has('requireLoggedInAddQuote') ? ' col-md-pull-6' : '';
 	{{ Form::close() }}
 
 	<div class="dont-remember-password">
-		<i class="fa fa-meh-o"></i> <a href="{{ URL::route('passwordReminder') }}">{{ Lang::get('auth.dontRememberPassword') }}</a>
+		<i class="fa fa-meh-o"></i> <a href="{{ URL::route('password.remind') }}">{{ Lang::get('auth.dontRememberPassword') }}</a>
 	</div>
 </div>

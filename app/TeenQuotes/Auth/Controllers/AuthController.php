@@ -1,4 +1,15 @@
-<?php
+<?php namespace TeenQuotes\Auth\Controllers;
+
+use BaseController;
+use Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
+use User;
 
 class AuthController extends BaseController {
 
@@ -46,7 +57,7 @@ class AuthController extends BaseController {
 				$user->last_visit = Carbon::now()->toDateTimeString();
 				$user->save();
 
-				return Redirect::intended('/')->with('success', Lang::get('auth.loginSuccessfull', array('login' => $data['login'])));
+				return Redirect::intended('/')->with('success', Lang::get('auth.loginSuccessfull', ['login' => $data['login']]));
 			}
 			// Maybe the user uses the old hash method
 			else {
@@ -60,7 +71,7 @@ class AuthController extends BaseController {
 
 					Auth::login($user, true);
 
-					return Redirect::intended('/')->with('success', Lang::get('auth.loginSuccessfull', array('login' => $data['login'])));
+					return Redirect::intended('/')->with('success', Lang::get('auth.loginSuccessfull', ['login' => $data['login']]));
 				}
 
 				return Redirect::route('signin')->withErrors(array('password' => Lang::get('auth.passwordInvalid')))->withInput(Input::except('password'));

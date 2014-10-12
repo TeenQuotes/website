@@ -3,7 +3,7 @@
 @section('content')
 	<div id="reset-password" class="row animated fadeInUp">
 		<!-- RESET A PASSWORD -->
-		{{ Form::open(array('url' => URL::action('RemindersController@postReset'), 'class' => 'form-horizontal')) }}
+		{{ Form::open(array('url' => URL::route('password.reset'), 'class' => 'form-horizontal')) }}
 
 			<!-- Token -->
 			{{ Form::hidden('token', $token) }}

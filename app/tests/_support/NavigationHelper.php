@@ -38,7 +38,7 @@ class NavigationHelper extends Module {
 		
 		$this->navigateToTheSignInPage();
 		$I->click("I don't remember my password!");
-		$I->seeCurrentRouteIs('passwordReminder');
+		$I->seeCurrentRouteIs('password.remind');
 	}
 
 	public function navigateToTheSignInPage()

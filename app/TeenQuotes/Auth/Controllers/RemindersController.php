@@ -1,6 +1,16 @@
-<?php
+<?php namespace TeenQuotes\Auth\Controllers;
 
-class RemindersController extends Controller {
+use BaseController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
+use TokenNotFoundException;
+
+class RemindersController extends BaseController {
 
 	public function __construct()
 	{
@@ -42,11 +52,12 @@ class RemindersController extends Controller {
 	/**
 	 * Display the password reset view for the given token.
 	 *
-	 * @param  string  $token
 	 * @return Response
 	 */
-	public function getReset($token = null)
+	public function getReset()
 	{
+		$token = Input::get('token', null);
+		
 		if (is_null($token))
 			throw new TokenNotFoundException;
 

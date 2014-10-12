@@ -3,5 +3,5 @@
 @section('content')
 	{{ Lang::get('auth.heyEmail') }}<br/>
 	<br/>
-	{{ Lang::get('auth.askedResetPasswordEmail') }} {{ URL::action('RemindersController@getReset', compact('token')) }}.
+	{{ Lang::get('auth.askedResetPasswordEmail') }} {{ URL::route('password.reset', compact('token')) }}.
 @stop

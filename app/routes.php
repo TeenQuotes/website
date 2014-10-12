@@ -19,11 +19,6 @@ Route::pattern('display_type', 'favorites|comments');
 Route::group(['domain' => Config::get('app.domain')], function()
 {
 	Route::get('/', ['as' => 'home', 'uses' => 'QuotesController@index']);
-	
-	/* --- AUTH --- */
-	Route::get('signin', ['as' => 'signin', 'uses' => 'AuthController@getSignin']);
-	Route::get('logout', ['as' => 'logout', 'uses' => 'AuthController@getLogout']);
-	Route::post('signin', 'AuthController@postSignin');
 
 	/* --- SEARCH --- */
 	Route::get('search', ['as' => 'search.form', 'uses' => 'SearchController@showForm']);
@@ -40,10 +35,6 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	Route::post('users/loginvalidator', ['as' => 'users.loginValidator', 'uses' => 'UsersController@postLoginValidator']);
 	Route::resource('users', 'UsersController', ['only' => ['index', 'store', 'edit', 'update']]);
 
-	/* --- PASSWORD REMINDER --- */
-	Route::get('password/remind', ['as' => 'passwordReminder', 'before' => 'guest', 'uses' => 'RemindersController@getRemind']);
-	Route::controller('password', 'RemindersController');
-
 	/* --- QUOTES --- */
 	Route::get('random', ['as' => 'random', 'uses' => 'QuotesController@index']);
 	Route::get('addquote', ['as' => 'addquote', 'before' => 'auth', 'uses' => 'QuotesController@create']);
@@ -54,7 +45,6 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	/* --- FAVORITE --- */
 	Route::post('favorite/{quote_id}', ['as' => 'favorite', 'before' => 'auth', 'uses' => 'QuotesFavoriteController@store']);
 	Route::post('unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth', 'uses' => 'QuotesFavoriteController@destroy']);
-	
 });
 
 /* --- ADMIN --- */
