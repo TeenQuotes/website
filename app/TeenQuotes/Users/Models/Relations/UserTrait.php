@@ -34,12 +34,12 @@ trait UserTrait {
 
 	public function usersVisitors()
 	{
-		return $this->hasMany('ProfileVisitor', 'user_id', 'id');
+		return $this->hasMany('TeenQuotes\Users\Models\ProfileVisitor', 'user_id', 'id');
 	}
 
 	public function usersVisited()
 	{
-		return $this->hasMany('ProfileVisitor', 'visitor_id', 'id');
+		return $this->hasMany('TeenQuotes\Users\Models\ProfileVisitor', 'visitor_id', 'id');
 	}
 
 	public function favoriteQuotes()

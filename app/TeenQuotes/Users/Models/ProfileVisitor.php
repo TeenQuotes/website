@@ -1,6 +1,7 @@
-<?php
+<?php namespace TeenQuotes\Users\Models;
 
-use TeenQuotes\Models\Relations\ProfileVisitorTrait as ProfileVisitorRelationsTrait;
+use Eloquent;
+use TeenQuotes\Users\Models\Relations\ProfileVisitorTrait as ProfileVisitorRelationsTrait;
 
 class ProfileVisitor extends Eloquent {
 	

@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Models\Relations;
+<?php namespace TeenQuotes\Users\Models\Relations;
 
 trait ProfileVisitorTrait {
 	

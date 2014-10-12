@@ -1,5 +1,7 @@
 <?php
+
 use Faker\Factory as Faker;
+use TeenQuotes\Users\Models\ProfileVisitor;
 
 class ProfileVisitorsTableSeeder extends Seeder {
 
