@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Models\Scopes;
+<?php namespace TeenQuotes\Users\Models\Scopes;
 
 use Illuminate\Support\Facades\DB;
 

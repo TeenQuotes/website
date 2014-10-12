@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Models\Observers;
+<?php namespace TeenQuotes\Users\Observers;
 
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;

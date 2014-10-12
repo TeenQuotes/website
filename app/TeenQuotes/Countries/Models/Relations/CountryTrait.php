@@ -4,6 +4,6 @@ trait CountryTrait {
 	
 	public function users()
 	{
-		return $this->hasMany('User', 'country', 'id');
+		return $this->hasMany('TeenQuotes\Users\Models\User', 'country', 'id');
 	}
 }

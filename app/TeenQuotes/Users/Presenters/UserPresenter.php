@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Presenters;
+<?php namespace TeenQuotes\Users\Presenters;
 
 use Carbon;
 use Illuminate\Support\Facades\Config;

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Models\Quote;
-use User;
+use TeenQuotes\Users\Models\User;
 
 class QuotesFavoriteController extends APIGlobalController {
 	

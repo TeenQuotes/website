@@ -152,7 +152,7 @@ class CommentsTest extends ApiTest {
 	public function testDestroyCommentNotOwned()
 	{
 		// Create a comment not owned by the logged in user
-		$u = Factory::create('User', ['id' => 500]);
+		$u = Factory::create('TeenQuotes\Users\Models\User', ['id' => 500]);
 		$c = Factory::create('TeenQuotes\Comments\Models\Comment', ['user_id' => $u['id']]);
 
 		$idUserLoggedIn = 1;

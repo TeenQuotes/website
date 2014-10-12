@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\URL;
 use LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade as AuthorizationServer;
 use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
 use TeenQuotes\Http\Facades\Response;
-use User;
+use TeenQuotes\Users\Models\User;
 
 class APIGlobalController extends BaseController {
 

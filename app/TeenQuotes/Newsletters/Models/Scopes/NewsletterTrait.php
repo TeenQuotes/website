@@ -1,7 +1,7 @@
 <?php namespace TeenQuotes\Newsletters\Models\Scopes;
 
 use InvalidArgumentException;
-use User;
+use TeenQuotes\Users\Models\User;
 
 trait NewsletterTrait {
 	

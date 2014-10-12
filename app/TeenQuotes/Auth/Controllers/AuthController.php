@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use User;
+use TeenQuotes\Users\Models\User;
 
 class AuthController extends BaseController {
 

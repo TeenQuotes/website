@@ -8,7 +8,7 @@ use TeenQuotes\Comments\Models\Comment;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Mail\MailSwitcher;
 use TeenQuotes\Quotes\Models\Quote;
-use User;
+use TeenQuotes\Users\Models\User;
 
 class CommentsController extends APIGlobalController implements PaginatedContentInterface {
 

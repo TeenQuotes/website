@@ -1,9 +1,10 @@
 <?php
 
-use Laracasts\TestDummy\Factory;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Password;
+use Laracasts\TestDummy\Factory;
+use TeenQuotes\Users\Models\User;
 
 class PasswordTest extends ApiTest {
 
@@ -11,7 +12,7 @@ class PasswordTest extends ApiTest {
 	{
 		parent::setUp();
 		
-		Factory::times($this->nbRessources)->create('User');
+		Factory::times($this->nbRessources)->create('TeenQuotes\Users\Models\User');
 
 		$this->controller = App::make('TeenQuotes\Api\V1\Controllers\PasswordController');
 	}

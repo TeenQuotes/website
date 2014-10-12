@@ -4,7 +4,7 @@ trait FavoriteQuoteTrait {
 
 	public function user()
 	{
-		return $this->belongsTo('User');
+		return $this->belongsTo('TeenQuotes\Users\Models\User');
 	}
 
 	public function quote()

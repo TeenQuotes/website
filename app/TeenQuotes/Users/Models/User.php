@@ -1,22 +1,27 @@
-<?php
+<?php namespace TeenQuotes\Users\Models;
 
+use Carbon;
+use Eloquent;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\UserTrait;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
 use Laracasts\Presenter\PresentableTrait;
-use TeenQuotes\Models\Relations\UserTrait as UserRelationsTrait;
-use TeenQuotes\Models\Scopes\UserTrait as UserScopesTrait;
 use TeenQuotes\Newsletters\Models\Newsletter;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Settings\Models\Setting;
+use TeenQuotes\Users\Models\Relations\UserTrait as UserRelationsTrait;
+use TeenQuotes\Users\Models\Scopes\UserTrait as UserScopesTrait;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 	
 	use PresentableTrait, RemindableTrait, UserTrait, UserRelationsTrait, UserScopesTrait;
 
-	protected $presenter = 'TeenQuotes\Presenters\UserPresenter';
+	protected $presenter = 'TeenQuotes\Users\Presenters\UserPresenter';
 
 	/**
 	 * The database table used by the model.

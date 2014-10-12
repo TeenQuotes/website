@@ -99,7 +99,7 @@ class QuotesTest extends ApiTest {
 	public function testStoreTooMuchSubmittedQuotes()
 	{
 		// Simulate that a user has already posted 5 quotes today
-		$u = Factory::create('User');
+		$u = Factory::create('TeenQuotes\Users\Models\User');
 		Factory::times(5)->create('TeenQuotes\Quotes\Models\Quote', ['user_id' => $u['id']]);
 
 		$this->addInputReplace(['content' => $this->generateString(100)]);
@@ -125,7 +125,7 @@ class QuotesTest extends ApiTest {
 
 	public function testQuotesFavoritesWithoutFavorites()
 	{
-		$u = Factory::create('User');
+		$u = Factory::create('TeenQuotes\Users\Models\User');
 
 		$this->doRequest('indexFavoritesQuotes', $u['id'])
 			->assertStatusCodeIs(Response::HTTP_NOT_FOUND)
@@ -136,7 +136,7 @@ class QuotesTest extends ApiTest {
 	public function testQuotesFavoritesSuccess()
 	{
 		// Create favorites for a user
-		$u = Factory::create('User');
+		$u = Factory::create('TeenQuotes\Users\Models\User');
 		for ($i = 1; $i <= $this->nbRessources; $i++) { 
 			$f = new FavoriteQuote;
 			$f->user_id = $u['id'];
@@ -167,7 +167,7 @@ class QuotesTest extends ApiTest {
 		foreach ($this->approvedTypes as $approved) {
 			
 			// Create a new user each time, with no quotes
-			$u = Factory::create('User');
+			$u = Factory::create('TeenQuotes\Users\Models\User');
 			$idUser = $u['id'];
 			$this->logUserWithId($idUser);
 
@@ -183,7 +183,7 @@ class QuotesTest extends ApiTest {
 
 	public function testQuotesByApprovedExistingQuotes()
 	{
-		$u = Factory::create('User');
+		$u = Factory::create('TeenQuotes\Users\Models\User');
 		$idUser = $u['id'];
 		$this->logUserWithId($idUser);
 		

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use NotAllowedException;
-use User;
+use TeenQuotes\Users\Models\User;
 
 trait FavoriteQuoteTrait {
 	

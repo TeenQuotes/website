@@ -1,7 +1,7 @@
 <?php namespace TeenQuotes\Settings\Observers;
 
 use Illuminate\Support\Facades\Cache;
-use User;
+use TeenQuotes\Users\Models\User;
 
 class SettingObserver {
 	

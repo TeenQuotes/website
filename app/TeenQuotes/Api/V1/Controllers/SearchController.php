@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\URL;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\Quote;
-use User;
+use TeenQuotes\Users\Models\User;
 
 class SearchController extends APIGlobalController implements PaginatedContentInterface {
 	

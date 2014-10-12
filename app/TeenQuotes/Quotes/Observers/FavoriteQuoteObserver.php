@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Models\Quote;
-use User;
+use TeenQuotes\Users\Models\User;
 
 class FavoriteQuoteObserver {
 

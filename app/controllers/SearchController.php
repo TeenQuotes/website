@@ -1,6 +1,7 @@
 <?php
 
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Users\Models\User;
 
 class SearchController extends BaseController {
 

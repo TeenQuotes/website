@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Stories\Models\Story;
-use User;
+use TeenQuotes\Users\Models\User;
 
 class StoriesController extends APIGlobalController {
 	

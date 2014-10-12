@@ -4,6 +4,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Laracasts\TestDummy\Factory;
 use TeenQuotes\Countries\Models\Country;
+use TeenQuotes\Users\Models\User;
 
 class UsersTest extends ApiTest {
 
@@ -18,7 +19,7 @@ class UsersTest extends ApiTest {
 
 		$this->controller = App::make('TeenQuotes\Api\V1\Controllers\UsersController');
 
-		Factory::times($this->nbRessources)->create('User');
+		Factory::times($this->nbRessources)->create('TeenQuotes\Users\Models\User');
 		
 		$this->attachCountryForAllUsers();
 	}
@@ -340,7 +341,7 @@ class UsersTest extends ApiTest {
 		$this->deleteAllUsers();
 
 		// Create a single user with a non-matching login
-		Factory::create('User', ['login' => 'abc']);
+		Factory::create('TeenQuotes\Users\Models\User', ['login' => 'abc']);
 
 		$this->assertEquals(1, User::all()->count());
 
@@ -409,7 +410,7 @@ class UsersTest extends ApiTest {
 
 		for ($i = 1; $i <= $this->nbRessources; $i++) {
 			$login = $this->generateString(2).$string.$i;
-			Factory::create('User', compact('login'));
+			Factory::create('TeenQuotes\Users\Models\User', compact('login'));
 		}
 
 		$this->attachCountryForAllUsers();

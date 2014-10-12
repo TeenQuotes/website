@@ -1,5 +1,7 @@
 <?php
+
 use Faker\Factory as Faker;
+use TeenQuotes\Users\Models\User;
 
 class UsersTableSeeder extends Seeder {
 

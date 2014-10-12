@@ -6,6 +6,7 @@ use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use TeenQuotes\Users\Models\User;
 
 class SendBirthdayCommand extends ScheduledCommand {
 

@@ -7,6 +7,7 @@ use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use TeenQuotes\Countries\Models\Country;
+use TeenQuotes\Users\Models\User;
 
 class MostCommonCountryCommand extends ScheduledCommand {
 

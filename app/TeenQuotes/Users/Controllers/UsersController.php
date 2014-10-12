@@ -1,9 +1,28 @@
-<?php
+<?php namespace TeenQuotes\Users\Controllers;
 
+use BaseController;
+use Carbon;
+use HiddenProfileException;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Paginator;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 use TeenQuotes\Api\V1\Controllers\UsersController as UsersAPIController;
 use TeenQuotes\Countries\Models\Country;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Settings\Models\Setting;
+use TeenQuotes\Users\Models\User;
+use UserNotFoundException;
 
 class UsersController extends BaseController {
 
@@ -173,7 +192,7 @@ class UsersController extends BaseController {
 	{
 		// Get the user
 		$user = User::where('login', $user_id)->first();
-
+		
 		if (is_null($user))
 			throw new UserNotFoundException;
 

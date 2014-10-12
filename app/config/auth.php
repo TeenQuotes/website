@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'model' => 'User',
+	'model' => 'TeenQuotes\Users\Models\User',
 
 	/*
 	|--------------------------------------------------------------------------

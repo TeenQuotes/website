@@ -20,7 +20,7 @@ class FavoriteQuotesTest extends ApiTest {
 		$this->controller = App::make('TeenQuotes\Api\V1\Controllers\QuotesFavoriteController');
 		
 		// Create a user and log him in
-		$user = Factory::create('User');
+		$user = Factory::create('TeenQuotes\Users\Models\User');
 		$this->user = $this->logUserWithId($user['id']);
 		
 		$this->idRefusedQuote = $this->getIdRefusedQuote();

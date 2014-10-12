@@ -3,7 +3,7 @@ TeenQuotes\Comments\Models\Comment:
     quote_id:
         type: TeenQuotes\Quotes\Models\Quote
     user_id:
-        type: User
+        type: TeenQuotes\Users\Models\User
 
 TeenQuotes\Countries\Models\Country:
     name: $string $string
@@ -12,20 +12,20 @@ TeenQuotes\Quotes\Models\FavoriteQuote:
     quote_id:
         type: TeenQuotes\Quotes\Models\Quote
     user_id:
-        type: User
+        type: TeenQuotes\Users\Models\User
 
 TeenQuotes\Newsletters\Models\Newsletter:
     user_id:
-        type: User
+        type: TeenQuotes\Users\Models\User
     type: weekly
 
 TeenQuotes\Quotes\Models\Quote:
     content: $text
     user_id:
-        type: User
+        type: TeenQuotes\Users\Models\User
     approved: 1
 
-User:
+TeenQuotes\Users\Models\User:
     login: $string$integer
     password: $string$string
     email: $string@example.com
@@ -36,4 +36,4 @@ TeenQuotes\Stories\Models\Story:
     represent_txt: $text
     frequence_txt: $text
     user_id:
-        type: User
+        type: TeenQuotes\Users\Models\User

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\Quote;
-use User;
+use TeenQuotes\Users\Models\User;
 
 class QuotesController extends APIGlobalController implements PaginatedContentInterface {
 

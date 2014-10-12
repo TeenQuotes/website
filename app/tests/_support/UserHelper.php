@@ -5,7 +5,7 @@ use Codeception\Module;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-use User;
+use TeenQuotes\Users\Models\User;
 
 class UserHelper extends Module {
 

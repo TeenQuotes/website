@@ -14,7 +14,7 @@ use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Newsletters\Models\Newsletter;
 use TeenQuotes\Settings\Models\Setting;
 use Thomaswelton\LaravelGravatar\Facades\Gravatar;
-use User;
+use TeenQuotes\Users\Models\User;
 
 class UsersController extends APIGlobalController {
 	

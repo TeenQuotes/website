@@ -32,21 +32,21 @@ class FunctionalHelper extends Module
 	/**
 	 * Create a new user and store it in database. Can pass an array (key-value) to override dummy values
 	 * @param  array $overrides The key-value array used to override dummy values
-	 * @return User The created user instance
+	 * @return TeenQuotes\Users\Models\User The created user instance
 	 */
 	public function haveAnAccount($overrides = [])
 	{		
-		return $this->insertInDatabase(1, 'User', $overrides);
+		return $this->insertInDatabase(1, 'TeenQuotes\Users\Models\User', $overrides);
 	}
 
 	/**
 	 * Create a new user. Can pass an array (key-value) to override dummy values
 	 * @param  array $overrides The key-value array used to override dummy values
-	 * @return User The created user instance
+	 * @return TeenQuotes\Users\Models\User The created user instance
 	 */
 	public function buildUser($overrides = [])
 	{
-		return TestDummy::build('User', $overrides);		
+		return TestDummy::build('TeenQuotes\Users\Models\User', $overrides);		
 	}
 
 	/**

@@ -5,7 +5,7 @@ use Laracasts\Presenter\PresentableTrait;
 use TeenQuotes\Comments\Models\Relations\CommentTrait as CommentRelationsTrait;
 use TeenQuotes\Comments\Models\Scopes\CommentTrait as CommentScopesTrait;
 use Toloquent;
-use User;
+use TeenQuotes\Users\Models\User;
 
 class Comment extends Toloquent {
 
