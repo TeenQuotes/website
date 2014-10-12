@@ -2,7 +2,6 @@
 
 use BaseController;
 use Carbon;
-use HiddenProfileException;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -19,10 +18,11 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use TeenQuotes\Api\V1\Controllers\UsersController as UsersAPIController;
 use TeenQuotes\Countries\Models\Country;
+use TeenQuotes\Exceptions\HiddenProfileException;
+use TeenQuotes\Exceptions\UserNotFoundException;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Settings\Models\Setting;
 use TeenQuotes\Users\Models\User;
-use UserNotFoundException;
 
 class UsersController extends BaseController {
 
@@ -312,7 +312,7 @@ class UsersController extends BaseController {
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param  string $id The login of the user
-	 * @throws UserNotFoundException
+	 * @throws TeenQuotes\Exceptions\UserNotFoundException
 	 * @return Response
 	 */
 	public function edit($id)

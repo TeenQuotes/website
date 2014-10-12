@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Paginator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use StoryNotFoundException;
+use TeenQuotes\Exceptions\StoryNotFoundException;
 use TeenQuotes\Stories\Models\Story;
 
 class StoriesController extends BaseController {

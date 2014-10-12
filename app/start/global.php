@@ -43,7 +43,7 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 |
 */
 
-App::error(function(HiddenProfileException $exception, $code)
+App::error(function(TeenQuotes\Exceptions\HiddenProfileException $exception, $code)
 {
 	$userLogin = Route::input('user_id');
 
@@ -63,9 +63,9 @@ App::error(function(HiddenProfileException $exception, $code)
 });
 
 // Catch QuoteNotFoundException, StoryNotFoundException, TokenNotFoundException, UserNotFoundException
-App::error(function(TQNotFoundException $exception, $code)
+App::error(function(TeenQuotes\Exceptions\TQNotFoundException $exception, $code)
 {
-	$resourceName = strtolower(str_replace("NotFoundException", "", get_class($exception)));
+	$resourceName = strtolower(str_replace("NotFoundException", "", class_basename(get_class($exception))));
 
 	if (in_array($resourceName, ['quote', 'user', 'token', 'story'])) {
 		$data = [

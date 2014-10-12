@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use QuoteNotFoundException;
+use TeenQuotes\Exceptions\QuoteNotFoundException;
 use TeenQuotes\Http\JsonResponse;
 use TeenQuotes\Quotes\Models\Quote;
 
@@ -85,7 +85,7 @@ class QuotesController extends BaseController {
 	/**
 	 * Throw an exception if the given response is a not found response
 	 * @param  JsonResponse $response the response
-	 * @return void|QuoteNotFoundException
+	 * @return void|TeenQuotes\Exceptions\QuoteNotFoundException
 	 */
 	private function guardAgainstNotFound(JsonResponse $response)
 	{

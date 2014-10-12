@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
-use TokenNotFoundException;
+use TeenQuotes\Exceptions\TokenNotFoundException;
 
 class RemindersController extends BaseController {
 
