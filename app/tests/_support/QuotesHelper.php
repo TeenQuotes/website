@@ -72,7 +72,7 @@ class QuotesHelper extends Module {
 	 */
 	public function addAFavoriteForUser($quote_id, $user_id)
 	{
-		return $this->getModule('FunctionalHelper')->insertInDatabase(1, 'FavoriteQuote', ['quote_id' => $quote_id, 'user_id' => $user_id]);
+		return $this->getModule('FunctionalHelper')->insertInDatabase(1, 'TeenQuotes\Quotes\Models\FavoriteQuote', ['quote_id' => $quote_id, 'user_id' => $user_id]);
 	}
 
 	/**

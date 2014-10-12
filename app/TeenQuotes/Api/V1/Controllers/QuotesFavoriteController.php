@@ -1,11 +1,11 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use FavoriteQuote;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 use Quote;
 use TeenQuotes\Http\Facades\Response;
+use TeenQuotes\Quotes\Models\FavoriteQuote;
 use User;
 
 class QuotesFavoriteController extends APIGlobalController {

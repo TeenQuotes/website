@@ -1,10 +1,9 @@
-<?php namespace TeenQuotes\Models\Observers;
+<?php namespace TeenQuotes\Quotes\Observers;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
-
-use FavoriteQuote;
 use Quote;
+use TeenQuotes\Quotes\Models\FavoriteQuote;
 use User;
 
 class FavoriteQuoteObserver {

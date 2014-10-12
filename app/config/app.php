@@ -144,6 +144,7 @@ return array(
 		'TeenQuotes\Mail\MailServiceProvider',
 		'TeenQuotes\Models\Observers\ObserversServiceProvider',
 		'TeenQuotes\Pages\PagesServiceProvider',
+		'TeenQuotes\Quotes\QuotesServiceProvider',
 		'TeenQuotes\Settings\SettingsServiceProvider',
 		'TeenQuotes\Stories\StoriesServiceProvider',
 		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',

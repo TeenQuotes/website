@@ -8,7 +8,7 @@ TeenQuotes\Comments\Models\Comment:
 TeenQuotes\Countries\Models\Country:
     name: $string $string
 
-FavoriteQuote:
+TeenQuotes\Quotes\Models\FavoriteQuote:
     quote_id:
         type: Quote
     user_id:

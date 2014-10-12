@@ -40,8 +40,4 @@ Route::group(['domain' => Config::get('app.domain')], function()
 	Route::get('quote-{quote_id}', ['uses' => 'QuotesController@redirectOldUrl']);
 	Route::post('quotes/favorites-info', ['as' => 'quotes.favoritesInfo', 'uses' => 'QuotesController@getDataFavoritesInfo']);
 	Route::resource('quotes', 'QuotesController', ['only' => ['index', 'show', 'store']]);
-
-	/* --- FAVORITE --- */
-	Route::post('favorite/{quote_id}', ['as' => 'favorite', 'before' => 'auth', 'uses' => 'QuotesFavoriteController@store']);
-	Route::post('unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth', 'uses' => 'QuotesFavoriteController@destroy']);
 });

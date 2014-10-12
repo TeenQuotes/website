@@ -14,6 +14,6 @@ trait QuoteTrait {
 
 	public function favorites()
 	{
-		return $this->hasMany('FavoriteQuote')->orderBy('id', 'DESC');
+		return $this->hasMany('TeenQuotes\Quotes\Models\FavoriteQuote')->orderBy('id', 'DESC');
 	}
 }

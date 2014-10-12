@@ -1,6 +1,27 @@
-<?php
+<?php namespace TeenQuotes\Quotes\Controllers;
 
-class QuotesFavoriteController extends BaseController {
+use BaseController;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
+use Quote;
+use TeenQuotes\Quotes\Models\FavoriteQuote;
+
+class FavoriteQuoteController extends BaseController {
+
+	/**
+	 * The API controller
+	 * @var TeenQuotes\Api\V1\Controllers\QuotesFavoriteController
+	 */
+	private $api;
+
+	public function __construct()
+	{
+		$this->api = App::make('TeenQuotes\Api\V1\Controllers\QuotesFavoriteController');
+	}
 
 	/**
 	 * Store a newly created resource in storage.
@@ -44,7 +65,7 @@ class QuotesFavoriteController extends BaseController {
 					]);
 
 				// Call the API to store the favorite
-				$response = App::make('TeenQuotes\Api\V1\Controllers\QuotesFavoriteController')->postFavorite($quote_id, false);
+				$response = $this->api->postFavorite($quote_id, false);
 				
 				if ($response->getStatusCode() == 201)
 					return Response::json(['success' => true], 200);				
@@ -79,7 +100,7 @@ class QuotesFavoriteController extends BaseController {
 			if ($validator->passes()) {
 
 				// Call the API to delete the favorite
-				$response = App::make('TeenQuotes\Api\V1\Controllers\QuotesFavoriteController')->deleteFavorite($quote_id, false);
+				$response = $this->api->deleteFavorite($quote_id, false);
 								
 				if ($response->getStatusCode() == 200)
 					return Response::json(['success' => true], 200);

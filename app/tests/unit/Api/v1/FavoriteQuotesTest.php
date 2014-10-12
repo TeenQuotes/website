@@ -3,6 +3,7 @@
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Laracasts\TestDummy\Factory;
+use TeenQuotes\Quotes\Models\FavoriteQuote;
 
 class FavoriteQuotesTest extends ApiTest {
 

@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Models\Scopes;
+<?php namespace TeenQuotes\Quotes\Models\Scopes;
 
 use Illuminate\Support\Facades\Auth;
 use NotAllowedException;
@@ -14,7 +14,7 @@ trait FavoriteQuoteTrait {
 	 */
 	public function scopeCurrentUser($query)
 	{
-		if (!Auth::check())
+		if ( ! Auth::check())
 			throw new NotAllowedException("Can't get favorites quotes for a guest user!");
 
 		return $query->where('user_id', '=', Auth::id());

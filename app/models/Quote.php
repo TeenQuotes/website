@@ -3,6 +3,7 @@
 use Laracasts\Presenter\PresentableTrait;
 use TeenQuotes\Models\Relations\QuoteTrait as QuoteRelationsTrait;
 use TeenQuotes\Models\Scopes\QuoteTrait as QuoteScopesTrait;
+use TeenQuotes\Quotes\Models\FavoriteQuote;
 
 class Quote extends Toloquent {
 	

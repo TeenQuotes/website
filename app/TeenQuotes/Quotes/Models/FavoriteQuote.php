@@ -1,7 +1,8 @@
-<?php
+<?php namespace TeenQuotes\Quotes\Models;
 
-use TeenQuotes\Models\Relations\FavoriteQuoteTrait as FavoriteQuoteRelationsTrait;
-use TeenQuotes\Models\Scopes\FavoriteQuoteTrait as FavoriteQuoteScopesTrait;
+use Eloquent;
+use TeenQuotes\Quotes\Models\Relations\FavoriteQuoteTrait as FavoriteQuoteRelationsTrait;
+use TeenQuotes\Quotes\Models\Scopes\FavoriteQuoteTrait as FavoriteQuoteScopesTrait;
 
 class FavoriteQuote extends Eloquent {
 
