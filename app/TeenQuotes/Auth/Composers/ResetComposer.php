@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Composers\Password;
+<?php namespace TeenQuotes\Auth\Composers;
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Route;

@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Composers\Auth;
+<?php namespace TeenQuotes\Auth\Composers;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;

@@ -25,8 +25,6 @@ class ViewComposersServiceProvider extends ServiceProvider {
 			'apps.download',
 			'auth.signin',
 			'legal.show',
-			'auth.signup',
-			'password.remind',
 		], 'TeenQuotes\Composers\Pages\SimplePageComposer');
 
 		// Welcome email
@@ -43,25 +41,5 @@ class ViewComposersServiceProvider extends ServiceProvider {
 		$this->app['view']->composer([
 			'admin.index'
 		], 'TeenQuotes\Composers\Pages\ModerationIndexComposer');
-
-		// Reset a password with a token
-		$this->app['view']->composer([
-			'password.reset'
-		], 'TeenQuotes\Composers\Password\ResetComposer');
-
-		$this->registerAuthComposers();
-	}
-
-	private function registerAuthComposers()
-	{
-		// Send event to GA when not logged in
-		$this->app['view']->composer([
-			'auth.signin'
-		], 'TeenQuotes\Composers\Auth\SigninComposer');
-
-		// When signing up
-		$this->app['view']->composer([
-			'auth.signup'
-		], 'TeenQuotes\Composers\Auth\SignupComposer');
 	}
 }

@@ -18,8 +18,13 @@ class AuthServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		// Authentification
 		$this->registerAuthRoutes();
+		$this->registerAuthViewComposers();
+
+		// Reminders
 		$this->registerReminderRoutes();
+		$this->registerReminderViewComposers();
 	}
 
 	private function registerAuthRoutes()
@@ -31,6 +36,24 @@ class AuthServiceProvider extends ServiceProvider {
 			$this->app['router']->get('logout', ['as' => 'logout', 'uses' => $controller.'@getLogout']);
 			$this->app['router']->post('signin', $controller.'@postSignin');
 		});
+	}
+
+	private function registerAuthViewComposers()
+	{
+		// Send event to GA when not logged in
+		$this->app['view']->composer([
+			'auth.signin'
+		], $this->getNamespaceViewComposers().'\SigninComposer');
+
+		// When signing up
+		$this->app['view']->composer([
+			'auth.signup'
+		], $this->getNamespaceViewComposers().'\SignupComposer');
+
+		// For deeps link
+		$this->app['view']->composer([
+			'auth.signup'
+		], 'TeenQuotes\Tools\Composers\DeepLinksComposer');	
 	}
 
 	private function registerReminderRoutes()
@@ -45,6 +68,19 @@ class AuthServiceProvider extends ServiceProvider {
 		});
 	}
 
+	private function registerReminderViewComposers()
+	{
+		// Reset a password with a token
+		$this->app['view']->composer([
+			'password.reset'
+		], $this->getNamespaceViewComposers().'\ResetComposer');
+		
+		// For deeps link
+		$this->app['view']->composer([
+			'password.remind'
+		], 'TeenQuotes\Tools\Composers\DeepLinksComposer');	
+	}
+
 	/**
 	 * Parameters for the group of routes
 	 * @return array
@@ -55,5 +91,10 @@ class AuthServiceProvider extends ServiceProvider {
 			'domain'    => $this->app['config']->get('app.domain'),
 			'namespace' => 'TeenQuotes\Auth\Controllers'
 		];
+	}
+
+	private function getNamespaceViewComposers()
+	{
+		return 'TeenQuotes\Auth\Composers';
 	}
 }
