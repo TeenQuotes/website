@@ -19,3 +19,4 @@ tests/_output/*
 tests/_data/db.sqlite_snapshot
 tests/functional/FunctionalTester.php
 tests/unit/UnitTester.php
+tests/_data/db.sqlite_snapshot
