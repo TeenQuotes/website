@@ -8,6 +8,8 @@ class MailServiceProvider extends \Illuminate\Mail\MailServiceProvider {
 	public function register()
 	{
 		$this->registerSwiftMailer();
+
+		$this->registerViewComposers();
  
 		$this->app['mailer'] = $this->app->share(function($app)
 		{
@@ -55,5 +57,13 @@ class MailServiceProvider extends \Illuminate\Mail\MailServiceProvider {
 		{
 			return new MandrillTransport($mandrill['secret']);
 		});
+	}
+
+	private function registerViewComposers()
+	{
+		// Welcome email
+		$this->app['view']->composer([
+			'emails.welcome'
+		], 'TeenQuotes\Mail\Composers\WelcomeViewComposer');
 	}
 }

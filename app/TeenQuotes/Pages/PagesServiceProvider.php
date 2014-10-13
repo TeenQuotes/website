@@ -18,9 +18,17 @@ class PagesServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		// Apps
 		$this->registerAppsPages();
+		$this->registerAppsViewComposers();
+
+		// Contact
 		$this->registerContactPage();
+		$this->registerContactViewComposers();
+		
+		// Legal
 		$this->registerLegalPages();
+		$this->registerLegalViewComposers();
 	}
 
 	private function registerAppsPages()
@@ -32,6 +40,35 @@ class PagesServiceProvider extends ServiceProvider {
 			$this->app['router']->get('app', ['uses' => 'AppsController@redirectPlural']);
 			$this->app['router']->get('apps/{device_type}', ['as' => 'apps.device', 'uses' => 'AppsController@getDevice']);
 		});
+	}
+
+	private function registerAppsViewComposers()
+	{
+		// Apps download page
+		$this->app['view']->composer([
+			'apps.download'
+		], 'TeenQuotes\Pages\Composers\AppsComposer');
+
+		// For deeps link
+		$this->app['view']->composer([
+			'apps.download'
+		], 'TeenQuotes\Tools\Composers\DeepLinksComposer');
+	}
+
+	private function registerContactViewComposers()
+	{
+		// For deeps link
+		$this->app['view']->composer([
+			'contact.show'
+		], 'TeenQuotes\Tools\Composers\DeepLinksComposer');
+	}
+
+	private function registerLegalViewComposers()
+	{
+		// For deeps link
+		$this->app['view']->composer([
+			'legal.show'
+		], 'TeenQuotes\Tools\Composers\DeepLinksComposer');
 	}
 
 	private function registerContactPage()

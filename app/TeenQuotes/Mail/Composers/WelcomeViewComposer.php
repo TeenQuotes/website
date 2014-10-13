@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Composers\Emails;
+<?php namespace TeenQuotes\Mail\Composers;
 
 use Illuminate\Support\Facades\URL;
 use TextTools;

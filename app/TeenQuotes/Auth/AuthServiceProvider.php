@@ -52,6 +52,7 @@ class AuthServiceProvider extends ServiceProvider {
 
 		// For deeps link
 		$this->app['view']->composer([
+			'auth.signin',
 			'auth.signup'
 		], 'TeenQuotes\Tools\Composers\DeepLinksComposer');	
 	}

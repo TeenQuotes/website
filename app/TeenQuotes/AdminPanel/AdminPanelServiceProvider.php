@@ -19,6 +19,7 @@ class AdminPanelServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->registerRoutes();
+		$this->registerViewComposers();
 	}
 
 	private function registerRoutes()
@@ -31,6 +32,14 @@ class AdminPanelServiceProvider extends ServiceProvider {
 			$this->app['router']->put('update/{quote_id}', ['uses' => $this->getController().'@update', 'as' => 'admin.quotes.update']);
 			$this->app['router']->post('moderate/{quote_id}/{decision}', ['uses' => $this->getController().'@postModerate', 'as' => 'admin.quotes.moderate']);
 		});
+	}
+
+	private function registerViewComposers()
+	{
+		// JS variables used when moderating quotes
+		$this->app['view']->composer([
+			'admin.index'
+		], 'TeenQuotes\AdminPanel\Composers\ModerationIndexComposer');
 	}
 
 	/**
