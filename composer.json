@@ -43,7 +43,7 @@
 			"app/commands",
 			"app/database/migrations",
 			"app/database/seeds",
-			"app/tests/TestCase.php"
+			"tests/TestCase.php"
 		],
 		"psr-0": {
 			"TeenQuotes": "app"
