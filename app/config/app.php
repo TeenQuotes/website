@@ -141,6 +141,7 @@ return array(
 		'TeenQuotes\Auth\AuthServiceProvider',
 		'TeenQuotes\Comments\CommentsServiceProvider',
 		'TeenQuotes\Mail\MailServiceProvider',
+		'TeenQuotes\Newsletters\NewslettersServiceProvider',
 		'TeenQuotes\Pages\PagesServiceProvider',
 		'TeenQuotes\Quotes\QuotesServiceProvider',
 		'TeenQuotes\Settings\SettingsServiceProvider',

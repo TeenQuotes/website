@@ -12,12 +12,23 @@ use Illuminate\Support\Str;
 use TeenQuotes\Countries\Models\Country;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Newsletters\Models\Newsletter;
+use TeenQuotes\Newsletters\Repositories\NewsletterRepository;
 use TeenQuotes\Settings\Models\Setting;
-use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 use TeenQuotes\Users\Models\User;
+use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 
 class UsersController extends APIGlobalController {
 	
+	/**
+	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
+	 */
+	private $newsletterRepo;
+
+	function __construct(NewsletterRepository $n)
+	{
+		$this->newsletterRepo = $n;
+	}
+
 	public function destroy()
 	{
 		$this->retrieveUser()->delete();
@@ -245,7 +256,7 @@ class UsersController extends APIGlobalController {
 			if ($data[$newsletterType.'_newsletter']) {
 				// He was NOT already subscribed, store this in storage
 				if ( ! $user->isSubscribedToNewsletter($newsletterType))
-					Newsletter::createNewsletterForUser($user, $newsletterType);
+					$this->newsletterRepo->createForUserAndType($user, $newsletterType);
 
 				// He was already subscribed, do nothing
 			}
@@ -253,7 +264,7 @@ class UsersController extends APIGlobalController {
 			else {
 				// He was subscribed, delete this from storage
 				if ($user->isSubscribedToNewsletter($newsletterType))
-					Newsletter::forUser($user)->type($newsletterType)->delete();
+					$this->newsletterRepo->deleteForUserAndType($user, $newsletterType);
 
 				// He was not subscribed, do nothing
 			}

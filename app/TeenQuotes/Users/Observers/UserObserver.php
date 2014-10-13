@@ -1,5 +1,6 @@
 <?php namespace TeenQuotes\Users\Observers;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use TeenQuotes\Mail\MailSwitcher;
@@ -14,7 +15,8 @@ class UserObserver {
 	public function created($user)
 	{
 		// Subscribe the user to the weekly newsletter
-		Newsletter::createNewsletterForUser($user, 'weekly');
+		$repo = App::make('TeenQuotes\Newsletters\Repositories\NewsletterRepository');
+		$repo->createForUserAndType($user, Newsletter::WEEKLY);
 
 		$data = [
 			'login' => $user->login,

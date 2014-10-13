@@ -6,6 +6,7 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\UserTrait;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
@@ -184,17 +185,19 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function isSubscribedToNewsletter($type)
 	{
-		return (Newsletter::forUser($this)->type($type)->count() > 0);
+		$repo = App::make('TeenQuotes\Newsletters\Repositories\NewsletterRepository');
+		
+		return $repo->userIsSubscribedToNewsletterType($this, $type);
 	}
 
 	public function getIsSubscribedToDaily()
 	{
-		return $this->isSubscribedToNewsletter('daily');
+		return $this->isSubscribedToNewsletter(Newsletter::DAILY);
 	}
 
 	public function getIsSubscribedToWeekly()
 	{
-		return $this->isSubscribedToNewsletter('weekly');
+		return $this->isSubscribedToNewsletter(Newsletter::WEEKLY);
 	}
 
 	public function getAddedFavCount()
