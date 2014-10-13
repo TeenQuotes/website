@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Composers\Quotes;
+<?php namespace TeenQuotes\Quotes\Composers;
 
 use Illuminate\Support\Facades\Lang;
 use JavaScript;

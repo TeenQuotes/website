@@ -21,14 +21,12 @@ class ViewComposersServiceProvider extends ServiceProvider {
 		// Associated URLs: ['home', 'contact', 'apps', 'signin', 'legal', 
 		// 'signup', 'password/remind', 'random', 'addquote'],
 		$this->app['view']->composer([
-			'quotes.index',
 			'contact.show',
 			'apps.download',
 			'auth.signin',
 			'legal.show',
 			'auth.signup',
 			'password.remind',
-			'quotes.addquote'
 		], 'TeenQuotes\Composers\Pages\SimplePageComposer');
 
 		// Welcome email
@@ -46,18 +44,12 @@ class ViewComposersServiceProvider extends ServiceProvider {
 			'admin.index'
 		], 'TeenQuotes\Composers\Pages\ModerationIndexComposer');
 
-		// When showing search results
-		$this->app['view']->composer([
-			'search.results'
-		], 'TeenQuotes\Composers\Search\ResultsComposer');
-
 		// Reset a password with a token
 		$this->app['view']->composer([
 			'password.reset'
 		], 'TeenQuotes\Composers\Password\ResetComposer');
 
 		$this->registerAuthComposers();
-		$this->registerQuotesComposers();
 		$this->registerUsersComposers();
 	}
 
@@ -90,28 +82,5 @@ class ViewComposersServiceProvider extends ServiceProvider {
 		$this->app['view']->composer([
 			'users.edit'
 		], 'TeenQuotes\Composers\Users\ProfileEditComposer');
-	}
-
-	private function registerQuotesComposers()
-	{
-		// When indexing quotes
-		$this->app['view']->composer([
-			'quotes.index'
-		], 'TeenQuotes\Composers\Quotes\IndexComposer');
-
-		// When adding a quote
-		$this->app['view']->composer([
-			'quotes.addquote'
-		], 'TeenQuotes\Composers\Quotes\AddComposer');
-
-		// When adding a comment on a single quote
-		$this->app['view']->composer([
-			'quotes.show'
-		], 'TeenQuotes\Composers\Quotes\ShowComposer');
-
-		// View a single quote
-		$this->app['view']->composer([
-			'quotes.singleQuote'
-		], 'TeenQuotes\Composers\Quotes\SingleComposer');
 	}
 }

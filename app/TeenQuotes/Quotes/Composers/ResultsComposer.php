@@ -1,23 +1,14 @@
-<?php namespace TeenQuotes\Composers\Quotes;
+<?php namespace TeenQuotes\Quotes\Composers;
 
-use Illuminate\Support\Facades\Lang;
-use JavaScript;
 use TeenQuotes\Composers\Interfaces\QuotesColorsExtractor;
 use TeenQuotes\Quotes\Models\Quote;
 
-class IndexComposer implements QuotesColorsExtractor {
-	
+class ResultsComposer implements QuotesColorsExtractor {
+
 	public function compose($view)
 	{
 		$data = $view->getData();
 
-		// The AdBlock disclaimer
-		JavaScript::put([
-			'moneyDisclaimer' => Lang::get('quotes.adblockDisclaimer'),
-		]);
-
-		// Build the associative array #quote->id => "color"
-		// and store it in session
 		$view->with('colors', $this->extractAndStoreColors($data['quotes']));
 	}
 

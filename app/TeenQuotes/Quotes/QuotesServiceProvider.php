@@ -20,7 +20,7 @@ class QuotesServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->registerObservers();
+		$this->registerObserver();
 	}
 
 	/**
@@ -30,12 +30,19 @@ class QuotesServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		// FavoriteQuote
 		$this->registerFavoriteQuoteRoutes();
+		
+		// Quotes
 		$this->registerQuoteRoutes();
+		$this->registerQuotesComposers();
+
+		// Search
 		$this->registerSearchRoutes();
+		$this->registerSearchComposers();
 	}
 
-	private function registerObservers()
+	private function registerObserver()
 	{
 		FavoriteQuote::observe(new FavoriteQuoteObserver);
 	}
@@ -75,6 +82,43 @@ class QuotesServiceProvider extends ServiceProvider {
 		});
 	}
 
+	private function registerQuotesComposers()
+	{
+		// When indexing quotes
+		$this->app['view']->composer([
+			'quotes.index'
+		], $this->getNamespaceComposers().'\IndexComposer');
+
+		// When adding a quote
+		$this->app['view']->composer([
+			'quotes.addquote'
+		], $this->getNamespaceComposers().'\AddComposer');
+
+		// When adding a comment on a single quote
+		$this->app['view']->composer([
+			'quotes.show'
+		], $this->getNamespaceComposers().'\ShowComposer');
+
+		// View a single quote
+		$this->app['view']->composer([
+			'quotes.singleQuote'
+		], $this->getNamespaceComposers().'\SingleComposer');
+
+		// For deeps link
+		$this->app['view']->composer([
+			'quotes.index',
+			'quotes.addquote'
+		], 'TeenQuotes\Tools\Composers\DeepLinksComposer');
+	}
+
+	private function registerSearchComposers()
+	{
+		// When showing search results
+		$this->app['view']->composer([
+			'search.results'
+		], $this->getNamespaceComposers().'\ResultsComposer');
+	}
+
 	/**
 	 * Parameters for the group of routes
 	 * @return array
@@ -85,5 +129,10 @@ class QuotesServiceProvider extends ServiceProvider {
 			'domain'    => $this->app['config']->get('app.domain'),
 			'namespace' => 'TeenQuotes\Quotes\Controllers',
 		];
+	}
+
+	private function getNamespaceComposers()
+	{
+		return 'TeenQuotes\Quotes\Composers';
 	}
 }
