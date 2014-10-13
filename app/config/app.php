@@ -140,6 +140,7 @@ return array(
 		'TeenQuotes\Api\V1\ApiServiceProvider',
 		'TeenQuotes\Auth\AuthServiceProvider',
 		'TeenQuotes\Comments\CommentsServiceProvider',
+		'TeenQuotes\Countries\CountriesServiceProvider',
 		'TeenQuotes\Mail\MailServiceProvider',
 		'TeenQuotes\Newsletters\NewslettersServiceProvider',
 		'TeenQuotes\Pages\PagesServiceProvider',

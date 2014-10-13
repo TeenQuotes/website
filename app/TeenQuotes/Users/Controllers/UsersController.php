@@ -17,13 +17,13 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use TeenQuotes\Api\V1\Controllers\UsersController as UsersAPIController;
-use TeenQuotes\Countries\Models\Country;
+use TeenQuotes\Countries\Repositories\CountryRepository;
 use TeenQuotes\Exceptions\HiddenProfileException;
 use TeenQuotes\Exceptions\UserNotFoundException;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Settings\Models\Setting;
-use TeenQuotes\Users\Models\User;
 use TeenQuotes\Settings\Repositories\SettingRepository;
+use TeenQuotes\Users\Models\User;
 
 class UsersController extends BaseController {
 
@@ -38,13 +38,19 @@ class UsersController extends BaseController {
 	 */
 	private $settingRepo;
 
-	public function __construct(SettingRepository $settingRepo)
+	/**
+	 * @var TeenQuotes\Countries\Repositories\CountryRepository
+	 */
+	private $countryRepo;
+
+	public function __construct(SettingRepository $settingRepo, CountryRepository $countryRepo)
 	{
 		$this->beforeFilter('guest', ['only' => 'store']);
 		$this->beforeFilter('auth', ['only' => ['edit', 'update', 'putPassword', 'putSettings']]);
 		
 		$this->api = App::make('TeenQuotes\Api\V1\Controllers\UsersController');
 		$this->settingRepo = $settingRepo;
+		$this->countryRepo = $countryRepo;
 	}
 
 	/**
@@ -342,7 +348,7 @@ class UsersController extends BaseController {
 
 		$data = [
 			'gender'           => $user->gender,
-			'listCountries'    => Country::lists('name', 'id'),
+			'listCountries'    => $this->countryRepo->listNameAndId(),
 			'selectedCountry'  => $selectedCountry,
 			'selectedCity'     => $selectedCity,
 			'user'             => $user,

@@ -3,6 +3,7 @@
 use Buonzz\GeoIP\Laravel4\Facades\GeoIP;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -315,7 +316,7 @@ class UsersController extends APIGlobalController {
 	public static function detectCountry()
 	{
 		// List of know countries
-		$availableCountries = Country::lists('name', 'id');
+		$availableCountries = App::make('TeenQuotes\Countries\Repositories\CountryRepository')->listNameAndId();
 
 		try {
 			$countryDetected = GeoIP::getCountry();

@@ -1,18 +1,28 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use TeenQuotes\Countries\Models\Country;
+use TeenQuotes\Countries\Repositories\CountryRepository;
 use TeenQuotes\Http\Facades\Response;
 
 class CountriesController extends APIGlobalController {
 	
+	/**
+	 * @var TeenQuotes\Countries\Repositories\CountryRepository
+	 */
+	private $countryRepo;
+	
+	function __construct(CountryRepository $countryRepo)
+	{
+		$this->countryRepo = $countryRepo;
+	}
+
 	public function show($country_id = null)
 	{
 		// List all countries
 		if (is_null($country_id))
-			return Response::json(Country::all(), 200, [], JSON_NUMERIC_CHECK);
+			return Response::json($this->countryRepo->getAll(), 200, [], JSON_NUMERIC_CHECK);
 		
 		// Get a single country
-		$country = Country::find($country_id);
+		$country = $this->countryRepo->findById($country_id);
 
 		// Country not found
 		if (is_null($country))
