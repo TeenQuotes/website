@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\URL;
 use JavaScript;
-use TeenQuotes\Composers\AbstractDeepLinksComposer;
+use TeenQuotes\Tools\Composers\AbstractDeepLinksComposer;
 
 class SingleComposer extends AbstractDeepLinksComposer {
 

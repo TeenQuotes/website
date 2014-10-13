@@ -1,7 +1,7 @@
 <?php namespace TeenQuotes\Composers\Pages;
 
 use Illuminate\Support\Facades\Route;
-use TeenQuotes\Composers\AbstractDeepLinksComposer;
+use TeenQuotes\Tools\Composers\AbstractDeepLinksComposer;
 
 class SimplePageComposer extends AbstractDeepLinksComposer {
 

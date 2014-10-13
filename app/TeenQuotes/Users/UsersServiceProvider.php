@@ -31,6 +31,7 @@ class UsersServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->registerRoutes();
+		$this->registerViewComposers();
 	}
 
 	private function registerObserver()
@@ -52,6 +53,26 @@ class UsersServiceProvider extends ServiceProvider {
 			$this->app['router']->post('users/loginvalidator', ['as' => 'users.loginValidator', 'uses' => $this->getController().'@postLoginValidator']);
 			$this->app['router']->resource('users', 'UsersController', ['only' => ['store', 'edit', 'update']]);
 		});
+	}
+
+	private function registerViewComposers()
+	{
+		$namespace = 'TeenQuotes\Users\Composers';
+
+		// When showing a user's profile
+		$this->app['view']->composer([
+			'users.show'
+		], $namespace.'\ShowComposer');
+
+		// Welcome page
+		$this->app['view']->composer([
+			'users.welcome'
+		], $namespace.'\WelcomeComposer');
+
+		// Self edit user's profile
+		$this->app['view']->composer([
+			'users.edit'
+		], $namespace.'\ProfileEditComposer');
 	}
 
 	/**

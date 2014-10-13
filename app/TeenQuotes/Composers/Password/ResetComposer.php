@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Route;
-use TeenQuotes\Composers\AbstractDeepLinksComposer;
+use TeenQuotes\Tools\Composers\AbstractDeepLinksComposer;
 
 class ResetComposer extends AbstractDeepLinksComposer {
 

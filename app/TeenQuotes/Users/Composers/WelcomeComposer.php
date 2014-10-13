@@ -1,9 +1,9 @@
-<?php namespace TeenQuotes\Composers\Users;
+<?php namespace TeenQuotes\Users\Composers;
 
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
-use TeenQuotes\Composers\AbstractDeepLinksComposer;
+use TeenQuotes\Tools\Composers\AbstractDeepLinksComposer;
 
 class WelcomeComposer extends AbstractDeepLinksComposer {
 

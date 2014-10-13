@@ -1,8 +1,8 @@
-<?php namespace TeenQuotes\Composers\Users;
+<?php namespace TeenQuotes\Users\Composers;
 
 use Illuminate\Database\Eloquent\Collection;
-use TeenQuotes\Composers\Interfaces\QuotesColorsExtractor;
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Tools\Composers\Interfaces\QuotesColorsExtractor;
 
 class ShowComposer implements QuotesColorsExtractor {
 	

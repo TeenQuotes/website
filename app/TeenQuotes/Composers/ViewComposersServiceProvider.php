@@ -50,7 +50,6 @@ class ViewComposersServiceProvider extends ServiceProvider {
 		], 'TeenQuotes\Composers\Password\ResetComposer');
 
 		$this->registerAuthComposers();
-		$this->registerUsersComposers();
 	}
 
 	private function registerAuthComposers()
@@ -64,23 +63,5 @@ class ViewComposersServiceProvider extends ServiceProvider {
 		$this->app['view']->composer([
 			'auth.signup'
 		], 'TeenQuotes\Composers\Auth\SignupComposer');
-	}
-
-	private function registerUsersComposers()
-	{
-		// When showing a user's profile
-		$this->app['view']->composer([
-			'users.show'
-		], 'TeenQuotes\Composers\Users\ShowComposer');
-
-		// Welcome page
-		$this->app['view']->composer([
-			'users.welcome'
-		], 'TeenQuotes\Composers\Users\WelcomeComposer');
-
-		// Self edit user's profile
-		$this->app['view']->composer([
-			'users.edit'
-		], 'TeenQuotes\Composers\Users\ProfileEditComposer');
 	}
 }

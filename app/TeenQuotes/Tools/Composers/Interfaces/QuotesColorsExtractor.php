@@ -1,4 +1,4 @@
-<?php namespace TeenQuotes\Composers\Interfaces;
+<?php namespace TeenQuotes\Tools\Composers\Interfaces;
 
 interface QuotesColorsExtractor {
 

@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Lang;
 use JavaScript;
-use TeenQuotes\Composers\Interfaces\QuotesColorsExtractor;
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Tools\Composers\Interfaces\QuotesColorsExtractor;
 
 class IndexComposer implements QuotesColorsExtractor {
 	
