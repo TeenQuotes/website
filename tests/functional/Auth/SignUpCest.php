@@ -17,5 +17,10 @@ class SignUpCest {
 		$I->navigateToTheSignUpPage();
 		$I->fillRegistrationFormFor($login);
 		$I->amOnMyNewProfile($login);
+
+		// Assert that the welcome e-mail has been sent
+		$I->seeInLastEmailSubject('Welcome on Teen Quotes '.$login.'!');
+		$I->seeInLastEmail('We are excited to welcome you on board!');
+		$I->seeInLastEmail('You can now go to your profile, you will find a nice starter kit');
 	}
 }

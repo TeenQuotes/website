@@ -13,9 +13,15 @@ class PasswordForgottenCest {
 		$I->wantTo('reset my password');
 
 		$I->navigateToTheResetPasswordPage();
+
+		$u = $I->haveAnAccount();
 		
-		$I->fillPasswordResetFormFor($I->haveAnAccount());
+		$I->fillPasswordResetFormFor($u);
 		$I->seeSuccessFlashMessage('Password reminder sent!');
+
+		// Assert that the email has been sent
+		$I->seeInLastEmailSubjectTo($u->email, 'Password reminder');
+		$I->seeInLastEmailTo($u->email, "You've just asked to reset your password");
 	}
 
 	public function resetAForgottenPasswordWithAnInvalidEmailAddress(FunctionalTester $I)
