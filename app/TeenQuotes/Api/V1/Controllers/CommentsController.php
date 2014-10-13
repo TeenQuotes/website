@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Comments\Models\Comment;
+use TeenQuotes\Comments\Repositories\CommentRepository;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Mail\MailSwitcher;
 use TeenQuotes\Quotes\Models\Quote;
@@ -12,25 +13,26 @@ use TeenQuotes\Users\Models\User;
 
 class CommentsController extends APIGlobalController implements PaginatedContentInterface {
 
+	/**
+	 * @var TeenQuotes\Comments\Repositories\CommentRepository
+	 */
+	private $commentRepo;
+	
+	function __construct(CommentRepository $commentRepo)
+	{
+		$this->commentRepo = $commentRepo;
+	}
+
 	public function index($quote_id)
 	{
 		$page = $this->getPage();
 		$pagesize = $this->getPagesize();
-		
-		// Number of comments to skip
-		$skip = $pagesize * ($page - 1);
 
 		// Get comments
-		$contentQuery = Comment::forQuoteId($quote_id)
-			->withSmallUser()
-			->orderDescending();
-
 		if (Input::has('quote'))
-			$contentQuery = $contentQuery->with('quote');
-
-		$content = $contentQuery->take($pagesize)
-			->skip($skip)
-			->get();
+			$content = $this->commentRepo->indexForQuoteWithQuote($quote_id, $page, $pagesize);
+		else
+			$content = $this->commentRepo->indexForQuote($quote_id, $page, $pagesize);
 
 		// Handle no comments found
 		if (is_null($content) OR $content->count() == 0)
@@ -49,15 +51,12 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 	}
 
 	public function show($comment_id)
-	{
-		$commentQuery = Comment::where('id', '=', $comment_id)
-			->withSmallUser();
-					
+	{		
 		if (Input::has('quote'))
-			$commentQuery = $commentQuery->with('quote');
+			$comment = $this->commentRepo->findByIdWithQuote($comment_id);
+		else
+			$comment = $this->commentRepo->findById($comment_id);
 		
-		$comment = $commentQuery->first();
-
 		// Handle not found
 		if (is_null($comment))
 			return Response::json([
@@ -95,11 +94,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 			], 400);
 
 		// Store the comment
-		$comment = new Comment;
-		$comment->content  = $content;
-		$comment->quote_id = $quote_id;
-		$comment->user_id  = $user->id;
-		$comment->save();
+		$comment = $this->commentRepo->create($quote, $user, $content);
 
 		// Send an e-mail to the author of the quote if he wants it
 		// Update number of comments in cache
@@ -115,7 +110,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 	public function destroy($id)
 	{
 		$user = $this->retrieveUser();
-		$comment = Comment::find($id);
+		$comment = $this->commentRepo->findById($id);
 
 		// Handle not found
 		if (is_null($comment))
@@ -132,7 +127,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 			], 400);
 
 		// Delete the comment
-		$comment->delete();
+		$this->commentRepo->delete($id);
 		
 		// Decrease the number of comments on the quote in cache
 

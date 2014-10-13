@@ -31,6 +31,17 @@ class CommentsServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->registerRoutes();
+		$this->registerBindings();
+	}
+
+	private function registerBindings()
+	{
+		$namespace = 'TeenQuotes\Comments\Repositories';
+		
+		$this->app->bind(
+			$namespace.'\CommentRepository',
+			$namespace.'\DbCommentRepository'
+		);
 	}
 
 	private function registerObserver()
