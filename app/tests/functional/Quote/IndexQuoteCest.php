@@ -68,19 +68,6 @@ class IndexQuoteCest {
 		$I->seeCurrentRouteIs('users.show', $this->user->login);
 	}
 
-	public function checkAHiddenProfileCanNotBeClicked(FunctionalTester $I)
-	{
-		$I->am('a member of Teen Quotes');
-		$I->wantTo("verify that I can't click on the author of a quote if its profile is hidden");
-
-		$I->hideProfileForCurrentUser();
-
-		// Go to the homepage
-		$I->amOnRoute('home');
-		// Check that the quote is not in my favorites
-		$I->dontSeeElement('.color-1 a.link-author-profile');
-	}
-
 	private function assertPageOfQuotesContainsRequiredElements(FunctionalTester $I)
 	{
 		$I->seeNumberOfElements('.quote', $I->getNbQuotesPerPage());
