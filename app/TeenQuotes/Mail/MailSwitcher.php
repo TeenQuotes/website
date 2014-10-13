@@ -11,13 +11,17 @@ class MailSwitcher {
 		
 		$possibleValues = ['smtp', 'sendmail'];
 		
-		if (!in_array(strtolower($name), $possibleValues))
+		if ( ! in_array(strtolower($name), $possibleValues))
 			throw new InvalidArgumentException($name." is not a valid argument. Possible values are: ".implode('|', $possibleValues).'.');
 
 		// Postfix is not always installed on developers' computer
 		// We will fallback to SMTP
 		if (App::environment() == 'local')
 			$name = 'smtp';
+
+		// Do not change the configuration for codeception
+		if (App::environment() == 'codeception')
+			return;
 		
 		switch (strtolower($name)) {
 			case 'smtp':
