@@ -36,7 +36,8 @@
 		"way/generators": "2.*",
 		"fzaninotto/faker": "dev-master",
 		"codeception/codeception": "~2.0",
-		"mockery/mockery": "dev-master"
+		"mockery/mockery": "dev-master",
+		"captbaritone/mailcatcher-codeception-module": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
@@ -70,6 +71,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/AntoineAugusti/laravel-4-freegeoip"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/AntoineAugusti/codeception-mailcatcher-module"
         }
     ],
 	"minimum-stability": "stable"

@@ -14,6 +14,7 @@ modules:
         - FormFillerHelper
         - FunctionalHelper
         - Laravel4
+        - MailCatcher
         - NavigationHelper
         - QuotesHelper
         - UserHelper
@@ -22,3 +23,6 @@ modules:
             environment: codeception
             cleanup: true
             filters: true
+        MailCatcher:
+            url: 'http://127.0.0.1'
+            port: '1080'

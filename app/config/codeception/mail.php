@@ -1,2 +1,8 @@
 <?php
-return require dirname(__DIR__).'/testing/mail.php';
+
+return [
+	'driver'     => 'smtp',
+	'host'       => '127.0.0.1',
+	'port'       => 1025,
+	'encryption' => ''
+];
