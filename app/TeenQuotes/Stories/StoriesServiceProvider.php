@@ -19,6 +19,7 @@ class StoriesServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->registerRoutes();
+		$this->registerBindings();
 	}
 
 	private function registerRoutes()
@@ -28,6 +29,16 @@ class StoriesServiceProvider extends ServiceProvider {
 			$this->app['router']->get('story/{story_id}', ['as' => 'story.show', 'uses' => $this->getController().'@show']);
 			$this->app['router']->post('story/new', ['as' => 'story.store', 'before' => 'auth', 'uses' => $this->getController().'@store']);
 		});
+	}
+
+	private function registerBindings()
+	{
+		$namespace = 'TeenQuotes\Stories\Repositories';
+
+		$this->app->bind(
+			$namespace.'\StoryRepository',
+			$namespace.'\DbStoryRepository'
+		);
 	}
 
 	/**

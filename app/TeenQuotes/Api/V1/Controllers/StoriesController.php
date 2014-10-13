@@ -6,25 +6,27 @@ use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Stories\Models\Story;
 use TeenQuotes\Users\Models\User;
+use TeenQuotes\Stories\Repositories\StoryRepository;
 
 class StoriesController extends APIGlobalController {
 	
+	/**
+	 * @var TeenQuotes\Stories\Repositories\StoryRepository
+	 */
+	private $storyRepo;
+
+	function __construct(StoryRepository $storyRepo)
+	{
+		$this->storyRepo = $storyRepo;
+	}
+
 	public function index()
 	{
 		$page = $this->getPage();
 		$pagesize = Input::get('pagesize', Config::get('app.stories.nbStoriesPerPage'));
 
-		// Number of stories to skip
-		$skip = $pagesize * ($page - 1);
-
-		$totalStories = Story::count();
-
 		// Get stories
-		$content = Story::withSmallUser()
-			->orderDescending()
-			->take($pagesize)
-			->skip($skip)
-			->get();
+		$content = $this->storyRepo->index($page, $pagesize);
 
 		// Handle no stories found
 		if (is_null($content) OR $content->count() == 0)
@@ -33,16 +35,14 @@ class StoriesController extends APIGlobalController {
 				'error' => 'No stories have been found.'
 			], 404);
 
-		$data = self::paginateContent($page, $pagesize, $totalStories, $content, 'stories');
+		$data = self::paginateContent($page, $pagesize, $this->storyRepo->total(), $content, 'stories');
 		
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function show($story_id)
 	{
-		$story = Story::where('id', '=', $story_id)
-			->withSmallUser()
-			->first();
+		$story = $this->storyRepo->findById($story_id);
 
 		// Handle not found
 		if (is_null($story))
@@ -74,11 +74,7 @@ class StoriesController extends APIGlobalController {
 		}
 
 		// Store the new story
-		$story = new Story;
-		$story->represent_txt = $represent_txt;
-		$story->frequence_txt = $frequence_txt;
-		$story->user_id = $user->id;
-		$story->save();
+		$story = $this->storyRepo->create($user, $represent_txt, $frequence_txt);
 
 		return Response::json($story, 201, [], JSON_NUMERIC_CHECK);
 	}
