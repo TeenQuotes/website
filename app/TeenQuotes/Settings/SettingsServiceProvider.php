@@ -30,11 +30,21 @@ class SettingsServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		$this->registerBindings();
 	}
 
 	private function registerObserver()
 	{
 		Setting::observe(new SettingObserver);
+	}
+
+	private function registerBindings()
+	{
+		$namespace = 'TeenQuotes\Settings\Repositories';
+
+		$this->app->bind(
+			$namespace.'\SettingRepository',
+			$namespace.'\DbSettingRepository'
+		);
 	}
 }

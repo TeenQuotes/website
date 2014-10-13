@@ -251,9 +251,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		if (Cache::has(self::$cacheNameForColorsQuotesPublished.$this->id))
 			return Cache::get(self::$cacheNameForColorsQuotesPublished.$this->id);
 
-		$confColor = Setting::where('user_id', '=', $this->id)
-			->where('key', '=', 'colorsQuotesPublished')
-			->first();
+		$settingRepo = App::make('TeenQuotes\Settings\Repositories\SettingRepository');
+		$confColor = $settingRepo->findForUserAndKey($this, 'colorsQuotesPublished');
 
 		// Set colors to put in cache for the user
 		if (is_null($confColor))

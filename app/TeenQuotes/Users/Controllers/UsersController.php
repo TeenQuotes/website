@@ -23,6 +23,7 @@ use TeenQuotes\Exceptions\UserNotFoundException;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Settings\Models\Setting;
 use TeenQuotes\Users\Models\User;
+use TeenQuotes\Settings\Repositories\SettingRepository;
 
 class UsersController extends BaseController {
 
@@ -32,12 +33,18 @@ class UsersController extends BaseController {
 	 */
 	private $api;
 
-	public function __construct()
+	/**
+	 * @var TeenQuotes\Settings\Repositories\SettingRepository
+	 */
+	private $settingRepo;
+
+	public function __construct(SettingRepository $settingRepo)
 	{
 		$this->beforeFilter('guest', ['only' => 'store']);
 		$this->beforeFilter('auth', ['only' => ['edit', 'update', 'putPassword', 'putSettings']]);
 		
 		$this->api = App::make('TeenQuotes\Api\V1\Controllers\UsersController');
+		$this->settingRepo = $settingRepo;
 	}
 
 	/**
@@ -323,9 +330,7 @@ class UsersController extends BaseController {
 			throw new UserNotFoundException;
 
 		// The color for published quotes
-		$confColor = Setting::where('user_id', '=', $user->id)
-			->where('key', '=', 'colorsQuotesPublished')
-			->first();
+		$confColor = $this->settingRepo->findForUserAndKey($user, 'colorsQuotesPublished');
 
 		// Set the default color
 		if (is_null($confColor))

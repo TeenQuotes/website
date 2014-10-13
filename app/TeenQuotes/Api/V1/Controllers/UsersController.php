@@ -13,6 +13,7 @@ use TeenQuotes\Countries\Models\Country;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Newsletters\Repositories\NewsletterRepository;
 use TeenQuotes\Settings\Models\Setting;
+use TeenQuotes\Settings\Repositories\SettingRepository;
 use TeenQuotes\Users\Models\User;
 use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 
@@ -23,9 +24,15 @@ class UsersController extends APIGlobalController {
 	 */
 	private $newsletterRepo;
 
-	function __construct(NewsletterRepository $n)
+	/**
+	 * @var TeenQuotes\Settings\Repositories\SettingRepository
+	 */
+	private $settingRepo;
+
+	function __construct(NewsletterRepository $newsletterRepo, SettingRepository $settingRepo)
 	{
-		$this->newsletterRepo = $n;
+		$this->newsletterRepo = $newsletterRepo;
+		$this->settingRepo = $settingRepo;
 	}
 
 	public function destroy()
@@ -276,14 +283,7 @@ class UsersController extends APIGlobalController {
 				'error'  => 'This color is not allowed.'
 			], 400);
 
-		// Retrieve setting by the attributes
-		// or instantiate a new instance
-		$colorSetting = Setting::firstOrNew([
-			'user_id' => $user->id,
-			'key'     => 'colorsQuotesPublished'
-		]);
-		$colorSetting->value = $data['colors'];
-		$colorSetting->save();
+		$this->settingRepo->updateOrCreate($user, 'colorsQuotesPublished', $data['colors']);
 
 		// Observer: clean setting cache
 
