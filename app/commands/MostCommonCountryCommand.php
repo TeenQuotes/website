@@ -26,6 +26,11 @@ class MostCommonCountryCommand extends ScheduledCommand {
 	protected $description = 'Compute the most common country ID and update it in settings.json.';
 
 	/**
+	 * @var TeenQuotes\Countries\Repositories\CountryRepository
+	 */
+	private $countryRepo;
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
@@ -33,6 +38,8 @@ class MostCommonCountryCommand extends ScheduledCommand {
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->countryRepo = App::make('TeenQuotes\Countries\Repositories\CountryRepository');
 	}
 
 	/**
@@ -73,11 +80,11 @@ class MostCommonCountryCommand extends ScheduledCommand {
 			->orderBy('total', 'DESC')
 			->first();
 		$mostCommonCountryID = (int) $dummyUser->country;
-		
+
 		// The value was different, update it
 		if ($currentMostCommonCountryID != $mostCommonCountryID) {
 			
-			$country = Country::find($mostCommonCountryID);
+			$country = $this->countryRepo->findById($mostCommonCountryID);
 			Log::info("Most common country updated. This is now ".$country->name.".");
 			
 			LaraSetting::set('countries.defaultCountry', $mostCommonCountryID);
