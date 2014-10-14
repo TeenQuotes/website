@@ -31,6 +31,20 @@ class DbQuoteRepository implements QuoteRepository {
 	}
 
 	/**
+	 * Grab pending quotes
+	 * @param  int $nb The number of quotes to grab
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	public function lastPendingQuotes($nb)
+	{
+		return Quote::pending()
+			->orderAscending()
+			->take($nb)
+			->with('user')
+			->get();
+	}
+
+	/**
 	 * Retrieve a quote by its ID
 	 * @param  int $id
 	 * @return TeenQuotes\Quotes\Models\Quote

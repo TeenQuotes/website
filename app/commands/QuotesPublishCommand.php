@@ -6,6 +6,7 @@ use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Users\Models\User;
 
 class QuotesPublishCommand extends ScheduledCommand {
@@ -37,6 +38,11 @@ class QuotesPublishCommand extends ScheduledCommand {
 	protected $nbQuotesPublished = 0;
 
 	/**
+	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
+	private $quoteRepo;
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
@@ -44,6 +50,8 @@ class QuotesPublishCommand extends ScheduledCommand {
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->quoteRepo = App::make('TeenQuotes\Quotes\Repositories\QuoteRepository');
 	}
 
 	/**
@@ -85,11 +93,7 @@ class QuotesPublishCommand extends ScheduledCommand {
 	public function fire()
 	{
 		// Get the quotes that will be published today
-		$quotes = Quote::pending()
-			->orderAscending()
-			->take($this->getNbQuotesArgument())
-			->with('user')
-			->get();
+		$quotes = $this->quoteRepo->lastPendingQuotes($this->getNbQuotesArgument());
 
 		// Remember the effective number of published quotes
 		$this->nbQuotesPublished = $quotes->count();
@@ -97,8 +101,7 @@ class QuotesPublishCommand extends ScheduledCommand {
 		$quotes->each(function($quote)
 		{
 			// Save the quote in storage
-			$quote->approved = Quote::PUBLISHED;
-			$quote->save();
+			$this->quoteRepo->updateApproved($quote->id, Quote::PUBLISHED);
 
 			$this->users[] = $quote->user;
 
@@ -139,7 +142,6 @@ class QuotesPublishCommand extends ScheduledCommand {
 		$nbPages = ceil($this->nbQuotesPublished / Config::get('app.quotes.nbQuotesPerPage'));
 		
 		for ($i = 1; $i <= $nbPages; $i++) {
-			Cache::forget(Quote::$cacheNameQuotesPage.$i);
 			Cache::forget(Quote::$cacheNameQuotesAPIPage.$i);
 		}
 	}
@@ -182,5 +184,4 @@ class QuotesPublishCommand extends ScheduledCommand {
 	{
 		return array();
 	}
-
 }

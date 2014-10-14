@@ -15,6 +15,14 @@ interface QuoteRepository {
 	 * @return int
 	 */
 	public function nbPending();
+
+	/**
+	 * Grab pending quotes
+	 * @param  int $nb The number of quotes to grab
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	public function lastPendingQuotes($nb);
+
 	/**
 	 * Retrieve a quote by its ID
 	 * @param  int $id

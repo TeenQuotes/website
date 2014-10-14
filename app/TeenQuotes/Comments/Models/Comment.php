@@ -25,8 +25,6 @@ class Comment extends Toloquent {
 		'quote_id' => 'required|exists:quotes,id',
 	];
 
-	public static $cacheNameQuotesPage = 'quotes_homepage_';
-
 	public function isPostedBySelf()
 	{
 		if (Auth::check())
