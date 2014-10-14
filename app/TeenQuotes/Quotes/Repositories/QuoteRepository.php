@@ -112,6 +112,20 @@ interface QuoteRepository {
 	 */
 	public function index($page, $pagesize);
 
+		/**
+	 * Retrieve some random published quotes
+	 * @param  int $nb
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	public function randomPublished($nb);
+
+	/**
+	 * Retrieve some random published quotes, published today
+	 * @param  int $nb
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	public function randomPublishedToday($nb);
+
 	/**
 	 * List published random quotes for a given page and pagesize
 	 * @param  int $page     

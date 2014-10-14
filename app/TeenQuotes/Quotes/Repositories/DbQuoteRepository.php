@@ -220,6 +220,35 @@ class DbQuoteRepository implements QuoteRepository {
 	}
 
 	/**
+	 * Retrieve some random published quotes
+	 * @param  int $nb
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	public function randomPublished($nb)
+	{
+		return Quote::published()
+			->with('user')
+			->random()
+			->take($nb)
+			->get();
+	}
+
+	/**
+	 * Retrieve some random published quotes, published today
+	 * @param  int $nb
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	public function randomPublishedToday($nb)
+	{
+		return Quote::published()
+			->updatedToday()
+			->random()
+			->with('user')
+			->take($nb)
+			->get();
+	}
+
+	/**
 	 * List published random quotes for a given page and pagesize
 	 * @param  int $page     
 	 * @param  int $pagesize

@@ -31,6 +31,16 @@ class SendNewsletterCommand extends ScheduledCommand {
 	private $possibleTypes = ['daily', 'weekly'];
 
 	/**
+	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
+	private $quoteRepo;
+
+	/**
+	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
+	 */
+	private $newsletterRepo;
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
@@ -38,6 +48,9 @@ class SendNewsletterCommand extends ScheduledCommand {
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->quoteRepo = App::make('TeenQuotes\Quotes\Repositories\QuoteRepository');
+		$this->newsletterRepo = App::make('TeenQuotes\Newsletters\Repositories\NewsletterRepository');
 	}
 
 	/**
@@ -89,9 +102,7 @@ class SendNewsletterCommand extends ScheduledCommand {
 			if ( ! $quotes->isEmpty()) {
 
 				// Get users that are subscribed to the newsletter
-				$rowNewsletters = Newsletter::whereType($type)
-					->with('user')
-					->get();
+				$rowNewsletters = $this->newsletterRepo->getForType($type);
 				
 				$rowNewsletters->each(function($newsletter) use($type, $quotes)
 				{
@@ -110,30 +121,13 @@ class SendNewsletterCommand extends ScheduledCommand {
 	}
 
 	private function retrieveWeeklyQuotes()
-	{
-		$nbQuotes = $this->getNbQuotes();
-		
-		$quotes = Quote::published()
-			->with('user')
-			->random()
-			->take($nbQuotes)
-			->get();
-
-		return $quotes;
+	{		
+		return $this->quoteRepo->randomPublished($this->getNbQuotes());
 	}
 
 	private function retrieveDailyQuotes()
-	{
-		$nbQuotes = $this->getNbQuotes();
-		
-		$quotes = Quote::published()
-			->updatedToday()
-			->random()
-			->with('user')
-			->take($nbQuotes)
-			->get();
-
-		return $quotes;
+	{		
+		return $this->quoteRepo->randomPublishedToday($this->getNbQuotes());
 	}
 
 	private function getType()
@@ -155,7 +149,7 @@ class SendNewsletterCommand extends ScheduledCommand {
 	{
 		$type = $this->getType();
 
-		if (is_null($type) OR !in_array($type, $this->possibleTypes)) {
+		if (is_null($type) OR ! in_array($type, $this->possibleTypes)) {
 			$this->error('Wrong type for the newsletter! Can only be '.$this->presentPossibleTypes().'. '.$type.' was given.');
 			return false;
 		}

@@ -11,6 +11,13 @@ interface NewsletterRepository {
 	 * @return bool
 	 */
 	public function userIsSubscribedToNewsletterType(User $u, $type);
+
+	/**
+	 * Retrieve newsletters for a given type
+	 * @param  string $type
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	public function getForType($type);
 	
 	/**
 	 * Create a newsletter item for the given user

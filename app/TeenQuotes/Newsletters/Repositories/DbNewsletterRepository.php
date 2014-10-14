@@ -22,6 +22,20 @@ class DbNewsletterRepository implements NewsletterRepository {
 	}
 
 	/**
+	 * Retrieve newsletters for a given type
+	 * @param  string $type
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	public function getForType($type)
+	{
+		$this->guardType($type);
+
+		return Newsletter::whereType($type)
+			->with('user')
+			->get();
+	}
+
+	/**
 	 * Create a newsletter item for the given user
 	 * @var TeenQuotes\Users\Models\User $user The user instance
 	 * @var string $type The type of the newsletter : weekly|daily
