@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Auth;
 use NotAllowedException;
-use TeenQuotes\Users\Models\User;
 
 trait FavoriteQuoteTrait {
 	
@@ -30,7 +29,7 @@ trait FavoriteQuoteTrait {
 	{
 		if (is_numeric($user)) {
 			$user_id = (int) $user;
-			$user = User::where('id', '=', $user_id)->first();
+			return $query->where('user_id', '=', $user_id);
 		}
 
 		return $query->where('user_id', '=', $user->id);

@@ -32,6 +32,7 @@ class QuotesServiceProvider extends ServiceProvider {
 	{
 		// FavoriteQuote
 		$this->registerFavoriteQuoteRoutes();
+		$this->registerFavoriteQuoteBindings();
 		
 		// Quotes
 		$this->registerQuoteRoutes();
@@ -45,6 +46,16 @@ class QuotesServiceProvider extends ServiceProvider {
 	private function registerObserver()
 	{
 		FavoriteQuote::observe(new FavoriteQuoteObserver);
+	}
+
+	private function registerFavoriteQuoteBindings()
+	{
+		$namespace = 'TeenQuotes\Quotes\Repositories';
+
+		$this->app->bind(
+			$namespace.'\FavoriteQuoteRepository',
+			$namespace.'\DbFavoriteQuoteRepository'
+		);
 	}
 
 	private function registerFavoriteQuoteRoutes()

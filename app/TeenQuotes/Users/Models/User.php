@@ -121,6 +121,30 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public static $cacheNameForColorsQuotesPublished = 'colors_quotes_published_';
 
+	/**
+	 * @var TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 */
+	private $favQuoteRepo;
+
+	/**
+	 * @var TeenQuotes\Settings\Repositories\SettingRepository
+	 */
+	private $settingRepo;
+
+	/**
+	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
+	 */
+	private $newsletterRepo;
+
+	function __construct($attributes = [])
+	{
+		parent::__construct($attributes);
+		
+		$this->favQuoteRepo   = App::make('TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository');
+		$this->settingRepo    = App::make('TeenQuotes\Settings\Repositories\SettingRepository');
+		$this->newsletterRepo = App::make('TeenQuotes\Newsletters\Repositories\NewsletterRepository');
+	}
+
 	public function getProfileHiddenAttribute()
 	{
 		return $this->isHiddenProfile();
@@ -185,9 +209,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function isSubscribedToNewsletter($type)
 	{
-		$repo = App::make('TeenQuotes\Newsletters\Repositories\NewsletterRepository');
-		
-		return $repo->userIsSubscribedToNewsletterType($this, $type);
+		return $this->newsletterRepo->userIsSubscribedToNewsletterType($this, $type);
 	}
 
 	public function getIsSubscribedToDaily()
@@ -209,7 +231,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		if (empty($idsQuotesPublished))
 			return 0;
 		
-		return FavoriteQuote::whereIn('quote_id', $idsQuotesPublished)->count();
+		return $this->favQuoteRepo->nbFavoritesForQuotes($idsQuotesPublished);
 	}
 
 	public function getPublishedQuotesCount()
@@ -251,8 +273,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		if (Cache::has(self::$cacheNameForColorsQuotesPublished.$this->id))
 			return Cache::get(self::$cacheNameForColorsQuotesPublished.$this->id);
 
-		$settingRepo = App::make('TeenQuotes\Settings\Repositories\SettingRepository');
-		$confColor = $settingRepo->findForUserAndKey($this, 'colorsQuotesPublished');
+		$confColor = $this->settingRepo->findForUserAndKey($this, 'colorsQuotesPublished');
 
 		// Set colors to put in cache for the user
 		if (is_null($confColor))
@@ -279,14 +300,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		$expiresAt = Carbon::now()->addMinutes(10);
 		$user = $this;
+		$favQuoteRepo = $this->favQuoteRepo;
 
-		$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$this->id, $expiresAt, function() use ($user)
+		$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$this->id, $expiresAt, function() use ($favQuoteRepo, $user)
 		{
-			return FavoriteQuote::forUser($user)
-				->select('quote_id')
-				->orderBy('id', 'DESC')
-				->get()
-				->lists('quote_id');
+			return $favQuoteRepo->quotesFavoritesForUser($user);
 		});
 
 		return $arrayIDFavoritesQuotesForUser;

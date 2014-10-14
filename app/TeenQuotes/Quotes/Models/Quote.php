@@ -88,6 +88,18 @@ class Quote extends Toloquent {
 	public static $cacheNameNumberPublished = 'nb_quotes_published';
 
 	/**
+	 * @var TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 */
+	private $favQuoteRepo;
+
+	function __construct($attributes = [])
+	{
+		parent::__construct($attributes);
+		
+		$this->favQuoteRepo = App::make('TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository');
+	}
+
+	/**
 	 * Store colors that will be use to display quotes in an associative array: quote_id => css_class_name. This array is stored in session to be used when displaying a single quote.
 	 * @param  array $quotesIDs IDs of the quotes
 	 * @param  string $colors   If we want to use different colors, give a string here. Example: orange|blue|red..
@@ -173,15 +185,13 @@ class Quote extends Toloquent {
 			$expiresAt = Carbon::now()->addMinutes(10);
 
 			$id = Auth::check() ? Auth::id() : ResourceServer::getOwnerId();
+			$favQuoteRepo = $this->favQuoteRepo;
 
 			// Here we use the direct call to cache because we don't
 			// want to create a User model just to call the dedicated method
-			$favoriteQuotes = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$id, $expiresAt, function() use($id)
+			$favoriteQuotes = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$id, $expiresAt, function() use($favQuoteRepo, $id)
 			{
-				return FavoriteQuote::forUser($id)
-					->select('quote_id')
-					->get()
-					->lists('quote_id');
+				return $favQuoteRepo->quotesFavoritesForUser($id);
 			});
 
 			return in_array($this->id, $favoriteQuotes);

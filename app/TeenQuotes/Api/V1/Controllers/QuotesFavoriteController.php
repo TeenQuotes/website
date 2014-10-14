@@ -6,10 +6,21 @@ use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository;
 use TeenQuotes\Users\Models\User;
 
 class QuotesFavoriteController extends APIGlobalController {
 	
+	/**
+	 * @var TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 */
+	private $favQuoteRepo;
+	
+	function __construct(FavoriteQuoteRepository $favQuoteRepo)
+	{
+		$this->favQuoteRepo = $favQuoteRepo;
+	}
+
 	public function postFavorite($quote_id, $doValidation = true)
 	{
 		$user = $this->retrieveUser();
@@ -35,12 +46,8 @@ class QuotesFavoriteController extends APIGlobalController {
 			// Try to find if the user has this quote in favorite from cache
 			if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$user->id))
 				$alreadyFavorited = in_array($quote_id, Cache::get(FavoriteQuote::$cacheNameFavoritesForUser.$user->id));
-			else {
-				$favorite = FavoriteQuote::where('quote_id', '=' , $quote_id)
-					->where('user_id', '=' , $user->id)
-					->count();
-				$alreadyFavorited = ($favorite == 1);
-			}
+			else
+				$alreadyFavorited = $this->favQuoteRepo->isFavoriteForUserAndQuote($user, $quote_id);
 
 			if ($alreadyFavorited)
 				return Response::json([
@@ -50,10 +57,7 @@ class QuotesFavoriteController extends APIGlobalController {
 		}
 
 		// Store the favorite
-		$favorite = new FavoriteQuote;
-		$favorite->user_id = $user->id;
-		$favorite->quote_id = $quote_id;
-		$favorite->save();
+		$favorite = $this->favQuoteRepo->create($user, $quote_id);
 
 		// The cache flush will be handled by the observer
 
@@ -75,11 +79,7 @@ class QuotesFavoriteController extends APIGlobalController {
 		}
 
 		// Delete the FavoriteQuote from database
-		// We can't chain all our methods, otherwise the deleted event
-		// will not be fired
-		$fav = FavoriteQuote::where('quote_id', '=' , $quote_id)
-			->where('user_id', '=' , $user->id)->first();
-		$fav->delete();
+		$this->favQuoteRepo->deleteForUserAndQuote($user, $quote_id);
 
 		return Response::json([
 			'status'  => 'favorite_deleted',
