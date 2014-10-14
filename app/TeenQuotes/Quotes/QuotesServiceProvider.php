@@ -37,6 +37,7 @@ class QuotesServiceProvider extends ServiceProvider {
 		// Quotes
 		$this->registerQuoteRoutes();
 		$this->registerQuotesComposers();
+		$this->registerQuotesBindings();
 
 		// Search
 		$this->registerSearchRoutes();
@@ -55,6 +56,16 @@ class QuotesServiceProvider extends ServiceProvider {
 		$this->app->bind(
 			$namespace.'\FavoriteQuoteRepository',
 			$namespace.'\DbFavoriteQuoteRepository'
+		);
+	}
+
+	private function registerQuotesBindings()
+	{
+		$namespace = 'TeenQuotes\Quotes\Repositories';
+
+		$this->app->bind(
+			$namespace.'\QuoteRepository',
+			$namespace.'\DbQuoteRepository'
 		);
 	}
 

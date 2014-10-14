@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\View;
 use TeenQuotes\Exceptions\QuoteNotFoundException;
 use TeenQuotes\Http\JsonResponse;
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Quotes\Repositories\QuoteRepository;
 
 class QuotesController extends BaseController {
 
@@ -25,10 +26,16 @@ class QuotesController extends BaseController {
 	 */
 	private $api;
 
-	public function __construct()
+	/**
+	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
+	private $quoteRepo;
+
+	public function __construct(QuoteRepository $quoteRepo)
 	{
 		$this->beforeFilter('auth', ['on' => 'store']);
 		$this->api = App::make('TeenQuotes\Api\V1\Controllers\QuotesController');
+		$this->quoteRepo = $quoteRepo;
 	}
 
 	/**
@@ -104,7 +111,7 @@ class QuotesController extends BaseController {
 
 		$data = [
 			'content'              => Input::get('content'),
-			'quotesSubmittedToday' => Quote::createdToday()->forUser($user)->count(),
+			'quotesSubmittedToday' => $this->quoteRepo->submittedTodayForUser($user),
 		];
 
 		$validator = Validator::make($data, Quote::$rulesAdd);
@@ -173,7 +180,7 @@ class QuotesController extends BaseController {
 
 	public function getDataFavoritesInfo()
 	{
-		$quote = Quote::whereId(Input::get('id'))->firstOrFail();
+		$quote = $this->quoteRepo->getById(Input::get('id'));
 		$data = $quote->present()->favoritesData;
 
 		$translate = Lang::choice('quotes.favoritesText', $data['nbFavorites'], $data);

@@ -7,10 +7,21 @@ use Illuminate\Support\Facades\URL;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Users\Models\User;
 
 class SearchController extends APIGlobalController implements PaginatedContentInterface {
 	
+	/**
+	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
+	private $quoteRepo;
+
+	function __construct(QuoteRepository $quoteRepo)
+	{
+		$this->quoteRepo = $quoteRepo;
+	}
+
 	public function getSearch($query)
 	{
 		$page = $this->getPage();
@@ -24,14 +35,7 @@ class SearchController extends APIGlobalController implements PaginatedContentIn
 		$totalUsers = 0;
 
 		if ( ! is_null($quotes) AND ! empty($quotes) AND $quotes->count() > 0) {
-			$totalQuotes = Quote::whereRaw("MATCH(content) AGAINST(?)", array($query))
-				// $query will NOT be bind here
-				// it will be bind when calling setBindings
-				->where('approved', '=', Quote::APPROVED)
-				// WARNING 1 corresponds to approved = 1
-				// We need to bind it again
-				->setBindings([$query, Quote::APPROVED])
-				->count();
+			$totalQuotes = $this->quoteRepo->searchCountPublishedWithQuery($query);
 		}
 
 		if ( ! is_null($users) AND ! empty($users) AND $users->count() > 0)

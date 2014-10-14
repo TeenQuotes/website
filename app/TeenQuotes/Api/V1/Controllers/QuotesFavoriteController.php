@@ -7,6 +7,7 @@ use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository;
+use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Users\Models\User;
 
 class QuotesFavoriteController extends APIGlobalController {
@@ -15,10 +16,16 @@ class QuotesFavoriteController extends APIGlobalController {
 	 * @var TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
 	 */
 	private $favQuoteRepo;
+
+	/**
+	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
+	private $quoteRepo;
 	
-	function __construct(FavoriteQuoteRepository $favQuoteRepo)
+	function __construct(FavoriteQuoteRepository $favQuoteRepo, QuoteRepository $quoteRepo)
 	{
 		$this->favQuoteRepo = $favQuoteRepo;
+		$this->quoteRepo = $quoteRepo;
 	}
 
 	public function postFavorite($quote_id, $doValidation = true)
@@ -35,7 +42,7 @@ class QuotesFavoriteController extends APIGlobalController {
 				], 400);
 
 			// Check if the quote is published
-			$quote = Quote::find($quote_id);
+			$quote = $this->quoteRepo->getById($quote_id);
 			
 			if ( ! $quote->isPublished())
 				return Response::json([

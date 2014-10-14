@@ -14,7 +14,9 @@ class StoryPresenter extends Presenter {
 	public function totalQuotes()
 	{
 		// Round to nearest thousand
-		return number_format(round(Quote::nbQuotesPublished(), - 3), 0, '.', ',');
+		$quoteRepo = App::make('TeenQuotes\Quotes\Repositories\QuoteRepository');
+
+		return number_format(round($quoteRepo->totalPublished(), - 3), 0, '.', ',');
 	}
 
 	public function pageDescription()

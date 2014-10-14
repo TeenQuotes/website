@@ -9,20 +9,26 @@ use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Users\Models\User;
 
 class QuotesController extends APIGlobalController implements PaginatedContentInterface {
 
 	private $relationInvolved = 'quotes';
 
+	/**
+	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
+	private $quoteRepo;
+
+	function __construct(QuoteRepository $quoteRepo)
+	{
+		$this->quoteRepo = $quoteRepo;
+	}
+
 	public function show($quote_id)
 	{
-		$quote = Quote::whereId($quote_id)
-			->with('comments')
-			->withSmallUser('comments.user')
-			->withSmallUser('favorites.user')
-			->withSmallUser()
-			->first();
+		$quote = $this->quoteRepo->showQuote($quote_id);
 
 		// Handle not found
 		if (empty($quote) OR $quote->count() == 0)
@@ -63,7 +69,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		// Get quotes
 		$content = array();
 		if ($totalQuotes > 0)
-			$content = $this->getQuotesFavorite($page, $pagesize, $user, $arrayIDFavoritesQuotesForUser);
+			$content = $this->getQuotesFavorite($page, $pagesize, $arrayIDFavoritesQuotesForUser);
 
 		// Handle no quotes found
 		if (is_null($content) OR empty($content) OR $content->count() == 0) {
@@ -112,7 +118,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 			return Response::json($data, 404);
 		}
 
-		$totalQuotes = Quote::$quote_approved_type()->forUser($user)->count();
+		$totalQuotes = $this->quoteRepo->countQuotesByApprovedForUser($quote_approved_type, $user);
 
 		$data = self::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
@@ -124,7 +130,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		$page = $this->getPage();
 		$pagesize = $this->getPagesize();
 
-		$totalQuotes = Quote::nbQuotesPublished();
+		$totalQuotes = $this->quoteRepo->totalPublished();
 
 		// Get quotes
 		if (is_null($random))
@@ -158,7 +164,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		$pagesize = $this->getPagesize();
 
 		// Get quotes
-		$content = self::getQuotesSearch($page, $pagesize, $query);
+		$content = $this->getQuotesSearch($page, $pagesize, $query);
 
 		// Handle no quotes found
 		$totalQuotes = 0;
@@ -168,14 +174,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 				'error' => 'No quotes have been found.'
 			], 404);
 
-		$totalQuotes = Quote::whereRaw("MATCH(content) AGAINST(?)", array($query))
-			// $query will NOT be bind here
-			// it will be bind when calling setBindings
-			->where('approved', '=', Quote::PUBLISHED)
-			// WARNING 1 corresponds to approved = 1
-			// We need to bind it again
-			->setBindings([$query, Quote::PUBLISHED])
-			->count();
+		$totalQuotes = $this->quoteRepo->searchCountPublishedWithQuery($query);
 
 		$data = self::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
@@ -201,7 +200,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 			}
 
 			// Validate number of quotes submitted today
-			$quotesSubmittedToday = Quote::createdToday()->forUser($user)->count();
+			$quotesSubmittedToday = $this->quoteRepo->submittedTodayForUser($user);
 			$validatorNbQuotes = Validator::make(compact('quotesSubmittedToday'), ['quotesSubmittedToday' => Quote::$rulesAdd['quotesSubmittedToday']]);
 			if ($validatorNbQuotes->fails()) {
 				$data = [
@@ -214,9 +213,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		}
 
 		// Store the quote
-		$quote = new Quote;
-		$quote->content = $content;
-		$user->quotes()->save($quote);
+		$quote = $this->quoteRepo->createQuoteForUser($user, $content);
 
 		return Response::json($quote, 201, [], JSON_NUMERIC_CHECK);
 	}
@@ -242,29 +239,15 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		// Time to store in cache
 		$expiresAt = Carbon::now()->addMinutes(1);
 
-		// Number of quotes to skip
-		$skip = $pagesize * ($page - 1);
-
 		// We will hit the cache / remember in cache if we have the same pagesize
 		// that the one of the website
 		if ($pagesize == $this->getDefaultNbQuotesPerPage()) {
-			$content = Cache::remember(Quote::$cacheNameQuotesAPIPage.$page, $expiresAt, function() use($pagesize, $skip) {
-				return Quote::published()
-					->withSmallUser()
-					->orderDescending()
-					->take($pagesize)
-					->skip($skip)
-					->get();
+			$content = Cache::remember(Quote::$cacheNameQuotesAPIPage.$page, $expiresAt, function() use($page, $pagesize) {
+				return $this->quoteRepo->index($page, $pagesize);
 			});
 		}
-		else {
-			$content = Quote::published()
-				->withSmallUser()
-				->orderDescending()
-				->take($pagesize)
-				->skip($skip)
-				->get();
-		}
+		else
+			$content = $this->quoteRepo->index($page, $pagesize);
 
 		return $content;
 	}
@@ -274,86 +257,31 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		// Time to store in cache
 		$expiresAt = Carbon::now()->addMinutes(1);
 
-		// Number of quotes to skip
-		$skip = $pagesize * ($page - 1);
-
 		// We will hit the cache / remember in cache if we have the same pagesize
 		// that the one of the website
 		if ($pagesize == $this->getDefaultNbQuotesPerPage()) {
-			$content = Cache::remember(Quote::$cacheNameRandomAPIPage.$page, $expiresAt, function() use($pagesize, $skip) {
-				return Quote::published()
-					->withSmallUser()
-					->random()
-					->take($pagesize)
-					->skip($skip)
-					->get();
+			$content = Cache::remember(Quote::$cacheNameRandomAPIPage.$page, $expiresAt, function() use($page, $pagesize) {
+				return $this->quoteRepo->indexRandom($page, $pagesize);
 			});
 		}
-		else {
-			$content = Quote::published()
-				->withSmallUser()
-				->random()
-				->take($pagesize)
-				->skip($skip)
-				->get();
-		}
+		else
+			$content = $this->quoteRepo->indexRandom($page, $pagesize);
 
 		return $content;
 	}
 
-	private function getQuotesFavorite($page, $pagesize, $user, $arrayIDFavoritesQuotesForUser)
+	private function getQuotesFavorite($page, $pagesize, $arrayIDFavoritesQuotesForUser)
 	{
-		// Number of quotes to skip
-		$skip = $pagesize * ($page - 1);
-
-		$query = Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
-			->withSmallUser()
-			->take($pagesize)
-			->skip($skip);
-
-		if (Config::get('database.default') == 'mysql')
-			$query = $query->orderBy(DB::raw("FIELD(id, ".implode(',', $arrayIDFavoritesQuotesForUser).")"));
-		
-		$content = $query->get();
-
-		return $content;
+		return $this->quoteRepo->getForIds($arrayIDFavoritesQuotesForUser, $page, $pagesize);
 	}
 
-	public static function getQuotesSearch($page, $pagesize, $query)
+	public function getQuotesSearch($page, $pagesize, $query)
 	{
-		// Number of quotes to skip
-		$skip = $pagesize * ($page - 1);
-
-		$quotes = Quote::select('id', 'content', 'user_id', 'approved', 'created_at', 'updated_at', DB::raw("MATCH(content) AGAINST(?) AS `rank`"))
-			// $search will NOT be bind here
-			// it will be bind when calling setBindings
-			->whereRaw("MATCH(content) AGAINST(?)", array($query))
-			->where('approved', '=', 1)
-			->orderBy('rank', 'DESC')
-			->withSmallUser()
-			->skip($skip)
-			->take($pagesize)
-			// WARNING 1 corresponds to approved = 1
-			// We need to bind it again
-			->setBindings([$query, $query, 1])
-			->get();
-
-		return $quotes;
+		return $this->quoteRepo->searchPublishedWithQuery($query, $page, $pagesize);
 	}
 
 	private function getQuotesByApprovedForUser($page, $pagesize, $user, $quote_approved_type)
 	{
-		// Number of quotes to skip
-		$skip = $pagesize * ($page - 1);
-
-		$content = Quote::$quote_approved_type()
-			->withSmallUser()
-			->forUser($user)
-			->orderDescending()
-			->take($pagesize)
-			->skip($skip)
-			->get();
-
-		return $content;
+		return $this->quoteRepo->getQuotesByApprovedForUser($user, $quote_approved_type, $page, $pagesize);
 	}
 }

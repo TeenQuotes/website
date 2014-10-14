@@ -1,5 +1,6 @@
 <?php namespace TeenQuotes\Comments\Observers;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
@@ -7,16 +8,24 @@ use TeenQuotes\Mail\MailSwitcher;
 use TeenQuotes\Quotes\Models\Quote;
 
 class CommentObserver {
-	
+
+	/**
+	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
+	private $quoteRepo;
+
+	function __construct()
+	{
+		$this->quoteRepo = App::make('TeenQuotes\Quotes\Repositories\QuoteRepository');
+	}
+
 	/**
 	 * Will be triggered when a model is created
 	 * @param Comment $comment
 	 */
 	public function created($comment)
 	{
-		$quote = Quote::where('id', '=', $comment->quote_id)
-			->with('user')
-			->first();
+		$quote = $this->quoteRepo->getByIdWithUser($comment->quote_id);
 
 		// Send an email to the author of the quote if he wants it
 		// Do not send an e-mail if the author of the comment has written

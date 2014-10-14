@@ -200,28 +200,6 @@ class Quote extends Toloquent {
 		return false;
 	}
 
-	/**
-	 * Function to search for quotes
-	 *
-	 * @param  string $search
-	 * @return Collection Collection of Quote
-	 */
-	public static function searchQuotes($search)
-	{
-		return Quote::
-		select('id', 'content', 'user_id', 'approved', 'created_at', 'updated_at', DB::raw("MATCH(content) AGAINST(?) AS `rank`"))
-		// $search will NOT be bind here
-		// it will be bind when calling setBindings
-		->whereRaw("MATCH(content) AGAINST(?)", array($search))
-		->where('approved', '=', self::PUBLISHED)
-		->orderBy('rank', 'DESC')
-		->with('user')
-		// WARNING 1 corresponds to approved = 1
-		// We need to bind it again
-		->setBindings([$search, $search, self::PUBLISHED])
-		->get();
-	}
-
 	public function isPublished()
 	{
 		return ($this->approved == self::PUBLISHED);
@@ -240,16 +218,6 @@ class Quote extends Toloquent {
 	public function isRefused()
 	{
 		return ($this->approved == self::REFUSED);
-	}
-
-	public static function nbQuotesPublished()
-	{
-		$totalQuotes = Cache::remember(Quote::$cacheNameNumberPublished, Carbon::now()->addMinutes(10), function()
-		{
-			return Quote::published()->count();
-		});
-
-		return $totalQuotes;
 	}
 
 	/**

@@ -136,6 +136,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	private $newsletterRepo;
 
+	/**
+	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
+	private $quoteRepo;
+
 	function __construct($attributes = [])
 	{
 		parent::__construct($attributes);
@@ -143,6 +148,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		$this->favQuoteRepo   = App::make('TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository');
 		$this->settingRepo    = App::make('TeenQuotes\Settings\Repositories\SettingRepository');
 		$this->newsletterRepo = App::make('TeenQuotes\Newsletters\Repositories\NewsletterRepository');
+		$this->quoteRepo      = App::make('TeenQuotes\Quotes\Repositories\QuoteRepository');
 	}
 
 	public function getProfileHiddenAttribute()
@@ -224,9 +230,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function getAddedFavCount()
 	{
-		$idsQuotesPublished = Quote::forUser($this)
-			->published()
-			->lists('id');
+		$idsQuotesPublished = $this->quoteRepo->listPublishedIdsForUser($this);
 
 		if (empty($idsQuotesPublished))
 			return 0;
@@ -236,9 +240,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function getPublishedQuotesCount()
 	{
-		return Quote::forUser($this)
-			->published()
-			->count();
+		return $this->quoteRepo->nbPublishedForUser($this);
 	}
 
 	/**

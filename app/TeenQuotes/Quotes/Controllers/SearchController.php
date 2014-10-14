@@ -7,13 +7,20 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\View;
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Users\Models\User;
 
 class SearchController extends BaseController {
 
-	public function __construct()
+	/**
+	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
+	private $quoteRepo;
+
+	public function __construct(QuoteRepository $quoteRepo)
 	{
 		$this->beforeFilter('search.isValid', ['only' => ['getResults', 'dispatcher']]);
+		$this->quoteRepo = $quoteRepo;
 	}
 
 	/**
@@ -37,7 +44,7 @@ class SearchController extends BaseController {
 	 */
 	public function getResults($query)
 	{
-		$quotes = Quote::searchQuotes($query);
+		$quotes = $this->quoteRepo->searchPublishedWithQuery($query, 1, Config::get('app.search.maxResultsPerCategory'));
 
 		$users = null;
 		if ($this->stringIsASingleWord($query))

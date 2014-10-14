@@ -2,6 +2,7 @@
 
 use BaseController;
 use Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -21,6 +22,7 @@ use TeenQuotes\Countries\Repositories\CountryRepository;
 use TeenQuotes\Exceptions\HiddenProfileException;
 use TeenQuotes\Exceptions\UserNotFoundException;
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Settings\Models\Setting;
 use TeenQuotes\Settings\Repositories\SettingRepository;
 use TeenQuotes\Users\Models\User;
@@ -43,7 +45,12 @@ class UsersController extends BaseController {
 	 */
 	private $countryRepo;
 
-	public function __construct(SettingRepository $settingRepo, CountryRepository $countryRepo)
+	/**
+	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
+	private $quoteRepo;
+
+	public function __construct(SettingRepository $settingRepo, CountryRepository $countryRepo, QuoteRepository $quoteRepo)
 	{
 		$this->beforeFilter('guest', ['only' => 'store']);
 		$this->beforeFilter('auth', ['only' => ['edit', 'update', 'putPassword', 'putSettings']]);
@@ -51,6 +58,7 @@ class UsersController extends BaseController {
 		$this->api = App::make('TeenQuotes\Api\V1\Controllers\UsersController');
 		$this->settingRepo = $settingRepo;
 		$this->countryRepo = $countryRepo;
+		$this->quoteRepo = $quoteRepo;
 	}
 
 	/**
@@ -243,10 +251,18 @@ class UsersController extends BaseController {
 		$data['pageDescription']    = Lang::get('users.profilePageDescription', ['login' => $user->login]);
 
 		// If the user is new and is viewing its own profile, a small welcome tutorial
-		if (empty($data['quotes']) AND $this->userViewingSelfProfile($user))
+		if ($this->shouldDisplayWelcomeTutorial($data['quotes'], $user))
 			return View::make('users.welcome', $data);
 
 		return View::make('users.show', $data);
+	}
+
+	private function shouldDisplayWelcomeTutorial($quotes, $user)
+	{
+		return (
+			(empty($quotes) OR (($quotes instanceof Collection) AND $quotes->isEmpty()))
+			AND $this->userViewingSelfProfile($user)
+		);
 	}
 
 	private function dataShowFavoriteQuotes(User $user)
@@ -260,17 +276,10 @@ class UsersController extends BaseController {
 		$arrayIDFavoritesQuotesForUser = $user->arrayIDFavoritesQuotes();
 
 		// Fetch the quotes
-		$quotes = Quote::whereIn('id', $arrayIDFavoritesQuotesForUser)
-				->with('user');
-		
-		// TODO: this is very ugly
-		if (! $this->isTestingEnvironment())
-				$quotes = $quotes->orderBy(DB::raw("FIELD(id, ".implode(',', $arrayIDFavoritesQuotesForUser).")"));
-		
-		$quotes = $quotes->paginate(Config::get('app.users.nbQuotesPerPage'))->getItems();
+		$quotes = $this->quoteRepo->getForIds($arrayIDFavoritesQuotesForUser, $pageNumber, Config::get('app.users.nbQuotesPerPage'));
 
 		// Build the associated paginator
-		$paginator = Paginator::make($quotes, count($arrayIDFavoritesQuotesForUser), Config::get('app.users.nbQuotesPerPage'));
+		$paginator = Paginator::make($quotes->toArray(), count($arrayIDFavoritesQuotesForUser), Config::get('app.users.nbQuotesPerPage'));
 		$paginator->setBaseUrl(URL::route('users.show', [$user->login, 'favorites'], false));
 
 		return compact('quotes', 'paginator');
@@ -301,22 +310,20 @@ class UsersController extends BaseController {
 		$pageNumber = Input::get('page', 1);
 
 		// Time to store quotes in cache
-		$expiresAt = Carbon::now()->addMinutes(10);
+		$expiresAt = Carbon::now()->addMinutes(5);
+
+		$quoteRepo = $this->quoteRepo;
 
 		// Fetch the quotes
-		$quotes = Cache::remember(User::$cacheNameForPublished.$user->id.'_'.$pageNumber, $expiresAt, function() use ($user)
+		$quotes = Cache::remember(User::$cacheNameForPublished.$user->id.'_'.$pageNumber, $expiresAt, function() use ($quoteRepo, $user, $pageNumber)
 		{
-			return Quote::forUser($user)
-				->published()
-				->orderDescending()
-				->paginate(Config::get('app.users.nbQuotesPerPage'))
-				->getItems();
+			return $quoteRepo->getQuotesByApprovedForUser($user, 'published', $pageNumber, Config::get('app.users.nbQuotesPerPage'));
 		});
 
 		$numberQuotesPublishedForUser = $user->getPublishedQuotesCount();
 
 		// Build the associated paginator
-		$paginator = Paginator::make($quotes, $numberQuotesPublishedForUser, Config::get('app.users.nbQuotesPerPage'));
+		$paginator = Paginator::make($quotes->toArray(), $numberQuotesPublishedForUser, Config::get('app.users.nbQuotesPerPage'));
 
 		return compact('quotes', 'paginator');
 	}

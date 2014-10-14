@@ -20,11 +20,16 @@ class ShowComposer implements QuotesColorsExtractor {
 		$view->with('addedFavCount', $this->user->getAddedFavCount());
 		$view->with('quotesPublishedCount', $this->user->getPublishedQuotesCount());
 		$view->with('favCount', $this->user->getFavoriteCount());
-		$view->with('colors', $this->extractAndStoreColors(new Collection($data['quotes'])));
+		
+		// Extract colors for quotes
+		$view->with('colors', $this->extractAndStoreColors($data['quotes']));
 	}
 
 	public function extractAndStoreColors($quotes)
 	{
+		if (! ($quotes instanceof Collection))
+			$quotes = new Collection($quotes);
+
 		$colors = [];
 
 		switch ($this->type) {

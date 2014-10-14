@@ -9,6 +9,7 @@ use TeenQuotes\Comments\Repositories\CommentRepository;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Mail\MailSwitcher;
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Users\Models\User;
 
 class CommentsController extends APIGlobalController implements PaginatedContentInterface {
@@ -17,10 +18,16 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 	 * @var TeenQuotes\Comments\Repositories\CommentRepository
 	 */
 	private $commentRepo;
+
+	/**
+	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
+	private $quoteRepo;
 	
-	function __construct(CommentRepository $commentRepo)
+	function __construct(CommentRepository $commentRepo, QuoteRepository $quoteRepo)
 	{
 		$this->commentRepo = $commentRepo;
+		$this->quoteRepo = $quoteRepo;
 	}
 
 	public function index($quote_id)
@@ -42,7 +49,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 			], 404);
 		
 		// Get the total number of comments for the related quote
-		$relatedQuote = Quote::find($quote_id);
+		$relatedQuote = $this->quoteRepo->getById($quote_id);
 		$totalComments = $relatedQuote->total_comments;
 
 		$data = self::paginateContent($page, $pagesize, $totalComments, $content, 'comments');
@@ -84,7 +91,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 			}
 		}
 
-		$quote = Quote::find($quote_id);
+		$quote = $this->quoteRepo->getById($quote_id);
 		
 		// Check if the quote is published
 		if ( ! $quote->isPublished())

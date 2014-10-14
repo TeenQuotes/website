@@ -14,8 +14,19 @@ use InvalidArgumentException;
 use TeenQuotes\Exceptions\QuoteNotFoundException;
 use TeenQuotes\Mail\MailSwitcher;
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Quotes\Repositories\QuoteRepository;
 
 class QuotesAdminController extends BaseController {
+
+	/**
+	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
+	private $quoteRepo;
+
+	function __construct(QuoteRepository $quoteRepo)
+	{
+		$this->quoteRepo = $quoteRepo;
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -24,14 +35,12 @@ class QuotesAdminController extends BaseController {
 	 */
 	public function index()
 	{
-		$quotes = Quote::waiting()
-			->orderAscending()
-			->get();
+		$quotes = $this->quoteRepo->lastWaitingQuotes();
 
 		$data = [
 			'quotes'          => $quotes,
 			'colors'          => Quote::getRandomColors(),
-			'nbQuotesPending' => Quote::pending()->count(),
+			'nbQuotesPending' => $this->quoteRepo->nbPending(),
 			'nbQuotesPerDay'  => Config::get('app.quotes.nbQuotesToPublishPerDay'),
 			'pageTitle'       => 'Admin | '.Lang::get('layout.nameWebsite'),
 		];
@@ -49,7 +58,8 @@ class QuotesAdminController extends BaseController {
 	 */
 	public function edit($id)
 	{
-		$quote = Quote::find($id);
+		$quote = $this->quoteRepo->waitingById($id);
+
 		if (is_null($quote))
 			throw new QuoteNotFoundException;
 
@@ -64,11 +74,8 @@ class QuotesAdminController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$quote = Quote::waiting()
-			->where('id', '=', $id)
-			->with('user')
-			->first();
-		
+		$quote = $this->quoteRepo->waitingById($id);
+
 		if (is_null($quote))
 			throw new QuoteNotFoundException;
 
@@ -84,9 +91,7 @@ class QuotesAdminController extends BaseController {
 		if ($validator->passes()) {
 
 			// Update the quote
-			$quote->content = $data['content'];
-			$quote->approved = Quote::PENDING;
-			$quote->save();
+			$quote = $this->quoteRepo->updateContentAndApproved($id, $data['content'], Quote::PENDING);
 
 			// Contact the author of the quote
 			// Send mail via SMTP
@@ -119,17 +124,14 @@ class QuotesAdminController extends BaseController {
 			throw new InvalidArgumentException("Wrong type. Got ".$type.". Available values: ".implode('|', $availableTypes));
 
 		if (Request::ajax()) {
-			$quote = Quote::waiting()
-				->where('id', '=', $id)
-				->with('user')
-				->first();
+			$quote = $this->quoteRepo->waitingById($id);
 
 			// Handle quote not found
 			if (is_null($quote))
 				throw new InvalidArgumentException("Quote ".$id." is not a waiting quote.");
 
-			$quote->approved = ($type == 'approve') ? Quote::PENDING : Quote::REFUSED;
-			$quote->save();
+			$approved = ($type == 'approve') ? Quote::PENDING : Quote::REFUSED;
+			$quote = $this->quoteRepo->updateApproved($id, $approved);
 
 			// Contact the author of the quote
 			// Send mail via SMTP
