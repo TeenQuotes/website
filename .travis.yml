@@ -8,7 +8,8 @@ php:
 before_script:
   - gem install mailcatcher
   - mailcatcher
-  - apt-get install php5-imagick
+  - sudo apt-get update -q
+  - sudo apt-get install -y php5-imagick
   - travis_retry composer self-update
   - travis_retry composer install --prefer-source --no-interaction --dev
 
