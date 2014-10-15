@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;
+use TeenQuotes\Newsletters\Models\Newsletter;
 use TeenQuotes\Tools\Composers\AbstractDeepLinksComposer;
 
 class ProfileEditComposer extends AbstractDeepLinksComposer {
@@ -17,6 +18,7 @@ class ProfileEditComposer extends AbstractDeepLinksComposer {
 		$view->with('weeklyNewsletter', $user->isSubscribedToNewsletter('weekly'));
 		$view->with('dailyNewsletter', $user->isSubscribedToNewsletter('daily'));
 		$view->with('colorsAvailable', $this->createSelectColorsData());
+		$view->with('possibleNewslettersTypes', Newsletter::getPossibleTypes());
 	}
 
 	/**

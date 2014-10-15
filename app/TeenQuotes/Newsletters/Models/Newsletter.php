@@ -48,4 +48,13 @@ class Newsletter extends Eloquent {
 		$newsletter->user_id = $user->id;
 		$newsletter->save();
 	}
+
+	/**
+	 * Get available types of newsletters
+	 * @return array
+	 */
+	public static function getPossibleTypes()
+	{
+		return [self::WEEKLY, self::DAILY];
+	}
 }
