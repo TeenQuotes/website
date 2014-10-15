@@ -31,6 +31,11 @@ class MostCommonCountryCommand extends ScheduledCommand {
 	private $countryRepo;
 
 	/**
+	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 */
+	private $userRepo;
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
@@ -40,6 +45,7 @@ class MostCommonCountryCommand extends ScheduledCommand {
 		parent::__construct();
 
 		$this->countryRepo = App::make('TeenQuotes\Countries\Repositories\CountryRepository');
+		$this->userRepo = App::make('TeenQuotes\Users\Repositories\UserRepository');
 	}
 
 	/**
@@ -75,11 +81,7 @@ class MostCommonCountryCommand extends ScheduledCommand {
 		$currentMostCommonCountryID = Country::getDefaultCountry();
 		
 		// Get the most common country in the users' table
-		$dummyUser = User::select('country', DB::raw('count(*) as total'))
-			->groupBy('country')
-			->orderBy('total', 'DESC')
-			->first();
-		$mostCommonCountryID = (int) $dummyUser->country;
+		$mostCommonCountryID = $this->userRepo->mostCommonCountryId();
 
 		// The value was different, update it
 		if ($currentMostCommonCountryID != $mostCommonCountryID) {

@@ -40,7 +40,7 @@
 	</div>
 
 	<!-- Daily and weekly newsletter -->
-	@foreach (['daily', 'weekly'] as $newsletterType)
+	@foreach ($possibleNewslettersTypes as $newsletterType)
 		<div class="form-group">
 			<div class="col-xs-10 col-xs-offset-2">
 				{{ Form::checkbox($newsletterType.'_newsletter', "true", ${$newsletterType."Newsletter"}, ['id' => $newsletterType.'_newsletter']) }}

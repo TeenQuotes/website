@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\View;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Users\Models\User;
+use TeenQuotes\Users\Repositories\UserRepository;
 
 class SearchController extends BaseController {
 
@@ -17,10 +18,16 @@ class SearchController extends BaseController {
 	 */
 	private $quoteRepo;
 
+	/**
+	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 */
+	private $userRepo;
+
 	public function __construct(QuoteRepository $quoteRepo)
 	{
 		$this->beforeFilter('search.isValid', ['only' => ['getResults', 'dispatcher']]);
 		$this->quoteRepo = $quoteRepo;
+		$this->userRepo = $userRepo;
 	}
 
 	/**
@@ -48,10 +55,7 @@ class SearchController extends BaseController {
 
 		$users = null;
 		if ($this->stringIsASingleWord($query))
-			$users = User::partialLogin($query)
-				->notHidden()
-				->with('countryObject')
-				->get();
+			$users = $this->userRepo->searchByPartialLogin($query, 1, Config::get('app.search.maxResultsPerCategory'));
 
 		// Handle no results
 		if ($quotes->count() == 0 AND (is_null($users) OR $users->count() == 0))

@@ -26,6 +26,7 @@ use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Settings\Models\Setting;
 use TeenQuotes\Settings\Repositories\SettingRepository;
 use TeenQuotes\Users\Models\User;
+use TeenQuotes\Users\Repositories\UserRepository;
 
 class UsersController extends BaseController {
 
@@ -50,7 +51,12 @@ class UsersController extends BaseController {
 	 */
 	private $quoteRepo;
 
-	public function __construct(SettingRepository $settingRepo, CountryRepository $countryRepo, QuoteRepository $quoteRepo)
+	/**
+	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 */
+	private $userRepo;
+
+	public function __construct(SettingRepository $settingRepo, CountryRepository $countryRepo, QuoteRepository $quoteRepo, UserRepository $userRepo)
 	{
 		$this->beforeFilter('guest', ['only' => 'store']);
 		$this->beforeFilter('auth', ['only' => ['edit', 'update', 'putPassword', 'putSettings']]);
@@ -59,6 +65,7 @@ class UsersController extends BaseController {
 		$this->settingRepo = $settingRepo;
 		$this->countryRepo = $countryRepo;
 		$this->quoteRepo = $quoteRepo;
+		$this->userRepo = $userRepo;
 	}
 
 	/**
@@ -212,7 +219,7 @@ class UsersController extends BaseController {
 	public function show($user_id, $type = 'published')
 	{
 		// Get the user
-		$user = User::where('login', $user_id)->first();
+		$user = $this->userRepo->getByLogin($user_id);
 		
 		if (is_null($user))
 			throw new UserNotFoundException;
@@ -337,7 +344,7 @@ class UsersController extends BaseController {
 	 */
 	public function edit($id)
 	{
-		$user = User::whereLogin($id)->first();
+		$user = $this->userRepo->getByLogin($id);
 
 		if (is_null($user) OR ! $this->userIsAllowedToEdit($user))
 			throw new UserNotFoundException;
@@ -440,7 +447,7 @@ class UsersController extends BaseController {
 		$validator = Validator::make($data, User::$rulesUpdatePassword);
 
 		if ($validator->passes()) {
-			$user = User::whereLogin($id)->first();
+			$user = $this->userRepo->getByLogin($id);
 			if (! $this->userIsAllowedToEdit($user))
 				App::abort(401, 'Refused');
 			$user->password = $data['password'];
@@ -461,7 +468,7 @@ class UsersController extends BaseController {
 	 */
 	public function putSettings($id)
 	{
-		$user = User::whereLogin($id)->first();
+		$user = $this->userRepo->getByLogin($id);
 		if ( ! $this->userIsAllowedToEdit($user))
 			App::abort(401, 'Refused');
 		

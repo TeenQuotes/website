@@ -1,15 +1,27 @@
 <?php namespace TeenQuotes\Quotes\Observers;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Users\Models\User;
+use TeenQuotes\Users\Repositories\UserRepository;
 
 class FavoriteQuoteObserver {
 
 	private $quoteId;
 	private $user;
+
+	/**
+	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 */
+	private $userRepo;
+
+	function __construct()
+	{
+		$this->userRepo = App::make('TeenQuotes\Users\Repositories\UserRepository');
+	}
 	
 	/**
 	 * Will be triggered when a model will be saved
@@ -68,6 +80,6 @@ class FavoriteQuoteObserver {
 	private function retrieveUserAndQuote($model)
 	{
 		$this->quoteId = $model->quote_id;
-		$this->user = User::whereId($model->user_id)->firstOrFail();
+		$this->user = $this->userRepo->getById($model->user_id);
 	}
 }

@@ -25,6 +25,11 @@ class SendBirthdayCommand extends ScheduledCommand {
 	protected $description = 'Whish happy birthday to the concerned users.';
 
 	/**
+	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 */
+	private $userRepo;
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
@@ -32,6 +37,8 @@ class SendBirthdayCommand extends ScheduledCommand {
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->userRepo = App::make('TeenQuotes\Users\Repositories\UserRepository');
 	}
 
 	/**
@@ -64,7 +71,7 @@ class SendBirthdayCommand extends ScheduledCommand {
 	 */
 	public function fire()
 	{
-		$users = User::birthdayToday()->get();
+		$users = $this->userRepo->birthdayToday();
 
 		$users->each(function($user)
 		{

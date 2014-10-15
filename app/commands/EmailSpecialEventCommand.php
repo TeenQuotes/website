@@ -6,7 +6,6 @@ use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use TeenQuotes\Users\Models\User;
 
 class EmailSpecialEventCommand extends ScheduledCommand {
 
@@ -31,6 +30,11 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 	private $possibleEvents = ['christmas', 'newyear'];
 
 	/**
+	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 */
+	private $userRepo;
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
@@ -38,6 +42,8 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->userRepo = App::make('TeenQuotes\Users\Repositories\UserRepository');
 	}
 
 	/**
@@ -82,7 +88,7 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 		if ($this->eventTypeIsValid()) {		
 			$event = $this->getEvent();
 
-			$users = User::all();
+			$users = $this->userRepo->getAll();
 			
 			$users->each(function($user) use($event)
 			{

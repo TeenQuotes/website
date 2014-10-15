@@ -10,7 +10,7 @@ use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
-use TeenQuotes\Users\Models\User;
+use TeenQuotes\Users\Repositories\UserRepository;
 
 class QuotesController extends APIGlobalController implements PaginatedContentInterface {
 
@@ -21,9 +21,15 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 	 */
 	private $quoteRepo;
 
-	function __construct(QuoteRepository $quoteRepo)
+	/**
+	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 */
+	private $userRepo;
+
+	function __construct(QuoteRepository $quoteRepo, UserRepository $userRepo)
 	{
 		$this->quoteRepo = $quoteRepo;
+		$this->userRepo = $userRepo;
 	}
 
 	public function show($quote_id)
@@ -49,7 +55,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		$this->relationInvolved = 'users';
 		$pagesize = $this->getPagesize();
 
-		$user = User::find($user_id);
+		$user = $this->userRepo->getById($user_id);
 		
 		// Handle user not found
 		if (is_null($user)) {
@@ -92,7 +98,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		$this->relationInvolved = 'users';
 		$pagesize = $this->getPagesize();
 
-		$user = User::find($user_id);
+		$user = $this->userRepo->getById($user_id);
 		
 		// Handle user not found
 		if (is_null($user)) {

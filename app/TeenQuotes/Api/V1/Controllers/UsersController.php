@@ -12,10 +12,12 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use TeenQuotes\Countries\Models\Country;
 use TeenQuotes\Http\Facades\Response;
+use TeenQuotes\Newsletters\Models\Newsletter;
 use TeenQuotes\Newsletters\Repositories\NewsletterRepository;
 use TeenQuotes\Settings\Models\Setting;
 use TeenQuotes\Settings\Repositories\SettingRepository;
 use TeenQuotes\Users\Models\User;
+use TeenQuotes\Users\Repositories\UserRepository;
 use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 
 class UsersController extends APIGlobalController {
@@ -30,15 +32,21 @@ class UsersController extends APIGlobalController {
 	 */
 	private $settingRepo;
 
-	function __construct(NewsletterRepository $newsletterRepo, SettingRepository $settingRepo)
+	/**
+	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 */
+	private $userRepo;
+
+	function __construct(NewsletterRepository $newsletterRepo, SettingRepository $settingRepo, UserRepository $userRepo)
 	{
 		$this->newsletterRepo = $newsletterRepo;
 		$this->settingRepo = $settingRepo;
+		$this->userRepo = $userRepo;
 	}
 
 	public function destroy()
 	{
-		$this->retrieveUser()->delete();
+		$this->userRepo->destroy($this->retrieveUser());
 
 		return Response::json([
 			'status'  => 'user_deleted',
@@ -76,21 +84,15 @@ class UsersController extends APIGlobalController {
 		}
 
 		// Store the new user
-		$user             = new User;
-		$user->login      = $data['login'];
-		$user->email      = $data['email'];
-		$user->password   = $data['password'];
-		$user->ip         = $_SERVER['REMOTE_ADDR'];
-		$user->last_visit = Carbon::now()->toDateTimeString();
-		// Try to detect city and country
-		$user->country    = self::detectCountry();
-		$user->city       = self::detectCity();
-
 		// If the new user has got a Gravatar, set the avatar
+		$avatar = null;
 		if (Gravatar::exists($data['email']))
-			$user->avatar = Gravatar::src($data['email'], 150);
+			$avatar = Gravatar::src($data['email'], 150);
 
-		$user->save();
+		$user = $this->userRepo->create($data['login'], $data['email'], $data['password'], 
+			$_SERVER['REMOTE_ADDR'], Carbon::now()->toDateTimeString(), 
+			self::detectCountry(), self::detectCity(), $avatar
+		);
 
 		// Send a welcome e-mail and subscribe the user to the 
 		// weekly newsletter thanks to its observer
@@ -105,15 +107,7 @@ class UsersController extends APIGlobalController {
 
 	public function show($user_id)
 	{
-		$user = User::where('login', '=', $user_id)
-			->orWhere('id', '=', $user_id)
-			->with(array('countryObject' => function($q) {
-				$q->addSelect(array('id', 'name'));
-			}))
-			->with(array('newsletters' => function($q) {
-				$q->addSelect('user_id', 'type', 'created_at');
-			}))
-			->first();
+		$user = $this->userRepo->showByLoginOrId($user_id);
 
 		// User not found
 		if (empty($user) OR $user->count() == 0)
@@ -137,7 +131,7 @@ class UsersController extends APIGlobalController {
 		$pagesize = Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
 
 		// Get users
-		$content = self::getUsersSearch($page, $pagesize, $query);
+		$content = $this->getUsersSearch($page, $pagesize, $query);
 
 		// Handle no users found
 		$totalUsers = 0;
@@ -147,7 +141,7 @@ class UsersController extends APIGlobalController {
 				'error' => 'No users have been found.'
 			], 404);
 
-		$totalUsers = User::partialLogin($query)->notHidden()->count();
+		$totalUsers = $this->userRepo->countByPartialLogin($query);
 
 		$data = self::paginateContent($page, $pagesize, $totalUsers, $content, 'users');
 		
@@ -180,27 +174,16 @@ class UsersController extends APIGlobalController {
 
 		// Everything went fine, update the user
 		$user = $this->retrieveUser();
-		
-		if ( ! empty($data['gender']))
-			$user->gender    = $data['gender'];
-		if ( ! empty($data['country']))
-			$user->country   = $data['country'];
-		if ( ! empty($data['city']))
-			$user->city      = $data['city'];
-		if ( ! empty($data['about_me']))
-			$user->about_me  = $data['about_me'];
-		$user->birthdate = empty($data['birthdate']) ? NULL : $data['birthdate'];
 
-		// Move the avatar
+		$this->userRepo->updateProfile($user, $data['gender'], $data['country'], 
+			$data['city'], $data['about_me'], $data['birthdate'], 
+		$data['avatar']);
+
+		// Move the avatar if required
 		if ( ! is_null($data['avatar'])) {
 			$filename = $user->id.'.'.$data['avatar']->getClientOriginalExtension();
-
 			Input::file('avatar')->move(Config::get('app.users.avatarPath'), $filename);
-
-			$user->avatar = $filename;
 		}
-
-		$user->save();
 
 		return Response::json([
 			'status'  => 'profile_updated',
@@ -227,8 +210,7 @@ class UsersController extends APIGlobalController {
 			], 400);
 
 		// Update new password
-		$user->password = $data['password'];
-		$user->save();
+		$this->userRepo->updatePassword($user, $data['password']);
 
 		return Response::json([
 			'status'  => 'password_updated',
@@ -252,12 +234,10 @@ class UsersController extends APIGlobalController {
 			'colors'                     => Input::get('colors'),
 		];
 
-		$user->notification_comment_quote = $data['notification_comment_quote'];
-		$user->hide_profile               = $data['hide_profile'];
-		$user->save();
+		$this->userRepo->updateSettings($user, $data['notification_comment_quote'], $data['hide_profile']);
 
 		// Update daily / weekly newsletters
-		foreach (['daily', 'weekly'] as $newsletterType)
+		foreach (Newsletter::getPossibleTypes() as $newsletterType)
 		{
 			// The user wants the newsletter
 			if ($data[$newsletterType.'_newsletter']) {
@@ -294,19 +274,9 @@ class UsersController extends APIGlobalController {
 		], 200);
 	}
 
-	public static function getUsersSearch($page, $pagesize, $query)
+	public function getUsersSearch($page, $pagesize, $query)
 	{
-		// Number of users to skip
-        $skip = $pagesize * ($page - 1);
-
-        $users = User::partialLogin($query)
-        	->notHidden()
-        	->with('countryObject')
-        	->skip($skip)
-        	->take($pagesize)
-        	->get();
-
-        return $users;
+		return $this->userRepo->searchByPartialLogin($query, $page, $pagesize);
 	}
 
 	/**

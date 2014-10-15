@@ -31,7 +31,18 @@ class UsersServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->registerRoutes();
+		$this->registerBindings();
 		$this->registerViewComposers();
+	}
+
+	private function registerBindings()
+	{
+		$namespace = 'TeenQuotes\Users\Repositories';
+
+		$this->app->bind(
+			$namespace.'\UserRepository',
+			$namespace.'\DbUserRepository'
+		);
 	}
 
 	private function registerObserver()

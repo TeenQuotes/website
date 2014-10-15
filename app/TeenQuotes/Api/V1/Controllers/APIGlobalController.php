@@ -7,9 +7,19 @@ use Illuminate\Support\Facades\URL;
 use LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade as AuthorizationServer;
 use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
 use TeenQuotes\Http\Facades\Response;
-use TeenQuotes\Users\Models\User;
+use TeenQuotes\Users\Repositories\UserRepository;
 
 class APIGlobalController extends BaseController {
+
+	/**
+	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 */
+	private $userRepo;
+
+	function __construct(UserRepository $userRepo)
+	{
+		$this->userRepo = $userRepo;
+	}
 
 	public function showWelcome()
 	{
@@ -83,6 +93,6 @@ class APIGlobalController extends BaseController {
 	 */
 	public function retrieveUser()
 	{
-		return ResourceServer::getOwnerId() ? User::find(ResourceServer::getOwnerId()) : Auth::user();
+		return ResourceServer::getOwnerId() ? $this->userRepo->getById(ResourceServer::getOwnerId()) : Auth::user();
 	}
 }

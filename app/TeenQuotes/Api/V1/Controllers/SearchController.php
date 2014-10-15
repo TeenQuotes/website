@@ -9,6 +9,7 @@ use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Users\Models\User;
+use TeenQuotes\Users\Repositories\UserRepository;
 
 class SearchController extends APIGlobalController implements PaginatedContentInterface {
 	
@@ -17,9 +18,15 @@ class SearchController extends APIGlobalController implements PaginatedContentIn
 	 */
 	private $quoteRepo;
 
-	function __construct(QuoteRepository $quoteRepo)
+	/**
+	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 */
+	private $userRepo;
+
+	function __construct(QuoteRepository $quoteRepo, UserRepository $userRepo)
 	{
 		$this->quoteRepo = $quoteRepo;
+		$this->userRepo = $userRepo;
 	}
 
 	public function getSearch($query)
@@ -39,9 +46,7 @@ class SearchController extends APIGlobalController implements PaginatedContentIn
 		}
 
 		if ( ! is_null($users) AND ! empty($users) AND $users->count() > 0)
-			$totalUsers = User::partialLogin($query)
-				->notHidden()
-				->count();
+			$totalUsers = $this->userRepo->countByPartialLogin($query);
 
 		// Handle no results
 		if ($totalQuotes == 0 AND $totalUsers == 0)
