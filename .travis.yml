@@ -10,7 +10,7 @@ before_script:
   - mailcatcher
   - sudo apt-get update -q
   - sudo apt-get install -y imagemagick
-  - pecl install imagick
+  - printf "\n" | pecl install imagick
   - travis_retry composer self-update
   - travis_retry composer install --prefer-source --no-interaction --dev
 
