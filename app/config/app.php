@@ -255,6 +255,8 @@ return array(
 	'newsletters.nbQuotesToSendDaily'  => 2,
 	
 	'users.avatarPath'                 => 'uploads/avatar',
+	'users.avatarWidth'                => 200,
+	'users.avatarHeight'               => 200,
 	
 	'users.colorsAvailableQuotesPublished'      => [
 		'blue',

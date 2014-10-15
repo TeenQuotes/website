@@ -30,7 +30,8 @@
 		"antoineaugusti/laravel-easyrec": "~0.1",
 		"laracasts/presenter": "0.1.*",
 		"philo/laravel-translate": "~1.0",
-		"laracasts/testdummy": "~1.0"
+		"laracasts/testdummy": "~1.0",
+		"stojg/crop": "~1.0"
 	},
 	"require-dev": {
 		"way/generators": "2.*",

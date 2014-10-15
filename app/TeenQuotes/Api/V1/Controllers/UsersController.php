@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use stojg\crop\CropEntropy;
 use TeenQuotes\Countries\Models\Country;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Newsletters\Models\Newsletter;
@@ -181,14 +182,27 @@ class UsersController extends APIGlobalController {
 
 		// Move the avatar if required
 		if ( ! is_null($data['avatar'])) {
-			$filename = $user->id.'.'.$data['avatar']->getClientOriginalExtension();
-			Input::file('avatar')->move(Config::get('app.users.avatarPath'), $filename);
+			$this->cropAndMoveAvatar($user, $data['avatar']);
 		}
 
 		return Response::json([
 			'status'  => 'profile_updated',
 			'success' => 'The profile has been updated.'
 		], 200);
+	}
+
+	private function cropAndMoveAvatar(User $user, $avatar)
+	{
+		$filename = $user->id.'.'.$avatar->getClientOriginalExtension();
+		$filepath = Config::get('app.users.avatarPath').'/'.$filename;
+		
+		// Save to the final location
+		Input::file('avatar')->move(Config::get('app.users.avatarPath'), $filename);
+		
+		// Crop the image and save it
+		$center = new CropEntropy($filepath);
+		$croppedImage = $center->resizeAndCrop(Config::get('app.users.avatarWidth'), Config::get('app.users.avatarHeight'));
+		$croppedImage->writeimage($filepath);
 	}
 
 	public function putPassword()
