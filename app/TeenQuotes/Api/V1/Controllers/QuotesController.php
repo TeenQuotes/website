@@ -1,9 +1,6 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
@@ -242,38 +239,12 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 
 	private function getQuotesHome($page, $pagesize)
 	{
-		// Time to store in cache
-		$expiresAt = Carbon::now()->addMinutes(1);
-
-		// We will hit the cache / remember in cache if we have the same pagesize
-		// that the one of the website
-		if ($pagesize == $this->getDefaultNbQuotesPerPage()) {
-			$content = Cache::remember(Quote::$cacheNameQuotesAPIPage.$page, $expiresAt, function() use($page, $pagesize) {
-				return $this->quoteRepo->index($page, $pagesize);
-			});
-		}
-		else
-			$content = $this->quoteRepo->index($page, $pagesize);
-
-		return $content;
+		return $this->quoteRepo->index($page, $pagesize);
 	}
 
 	private function getQuotesRandom($page, $pagesize)
 	{
-		// Time to store in cache
-		$expiresAt = Carbon::now()->addMinutes(1);
-
-		// We will hit the cache / remember in cache if we have the same pagesize
-		// that the one of the website
-		if ($pagesize == $this->getDefaultNbQuotesPerPage()) {
-			$content = Cache::remember(Quote::$cacheNameRandomAPIPage.$page, $expiresAt, function() use($page, $pagesize) {
-				return $this->quoteRepo->indexRandom($page, $pagesize);
-			});
-		}
-		else
-			$content = $this->quoteRepo->indexRandom($page, $pagesize);
-
-		return $content;
+		return $this->quoteRepo->indexRandom($page, $pagesize);
 	}
 
 	private function getQuotesFavorite($page, $pagesize, $arrayIDFavoritesQuotesForUser)

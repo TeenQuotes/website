@@ -316,16 +316,7 @@ class UsersController extends BaseController {
 	{
 		$pageNumber = Input::get('page', 1);
 
-		// Time to store quotes in cache
-		$expiresAt = Carbon::now()->addMinutes(5);
-
-		$quoteRepo = $this->quoteRepo;
-
-		// Fetch the quotes
-		$quotes = Cache::remember(User::$cacheNameForPublished.$user->id.'_'.$pageNumber, $expiresAt, function() use ($quoteRepo, $user, $pageNumber)
-		{
-			return $quoteRepo->getQuotesByApprovedForUser($user, 'published', $pageNumber, Config::get('app.users.nbQuotesPerPage'));
-		});
+		$quotes = $this->quoteRepo->getQuotesByApprovedForUser($user, 'published', $pageNumber, Config::get('app.users.nbQuotesPerPage'));
 
 		$numberQuotesPublishedForUser = $user->getPublishedQuotesCount();
 
