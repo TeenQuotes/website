@@ -6,7 +6,7 @@ TeenQuotes\Comments\Models\Comment:
         type: TeenQuotes\Users\Models\User
 
 TeenQuotes\Countries\Models\Country:
-    name: $string $string
+    name: $string $string$integer
 
 TeenQuotes\Quotes\Models\FavoriteQuote:
     quote_id:
