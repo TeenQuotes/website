@@ -20,7 +20,7 @@ class AddFavoriteCest {
 		
 		// Create a new user and a fresh published quote
 		$this->user = $I->logANewUser();
-		$this->firstQuote = $I->insertInDatabase(1, 'TeenQuotes\Quotes\Models\Quote', ['created_at' => Carbon::now()->addMonth(), 'user_id' => $this->user->id]);
+		$this->firstQuote = $I->insertInDatabase(1, 'Quote', ['created_at' => Carbon::now()->addMonth(), 'user_id' => $this->user->id]);
 	}
 
 	public function addAQuoteToFavorite(FunctionalTester $I)

@@ -29,8 +29,8 @@ class DeleteCommentCest {
 		$this->quotes = $I->createSomePublishedQuotes();
 
 		// Insert some comments, the last one should have been written by the logged in user
-		$I->insertInDatabase($this->nbComments - 1, 'TeenQuotes\Comments\Models\Comment', ['quote_id' => $this->quotes[0]->id]);
-		$I->insertInDatabase(1, 'TeenQuotes\Comments\Models\Comment', ['quote_id' => $this->quotes[0]->id, 'user_id' => $this->user->id]);
+		$I->insertInDatabase($this->nbComments - 1, 'Comment', ['quote_id' => $this->quotes[0]->id]);
+		$I->insertInDatabase(1, 'Comment', ['quote_id' => $this->quotes[0]->id, 'user_id' => $this->user->id]);
 	}
 
 	public function deleteACommentOnAQuote(FunctionalTester $I)

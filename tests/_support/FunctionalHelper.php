@@ -2,8 +2,10 @@
 
 use Codeception\Module;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Laracasts\TestDummy\Factory as TestDummy;
 use TeenQuotes\Quotes\Models\Quote;
+use InvalidArgumentException;
 
 class FunctionalHelper extends Module
 {
@@ -36,7 +38,7 @@ class FunctionalHelper extends Module
 	 */
 	public function haveAnAccount($overrides = [])
 	{		
-		return $this->insertInDatabase(1, 'TeenQuotes\Users\Models\User', $overrides);
+		return $this->insertInDatabase(1, 'User', $overrides);
 	}
 
 	/**
@@ -46,7 +48,7 @@ class FunctionalHelper extends Module
 	 */
 	public function buildUser($overrides = [])
 	{
-		return TestDummy::build('TeenQuotes\Users\Models\User', $overrides);		
+		return TestDummy::build($this->classToFullNamespace('User'), $overrides);		
 	}
 
 	/**
@@ -82,6 +84,30 @@ class FunctionalHelper extends Module
 	 */
 	public function insertInDatabase($times, $class, $overrides)
 	{
-		return TestDummy::times($times)->create($class, $overrides);
+		return TestDummy::times($times)->create($this->classToFullNamespace($class), $overrides);
+	}
+
+	/**
+	 * Resolve a class name to its full namespace
+	 * @param  string $class
+	 * @return string
+	 */
+	private function classToFullNamespace($class)
+	{
+		// "Nice behaviour" classes
+		if (in_array(strtolower($class), ['comment', 'country', 'newsletter', 'quote', 'user', 'stories'])) {
+			$plural = ucfirst(strtolower(Str::plural($class)));
+			
+			return 'TeenQuotes\\'.$plural.'\\Models\\'.ucfirst(strtolower($class));
+		}
+
+		// Other classes
+		switch ($class) {
+			case 'FavoriteQuote':
+				return 'TeenQuotes\\Quotes\\Models\\FavoriteQuote';
+		}
+
+		// We haven't be able to resolve this class
+		throw new InvalidArgumentException("Can't resolve the full namespace for the given class name: ".$class);
 	}
 }

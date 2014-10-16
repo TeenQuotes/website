@@ -20,7 +20,7 @@ class DeleteFavoriteCest {
 		
 		// Create a new user and a fresh published quote
 		$this->user = $I->logANewUser();
-		$this->firstQuote = $I->insertInDatabase(1, 'TeenQuotes\Quotes\Models\Quote', ['created_at' => Carbon::now()->addMonth(), 'user_id' => $this->user->id]);
+		$this->firstQuote = $I->insertInDatabase(1, 'Quote', ['created_at' => Carbon::now()->addMonth(), 'user_id' => $this->user->id]);
 		
 		// Add to the user's favorites the first quote
 		$I->addAFavoriteForUser($this->firstQuote->id, $this->user->id);
