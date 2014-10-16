@@ -57,7 +57,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'birthdate' => 'date_format:"Y-m-d"',
 		'country'   => 'exists:countries,id',
 		'city'      => '',
-		'avatar'    => 'image|max:500',
+		'avatar'    => 'image|max:1500',
 		'about_me'  => 'max:500',
 	];
 
