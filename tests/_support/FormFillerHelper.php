@@ -10,7 +10,7 @@ class FormFillerHelper extends Module {
 	public function fillSigninForm($login, $password)
 	{
 		$I = $this->getModule('Laravel4');
-		
+
 		$I->fillField('Login', $login);
 		$I->fillField('Password', $password);
 		$I->click('Log me in!', 'form');
@@ -19,7 +19,7 @@ class FormFillerHelper extends Module {
 	public function fillAddQuoteForm()
 	{
 		$I = $this->getModule('Laravel4');
-		
+
 		$I->fillField('#content-quote', Str::random(150));
 		$I->click('Submit my quote!');
 	}
@@ -27,9 +27,18 @@ class FormFillerHelper extends Module {
 	public function fillAddCommentForm($text)
 	{
 		$I = $this->getModule('Laravel4');
-		
+
 		$I->fillField('#content-comment', $text);
 		$I->click('Add my comment!');
+	}
+
+	public function fillSearchForm($search)
+	{
+		$I = $this->getModule('Laravel4');
+
+		$I->seeCurrentRouteIs('search.form');
+		$I->fillField("#search", $search);
+		$I->click('Look for this!');
 	}
 
 	/**
@@ -60,7 +69,7 @@ class FormFillerHelper extends Module {
 	public function fillPasswordResetFormFor(User $u)
 	{
 		$I = $this->getModule('Laravel4');
-		
+
 		$I->fillField('#email', $u->email);
 		$I->click('Reset my password!');
 	}
@@ -73,7 +82,7 @@ class FormFillerHelper extends Module {
 	public function fillDeleteAccountForm($password, $confirmation)
 	{
 		$I = $this->getModule('Laravel4');
-		
+
 		$I->fillField('#delete-account #password', $password);
 		$I->fillField('#delete-confirmation', $confirmation);
 		$I->click('Delete my account');
@@ -82,10 +91,10 @@ class FormFillerHelper extends Module {
 	public function fillRegistrationFormFor($login)
 	{
 		$I = $this->getModule('Laravel4');
-		
+
 		// Set a dummy IP address
 		$_SERVER['REMOTE_ADDR'] = '200.22.22.22';
-		
+
 		$I->seeInTitle('Create an account');
 		$I->see('Create your account');
 		$I->fillField('#login-signup', $login);
@@ -111,13 +120,13 @@ class FormFillerHelper extends Module {
 	public function fillUserSettingsForm(array $params)
 	{
 		$I = $this->getModule('Laravel4');
-		
+
 		$I->selectOption('select[name=colors]', $params['color']);
 
 		foreach (['notification_comment_quote', 'hide_profile', 'daily_newsletter', 'weekly_newsletter'] as $value) {
 			if ($params[$value] == 1)
 				$I->checkOption('input[name='.$value.']');
-			else 
+			else
 				$I->uncheckOption('input[name='.$value.']');
 		}
 

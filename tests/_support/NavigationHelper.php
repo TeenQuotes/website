@@ -8,10 +8,18 @@ class NavigationHelper extends Module {
 	public function navigateToMyProfile()
 	{
 		$I = $this->getModule('Laravel4');
-		
+
 		$I->assertTrue(Auth::check());
 		$I->amOnRoute('home');
 		$I->click('My profile', '.nav');
+	}
+
+	public function navigateToTheSearchPage()
+	{
+		$I = $this->getModule('Laravel4');
+
+		$I->amOnRoute('home');
+		$I->click('Search', '.nav');
 	}
 
 	public function navigateToMyEditProfilePage()
@@ -22,7 +30,7 @@ class NavigationHelper extends Module {
 		$this->navigateToMyProfile();
 
 		$I->click('Edit my profile');
-		
+
 		// Assert that we can do several actions
 		$I->seeCurrentRouteIs('users.edit', $u->login);
 		$I->seeInTitle('Edit your profile');
@@ -35,7 +43,7 @@ class NavigationHelper extends Module {
 	public function navigateToTheResetPasswordPage()
 	{
 		$I = $this->getModule('Laravel4');
-		
+
 		$this->navigateToTheSignInPage();
 		$I->click("I don't remember my password!");
 		$I->seeCurrentRouteIs('password.remind');
@@ -44,7 +52,7 @@ class NavigationHelper extends Module {
 	public function navigateToTheSignInPage()
 	{
 		$I = $this->getModule('Laravel4');
-		
+
 		$I->amOnRoute('home');
 		$I->click('Log in');
 		$I->seeCurrentRouteIs('signin');
@@ -53,7 +61,7 @@ class NavigationHelper extends Module {
 	public function navigateToTheSignUpPage()
 	{
 		$I = $this->getModule('Laravel4');
-				
+
 		$I->amOnRoute('home');
 		$I->click('Log in');
 		$I->seeCurrentRouteIs('signin');
@@ -64,7 +72,7 @@ class NavigationHelper extends Module {
 	public function navigateToTheAddQuotePage()
 	{
 		$I = $this->getModule('Laravel4');
-				
+
 		$I->amOnRoute('home');
 		$I->click('Add your quote');
 		$I->seeCurrentRouteIs('addquote');

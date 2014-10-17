@@ -23,7 +23,7 @@ class SearchController extends BaseController {
 	 */
 	private $userRepo;
 
-	public function __construct(QuoteRepository $quoteRepo)
+	public function __construct(QuoteRepository $quoteRepo, UserRepository $userRepo)
 	{
 		$this->beforeFilter('search.isValid', ['only' => ['getResults', 'dispatcher']]);
 		$this->quoteRepo = $quoteRepo;
