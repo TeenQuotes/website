@@ -1,2 +1,2 @@
 <?php
-return require dirname(__DIR__).'/codeception/app.php';
+return require dirname(__DIR__).'/codeception/cache.php';
