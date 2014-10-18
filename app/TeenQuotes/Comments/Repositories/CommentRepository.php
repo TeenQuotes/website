@@ -38,13 +38,21 @@ interface CommentRepository {
 	public function indexForQuoteWithQuote($quote_id, $page, $pagesize);
 
 	/**
-	 * Create a quote
+	 * Post a comment on a quote
 	 * @param  TeenQuotes\Quotes\Models\Quote  $q
 	 * @param  TeenQuotes\Users\Models\User   $u
 	 * @param  string $content
 	 * @return TeenQuotes\Comments\Models\Comment
 	 */
 	public function create(Quote $q, User $u, $content);
+
+	/**
+	 * Update the content of a comment
+	 * @param  TeenQuotes\Comments\Models\Comment|int   $c
+	 * @param  string $content
+	 * @return TeenQuotes\Comments\Models\Comment
+	 */
+	public function update($c, $content);
 
 	/**
 	 * Delete a comment

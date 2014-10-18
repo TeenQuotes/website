@@ -1,5 +1,6 @@
 <?php namespace TeenQuotes\Comments\Repositories;
 
+use InvalidArgumentException;
 use TeenQuotes\Comments\Models\Comment;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Users\Models\User;
@@ -67,7 +68,7 @@ class DbCommentRepository implements CommentRepository {
 	}
 
 	/**
-	 * Create a quote
+	 * Post a comment on a quote
 	 * @param  TeenQuotes\Quotes\Models\Quote  $q
 	 * @param  TeenQuotes\Users\Models\User   $u
 	 * @param  string $content
@@ -82,6 +83,39 @@ class DbCommentRepository implements CommentRepository {
 		$comment->save();
 		
 		return $comment;
+	}
+
+	/**
+	 * Update the content of a comment
+	 * @param  TeenQuotes\Comments\Models\Comment|int   $c
+	 * @param  string $content
+	 * @return TeenQuotes\Comments\Models\Comment
+	 */
+	public function update($c, $content)
+	{
+		$c = $this->retrieveComment($c);
+		
+		$c->content = $content;
+		$c->save();
+		
+		return $c;
+	}
+
+	/**
+	 * Retrieve a comment by its ID or by its instance
+	 * @param  TeenQuotes\Comments\Models\Comment|int $c
+	 * @return TeenQuotes\Comments\Models\Comment
+	 * @throws InvalidArgumentException If we can't retrieve a comment with the given data
+	 */
+	private function retrieveComment($c)
+	{
+		if (is_numeric($c))
+			return $this->findById($c);
+		
+		if ($c instanceof Comment)
+			return $c;
+
+		throw new InvalidArgumentException("The given instance is not a comment");
 	}
 
 	/**
