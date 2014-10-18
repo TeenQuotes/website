@@ -1,5 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Repositories;
 
+use Illuminate\Support\Facades\Cache;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Users\Models\User;
 
@@ -13,6 +14,17 @@ class DbFavoriteQuoteRepository implements FavoriteQuoteRepository {
 	 */
 	public function isFavoriteForUserAndQuote($u, $quote_id)
 	{
+		// Try to hit the cache if we can
+		if (is_numeric($u)) {
+			if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$u))
+				return in_array($quote_id, Cache::get(FavoriteQuote::$cacheNameFavoritesForUser.$u));
+		}
+		else {
+			if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$u->id))
+				return in_array($quote_id, Cache::get(FavoriteQuote::$cacheNameFavoritesForUser.$u->id));
+		}
+
+		// Hit the database if we have nothing in cache
 		return FavoriteQuote::where('quote_id', '=' , $quote_id)
 			->forUser($u)
 			->count() == 1;

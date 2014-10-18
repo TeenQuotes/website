@@ -1,6 +1,5 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Http\Facades\Response;
@@ -51,10 +50,7 @@ class QuotesFavoriteController extends APIGlobalController {
 				], 400);
 
 			// Try to find if the user has this quote in favorite from cache
-			if (Cache::has(FavoriteQuote::$cacheNameFavoritesForUser.$user->id))
-				$alreadyFavorited = in_array($quote_id, Cache::get(FavoriteQuote::$cacheNameFavoritesForUser.$user->id));
-			else
-				$alreadyFavorited = $this->favQuoteRepo->isFavoriteForUserAndQuote($user, $quote_id);
+			$alreadyFavorited = $this->favQuoteRepo->isFavoriteForUserAndQuote($user, $quote_id);
 
 			if ($alreadyFavorited)
 				return Response::json([
