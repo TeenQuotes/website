@@ -30,7 +30,7 @@ class DeleteAccountCest {
 
 		$I->fillDeleteAccountForm($this->userPassword, "DELETE");
 		
-		$I->dontSeeRecord('users', ['users' => $this->userLogin]);
+		$I->dontSeeRecord('users', ['login' => $this->userLogin]);
 		$I->seeSuccessFlashMessage('Your account has been deleted successfully');
 	}
 
