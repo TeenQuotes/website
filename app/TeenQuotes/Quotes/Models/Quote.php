@@ -49,10 +49,6 @@ class Quote extends Toloquent {
 		'quotesSubmittedToday' => 'required|integer|between:0,4',
 	];
 
-	public static $rulesEdit = [
-		'content' => 'required|min:50|max:300|unique:quotes,content',
-	];
-
 	/**
 	 * The colors that will be used for quotes on the admin page
 	 * @var array
