@@ -178,11 +178,72 @@ class CommentsTest extends ApiTest {
 		$this->assertEmpty(Comment::find($c->id));
 	}
 
-	private function destroy($id)
+	public function testUpdateCommentNotFound()
 	{
-		$this->doRequest('destroy', $id);
+		$this->logUserWithId(1);
 
-		return $this;
+		$this->update($this->getIdNonExistingRessource())
+			->assertStatusCodeIs(Response::HTTP_NOT_FOUND)
+			->withStatusMessage('comment_not_found')
+			->withErrorMessage('The comment #'.$this->getIdNonExistingRessource().' was not found.');
+	}
+
+	public function testUpdateCommentNotOwned()
+	{
+		// Create a comment not owned by the logged in user
+		$u = Factory::create('TeenQuotes\Users\Models\User', ['id' => 500]);
+		$c = Factory::create('TeenQuotes\Comments\Models\Comment', ['user_id' => $u['id']]);
+
+		$idUserLoggedIn = 1;
+		$this->logUserWithId($idUserLoggedIn);
+
+		$this->update($c['id'])
+			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+			->withStatusMessage('comment_not_self')
+			->withErrorMessage('The comment #'.$c['id'].' was not posted by user #'.$idUserLoggedIn.'.');
+	}
+
+	public function testUpdateTooSmallContent()
+	{
+		// Too small content
+		$this->addInputReplace(['content' => $this->generateString(9)]);
+		
+		$this->assertUpdateWithWrongContent()
+			->withErrorMessage('The content must be at least 10 characters.');
+	}
+
+	public function testUpdateTooLongContent()
+	{
+		// Too long content
+		$this->addInputReplace(['content' => $this->generateString(501)]);
+		
+		$this->assertUpdateWithWrongContent()
+			->withErrorMessage('The content may not be greater than 500 characters.');
+	}
+
+	public function testUpdateRequiredContent()
+	{
+		// No content
+		$this->addInputReplace(['content' => '']);
+		
+		$this->assertUpdateWithWrongContent()
+			->withErrorMessage('The content field is required.');
+	}
+
+	public function testUpdateSuccess()
+	{
+		$c = Comment::first();
+
+		$this->logUserWithId($c->user_id);
+
+		$this->addInputReplace([
+			'content' => $this->generateString(150),
+		]);
+		
+		$this->update($c->id)
+			->assertStatusCodeIs(Response::HTTP_OK)
+			->withStatusMessage('comment_updated')
+			->withSuccessMessage('The comment #'.$c->id.' was updated.');
 	}
 
 	private function assertStoreWithWrongContent()
@@ -196,9 +257,35 @@ class CommentsTest extends ApiTest {
 		return $this;
 	}
 
+	private function assertUpdateWithWrongContent()
+	{
+		$c = Comment::first();
+		$this->logUserWithId($c->user_id);
+		
+		$this->store($c->id)
+			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+			->withStatusMessage('wrong_content');
+
+		return $this;
+	}
+
 	private function store($id)
 	{
 		return $this->tryStore('store', $id);
+	}
+
+	private function destroy($id)
+	{
+		$this->doRequest('destroy', $id);
+
+		return $this;
+	}
+
+	private function update($id)
+	{
+		$this->doRequest('update', $id);
+
+		return $this;
 	}
 
 	private function doNotEmbedsQuote()

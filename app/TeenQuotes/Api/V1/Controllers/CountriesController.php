@@ -1,19 +1,8 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use TeenQuotes\Countries\Repositories\CountryRepository;
 use TeenQuotes\Http\Facades\Response;
 
 class CountriesController extends APIGlobalController {
-	
-	/**
-	 * @var TeenQuotes\Countries\Repositories\CountryRepository
-	 */
-	private $countryRepo;
-	
-	function __construct(CountryRepository $countryRepo)
-	{
-		$this->countryRepo = $countryRepo;
-	}
 
 	public function show($country_id = null)
 	{

@@ -25,6 +25,14 @@ class Comment extends Toloquent {
 		'quote_id' => 'required|exists:quotes,id',
 	];
 
+	/**
+	 * The validation rules when editing a comment
+	 * @var array
+	 */
+	public static $rulesEdit = [
+		'content'  => 'required|min:10|max:500',
+	];
+
 	public function isPostedBySelf()
 	{
 		if (Auth::check())

@@ -6,19 +6,8 @@ use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Stories\Models\Story;
 use TeenQuotes\Users\Models\User;
-use TeenQuotes\Stories\Repositories\StoryRepository;
 
 class StoriesController extends APIGlobalController {
-	
-	/**
-	 * @var TeenQuotes\Stories\Repositories\StoryRepository
-	 */
-	private $storyRepo;
-
-	function __construct(StoryRepository $storyRepo)
-	{
-		$this->storyRepo = $storyRepo;
-	}
 
 	public function index()
 	{

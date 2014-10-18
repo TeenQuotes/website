@@ -39,6 +39,7 @@ class ApiServiceProvider extends ServiceProvider {
 	{
 		$this->app['router']->group($this->getRouteGroupParams(), function() {
 			$this->app['router']->get('comments/{quote_id}', ['uses' => 'CommentsController@index']);
+			$this->app['router']->put('comments/{comment_id}', ['uses' => 'CommentsController@update']);
 			$this->app['router']->post('comments/{quote_id}', ['uses' => 'CommentsController@store']);
 			$this->app['router']->delete('comments/{comment_id}', ['uses' => 'CommentsController@destroy']);
 			$this->app['router']->get('comments/{comment_id}', ['uses' => 'CommentsController@show']);

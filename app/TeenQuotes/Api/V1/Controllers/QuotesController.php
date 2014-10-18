@@ -6,28 +6,10 @@ use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\Quote;
-use TeenQuotes\Quotes\Repositories\QuoteRepository;
-use TeenQuotes\Users\Repositories\UserRepository;
 
 class QuotesController extends APIGlobalController implements PaginatedContentInterface {
 
 	private $relationInvolved = 'quotes';
-
-	/**
-	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
-	 */
-	private $quoteRepo;
-
-	/**
-	 * @var TeenQuotes\Users\Repositories\UserRepository
-	 */
-	private $userRepo;
-
-	function __construct(QuoteRepository $quoteRepo, UserRepository $userRepo)
-	{
-		$this->quoteRepo = $quoteRepo;
-		$this->userRepo = $userRepo;
-	}
 
 	public function show($quote_id)
 	{

@@ -14,36 +14,11 @@ use stojg\crop\CropEntropy;
 use TeenQuotes\Countries\Models\Country;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Newsletters\Models\Newsletter;
-use TeenQuotes\Newsletters\Repositories\NewsletterRepository;
 use TeenQuotes\Settings\Models\Setting;
-use TeenQuotes\Settings\Repositories\SettingRepository;
 use TeenQuotes\Users\Models\User;
-use TeenQuotes\Users\Repositories\UserRepository;
 use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 
 class UsersController extends APIGlobalController {
-	
-	/**
-	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
-	 */
-	private $newsletterRepo;
-
-	/**
-	 * @var TeenQuotes\Settings\Repositories\SettingRepository
-	 */
-	private $settingRepo;
-
-	/**
-	 * @var TeenQuotes\Users\Repositories\UserRepository
-	 */
-	private $userRepo;
-
-	function __construct(NewsletterRepository $newsletterRepo, SettingRepository $settingRepo, UserRepository $userRepo)
-	{
-		$this->newsletterRepo = $newsletterRepo;
-		$this->settingRepo = $settingRepo;
-		$this->userRepo = $userRepo;
-	}
 
 	public function destroy()
 	{

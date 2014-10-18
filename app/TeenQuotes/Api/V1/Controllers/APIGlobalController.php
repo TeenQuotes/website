@@ -6,19 +6,71 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\URL;
 use LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade as AuthorizationServer;
 use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
+use TeenQuotes\Comments\Repositories\CommentRepository;
+use TeenQuotes\Countries\Repositories\CountryRepository;
 use TeenQuotes\Http\Facades\Response;
+use TeenQuotes\Newsletters\Repositories\NewsletterRepository;
+use TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository;
+use TeenQuotes\Quotes\Repositories\QuoteRepository;
+use TeenQuotes\Settings\Repositories\SettingRepository;
+use TeenQuotes\Stories\Repositories\StoryRepository;
 use TeenQuotes\Users\Repositories\UserRepository;
 
 class APIGlobalController extends BaseController {
+	/**
+	 * @var TeenQuotes\Countries\Repositories\CountryRepository
+	 */
+	protected $countryRepo;
+
+	/**
+	 * @var TeenQuotes\Comments\Repositories\CommentRepository
+	 */
+	protected $commentRepo;
+
+	/**
+	 * @var TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 */
+	protected $favQuoteRepo;
+
+	/**
+	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
+	 */
+	protected $newsletterRepo;
+
+	/**
+	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
+	protected $quoteRepo;
+
+	/**
+	 * @var TeenQuotes\Settings\Repositories\SettingRepository
+	 */
+	protected $settingRepo;
+
+	/**
+	 * @var TeenQuotes\Stories\Repositories\StoryRepository
+	 */
+	protected $storyRepo;
 
 	/**
 	 * @var TeenQuotes\Users\Repositories\UserRepository
 	 */
-	private $userRepo;
+	protected $userRepo;
 
-	function __construct(UserRepository $userRepo)
+	public function __construct(
+		CommentRepository $commentRepo, CountryRepository $countryRepo,
+		FavoriteQuoteRepository $favQuoteRepo, NewsletterRepository $newsletterRepo,
+		QuoteRepository $quoteRepo, SettingRepository $settingRepo,
+		StoryRepository $storyRepo, UserRepository $userRepo)
 	{
-		$this->userRepo = $userRepo;
+		$this->commentRepo    = $commentRepo;
+		$this->countryRepo    = $countryRepo;
+		$this->favQuoteRepo   = $favQuoteRepo;
+		$this->newsletterRepo = $newsletterRepo;
+		$this->quoteRepo      = $quoteRepo;
+		$this->settingRepo    = $settingRepo;
+		$this->storyRepo      = $storyRepo;
+		$this->userRepo       = $userRepo;
 	}
 
 	public function showWelcome()

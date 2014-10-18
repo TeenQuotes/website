@@ -5,30 +5,12 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Comments\Models\Comment;
-use TeenQuotes\Comments\Repositories\CommentRepository;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Mail\MailSwitcher;
 use TeenQuotes\Quotes\Models\Quote;
-use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Users\Models\User;
 
 class CommentsController extends APIGlobalController implements PaginatedContentInterface {
-
-	/**
-	 * @var TeenQuotes\Comments\Repositories\CommentRepository
-	 */
-	private $commentRepo;
-
-	/**
-	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
-	 */
-	private $quoteRepo;
-	
-	function __construct(CommentRepository $commentRepo, QuoteRepository $quoteRepo)
-	{
-		$this->commentRepo = $commentRepo;
-		$this->quoteRepo = $quoteRepo;
-	}
 
 	public function index($quote_id)
 	{
@@ -112,6 +94,45 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 	public function getPagesize()
 	{
 		return Input::get('pagesize', Config::get('app.comments.nbCommentsPerPage'));
+	}
+
+	public function update($id)
+	{
+		$user = $this->retrieveUser();
+		$content = Input::get('content');
+		$comment = $this->commentRepo->findById($id);
+
+		// Handle not found
+		if (is_null($comment))
+			return Response::json([
+				'status' => 'comment_not_found',
+				'error'  => "The comment #".$id." was not found.",
+			], 404);
+
+		// Check that the user is the owner of the comment
+		if ( ! $comment->isPostedByUser($user))
+			return Response::json([
+				'status' => 'comment_not_self',
+				'error'  => "The comment #".$id." was not posted by user #".$user->id.".",
+			], 400);
+
+		// Perform validation
+		foreach (array_keys(Comment::$rulesEdit) as $value) {
+			$validator = Validator::make(compact($value), [$value => Comment::$rulesEdit[$value]]);
+			if ($validator->fails())
+				return Response::json([
+					'status' => 'wrong_'.$value,
+					'error' => $validator->messages()->first($value)
+				], 400);
+		}
+
+		// Update the comment
+		$this->commentRepo->update($id, $content);
+
+		return Response::json([
+			'status'  => 'comment_updated',
+			'success' => "The comment #".$id." was updated.",
+		], 200);
 	}
 
 	public function destroy($id)

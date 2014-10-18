@@ -7,27 +7,9 @@ use Illuminate\Support\Facades\URL;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\Quote;
-use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Users\Models\User;
-use TeenQuotes\Users\Repositories\UserRepository;
 
 class SearchController extends APIGlobalController implements PaginatedContentInterface {
-	
-	/**
-	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
-	 */
-	private $quoteRepo;
-
-	/**
-	 * @var TeenQuotes\Users\Repositories\UserRepository
-	 */
-	private $userRepo;
-
-	function __construct(QuoteRepository $quoteRepo, UserRepository $userRepo)
-	{
-		$this->quoteRepo = $quoteRepo;
-		$this->userRepo = $userRepo;
-	}
 
 	public function getSearch($query)
 	{
