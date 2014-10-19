@@ -19,7 +19,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		if (empty($quote) OR $quote->count() == 0)
 			return Response::json([
 				'status' => 'quote_not_found',
-				'error'  => "The quote #".$quote_id." was not found",
+				'error'  => "The quote #".$quote_id." was not found.",
 			], 404);
 					
 		// Register the view in the recommendation engine
@@ -40,7 +40,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		if (is_null($user)) {
 			$data = [
 				'status' => 'user_not_found',
-				'error'  => "The user #".$user_id." was not found",
+				'error'  => "The user #".$user_id." was not found.",
 			];
 
 			return Response::json($data, 400);
@@ -83,7 +83,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		if (is_null($user)) {
 			$data = [
 				'status' => 'user_not_found',
-				'error'  => "The user #".$user_id." was not found",
+				'error'  => "The user #".$user_id." was not found.",
 			];
 
 			return Response::json($data, 400);
@@ -214,6 +214,11 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		}
 	}
 
+	public function getQuotesSearch($page, $pagesize, $query)
+	{
+		return $this->quoteRepo->searchPublishedWithQuery($query, $page, $pagesize);
+	}
+
 	private function getDefaultNbQuotesPerPage()
 	{
 		return Config::get('app.quotes.nbQuotesPerPage');
@@ -233,12 +238,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 	{
 		return $this->quoteRepo->getForIds($arrayIDFavoritesQuotesForUser, $page, $pagesize);
 	}
-
-	public function getQuotesSearch($page, $pagesize, $query)
-	{
-		return $this->quoteRepo->searchPublishedWithQuery($query, $page, $pagesize);
-	}
-
+	
 	private function getQuotesByApprovedForUser($page, $pagesize, $user, $quote_approved_type)
 	{
 		return $this->quoteRepo->getQuotesByApprovedForUser($user, $quote_approved_type, $page, $pagesize);

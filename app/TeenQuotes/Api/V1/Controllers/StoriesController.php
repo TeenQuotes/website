@@ -37,7 +37,7 @@ class StoriesController extends APIGlobalController {
 		if (is_null($story))
 			return Response::json([
 				'status' => 'story_not_found',
-				'error'  => "The story #".$story_id." was not found",
+				'error'  => "The story #".$story_id." was not found.",
 			], 404);
 					
 		return Response::json($story, 200, [], JSON_NUMERIC_CHECK);

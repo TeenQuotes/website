@@ -24,7 +24,7 @@ class StoriesTest extends ApiTest {
 		// Not found story
 		$this->tryShowNotFound()
 			->withStatusMessage('story_not_found')
-			->withErrorMessage('The story #'.$this->getIdNonExistingRessource().' was not found');
+			->withErrorMessage('The story #'.$this->getIdNonExistingRessource().' was not found.');
 
 	}
 

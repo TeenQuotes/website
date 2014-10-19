@@ -27,7 +27,7 @@ class QuotesTest extends ApiTest {
 		// Not found quote
 		$this->tryShowNotFound()
 			->withStatusMessage('quote_not_found')
-			->withErrorMessage('The quote #'.$this->getIdNonExistingRessource().' was not found');
+			->withErrorMessage('The quote #'.$this->getIdNonExistingRessource().' was not found.');
 	}
 
 	public function testShowFound()
@@ -120,7 +120,7 @@ class QuotesTest extends ApiTest {
 		$this->doRequest('indexFavoritesQuotes', $idNonExistingUser)
 			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage('user_not_found')
-			->withErrorMessage('The user #'.$idNonExistingUser.' was not found');
+			->withErrorMessage('The user #'.$idNonExistingUser.' was not found.');
 	}
 
 	public function testQuotesFavoritesWithoutFavorites()
@@ -158,7 +158,7 @@ class QuotesTest extends ApiTest {
 			$this->doRequest('indexByApprovedQuotes', [$approved, $idNonExistingUser])
 				->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 				->withStatusMessage('user_not_found')
-				->withErrorMessage('The user #'.$idNonExistingUser.' was not found');
+				->withErrorMessage('The user #'.$idNonExistingUser.' was not found.');
 		}
 	}
 
