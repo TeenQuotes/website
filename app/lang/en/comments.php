@@ -11,4 +11,9 @@ return array(
 	'commentAddedSubjectEmail' => 'Comment posted on your quote #:id',
 	'contentShortHint'         => "It's a bit short!",
 	'contentGreatHint'         => "It seems nice!",
+	'cantEditThisComment'      => "You can't edit this comment.",
+	'commentEditSuccessfull'   => "Your comment was successfully updated!",
+	'editMyComment'            => 'Edit my comment!',
+	'updateYourComment'        => 'Update your comment',
+	'updateCommentPageTitle'   => 'Update your comment | '.Lang::get('layout.nameWebsite')
 );
