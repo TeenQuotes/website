@@ -14,6 +14,6 @@ return array(
 	'cantEditThisComment'      => "You can't edit this comment.",
 	'commentEditSuccessfull'   => "Your comment was successfully updated!",
 	'editMyComment'            => 'Edit my comment!',
-	'updateYourComment'        => 'Update your comment',
-	'updateCommentPageTitle'   => 'Update your comment | '.Lang::get('layout.nameWebsite')
+	'updateYourComment'        => 'Update my comment',
+	'updateCommentPageTitle'   => 'Update my comment | '.Lang::get('layout.nameWebsite')
 );
