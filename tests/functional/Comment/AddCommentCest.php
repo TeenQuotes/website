@@ -5,7 +5,7 @@ use TeenQuotes\Quotes\Models\Quote;
 class AddCommentCest {
 
 	/**
-	 * The number of comments to add of the first quote
+	 * The number of comments to add to the first quote
 	 * @var integer
 	 */
 	private $nbComments = 5;

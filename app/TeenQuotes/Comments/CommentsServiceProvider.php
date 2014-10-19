@@ -30,8 +30,9 @@ class CommentsServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->registerRoutes();
 		$this->registerBindings();
+		$this->registerComposers();
+		$this->registerRoutes();
 	}
 
 	private function registerBindings()
@@ -44,6 +45,16 @@ class CommentsServiceProvider extends ServiceProvider {
 		);
 	}
 
+	private function registerComposers()
+	{
+		$namespace = 'TeenQuotes\Comments\Composers';
+
+		// When editing a comment
+		$this->app['view']->composer([
+			'comments.edit'
+		], $namespace.'\EditComposer');
+	}
+
 	private function registerObserver()
 	{
 		Comment::observe(new CommentObserver);
@@ -52,7 +63,7 @@ class CommentsServiceProvider extends ServiceProvider {
 	private function registerRoutes()
 	{
 		$this->app['router']->group($this->getRouteGroupParams(), function() {
-			$this->app['router']->resource('comments', 'CommentsController', ['only' => ['store', 'destroy']]);
+			$this->app['router']->resource('comments', 'CommentsController', ['only' => ['store', 'destroy', 'update', 'edit']]);
 		});
 	}
 

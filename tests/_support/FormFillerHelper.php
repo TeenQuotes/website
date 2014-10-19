@@ -16,6 +16,14 @@ class FormFillerHelper extends Module {
 		$I->click('Log me in!', 'form');
 	}
 
+	public function fillEditCommentForm($text)
+	{
+		$I = $this->getModule('Laravel4');
+		
+		$I->fillField('#content-comment', $text);
+		$I->click('Edit my comment!');
+	}
+
 	public function fillAddQuoteForm()
 	{
 		$I = $this->getModule('Laravel4');

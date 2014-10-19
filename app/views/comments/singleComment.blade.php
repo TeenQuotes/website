@@ -9,7 +9,7 @@ $animation = isset($fadeLeft) ? " animated fadeInLeft" : '';
 		<!-- Avatar -->
 		<div class="column column-avatar col-xs-3 col-sm-3 col-md-2 col-lg-1">
 			@if ( ! $comment->user->isHiddenProfile())
-				<a href="{{ URL::route('users.show', ['id' => $comment->user->login]) }}">
+				<a href="{{ URL::route('users.show', $comment->user->login) }}">
 			@endif
 				<img class="avatar img-responsive" src="{{{ $comment->user->present()->avatarLink }}}"/>
 			@if ( ! $comment->user->isHiddenProfile())
@@ -31,13 +31,17 @@ $animation = isset($fadeLeft) ? " animated fadeInLeft" : '';
 			<div class="date-comment col-xs-offset-3 col-sm-offset-3 col-md-offset-2 col-lg-offset-1 col-xs-4 col-sm-4 col-md-3 col-lg-2">
 		@endif
 			@if ($comment->isPostedBySelf())
+				<!-- Edit my comment -->
+				<a class="edit-comment" href="{{ URL::route('comments.edit', $comment->id) }}"><i class="fa fa-edit"></i></a>
+				<!-- Delete my comment -->
 				<i class="delete-comment fa fa-times" data-id="{{{ $comment->id }}}" data-url="{{ URL::route('comments.destroy', $comment->id) }}"></i>
 			@endif
 
 			{{{ $comment->present()->commentAge }}}
 		</div>
+		
 		<!-- Author name -->
-		@if ( ! isset($viewingSelfProfile) OR (isset($viewingSelfProfile) AND !$viewingSelfProfile))
+		@if ( ! isset($viewingSelfProfile) OR (isset($viewingSelfProfile) AND ! $viewingSelfProfile))
 			<div class="col-xs-5 col-sm-5 col-md-7 col-lg-9">
 				@if ( ! $comment->user->isHiddenProfile())
 					<a href="{{ URL::route('users.show', ['id' => $comment->user->login]) }}" class="link-author-name">

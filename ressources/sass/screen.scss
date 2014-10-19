@@ -994,7 +994,7 @@ h3 {
 	}
 }
 
-#title-comments, #title-add-comment {
+#title-comments, #title-add-comment, #title-edit-comment {
 	margin: 2em 0 1em 0;
 
 	i.fa {
@@ -1026,10 +1026,25 @@ h3 {
 			}
 		}
 
+		a.edit-comment {
+			margin-right: 5px;
+			color: darken($lightGray, 50%);
+			@include element-transition;
+
+			&:hover {
+				color: darken($lightGray, 70%);
+			}
+		}
+
 		i.delete-comment {
 			color: $red;
 			margin-right: 10px;
 			cursor: pointer;
+			@include element-transition;
+
+			&:hover {
+				color: darken($red, 20%);
+			}
 		}
 
 		.link-author-name {
