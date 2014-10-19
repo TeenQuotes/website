@@ -60,7 +60,7 @@ class CommentsTest extends ApiTest {
 		// Not found comment
 		$this->tryShowNotFound($this->getIdNonExistingRessource())
 			->withStatusMessage('comment_not_found')
-			->withErrorMessage('The comment #'.$this->getIdNonExistingRessource().' was not found');
+			->withErrorMessage('The comment #'.$this->getIdNonExistingRessource().' was not found.');
 	}
 
 	public function testShowFoundWithoutQuote()

@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Comments\Models\Comment;
 use TeenQuotes\Http\Facades\Response;
-use TeenQuotes\Mail\MailSwitcher;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Users\Models\User;
 
@@ -48,10 +47,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 		
 		// Handle not found
 		if (is_null($comment))
-			return Response::json([
-				'status' => 'comment_not_found',
-				'error'  => "The comment #".$comment_id." was not found",
-			], 404);
+			return $this->tellCommentWasNotFound($comment_id);
 		
 		return Response::json($comment, 200, [], JSON_NUMERIC_CHECK);
 	}
@@ -91,11 +87,6 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 		return Response::json($comment, 201, [], JSON_NUMERIC_CHECK);
 	}
 
-	public function getPagesize()
-	{
-		return Input::get('pagesize', Config::get('app.comments.nbCommentsPerPage'));
-	}
-
 	public function update($id)
 	{
 		$user = $this->retrieveUser();
@@ -104,17 +95,11 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
 		// Handle not found
 		if (is_null($comment))
-			return Response::json([
-				'status' => 'comment_not_found',
-				'error'  => "The comment #".$id." was not found.",
-			], 404);
+			return $this->tellCommentWasNotFound($id);
 
 		// Check that the user is the owner of the comment
 		if ( ! $comment->isPostedByUser($user))
-			return Response::json([
-				'status' => 'comment_not_self',
-				'error'  => "The comment #".$id." was not posted by user #".$user->id.".",
-			], 400);
+			return $this->tellCommentWasNotPostedByUser($id, $user);
 
 		// Perform validation
 		foreach (array_keys(Comment::$rulesEdit) as $value) {
@@ -142,17 +127,11 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
 		// Handle not found
 		if (is_null($comment))
-			return Response::json([
-				'status' => 'comment_not_found',
-				'error'  => "The comment #".$id." was not found.",
-			], 404);
+			return $this->tellCommentWasNotFound($id);
 
 		// Check that the user is the owner of the comment
 		if ( ! $comment->isPostedByUser($user))
-			return Response::json([
-				'status' => 'comment_not_self',
-				'error'  => "The comment #".$id." was not posted by user #".$user->id.".",
-			], 400);
+			return $this->tellCommentWasNotPostedByUser($id, $user);
 
 		// Delete the comment
 		$this->commentRepo->delete($id);
@@ -163,5 +142,26 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 			'status'  => 'comment_deleted',
 			'success' => "The comment #".$id." was deleted.",
 		], 200);
+	}
+
+	public function getPagesize()
+	{
+		return Input::get('pagesize', Config::get('app.comments.nbCommentsPerPage'));
+	}
+
+	private function tellCommentWasNotFound($id)
+	{
+		return Response::json([
+			'status' => 'comment_not_found',
+			'error'  => "The comment #".$id." was not found.",
+		], 404);
+	}
+
+	private function tellCommentWasNotPostedByUser($id, User $user)
+	{
+		return Response::json([
+			'status' => 'comment_not_self',
+			'error'  => "The comment #".$id." was not posted by user #".$user->id.".",
+		], 400);
 	}
 }
