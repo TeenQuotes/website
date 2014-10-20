@@ -1,11 +1,12 @@
-<?php
+<?php namespace TeenQuotes\Users\Console;
 
-use Illuminate\Console\Command;
-use Indatus\Dispatcher\Drivers\Cron\Scheduler;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use TeenQuotes\Users\Repositories\UserRepository;
 
 class EmailSpecialEventCommand extends ScheduledCommand {
 
@@ -39,11 +40,11 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 	 *
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct(UserRepository $userRepo)
 	{
 		parent::__construct();
 
-		$this->userRepo = App::make('TeenQuotes\Users\Repositories\UserRepository');
+		$this->userRepo = $userRepo;
 	}
 
 	/**

@@ -1,12 +1,17 @@
-<?php
+<?php namespace TeenQuotes\Quotes\Console;
 
-use Illuminate\Console\Command;
-use Indatus\Dispatcher\Drivers\Cron\Scheduler;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use TeenQuotes\Mail\MailSwitcher;
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Users\Models\User;
 
 class QuotesPublishCommand extends ScheduledCommand {
@@ -47,11 +52,11 @@ class QuotesPublishCommand extends ScheduledCommand {
 	 *
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct(QuoteRepository $quoteRepo)
 	{
 		parent::__construct();
 
-		$this->quoteRepo = App::make('TeenQuotes\Quotes\Repositories\QuoteRepository');
+		$this->quoteRepo = $quoteRepo;
 	}
 
 	/**

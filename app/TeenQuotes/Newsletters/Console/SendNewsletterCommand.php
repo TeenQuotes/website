@@ -1,12 +1,14 @@
-<?php
+<?php namespace TeenQuotes\Newsletters\Console;
 
-use Illuminate\Console\Command;
-use Indatus\Dispatcher\Drivers\Cron\Scheduler;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
-use TeenQuotes\Newsletters\Models\Newsletter;
+use TeenQuotes\Newsletters\Repositories\NewsletterRepository;
+use TeenQuotes\Quotes\Repositories\QuoteRepository;
 
 class SendNewsletterCommand extends ScheduledCommand {
 
@@ -45,12 +47,12 @@ class SendNewsletterCommand extends ScheduledCommand {
 	 *
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct(QuoteRepository $quoteRepo, NewsletterRepository $newsletterRepo)
 	{
 		parent::__construct();
 
-		$this->quoteRepo = App::make('TeenQuotes\Quotes\Repositories\QuoteRepository');
-		$this->newsletterRepo = App::make('TeenQuotes\Newsletters\Repositories\NewsletterRepository');
+		$this->quoteRepo = $quoteRepo;
+		$this->newsletterRepo = $newsletterRepo;
 	}
 
 	/**

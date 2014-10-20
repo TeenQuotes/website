@@ -33,11 +33,12 @@ class UsersServiceProvider extends ServiceProvider {
 		$this->registerRoutes();
 		$this->registerBindings();
 		$this->registerViewComposers();
+		$this->registerCommands();
 	}
 
 	private function registerBindings()
 	{
-		$namespace = 'TeenQuotes\Users\Repositories';
+		$namespace = $this->getBaseNamespace().'Repositories';
 
 		$this->app->bind(
 			$namespace.'\UserRepository',
@@ -68,7 +69,7 @@ class UsersServiceProvider extends ServiceProvider {
 
 	private function registerViewComposers()
 	{
-		$namespace = 'TeenQuotes\Users\Composers';
+		$namespace = $this->getBaseNamespace().'Composers';
 
 		// When showing a user's profile
 		$this->app['view']->composer([
@@ -94,8 +95,34 @@ class UsersServiceProvider extends ServiceProvider {
 	{
 		return [
 			'domain'    => $this->app['config']->get('app.domain'),
-			'namespace' => 'TeenQuotes\Users\Controllers',
+			'namespace' => $this->getBaseNamespace().'Controllers',
 		];
+	}
+
+	private function registerCommands()
+	{
+		// Send birthday
+		$commandName = $this->getBaseNamespace().'Console\SendBirthdayCommand';
+		$this->app->bindShared('users.console.sendBirthday', function($app) use($commandName)
+		{
+			return $app->make($commandName);
+		});
+
+		$this->commands('users.console.sendBirthday');
+
+		// Send special event
+		$commandName = $this->getBaseNamespace().'Console\EmailSpecialEventCommand';
+		$this->app->bindShared('users.console.emailSpecialEvent', function($app) use($commandName)
+		{
+			return $app->make($commandName);
+		});
+
+		$this->commands('users.console.emailSpecialEvent');
+	}
+
+	private function getBaseNamespace()
+	{
+		return 'TeenQuotes\Users\\';
 	}
 
 	/**

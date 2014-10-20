@@ -1,13 +1,12 @@
-<?php
+<?php namespace TeenQuotes\Countries\Console;
 
-use Illuminate\Console\Command;
-use Indatus\Dispatcher\Drivers\Cron\Scheduler;
+use Illuminate\Support\Facades\Log;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use LaraSetting;
 use TeenQuotes\Countries\Models\Country;
-use TeenQuotes\Users\Models\User;
+use TeenQuotes\Countries\Repositories\CountryRepository;
+use TeenQuotes\Users\Repositories\UserRepository;
 
 class MostCommonCountryCommand extends ScheduledCommand {
 
@@ -40,12 +39,12 @@ class MostCommonCountryCommand extends ScheduledCommand {
 	 *
 	 * @return void
 	 */
-	public function __construct()
+	public function __construct(CountryRepository $countryRepo, UserRepository $userRepo)
 	{
 		parent::__construct();
 
-		$this->countryRepo = App::make('TeenQuotes\Countries\Repositories\CountryRepository');
-		$this->userRepo = App::make('TeenQuotes\Users\Repositories\UserRepository');
+		$this->countryRepo = $countryRepo;
+		$this->userRepo = $userRepo;
 	}
 
 	/**

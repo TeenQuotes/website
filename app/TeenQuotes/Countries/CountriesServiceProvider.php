@@ -19,15 +19,33 @@ class CountriesServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->registerBindings();
+		$this->registerCommands();
 	}
 
 	private function registerBindings()
 	{
-		$namespace = 'TeenQuotes\Countries\Repositories';
+		$namespace = $this->getBaseNamespace().'Repositories';
 
 		$this->app->bind(
 			$namespace.'\CountryRepository',
 			$namespace.'\DbCountryRepository'
 		);
+	}
+
+	private function registerCommands()
+	{
+		$commandName = $this->getBaseNamespace().'Console\MostCommonCountryCommand';
+
+		$this->app->bindShared('countries.console.mostCommonCountry', function($app) use($commandName)
+		{
+			return $app->make($commandName);
+		});
+
+		$this->commands('countries.console.mostCommonCountry');
+	}
+
+	private function getBaseNamespace()
+	{
+		return 'TeenQuotes\Countries\\';
 	}
 }

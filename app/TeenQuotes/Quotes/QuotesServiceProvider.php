@@ -38,10 +38,23 @@ class QuotesServiceProvider extends ServiceProvider {
 		$this->registerQuoteRoutes();
 		$this->registerQuotesComposers();
 		$this->registerQuotesBindings();
+		$this->registerQuotesCommands();
 
 		// Search
 		$this->registerSearchRoutes();
 		$this->registerSearchComposers();
+	}
+
+	private function registerQuotesCommands()
+	{
+		$commandName = $this->getBaseNamespace().'Console\QuotesPublishCommand';
+
+		$this->app->bindShared('quotes.console.quotesPublish', function($app) use($commandName)
+		{
+			return $app->make($commandName);
+		});
+
+		$this->commands('quotes.console.quotesPublish');
 	}
 
 	private function registerObserver()
@@ -51,7 +64,7 @@ class QuotesServiceProvider extends ServiceProvider {
 
 	private function registerFavoriteQuoteBindings()
 	{
-		$namespace = 'TeenQuotes\Quotes\Repositories';
+		$namespace = $this->getBaseNamespace().'Repositories';
 
 		$this->app->bind(
 			$namespace.'\FavoriteQuoteRepository',
@@ -61,7 +74,7 @@ class QuotesServiceProvider extends ServiceProvider {
 
 	private function registerQuotesBindings()
 	{
-		$namespace = 'TeenQuotes\Quotes\Repositories';
+		$namespace = $this->getBaseNamespace().'Repositories';
 
 		$this->app->bind(
 			$namespace.'\QuoteRepository',
@@ -109,22 +122,22 @@ class QuotesServiceProvider extends ServiceProvider {
 		// When indexing quotes
 		$this->app['view']->composer([
 			'quotes.index'
-		], $this->getNamespaceComposers().'\IndexComposer');
+		], $this->getNamespaceComposers().'IndexComposer');
 
 		// When adding a quote
 		$this->app['view']->composer([
 			'quotes.addquote'
-		], $this->getNamespaceComposers().'\AddComposer');
+		], $this->getNamespaceComposers().'AddComposer');
 
 		// When adding a comment on a single quote
 		$this->app['view']->composer([
 			'quotes.show'
-		], $this->getNamespaceComposers().'\ShowComposer');
+		], $this->getNamespaceComposers().'ShowComposer');
 
 		// View a single quote
 		$this->app['view']->composer([
 			'quotes.singleQuote'
-		], $this->getNamespaceComposers().'\SingleComposer');
+		], $this->getNamespaceComposers().'SingleComposer');
 
 		// For deeps link
 		$this->app['view']->composer([
@@ -138,7 +151,7 @@ class QuotesServiceProvider extends ServiceProvider {
 		// When showing search results
 		$this->app['view']->composer([
 			'search.results'
-		], $this->getNamespaceComposers().'\ResultsComposer');
+		], $this->getNamespaceComposers().'ResultsComposer');
 	}
 
 	/**
@@ -149,12 +162,17 @@ class QuotesServiceProvider extends ServiceProvider {
 	{
 		return [
 			'domain'    => $this->app['config']->get('app.domain'),
-			'namespace' => 'TeenQuotes\Quotes\Controllers',
+			'namespace' => $this->getBaseNamespace().'Controllers',
 		];
+	}
+
+	private function getBaseNamespace()
+	{
+		return 'TeenQuotes\Quotes\\';
 	}
 
 	private function getNamespaceComposers()
 	{
-		return 'TeenQuotes\Quotes\Composers';
+		return $this->getBaseNamespace().'Composers\\';
 	}
 }

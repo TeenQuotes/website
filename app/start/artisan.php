@@ -10,9 +10,4 @@
 | the console gets access to each of the command object instances.
 |
 */
-Artisan::add(new QuotesPublishCommand);
-Artisan::add(new SendNewsletterCommand);
-Artisan::add(new SendBirthdayCommand);
-Artisan::add(new EmailSpecialEventCommand);
 Artisan::add(new QuoteRefuseTooSadCommand);
-Artisan::add(new MostCommonCountryCommand);

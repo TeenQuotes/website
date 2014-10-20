@@ -19,15 +19,33 @@ class NewslettersServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->registerBindings();
+		$this->registerCommands();
 	}
 
 	private function registerBindings()
 	{
-		$namespace = 'TeenQuotes\Newsletters\Repositories';
+		$namespace = $this->getBaseNamespace().'Repositories';
 		
 		$this->app->bind(
 			$namespace.'\NewsletterRepository',
 			$namespace.'\DbNewsletterRepository'
 		);
+	}
+
+	private function registerCommands()
+	{
+		$commandName = $this->getBaseNamespace().'Console\SendNewsletterCommand';
+
+		$this->app->bindShared('newsletters.console.sendNewsletter', function($app) use($commandName)
+		{
+			return $app->make($commandName);
+		});
+
+		$this->commands('newsletters.console.sendNewsletter');
+	}
+
+	private function getBaseNamespace()
+	{
+		return 'TeenQuotes\Newsletters\\';
 	}
 }
