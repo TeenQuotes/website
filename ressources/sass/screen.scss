@@ -1013,37 +1013,40 @@ h3 {
 .comment {
 	@include comment-and-avatar;
 
+	a.edit-comment {
+		margin-right: 5px;
+		color: darken($lightGray, 50%);
+		@include element-transition;
+
+		&:hover {
+			color: darken($lightGray, 70%);
+		}
+	}
+
+	i.delete-comment {
+		color: $red;
+		margin-right: 10px;
+		cursor: pointer;
+		@include element-transition;
+
+		&:hover {
+			color: darken($red, 20%);
+		}
+	}
 	.comment-info {
 		margin-top: 10px;
 		@media screen and (max-width: $breakpointSmartphone) {
 			font-size: 0.9em;
 		}
 
+		.controls-large {
+			display: inline-block;
+		}
+
 		.date-comment {
 			@media screen and (max-width: $breakpointSmartphone) {
 				font-size: 0.9em;
 				margin-top: 3px;
-			}
-		}
-
-		a.edit-comment {
-			margin-right: 5px;
-			color: darken($lightGray, 50%);
-			@include element-transition;
-
-			&:hover {
-				color: darken($lightGray, 70%);
-			}
-		}
-
-		i.delete-comment {
-			color: $red;
-			margin-right: 10px;
-			cursor: pointer;
-			@include element-transition;
-
-			&:hover {
-				color: darken($red, 20%);
 			}
 		}
 
