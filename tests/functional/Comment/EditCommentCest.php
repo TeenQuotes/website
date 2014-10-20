@@ -43,7 +43,7 @@ class EditCommentCest {
 
 		// Go to the quote, verify that I can edit my comment
 		$I->amOnRoute('quotes.show', $this->firstQuoteId);
-		$I->seeNumberOfElements('a.edit-comment', 1);
+		$I->seeNumberOfElements('.controls-large a.edit-comment', 1);
 		$I->seeElement('.comment[data-id='.$this->myComment->id.'] a.edit-comment');
 		
 		// Go to the edit comment page and fill the form

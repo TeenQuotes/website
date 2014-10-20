@@ -43,8 +43,8 @@ class DeleteCommentCest {
 		$I->seeNumberOfElements('.comment', $this->nbComments);
 
 		// I see the delete button on my comment
-		$I->seeNumberOfElements('i.fa-times', 1);
-		$I->seeElement('.comment[data-id='.$this->nbComments.'] i.fa-times');
+		$I->seeNumberOfElements('.controls-large i.fa-times', 1);
+		$I->seeElement('.comment[data-id='.$this->nbComments.'] .controls-large i.fa-times');
 		
 		// Send the Ajax request to delete my comment
 		$I->sendAjaxDeleteRequest(URL::route('comments.destroy', $this->nbComments));
@@ -69,8 +69,8 @@ class DeleteCommentCest {
 		
 		// I see the delete button on my comment
 		$I->seeNumberOfElements('.comment', 1);
-		$I->seeNumberOfElements('i.fa-times', 1);
-		$I->seeElement('.comment[data-id='.$this->nbComments.'] i.fa-times');
+		$I->seeNumberOfElements('.controls-large i.fa-times', 1);
+		$I->seeElement('.comment[data-id='.$this->nbComments.'] .controls-large i.fa-times');
 
 		// Send the Ajax request to delete my comment
 		$I->sendAjaxDeleteRequest(URL::route('comments.destroy', $this->nbComments));
