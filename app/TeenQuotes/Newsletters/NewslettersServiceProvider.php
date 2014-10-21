@@ -1,9 +1,11 @@
 <?php namespace TeenQuotes\Newsletters;
 
 use Illuminate\Support\ServiceProvider;
-use ReflectionClass;
+use TeenQuotes\Tools\Namespaces\NamespaceTrait;
 
 class NewslettersServiceProvider extends ServiceProvider {
+	
+	use NamespaceTrait;
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -43,11 +45,5 @@ class NewslettersServiceProvider extends ServiceProvider {
 		});
 
 		$this->commands('newsletters.console.sendNewsletter');
-	}
-
-	private function getBaseNamespace()
-	{
-		$reflection = new ReflectionClass(self::class);
-		return $reflection->getNamespaceName().'\\';
 	}
 }

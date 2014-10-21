@@ -1,8 +1,11 @@
 <?php namespace TeenQuotes\Auth;
 
 use Illuminate\Support\ServiceProvider;
+use TeenQuotes\Tools\Namespaces\NamespaceTrait;
 
 class AuthServiceProvider extends ServiceProvider {
+
+	use NamespaceTrait;
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -92,10 +95,5 @@ class AuthServiceProvider extends ServiceProvider {
 			'domain'    => $this->app['config']->get('app.domain'),
 			'namespace' => 'TeenQuotes\Auth\Controllers'
 		];
-	}
-
-	private function getNamespaceComposers()
-	{
-		return 'TeenQuotes\Auth\Composers\\';
 	}
 }

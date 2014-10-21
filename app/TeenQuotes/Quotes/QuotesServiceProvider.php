@@ -1,11 +1,13 @@
 <?php namespace TeenQuotes\Quotes;
 
 use Illuminate\Support\ServiceProvider;
-use ReflectionClass;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Observers\FavoriteQuoteObserver;
+use TeenQuotes\Tools\Namespaces\NamespaceTrait;
 
 class QuotesServiceProvider extends ServiceProvider {
+
+	use NamespaceTrait;
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -165,16 +167,5 @@ class QuotesServiceProvider extends ServiceProvider {
 			'domain'    => $this->app['config']->get('app.domain'),
 			'namespace' => $this->getBaseNamespace().'Controllers',
 		];
-	}
-
-	private function getBaseNamespace()
-	{
-		$reflection = new ReflectionClass(self::class);
-		return $reflection->getNamespaceName().'\\';
-	}
-
-	private function getNamespaceComposers()
-	{
-		return $this->getBaseNamespace().'Composers\\';
 	}
 }

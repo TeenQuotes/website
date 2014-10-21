@@ -1,12 +1,13 @@
 <?php namespace TeenQuotes\Users;
 
 use Illuminate\Support\ServiceProvider;
-use ReflectionClass;
+use TeenQuotes\Tools\Namespaces\NamespaceTrait;
 use TeenQuotes\Users\Models\User;
 use TeenQuotes\Users\Observers\UserObserver;
 
 class UsersServiceProvider extends ServiceProvider {
 
+	use NamespaceTrait;
 	/**
 	 * Indicates if loading of the provider is deferred.
 	 *
@@ -119,12 +120,6 @@ class UsersServiceProvider extends ServiceProvider {
 		});
 
 		$this->commands('users.console.emailSpecialEvent');
-	}
-
-	private function getBaseNamespace()
-	{
-		$reflection = new ReflectionClass(self::class);
-		return $reflection->getNamespaceName().'\\';
 	}
 
 	/**

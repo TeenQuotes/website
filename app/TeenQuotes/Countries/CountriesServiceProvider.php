@@ -1,9 +1,11 @@
 <?php namespace TeenQuotes\Countries;
 
 use Illuminate\Support\ServiceProvider;
-use ReflectionClass;
+use TeenQuotes\Tools\Namespaces\NamespaceTrait;
 
 class CountriesServiceProvider extends ServiceProvider {
+
+	use NamespaceTrait;
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -43,11 +45,5 @@ class CountriesServiceProvider extends ServiceProvider {
 		});
 
 		$this->commands('countries.console.mostCommonCountry');
-	}
-
-	private function getBaseNamespace()
-	{
-		$reflection = new ReflectionClass(self::class);
-		return $reflection->getNamespaceName().'\\';
 	}
 }
