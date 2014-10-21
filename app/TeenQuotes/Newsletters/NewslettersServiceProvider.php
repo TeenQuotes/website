@@ -1,6 +1,7 @@
 <?php namespace TeenQuotes\Newsletters;
 
 use Illuminate\Support\ServiceProvider;
+use ReflectionClass;
 
 class NewslettersServiceProvider extends ServiceProvider {
 
@@ -46,6 +47,7 @@ class NewslettersServiceProvider extends ServiceProvider {
 
 	private function getBaseNamespace()
 	{
-		return 'TeenQuotes\Newsletters\\';
+		$reflection = new ReflectionClass(self::class);
+		return $reflection->getNamespaceName().'\\';
 	}
 }

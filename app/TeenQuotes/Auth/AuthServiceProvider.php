@@ -43,12 +43,12 @@ class AuthServiceProvider extends ServiceProvider {
 		// Send event to GA when not logged in
 		$this->app['view']->composer([
 			'auth.signin'
-		], $this->getNamespaceViewComposers().'\SigninComposer');
+		], $this->getNamespaceComposers().'SigninComposer');
 
 		// When signing up
 		$this->app['view']->composer([
 			'auth.signup'
-		], $this->getNamespaceViewComposers().'\SignupComposer');
+		], $this->getNamespaceComposers().'SignupComposer');
 
 		// For deeps link
 		$this->app['view']->composer([
@@ -74,7 +74,7 @@ class AuthServiceProvider extends ServiceProvider {
 		// Reset a password with a token
 		$this->app['view']->composer([
 			'password.reset'
-		], $this->getNamespaceViewComposers().'\ResetComposer');
+		], $this->getNamespaceComposers().'ResetComposer');
 		
 		// For deeps link
 		$this->app['view']->composer([
@@ -94,8 +94,8 @@ class AuthServiceProvider extends ServiceProvider {
 		];
 	}
 
-	private function getNamespaceViewComposers()
+	private function getNamespaceComposers()
 	{
-		return 'TeenQuotes\Auth\Composers';
+		return 'TeenQuotes\Auth\Composers\\';
 	}
 }

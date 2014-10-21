@@ -1,6 +1,7 @@
 <?php namespace TeenQuotes\Countries;
 
 use Illuminate\Support\ServiceProvider;
+use ReflectionClass;
 
 class CountriesServiceProvider extends ServiceProvider {
 
@@ -46,6 +47,7 @@ class CountriesServiceProvider extends ServiceProvider {
 
 	private function getBaseNamespace()
 	{
-		return 'TeenQuotes\Countries\\';
+		$reflection = new ReflectionClass(self::class);
+		return $reflection->getNamespaceName().'\\';
 	}
 }

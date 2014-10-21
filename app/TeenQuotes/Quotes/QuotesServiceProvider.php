@@ -1,6 +1,7 @@
 <?php namespace TeenQuotes\Quotes;
 
 use Illuminate\Support\ServiceProvider;
+use ReflectionClass;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Observers\FavoriteQuoteObserver;
 
@@ -168,7 +169,8 @@ class QuotesServiceProvider extends ServiceProvider {
 
 	private function getBaseNamespace()
 	{
-		return 'TeenQuotes\Quotes\\';
+		$reflection = new ReflectionClass(self::class);
+		return $reflection->getNamespaceName().'\\';
 	}
 
 	private function getNamespaceComposers()

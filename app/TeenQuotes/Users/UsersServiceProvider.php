@@ -1,6 +1,7 @@
 <?php namespace TeenQuotes\Users;
 
 use Illuminate\Support\ServiceProvider;
+use ReflectionClass;
 use TeenQuotes\Users\Models\User;
 use TeenQuotes\Users\Observers\UserObserver;
 
@@ -122,7 +123,8 @@ class UsersServiceProvider extends ServiceProvider {
 
 	private function getBaseNamespace()
 	{
-		return 'TeenQuotes\Users\\';
+		$reflection = new ReflectionClass(self::class);
+		return $reflection->getNamespaceName().'\\';
 	}
 
 	/**
