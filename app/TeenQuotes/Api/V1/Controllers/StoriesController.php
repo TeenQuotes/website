@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Stories\Models\Story;
 use TeenQuotes\Users\Models\User;
-
+use TeenQuotes\Exceptions\ApiNotFoundException;
 class StoriesController extends APIGlobalController {
 
 	public function index()
@@ -19,10 +19,8 @@ class StoriesController extends APIGlobalController {
 
 		// Handle no stories found
 		if (is_null($content) OR $content->count() == 0)
-			return Response::json([
-				'status' => 404,
-				'error' => 'No stories have been found.'
-			], 404);
+			throw new ApiNotFoundException('stories');
+			
 
 		$data = self::paginateContent($page, $pagesize, $this->storyRepo->total(), $content, 'stories');
 		

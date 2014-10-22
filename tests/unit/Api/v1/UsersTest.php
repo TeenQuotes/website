@@ -336,6 +336,10 @@ class UsersTest extends ApiTest {
 		$this->assertEquals(Cache::get(User::$cacheNameForColorsQuotesPublished.$u->id), $newColor);
 	}
 
+	/**
+	 * @expectedException        TeenQuotes\Exceptions\ApiNotFoundException
+	 * @expectedExceptionMessage users
+	 */
 	public function testSearchUsersNotFound()
 	{
 		$this->deleteAllUsers();
@@ -345,10 +349,7 @@ class UsersTest extends ApiTest {
 
 		$this->assertEquals(1, User::all()->count());
 
-		$this->doRequest('getSearch', 'foo')
-			->assertResponseIsNotFound()
-			->withStatusMessage(404)
-			->withErrorMessage('No users have been found.');
+		$this->doRequest('getSearch', 'foo');
 	}
 
 	public function testSearchSuccess()
@@ -368,6 +369,10 @@ class UsersTest extends ApiTest {
 		$this->tryFirstPage('getSearch', 'c');
 	}
 
+	/**
+	 * @expectedException        TeenQuotes\Exceptions\ApiNotFoundException
+	 * @expectedExceptionMessage users
+	 */
 	public function testSearchMatchingUsersWithHiddenProfile()
 	{
 		$partLogin = 'abc';
@@ -381,12 +386,13 @@ class UsersTest extends ApiTest {
 		});
 
 		// Search results should not display hidden profiles
-		$this->doRequest('getSearch', $partLogin)
-			->assertResponseIsNotFound()
-			->withStatusMessage(404)
-			->withErrorMessage('No users have been found.');
+		$this->doRequest('getSearch', $partLogin);
 	}
 
+	/**
+	 * @expectedException        TeenQuotes\Exceptions\ApiNotFoundException
+	 * @expectedExceptionMessage users
+	 */
 	public function testSearchFailsWrongPage()
 	{
 		$this->generateUsersWithPartialLogin('abc');
@@ -398,10 +404,7 @@ class UsersTest extends ApiTest {
 			'pagesize' => $this->nbRessources
 		]);
 
-		$this->doRequest('getSearch', 'abc')
-			->assertResponseIsNotFound()
-			->withStatusMessage(404)
-			->withErrorMessage('No users have been found.');
+		$this->doRequest('getSearch', 'abc');
 	}
 
 	private function generateUsersWithPartialLogin($string)

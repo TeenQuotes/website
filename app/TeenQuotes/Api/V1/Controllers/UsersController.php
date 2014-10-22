@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use stojg\crop\CropEntropy;
 use TeenQuotes\Countries\Models\Country;
+use TeenQuotes\Exceptions\ApiNotFoundException;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Newsletters\Models\Newsletter;
 use TeenQuotes\Settings\Models\Setting;
@@ -112,10 +113,7 @@ class UsersController extends APIGlobalController {
 		// Handle no users found
 		$totalUsers = 0;
 		if (is_null($content) OR empty($content) OR $content->count() == 0)
-			return Response::json([
-				'status' => 404,
-				'error' => 'No users have been found.'
-			], 404);
+			throw new ApiNotFoundException('users');
 
 		$totalUsers = $this->userRepo->countByPartialLogin($query);
 

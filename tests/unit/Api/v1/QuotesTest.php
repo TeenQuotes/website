@@ -44,12 +44,16 @@ class QuotesTest extends ApiTest {
 
 		// Test first page
 		$this->tryFirstPage();
-
-		// Test not found
-		$this->tryPaginatedContentNotFound()
-			->withStatusMessage(404)
-			->withErrorMessage('No quotes have been found.');
 	}
+
+	/**
+	 * @expectedException        TeenQuotes\Exceptions\ApiNotFoundException
+	 * @expectedExceptionMessage quotes
+	 */
+	public function testIndexNotFound()
+	 {
+		$this->tryPaginatedContentNotFound();
+	 }
 
 	public function testIndexRandom()
 	{
@@ -58,12 +62,16 @@ class QuotesTest extends ApiTest {
 
 		// Test first page
 		$this->tryFirstPage('index', 'random');
-
-		// Test not found
-		$this->tryPaginatedContentNotFound('random')
-			->withStatusMessage(404)
-			->withErrorMessage('No quotes have been found.');
 	}
+
+	/**
+	 * @expectedException        TeenQuotes\Exceptions\ApiNotFoundException
+	 * @expectedExceptionMessage quotes
+	 */
+	public function testIndexRandomNotFound()
+	 {
+		$this->tryPaginatedContentNotFound('random');
+	 }
 
 	public function testStoreContentTooSmall()
 	{
@@ -123,14 +131,15 @@ class QuotesTest extends ApiTest {
 			->withErrorMessage('The user #'.$idNonExistingUser.' was not found.');
 	}
 
+	/**
+	 * @expectedException        TeenQuotes\Exceptions\ApiNotFoundException
+	 * @expectedExceptionMessage quotes
+	 */
 	public function testQuotesFavoritesWithoutFavorites()
 	{
 		$u = Factory::create('TeenQuotes\Users\Models\User');
 
-		$this->doRequest('indexFavoritesQuotes', $u['id'])
-			->assertStatusCodeIs(Response::HTTP_NOT_FOUND)
-			->withStatusMessage(404)
-			->withErrorMessage('No quotes have been found.');
+		$this->doRequest('indexFavoritesQuotes', $u['id']);
 	}
 
 	public function testQuotesFavoritesSuccess()
@@ -162,6 +171,10 @@ class QuotesTest extends ApiTest {
 		}
 	}
 
+	/**
+	 * @expectedException        TeenQuotes\Exceptions\ApiNotFoundException
+	 * @expectedExceptionMessage quotes
+	 */
 	public function testQuotesByApprovedUnexistingQuotes()
 	{
 		foreach ($this->approvedTypes as $approved) {
@@ -174,10 +187,7 @@ class QuotesTest extends ApiTest {
 			// Create a quote with a different approved type for this user
 			$this->createQuotesForUserWithDifferentApproved($idUser, $approved);
 
-			$this->doRequest('indexByApprovedQuotes', [$approved, $idUser])
-				->assertResponseIsNotFound()
-				->withStatusMessage(404)
-				->withErrorMessage('No quotes have been found.');
+			$this->doRequest('indexByApprovedQuotes', [$approved, $idUser]);
 		}
 	}
 

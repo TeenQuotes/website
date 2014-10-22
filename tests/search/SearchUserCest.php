@@ -7,6 +7,8 @@ class SearchUserCest {
 
 	public function _before(SearchTester $I)
 	{
+		$I->createSomePublishedQuotes();
+		
 		for ($i = 1; $i <= $this->nbUsers; $i++) {
 			$I->insertInDatabase(1, 'User', ['login' => Str::random(2).$this->searchFor.$i]);
 		}

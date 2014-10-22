@@ -42,11 +42,15 @@ class StoriesTest extends ApiTest {
 
 		// Test first page
 		$this->tryFirstPage();
+	}
 
-		// Test not found
-		$this->tryPaginatedContentNotFound()
-			->withStatusMessage(404)
-			->withErrorMessage('No stories have been found.');
+	/**
+	 * @expectedException        TeenQuotes\Exceptions\ApiNotFoundException
+	 * @expectedExceptionMessage stories
+	 */
+	public function testIndexNotFound()
+	{
+		$this->tryPaginatedContentNotFound();
 	}
 
 	public function testStoreErrors()

@@ -47,12 +47,14 @@ class CommentsTest extends ApiTest {
 		$this->tryFirstPage('index', $this->quoteId);
 	}
 
+	/**
+	 * @expectedException        TeenQuotes\Exceptions\ApiNotFoundException
+	 * @expectedExceptionMessage comments
+	 */
 	public function testIndexNotFound()
 	{
 		// Test not found
-		$this->tryPaginatedContentNotFound($this->quoteId)
-			->withStatusMessage(404)
-			->withErrorMessage('No comments have been found.');
+		$this->tryPaginatedContentNotFound($this->quoteId);
 	}
 
 	public function testShowNotFound()

@@ -8,6 +8,7 @@ modules:
         - FunctionalHelper
         - Laravel4
         - NavigationHelper
+        - QuotesHelper
     config:
         Laravel4:
             environment: codeceptionSearch

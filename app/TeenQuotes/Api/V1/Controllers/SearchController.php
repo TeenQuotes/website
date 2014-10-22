@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\URL;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
+use TeenQuotes\Exceptions\ApiNotFoundException;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Users\Models\User;
@@ -32,10 +33,7 @@ class SearchController extends APIGlobalController implements PaginatedContentIn
 
 		// Handle no results
 		if ($totalQuotes == 0 AND $totalUsers == 0)
-			return Response::json([
-				'status' => 404,
-				'error'  => 'No results have been found.'
-			], 404);
+			throw new ApiNotFoundException('results');
 
 		return Response::json([
 			'quotes'       => $quotes->toArray(),

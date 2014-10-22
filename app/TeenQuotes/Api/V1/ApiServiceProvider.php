@@ -5,6 +5,16 @@ use Illuminate\Support\ServiceProvider;
 class ApiServiceProvider extends ServiceProvider {
 
 	/**
+	 * Bootstrap the application events.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
+		$this->registerErrorHandlers();
+	}
+
+	/**
 	 * Register the service provider.
 	 *
 	 * @return void
@@ -22,6 +32,17 @@ class ApiServiceProvider extends ServiceProvider {
 		$this->registerSearchRoutes();
 		$this->registerStoriesRoutes();
 		$this->registerUsersRoutes();
+	}
+
+	private function registerErrorHandlers()
+	{
+		$this->app->error(function(\TeenQuotes\Exceptions\ApiNotFoundException $exception, $code)
+		{
+			$status = 404;
+			$error = 'No '.$exception->getMessage().' have been found.';
+			
+			return \TeenQuotes\Http\Facades\Response::json(compact('status', 'error'), 404);
+		});
 	}
 
 	private function registerRoutesPatterns()

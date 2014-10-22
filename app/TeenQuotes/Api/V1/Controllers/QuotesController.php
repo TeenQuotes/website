@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
+use TeenQuotes\Exceptions\ApiNotFoundException;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\Quote;
 
@@ -57,14 +58,8 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 			$content = $this->getQuotesFavorite($page, $pagesize, $arrayIDFavoritesQuotesForUser);
 
 		// Handle no quotes found
-		if (is_null($content) OR empty($content) OR $content->count() == 0) {
-			$data = [
-				'status' => 404,
-				'error' => 'No quotes have been found.'
-			];
-
-			return Response::json($data, 404);
-		}
+		if (is_null($content) OR empty($content) OR $content->count() == 0)
+			throw new ApiNotFoundException('quotes');
 
 		$data = self::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
@@ -94,14 +89,8 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 
 		// Handle no quotes found
 		$totalQuotes = 0;
-		if (is_null($content) OR empty($content) OR $content->count() == 0) {
-			$data = [
-				'status' => 404,
-				'error' => 'No quotes have been found.'
-			];
-
-			return Response::json($data, 404);
-		}
+		if (is_null($content) OR empty($content) OR $content->count() == 0)
+			throw new ApiNotFoundException('quotes');
 
 		$totalQuotes = $this->quoteRepo->countQuotesByApprovedForUser($quote_approved_type, $user);
 
@@ -124,14 +113,8 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 			$content = $this->getQuotesRandom($page, $pagesize);
 
 		// Handle no quotes found
-		if (is_null($content) OR $content->count() == 0) {
-			$data = [
-				'status' => 404,
-				'error' => 'No quotes have been found.'
-			];
-
-			return Response::json($data, 404);
-		}
+		if (is_null($content) OR $content->count() == 0)
+			throw new ApiNotFoundException('quotes');
 
 		$data = self::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
 		
@@ -154,10 +137,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		// Handle no quotes found
 		$totalQuotes = 0;
 		if (is_null($content) OR empty($content) OR $content->count() == 0)
-			return Response::json([
-				'status' => 404,
-				'error' => 'No quotes have been found.'
-			], 404);
+			throw new ApiNotFoundException('quotes');
 
 		$totalQuotes = $this->quoteRepo->searchCountPublishedWithQuery($query);
 

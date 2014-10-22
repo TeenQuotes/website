@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Comments\Models\Comment;
+use TeenQuotes\Exceptions\ApiNotFoundException;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Users\Models\User;
@@ -24,10 +25,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
 		// Handle no comments found
 		if (is_null($content) OR $content->count() == 0)
-			return Response::json([
-				'status' => 404,
-				'error' => 'No comments have been found.'
-			], 404);
+			throw new ApiNotFoundException('comments');
 		
 		// Get the total number of comments for the related quote
 		$relatedQuote = $this->quoteRepo->getById($quote_id);
