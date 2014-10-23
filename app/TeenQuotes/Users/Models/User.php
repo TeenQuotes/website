@@ -98,18 +98,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	];
 
 	/**
-	 * The name of the key to store in cache. Describes quotes published by a user
-	 * @var array
-	 */
-	public static $cacheNameForPublished = 'quotes_published_';
-
-	/**
-	 * The name of the key to store in cache. Describes quotes favorited by a user
-	 * @var array
-	 */
-	public static $cacheNameForFavorited = 'quotes_favorited_';
-
-	/**
 	 * The name of the key to store in cache. Describes the number of quotes published by a user
 	 * @var array
 	 */

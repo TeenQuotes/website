@@ -114,6 +114,8 @@ class QuotesPublishCommand extends ScheduledCommand {
 			$this->info("Published quote #".$quote->id);
 			Log::info("Published quote #".$quote->id, ['quote' => $quote->toArray()]);
 
+			$this->incrementCachePublishedForUser($quote->user);
+
 			// Send an email to the author via SMTP
 			new MailSwitcher('smtp');
 			Mail::send('emails.quotes.published', compact('quote'), function($m) use($quote)
@@ -127,6 +129,16 @@ class QuotesPublishCommand extends ScheduledCommand {
 		$this->forgetPagesStoredInCache();
 
 		$this->forgetPublishedQuotesPagesForUser();
+	}
+
+	/**
+	 * Update the number of published quotes for a user
+	 * @param  User   $u
+	 */
+	private function incrementCachePublishedForUser(User $u)
+	{
+		if (Cache::has(User::$cacheNameForNumberQuotesPublished.$u->id))
+			Cache::increment(User::$cacheNameForNumberQuotesPublished.$u->id);
 	}
 
 	/**
@@ -159,12 +171,8 @@ class QuotesPublishCommand extends ScheduledCommand {
 	{
 		foreach ($this->users as $user)
 		{
-			$nbQuotesPublishedForUser = $user->getPublishedQuotesCount();
-			$nbPagesQuotesPublished = ceil($nbQuotesPublishedForUser / Config::get('app.users.nbQuotesPerPage'));
-
-			// Forgot every page
-			for ($i = 1; $i <= $nbPagesQuotesPublished; $i++)
-				Cache::forget(User::$cacheNameForPublished.$user->id.'_'.$i);
+			Cache::tags(Quote::getCacheNameForUserAndApproved($user, 'waiting'))->flush();
+			Cache::tags(Quote::getCacheNameForUserAndApproved($user, 'published'))->flush();
 		}
 	}
 

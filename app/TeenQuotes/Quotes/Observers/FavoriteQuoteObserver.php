@@ -68,15 +68,6 @@ class FavoriteQuoteObserver {
 			Cache::forget(FavoriteQuote::$cacheNameFavoritesForUser.$this->user->id);
 	}
 
-	private function deleteFavoriteQuotesStoredInCache()
-	{
-		// Delete favorite quotes stored in cache
-		$nbQuotesFavoriteForUser = count($this->user->arrayIDFavoritesQuotes()) + 1;
-		$nbPages = ceil($nbQuotesFavoriteForUser / Config::get('app.users.nbQuotesPerPage'));
-		for ($i = 1; $i <= $nbPages ; $i++)
-			Cache::forget(User::$cacheNameForFavorited.$this->user->id.'_'.$i);
-	}
-
 	private function retrieveUserAndQuote($model)
 	{
 		$this->quoteId = $model->quote_id;

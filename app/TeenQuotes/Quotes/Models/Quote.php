@@ -8,12 +8,14 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
+use InvalidArgumentException;
 use Laracasts\Presenter\PresentableTrait;
 use ResourceServer;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Quotes\Models\Relations\QuoteTrait as QuoteRelationsTrait;
 use TeenQuotes\Quotes\Models\Scopes\QuoteTrait as QuoteScopesTrait;
+use TeenQuotes\Users\Models\User;
 use Toloquent;
 
 class Quote extends Toloquent {
@@ -237,6 +239,20 @@ class Quote extends Toloquent {
 			// Register in the recommendation system
 			Easyrec::view($this->id, "Quote ".$this->id, URL::route("quotes.show", $this->id, false), $userRecommendation, null, null, "QUOTE");
 		}
+	}
+
+	/**
+	 * Get the cache array that describes the tag to retrieve quotes for a given user, by approved
+	 * @param  User   $u
+	 * @param  string $approve
+	 * @return array
+	 */
+	public static function getCacheNameForUserAndApproved(User $u, $approve)
+	{
+		if (! in_array($approve, ['pending', 'refused', 'waiting', 'published']))
+			throw new InvalidArgumentException("Wrong approved type. Got ".$approve);
+
+		return ['quotes', 'user', $u->id, $approve];
 	}
 
 	/**

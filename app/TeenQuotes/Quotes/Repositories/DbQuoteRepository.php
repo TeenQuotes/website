@@ -323,9 +323,12 @@ class DbQuoteRepository implements QuoteRepository {
 	 */
 	public function nbPublishedForUser(User $u)
 	{
-		return Quote::forUser($u)
-			->published()
-			->count();
+		return Cache::rememberForever(User::$cacheNameForNumberQuotesPublished.$u->id, function() use ($u)
+		{
+			return Quote::forUser($u)
+				->published()
+				->count();
+		});
 	}
 
 	/**
@@ -390,7 +393,7 @@ class DbQuoteRepository implements QuoteRepository {
 		// Number of quotes to skip
 		$skip = $this->computeSkip($page, $pagesize);
 
-		$quotes = Cache::remember(User::$cacheNameForPublished.$u->id.'_'.$page, $expiresAt, function() use ($approved, $u, $pagesize, $skip)
+		$quotes = Cache::tags(Quote::getCacheNameForUserAndApproved($u, $approved))->remember($page, $expiresAt, function() use ($approved, $u, $pagesize, $skip)
 		{
 			return Quote::$approved()
 				->withSmallUser()
