@@ -133,6 +133,7 @@ return array(
 		'Indatus\Dispatcher\ServiceProvider',
 		'Jenssegers\Agent\AgentServiceProvider',
 		'Laracasts\Utilities\UtilitiesServiceProvider',
+		'Laracasts\Validation\ValidationServiceProvider',
 		'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
 		'Philf\Setting\SettingServiceProvider',
 		'Philo\Translate\TranslateServiceProvider',
