@@ -49,55 +49,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public static $appendsFull = ['total_comments', 'favorite_count', 'added_fav_count', 'published_quotes_count', 'is_subscribed_to_daily', 'is_subscribed_to_weekly'];
 
 	/**
-	 * The validation rules when updating a profile
-	 * @var array
-	 */
-	public static $rulesUpdate = [
-		'gender'    => 'in:M,F',
-		'birthdate' => 'date_format:"Y-m-d"',
-		'country'   => 'exists:countries,id',
-		'city'      => '',
-		'avatar'    => 'image|max:1500',
-		'about_me'  => 'max:500',
-	];
-
-	/**
-	 * The validation rules when updating a password
-	 * @var array
-	 */
-	public static $rulesUpdatePassword = [
-		'password' => 'required|min:6|confirmed',
-	];
-
-	/**
-	 * The validation rules when deleting an account
-	 * @var array
-	 */
-	public static $rulesDestroy = [
-		'password'            => 'required|min:6',
-		'delete-confirmation' => 'in:DELETE'
-	];
-
-	/**
-	 * The validation rules when signing up
-	 * @var array
-	 */
-	public static $rulesSignup = [
-		'password' => 'required|min:6',
-		'login'    => 'required|alpha_dash|unique:users,login|min:3|max:20',
-		'email'    => 'required|email|unique:users,email',
-	];
-
-	/**
-	 * The validation rules when signing in
-	 * @var array
-	 */
-	public static $rulesSignin = [
-		'password' => 'required|min:6',
-		'login'    => 'required|alpha_dash|exists:users,login|min:3|max:20',
-	];
-
-	/**
 	 * The name of the key to store in cache. Describes the number of quotes published by a user
 	 * @var array
 	 */
