@@ -1,5 +1,6 @@
 <?php namespace TeenQuotes\Tools\Validation;
 
+use BadMethodCallException;
 use Laracasts\Validation\FormValidationException;
 use Laracasts\Validation\LaravelValidator;
 use Str;
@@ -21,16 +22,26 @@ abstract class Validator extends LaravelValidator {
 		return $this->handleValidation();
 	}
 
+	/**
+	 * Magic call method to forward validate* methods
+	 * @param  string $name
+	 * @param  array $arguments
+	 * @return mixed
+	 * @throws BadMethodCallException
+	 */
 	public function __call($name, $arguments)
 	{
 		if (Str::startsWith($name, 'validate'))
 		{
-			$ruleName = str_replace('validate', '', $name);
+			$property = 'rules'.str_replace('validate', '', $name);
+
+			if (! property_exists($this, $property))
+				throw new BadMethodCallException("Property ".$property." does not exist on class ".get_class($this).".");
 			
 			if (count($arguments) == 1)
-				return $this->validateForRule($arguments[0], 'rules'.$ruleName);
+				return $this->validateForRule($arguments[0], $property);
 			
-			return $this->validateForRule($arguments[0], 'rules'.$ruleName, $arguments[1]);
+			return $this->validateForRule($arguments[0], $property, $arguments[1]);
 		}
 	}
 
