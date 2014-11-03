@@ -62,6 +62,23 @@ App::error(function(TeenQuotes\Exceptions\HiddenProfileException $exception, $co
 	return Response::view('errors.default', $data, 401);
 });
 
+App::error(function(Laracasts\Validation\FormValidationException $e, $code)
+{
+	if (Request::wantsJson()) {
+
+		$failedKey = array_keys($e->getErrors()->getMessages())[0];
+		
+		return Response::json([
+			'status' => 'wrong_'.$failedKey,
+			'error'  => $e->getErrors()->first($failedKey),
+		], 400);
+	}
+
+	return Redirect::back()
+		->withInput(Input::except(['password', 'avatar']))
+		->withErrors($e->getErrors());
+});
+
 // Catch QuoteNotFoundException, StoryNotFoundException, TokenNotFoundException, UserNotFoundException
 App::error(function(TeenQuotes\Exceptions\TQNotFoundException $exception, $code)
 {
