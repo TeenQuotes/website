@@ -71,7 +71,11 @@ class APIGlobalController extends BaseController {
 		$this->settingRepo    = $settingRepo;
 		$this->storyRepo      = $storyRepo;
 		$this->userRepo       = $userRepo;
+
+		$this->bootstrap();
 	}
+
+	protected function bootstrap() {}
 
 	public function showWelcome()
 	{
