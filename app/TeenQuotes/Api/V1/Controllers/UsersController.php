@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Laracasts\Validation\FormValidationException;
 use stojg\crop\CropEntropy;
 use TeenQuotes\Countries\Models\Country;
 use TeenQuotes\Exceptions\ApiNotFoundException;
@@ -17,9 +17,20 @@ use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Newsletters\Models\Newsletter;
 use TeenQuotes\Settings\Models\Setting;
 use TeenQuotes\Users\Models\User;
+use TeenQuotes\Users\Validation\UserValidator;
 use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 
 class UsersController extends APIGlobalController {
+
+	/**
+	 * @var TeenQuotes\Users\Validation\UserValidator
+	 */
+	private $userValidator;
+
+	protected function bootstrap()
+	{
+		$this->userValidator = App::make('TeenQuotes\Users\Validation\UserValidator');
+	}
 
 	public function destroy()
 	{
@@ -40,25 +51,10 @@ class UsersController extends APIGlobalController {
 
 	public function store($doValidation = true)
 	{
-		$data = [
-			'login'    => Input::get('login'),
-			'password' => Input::get('password'),
-			'email'    => Input::get('email'),
-		];
+		$data = Input::only(['login', 'password', 'email']);
 
-		if ($doValidation) {
-
-			// Validate login, password and email
-			foreach (array_keys(User::$rulesSignup) as $value) {	
-				$validator = Validator::make([$value => $data[$value]], [$value => User::$rulesSignup[$value]]);
-				if ($validator->fails()) {
-					return Response::json([
-						'status' => 'wrong_'.$value,
-						'error'  => $validator->messages()->first($value),
-					], 400);
-				}
-			}
-		}
+		if ($doValidation)
+			$this->userValidator->validateSignup($data);
 
 		// Store the new user
 		// If the new user has got a Gravatar, set the avatar
@@ -73,11 +69,6 @@ class UsersController extends APIGlobalController {
 
 		// Send a welcome e-mail and subscribe the user to the 
 		// weekly newsletter thanks to its observer
-
-		// Log the user in
-		// The call was made from the UsersController
-		if ( ! $doValidation)
-			Auth::login($user);
 
 		return Response::json($user, 201, [], JSON_NUMERIC_CHECK);
 	}
@@ -133,18 +124,8 @@ class UsersController extends APIGlobalController {
 			'avatar'    => Input::file('avatar'),
 		];
 
-		if ($doValidation) {
-			
-			// Validate login, password and email
-			foreach (array_keys(User::$rulesUpdate) as $value) {
-				$validator = Validator::make([$value => $data[$value]], [$value => User::$rulesUpdate[$value]]);
-				if ($validator->fails())
-					return Response::json([
-						'status' => 'wrong_'.$value,
-						'error'  => $validator->messages()->first($value),
-					], 400);
-			}
-		}
+		if ($doValidation)
+			$this->userValidator->validateUpdateProfile($data);
 
 		// Everything went fine, update the user
 		$user = $this->retrieveUser();
@@ -182,19 +163,9 @@ class UsersController extends APIGlobalController {
 	{
 		$user = $this->retrieveUser();
 
-		$data = [
-			'password'              => Input::get('password'),
-			'password_confirmation' => Input::get('password_confirmation'),
-		];
+		$data = Input::only(['password', 'password_confirmation']);
 
-		$validatorPassword = Validator::make($data, User::$rulesUpdatePassword);
-
-		// Validate password
-		if ($validatorPassword->fails())
-			return Response::json([
-				'status' => 'wrong_password',
-				'error'  => $validatorPassword->messages()->first('password'),
-			], 400);
+		$this->userValidator->validateUpdatePassword($data);
 
 		// Update new password
 		$this->userRepo->updatePassword($user, $data['password']);

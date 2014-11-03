@@ -3,20 +3,9 @@
 use BaseController;
 use Carbon;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Paginator;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\View;
+use App, Auth, Config, Input, Lang, Paginator;
+use Redirect, Response, Session, URL, View;
+use Laracasts\Validation\FormValidationException;
 use TeenQuotes\Api\V1\Controllers\UsersController as UsersAPIController;
 use TeenQuotes\Countries\Repositories\CountryRepository;
 use TeenQuotes\Exceptions\HiddenProfileException;
@@ -27,6 +16,7 @@ use TeenQuotes\Settings\Models\Setting;
 use TeenQuotes\Settings\Repositories\SettingRepository;
 use TeenQuotes\Users\Models\User;
 use TeenQuotes\Users\Repositories\UserRepository;
+use TeenQuotes\Users\Validation\UserValidator;
 
 class UsersController extends BaseController {
 
@@ -56,7 +46,12 @@ class UsersController extends BaseController {
 	 */
 	private $userRepo;
 
-	public function __construct(SettingRepository $settingRepo, CountryRepository $countryRepo, QuoteRepository $quoteRepo, UserRepository $userRepo)
+	/**
+	 * @var TeenQuotes\Users\Validation\UserValidator
+	 */
+	private $userValidator;
+
+	public function __construct(SettingRepository $settingRepo, CountryRepository $countryRepo, QuoteRepository $quoteRepo, UserRepository $userRepo, UserValidator $userValidator)
 	{
 		$this->beforeFilter('guest', ['only' => 'store']);
 		$this->beforeFilter('auth', ['only' => ['edit', 'update', 'putPassword', 'putSettings']]);
@@ -66,6 +61,7 @@ class UsersController extends BaseController {
 		$this->countryRepo = $countryRepo;
 		$this->quoteRepo = $quoteRepo;
 		$this->userRepo = $userRepo;
+		$this->userValidator = $userValidator;
 	}
 
 	/**
@@ -85,42 +81,23 @@ class UsersController extends BaseController {
 
 	public function postLoginValidator()
 	{
-		$data = [
-			'login' => Input::get('login')
-		];
+		$data = Input::only(['login']);
 
-		$validator = Validator::make($data, ['login' => User::$rulesSignup['login']]);
-		
-		if ($validator->fails())
+		try {
+			$this->userValidator->validateLogin($data);
+		}
+		catch (FormValidationException $e)
+		{
 			return Response::json([
 				'success' => false,
-				'message' => $validator->messages()->first('login')
+				'message' => $e->getErrors()->first('login')
 			]);
+		}
 
 		return Response::json([
 			'success' => true,
 			'message' => $data['login'].'? '.Lang::get('auth.loginAwesome')
 		]);
-	}
-
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		//
-	}
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
 	}
 
 	/**
@@ -130,31 +107,23 @@ class UsersController extends BaseController {
 	 */
 	public function store()
 	{
-		$data = [
-			'login'    => Input::get('login'),
-			'password' => Input::get('password'),
-			'email'    => Input::get('email'),
-		];
-
-		$validator = Validator::make($data, User::$rulesSignup);
+		$data = Input::only(['login', 'password', 'email']);
 
 		// Check if the form validates with success.
-		if ($validator->passes()) {
+		$this->userValidator->validateSignup($data);
 
-			// Call the API - skip the API validator
-			$response = $this->api->store(false);
-			if ($response->getStatusCode() == 201) {
-				if (Session::has('url.intended'))
-					return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', ['login' => $data['login']]));
-				else
-					return Redirect::route('users.show', $data['login'])->with('success', Lang::get('auth.signupSuccessfull', ['login' => $data['login']]));
-			}
+		// Call the API - skip the API validator
+		$response = $this->api->store(false);
+		if ($response->getStatusCode() == 201) {
+			
+			// Log the user in
+			Auth::login($response->getOriginalData());
 
-			return Redirect::route('signup')->withErrors($validator)->withInput(Input::except('password'));
+			if (Session::has('url.intended'))
+				return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', ['login' => $data['login']]));
+			else
+				return Redirect::route('users.show', $data['login'])->with('success', Lang::get('auth.signupSuccessfull', ['login' => $data['login']]));
 		}
-
-		// Something went wrong
-		return Redirect::route('signup')->withErrors($validator)->withInput(Input::except('password'));
 	}
 
 	/**
@@ -407,19 +376,14 @@ class UsersController extends BaseController {
 			'avatar'    => Input::file('avatar'),
 		];
 
-		$validator = Validator::make($data, User::$rulesUpdate);
+		$this->userValidator->validateUpdateProfile($data);
 
-		if ($validator->passes()) {
-			// Call the API
-			$response = $this->api->putProfile(false);
-			if ($response->getStatusCode() == 200)
-				return Redirect::back()->with('success', Lang::get('users.updateProfileSuccessfull', ['login' => Auth::user()->login]));
+		// Call the API
+		$response = $this->api->putProfile(false);
+		if ($response->getStatusCode() == 200)
+			return Redirect::back()->with('success', Lang::get('users.updateProfileSuccessfull', ['login' => Auth::user()->login]));
 
-			App::abort(500, "Can't update profile");
-		}
-
-		// Something went wrong
-		return Redirect::back()->withErrors($validator)->withInput(Input::except('avatar'));
+		App::abort(500, "Can't update profile");
 	}
 
 	/**
@@ -430,25 +394,25 @@ class UsersController extends BaseController {
 	 */
 	public function putPassword($id)
 	{
-		$data = [
-			'password'              => Input::get('password'),
-			'password_confirmation' => Input::get('password_confirmation'),
-		];
+		$data = Input::only(['password', 'password_confirmation']);
 
-		$validator = Validator::make($data, User::$rulesUpdatePassword);
-
-		if ($validator->passes()) {
-			$user = $this->userRepo->getByLogin($id);
-			if (! $this->userIsAllowedToEdit($user))
-				App::abort(401, 'Refused');
-			$user->password = $data['password'];
-			$user->save();
-
-			return Redirect::back()->with('success', Lang::get('users.updatePasswordSuccessfull', ['login' => $user->login]));
+		try {
+			$this->userValidator->validateUpdatePassword($data);
+		}
+		catch (FormValidationException $e)
+		{
+			return Redirect::to(URL::route('users.edit', Auth::user()->login)."#edit-password")
+				->withErrors($e->getErrors())
+				->withInput(Input::all());
 		}
 
-		// Something went wrong
-		return Redirect::to(URL::route('users.edit', Auth::user()->login)."#edit-password")->withErrors($validator)->withInput(Input::all());
+		$user = $this->userRepo->getByLogin($id);
+		if (! $this->userIsAllowedToEdit($user))
+			App::abort(401, 'Refused');
+		
+		$this->userRepo->updatePassword($user, $data['password']);
+
+		return Redirect::back()->with('success', Lang::get('users.updatePasswordSuccessfull', ['login' => $user->login]));
 	}
 
 	/**
@@ -496,19 +460,30 @@ class UsersController extends BaseController {
     		'delete-confirmation.in' => Lang::get('users.writeDeleteHere'),
 		];
 
-		$validator = Validator::make($data, User::$rulesDestroy, $messages);
-
-		if ($validator->fails())
-			return Redirect::to(URL::route('users.edit', Auth::user()->login)."#delete-account")->withErrors($validator)->withInput(Input::except('password'));
-		else {
-			unset($data['delete-confirmation']);
-			if ( ! Auth::validate($data))
-				return Redirect::to(URL::route('users.edit', Auth::user()->login)."#delete-account")->withErrors(['password' => Lang::get('auth.passwordInvalid')])->withInput(Input::except('password'));
+		try {
+			$this->userValidator->validateDestroy($data, $messages);
 		}
+		catch (FormValidationException $e)
+		{
+			return $this->redirectToDeleteAccount(Auth::user()->login)
+				->withErrors($e->getErrors())
+				->withInput(Input::except('password'));
+		}
+		
+		unset($data['delete-confirmation']);
+		if ( ! Auth::validate($data))
+			return $this->redirectToDeleteAccount(Auth::user()->login)
+				->withErrors(['password' => Lang::get('auth.passwordInvalid')])
+				->withInput(Input::except('password'));
 
 		// Delete the user
 		$this->api->destroy();
 
 		return Redirect::home()->with('success', Lang::get('users.deleteAccountSuccessfull'));
+	}
+
+	private function redirectToDeleteAccount($login)
+	{
+		return Redirect::to(URL::route('users.edit', $login)."#delete-account");
 	}
 }

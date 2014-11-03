@@ -24,6 +24,10 @@ class UsersTest extends ApiTest {
 		$this->attachCountryForAllUsers();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The login must be at least 3 characters.
+	 */
 	public function testStoreSmallLogin()
 	{
 		$this->addInputReplace([
@@ -32,9 +36,13 @@ class UsersTest extends ApiTest {
 			'password' => 'azerty'
 		]);
 
-		$this->assertStoreError('wrong_login', 'The login must be at least 3 characters.');
+		$this->tryStore();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The login has already been taken.
+	 */
 	public function testStoreAlreadyTakenLogin()
 	{
 		$u = User::find(1);
@@ -45,9 +53,13 @@ class UsersTest extends ApiTest {
 			'password' => 'azerty'
 		]);
 
-		$this->assertStoreError('wrong_login', 'The login has already been taken.');
+		$this->tryStore();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The login may only contain letters, numbers, and dashes.
+	 */
 	public function testStoreWrongLoginFormat()
 	{
 		$this->addInputReplace([
@@ -56,9 +68,13 @@ class UsersTest extends ApiTest {
 			'password' => 'azerty'
 		]);
 
-		$this->assertStoreError('wrong_login', 'The login may only contain letters, numbers, and dashes.');
+		$this->tryStore();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The login may not be greater than 20 characters.
+	 */
 	public function testStoreLongLogin()
 	{
 		$this->addInputReplace([
@@ -67,9 +83,13 @@ class UsersTest extends ApiTest {
 			'password' => 'azerty'
 		]);
 
-		$this->assertStoreError('wrong_login', 'The login may not be greater than 20 characters.');
+		$this->tryStore();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The password must be at least 6 characters.
+	 */
 	public function testStoreWrongPassword()
 	{
 		$this->addInputReplace([
@@ -78,9 +98,13 @@ class UsersTest extends ApiTest {
 			'password' => 'azert'
 		]);
 
-		$this->assertStoreError('wrong_password', 'The password must be at least 6 characters.');
+		$this->tryStore();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The email must be a valid email address.
+	 */
 	public function testStoreWrongEmail()
 	{
 		$this->addInputReplace([
@@ -89,9 +113,13 @@ class UsersTest extends ApiTest {
 			'password' => 'azerty'
 		]);
 
-		$this->assertStoreError('wrong_email', 'The email must be a valid email address.');
+		$this->tryStore();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The email has already been taken.
+	 */
 	public function testStoreAlreadyTakenEmail()
 	{
 		$u = User::find(1);
@@ -102,7 +130,7 @@ class UsersTest extends ApiTest {
 			'password' => 'azerty'
 		]);
 
-		$this->assertStoreError('wrong_email', 'The email has already been taken.');
+		$this->tryStore();
 	}
 
 	public function testStoreSuccess()
@@ -170,6 +198,10 @@ class UsersTest extends ApiTest {
 			$this->tryShowFound($i);
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The password must be at least 6 characters.
+	 */
 	public function testPutPasswordTooSmall()
 	{
 		$this->addInputReplace([
@@ -177,9 +209,13 @@ class UsersTest extends ApiTest {
 			'password_confirmation' => 'azert',
 		]);
 
-		$this->assertPutPasswordError('wrong_password', 'The password must be at least 6 characters.');
+		$this->assertPutPasswordError();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The password confirmation does not match.
+	 */
 	public function testPutPasswordNotSame()
 	{
 		$this->addInputReplace([
@@ -187,7 +223,7 @@ class UsersTest extends ApiTest {
 			'password_confirmation' => 'azert',
 		]);
 
-		$this->assertPutPasswordError('wrong_password', 'The password confirmation does not match.');
+		$this->assertPutPasswordError();
 	}
 
 	public function testPutPasswordSuccess()
@@ -211,15 +247,23 @@ class UsersTest extends ApiTest {
 		$this->assertTrue(Auth::attempt(['login' => $u['login'], 'password' => $newPassword]));
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The selected gender is invalid.
+	 */
 	public function testPutProfileWrongGender()
 	{
 		$this->addInputReplace([
 			'gender' => 'foo',
 		]);
 
-		$this->assertPutProfileError('wrong_gender', 'The selected gender is invalid.');
+		$this->assertPutProfileError();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The birthdate does not match the format Y-m-d.
+	 */
 	public function testPutProfileWrongBirthdate()
 	{
 		$this->addInputReplace([
@@ -227,9 +271,13 @@ class UsersTest extends ApiTest {
 			'birthdate' => '1975-01-32'
 		]);
 
-		$this->assertPutProfileError('wrong_birthdate', 'The birthdate does not match the format Y-m-d.');
+		$this->assertPutProfileError();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The selected country was not found.
+	 */
 	public function testPutProfileWrongCountry()
 	{
 		$this->addInputReplace([
@@ -238,9 +286,13 @@ class UsersTest extends ApiTest {
 			'country'   => Country::all()->count() + 1
 		]);
 
-		$this->assertPutProfileError('wrong_country', 'The selected country was not found.');
+		$this->assertPutProfileError();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The about me may not be greater than 500 characters.
+	 */
 	public function testPutProfileWrongAboutMe()
 	{
 		$this->addInputReplace([
@@ -250,7 +302,7 @@ class UsersTest extends ApiTest {
 			'about_me'  => $this->generateString(501)
 		]);
 
-		$this->assertPutProfileError('wrong_about_me', 'The about me may not be greater than 500 characters.');
+		$this->assertPutProfileError();
 	}
 
 	// TODO: write tests for uploaded files
@@ -419,24 +471,18 @@ class UsersTest extends ApiTest {
 		$this->attachCountryForAllUsers();
 	}
 
-	private function assertPutPasswordError($status, $error)
+	private function assertPutPasswordError()
 	{
 		$this->logUserWithId(1);
 
-		$this->doRequest('putPassword')
-			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
-			->withStatusMessage($status)
-			->withErrorMessage($error);
+		$this->doRequest('putPassword');
 	}
 
-	private function assertPutProfileError($status, $error)
+	private function assertPutProfileError()
 	{
 		$this->logUserWithId(1);
 
-		$this->doRequest('putProfile')
-			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
-			->withStatusMessage($status)
-			->withErrorMessage($error);
+		$this->doRequest('putProfile');
 	}
 
 	private function deleteAllUsers()
@@ -458,14 +504,6 @@ class UsersTest extends ApiTest {
 	private function disableEmbedsNewsletter()
 	{
 		$this->embedsRelation = ['country'];
-	}
-
-	private function assertStoreError($status, $error)
-	{
-		$this->tryStore()
-			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
-			->withStatusMessage($status)
-			->withErrorMessage($error);
 	}
 
 	private function setFullAttributesAreRequired()
