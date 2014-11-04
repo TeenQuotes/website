@@ -59,14 +59,7 @@ class StoriesTest extends ApiTest {
 	 */
 	public function testStoreNoFrequence()
 	{
-		$this->logUserWithId(1);
-		
-		$this->addInputReplace([
-			'frequence_txt' => '',
-			'represent_txt' => $this->generateString(200)
-		]);
-
-		$this->tryStore();
+		$this->hitStore(0, 200);
 	}
 
 	/**
@@ -75,14 +68,7 @@ class StoriesTest extends ApiTest {
 	 */
 	public function testStoreTooSmallFrequence()
 	{
-		$this->logUserWithId(1);
-		
-		$this->addInputReplace([
-			'frequence_txt' => $this->generateString(50),
-			'represent_txt' => $this->generateString(200)
-		]);
-
-		$this->tryStore();
+		$this->hitStore(50, 200);
 	}
 
 	/**
@@ -91,14 +77,7 @@ class StoriesTest extends ApiTest {
 	 */
 	public function testStoreTooLargeFrequence()
 	{
-		$this->logUserWithId(1);
-		
-		$this->addInputReplace([
-			'frequence_txt' => $this->generateString(1001),
-			'represent_txt' => $this->generateString(200)
-		]);
-
-		$this->tryStore();
+		$this->hitStore(1001, 200);
 	}
 
 	/**
@@ -107,14 +86,7 @@ class StoriesTest extends ApiTest {
 	 */
 	public function testStoreNoRepresent()
 	{
-		$this->logUserWithId(1);
-		
-		$this->addInputReplace([
-			'represent_txt' => '',
-			'frequence_txt' => $this->generateString(200)
-		]);
-
-		$this->tryStore();
+		$this->hitStore(200, 0);
 	}
 
 	/**
@@ -123,14 +95,7 @@ class StoriesTest extends ApiTest {
 	 */
 	public function testStoreTooSmallRepresent()
 	{
-		$this->logUserWithId(1);
-		
-		$this->addInputReplace([
-			'represent_txt' => $this->generateString(50),
-			'frequence_txt' => $this->generateString(200)
-		]);
-
-		$this->tryStore();
+		$this->hitStore(200, 50);
 	}
 
 	/**
@@ -139,31 +104,34 @@ class StoriesTest extends ApiTest {
 	 */
 	public function testStoreTooLargeRepresent()
 	{
-		$this->logUserWithId(1);
-		
-		$this->addInputReplace([
-			'represent_txt' => $this->generateString(1001),
-			'frequence_txt' => $this->generateString(200)
-		]);
-
-		$this->tryStore();
+		$this->hitStore(200, 1001);
 	}
 
 	public function testStoreSuccess()
 	{
-		$this->logUserWithId(1);
+		$this->hitStore(200, 200);
 		
-		// Successfull store
-		$this->addInputReplace([
-			'represent_txt' => $this->generateString(200),
-			'frequence_txt' => $this->generateString(200)
-		]);
-		
-		$this->tryStore()
-			->assertStatusCodeIs(Response::HTTP_CREATED)
+		$this->assertStatusCodeIs(Response::HTTP_CREATED)
 			->assertBelongsToLoggedInUser();
 
 		// Check that we can retrieve the new item
 		$this->tryShowFound($this->nbRessources + 1);
+	}
+
+	/**
+	 * Hit the store endpoint
+	 * @param  int $frequenceLength The length of the frequence_txt field
+	 * @param  int $representLength The length of the reprensent_txt field
+	 */
+	private function hitStore($frequenceLength, $representLength)
+	{
+		$this->logUserWithId(1);
+
+		$this->addInputReplace([
+			'frequence_txt' => $this->generateString($frequenceLength),
+			'represent_txt' => $this->generateString($representLength),
+		]);
+
+		$this->tryStore();
 	}
 }

@@ -83,6 +83,9 @@ abstract class ApiTest extends DbTestCase {
 
 	protected function generateString($length)
 	{
+		if ($length == 0)
+			return '';
+		
 		return str_random($length);
 	}
 
