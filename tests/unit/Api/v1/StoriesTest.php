@@ -53,37 +53,100 @@ class StoriesTest extends ApiTest {
 		$this->tryPaginatedContentNotFound();
 	}
 
-	public function testStoreErrors()
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The frequence txt field is required.
+	 */
+	public function testStoreNoFrequence()
 	{
 		$this->logUserWithId(1);
+		
+		$this->addInputReplace([
+			'frequence_txt' => '',
+			'represent_txt' => $this->generateString(200)
+		]);
 
-		// Too small values
-		foreach (['frequence_txt', 'represent_txt'] as $value) {
-			
-			$otherValue = $this->otherValue($value);
-			$this->addInputReplace([
-				$value      => $this->generateString(50),
-				$otherValue => $this->generateString(200)
-			]);
-			
-			$this->tryStore()
-				->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
-				->withStatusMessage('wrong_'.$value);
-		}
+		$this->tryStore();
+	}
 
-		// Too large values
-		foreach (['frequence_txt', 'represent_txt'] as $value) {
-			
-			$otherValue = $this->otherValue($value);
-			$this->addInputReplace([
-				$value      => $this->generateString(1500),
-				$otherValue => $this->generateString(200)
-			]);
-			
-			$this->tryStore()
-				->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
-				->withStatusMessage('wrong_'.$value);
-		}
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The frequence txt must be at least 100 characters.
+	 */
+	public function testStoreTooSmallFrequence()
+	{
+		$this->logUserWithId(1);
+		
+		$this->addInputReplace([
+			'frequence_txt' => $this->generateString(50),
+			'represent_txt' => $this->generateString(200)
+		]);
+
+		$this->tryStore();
+	}
+
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The frequence txt may not be greater than 1000 characters.
+	 */
+	public function testStoreTooLargeFrequence()
+	{
+		$this->logUserWithId(1);
+		
+		$this->addInputReplace([
+			'frequence_txt' => $this->generateString(1001),
+			'represent_txt' => $this->generateString(200)
+		]);
+
+		$this->tryStore();
+	}
+
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The represent txt field is required.
+	 */
+	public function testStoreNoRepresent()
+	{
+		$this->logUserWithId(1);
+		
+		$this->addInputReplace([
+			'represent_txt' => '',
+			'frequence_txt' => $this->generateString(200)
+		]);
+
+		$this->tryStore();
+	}
+
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The represent txt must be at least 100 characters.
+	 */
+	public function testStoreTooSmallRepresent()
+	{
+		$this->logUserWithId(1);
+		
+		$this->addInputReplace([
+			'represent_txt' => $this->generateString(50),
+			'frequence_txt' => $this->generateString(200)
+		]);
+
+		$this->tryStore();
+	}
+
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The represent txt may not be greater than 1000 characters.
+	 */
+	public function testStoreTooLargeRepresent()
+	{
+		$this->logUserWithId(1);
+		
+		$this->addInputReplace([
+			'represent_txt' => $this->generateString(1001),
+			'frequence_txt' => $this->generateString(200)
+		]);
+
+		$this->tryStore();
 	}
 
 	public function testStoreSuccess()
@@ -102,16 +165,5 @@ class StoriesTest extends ApiTest {
 
 		// Check that we can retrieve the new item
 		$this->tryShowFound($this->nbRessources + 1);
-	}
-
-	private function otherValue($value)
-	{
-		if ( ! in_array($value, ['frequence_txt', 'represent_txt']))
-			throw new \InvalidArgumentException("Expecting frequence_txt|represent_txt", 1);
-			
-		if ($value == 'frequence_txt')
-			return 'represent_txt';
-
-		return 'frequence_txt';
 	}
 }
