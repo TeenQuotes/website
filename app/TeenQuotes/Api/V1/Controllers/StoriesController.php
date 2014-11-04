@@ -1,13 +1,21 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Validator;
+use App, Config, Input;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Stories\Models\Story;
 use TeenQuotes\Users\Models\User;
 use TeenQuotes\Exceptions\ApiNotFoundException;
 class StoriesController extends APIGlobalController {
+
+	/**
+	 * @var TeenQuotes\Stories\Validation\StoryValidator
+	 */
+	private $storyValidator;
+	
+	protected function bootstrap()
+	{
+		$this->storyValidator = App::make('TeenQuotes\Stories\Validation\StoryValidator');
+	}
 
 	public function index()
 	{
@@ -20,7 +28,6 @@ class StoriesController extends APIGlobalController {
 		// Handle no stories found
 		if (is_null($content) OR $content->count() == 0)
 			throw new ApiNotFoundException('stories');
-			
 
 		$data = self::paginateContent($page, $pagesize, $this->storyRepo->total(), $content, 'stories');
 		
@@ -44,24 +51,13 @@ class StoriesController extends APIGlobalController {
 	public function store($doValidation = true)
 	{
 		$user = $this->retrieveUser();
-		$represent_txt = Input::get('represent_txt');
-		$frequence_txt = Input::get('frequence_txt');
+		$data = Input::only(['frequence_txt', 'represent_txt']);
 
-		if ($doValidation) {	
-			
-			// Validate represent_txt, frequence_txt
-			foreach (array_keys(Story::$rules) as $value) {
-				$validator = Validator::make(compact($value), [$value => Story::$rules[$value]]);
-				if ($validator->fails())
-					return Response::json([
-						'status' => 'wrong_'.$value,
-						'error' => $validator->messages()->first($value)
-					], 400);
-			}
-		}
+		if ($doValidation)
+			$this->storyValidator->validatePosting($data);
 
 		// Store the new story
-		$story = $this->storyRepo->create($user, $represent_txt, $frequence_txt);
+		$story = $this->storyRepo->create($user, $data['represent_txt'], $data['frequence_txt']);
 
 		return Response::json($story, 201, [], JSON_NUMERIC_CHECK);
 	}
