@@ -1,8 +1,6 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Validator;
+use App, Config, Input;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Comments\Models\Comment;
 use TeenQuotes\Exceptions\ApiNotFoundException;
@@ -11,6 +9,16 @@ use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Users\Models\User;
 
 class CommentsController extends APIGlobalController implements PaginatedContentInterface {
+
+	/**
+	 * @var TeenQuotes\Comments\Validation\CommentValidator
+	 */
+	private $commentValidator;
+	
+	public function bootstrap()
+	{
+		$this->commentValidator = App::make('TeenQuotes\Comments\Validation\CommentValidator');
+	}
 
 	public function index($quote_id)
 	{
@@ -55,18 +63,9 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 		$user = $this->retrieveUser();
 		$content = Input::get('content');
 
-		if ($doValidation) {
-
-			foreach (array_keys(Comment::$rulesAdd) as $value) {
-				$validator = Validator::make(compact($value), [$value => Comment::$rulesAdd[$value]]);
-				if ($validator->fails())
-					return Response::json([
-						'status' => 'wrong_'.$value,
-						'error' => $validator->messages()->first($value)
-					], 400);
-			}
-		}
-
+		if ($doValidation)
+			$this->commentValidator->validatePosting(compact('content', 'quote_id'));
+		
 		$quote = $this->quoteRepo->getById($quote_id);
 		
 		// Check if the quote is published
@@ -100,14 +99,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 			return $this->tellCommentWasNotPostedByUser($id, $user);
 
 		// Perform validation
-		foreach (array_keys(Comment::$rulesEdit) as $value) {
-			$validator = Validator::make(compact($value), [$value => Comment::$rulesEdit[$value]]);
-			if ($validator->fails())
-				return Response::json([
-					'status' => 'wrong_'.$value,
-					'error' => $validator->messages()->first($value)
-				], 400);
-		}
+		$this->commentValidator->validateEditing(compact('content'));
 
 		// Update the comment
 		$this->commentRepo->update($id, $content);

@@ -1,16 +1,8 @@
 <?php namespace TeenQuotes\Comments\Controllers;
 
+use App, Input, Lang, Redirect, Request, Response, View;
 use BaseController;
 use Illuminate\Http\Response as ResponseClass;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\View;
 use TeenQuotes\Comments\Models\Comment;
 
 class CommentsController extends BaseController {
@@ -21,10 +13,16 @@ class CommentsController extends BaseController {
 	 */
 	private $api;
 
+	/**
+	 * @var TeenQuotes\Comments\Validation\CommentValidator
+	 */
+	private $commentValidator;
+
 	public function __construct()
 	{
 		$this->beforeFilter('auth');
 		$this->api = App::make('TeenQuotes\Api\V1\Controllers\CommentsController');
+		$this->commentValidator = App::make('TeenQuotes\Comments\Validation\CommentValidator');
 	}
 
 	/**
@@ -36,20 +34,12 @@ class CommentsController extends BaseController {
 	{
 		$data = Input::only('content', 'quote_id');
 
-		// Check if the form validates with success
-		$validator = Validator::make($data, Comment::$rulesAdd);
-		if ($validator->passes()) {
+		$this->commentValidator->validatePosting($data);
 
-			// Call the API - skip the API validator
-			$response = $this->api->store($data['quote_id'], false);
-			if ($response->getStatusCode() != 201)
-				return Redirect::route('quotes.show', $data['quote_id'])->withErrors($validator)->withInput(Input::all());
-
+		// Call the API - skip the API validator
+		$response = $this->api->store($data['quote_id'], false);
+		if ($response->getStatusCode() == 201)
 			return Redirect::route('quotes.show', $data['quote_id'])->with('success', Lang::get('comments.commentAddedSuccessfull'));
-		}
-
-		// Something went wrong
-		return Redirect::route('quotes.show', $data['quote_id'])->withErrors($validator)->withInput(Input::all());
 	}
 
 	/**
@@ -82,20 +72,14 @@ class CommentsController extends BaseController {
 	{
 		$data = Input::only('content', 'quote_id');
 
-		// Check if the form validates with success
-		$validator = Validator::make($data, Comment::$rulesEdit);
-		if ($validator->passes()) {
+		$this->commentValidator->validateEditing($data);
 
-			// Call the API
-			$response = $this->api->update($id);
-			if ($response->getStatusCode() != 200)
-				return Redirect::route('quotes.show', $data['quote_id'])->with('warning', Lang::get('comments.cantEditThisComment'));
+		// Call the API
+		$response = $this->api->update($id);
+		if ($response->getStatusCode() != 200)
+			return Redirect::route('quotes.show', $data['quote_id'])->with('warning', Lang::get('comments.cantEditThisComment'));
 
-			return Redirect::route('quotes.show', $data['quote_id'])->with('success', Lang::get('comments.commentEditSuccessfull'));
-		}
-
-		// Something went wrong
-		return Redirect::route('comments.edit', $id)->withErrors($validator)->withInput(Input::all());
+		return Redirect::route('quotes.show', $data['quote_id'])->with('success', Lang::get('comments.commentEditSuccessfull'));
 	}
 
 	/**
