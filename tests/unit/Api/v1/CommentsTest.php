@@ -77,43 +77,51 @@ class CommentsTest extends ApiTest {
 		$this->tryShowFound($this->quoteId);
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The content field is required.
+	 */
 	public function testStoreEmptyContent()
 	{
 		// Empty content
 		$this->addInputReplace(['content' => '']);
 		
-		$this->assertStoreWithWrongContent()
-			->withErrorMessage('The content field is required.');
+		$this->assertStoreWithWrongContent();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The content must be at least 10 characters.
+	 */
 	public function testStoreTooSmallContent()
 	{
 		// Too small content
 		$this->addInputReplace(['content' => $this->generateString(9)]);
 		
-		$this->assertStoreWithWrongContent()
-			->withErrorMessage('The content must be at least 10 characters.');
+		$this->assertStoreWithWrongContent();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The content may not be greater than 500 characters.
+	 */
 	public function testStoreTooLongContent()
 	{
 		// Too long content
 		$this->addInputReplace(['content' => $this->generateString(501)]);
 		
-		$this->assertStoreWithWrongContent()
-			->withErrorMessage('The content may not be greater than 500 characters.');
+		$this->assertStoreWithWrongContent();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The selected quote id was not found.
+	 */
 	public function testStoreQuoteIdNotFound()
 	{
-		$this->addInputReplace([
-			'content' => $this->generateString(100),
-		]);
+		$this->addInputReplace(['content' => $this->generateString(100)]);
 
-		$this->store($this->getIdNonExistingRessource())
-			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
-			->withStatusMessage('wrong_quote_id')
-			->withErrorMessage('The selected quote id was not found.');
+		$this->store($this->getIdNonExistingRessource());
 	}
 
 	public function testStoreSuccess()
@@ -205,31 +213,40 @@ class CommentsTest extends ApiTest {
 			->withErrorMessage('The comment #'.$c['id'].' was not posted by user #'.$idUserLoggedIn.'.');
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The content must be at least 10 characters.
+	 */
 	public function testUpdateTooSmallContent()
 	{
 		// Too small content
 		$this->addInputReplace(['content' => $this->generateString(9)]);
 		
-		$this->assertUpdateWithWrongContent()
-			->withErrorMessage('The content must be at least 10 characters.');
+		$this->assertUpdateWithWrongContent();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The content may not be greater than 500 characters.
+	 */
 	public function testUpdateTooLongContent()
 	{
 		// Too long content
 		$this->addInputReplace(['content' => $this->generateString(501)]);
 		
-		$this->assertUpdateWithWrongContent()
-			->withErrorMessage('The content may not be greater than 500 characters.');
+		$this->assertUpdateWithWrongContent();
 	}
 
+	/**
+	 * @expectedException Laracasts\Validation\FormValidationException
+	 * @expectedExceptionMessage The content field is required.
+	 */
 	public function testUpdateRequiredContent()
 	{
 		// No content
 		$this->addInputReplace(['content' => '']);
 		
-		$this->assertUpdateWithWrongContent()
-			->withErrorMessage('The content field is required.');
+		$this->assertUpdateWithWrongContent();
 	}
 
 	public function testUpdateSuccess()
@@ -252,11 +269,7 @@ class CommentsTest extends ApiTest {
 	{
 		$this->logUserWithId(1);
 		
-		$this->store($this->quoteId)
-			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
-			->withStatusMessage('wrong_content');
-
-		return $this;
+		$this->store($this->quoteId);
 	}
 
 	private function assertUpdateWithWrongContent()
@@ -264,11 +277,7 @@ class CommentsTest extends ApiTest {
 		$c = Comment::first();
 		$this->logUserWithId($c->user_id);
 		
-		$this->store($c->id)
-			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
-			->withStatusMessage('wrong_content');
-
-		return $this;
+		$this->store($c->id);
 	}
 
 	private function store($id)
