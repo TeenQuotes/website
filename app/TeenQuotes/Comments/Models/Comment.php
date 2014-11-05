@@ -16,23 +16,6 @@ class Comment extends Toloquent {
 
 	protected $hidden = ['deleted_at', 'updated_at'];
 
-	/**
-	 * The validation rules when adding a comment
-	 * @var array
-	 */
-	public static $rulesAdd = [
-		'content'  => 'required|min:10|max:500',
-		'quote_id' => 'required|exists:quotes,id',
-	];
-
-	/**
-	 * The validation rules when editing a comment
-	 * @var array
-	 */
-	public static $rulesEdit = [
-		'content'  => 'required|min:10|max:500',
-	];
-
 	public function isPostedBySelf()
 	{
 		if (Auth::check())
