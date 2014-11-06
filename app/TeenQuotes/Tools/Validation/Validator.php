@@ -43,6 +43,12 @@ abstract class Validator extends LaravelValidator {
 			
 			return $this->validateForRule($arguments[0], $property, $arguments[1]);
 		}
+
+		// Return other calls
+		return call_user_func_array(
+			array($this, $name),
+			$arguments
+		);
 	}
 
 	private function handleValidation()
