@@ -43,15 +43,6 @@ class Quote extends Toloquent {
 	protected $appends = ['has_comments', 'total_comments', 'is_favorite'];
 
 	/**
-	 * The validation rules
-	 * @var array
-	 */
-	public static $rulesAdd = [
-		'content'              => 'required|min:50|max:300|unique:quotes,content',
-		'quotesSubmittedToday' => 'required|integer|between:0,4',
-	];
-
-	/**
 	 * The colors that will be used for quotes on the admin page
 	 * @var array
 	 */
