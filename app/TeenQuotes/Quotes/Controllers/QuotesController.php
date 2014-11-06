@@ -31,11 +31,17 @@ class QuotesController extends BaseController {
 	 */
 	private $quoteRepo;
 
+	/**
+	 * @var TeenQuotes\Quotes\Validation\QuoteValidator
+	 */
+	private $quoteValidator;
+
 	public function __construct(QuoteRepository $quoteRepo)
 	{
 		$this->beforeFilter('auth', ['on' => 'store']);
 		$this->api = App::make('TeenQuotes\Api\V1\Controllers\QuotesController');
 		$this->quoteRepo = $quoteRepo;
+		$this->quoteValidator = App::make('TeenQuotes\Quotes\Validation\QuoteValidator');
 	}
 
 	/**
@@ -114,21 +120,14 @@ class QuotesController extends BaseController {
 			'quotesSubmittedToday' => $this->quoteRepo->submittedTodayForUser($user),
 		];
 
-		$validator = Validator::make($data, Quote::$rulesAdd);
+		$this->quoteValidator->validatePosting($data);
 
-		// Check if the form validates with success.
-		if ($validator->passes()) {
-
-			// Call the API to store the quote
-			$response = $this->api->store(false);
-			if ($response->getStatusCode() == 201)
-				return Redirect::route('home')->with('success', Lang::get('quotes.quoteAddedSuccessfull', ['login' => $user->login]));
-			
-			App::abort(500, "Can't create quote.");
-		}
-
-		// Something went wrong.
-		return Redirect::route('addquote')->withErrors($validator)->withInput(Input::all());
+		// Call the API to store the quote
+		$response = $this->api->store(false);
+		if ($response->getStatusCode() == 201)
+			return Redirect::route('home')->with('success', Lang::get('quotes.quoteAddedSuccessfull', ['login' => $user->login]));
+		
+		App::abort(500, "Can't create quote.");
 	}
 
 	/**

@@ -1,15 +1,7 @@
 <?php namespace TeenQuotes\AdminPanel\Controllers;
 
+use App, Config, Input, Lang, Mail, Redirect, Request, Response, View;
 use BaseController;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\View;
 use InvalidArgumentException;
 use TeenQuotes\Exceptions\QuoteNotFoundException;
 use TeenQuotes\Mail\MailSwitcher;
@@ -23,9 +15,15 @@ class QuotesAdminController extends BaseController {
 	 */
 	private $quoteRepo;
 
+	/**
+	 * @var TeenQuotes\Quotes\Validation\QuoteValidator
+	 */
+	private $quoteValidator;
+
 	function __construct(QuoteRepository $quoteRepo)
 	{
 		$this->quoteRepo = $quoteRepo;
+		$this->quoteValidator = App::make('TeenQuotes\Quotes\Validation\QuoteValidator');
 	}
 
 	/**
@@ -85,27 +83,20 @@ class QuotesAdminController extends BaseController {
 			'quotesSubmittedToday' => 0,
 		];
 
-		$validator = Validator::make($data, Quote::$rulesAdd);
+		$this->quoteValidator->validatePosting($data);
+		
+		// Update the quote
+		$quote = $this->quoteRepo->updateContentAndApproved($id, $data['content'], Quote::PENDING);
 
-		// Check if the form validates with success.
-		if ($validator->passes()) {
+		// Contact the author of the quote
+		// Send mail via SMTP
+		new MailSwitcher('smtp');
+		Mail::send('emails.quotes.approve', compact('quote'), function($m) use($quote)
+		{
+			$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('quotes.quoteApproveSubjectEmail'));
+		});
 
-			// Update the quote
-			$quote = $this->quoteRepo->updateContentAndApproved($id, $data['content'], Quote::PENDING);
-
-			// Contact the author of the quote
-			// Send mail via SMTP
-			new MailSwitcher('smtp');
-			Mail::send('emails.quotes.approve', compact('quote'), function($m) use($quote)
-			{
-				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('quotes.quoteApproveSubjectEmail'));
-			});
-
-			return Redirect::route('admin.quotes.index')->with('success', 'The quote has been edited and approved!');
-		}
-
-		// Something went wrong.
-		return Redirect::back()->withErrors($validator)->withInput(Input::all());
+		return Redirect::route('admin.quotes.index')->with('success', 'The quote has been edited and approved!');
 	}
 
 	/**

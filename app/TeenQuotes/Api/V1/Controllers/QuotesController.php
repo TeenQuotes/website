@@ -1,8 +1,7 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Validator;
+use App, Config, Input;
+use Laracasts\Validation\FormValidationException;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Exceptions\ApiNotFoundException;
 use TeenQuotes\Http\Facades\Response;
@@ -11,6 +10,16 @@ use TeenQuotes\Quotes\Models\Quote;
 class QuotesController extends APIGlobalController implements PaginatedContentInterface {
 
 	private $relationInvolved = 'quotes';
+
+	/**
+	 * @var TeenQuotes\Quotes\Validation\QuoteValidator
+	 */
+	private $quoteValidator;
+
+	protected function bootstrap()
+	{
+		$this->quoteValidator = App::make('TeenQuotes\Quotes\Validation\QuoteValidator');
+	}
 
 	public function show($quote_id)
 	{
@@ -150,30 +159,34 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 	{
 		$user = $this->retrieveUser();
 		$content = Input::get('content');
+		$quotesSubmittedToday = $this->quoteRepo->submittedTodayForUser($user);
 
-		if ($doValidation) {		
-			
-			// Validate content of the quote
-			$validatorContent = Validator::make(compact('content'), ['content' => Quote::$rulesAdd['content']]);
-			if ($validatorContent->fails()) {
-				$data = [
+		if ($doValidation) {
+
+			try {
+				$this->quoteValidator->validateNbSubmittedToday(compact('quotesSubmittedToday'));
+			}
+			catch (FormValidationException $e)
+			{
+				$errors = [
+					'status' => 'too_much_submitted_quotes',
+					'error'  => "The maximum number of quotes you can submit is 5 per day."
+				];
+				
+				return Response::json($errors, 400);
+			}
+
+			try {
+				$this->quoteValidator->validatePosting(compact('content', 'quotesSubmittedToday'));
+			}
+			catch (FormValidationException $e)
+			{
+				$errors = [
 					'status' => 'wrong_content',
 					'error'  => 'Content of the quote should be between 50 and 300 characters.'
 				];
 
-				return Response::json($data, 400);
-			}
-
-			// Validate number of quotes submitted today
-			$quotesSubmittedToday = $this->quoteRepo->submittedTodayForUser($user);
-			$validatorNbQuotes = Validator::make(compact('quotesSubmittedToday'), ['quotesSubmittedToday' => Quote::$rulesAdd['quotesSubmittedToday']]);
-			if ($validatorNbQuotes->fails()) {
-				$data = [
-					'status' => 'too_much_submitted_quotes',
-					'error'  => "The maximum number of quotes you can submit is 5 per day."
-				];
-
-				return Response::json($data, 400);
+				return Response::json($errors, 400);
 			}
 		}
 
