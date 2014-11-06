@@ -1,12 +1,8 @@
 <?php namespace TeenQuotes\Quotes\Controllers;
 
+use App, Auth, Request, Response;
 use BaseController;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
+use Laracasts\Validation\FormValidationException;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Models\Quote;
 
@@ -18,9 +14,15 @@ class FavoriteQuoteController extends BaseController {
 	 */
 	private $api;
 
+	/**
+	 * @var TeenQuotes\Quotes\Validation\FavoriteQuoteValidator
+	 */
+	private $favQuoteValidator;
+
 	public function __construct()
 	{
 		$this->api = App::make('TeenQuotes\Api\V1\Controllers\QuotesFavoriteController');
+		$this->favQuoteValidator = App::make('TeenQuotes\Quotes\Validation\FavoriteQuoteValidator');
 	}
 
 	/**
@@ -35,10 +37,7 @@ class FavoriteQuoteController extends BaseController {
 			// Call the API to store the favorite
 			$response = $this->api->postFavorite($quote_id);
 			
-			if ($response->getStatusCode() == 201)
-				return Response::json(['success' => true], 200);
-
-			return Response::json(['success' => false], 200);
+			return Response::json(['success' => ($response->getStatusCode() == 201)], 200);
 		}
 	}
 
@@ -58,22 +57,22 @@ class FavoriteQuoteController extends BaseController {
 				'user_id'  => $user->id,
 			];
 
-			$validator = Validator::make($data, FavoriteQuote::$rulesRemoveFavorite);
-
-			// Check if the form validates with success.
-			if ($validator->passes()) {
-
-				// Call the API to delete the favorite
-				$response = $this->api->deleteFavorite($quote_id, false);
-								
-				if ($response->getStatusCode() == 200)
-					return Response::json(['success' => true], 200);
+			try {
+				$this->favQuoteValidator->validateRemove($data);
+			}
+			catch (FormValidationException $e)
+			{
+				return Response::json([
+					'success' => false,
+					'errors'  => $e->getErrors()
+				]);
 			}
 
-			return Response::json([
-				'success' => false,
-				'errors'  => $validator->getMessageBag()->toArray()
-			]);
+			// Call the API to delete the favorite
+			$response = $this->api->deleteFavorite($quote_id, false);
+							
+			if ($response->getStatusCode() == 200)
+				return Response::json(['success' => true], 200);
 		}
 	}
 }

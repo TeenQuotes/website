@@ -1,7 +1,7 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Validator;
+use App, Config;
+use Laracasts\Validation\FormValidationException;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Models\Quote;
@@ -9,18 +9,32 @@ use TeenQuotes\Users\Models\User;
 
 class QuotesFavoriteController extends APIGlobalController {
 
+	/**
+	 * @var TeenQuotes\Quotes\Validation\FavoriteQuoteValidator
+	 */
+	private $favQuoteValidator;
+
+	public function bootstrap()
+	{
+		$this->favQuoteValidator = App::make('TeenQuotes\Quotes\Validation\FavoriteQuoteValidator');
+	}
+	
 	public function postFavorite($quote_id, $doValidation = true)
 	{
 		$user = $this->retrieveUser();
 		
 		if ($doValidation) {		
 			
-			$validatorQuote = Validator::make(compact('quote_id'), ['quote_id' => FavoriteQuote::$rulesAddFavorite['quote_id']]);
-			if ($validatorQuote->fails())
+			try {
+				$this->favQuoteValidator->validatePostForQuote(compact('quote_id'));
+			}
+			catch (FormValidationException $e)
+			{
 				return Response::json([
 					'status' => 'quote_not_found',
 					'error'  => "The quote #".$quote_id." was not found.",
 				], 400);
+			}
 
 			// Check if the quote is published
 			$quote = $this->quoteRepo->getById($quote_id);
@@ -55,12 +69,16 @@ class QuotesFavoriteController extends APIGlobalController {
 		
 		if ($doValidation) {		
 
-			$validatorFavoriteQuote = Validator::make(compact('quote_id'), ['quote_id' => 'exists:favorite_quotes,quote_id,user_id,'.$user->id]);
-			if ($validatorFavoriteQuote->fails())
+			try {
+				$this->favQuoteValidator->setUserForRemove($user)->validateRemoveForQuote(compact('quote_id'));
+			}
+			catch (FormValidationException $e)
+			{
 				return Response::json([
 					'status' => 'quote_not_found',
 					'error'  => "The quote #".$quote_id." was not found.",
 				], 400);
+			}
 		}
 
 		// Delete the FavoriteQuote from database
