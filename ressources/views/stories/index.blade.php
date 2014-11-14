@@ -17,7 +17,7 @@
 
 		<!-- Display stories -->
 		@foreach ($stories as $story)
-			@include('stories.single')
+			@include('stories.partials.single')
 		@endforeach
 
 		<!-- Links to pages -->
