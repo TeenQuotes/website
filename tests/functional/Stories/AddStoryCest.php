@@ -12,7 +12,7 @@ class AddStoryCest {
 	{		
 		// Create some published quotes and some stories
 		$I->createSomePublishedQuotes();
-		$I->insertInDatabase(20, 'Story');
+		$I->insertInDatabase(20, 'Story', ['created_at' => Carbon::now()->subMonth(1)]);
 
 		// Create a new user
 		$this->user = $I->logANewUser();
@@ -64,6 +64,17 @@ class AddStoryCest {
 
 		$I->seeFormError('The represent txt field is required.');
 		$I->seeFormError('The frequence txt field is required.');
+	}
+
+	public function seeWarningWhenLoggedOut(FunctionalTester $I)
+	{
+		$I->am('a visitor of Teen Quotes');
+		$I->wantTo("add a story");
+
+		$I->logout();
+
+		$I->navigateToTheStoryPage();
+		$I->see('You must be logged in if you want to add your story');
 	}
 
 	private function postStory(FunctionalTester $I, $representLength, $frequenceLength)
