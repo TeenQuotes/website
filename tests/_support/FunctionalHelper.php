@@ -82,7 +82,7 @@ class FunctionalHelper extends Module
 	 * @param  array $overrides The key-value array used to override dummy values
 	 * @return array|object The created record(s)
 	 */
-	public function insertInDatabase($times, $class, $overrides)
+	public function insertInDatabase($times, $class, $overrides = [])
 	{
 		return TestDummy::times($times)->create($this->classToFullNamespace($class), $overrides);
 	}
@@ -95,7 +95,7 @@ class FunctionalHelper extends Module
 	private function classToFullNamespace($class)
 	{
 		// "Nice behaviour" classes
-		if (in_array(strtolower($class), ['comment', 'country', 'newsletter', 'quote', 'user', 'stories'])) {
+		if (in_array(strtolower($class), ['comment', 'country', 'newsletter', 'quote', 'user', 'story'])) {
 			$plural = ucfirst(strtolower(Str::plural($class)));
 			
 			return 'TeenQuotes\\'.$plural.'\\Models\\'.ucfirst(strtolower($class));

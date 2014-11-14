@@ -22,6 +22,14 @@ class NavigationHelper extends Module {
 		$I->click('Search', '.nav');
 	}
 
+	public function navigateToTheStoryPage()
+	{
+		$I = $this->getModule('Laravel4');
+
+		$I->amOnRoute('home');
+		$I->click('Stories', 'footer');
+	}
+
 	public function navigateToMyEditProfilePage()
 	{
 		$I = $this->getModule('Laravel4');

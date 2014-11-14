@@ -49,6 +49,15 @@ class FormFillerHelper extends Module {
 		$I->click('Look for this!');
 	}
 
+	public function fillStoryForm($represent, $frequence)
+	{
+		$I = $this->getModule('Laravel4');
+
+		$I->fillField('#represent_txt', $represent);
+		$I->fillField('#frequence_txt', $frequence);
+		$I->click('Add my story!');
+	}
+
 	/**
 	 * Fill the edit profile form with the given key-value pairs
 	 * @param  array  $params The key-values pairs. Required keys: gender, birthdate (YYYY-MM-DD), country_name, city, about_me. Optional: avatar (filename)
