@@ -47,6 +47,13 @@ interface CommentRepository {
 	public function findForUser(User $user, $page, $pagesize);
 
 	/**
+	 * Count the number of posted comments for a user
+	 * @param  TeenQuotes\Users\Models\User   $user
+	 * @return int
+	 */
+	public function countForUser(User $user);
+
+	/**
 	 * Post a comment on a quote
 	 * @param  TeenQuotes\Quotes\Models\Quote  $q
 	 * @param  TeenQuotes\Users\Models\User   $u

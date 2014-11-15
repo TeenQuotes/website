@@ -85,6 +85,16 @@ class DbCommentRepository implements CommentRepository {
 	}
 
 	/**
+	 * Count the number of posted comments for a user
+	 * @param  TeenQuotes\Users\Models\User   $user
+	 * @return int
+	 */
+	public function countForUser(User $user)
+	{
+		return $user->getTotalComments();
+	}
+
+	/**
 	 * Post a comment on a quote
 	 * @param  TeenQuotes\Quotes\Models\Quote  $q
 	 * @param  TeenQuotes\Users\Models\User   $u
