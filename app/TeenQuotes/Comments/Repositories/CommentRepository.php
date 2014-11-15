@@ -38,6 +38,15 @@ interface CommentRepository {
 	public function indexForQuoteWithQuote($quote_id, $page, $pagesize);
 
 	/**
+	 * Retrieve comments posted by a user for a page and a pagesize
+	 * @param  TeenQuotes\Users\Models\User $user
+	 * @param  int $page    
+	 * @param  int $pagesize
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	public function findForUser(User $user, $page, $pagesize);
+
+	/**
 	 * Post a comment on a quote
 	 * @param  TeenQuotes\Quotes\Models\Quote  $q
 	 * @param  TeenQuotes\Users\Models\User   $u

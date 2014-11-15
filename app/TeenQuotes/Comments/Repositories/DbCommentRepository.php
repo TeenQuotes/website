@@ -68,6 +68,23 @@ class DbCommentRepository implements CommentRepository {
 	}
 
 	/**
+	 * Retrieve comments posted by a user for a page and a pagesize
+	 * @param  TeenQuotes\Users\Models\User $user
+	 * @param  int $page    
+	 * @param  int $pagesize
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	public function findForUser(User $user, $page, $pagesize)
+	{
+		return $user->comments()
+			->with('user', 'quote')
+			->orderDescending()
+			->take($pagesize)
+			->skip($this->computeSkip($page, $pagesize))
+			->get();
+	}
+
+	/**
 	 * Post a comment on a quote
 	 * @param  TeenQuotes\Quotes\Models\Quote  $q
 	 * @param  TeenQuotes\Users\Models\User   $u
@@ -102,6 +119,16 @@ class DbCommentRepository implements CommentRepository {
 	}
 
 	/**
+	 * Delete a comment
+	 * @param  int $id 
+	 * @return TeenQuotes\Comments\Models\Comment
+	 */
+	public function delete($id)
+	{
+		return Comment::find($id)->delete();
+	}
+
+	/**
 	 * Retrieve a comment by its ID or by its instance
 	 * @param  TeenQuotes\Comments\Models\Comment|int $c
 	 * @return TeenQuotes\Comments\Models\Comment
@@ -116,16 +143,6 @@ class DbCommentRepository implements CommentRepository {
 			return $c;
 
 		throw new InvalidArgumentException("The given instance is not a comment");
-	}
-
-	/**
-	 * Delete a comment
-	 * @param  int $id 
-	 * @return TeenQuotes\Comments\Models\Comment
-	 */
-	public function delete($id)
-	{
-		return Comment::find($id)->delete();
 	}
 
 	private function computeSkip($page, $pagesize)
