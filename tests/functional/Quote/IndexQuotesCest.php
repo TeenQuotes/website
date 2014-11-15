@@ -1,6 +1,6 @@
 <?php
 
-class IndexQuoteCest {
+class IndexQuotesCest {
 	
 	/**
 	 * The logged in user
