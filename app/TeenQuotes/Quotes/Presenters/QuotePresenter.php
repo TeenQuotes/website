@@ -57,10 +57,9 @@ class QuotePresenter extends Presenter {
 	public function favoritesData()
 	{
 		$nbFavorites = count($this->favorites);
-		$data = [];
-		$data['nbFavorites'] = $nbFavorites;
+		$data = compact('nbFavorites');
 
-		// We have got too much person who favorited this quote
+		// We have got too much people who favorited this quote
 		if ($nbFavorites > 3)
 			$data['nbRemaining'] = $nbFavorites - 3;
 		
@@ -79,14 +78,14 @@ class QuotePresenter extends Presenter {
 
 	/**
 	 * Returns a link to a user's profile or just its login if its profile is hidden
-	 * @param  \User $user The User object
+	 * @param  TeenQuotes\Users\Models\User $user The User object
 	 * @return string
 	 */
 	public function linkForUser($user)
 	{		
 		if ($user->isHiddenProfile())
 			return $user->login;
-		else
-			return "<a href='".URL::route('users.show', $user->login)."'>".$user->login."</a>";
+		
+		return "<a href='".URL::route('users.show', $user->login)."'>".$user->login."</a>";
 	}
 }
