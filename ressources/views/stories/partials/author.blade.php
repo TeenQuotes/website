@@ -1,6 +1,6 @@
 <h3>
 	@if ( ! $story->user->isHiddenProfile())
-		<a href="{{ URL::route('users.show', ['id' => $story->user->login]) }}">
+		<a href="{{ URL::route('users.show', ['id' => $story->user->login]) }}" class="author-link">
 	@endif
 		{{{ $story->user->login }}}
 	@if ( ! $story->user->isHiddenProfile())
