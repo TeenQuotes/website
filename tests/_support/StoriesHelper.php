@@ -40,4 +40,11 @@ class StoriesHelper extends Module {
 		
 		return $this->getModule('FunctionalHelper')->insertInDatabase($nbStories, 'Story', $overrides);
 	}
+
+	public function createAStoryWithHiddenUser()
+	{
+		$user = $this->getModule('FunctionalHelper')->insertInDatabase(1, 'User', ['hide_profile' => 1]);
+
+		return $this->getModule('FunctionalHelper')->insertInDatabase(1, 'Story', ['user_id' => $user->id]);
+	}
 }
