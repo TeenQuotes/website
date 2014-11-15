@@ -12,7 +12,7 @@ class AddStoryCest {
 	{		
 		// Create some published quotes and some stories
 		$I->createSomePublishedQuotes();
-		$I->insertInDatabase(20, 'Story', ['created_at' => Carbon::now()->subMonth(1)]);
+		$I->createSomeStories();
 
 		// Create a new user
 		$this->user = $I->logANewUser();

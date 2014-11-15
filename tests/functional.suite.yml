@@ -17,6 +17,7 @@ modules:
         - MailCatcher
         - NavigationHelper
         - QuotesHelper
+        - StoriesHelper
         - UserHelper
     config:
         Laravel4:
