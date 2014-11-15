@@ -1,4 +1,4 @@
-<div class="story">
+<div class="story" data-id="{{{ $story->id }}}">
 	<div class="row">
 		<!-- Avatar -->
 		@include('stories.partials.avatar')
