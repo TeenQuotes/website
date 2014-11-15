@@ -24,10 +24,10 @@ class IndexStoriesCest {
 		$I->am('a member of Teen Quotes');
 		$I->wantTo("browse last stories");
 
-		$this->assertPageOfQuotesContainsRequiredElements($I);
+		$this->assertPageOfStoriesContainsRequiredElements($I);
 	}
 
-	private function assertPageOfQuotesContainsRequiredElements(FunctionalTester $I)
+	private function assertPageOfStoriesContainsRequiredElements(FunctionalTester $I)
 	{
 		$I->seeNumberOfElements('.story', $I->getNbStoriesPerPage());
 
