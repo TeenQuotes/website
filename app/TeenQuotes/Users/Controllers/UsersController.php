@@ -128,7 +128,7 @@ class UsersController extends BaseController {
 
 	/**
 	 * Redirect the user to a place where we have content to show if possible
-	 * @param  User $user The user
+	 * @param  TeenQuotes\Users\Models\User $user The user
 	 * @param  string $type The requested type to show
 	 * @return Response|null If null is returned, we can't find a better place to show content
 	 */
@@ -205,19 +205,8 @@ class UsersController extends BaseController {
 			throw new HiddenProfileException;
 
 		// Build the data array. Keys: quotes, paginator
-		switch ($type) {
-			case 'favorites':
-				$data = $this->dataShowFavoriteQuotes($user);
-				break;
-
-			case 'comments':
-				$data = $this->dataShowComments($user);
-				break;
-
-			case 'published':
-				$data = $this->dataShowPublishedQuotes($user);
-				break;
-		}
+		$methodName = 'dataShow'.ucfirst($type);
+		$data = $this->$methodName($user);
 
 		$data['user']               = $user;
 		// Used for deep linking in ProfileComposer
@@ -241,7 +230,7 @@ class UsersController extends BaseController {
 		);
 	}
 
-	private function dataShowFavoriteQuotes(User $user)
+	private function dataShowFavorites(User $user)
 	{
 		$pageNumber = Input::get('page', 1);
 
@@ -281,7 +270,7 @@ class UsersController extends BaseController {
 		];
 	}
 
-	private function dataShowPublishedQuotes(User $user)
+	private function dataShowPublished(User $user)
 	{
 		$pageNumber = Input::get('page', 1);
 
@@ -336,7 +325,7 @@ class UsersController extends BaseController {
 
 	/**
 	 * Get country and city for a given user. If we have no information, try to guess it!
-	 * @param  User $user The user model
+	 * @param  TeenQuotes\Users\Models\User $user The user model
 	 * @return array The country and the city
 	 */
 	private function getCountryAndCity(User $user)
