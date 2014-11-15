@@ -7,6 +7,7 @@ use App, Auth, Config, Input, Lang, Paginator;
 use Redirect, Response, Session, URL, View;
 use Laracasts\Validation\FormValidationException;
 use TeenQuotes\Api\V1\Controllers\UsersController as UsersAPIController;
+use TeenQuotes\Comments\Repositories\CommentRepository;
 use TeenQuotes\Countries\Repositories\CountryRepository;
 use TeenQuotes\Exceptions\HiddenProfileException;
 use TeenQuotes\Exceptions\UserNotFoundException;
@@ -27,9 +28,9 @@ class UsersController extends BaseController {
 	private $api;
 
 	/**
-	 * @var TeenQuotes\Settings\Repositories\SettingRepository
+	 * @var TeenQuotes\Comments\Repositories\CommentRepository
 	 */
-	private $settingRepo;
+	private $commentRepo;
 
 	/**
 	 * @var TeenQuotes\Countries\Repositories\CountryRepository
@@ -42,6 +43,11 @@ class UsersController extends BaseController {
 	private $quoteRepo;
 
 	/**
+	 * @var TeenQuotes\Settings\Repositories\SettingRepository
+	 */
+	private $settingRepo;
+
+	/**
 	 * @var TeenQuotes\Users\Repositories\UserRepository
 	 */
 	private $userRepo;
@@ -51,16 +57,19 @@ class UsersController extends BaseController {
 	 */
 	private $userValidator;
 
-	public function __construct(SettingRepository $settingRepo, CountryRepository $countryRepo, QuoteRepository $quoteRepo, UserRepository $userRepo, UserValidator $userValidator)
+	public function __construct(CommentRepository $commentRepo, CountryRepository $countryRepo, 
+		QuoteRepository $quoteRepo, SettingRepository $settingRepo, UserRepository $userRepo, 
+		UserValidator $userValidator)
 	{
 		$this->beforeFilter('guest', ['only' => 'store']);
 		$this->beforeFilter('auth', ['only' => ['edit', 'update', 'putPassword', 'putSettings']]);
 		
-		$this->api = App::make('TeenQuotes\Api\V1\Controllers\UsersController');
-		$this->settingRepo = $settingRepo;
-		$this->countryRepo = $countryRepo;
-		$this->quoteRepo = $quoteRepo;
-		$this->userRepo = $userRepo;
+		$this->api           = App::make('TeenQuotes\Api\V1\Controllers\UsersController');
+		$this->commentRepo   = $commentRepo;
+		$this->countryRepo   = $countryRepo;
+		$this->quoteRepo     = $quoteRepo;
+		$this->settingRepo   = $settingRepo;
+		$this->userRepo      = $userRepo;
 		$this->userValidator = $userValidator;
 	}
 
@@ -252,16 +261,12 @@ class UsersController extends BaseController {
 
 	private function dataShowComments(User $user)
 	{
-		$pageNumber = Input::get('page', 1);
+		$page = Input::get('page', 1);
 
-		$comments = $user->comments()
-			->with('user', 'quote')
-			->orderDescending()
-			->paginate(Config::get('app.users.nbQuotesPerPage'))
-			->getItems();
+		$comments = $this->commentRepo->findForUser($user, $page, Config::get('app.users.nbQuotesPerPage'));
 
 		// Build the associated paginator
-		$paginator = Paginator::make($comments, $user->getTotalComments(), Config::get('app.users.nbQuotesPerPage'));
+		$paginator = Paginator::make($comments->toArray(), $user->getTotalComments(), Config::get('app.users.nbQuotesPerPage'));
 		$paginator->setBaseUrl(URL::route('users.show', [$user->login, 'comments'], false));
 
 		return [
