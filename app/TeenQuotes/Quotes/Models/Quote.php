@@ -234,7 +234,7 @@ class Quote extends Toloquent {
 
 	/**
 	 * Get the cache array that describes the tag to retrieve quotes for a given user, by approved
-	 * @param  User   $u
+	 * @param  TeenQuotes\Users\Models\User   $u
 	 * @param  string $approve
 	 * @return array
 	 */

@@ -133,7 +133,7 @@ class QuotesPublishCommand extends ScheduledCommand {
 
 	/**
 	 * Update the number of published quotes for a user
-	 * @param  User   $u
+	 * @param  TeenQuotes\Users\Models\User   $u
 	 */
 	private function incrementCachePublishedForUser(User $u)
 	{

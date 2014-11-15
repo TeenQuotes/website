@@ -6,7 +6,7 @@ interface SettingRepository {
 
 	/**
 	 * Update or create a setting for a given user and key
-	 * @param  User   $u     
+	 * @param  TeenQuotes\Users\Models\User   $u     
 	 * @param  string $key   
 	 * @param  mixed $value
 	 * @return TeenQuotes\Settings\Models\Setting
@@ -15,7 +15,7 @@ interface SettingRepository {
 
 	/**
 	 * Retrieve a row for a given user and key
-	 * @param  User   $u     
+	 * @param  TeenQuotes\Users\Models\User   $u     
 	 * @param  string $key   
 	 * @return TeenQuotes\Settings\Models\Setting
 	 */
