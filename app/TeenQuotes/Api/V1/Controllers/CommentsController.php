@@ -44,6 +44,32 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
+	public function getCommentsForUser($user_id)
+	{
+		$page = $this->getPage();
+		$pagesize = $this->getPagesize();
+
+		$user = $this->userRepo->getById($user_id);
+		
+		// Handle user not found
+		if (is_null($user))
+			return $this->tellUserWasNotFound($user_id);
+
+		// Get comments
+		$content = $this->commentRepo->findForUser($user, $page, $pagesize);
+
+		// Handle no comments found
+		$totalComments = 0;
+		if (is_null($content) OR empty($content) OR $content->count() == 0)
+			throw new ApiNotFoundException('comments');
+
+		$totalComments = $this->commentRepo->countForUser($user);
+
+		$data = self::paginateContent($page, $pagesize, $totalComments, $content, 'comments');
+		
+		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
+	}
+
 	public function show($comment_id)
 	{		
 		if (Input::has('quote'))
@@ -153,5 +179,15 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 			'status' => 'comment_not_self',
 			'error'  => "The comment #".$id." was not posted by user #".$user->id.".",
 		], 400);
+	}
+
+	private function tellUserWasNotFound($user_id)
+	{
+		$data = [
+			'status' => 'user_not_found',
+			'error'  => "The user #".$user_id." was not found.",
+		];
+
+		return Response::json($data, 400);
 	}
 }

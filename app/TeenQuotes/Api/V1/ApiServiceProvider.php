@@ -64,6 +64,7 @@ class ApiServiceProvider extends ServiceProvider {
 			$this->app['router']->post('comments/{quote_id}', ['uses' => 'CommentsController@store']);
 			$this->app['router']->delete('comments/{comment_id}', ['uses' => 'CommentsController@destroy']);
 			$this->app['router']->get('comments/{comment_id}', ['uses' => 'CommentsController@show']);
+			$this->app['router']->get('comments/users/{user_id}', 'CommentsController@getCommentsForUser');
 		});
 	}
 
