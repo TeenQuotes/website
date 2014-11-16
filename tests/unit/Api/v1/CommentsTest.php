@@ -265,6 +265,40 @@ class CommentsTest extends ApiTest {
 			->withSuccessMessage('The comment #'.$c->id.' was updated.');
 	}
 
+	public function testIndexForUser()
+	{
+		$u = Factory::create('TeenQuotes\Users\Models\User');
+		Factory::times($this->nbRessources)->create('TeenQuotes\Comments\Models\Comment', ['user_id' => $u->id]);
+		
+		$this->activateEmbedsQuote();
+
+		// Test first page
+		$this->tryFirstPage('getCommentsForUser', $u->id);
+
+		// Test with the middle page
+		$this->tryMiddlePage('getCommentsForUser', $u->id);
+	}
+
+	public function testIndexForUserNotFound()
+	{
+		$this->doRequest('getCommentsForUser', 100)
+			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+			->withStatusMessage('user_not_found')
+			->withErrorMessage('The user #100 was not found.');
+	}
+
+	/**
+	 * @expectedException        TeenQuotes\Exceptions\ApiNotFoundException
+	 * @expectedExceptionMessage comments
+	 */
+	public function testIndexForUserNoComments()
+	{
+		$u = Factory::create('TeenQuotes\Users\Models\User');
+		
+		// Try with a user with no comments
+		$this->tryFirstPage('getCommentsForUser', $u->id);
+	}
+
 	private function assertStoreWithWrongContent()
 	{
 		$this->logUserWithId(1);
