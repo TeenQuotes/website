@@ -77,7 +77,8 @@ class DbCommentRepository implements CommentRepository {
 	public function findForUser(User $user, $page, $pagesize)
 	{
 		return $user->comments()
-			->with('user', 'quote')
+			->withSmallUser()
+			->with('quote')
 			->orderDescending()
 			->take($pagesize)
 			->skip($this->computeSkip($page, $pagesize))
