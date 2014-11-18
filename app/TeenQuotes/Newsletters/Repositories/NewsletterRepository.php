@@ -23,8 +23,6 @@ interface NewsletterRepository {
 	 * Create a newsletter item for the given user
 	 * @var TeenQuotes\Users\Models\User $user The user instance
 	 * @var string $type The type of the newsletter : weekly|daily
-	 * @throws InvalidArgumentException If the newsletter's type is wrong or if
-	 * the user is already subscribed to the newsletter.
 	 */
 	public function createForUserAndType(User $user, $type);
 

@@ -39,15 +39,12 @@ class DbNewsletterRepository implements NewsletterRepository {
 	 * Create a newsletter item for the given user
 	 * @var TeenQuotes\Users\Models\User $user The user instance
 	 * @var string $type The type of the newsletter : weekly|daily
-	 * @throws InvalidArgumentException If the newsletter's type is wrong or if
-	 * the user is already subscribed to the newsletter.
 	 */
 	public function createForUserAndType(User $user, $type)
 	{
 		$this->guardType($type);
 
-		if ($this->userIsSubscribedToNewsletterType($user, $type))
-			throw new InvalidArgumentException("The user is already subscribed to the newsletter of type ".$type.".");
+		if ($this->userIsSubscribedToNewsletterType($user, $type)) return;
 
 		$newsletter          = new Newsletter;
 		$newsletter->type    = $type;
