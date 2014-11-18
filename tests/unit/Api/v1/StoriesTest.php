@@ -12,11 +12,11 @@ class StoriesTest extends ApiTest {
 	{	
 		parent::_before();
 		
-		$this->unitTester->insertInDatabase($this->apiHelper->nbRessources, 'Story');
+		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Story');
 
-		$this->apiHelper->setContentType('stories');
+		$this->unitTester->setContentType('stories');
 
-		$this->apiHelper->controller = App::make('TeenQuotes\Api\V1\Controllers\StoriesController');
+		$this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\StoriesController'));
 	}
 
 	public function testShowNotFound()
@@ -31,7 +31,7 @@ class StoriesTest extends ApiTest {
 	public function testShowFound()
 	{
 		// Regular story
-		for ($i = 1; $i <= $this->apiHelper->nbRessources; $i++)
+		for ($i = 1; $i <= $this->unitTester->getNbRessources(); $i++)
 			$this->unitTester->tryShowFound($i);
 	}
 
@@ -115,7 +115,7 @@ class StoriesTest extends ApiTest {
 			->assertBelongsToLoggedInUser();
 
 		// Check that we can retrieve the new item
-		$this->unitTester->tryShowFound($this->apiHelper->nbRessources + 1);
+		$this->unitTester->tryShowFound($this->unitTester->getNbRessources() + 1);
 	}
 
 	/**

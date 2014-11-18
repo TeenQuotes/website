@@ -10,7 +10,7 @@ class ApiHelper extends Module {
 	 * The controller class to use for the current test case
 	 * @var mixed
 	 */
-	public $controller;
+	protected $controller;
 	
 	/** 
 	 * The response given by a controller
@@ -52,25 +52,25 @@ class ApiHelper extends Module {
 	 * Number of ressources to create
 	 * @var integer
 	 */
-	public $nbRessources = 3;
+	protected $nbRessources = 3;
 
 	/**
 	 * Describes relations embedded
 	 * @var array
 	 */
-	public $embedsRelation = [];
+	protected $embedsRelation = [];
 
 	/**
 	 * The content that we are dealing with
 	 * @var string
 	 */
-	private $contentType;
+	protected $contentType;
 
 	/**
 	 * Attributes that should be here
 	 * @var array
 	 */
-	private $requiredAttributes;
+	protected $requiredAttributes;
 
 	public function assertResponseIsNotFound()
 	{		
@@ -257,6 +257,16 @@ class ApiHelper extends Module {
 		$this->assertObjectMatchesExpectedSchema($this->json);
 	}
 
+	public function getNbRessources()
+	{
+		return $this->nbRessources;
+	}
+
+	public function getController()
+	{
+		return $this->controller;
+	}
+
 	public function getDecodedJson()
 	{
 		return $this->json;
@@ -284,6 +294,11 @@ class ApiHelper extends Module {
 	public function setContentType($value)
 	{
 		$this->contentType = $value;
+	}
+
+	public function setController($value)
+	{
+		$this->controller = $value;
 	}
 
 	public function setEmbedsRelation(array $value)

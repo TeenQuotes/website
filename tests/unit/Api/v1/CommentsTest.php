@@ -15,14 +15,14 @@ class CommentsTest extends ApiTest {
 	{
 		parent::_before();
 		
-		$this->apiHelper->controller = App::make('TeenQuotes\Api\V1\Controllers\CommentsController');
+		$this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\CommentsController'));
 
-		$this->apiHelper->setContentType('comments');
+		$this->unitTester->setContentType('comments');
 
 		// Create a quote and add some comments to it
 		$q = $this->unitTester->insertInDatabase(1, 'Quote');
 		$this->quoteId = $q['id'];
-		$this->unitTester->insertInDatabase($this->apiHelper->nbRessources, 'Comment', ['quote_id' => $this->quoteId]);
+		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Comment', ['quote_id' => $this->quoteId]);
 	}
 	
 	public function testIndexWithoutQuote()
@@ -129,8 +129,8 @@ class CommentsTest extends ApiTest {
 		$q = Quote::find($this->quoteId);
 
 		// Check number of comments in cache
-		$this->assertEquals($this->apiHelper->nbRessources, $q->total_comments);
-		$this->assertEquals($this->apiHelper->nbRessources, Cache::get(Quote::$cacheNameNbComments.$q->id));
+		$this->assertEquals($this->unitTester->getNbRessources(), $q->total_comments);
+		$this->assertEquals($this->unitTester->getNbRessources(), Cache::get(Quote::$cacheNameNbComments.$q->id));
 
 		$oldNbComments = $q->total_comments;
 
@@ -268,7 +268,7 @@ class CommentsTest extends ApiTest {
 	public function testIndexForUser()
 	{
 		$u = $this->unitTester->insertInDatabase(1, 'User');
-		$this->unitTester->insertInDatabase($this->apiHelper->nbRessources, 'Comment', ['user_id' => $u->id]);
+		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Comment', ['user_id' => $u->id]);
 		
 		$this->activateEmbedsQuote();
 

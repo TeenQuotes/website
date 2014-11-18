@@ -15,11 +15,11 @@ class UsersTest extends ApiTest {
 	{
 		parent::_before();
 		
-		$this->apiHelper->controller = App::make('TeenQuotes\Api\V1\Controllers\UsersController');
+		$this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\UsersController'));
 
-		$this->apiHelper->setContentType('users');
+		$this->unitTester->setContentType('users');
 
-		$this->unitTester->insertInDatabase($this->apiHelper->nbRessources, 'User');
+		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'User');
 		
 		$this->attachCountryForAllUsers();
 	}
@@ -149,7 +149,7 @@ class UsersTest extends ApiTest {
 			->assertResponseHasRequiredAttributes();
 
 		// Check that the user has been subscribed to the weekly newsletter
-		$u = User::find($this->apiHelper->nbRessources + 1);
+		$u = User::find($this->unitTester->getNbRessources() + 1);
 		$this->assertTrue($u->getIsSubscribedToWeekly());
 		$this->assertFalse($u->getIsSubscribedToDaily());
 
@@ -194,7 +194,7 @@ class UsersTest extends ApiTest {
 	{
 		$this->setFullAttributesAreRequired();
 
-		for ($i = 1; $i <= $this->apiHelper->nbRessources ; $i++)
+		for ($i = 1; $i <= $this->unitTester->getNbRessources() ; $i++)
 			$this->unitTester->tryShowFound($i);
 	}
 
@@ -411,7 +411,7 @@ class UsersTest extends ApiTest {
 
 		$this->generateUsersWithPartialLogin('abc');
 
-		$this->assertEquals($this->apiHelper->nbRessources, User::all()->count());
+		$this->assertEquals($this->unitTester->getNbRessources(), User::all()->count());
 
 		// Verify that we can retrieve our users even
 		// with partials login
@@ -453,7 +453,7 @@ class UsersTest extends ApiTest {
 		// matching our query
 		$this->unitTester->addInputReplace([
 			'page'     => 2,
-			'pagesize' => $this->apiHelper->nbRessources
+			'pagesize' => $this->unitTester->getNbRessources()
 		]);
 
 		$this->unitTester->doRequest('getSearch', 'abc');
@@ -463,7 +463,7 @@ class UsersTest extends ApiTest {
 	{
 		$this->deleteAllUsers();
 
-		for ($i = 1; $i <= $this->apiHelper->nbRessources; $i++) {
+		for ($i = 1; $i <= $this->unitTester->getNbRessources(); $i++) {
 			$login = $this->unitTester->generateString(2).$string.$i;
 			$this->unitTester->insertInDatabase(1, 'User', compact('login'));
 		}

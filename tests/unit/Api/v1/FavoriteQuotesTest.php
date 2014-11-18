@@ -16,7 +16,7 @@ class FavoriteQuotesTest extends ApiTest {
 	{
 		parent::_before();
 		
-		$this->apiHelper->controller = App::make('TeenQuotes\Api\V1\Controllers\QuotesFavoriteController');
+		$this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\QuotesFavoriteController'));
 		
 		// Create a user and log him in
 		$user = $this->unitTester->insertInDatabase(1, 'User');
@@ -110,14 +110,14 @@ class FavoriteQuotesTest extends ApiTest {
 
 	private function post($quote_id)
 	{
-		$this->apiHelper->response = $this->apiHelper->controller->postFavorite($quote_id);
+		$this->apiHelper->response = $this->unitTester->getController()->postFavorite($quote_id);
 		
 		$this->apiHelper->bindJson($this->apiHelper->response->getContent());
 	}
 
 	private function delete($quote_id)
 	{
-		$this->apiHelper->response = $this->apiHelper->controller->deleteFavorite($quote_id);
+		$this->apiHelper->response = $this->unitTester->getController()->deleteFavorite($quote_id);
 		
 		$this->apiHelper->bindJson($this->apiHelper->response->getContent());
 	}

@@ -10,11 +10,11 @@ class CountriesTest extends ApiTest {
 	{
 		parent::_before();
 		
-		$this->unitTester->insertInDatabase($this->apiHelper->nbRessources, 'Country');
+		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Country');
 
-		$this->apiHelper->setContentType('comments');
+		$this->unitTester->setContentType('comments');
 
-		$this->apiHelper->controller = App::make('TeenQuotes\Api\V1\Controllers\CountriesController');
+		$this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\CountriesController'));
 	}
 
 	public function testShowNotFound()
@@ -28,7 +28,7 @@ class CountriesTest extends ApiTest {
 	public function testShowFound()
 	{
 		// Regular country
-		for ($i = 1; $i <= $this->apiHelper->nbRessources; $i++)
+		for ($i = 1; $i <= $this->unitTester->getNbRessources(); $i++)
 			$this->unitTester->tryShowFound($i);
 	}
 
@@ -38,7 +38,7 @@ class CountriesTest extends ApiTest {
 		$this->unitTester->doRequest('show');
 		$object = $this->unitTester->getDecodedJson(); 
 
-		$this->assertCount($this->apiHelper->nbRessources, $object);
+		$this->assertCount($this->unitTester->getNbRessources(), $object);
 		foreach ($object as $country)
 			$this->apiHelper->assertObjectHasRequiredAttributes($country);
 	}

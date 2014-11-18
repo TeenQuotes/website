@@ -15,11 +15,11 @@ class QuotesTest extends ApiTest {
 	{
 		parent::_before();
 		
-		$this->apiHelper->controller = App::make('TeenQuotes\Api\V1\Controllers\QuotesController');
+		$this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\QuotesController'));
 
-		$this->apiHelper->setContentType('quotes');
+		$this->unitTester->setContentType('quotes');
 
-		$this->unitTester->insertInDatabase($this->apiHelper->nbRessources, 'Quote');
+		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Quote');
 	}
 
 	public function testShowNotFound()
@@ -33,7 +33,7 @@ class QuotesTest extends ApiTest {
 	public function testShowFound()
 	{
 		// Regular quote
-		for ($i = 1; $i <= $this->apiHelper->nbRessources; $i++)
+		for ($i = 1; $i <= $this->unitTester->getNbRessources(); $i++)
 			$this->unitTester->tryShowFound($i);
 	}
 
@@ -146,7 +146,7 @@ class QuotesTest extends ApiTest {
 	{
 		// Create favorites for a user
 		$u = $this->unitTester->insertInDatabase(1, 'User');
-		for ($i = 1; $i <= $this->apiHelper->nbRessources; $i++) { 
+		for ($i = 1; $i <= $this->unitTester->getNbRessources(); $i++) { 
 			$f = new FavoriteQuote;
 			$f->user_id = $u['id'];
 			$f->quote_id = $i;
@@ -212,7 +212,7 @@ class QuotesTest extends ApiTest {
 	{
 		$approvedType = constant("TeenQuotes\Quotes\Models\Quote::".strtoupper($approved));
 		
-		$this->unitTester->insertInDatabase($this->apiHelper->nbRessources, 'Quote', ['user_id' => $id, 'approved' => $approvedType]);
+		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Quote', ['user_id' => $id, 'approved' => $approvedType]);
 	}
 
 	private function createQuotesForUserWithDifferentApproved($id, $approved)

@@ -13,9 +13,9 @@ class PasswordTest extends ApiTest {
 	{
 		parent::_before();
 		
-		$this->unitTester->insertInDatabase($this->apiHelper->nbRessources, 'User');
+		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'User');
 
-		$this->apiHelper->controller = App::make('TeenQuotes\Api\V1\Controllers\PasswordController');
+		$this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\PasswordController'));
 	}
 
 	public function testRemindNotFound()
