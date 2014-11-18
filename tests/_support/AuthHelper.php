@@ -14,7 +14,7 @@ class AuthHelper extends Module {
 		// Will be automatically hashed
 		$password = $passwordClear;
 
-		$this->getModule('FunctionalHelper')->haveAnAccount(compact('login', 'password'));
+		$this->getModule('DbSeederHelper')->haveAnAccount(compact('login', 'password'));
 		
 		$this->getModule('NavigationHelper')->navigateToTheSignInPage();
 		$this->getModule('FormFillerHelper')->fillSigninForm($login, $passwordClear);

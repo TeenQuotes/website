@@ -38,13 +38,13 @@ class StoriesHelper extends Module {
 			unset($overrides['nb_stories']);
 		}
 		
-		return $this->getModule('FunctionalHelper')->insertInDatabase($nbStories, 'Story', $overrides);
+		return $this->getModule('DbSeederHelper')->insertInDatabase($nbStories, 'Story', $overrides);
 	}
 
 	public function createAStoryWithHiddenUser()
 	{
-		$user = $this->getModule('FunctionalHelper')->insertInDatabase(1, 'User', ['hide_profile' => 1]);
+		$user = $this->getModule('DbSeederHelper')->insertInDatabase(1, 'User', ['hide_profile' => 1]);
 
-		return $this->getModule('FunctionalHelper')->insertInDatabase(1, 'Story', ['user_id' => $user->id]);
+		return $this->getModule('DbSeederHelper')->insertInDatabase(1, 'Story', ['user_id' => $user->id]);
 	}
 }
