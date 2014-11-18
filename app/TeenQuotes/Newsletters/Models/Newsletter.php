@@ -29,27 +29,6 @@ class Newsletter extends Eloquent {
 	}
 
 	/**
-	 * Create a newsletter item for the given user
-	 * @var User $user The user instance
-	 * @var string $type The type of the newsletter : weekly|daily
-	 * @throws InvalidArgumentException If the newsletter's type is wrong or if
-	 * the user is already subscribed to the newsletter.
-	 */
-	public static function createNewsletterForUser(User $user, $type)
-	{
-		if ( ! in_array($type, [self::WEEKLY, self::DAILY]))
-			throw new InvalidArgumentException("Newsletter's type only accepts weekly or daily. ".$type." was given.");
-
-		if ($user->isSubscribedToNewsletter($type))
-			throw new InvalidArgumentException("The user is already subscribed to the newsletter of type ".$type.".");
-
-		$newsletter          = new Newsletter;
-		$newsletter->type    = $type;
-		$newsletter->user_id = $user->id;
-		$newsletter->save();
-	}
-
-	/**
 	 * Get available types of newsletters
 	 * @return array
 	 */
