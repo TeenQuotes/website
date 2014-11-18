@@ -10,6 +10,7 @@ modules:
         - Asserts
         - AuthHelper
         - Db
+        - DbSeederHelper
         - Filesystem
         - FormFillerHelper
         - FunctionalHelper
