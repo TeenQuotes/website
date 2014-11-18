@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
-use Laracasts\TestDummy\Factory;
 use TeenQuotes\Countries\Models\Country;
 use TeenQuotes\Users\Models\User;
 
@@ -10,16 +9,17 @@ class UsersTest extends ApiTest {
 
 	protected $requiredAttributes = ['id', 'login', 'email', 'last_visit', 'created_at', 'profile_hidden', 'url_avatar', 'wants_notification_comment_quote', 'is_admin'];
 	protected $requiredFull = ['id', 'login', 'email', 'birthdate', 'gender', 'country', 'city', 'about_me', 'last_visit', 'created_at', 'profile_hidden', 'url_avatar', 'wants_notification_comment_quote', 'is_admin', 'total_comments', 'favorite_count', 'added_fav_count', 'published_quotes_count', 'is_subscribed_to_daily', 'is_subscribed_to_weekly'];
-	protected $contentType = 'users';
 	protected $embedsRelation = ['newsletters', 'country'];
 
-	public function setUp()
+	protected function _before()
 	{
-		parent::setUp();
+		parent::_before();
+		
+		$this->apiHelper->controller = App::make('TeenQuotes\Api\V1\Controllers\UsersController');
 
-		$this->controller = App::make('TeenQuotes\Api\V1\Controllers\UsersController');
+		$this->apiHelper->setContentType('users');
 
-		Factory::times($this->nbRessources)->create('TeenQuotes\Users\Models\User');
+		$this->unitTester->insertInDatabase($this->apiHelper->nbRessources, 'User');
 		
 		$this->attachCountryForAllUsers();
 	}
@@ -30,13 +30,13 @@ class UsersTest extends ApiTest {
 	 */
 	public function testStoreSmallLogin()
 	{
-		$this->addInputReplace([
+		$this->unitTester->addInputReplace([
 			'login'    => 'a',
 			'email'    => 'bob@example.com',
 			'password' => 'azerty'
 		]);
 
-		$this->tryStore();
+		$this->unitTester->tryStore();
 	}
 
 	/**
@@ -47,13 +47,13 @@ class UsersTest extends ApiTest {
 	{
 		$u = User::find(1);
 
-		$this->addInputReplace([
+		$this->unitTester->addInputReplace([
 			'login'    => $u['login'],
 			'email'    => 'bob@example.com',
 			'password' => 'azerty'
 		]);
 
-		$this->tryStore();
+		$this->unitTester->tryStore();
 	}
 
 	/**
@@ -62,13 +62,13 @@ class UsersTest extends ApiTest {
 	 */
 	public function testStoreWrongLoginFormat()
 	{
-		$this->addInputReplace([
+		$this->unitTester->addInputReplace([
 			'login'    => '!$$$',
 			'email'    => 'bob@example.com',
 			'password' => 'azerty'
 		]);
 
-		$this->tryStore();
+		$this->unitTester->tryStore();
 	}
 
 	/**
@@ -77,13 +77,13 @@ class UsersTest extends ApiTest {
 	 */
 	public function testStoreLongLogin()
 	{
-		$this->addInputReplace([
-			'login'    => $this->generateString(21),
+		$this->unitTester->addInputReplace([
+			'login'    => $this->unitTester->generateString(21),
 			'email'    => 'bob@example.com',
 			'password' => 'azerty'
 		]);
 
-		$this->tryStore();
+		$this->unitTester->tryStore();
 	}
 
 	/**
@@ -92,13 +92,13 @@ class UsersTest extends ApiTest {
 	 */
 	public function testStoreWrongPassword()
 	{
-		$this->addInputReplace([
-			'login'    => $this->generateString(10),
+		$this->unitTester->addInputReplace([
+			'login'    => $this->unitTester->generateString(10),
 			'email'    => 'bob@example.com',
 			'password' => 'azert'
 		]);
 
-		$this->tryStore();
+		$this->unitTester->tryStore();
 	}
 
 	/**
@@ -107,13 +107,13 @@ class UsersTest extends ApiTest {
 	 */
 	public function testStoreWrongEmail()
 	{
-		$this->addInputReplace([
-			'login'    => $this->generateString(10),
+		$this->unitTester->addInputReplace([
+			'login'    => $this->unitTester->generateString(10),
 			'email'    => 'bob',
 			'password' => 'azerty'
 		]);
 
-		$this->tryStore();
+		$this->unitTester->tryStore();
 	}
 
 	/**
@@ -124,19 +124,19 @@ class UsersTest extends ApiTest {
 	{
 		$u = User::find(1);
 
-		$this->addInputReplace([
-			'login'    => $this->generateString(10),
+		$this->unitTester->addInputReplace([
+			'login'    => $this->unitTester->generateString(10),
 			'email'    => $u['email'],
 			'password' => 'azerty'
 		]);
 
-		$this->tryStore();
+		$this->unitTester->tryStore();
 	}
 
 	public function testStoreSuccess()
 	{
-		$this->addInputReplace([
-			'login'    => $this->generateString(10),
+		$this->unitTester->addInputReplace([
+			'login'    => $this->unitTester->generateString(10),
 			'email'    => 'bob@example.com',
 			'password' => 'azerty'
 		]);
@@ -144,12 +144,12 @@ class UsersTest extends ApiTest {
 		// Set a fake IP
 		$_SERVER['REMOTE_ADDR'] = '22.22.22.22';
 
-		$this->tryStore()
+		$this->unitTester->tryStore()
 			->assertStatusCodeIs(Response::HTTP_CREATED)
 			->assertResponseHasRequiredAttributes();
 
 		// Check that the user has been subscribed to the weekly newsletter
-		$u = User::find($this->json->id);
+		$u = User::find($this->apiHelper->nbRessources + 1);
 		$this->assertTrue($u->getIsSubscribedToWeekly());
 		$this->assertFalse($u->getIsSubscribedToDaily());
 
@@ -159,9 +159,9 @@ class UsersTest extends ApiTest {
 	public function testDeleteSuccess()
 	{
 		$idUser = 1;
-		$this->logUserWithId($idUser);
+		$this->unitTester->logUserWithId($idUser);
 
-		$this->doRequest('destroy')
+		$this->unitTester->doRequest('destroy')
 			->assertStatusCodeIs(Response::HTTP_OK)
 			->withStatusMessage('user_deleted')
 			->withSuccessMessage('The user has been deleted.');
@@ -172,20 +172,20 @@ class UsersTest extends ApiTest {
 	public function testGetInfoLoggedInUser()
 	{
 		$idUser = 1;
-		$this->logUserWithId($idUser);
+		$this->unitTester->logUserWithId($idUser);
 
 		$this->setFullAttributesAreRequired();
 
-		$this->doRequest('getUsers')
+		$this->unitTester->doRequest('getUsers')
 			->assertStatusCodeIs(Response::HTTP_OK)
 			->assertResponseMatchesExpectedSchema();
 
-		$this->assertResponseKeyIs('id', $idUser);
+		$this->unitTester->assertResponseKeyIs('id', $idUser);
 	}
 
 	public function testUserShowNotFound()
 	{
-		$this->tryShowNotFound()
+		$this->unitTester->tryShowNotFound()
 			->withStatusMessage(404)
 			->withErrorMessage('User not found.');
 	}
@@ -194,8 +194,8 @@ class UsersTest extends ApiTest {
 	{
 		$this->setFullAttributesAreRequired();
 
-		for ($i = 1; $i <= $this->nbRessources ; $i++)
-			$this->tryShowFound($i);
+		for ($i = 1; $i <= $this->apiHelper->nbRessources ; $i++)
+			$this->unitTester->tryShowFound($i);
 	}
 
 	/**
@@ -204,7 +204,7 @@ class UsersTest extends ApiTest {
 	 */
 	public function testPutPasswordTooSmall()
 	{
-		$this->addInputReplace([
+		$this->unitTester->addInputReplace([
 			'password'              => 'azert',
 			'password_confirmation' => 'azert',
 		]);
@@ -218,7 +218,7 @@ class UsersTest extends ApiTest {
 	 */
 	public function testPutPasswordNotSame()
 	{
-		$this->addInputReplace([
+		$this->unitTester->addInputReplace([
 			'password'              => 'azerty',
 			'password_confirmation' => 'azert',
 		]);
@@ -231,14 +231,14 @@ class UsersTest extends ApiTest {
 		$newPassword = 'azerty';
 		$idUser = 1;
 
-		$this->addInputReplace([
+		$this->unitTester->addInputReplace([
 			'password'              => $newPassword,
 			'password_confirmation' => $newPassword,
 		]);
 
-		$u = $this->logUserWithId($idUser);
+		$u = $this->unitTester->logUserWithId($idUser);
 
-		$this->doRequest('putPassword')
+		$this->unitTester->doRequest('putPassword')
 			->assertStatusCodeIs(Response::HTTP_OK)
 			->withStatusMessage('password_updated')
 			->withSuccessMessage('The new password has been set.');
@@ -253,7 +253,7 @@ class UsersTest extends ApiTest {
 	 */
 	public function testPutProfileWrongGender()
 	{
-		$this->addInputReplace([
+		$this->unitTester->addInputReplace([
 			'gender' => 'foo',
 		]);
 
@@ -266,7 +266,7 @@ class UsersTest extends ApiTest {
 	 */
 	public function testPutProfileWrongBirthdate()
 	{
-		$this->addInputReplace([
+		$this->unitTester->addInputReplace([
 			'gender'    => 'M',
 			'birthdate' => '1975-01-32'
 		]);
@@ -280,7 +280,7 @@ class UsersTest extends ApiTest {
 	 */
 	public function testPutProfileWrongCountry()
 	{
-		$this->addInputReplace([
+		$this->unitTester->addInputReplace([
 			'gender'    => 'M',
 			'birthdate' => '1975-01-25',
 			'country'   => Country::all()->count() + 1
@@ -295,11 +295,11 @@ class UsersTest extends ApiTest {
 	 */
 	public function testPutProfileWrongAboutMe()
 	{
-		$this->addInputReplace([
+		$this->unitTester->addInputReplace([
 			'gender'    => 'M',
 			'birthdate' => '1975-01-25',
 			'country'   => Country::first()->id,
-			'about_me'  => $this->generateString(501)
+			'about_me'  => $this->unitTester->generateString(501)
 		]);
 
 		$this->assertPutProfileError();
@@ -312,14 +312,14 @@ class UsersTest extends ApiTest {
 		$gender = 'M';
 		$birthdate = '1975-01-25';
 		$country = Country::first()->id;
-		$about_me = $this->generateString(200);
+		$about_me = $this->unitTester->generateString(200);
 
 		$data = compact('gender', 'birthdate', 'country', 'about_me');
-		$this->addInputReplace($data);
+		$this->unitTester->addInputReplace($data);
 
-		$this->logUserWithId(1);
+		$this->unitTester->logUserWithId(1);
 
-		$this->doRequest('putProfile')
+		$this->unitTester->doRequest('putProfile')
 			->assertStatusCodeIs(Response::HTTP_OK)
 			->withStatusMessage('profile_updated')
 			->withSuccessMessage('The profile has been updated.');
@@ -330,7 +330,7 @@ class UsersTest extends ApiTest {
 		$newColor = 'foo';
 		$this->assertFalse(in_array($newColor, Config::get('app.users.colorsAvailableQuotesPublished')));
 		
-		$this->addInputReplace([
+		$this->unitTester->addInputReplace([
 			'notification_comment_quote' => true,
 			'hide_profile'               => true,
 			'weekly_newsletter'          => true,
@@ -338,9 +338,9 @@ class UsersTest extends ApiTest {
 			'colors'                     => $newColor
 		]);
 
-		$this->logUserWithId(1);
+		$this->unitTester->logUserWithId(1);
 
-		$this->doRequest('putSettings')
+		$this->unitTester->doRequest('putSettings')
 			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage('wrong_color')
 			->withErrorMessage('This color is not allowed.');
@@ -348,7 +348,7 @@ class UsersTest extends ApiTest {
 
 	public function testPutSettingsSuccess()
 	{
-		$u = $this->logUserWithId(1);
+		$u = $this->unitTester->logUserWithId(1);
 
 		// Check default values for a new profile
 		$this->assertTrue($u->getIsSubscribedToWeekly());
@@ -363,7 +363,7 @@ class UsersTest extends ApiTest {
 		$this->assertNotEquals(Config::get('app.users.defaultColorQuotesPublished'), $newColor);
 		$this->assertTrue(in_array($newColor, Config::get('app.users.colorsAvailableQuotesPublished')));
 
-		$this->addInputReplace([
+		$this->unitTester->addInputReplace([
 			'notification_comment_quote' => false,
 			'hide_profile'               => true,
 			'weekly_newsletter'          => false,
@@ -371,7 +371,7 @@ class UsersTest extends ApiTest {
 			'colors'                     => $newColor
 		]);
 
-		$this->doRequest('putSettings')
+		$this->unitTester->doRequest('putSettings')
 			->assertStatusCodeIs(Response::HTTP_OK)
 			->withStatusMessage('profile_updated')
 			->withSuccessMessage('The profile has been updated.');
@@ -397,11 +397,11 @@ class UsersTest extends ApiTest {
 		$this->deleteAllUsers();
 
 		// Create a single user with a non-matching login
-		Factory::create('TeenQuotes\Users\Models\User', ['login' => 'abc']);
+		$this->unitTester->insertInDatabase(1, 'User', ['login' => 'abc']);
 
 		$this->assertEquals(1, User::all()->count());
 
-		$this->doRequest('getSearch', 'foo');
+		$this->unitTester->doRequest('getSearch', 'foo');
 	}
 
 	public function testSearchSuccess()
@@ -411,14 +411,14 @@ class UsersTest extends ApiTest {
 
 		$this->generateUsersWithPartialLogin('abc');
 
-		$this->assertEquals($this->nbRessources, User::all()->count());
+		$this->assertEquals($this->apiHelper->nbRessources, User::all()->count());
 
 		// Verify that we can retrieve our users even
 		// with partials login
-		$this->tryFirstPage('getSearch', 'ab');
-		$this->tryFirstPage('getSearch', 'a');
-		$this->tryFirstPage('getSearch', 'abc');
-		$this->tryFirstPage('getSearch', 'c');
+		$this->unitTester->tryFirstPage('getSearch', 'ab');
+		$this->unitTester->tryFirstPage('getSearch', 'a');
+		$this->unitTester->tryFirstPage('getSearch', 'abc');
+		$this->unitTester->tryFirstPage('getSearch', 'c');
 	}
 
 	/**
@@ -438,7 +438,7 @@ class UsersTest extends ApiTest {
 		});
 
 		// Search results should not display hidden profiles
-		$this->doRequest('getSearch', $partLogin);
+		$this->unitTester->doRequest('getSearch', $partLogin);
 	}
 
 	/**
@@ -451,21 +451,21 @@ class UsersTest extends ApiTest {
 
 		// Go to a page where we should not find any results
 		// matching our query
-		$this->addInputReplace([
+		$this->unitTester->addInputReplace([
 			'page'     => 2,
-			'pagesize' => $this->nbRessources
+			'pagesize' => $this->apiHelper->nbRessources
 		]);
 
-		$this->doRequest('getSearch', 'abc');
+		$this->unitTester->doRequest('getSearch', 'abc');
 	}
 
 	private function generateUsersWithPartialLogin($string)
 	{
 		$this->deleteAllUsers();
 
-		for ($i = 1; $i <= $this->nbRessources; $i++) {
-			$login = $this->generateString(2).$string.$i;
-			Factory::create('TeenQuotes\Users\Models\User', compact('login'));
+		for ($i = 1; $i <= $this->apiHelper->nbRessources; $i++) {
+			$login = $this->unitTester->generateString(2).$string.$i;
+			$this->unitTester->insertInDatabase(1, 'User', compact('login'));
 		}
 
 		$this->attachCountryForAllUsers();
@@ -473,16 +473,16 @@ class UsersTest extends ApiTest {
 
 	private function assertPutPasswordError()
 	{
-		$this->logUserWithId(1);
+		$this->unitTester->logUserWithId(1);
 
-		$this->doRequest('putPassword');
+		$this->unitTester->doRequest('putPassword');
 	}
 
 	private function assertPutProfileError()
 	{
-		$this->logUserWithId(1);
+		$this->unitTester->logUserWithId(1);
 
-		$this->doRequest('putProfile');
+		$this->unitTester->doRequest('putProfile');
 	}
 
 	private function deleteAllUsers()
@@ -494,8 +494,10 @@ class UsersTest extends ApiTest {
 
 	private function attachCountryForAllUsers()
 	{
-		User::all()->each(function($u){
-			$c = Factory::create('TeenQuotes\Countries\Models\Country');
+		$instance = $this;
+
+		User::all()->each(function($u) use ($instance) {
+			$c = $instance->unitTester->insertInDatabase(1, 'Country');
 			$u->country = $c['id'];
 			$u->save();
 		});
@@ -503,11 +505,11 @@ class UsersTest extends ApiTest {
 
 	private function disableEmbedsNewsletter()
 	{
-		$this->embedsRelation = ['country'];
+		$this->unitTester->setEmbedsRelation(['country']);
 	}
 
 	private function setFullAttributesAreRequired()
 	{
-		$this->requiredAttributes = $this->requiredFull;
+		$this->unitTester->setRequiredAttributes($this->requiredFull);
 	}
 }

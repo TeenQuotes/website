@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
-use Laracasts\TestDummy\Factory;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Models\Quote;
 
@@ -13,15 +12,15 @@ class FavoriteQuotesTest extends ApiTest {
 	protected $idRefusedQuote;
 	protected $idPublishedQuote;
 	
-	public function setUp()
+	protected function _before()
 	{
-		parent::setUp();
-
-		$this->controller = App::make('TeenQuotes\Api\V1\Controllers\QuotesFavoriteController');
+		parent::_before();
+		
+		$this->apiHelper->controller = App::make('TeenQuotes\Api\V1\Controllers\QuotesFavoriteController');
 		
 		// Create a user and log him in
-		$user = Factory::create('TeenQuotes\Users\Models\User');
-		$this->user = $this->logUserWithId($user['id']);
+		$user = $this->unitTester->insertInDatabase(1, 'User');
+		$this->user = $this->unitTester->logUserWithId($user['id']);
 		
 		$this->idRefusedQuote = $this->getIdRefusedQuote();
 		$this->idPublishedQuote = $this->getIdPublishedQuote();
@@ -29,18 +28,18 @@ class FavoriteQuotesTest extends ApiTest {
 
 	public function testPostQuoteNotFound()
 	{
-		$this->post($this->getIdNonExistingRessource());
+		$this->post($this->unitTester->getIdNonExistingRessource());
 
-		$this->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+		$this->unitTester->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage('quote_not_found')
-			->withErrorMessage("The quote #".$this->getIdNonExistingRessource().' was not found.');
+			->withErrorMessage("The quote #".$this->unitTester->getIdNonExistingRessource().' was not found.');
 	}
 
 	public function testPostQuoteNotPublished()
 	{		
 		$this->post($this->idRefusedQuote);
 
-		$this->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+		$this->unitTester->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage('quote_not_published')
 			->withErrorMessage("The quote #".$this->idRefusedQuote.' is not published.');
 	}
@@ -52,7 +51,7 @@ class FavoriteQuotesTest extends ApiTest {
 
 		$this->post($idPublishedQuote);
 
-		$this->assertStatusCodeIs(Response::HTTP_CREATED)
+		$this->unitTester->assertStatusCodeIs(Response::HTTP_CREATED)
 			->assertResponseHasRequiredAttributes();
 		
 		// Verify that the quote cache has been set
@@ -72,18 +71,18 @@ class FavoriteQuotesTest extends ApiTest {
 		// Add to favorite again
 		$this->post($this->idPublishedQuote);
 
-		$this->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+		$this->unitTester->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage('quote_already_favorited')
 			->withErrorMessage("The quote #".$this->idPublishedQuote.' was already favorited.');
 	}
 
 	public function testDeleteQuoteNotFound()
 	{
-		$this->delete($this->getIdNonExistingRessource());
+		$this->delete($this->unitTester->getIdNonExistingRessource());
 
-		$this->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+		$this->unitTester->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage('quote_not_found')
-			->withErrorMessage("The quote #".$this->getIdNonExistingRessource().' was not found.');
+			->withErrorMessage("The quote #".$this->unitTester->getIdNonExistingRessource().' was not found.');
 	}
 
 	public function testDeleteQuoteSuccess()
@@ -96,7 +95,7 @@ class FavoriteQuotesTest extends ApiTest {
 		// Delete it from favorites
 		$this->delete($this->idPublishedQuote);
 
-		$this->assertStatusCodeIs(Response::HTTP_OK)
+		$this->unitTester->assertStatusCodeIs(Response::HTTP_OK)
 			->withStatusMessage('favorite_deleted')
 			->withSuccessMessage("The quote #".$this->idPublishedQuote.' was deleted from favorites.');
 
@@ -111,26 +110,28 @@ class FavoriteQuotesTest extends ApiTest {
 
 	private function post($quote_id)
 	{
-		$this->response = $this->controller->postFavorite($quote_id);
-		$this->bindJson();
+		$this->apiHelper->response = $this->apiHelper->controller->postFavorite($quote_id);
+		
+		$this->apiHelper->bindJson($this->apiHelper->response->getContent());
 	}
 
 	private function delete($quote_id)
 	{
-		$this->response = $this->controller->deleteFavorite($quote_id);
-		$this->bindJson();
+		$this->apiHelper->response = $this->apiHelper->controller->deleteFavorite($quote_id);
+		
+		$this->apiHelper->bindJson($this->apiHelper->response->getContent());
 	}
 
 	private function getIdRefusedQuote()
 	{
-		$quote = Factory::create('TeenQuotes\Quotes\Models\Quote', ['approved' => Quote::REFUSED]);
+		$quote = $this->unitTester->insertInDatabase(1, 'Quote', ['approved' => Quote::REFUSED]);
 
 		return $quote['id'];
 	}
 
 	private function getIdPublishedQuote()
 	{
-		$quote = Factory::create('TeenQuotes\Quotes\Models\Quote', ['approved' => Quote::PUBLISHED]);
+		$quote = $this->unitTester->insertInDatabase(1, 'Quote', ['approved' => Quote::PUBLISHED]);
 
 		return $quote['id'];
 	}

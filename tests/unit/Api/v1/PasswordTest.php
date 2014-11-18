@@ -3,26 +3,27 @@
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Password;
-use Laracasts\TestDummy\Factory;
 use TeenQuotes\Users\Models\User;
 
 class PasswordTest extends ApiTest {
 
-	public function setUp()
-	{
-		parent::setUp();
-		
-		Factory::times($this->nbRessources)->create('TeenQuotes\Users\Models\User');
+	protected $requiredAttributes = [];
 
-		$this->controller = App::make('TeenQuotes\Api\V1\Controllers\PasswordController');
+	protected function _before()
+	{
+		parent::_before();
+		
+		$this->unitTester->insertInDatabase($this->apiHelper->nbRessources, 'User');
+
+		$this->apiHelper->controller = App::make('TeenQuotes\Api\V1\Controllers\PasswordController');
 	}
 
 	public function testRemindNotFound()
 	{
-		$this->addInputReplace(['email' => 'foo']);
+		$this->unitTester->addInputReplace(['email' => 'foo']);
 
-		$this->doRequest('postRemind');
-		$this->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+		$this->unitTester->doRequest('postRemind');
+		$this->unitTester->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage('wrong_user')
 			->withErrorMessage("The email address doesn't match a user.");
 	}
@@ -31,10 +32,10 @@ class PasswordTest extends ApiTest {
 	{
 		$user = User::find(1);
 
-		$this->addInputReplace(['email' => $user->email]);
+		$this->unitTester->addInputReplace(['email' => $user->email]);
 
-		$this->doRequest('postRemind');
-		$this->assertStatusCodeIs(Response::HTTP_OK)
+		$this->unitTester->doRequest('postRemind');
+		$this->unitTester->assertStatusCodeIs(Response::HTTP_OK)
 			->withStatusMessage('reminder_sent')
 			->withSuccessMessage('An email was sent to the user.');
 	}
@@ -50,9 +51,9 @@ class PasswordTest extends ApiTest {
 	{
 		Password::shouldReceive('reset')->once()->andReturn(Password::PASSWORD_RESET);
 		
-		$this->doRequest('postReset');
+		$this->unitTester->doRequest('postReset');
 		
-		$this->assertStatusCodeIs(Response::HTTP_OK)
+		$this->unitTester->assertStatusCodeIs(Response::HTTP_OK)
 			->withStatusMessage('password_reset')
 			->withSuccessMessage("The new password has been set.");
 	}
@@ -67,9 +68,9 @@ class PasswordTest extends ApiTest {
 	{
 		Password::shouldReceive('reset')->once()->andReturn($return);
 		
-		$this->doRequest('postReset');
+		$this->unitTester->doRequest('postReset');
 		
-		$this->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+		$this->unitTester->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage($status)
 			->withErrorMessage($error);
 	}
