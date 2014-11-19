@@ -40,6 +40,6 @@ class CountriesTest extends ApiTest {
 
 		$this->assertCount($this->unitTester->getNbRessources(), $object);
 		foreach ($object as $country)
-			$this->apiHelper->assertObjectHasRequiredAttributes($country);
+			$this->unitTester->assertObjectHasRequiredAttributes($country);
 	}
 }

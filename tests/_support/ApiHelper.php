@@ -16,7 +16,7 @@ class ApiHelper extends Module {
 	 * The response given by a controller
 	 * @var Illuminate\Http\Response
 	 */
-	public $response;
+	protected $response;
 
 	/**
 	 * The current page of an endpoint of the API
@@ -205,26 +205,6 @@ class ApiHelper extends Module {
 		return $this;
 	}
 
-	private function embedsSmallUser()
-	{
-		return in_array('small_user', $this->embedsRelation);
-	}
-
-	private function embedsQuote()
-	{
-		return in_array('quote', $this->embedsRelation);
-	}
-
-	private function embedsCountry()
-	{
-		return in_array('country', $this->embedsRelation);
-	}
-
-	private function embedsNewsletters()
-	{
-		return in_array('newsletters', $this->embedsRelation);
-	}
-
 	public function getIdNonExistingRessource()
 	{
 		return $this->nbRessources + 1;
@@ -257,21 +237,6 @@ class ApiHelper extends Module {
 		$this->assertObjectMatchesExpectedSchema($this->json);
 	}
 
-	public function getNbRessources()
-	{
-		return $this->nbRessources;
-	}
-
-	public function getController()
-	{
-		return $this->controller;
-	}
-
-	public function getDecodedJson()
-	{
-		return $this->json;
-	}
-
 	public function tryFirstPage($method = 'index', $requestParams = null)
 	{
 		$this->page = 1;
@@ -289,26 +254,6 @@ class ApiHelper extends Module {
 			$this->assertObjectMatchesExpectedSchema($objects[$i]);
 
 		$this->assertNeighborsPagesMatch();
-	}
-
-	public function setContentType($value)
-	{
-		$this->contentType = $value;
-	}
-
-	public function setController($value)
-	{
-		$this->controller = $value;
-	}
-
-	public function setEmbedsRelation(array $value)
-	{
-		$this->embedsRelation = $value;
-	}
-
-	public function setRequiredAttributes($value)
-	{
-		$this->requiredAttributes = $value;
 	}
 
 	public function assertResponseMatchesExpectedSchema()
@@ -392,6 +337,51 @@ class ApiHelper extends Module {
 	public function assertResponseKeyIs($key, $value)
 	{
 		$this->assertEquals($this->json->$key, $value);
+	}
+
+	public function setContentType($value)
+	{
+		$this->contentType = $value;
+	}
+
+	public function setController($value)
+	{
+		$this->controller = $value;
+	}
+
+	public function setResponse($value)
+	{
+		$this->response = $value;
+	}
+
+	public function setEmbedsRelation(array $value)
+	{
+		$this->embedsRelation = $value;
+	}
+
+	public function setRequiredAttributes($value)
+	{
+		$this->requiredAttributes = $value;
+	}
+
+	public function getNbRessources()
+	{
+		return $this->nbRessources;
+	}
+
+	public function getController()
+	{
+		return $this->controller;
+	}
+
+	public function getResponse()
+	{
+		return $this->response;
+	}
+
+	public function getDecodedJson()
+	{
+		return $this->json;
 	}
 
 	private function assertNeighborsPagesMatch()
@@ -546,6 +536,26 @@ class ApiHelper extends Module {
 	{		
 		$this->assertFalse($this->json->has_next_page);
 		$this->assertTrue($this->json->has_previous_page);
+	}
+
+	private function embedsSmallUser()
+	{
+		return in_array('small_user', $this->embedsRelation);
+	}
+
+	private function embedsQuote()
+	{
+		return in_array('quote', $this->embedsRelation);
+	}
+
+	private function embedsCountry()
+	{
+		return in_array('country', $this->embedsRelation);
+	}
+
+	private function embedsNewsletters()
+	{
+		return in_array('newsletters', $this->embedsRelation);
 	}
 
 	private function assertResponseHasSmallUser()

@@ -8,9 +8,7 @@ abstract class ApiTest extends Test {
 	* @var UnitTester
 	*/
 	protected $tester;
-
-	protected $apiHelper;
-
+	
 	protected function _before()
 	{
 		Artisan::call('migrate');
@@ -18,8 +16,6 @@ abstract class ApiTest extends Test {
 		// We'll run all tests through a transaction,
 		// and then rollback afterward.
 		DB::beginTransaction();
-
-		$this->apiHelper = $this->getModule('ApiHelper');
 
 		// Set required attributes
 		$this->unitTester->setRequiredAttributes($this->requiredAttributes);
@@ -32,6 +28,7 @@ abstract class ApiTest extends Test {
 		if (Auth::check())
 			Auth::logout();
 		
+		// Rollback the transaction
 		DB::rollBack();
 	}
 }

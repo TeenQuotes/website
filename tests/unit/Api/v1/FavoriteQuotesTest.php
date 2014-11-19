@@ -110,16 +110,24 @@ class FavoriteQuotesTest extends ApiTest {
 
 	private function post($quote_id)
 	{
-		$this->apiHelper->response = $this->unitTester->getController()->postFavorite($quote_id);
+		$this->unitTester->setResponse(
+			$this->unitTester->getController()->postFavorite($quote_id)
+		);
 		
-		$this->apiHelper->bindJson($this->apiHelper->response->getContent());
+		$this->unitTester->bindJson(
+			$this->unitTester->getResponse()->getContent()
+		);
 	}
 
 	private function delete($quote_id)
 	{
-		$this->apiHelper->response = $this->unitTester->getController()->deleteFavorite($quote_id);
+		$this->unitTester->setResponse(
+			$this->unitTester->getController()->deleteFavorite($quote_id)
+		);
 		
-		$this->apiHelper->bindJson($this->apiHelper->response->getContent());
+		$this->unitTester->bindJson(
+			$this->unitTester->getResponse()->getContent()
+		);
 	}
 
 	private function getIdRefusedQuote()

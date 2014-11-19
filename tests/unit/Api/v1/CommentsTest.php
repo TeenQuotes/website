@@ -141,7 +141,7 @@ class CommentsTest extends ApiTest {
 		]);
 		
 		$this->store($q->id)
-			->apiHelper->assertStatusCodeIs(Response::HTTP_CREATED)
+			->unitTester->assertStatusCodeIs(Response::HTTP_CREATED)
 			->assertResponseHasRequiredAttributes();
 
 		// Verify that the cache has been incremented
@@ -154,7 +154,7 @@ class CommentsTest extends ApiTest {
 		$this->unitTester->logUserWithId(1);
 
 		$this->destroy($this->unitTester->getIdNonExistingRessource())
-			->apiHelper->assertStatusCodeIs(Response::HTTP_NOT_FOUND)
+			->unitTester->assertStatusCodeIs(Response::HTTP_NOT_FOUND)
 			->withStatusMessage('comment_not_found')
 			->withErrorMessage('The comment #'.$this->unitTester->getIdNonExistingRessource().' was not found.');
 	}
@@ -169,7 +169,7 @@ class CommentsTest extends ApiTest {
 		$this->unitTester->logUserWithId($idUserLoggedIn);
 
 		$this->destroy($c['id'])
-			->apiHelper->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+			->unitTester->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage('comment_not_self')
 			->withErrorMessage('The comment #'.$c['id'].' was not posted by user #'.$idUserLoggedIn.'.');
 	}
@@ -181,7 +181,7 @@ class CommentsTest extends ApiTest {
 		$this->unitTester->logUserWithId($c->user_id);
 		
 		$this->destroy($c->id)
-			->apiHelper->assertStatusCodeIs(Response::HTTP_OK)
+			->unitTester->assertStatusCodeIs(Response::HTTP_OK)
 			->withStatusMessage('comment_deleted')
 			->withSuccessMessage('The comment #'.$c->id.' was deleted.');
 
@@ -193,7 +193,7 @@ class CommentsTest extends ApiTest {
 		$this->unitTester->logUserWithId(1);
 
 		$this->update($this->unitTester->getIdNonExistingRessource())
-			->apiHelper->assertStatusCodeIs(Response::HTTP_NOT_FOUND)
+			->unitTester->assertStatusCodeIs(Response::HTTP_NOT_FOUND)
 			->withStatusMessage('comment_not_found')
 			->withErrorMessage('The comment #'.$this->unitTester->getIdNonExistingRessource().' was not found.');
 	}
@@ -208,7 +208,7 @@ class CommentsTest extends ApiTest {
 		$this->unitTester->logUserWithId($idUserLoggedIn);
 
 		$this->update($c['id'])
-			->apiHelper->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+			->unitTester->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage('comment_not_self')
 			->withErrorMessage('The comment #'.$c['id'].' was not posted by user #'.$idUserLoggedIn.'.');
 	}
@@ -260,7 +260,7 @@ class CommentsTest extends ApiTest {
 		]);
 		
 		$this->update($c->id)
-			->apiHelper->assertStatusCodeIs(Response::HTTP_OK)
+			->unitTester->assertStatusCodeIs(Response::HTTP_OK)
 			->withStatusMessage('comment_updated')
 			->withSuccessMessage('The comment #'.$c->id.' was updated.');
 	}
