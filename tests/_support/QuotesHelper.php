@@ -72,7 +72,7 @@ class QuotesHelper extends Module {
 	 */
 	public function addAFavoriteForUser($quote_id, $user_id)
 	{
-		return $this->getModule('FunctionalHelper')->insertInDatabase(1, 'FavoriteQuote', ['quote_id' => $quote_id, 'user_id' => $user_id]);
+		return $this->getModule('DbSeederHelper')->insertInDatabase(1, 'FavoriteQuote', ['quote_id' => $quote_id, 'user_id' => $user_id]);
 	}
 
 	/**
@@ -106,6 +106,6 @@ class QuotesHelper extends Module {
 		else
 			$nbQuotes = 10;
 		
-		return $this->getModule('FunctionalHelper')->insertInDatabase($nbQuotes, 'Quote', $overrides);
+		return $this->getModule('DbSeederHelper')->insertInDatabase($nbQuotes, 'Quote', $overrides);
 	}
 }

@@ -3,6 +3,7 @@ modules:
     enabled: 
         - Asserts
         - Db
+        - DbSeederHelper
         - Filesystem
         - FormFillerHelper
         - FunctionalHelper

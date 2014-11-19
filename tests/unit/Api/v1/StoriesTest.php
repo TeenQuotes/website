@@ -1,47 +1,47 @@
 <?php
 
-use Laracasts\TestDummy\Factory;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Input;
 
 class StoriesTest extends ApiTest {
 
-	protected $contentType = 'stories';
 	protected $embedsRelation = ['user_small'];
 	protected $requiredAttributes = ['id', 'represent_txt', 'frequence_txt', 'user_id', 'created_at', 'updated_at'];
 
-	public function setUp()
-	{
-		parent::setUp();
+	protected function _before()
+	{	
+		parent::_before();
 		
-		Factory::times($this->nbRessources)->create('TeenQuotes\Stories\Models\Story');
+		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Story');
 
-		$this->controller = App::make('TeenQuotes\Api\V1\Controllers\StoriesController');
+		$this->unitTester->setContentType('stories');
+
+		$this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\StoriesController'));
 	}
 
 	public function testShowNotFound()
 	{
 		// Not found story
-		$this->tryShowNotFound()
+		$this->unitTester->tryShowNotFound()
 			->withStatusMessage('story_not_found')
-			->withErrorMessage('The story #'.$this->getIdNonExistingRessource().' was not found.');
+			->withErrorMessage('The story #'.$this->unitTester->getIdNonExistingRessource().' was not found.');
 
 	}
 
 	public function testShowFound()
 	{
 		// Regular story
-		for ($i = 1; $i <= $this->nbRessources; $i++)
-			$this->tryShowFound($i);
+		for ($i = 1; $i <= $this->unitTester->getNbRessources(); $i++)
+			$this->unitTester->tryShowFound($i);
 	}
 
 	public function testIndex()
 	{
 		// Test with the middle page
-		$this->tryMiddlePage();
+		$this->unitTester->tryMiddlePage();
 
 		// Test first page
-		$this->tryFirstPage();
+		$this->unitTester->tryFirstPage();
 	}
 
 	/**
@@ -50,7 +50,7 @@ class StoriesTest extends ApiTest {
 	 */
 	public function testIndexNotFound()
 	{
-		$this->tryPaginatedContentNotFound();
+		$this->unitTester->tryPaginatedContentNotFound();
 	}
 
 	/**
@@ -111,11 +111,11 @@ class StoriesTest extends ApiTest {
 	{
 		$this->hitStore(200, 200);
 		
-		$this->assertStatusCodeIs(Response::HTTP_CREATED)
+		$this->unitTester->assertStatusCodeIs(Response::HTTP_CREATED)
 			->assertBelongsToLoggedInUser();
 
 		// Check that we can retrieve the new item
-		$this->tryShowFound($this->nbRessources + 1);
+		$this->unitTester->tryShowFound($this->unitTester->getNbRessources() + 1);
 	}
 
 	/**
@@ -125,13 +125,13 @@ class StoriesTest extends ApiTest {
 	 */
 	private function hitStore($frequenceLength, $representLength)
 	{
-		$this->logUserWithId(1);
+		$this->unitTester->logUserWithId(1);
 
-		$this->addInputReplace([
-			'frequence_txt' => $this->generateString($frequenceLength),
-			'represent_txt' => $this->generateString($representLength),
+		$this->unitTester->addInputReplace([
+			'frequence_txt' => $this->unitTester->generateString($frequenceLength),
+			'represent_txt' => $this->unitTester->generateString($representLength),
 		]);
 
-		$this->tryStore();
+		$this->unitTester->tryStore();
 	}
 }

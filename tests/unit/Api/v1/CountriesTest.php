@@ -1,45 +1,45 @@
 <?php
 
-use Laracasts\TestDummy\Factory;
 use Illuminate\Http\Response;
 
 class CountriesTest extends ApiTest {
 
-	protected $contentType = 'countries';
 	protected $requiredAttributes = ['id', 'name'];
 
-	public function setUp()
+	protected function _before()
 	{
-		parent::setUp();
+		parent::_before();
 		
-		Factory::times($this->nbRessources)->create('TeenQuotes\Countries\Models\Country');
+		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Country');
 
-		$this->controller = App::make('TeenQuotes\Api\V1\Controllers\CountriesController');
+		$this->unitTester->setContentType('comments');
+
+		$this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\CountriesController'));
 	}
 
 	public function testShowNotFound()
 	{
 		// Not found country
-		$this->tryShowNotFound()
+		$this->unitTester->tryShowNotFound()
 			->withStatusMessage('country_not_found')
-			->withErrorMessage('The country #'.$this->getIdNonExistingRessource().' was not found.');
+			->withErrorMessage('The country #'.$this->unitTester->getIdNonExistingRessource().' was not found.');
 	}
 
 	public function testShowFound()
 	{
 		// Regular country
-		for ($i = 1; $i <= $this->nbRessources; $i++)
-			$this->tryShowFound($i);
+		for ($i = 1; $i <= $this->unitTester->getNbRessources(); $i++)
+			$this->unitTester->tryShowFound($i);
 	}
 
 	public function testListCountries()
 	{
 		// List all countries
-		$this->doRequest('show');
-		$object = $this->getDecodedJson(); 
+		$this->unitTester->doRequest('show');
+		$object = $this->unitTester->getDecodedJson(); 
 
-		$this->assertCount($this->nbRessources, $object);
+		$this->assertCount($this->unitTester->getNbRessources(), $object);
 		foreach ($object as $country)
-			$this->assertObjectHasRequiredAttributes($country);
+			$this->unitTester->assertObjectHasRequiredAttributes($country);
 	}
 }

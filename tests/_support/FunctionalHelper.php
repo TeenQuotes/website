@@ -32,16 +32,6 @@ class FunctionalHelper extends Module
 	}
 
 	/**
-	 * Create a new user and store it in database. Can pass an array (key-value) to override dummy values
-	 * @param  array $overrides The key-value array used to override dummy values
-	 * @return TeenQuotes\Users\Models\User The created user instance
-	 */
-	public function haveAnAccount($overrides = [])
-	{		
-		return $this->insertInDatabase(1, 'User', $overrides);
-	}
-
-	/**
 	 * Create a new user. Can pass an array (key-value) to override dummy values
 	 * @param  array $overrides The key-value array used to override dummy values
 	 * @return TeenQuotes\Users\Models\User The created user instance
@@ -49,20 +39,6 @@ class FunctionalHelper extends Module
 	public function buildUser($overrides = [])
 	{
 		return TestDummy::build($this->classToFullNamespace('User'), $overrides);		
-	}
-
-	/**
-	 * Log a new user. Can pass an array (key-value) to override dummy values
-	 * @param  array $overrides The key-value array used to override dummy values
-	 * @return User The logged in user
-	 */
-	public function logANewUser($overrides = [])
-	{
-		$u = $this->haveAnAccount($overrides);
-
-		Auth::loginUsingId($u->id);
-
-		return $u;
 	}
 
 	public function sendAjaxDeleteRequest($uri, $params = [])
@@ -73,18 +49,6 @@ class FunctionalHelper extends Module
 	public function sendAjaxPutRequest($uri, $params = [])
 	{
 		$this->getModule('Laravel4')->sendAjaxRequest('PUT', $uri, $params);
-	}
-
-	/**
-	 * Insert a record in database
-	 * @param  int $times The number of elements to insert
-	 * @param  string $class The name of the class to insert
-	 * @param  array $overrides The key-value array used to override dummy values
-	 * @return array|object The created record(s)
-	 */
-	public function insertInDatabase($times, $class, $overrides = [])
-	{
-		return TestDummy::times($times)->create($this->classToFullNamespace($class), $overrides);
 	}
 
 	/**

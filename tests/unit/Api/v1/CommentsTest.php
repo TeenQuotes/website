@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
-use Laracasts\TestDummy\Factory;
 use TeenQuotes\Comments\Models\Comment;
 use TeenQuotes\Quotes\Models\Quote;
 
@@ -10,19 +9,20 @@ class CommentsTest extends ApiTest {
 
 	protected $requiredAttributes = ['id', 'content', 'quote_id', 'user_id', 'created_at'];
 	protected $embedsRelation = ['user_small', 'quote'];
-	protected $contentType = 'comments';
 	protected $quoteId;
 
-	public function setUp()
+	protected function _before()
 	{
-		parent::setUp();
-
-		$this->controller = App::make('TeenQuotes\Api\V1\Controllers\CommentsController');
+		parent::_before();
 		
+		$this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\CommentsController'));
+
+		$this->unitTester->setContentType('comments');
+
 		// Create a quote and add some comments to it
-		$q = Factory::create('TeenQuotes\Quotes\Models\Quote');
+		$q = $this->unitTester->insertInDatabase(1, 'Quote');
 		$this->quoteId = $q['id'];
-		Factory::times($this->nbRessources)->create('TeenQuotes\Comments\Models\Comment', ['quote_id' => $this->quoteId]);
+		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Comment', ['quote_id' => $this->quoteId]);
 	}
 	
 	public function testIndexWithoutQuote()
@@ -30,21 +30,21 @@ class CommentsTest extends ApiTest {
 		$this->doNotEmbedsQuote();
 
 		// Test with the middle page
-		$this->tryMiddlePage('index', $this->quoteId);
+		$this->unitTester->tryMiddlePage('index', $this->quoteId);
 
 		// Test first page
-		$this->tryFirstPage('index', $this->quoteId);
+		$this->unitTester->tryFirstPage('index', $this->quoteId);
 	}
 
 	public function testIndexWithQuote()
 	{
 		// Test with the middle page
 		$this->activateEmbedsQuote();
-		$this->tryMiddlePage('index', $this->quoteId);
+		$this->unitTester->tryMiddlePage('index', $this->quoteId);
 
 		// Test first page
 		$this->activateEmbedsQuote();
-		$this->tryFirstPage('index', $this->quoteId);
+		$this->unitTester->tryFirstPage('index', $this->quoteId);
 	}
 
 	/**
@@ -54,27 +54,27 @@ class CommentsTest extends ApiTest {
 	public function testIndexNotFound()
 	{
 		// Test not found
-		$this->tryPaginatedContentNotFound($this->quoteId);
+		$this->unitTester->tryPaginatedContentNotFound($this->quoteId);
 	}
 
 	public function testShowNotFound()
 	{
 		// Not found comment
-		$this->tryShowNotFound($this->getIdNonExistingRessource())
+		$this->unitTester->tryShowNotFound($this->unitTester->getIdNonExistingRessource())
 			->withStatusMessage('comment_not_found')
-			->withErrorMessage('The comment #'.$this->getIdNonExistingRessource().' was not found.');
+			->withErrorMessage('The comment #'.$this->unitTester->getIdNonExistingRessource().' was not found.');
 	}
 
 	public function testShowFoundWithoutQuote()
 	{
 		$this->doNotEmbedsQuote();
-		$this->tryShowFound($this->quoteId);
+		$this->unitTester->tryShowFound($this->quoteId);
 	}
 
 	public function testShowFoundWithQuote()
 	{		
 		$this->activateEmbedsQuote();
-		$this->tryShowFound($this->quoteId);
+		$this->unitTester->tryShowFound($this->quoteId);
 	}
 
 	/**
@@ -84,7 +84,7 @@ class CommentsTest extends ApiTest {
 	public function testStoreEmptyContent()
 	{
 		// Empty content
-		$this->addInputReplace(['content' => '']);
+		$this->unitTester->addInputReplace(['content' => '']);
 		
 		$this->assertStoreWithWrongContent();
 	}
@@ -96,7 +96,7 @@ class CommentsTest extends ApiTest {
 	public function testStoreTooSmallContent()
 	{
 		// Too small content
-		$this->addInputReplace(['content' => $this->generateString(9)]);
+		$this->unitTester->addInputReplace(['content' => $this->unitTester->generateString(9)]);
 		
 		$this->assertStoreWithWrongContent();
 	}
@@ -108,7 +108,7 @@ class CommentsTest extends ApiTest {
 	public function testStoreTooLongContent()
 	{
 		// Too long content
-		$this->addInputReplace(['content' => $this->generateString(501)]);
+		$this->unitTester->addInputReplace(['content' => $this->unitTester->generateString(501)]);
 		
 		$this->assertStoreWithWrongContent();
 	}
@@ -119,9 +119,9 @@ class CommentsTest extends ApiTest {
 	 */
 	public function testStoreQuoteIdNotFound()
 	{
-		$this->addInputReplace(['content' => $this->generateString(100)]);
+		$this->unitTester->addInputReplace(['content' => $this->unitTester->generateString(100)]);
 
-		$this->store($this->getIdNonExistingRessource());
+		$this->store($this->unitTester->getIdNonExistingRessource());
 	}
 
 	public function testStoreSuccess()
@@ -129,19 +129,19 @@ class CommentsTest extends ApiTest {
 		$q = Quote::find($this->quoteId);
 
 		// Check number of comments in cache
-		$this->assertEquals($this->nbRessources, $q->total_comments);
-		$this->assertEquals($this->nbRessources, Cache::get(Quote::$cacheNameNbComments.$q->id));
+		$this->assertEquals($this->unitTester->getNbRessources(), $q->total_comments);
+		$this->assertEquals($this->unitTester->getNbRessources(), Cache::get(Quote::$cacheNameNbComments.$q->id));
 
 		$oldNbComments = $q->total_comments;
 
 		// Store in a new comment
-		$this->logUserWithId(1);
-		$this->addInputReplace([
-			'content' => $this->generateString(150),
+		$this->unitTester->logUserWithId(1);
+		$this->unitTester->addInputReplace([
+			'content' => $this->unitTester->generateString(150),
 		]);
 		
 		$this->store($q->id)
-			->assertStatusCodeIs(Response::HTTP_CREATED)
+			->unitTester->assertStatusCodeIs(Response::HTTP_CREATED)
 			->assertResponseHasRequiredAttributes();
 
 		// Verify that the cache has been incremented
@@ -151,25 +151,25 @@ class CommentsTest extends ApiTest {
 
 	public function testDestroyCommentNotFound()
 	{
-		$this->logUserWithId(1);
+		$this->unitTester->logUserWithId(1);
 
-		$this->destroy($this->getIdNonExistingRessource())
-			->assertStatusCodeIs(Response::HTTP_NOT_FOUND)
+		$this->destroy($this->unitTester->getIdNonExistingRessource())
+			->unitTester->assertStatusCodeIs(Response::HTTP_NOT_FOUND)
 			->withStatusMessage('comment_not_found')
-			->withErrorMessage('The comment #'.$this->getIdNonExistingRessource().' was not found.');
+			->withErrorMessage('The comment #'.$this->unitTester->getIdNonExistingRessource().' was not found.');
 	}
 
 	public function testDestroyCommentNotOwned()
 	{
 		// Create a comment not owned by the logged in user
-		$u = Factory::create('TeenQuotes\Users\Models\User', ['id' => 500]);
-		$c = Factory::create('TeenQuotes\Comments\Models\Comment', ['user_id' => $u['id']]);
+		$u = $this->unitTester->insertInDatabase(1, 'Quote', ['id' => 500]);
+		$c = $this->unitTester->insertInDatabase(1, 'Comment', ['user_id' => $u['id']]);
 
 		$idUserLoggedIn = 1;
-		$this->logUserWithId($idUserLoggedIn);
+		$this->unitTester->logUserWithId($idUserLoggedIn);
 
 		$this->destroy($c['id'])
-			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+			->unitTester->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage('comment_not_self')
 			->withErrorMessage('The comment #'.$c['id'].' was not posted by user #'.$idUserLoggedIn.'.');
 	}
@@ -178,10 +178,10 @@ class CommentsTest extends ApiTest {
 	{
 		$c = Comment::first();
 
-		$this->logUserWithId($c->user_id);
+		$this->unitTester->logUserWithId($c->user_id);
 		
 		$this->destroy($c->id)
-			->assertStatusCodeIs(Response::HTTP_OK)
+			->unitTester->assertStatusCodeIs(Response::HTTP_OK)
 			->withStatusMessage('comment_deleted')
 			->withSuccessMessage('The comment #'.$c->id.' was deleted.');
 
@@ -190,25 +190,25 @@ class CommentsTest extends ApiTest {
 
 	public function testUpdateCommentNotFound()
 	{
-		$this->logUserWithId(1);
+		$this->unitTester->logUserWithId(1);
 
-		$this->update($this->getIdNonExistingRessource())
-			->assertStatusCodeIs(Response::HTTP_NOT_FOUND)
+		$this->update($this->unitTester->getIdNonExistingRessource())
+			->unitTester->assertStatusCodeIs(Response::HTTP_NOT_FOUND)
 			->withStatusMessage('comment_not_found')
-			->withErrorMessage('The comment #'.$this->getIdNonExistingRessource().' was not found.');
+			->withErrorMessage('The comment #'.$this->unitTester->getIdNonExistingRessource().' was not found.');
 	}
 
 	public function testUpdateCommentNotOwned()
 	{
 		// Create a comment not owned by the logged in user
-		$u = Factory::create('TeenQuotes\Users\Models\User', ['id' => 500]);
-		$c = Factory::create('TeenQuotes\Comments\Models\Comment', ['user_id' => $u['id']]);
+		$u = $this->unitTester->insertInDatabase(1, 'Quote', ['id' => 500]);
+		$c = $this->unitTester->insertInDatabase(1, 'Comment', ['user_id' => $u['id']]);
 
 		$idUserLoggedIn = 1;
-		$this->logUserWithId($idUserLoggedIn);
+		$this->unitTester->logUserWithId($idUserLoggedIn);
 
 		$this->update($c['id'])
-			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+			->unitTester->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage('comment_not_self')
 			->withErrorMessage('The comment #'.$c['id'].' was not posted by user #'.$idUserLoggedIn.'.');
 	}
@@ -220,7 +220,7 @@ class CommentsTest extends ApiTest {
 	public function testUpdateTooSmallContent()
 	{
 		// Too small content
-		$this->addInputReplace(['content' => $this->generateString(9)]);
+		$this->unitTester->addInputReplace(['content' => $this->unitTester->generateString(9)]);
 		
 		$this->assertUpdateWithWrongContent();
 	}
@@ -232,7 +232,7 @@ class CommentsTest extends ApiTest {
 	public function testUpdateTooLongContent()
 	{
 		// Too long content
-		$this->addInputReplace(['content' => $this->generateString(501)]);
+		$this->unitTester->addInputReplace(['content' => $this->unitTester->generateString(501)]);
 		
 		$this->assertUpdateWithWrongContent();
 	}
@@ -244,7 +244,7 @@ class CommentsTest extends ApiTest {
 	public function testUpdateRequiredContent()
 	{
 		// No content
-		$this->addInputReplace(['content' => '']);
+		$this->unitTester->addInputReplace(['content' => '']);
 		
 		$this->assertUpdateWithWrongContent();
 	}
@@ -253,36 +253,37 @@ class CommentsTest extends ApiTest {
 	{
 		$c = Comment::first();
 
-		$this->logUserWithId($c->user_id);
+		$this->unitTester->logUserWithId($c->user_id);
 
-		$this->addInputReplace([
-			'content' => $this->generateString(150),
+		$this->unitTester->addInputReplace([
+			'content' => $this->unitTester->generateString(150),
 		]);
 		
 		$this->update($c->id)
-			->assertStatusCodeIs(Response::HTTP_OK)
+			->unitTester->assertStatusCodeIs(Response::HTTP_OK)
 			->withStatusMessage('comment_updated')
 			->withSuccessMessage('The comment #'.$c->id.' was updated.');
 	}
 
 	public function testIndexForUser()
 	{
-		$u = Factory::create('TeenQuotes\Users\Models\User');
-		Factory::times($this->nbRessources)->create('TeenQuotes\Comments\Models\Comment', ['user_id' => $u->id]);
+		$u = $this->unitTester->insertInDatabase(1, 'User');
+		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Comment', ['user_id' => $u->id]);
 		
 		$this->activateEmbedsQuote();
 
 		// Test first page
-		$this->tryFirstPage('getCommentsForUser', $u->id);
+		$this->unitTester->tryFirstPage('getCommentsForUser', $u->id);
 
 		// Test with the middle page
-		$this->tryMiddlePage('getCommentsForUser', $u->id);
+		$this->unitTester->tryMiddlePage('getCommentsForUser', $u->id);
 	}
 
 	public function testIndexForUserNotFound()
 	{
-		$this->doRequest('getCommentsForUser', 100)
-			->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
+		$this->unitTester->doRequest('getCommentsForUser', 100);
+		
+		$this->unitTester->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage('user_not_found')
 			->withErrorMessage('The user #100 was not found.');
 	}
@@ -293,15 +294,15 @@ class CommentsTest extends ApiTest {
 	 */
 	public function testIndexForUserNoComments()
 	{
-		$u = Factory::create('TeenQuotes\Users\Models\User');
+		$u = $this->unitTester->insertInDatabase(1, 'User');
 		
 		// Try with a user with no comments
-		$this->tryFirstPage('getCommentsForUser', $u->id);
+		$this->unitTester->tryFirstPage('getCommentsForUser', $u->id);
 	}
 
 	private function assertStoreWithWrongContent()
 	{
-		$this->logUserWithId(1);
+		$this->unitTester->logUserWithId(1);
 		
 		$this->store($this->quoteId);
 	}
@@ -309,38 +310,40 @@ class CommentsTest extends ApiTest {
 	private function assertUpdateWithWrongContent()
 	{
 		$c = Comment::first();
-		$this->logUserWithId($c->user_id);
+		$this->unitTester->logUserWithId($c->user_id);
 		
 		$this->store($c->id);
 	}
 
 	private function store($id)
 	{
-		return $this->tryStore('store', $id);
+		$this->unitTester->tryStore('store', $id);
+
+		return $this;
 	}
 
 	private function destroy($id)
 	{
-		$this->doRequest('destroy', $id);
+		$this->unitTester->doRequest('destroy', $id);
 
 		return $this;
 	}
 
 	private function update($id)
 	{
-		$this->doRequest('update', $id);
+		$this->unitTester->doRequest('update', $id);
 
 		return $this;
 	}
 
 	private function doNotEmbedsQuote()
 	{
-		$this->embedsRelation = ['user_small'];
+		$this->unitTester->setEmbedsRelation(['user_small']);
 	}
 
 	private function activateEmbedsQuote()
 	{
-		$this->embedsRelation = ['user_small', 'quote'];
-		$this->addInputReplace(['quote' => true]);
+		$this->unitTester->setEmbedsRelation(['user_small', 'quote']);
+		$this->unitTester->addInputReplace(['quote' => true]);
 	}
 }
