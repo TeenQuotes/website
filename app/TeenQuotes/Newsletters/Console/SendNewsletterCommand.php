@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
+use TeenQuotes\Mail\MailSwitcher;
 use TeenQuotes\Newsletters\Repositories\NewsletterRepository;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
 
@@ -112,7 +113,8 @@ class SendNewsletterCommand extends ScheduledCommand {
 					$this->info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
 					Log::info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
 
-					// Send the email to the user
+					// Send the email to the users
+					new MailSwitcher('smtp');
 					Mail::send('emails.newsletters.'.$type, compact('newsletter', 'quotes'), function($m) use($newsletter, $type)
 					{
 						$m->to($newsletter->user->email, $newsletter->user->login)->subject(Lang::get('newsletters.'.$type.'SubjectEmail'));
