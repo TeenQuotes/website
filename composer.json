@@ -73,10 +73,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/AntoineAugusti/laravel-4-freegeoip"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/AntoineAugusti/codeception-mailcatcher-module"
         }
     ],
 	"minimum-stability": "stable"
