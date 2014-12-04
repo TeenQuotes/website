@@ -982,12 +982,15 @@ h3 {
 				padding: 0 5px;
 			}
 
-			.favorite-action {
+			.favorite-action, .fav-count {
 				border: 0;
 				outline: none;
 
-				&:hover i.fa-heart, &:hover i.fa-heart-o {
-					color: $red !important;
+				i.fa-heart, i.fa-heart-o {
+					margin-right: 7px;
+					&:hover {
+						color: $red !important;
+					}
 				}
 			}
 		}

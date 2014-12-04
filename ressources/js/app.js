@@ -38,8 +38,8 @@ $(document).ready(function() {
 
 	// Signin view
 	$("#listener-wants-account").mouseenter(function() {
-		$("#wants-account").addClass("animated shake");
-	})
+			$("#wants-account").addClass("animated shake");
+		})
 		.mouseleave(function() {
 			$("#wants-account").removeClass("animated shake");
 		});
@@ -128,7 +128,7 @@ $(document).ready(function() {
 
 	// Favorite / Unfavorite
 	$('button.favorite-action').click(function() {
-		var otherType, otherIcon, url, type, id_quote, iconValidation;
+		var otherType, otherIcon, url, type, id_quote, iconValidation, nbFav;
 		url = $(this).attr('data-url');
 		type = $(this).attr('data-type');
 		id_quote = $(this).attr('data-id');
@@ -160,7 +160,7 @@ $(document).ready(function() {
 
 					// Update counter on the user's profile
 					if ($("#fav-count").length) {
-						var nbFav = parseInt($("#fav-count").text());
+						nbFav = parseInt($("#fav-count").text(), 10);
 						if (type == 'favorite')
 							$("#fav-count").text(nbFav + 1);
 						else {
@@ -181,10 +181,18 @@ $(document).ready(function() {
 						}
 					}
 
+					// Update counter on single quote
+					if ($("button[data-id=" + id_quote + "] .count").length) {
+						nbFav = parseInt($("button[data-id=" + id_quote + "] .count").text(), 10);
+						if (type == 'favorite')
+							nbFav++;
+						else
+							nbFav--;
+					}
+
 					$(".favorite-action[data-id=" + id_quote + "]").attr('data-url', url.replace(type, otherType));
 					$(".favorite-action[data-id=" + id_quote + "]").attr('data-type', otherType);
-
-					$(".favorite-action[data-id=" + id_quote + "]").html("<i class='fa animated fadeIn " + otherIcon + "'></i>");
+					$(".favorite-action[data-id=" + id_quote + "]").html("<i class='fa animated fadeIn " + otherIcon + "'></i><span class='count'>" + nbFav + "</span>");
 
 					// If we are viewing a single quote, update users who favorited this quote
 					if (typeof laravel.urlFavoritesInfo !== 'undefined') {
@@ -245,7 +253,7 @@ $(document).ready(function() {
 				if (data.success) {
 					// Update counter on the user's profile
 					if ($("#comments-count").length) {
-						var nbComments = parseInt($("#comments-count").text());
+						var nbComments = parseInt($("#comments-count").text(), 10);
 						$("#comments-count").text(nbComments - 1);
 					}
 
@@ -336,13 +344,13 @@ $(document).ready(function() {
 					// Success
 				} else {
 					// Update nb quotes awaiting moderation
-					numberOfQuoteWaitingModeration = parseInt($("#nb-quotes-waiting").text()) - 1;
+					numberOfQuoteWaitingModeration = parseInt($("#nb-quotes-waiting").text(), 10) - 1;
 					$("#nb-quotes-waiting").text(numberOfQuoteWaitingModeration);
 
 					// Update nb quotes pending
 					if (decision == 'approve') {
 
-						numberOfQuotePending = parseInt($("#nb-quotes-pending").text()) + 1;
+						numberOfQuotePending = parseInt($("#nb-quotes-pending").text(), 10) + 1;
 						$("#nb-quotes-pending").text(numberOfQuotePending);
 
 						if ($("#text-quotes").text() == 'quote')
