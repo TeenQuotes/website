@@ -114,7 +114,7 @@ class SendNewsletterCommand extends ScheduledCommand {
 					Log::info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
 
 					// Send the email to the users
-					new MailSwitcher('smtp');
+					new MailSwitcher('sendmail');
 					Mail::send('emails.newsletters.'.$type, compact('newsletter', 'quotes'), function($m) use($newsletter, $type)
 					{
 						$m->to($newsletter->user->email, $newsletter->user->login)->subject(Lang::get('newsletters.'.$type.'SubjectEmail'));
