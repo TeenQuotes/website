@@ -46,8 +46,8 @@ class AddFavoriteCest {
 		
 		// Check that the single quote shows that the quote is in my favorites
 		$I->amOnRoute('quotes.show', $this->firstQuote->id);
-		$I->dontSeeElement('.quote i.fa-heart-o');
-		$I->seeElement('.quote i.fa-heart');
+		$I->dontSeeElement('.quote .favorite-action i.fa-heart-o');
+		$I->seeElement('.quote .favorite-action i.fa-heart');
 	}
 
 	public function iCanNotAddAQuoteToMyFavoritesAsAGuest(FunctionalTester $I)
@@ -59,8 +59,8 @@ class AddFavoriteCest {
 		
 		$this->goToFirstQuote($I);
 		// Verify that we don't have any heart displayed
-		$I->dontSeeElement('.quote i.fa-heart-o');
-		$I->dontSeeElement('.quote i.fa-heart');
+		$I->dontSeeElement('.quote .favorite-action i.fa-heart-o');
+		$I->dontSeeElement('.quote .favorite-action i.fa-heart');
 	}
 
 	private function goToFirstQuote(FunctionalTester $I)

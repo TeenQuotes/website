@@ -35,7 +35,7 @@ class ShowQuoteCest {
 		$this->assertSingleQuoteContainsRequiredInformation($I);
 
 		// The quote is in my favorites
-		$I->seeElement('.quote i.fa-heart');
+		$I->seeElement('.quote .favorite-action i.fa-heart');
 
 		// I can add a comment
 		$I->seeElement('form.form-horizontal');
@@ -54,7 +54,7 @@ class ShowQuoteCest {
 		$I->see('I want an account!');
 		
 		// The quote is not in my favorites
-		$I->dontSeeElement('.quote i.fa-heart');
+		$I->dontSeeElement('.quote .favorite-action i.fa-heart');
 		
 		// I can't add a comment
 		$I->dontSeeElement('form.form-horizontal');
