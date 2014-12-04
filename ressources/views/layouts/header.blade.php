@@ -71,9 +71,11 @@
 						</li>
 
 						<!-- APPS -->
-						<li class="hidden-sm">
-							<a href="{{ URL::route('apps')}}"><i class="fa fa-mobile"></i>{{ Lang::get('layout.apps') }}</a>
-						</li>
+						@if (Config::get('mobile.iOSApp') OR Config::get('mobile.androidApp'))
+							<li class="hidden-sm">
+								<a href="{{ URL::route('apps')}}"><i class="fa fa-mobile"></i>{{ Lang::get('layout.apps') }}</a>
+							</li>
+						@endif
 					</ul>
 
 					<!-- TWITTER FOLLOW BUTTON -->
