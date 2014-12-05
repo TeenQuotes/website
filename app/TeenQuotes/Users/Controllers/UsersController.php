@@ -130,8 +130,8 @@ class UsersController extends BaseController {
 
 			if (Session::has('url.intended'))
 				return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', ['login' => $data['login']]));
-			else
-				return Redirect::route('users.show', $data['login'])->with('success', Lang::get('auth.signupSuccessfull', ['login' => $data['login']]));
+			
+			return Redirect::route('users.show', $data['login'])->with('success', Lang::get('auth.signupSuccessfull', ['login' => $data['login']]));
 		}
 	}
 
@@ -199,8 +199,7 @@ class UsersController extends BaseController {
 		// Get the user
 		$user = $this->userRepo->getByLogin($user_id);
 		
-		if (is_null($user))
-			throw new UserNotFoundException;
+		if (is_null($user)) throw new UserNotFoundException;
 
 		// Try to redirect to a better place if content is available
 		$redirect = $this->redirectUserIfContentNotAvailable($user, $type);
@@ -242,9 +241,6 @@ class UsersController extends BaseController {
 	private function dataShowFavorites(User $user)
 	{
 		$pageNumber = Input::get('page', 1);
-
-		// Time to store quotes in cache
-		$expiresAt = Carbon::now()->addMinutes(10);
 
 		// Get the list of favorite quotes
 		$arrayIDFavoritesQuotesForUser = $user->arrayIDFavoritesQuotes();
