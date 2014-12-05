@@ -15,6 +15,16 @@ class TextTools {
 		</div>';
 	}
 
+	public static function formatNumber($number, $decimals=0)
+	{
+		$locale = localeconv();
+		
+		return number_format($number, $decimals,
+			$locale['decimal_point'],
+			$locale['thousands_sep']
+		);
+	}
+
 	/**
 	 * Used to build a campagin link
 	 * @param string $url The URL
