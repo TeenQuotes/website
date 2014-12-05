@@ -4,12 +4,12 @@
 		<a href="{{ URL::route('users.show', array($user->login)) }}"><img class="avatar img-responsive" src="{{{ $user->present()->avatarLink }}}"/></a>
 	</div>
 
-	<div class="column col-xs-9 col-sm-9 col-md-10 col-lg-11">
+	<div class="column col-xs-9 col-sm-9 col-md-10 col-lg-11 user-description">
 		<a href="{{ URL::route('users.show', array($user->login)) }}" class="username"><i class="fa {{ $user->present()->iconGender}}"></i> {{{ $user->login }}}</a>
 
 		<!-- Country -->
 		@if ( ! is_null($user->country))
-			<div class="country">
+			<div class="country hidden-xs">
 				{{ $user->country_object->name}}
 			</div>
 		@endif

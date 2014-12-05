@@ -2,7 +2,7 @@
 	<div id="result-info" class="row">
 		@foreach (['quotes', 'users'] as $element)
 			<?php $count = 'nb'.ucfirst($element); ?>
-			<div class="col-xs-6 text-center">
+			<div class="col-md-6 counter">
 				<div class="content" data-scroll="{{ $element }}">
 					@if ($element == 'quotes')
 						<i class="fa fa-comment"></i>

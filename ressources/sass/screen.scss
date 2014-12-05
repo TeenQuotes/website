@@ -301,14 +301,17 @@ h3 {
 	#result-info {
 		margin: -3em -15px 4em -15px;
 
-		.col-xs-6 {
+		.counter {
+			text-align: center;
+			cursor: pointer;
+
 			.content {
 				background: $veryLightGray;
 				color: $topbarColor;
 				padding: 10px 15px;
 				font-size: 1.7em;
 				font-family: 'Titillium Web', sans-serif;
-				cursor: pointer;
+				margin-bottom: 5px;
 
 				@include element-transition;
 
@@ -337,7 +340,7 @@ h3 {
 
 	.user-row {
 		background: $veryLightGray;
-		padding: 15px 15px 10px 15px;
+		padding: 10px 5px;
 		margin-bottom: 10px;
 		border-bottom: 2px solid darken($veryLightGray, 10%);
 
@@ -358,7 +361,7 @@ h3 {
 				text-transform: uppercase;
 				font-family: 'Titillium Web', sans-serif;
 				margin: 0 0 1em 0;
-				font-size: 1.4em;
+				font-size: 1.1em;
 				margin-left: 30px;
 				@include hyphens(auto);
 				@include element-transition;
@@ -372,6 +375,9 @@ h3 {
 				i.fa {
 					margin-right: 10px;
 					vertical-align: middle;
+					@media screen and (min-width: $breakpointSmartphone) {
+						margin-right: 5px;
+					}
 
 					&.fa-female {
 						color: $pink;
@@ -395,6 +401,10 @@ h3 {
 				margin: 10px auto 0 auto;
 				padding-left: 30px;
 			}
+		}
+
+		.user-description {
+			padding-left: 5px;
 		}
 	}
 }
