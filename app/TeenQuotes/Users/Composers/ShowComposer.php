@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Collection;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Tools\Composers\Interfaces\QuotesColorsExtractor;
+use TextTools;
 
 class ShowComposer implements QuotesColorsExtractor {
 	
@@ -16,10 +17,10 @@ class ShowComposer implements QuotesColorsExtractor {
 		$this->user = $data['user'];
 
 		$view->with('hideAuthorQuote', $this->type == 'published');
-		$view->with('commentsCount', $this->user->getTotalComments());
-		$view->with('addedFavCount', $this->user->getAddedFavCount());
-		$view->with('quotesPublishedCount', $this->user->getPublishedQuotesCount());
-		$view->with('favCount', $this->user->getFavoriteCount());
+		$view->with('commentsCount', TextTools::formatNumber($this->user->getTotalComments()));
+		$view->with('addedFavCount', TextTools::formatNumber($this->user->getAddedFavCount()));
+		$view->with('quotesPublishedCount', TextTools::formatNumber($this->user->getPublishedQuotesCount()));
+		$view->with('favCount', TextTools::formatNumber($this->user->getFavoriteCount()));
 		
 		// Extract colors for quotes
 		$view->with('colors', $this->extractAndStoreColors($data['quotes']));
