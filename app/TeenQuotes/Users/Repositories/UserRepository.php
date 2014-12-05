@@ -70,13 +70,20 @@ interface UserRepository {
 	public function showByLoginOrId($user_id);
 
 	/**
-	 * Search user that match a login
+	 * Search user matching a login
 	 * @param  string $query
 	 * @param  int $page
 	 * @param  int $pagesize
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
 	public function searchByPartialLogin($query, $page, $pagesize);
+
+	/**
+	 * Count the number of users matching a login
+	 * @param  string $query
+	 * @return int
+	 */
+	public function searchCountByPartialLogin($query);
 
 	/**
 	 * Create a user

@@ -51,24 +51,26 @@ class SearchController extends BaseController {
 	 */
 	public function getResults($query)
 	{
+		// Search quotes
+		$nbQuotes = $this->quoteRepo->searchCountPublishedWithQuery($query);
 		$quotes = $this->quoteRepo->searchPublishedWithQuery($query, 1, Config::get('app.search.maxResultsPerCategory'));
 
+		// Search users
+		$nbUsers = 0;
 		$users = null;
-		if ($this->stringIsASingleWord($query))
+		if ($this->stringIsASingleWord($query)) {
+			$nbUsers = $this->userRepo->searchCountByPartialLogin($query);
 			$users = $this->userRepo->searchByPartialLogin($query, 1, Config::get('app.search.maxResultsPerCategory'));
+		}
 
 		// Handle no results
 		if ($quotes->count() == 0 AND (is_null($users) OR $users->count() == 0))
 			return Redirect::route('search.form')->with('warning', Lang::get('search.noResultsAtAll'));
 
-		$data = [
-			'quotes'                 => $quotes,
-			'users'                  => $users,
-			'query'                  => $query,
-			'maxNbResultPerCategory' => Config::get('app.search.maxResultsPerCategory'),
-			'pageTitle'              => Lang::get('search.resultsPageTitle', compact('query')),
-			'pageDescription'        => Lang::get('search.resultsPageDescription', compact('query')),
-		];
+		$data = compact('quotes', 'users', 'nbQuotes', 'nbUsers', 'query');
+		$data['maxNbResultPerCategory'] = Config::get('app.search.maxResultsPerCategory');
+		$data['pageTitle']              = Lang::get('search.resultsPageTitle', compact('query'));
+		$data['pageDescription']        = Lang::get('search.resultsPageDescription', compact('query'));
 
 		return View::make('search.results', $data);
 	}
