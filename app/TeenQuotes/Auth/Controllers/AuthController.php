@@ -58,7 +58,9 @@ class AuthController extends BaseController {
 		}
 		catch (FormValidationException $e)
 		{
-			return Redirect::route('signin')->withErrors($validator)->withInput(Input::except('password'));
+			return Redirect::route('signin')
+				->withErrors($e->getErrors())
+				->withInput(Input::except('password'));
 		}
 
 		// Try to log the user in.
