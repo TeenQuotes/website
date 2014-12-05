@@ -135,7 +135,7 @@ class DbUserRepository implements UserRepository {
 	}
 
 	/**
-	 * Search user that match a login
+	 * Search user matching a login
 	 * @param  string $query
 	 * @param  int $page
 	 * @param  int $pagesize
@@ -149,6 +149,18 @@ class DbUserRepository implements UserRepository {
 			->take($pagesize)
 			->skip($this->computeSkip($page, $pagesize))
 			->get();
+	}
+
+	/**
+	 * Count the number of users matching a login
+	 * @param  string $query
+	 * @return int
+	 */
+	public function searchCountByPartialLogin($query)
+	{
+		return User::partialLogin($query)
+			->notHidden()
+			->count();
 	}
 
 	/**
