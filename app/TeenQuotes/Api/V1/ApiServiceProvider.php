@@ -51,7 +51,7 @@ class ApiServiceProvider extends ServiceProvider {
 		$this->app['router']->pattern('country_id', '[0-9]+');
 		$this->app['router']->pattern('story_id', '[0-9]+');
 		$this->app['router']->pattern('comment_id', '[0-9]+');
-		$this->app['router']->pattern('user_id', '[a-zA-Z0-9_]+');
+		$this->app['router']->pattern('user_id', '[a-zA-Z0-9_-]+');
 		$this->app['router']->pattern('quote_approved_type', 'waiting|refused|pending|published');
 		$this->app['router']->pattern('random', 'random');
 	}
