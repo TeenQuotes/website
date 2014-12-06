@@ -9,21 +9,21 @@ use TeenQuotes\Mail\MailSwitcher;
 use TeenQuotes\Users\Repositories\UserRepository;
 use TeenQuotes\Newsletters\Repositories\NewsletterRepository;
 
-class UnsubscribeUnactiveUsersCommand extends ScheduledCommand {
+class UnsubscribeInactiveUsersCommand extends ScheduledCommand {
 
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'newsletter:deleteUnactive';
+	protected $name = 'newsletter:deleteInactive';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Unsubscribe unactive users from newsletters.';
+	protected $description = 'Unsubscribe inactive users from newsletters.';
 
 	/**
 	 * @var TeenQuotes\Users\Repositories\UserRepository
@@ -77,7 +77,7 @@ class UnsubscribeUnactiveUsersCommand extends ScheduledCommand {
 	 */
 	public function fire()
 	{
-		// Retrieve unactive users
+		// Retrieve inactive users
 		$users = $this->userRepo->getNonActiveHavingNewsletter();
 
 		// Unsubscribe these users from newsletters

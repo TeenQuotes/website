@@ -3,7 +3,7 @@
 @section('content')
 	{{ Lang::get('email.hiWithLogin', ['login' => $user->login]) }}
 	<br/><br/>
-	{{ Lang::get('newsletters.unsubscribeBecauseUnactive') }}
+	{{ Lang::get('newsletters.unsubscribeBecauseInactive') }}
 @stop
 
 <!-- Link to edit email settings -->
