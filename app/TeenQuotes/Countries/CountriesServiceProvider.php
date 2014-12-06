@@ -27,11 +27,9 @@ class CountriesServiceProvider extends ServiceProvider {
 
 	private function registerBindings()
 	{
-		$namespace = $this->getBaseNamespace().'Repositories';
-
 		$this->app->bind(
-			$namespace.'\CountryRepository',
-			$namespace.'\DbCountryRepository'
+			$this->getNamespaceRepositories().'CountryRepository',
+			$this->getNamespaceRepositories().'DbCountryRepository'
 		);
 	}
 

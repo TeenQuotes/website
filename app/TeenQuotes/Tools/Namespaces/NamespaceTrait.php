@@ -1,5 +1,6 @@
 <?php namespace TeenQuotes\Tools\Namespaces;
 
+use Str;
 use ReflectionClass;
 
 trait NamespaceTrait {
@@ -10,13 +11,20 @@ trait NamespaceTrait {
 		return $reflection->getNamespaceName().'\\';
 	}
 
-	public function getNamespaceComposers()
+	public function __call($name, $arguments)
 	{
-		return $this->getBaseNamespace().'Composers\\';
-	}
+		// Handle getNamespace with a directory name
+		if (Str::startsWith($name, 'getNamespace'))
+		{
+			$directory = str_replace('getNamespace', '', $name);
 
-	public function getNamespaceConsole()
-	{
-		return $this->getBaseNamespace().'Console\\';
+			return $this->getBaseNamespace().$directory.'\\';
+		}
+
+		// Return other calls
+		return call_user_func_array(
+			array($this, $name),
+			$arguments
+		);
 	}
 }

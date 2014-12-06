@@ -26,12 +26,10 @@ class NewslettersServiceProvider extends ServiceProvider {
 	}
 
 	private function registerBindings()
-	{
-		$namespace = $this->getBaseNamespace().'Repositories';
-		
+	{		
 		$this->app->bind(
-			$namespace.'\NewsletterRepository',
-			$namespace.'\DbNewsletterRepository'
+			$this->getNamespaceRepositories().'NewsletterRepository',
+			$this->getNamespaceRepositories().'DbNewsletterRepository'
 		);
 	}
 

@@ -67,21 +67,17 @@ class QuotesServiceProvider extends ServiceProvider {
 
 	private function registerFavoriteQuoteBindings()
 	{
-		$namespace = $this->getBaseNamespace().'Repositories';
-
 		$this->app->bind(
-			$namespace.'\FavoriteQuoteRepository',
-			$namespace.'\DbFavoriteQuoteRepository'
+			$this->getNamespaceRepositories().'FavoriteQuoteRepository',
+			$this->getNamespaceRepositories().'DbFavoriteQuoteRepository'
 		);
 	}
 
 	private function registerQuotesBindings()
 	{
-		$namespace = $this->getBaseNamespace().'Repositories';
-
 		$this->app->bind(
-			$namespace.'\QuoteRepository',
-			$namespace.'\DbQuoteRepository'
+			$this->getNamespaceRepositories().'QuoteRepository',
+			$this->getNamespaceRepositories().'DbQuoteRepository'
 		);
 	}
 

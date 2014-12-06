@@ -40,11 +40,9 @@ class UsersServiceProvider extends ServiceProvider {
 
 	private function registerBindings()
 	{
-		$namespace = $this->getBaseNamespace().'Repositories';
-
 		$this->app->bind(
-			$namespace.'\UserRepository',
-			$namespace.'\DbUserRepository'
+			$this->getNamespaceRepositories().'UserRepository',
+			$this->getNamespaceRepositories().'DbUserRepository'
 		);
 	}
 
