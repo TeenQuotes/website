@@ -66,6 +66,16 @@ class DbNewsletterRepository implements NewsletterRepository {
 			->delete();
 	}
 
+	/**
+	 * Delete newsletters for a list of users
+	 * @param  array  $ids The ID of the users
+	 * @return int The number of affected rows
+	 */
+	public function deleteForUsers(array $ids)
+	{
+		return Newsletter::whereIn('user_id', $ids)->delete();
+	}
+
 	private function guardType($type)
 	{
 		if ( ! in_array($type, [Newsletter::WEEKLY, Newsletter::DAILY]))

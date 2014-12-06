@@ -111,4 +111,10 @@ interface UserRepository {
 	 * @return int
 	 */
 	public function mostCommonCountryId();
+
+	/**
+	 * Retrieve users who have not logged in in the last year and who are subscribed to at least a newsletter
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	public function getNonActiveHavingNewsletter();
 }

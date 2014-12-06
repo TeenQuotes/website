@@ -1,5 +1,6 @@
 <?php namespace TeenQuotes\Users\Repositories;
 
+use Carbon;
 use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 use TeenQuotes\Users\Models\User;
@@ -219,6 +220,17 @@ class DbUserRepository implements UserRepository {
 			->first();
 
 		return $u->country;
+	}
+
+	/**
+	 * Retrieve users who have not logged in in the last year and who are subscribed to at least a newsletter
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	public function getNonActiveHavingNewsletter()
+	{
+		return User::where('last_visit', '<=', Carbon::now()->subYear())
+			->has('newsletters')
+			->get();
 	}
 
 	private function computeSkip($page, $pagesize)
