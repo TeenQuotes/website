@@ -13,4 +13,4 @@
 @stop
 
 <!-- Link to edit email settings -->
-@include('emails.newsletters.editSettings')
+@include('emails.newsletters.editSettings', ['login' => $newsletter->user->login])
