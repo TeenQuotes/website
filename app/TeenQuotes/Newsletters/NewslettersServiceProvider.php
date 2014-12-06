@@ -37,13 +37,19 @@ class NewslettersServiceProvider extends ServiceProvider {
 
 	private function registerCommands()
 	{
-		$commandName = $this->getBaseNamespace().'Console\SendNewsletterCommand';
+		$commands = [
+			'newsletters.console.sendNewsletter'           => $this->getNamespaceConsole().'SendNewsletterCommand',
+			'newsletters.console.unsubscribeInactiveUsers' => $this->getNamespaceConsole().'UnsubscribeInactiveUsersCommand',
+		];
 
-		$this->app->bindShared('newsletters.console.sendNewsletter', function($app) use($commandName)
+		foreach ($commands as $key => $class)
 		{
-			return $app->make($commandName);
-		});
+			$this->app->bindShared($key, function($app) use($class)
+			{
+				return $app->make($class);
+			});
 
-		$this->commands('newsletters.console.sendNewsletter');
+			$this->commands($key);
+		}
 	}
 }

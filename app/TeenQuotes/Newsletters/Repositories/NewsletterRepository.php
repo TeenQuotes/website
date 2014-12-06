@@ -32,4 +32,11 @@ interface NewsletterRepository {
 	 * @var string $type The type of the newsletter : weekly|daily
 	 */
 	public function deleteForUserAndType(User $u, $type);
+
+	/**
+	 * Delete newsletters for a list of users
+	 * @param  array  $ids The ID of the users
+	 * @return int The number of affected rows
+	 */
+	public function deleteForUsers(array $ids);
 }

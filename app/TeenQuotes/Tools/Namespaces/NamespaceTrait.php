@@ -14,4 +14,9 @@ trait NamespaceTrait {
 	{
 		return $this->getBaseNamespace().'Composers\\';
 	}
+
+	public function getNamespaceConsole()
+	{
+		return $this->getBaseNamespace().'Console\\';
+	}
 }
