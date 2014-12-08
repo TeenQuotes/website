@@ -5,25 +5,26 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
+use MandrillClient;
 use TeenQuotes\Mail\MailSwitcher;
-use TeenQuotes\Users\Repositories\UserRepository;
 use TeenQuotes\Newsletters\Repositories\NewsletterRepository;
+use TeenQuotes\Users\Repositories\UserRepository;
 
-class UnsubscribeInactiveUsersCommand extends ScheduledCommand {
+class UnsubscribeUsersCommand extends ScheduledCommand {
 
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'newsletter:deleteInactive';
+	protected $name = 'newsletter:deleteUsers';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Unsubscribe inactive users from newsletters.';
+	protected $description = 'Unsubscribe users from newsletters.';
 
 	/**
 	 * @var TeenQuotes\Users\Repositories\UserRepository
@@ -78,24 +79,55 @@ class UnsubscribeInactiveUsersCommand extends ScheduledCommand {
 	public function fire()
 	{
 		// Retrieve inactive users
-		$users = $this->userRepo->getNonActiveHavingNewsletter();
+		$nonActiveUsers = $this->userRepo->getNonActiveHavingNewsletter();
+
+		$hardBouncedUsers = $this->getHardBouncedUsers();
+
+		// Merge all users that need to be unsubscribed from newsletters
+		$allUsers = $nonActiveUsers->merge($hardBouncedUsers);
 
 		// Unsubscribe these users from newsletters
-		$this->newsletterRepo->deleteForUsers($users->lists('id'));
+		$this->newsletterRepo->deleteForUsers($allUsers->lists('id'));
 
 		// Send an email to each user to notice them
 		new MailSwitcher('smtp');
-		$users->each(function($user)
+		$nonActiveUsers->each(function($user)
 		{
 			// Log this info
-			$this->info("Unsubscribing user from newsletters: ".$user->login." - ".$user->email);
-			Log::info("Unsubscribing user from newsletters: ".$user->login." - ".$user->email);
+			$this->writeToLog("Unsubscribing user from newsletters: ".$user->login." - ".$user->email);
 
 			Mail::send('emails.newsletters.unsubscribe', compact('user'), function($m) use($user)
 			{
 				$m->to($user->email, $user->login)->subject(Lang::get('email.unsubscribeNewsletterSubject'));
 			});
 		});
+	}
+
+	/**
+	 * Get users that has already have been affected by an hard bounce
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	private function getHardBouncedUsers()
+	{
+		$users = MandrillClient::getHardBouncedUsers();
+
+		// Delete each user from the existing rejection list
+		$instance = $this;
+		$users->each(function($user) use ($instance)
+		{
+			MandrillClient::deleteEmailFromRejection($user->email);
+			
+			// Log this info
+			$instance->writeToLog("Removing user from the rejection list: ".$user->login." - ".$user->email);
+		});
+
+		return $users;
+	}
+
+	private function writeToLog($line)
+	{
+		$this->info($line);
+		Log::info($line);
 	}
 
 	/**

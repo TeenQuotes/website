@@ -37,7 +37,7 @@ class NewslettersServiceProvider extends ServiceProvider {
 	{
 		$commands = [
 			'newsletters.console.sendNewsletter'           => $this->getNamespaceConsole().'SendNewsletterCommand',
-			'newsletters.console.unsubscribeInactiveUsers' => $this->getNamespaceConsole().'UnsubscribeInactiveUsersCommand',
+			'newsletters.console.unsubscribeUsers' => $this->getNamespaceConsole().'UnsubscribeUsersCommand',
 		];
 
 		foreach ($commands as $key => $class)
