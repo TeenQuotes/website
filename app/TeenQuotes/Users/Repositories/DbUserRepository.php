@@ -18,6 +18,16 @@ class DbUserRepository implements UserRepository {
 	}
 
 	/**
+	 * Get users from an array of emails
+	 * @param  array  $emails Email addresses
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	public function getByEmails(array $emails)
+	{
+		return User::whereIn('email', $emails)->get();
+	}
+
+	/**
 	 * Retrieve a user by its login
 	 * @param  string $login 
 	 * @return TeenQuotes\Users\Models\User

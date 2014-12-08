@@ -10,6 +10,13 @@ interface UserRepository {
 	public function getById($id);
 
 	/**
+	 * Get users from an array of emails
+	 * @param  array  $emails Email addresses
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	public function getByEmails(array $emails);
+
+	/**
 	 * Retrieve a user by its login
 	 * @param  string $login 
 	 * @return TeenQuotes\Users\Models\User
