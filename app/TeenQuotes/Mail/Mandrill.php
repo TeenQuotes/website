@@ -25,7 +25,7 @@ class Mandrill {
 
 	/**
 	 * Get email addresses that have already have an hard bounce
-	 * @return Illuminate\Support\Collection
+	 * @return array
 	 */
 	public function getHardBouncedEmails()
 	{
@@ -42,7 +42,7 @@ class Mandrill {
 
 	/**
 	 * Get users that has already have been affected by an hard bounce
-	 * @return Illuminate\Support\Collection
+	 * @return Illuminate\Database\Eloquent\Collection
 	 */
 	public function getHardBouncedUsers()
 	{
