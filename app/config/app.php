@@ -144,6 +144,7 @@ return array(
 		'TeenQuotes\Countries\CountriesServiceProvider',
 		'TeenQuotes\Mail\MailServiceProvider',
 		'TeenQuotes\Mail\MandrillServiceProvider',
+		'TeenQuotes\Newsletters\NewsletterListServiceProvider',
 		'TeenQuotes\Newsletters\NewslettersServiceProvider',
 		'TeenQuotes\Pages\PagesServiceProvider',
 		'TeenQuotes\Quotes\QuotesServiceProvider',
