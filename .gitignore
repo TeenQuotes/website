@@ -2,9 +2,6 @@
 .env.*.php
 .env.php
 .sass-cache
-app/config/database.php
-app/config/mail.php
-app/config/services.php
 bootstrap/compiled.php
 node_modules
 vendor
