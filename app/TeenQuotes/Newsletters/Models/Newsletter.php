@@ -4,7 +4,6 @@ use Eloquent;
 use InvalidArgumentException;
 use TeenQuotes\Newsletters\Models\Relations\NewsletterTrait as NewsletterRelationsTrait;
 use TeenQuotes\Newsletters\Models\Scopes\NewsletterTrait as NewsletterScopesTrait;
-use TeenQuotes\Users\Models\User;
 
 class Newsletter extends Eloquent {
 	

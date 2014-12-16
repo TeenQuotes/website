@@ -1,14 +1,12 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use BaseController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\URL;
+use Auth, BaseController, Input, URL;
 use LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade as AuthorizationServer;
 use LucaDegasperi\OAuth2Server\Facades\ResourceServerFacade as ResourceServer;
 use TeenQuotes\Comments\Repositories\CommentRepository;
 use TeenQuotes\Countries\Repositories\CountryRepository;
 use TeenQuotes\Http\Facades\Response;
+use TeenQuotes\Newsletters\NewslettersManager;
 use TeenQuotes\Newsletters\Repositories\NewsletterRepository;
 use TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
@@ -36,6 +34,11 @@ class APIGlobalController extends BaseController {
 	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
 	 */
 	protected $newsletterRepo;
+	
+	/**
+	 * @var TeenQuotes\Newsletters\NewslettersManager
+	 */
+	protected $newslettersManager;
 
 	/**
 	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
@@ -60,17 +63,19 @@ class APIGlobalController extends BaseController {
 	public function __construct(
 		CommentRepository $commentRepo, CountryRepository $countryRepo,
 		FavoriteQuoteRepository $favQuoteRepo, NewsletterRepository $newsletterRepo,
-		QuoteRepository $quoteRepo, SettingRepository $settingRepo,
-		StoryRepository $storyRepo, UserRepository $userRepo)
+		NewslettersManager $newslettersManager, QuoteRepository $quoteRepo,
+		SettingRepository $settingRepo, StoryRepository $storyRepo,
+		UserRepository $userRepo)
 	{
-		$this->commentRepo    = $commentRepo;
-		$this->countryRepo    = $countryRepo;
-		$this->favQuoteRepo   = $favQuoteRepo;
-		$this->newsletterRepo = $newsletterRepo;
-		$this->quoteRepo      = $quoteRepo;
-		$this->settingRepo    = $settingRepo;
-		$this->storyRepo      = $storyRepo;
-		$this->userRepo       = $userRepo;
+		$this->commentRepo        = $commentRepo;
+		$this->countryRepo        = $countryRepo;
+		$this->favQuoteRepo       = $favQuoteRepo;
+		$this->newsletterRepo     = $newsletterRepo;
+		$this->newslettersManager = $newslettersManager;
+		$this->quoteRepo          = $quoteRepo;
+		$this->settingRepo        = $settingRepo;
+		$this->storyRepo          = $storyRepo;
+		$this->userRepo           = $userRepo;
 
 		$this->bootstrap();
 	}
