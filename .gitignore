@@ -1,6 +1,5 @@
 .DS_Store
-.env.*.php
-.env.php
+.env
 .sass-cache
 bootstrap/compiled.php
 node_modules
