@@ -14,12 +14,9 @@ Teen Quotes lets teenagers share their daily thoughts and feelings. It describes
 - Memcached >= 1.4 or another cache storage (Redis for example)
 
 # How to run locally?
-Add the following configuration files from the [Laravel framework](https://github.com/laravel/laravel):
-- `app/config/database.php`
-- `app/config/mail.php`
-- `app/config/services.php`
+Update environment variables with your values in the file `.env.example` and then rename the file to `.env`.
 
-And then run:
+Install packages, seed the datbase and run the local server with these commands:
 
 ```bash
 $ composer install
