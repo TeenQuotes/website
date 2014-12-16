@@ -13,6 +13,7 @@ before_script:
   - printf "\n" | pecl install imagick
   - mysql -e 'create database codeception;' -utravis
   - travis_retry composer self-update
+  - mv .env.example .env
   - travis_retry composer install --prefer-source --no-interaction --dev
 
 script:
