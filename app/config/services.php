@@ -15,13 +15,13 @@ return [
 	*/
 
 	'mailgun' => [
-		'domain' => $_ENV['MAILGUN_DOMAIN'],
-		'secret' => $_ENV['MAILGUN_SECRET'],
-		'pubkey' => $_ENV['MAILGUN_PUBKEY'],
+		'domain' => getenv('MAILGUN_DOMAIN'),
+		'secret' => getenv('MAILGUN_SECRET'),
+		'pubkey' => getenv('MAILGUN_PUBKEY'),
 	],
 
 	'mandrill' => [
-		'secret' => $_ENV['MANDRILL_SECRET'],
+		'secret' => getenv('MANDRILL_SECRET'),
 	],
 
 	'stripe' => [
@@ -30,11 +30,11 @@ return [
 	],
 
 	'mailchimp' => [
-		'secret' => $_ENV['MAILCHIMP_SECRET']
+		'secret' => getenv('MAILCHIMP_SECRET')
 	],
 
 	'easyrec' => [
-		'apiKey'   => $_ENV['EASYREC_APIKEY'],
+		'apiKey'   => getenv('EASYREC_APIKEY'),
 		'tenantID' => 'teenquotes_'.App::environment()
 	],
 ];
