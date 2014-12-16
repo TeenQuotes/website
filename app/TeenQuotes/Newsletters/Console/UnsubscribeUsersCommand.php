@@ -7,7 +7,7 @@ use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use MandrillClient;
 use TeenQuotes\Mail\MailSwitcher;
-use TeenQuotes\Newsletters\Repositories\NewsletterRepository;
+use TeenQuotes\Newsletters\NewslettersManager;
 use TeenQuotes\Users\Repositories\UserRepository;
 
 class UnsubscribeUsersCommand extends ScheduledCommand {
@@ -32,21 +32,21 @@ class UnsubscribeUsersCommand extends ScheduledCommand {
 	private $userRepo;
 
 	/**
-	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
+	 * @var TeenQuotes\Newsletters\NewslettersManager
 	 */
-	private $newsletterRepo;
+	private $newslettersManager;
 
 	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
-	public function __construct(UserRepository $userRepo, NewsletterRepository $newsletterRepo)
+	public function __construct(UserRepository $userRepo, NewslettersManager $newslettersManager)
 	{
 		parent::__construct();
 
 		$this->userRepo = $userRepo;
-		$this->newsletterRepo = $newsletterRepo;
+		$this->newslettersManager = $newslettersManager;
 	}
 
 	/**
@@ -87,7 +87,7 @@ class UnsubscribeUsersCommand extends ScheduledCommand {
 		$allUsers = $nonActiveUsers->merge($hardBouncedUsers);
 
 		// Unsubscribe these users from newsletters
-		$this->newsletterRepo->deleteForUsers($allUsers->lists('id'));
+		$this->newslettersManager->deleteForUsers($allUsers);
 
 		// Send an email to each user to notice them
 		new MailSwitcher('smtp');

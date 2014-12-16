@@ -1,5 +1,6 @@
 <?php namespace TeenQuotes\Newsletters\Repositories;
 
+use Illuminate\Support\Collection;
 use TeenQuotes\Users\Models\User;
 
 interface NewsletterRepository {
@@ -35,8 +36,8 @@ interface NewsletterRepository {
 
 	/**
 	 * Delete newsletters for a list of users
-	 * @param  array  $ids The ID of the users
+	 * @param  Illuminate\Support\Collection $users The collection of users
 	 * @return int The number of affected rows
 	 */
-	public function deleteForUsers(array $ids);
+	public function deleteForUsers(Collection $users);
 }

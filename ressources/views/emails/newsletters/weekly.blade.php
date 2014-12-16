@@ -1,7 +1,7 @@
 @extends('emails.default')
 
 @section('content')
-	{{ Lang::get('email.hiWithLogin', ['login' => $newsletter->user->login]) }}
+	{{ Lang::get('email.hiWithLogin', ['login' => '*|LOGIN|*']) }}
 	<br/><br/>
 	{{ Lang::get('newsletters.beenWaitingForLong') }}
 	
@@ -13,4 +13,4 @@
 @stop
 
 <!-- Link to edit email settings -->
-@include('emails.newsletters.editSettings', ['login' => $newsletter->user->login])
+@include('emails.newsletters.editSettings', ['login' => '*|LOGIN|*'])

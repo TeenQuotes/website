@@ -1,14 +1,9 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
+use App, Auth, Config, DB, Input, Str;
 use Buonzz\GeoIP\Laravel4\Facades\GeoIP;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Str;
 use Laracasts\Validation\FormValidationException;
 use stojg\crop\CropEntropy;
 use TeenQuotes\Countries\Models\Country;
@@ -201,7 +196,7 @@ class UsersController extends APIGlobalController {
 			if ($data[$newsletterType.'_newsletter']) {
 				// He was NOT already subscribed, store this in storage
 				if ( ! $user->isSubscribedToNewsletter($newsletterType))
-					$this->newsletterRepo->createForUserAndType($user, $newsletterType);
+					$this->newslettersManager->createForUserAndType($user, $newsletterType);
 
 				// He was already subscribed, do nothing
 			}
@@ -209,7 +204,7 @@ class UsersController extends APIGlobalController {
 			else {
 				// He was subscribed, delete this from storage
 				if ($user->isSubscribedToNewsletter($newsletterType))
-					$this->newsletterRepo->deleteForUserAndType($user, $newsletterType);
+					$this->newslettersManager->deleteForUserAndType($user, $newsletterType);
 
 				// He was not subscribed, do nothing
 			}

@@ -1,15 +1,11 @@
 <?php namespace TeenQuotes\Newsletters\Console;
 
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
+use Config, Lang;
 use Indatus\Dispatcher\Drivers\Cron\Scheduler;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use TeenQuotes\Mail\MailSwitcher;
-use TeenQuotes\Newsletters\Repositories\NewsletterRepository;
+use TeenQuotes\Newsletters\NewsletterList;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
 
 class SendNewsletterCommand extends ScheduledCommand {
@@ -40,21 +36,21 @@ class SendNewsletterCommand extends ScheduledCommand {
 	private $quoteRepo;
 
 	/**
-	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
+	 * @var TeenQuotes\Newsletters\NewsletterList
 	 */
-	private $newsletterRepo;
+	private $newsletterList;
 
 	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
-	public function __construct(QuoteRepository $quoteRepo, NewsletterRepository $newsletterRepo)
+	public function __construct(QuoteRepository $quoteRepo, NewsletterList $newsletterList)
 	{
 		parent::__construct();
 
 		$this->quoteRepo = $quoteRepo;
-		$this->newsletterRepo = $newsletterRepo;
+		$this->newsletterList = $newsletterList;
 	}
 
 	/**
@@ -101,27 +97,15 @@ class SendNewsletterCommand extends ScheduledCommand {
 
 			$quotes = ($type == 'weekly') ? $this->retrieveWeeklyQuotes() : $this->retrieveDailyQuotes();
 
-			// Send the newsletter only if we have
-			// at least 1 quote
+			// Send the newsletter only if we have at least 1 quote
 			if ( ! $quotes->isEmpty()) {
-
-				// Get users that are subscribed to the newsletter
-				$rowNewsletters = $this->newsletterRepo->getForType($type);
-				
-				// Send emails with sendmail
-				new MailSwitcher('sendmail');
-				$rowNewsletters->each(function($newsletter) use($type, $quotes)
-				{
-					// Log this info
-					$this->info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
-					Log::info("Send ".$type." newsletter to ".$newsletter->user->login." - ".$newsletter->user->email);
-
-					// Send the email to the users
-					Mail::send('emails.newsletters.'.$type, compact('newsletter', 'quotes'), function($m) use($newsletter, $type)
-					{
-						$m->to($newsletter->user->email, $newsletter->user->login)->subject(Lang::get('newsletters.'.$type.'SubjectEmail'));
-					});
-				});
+				$this->newsletterList->sendCampaign(
+					$type.'Newsletter',
+					Lang::get('newsletters.'.$type.'SubjectEmail'),
+					'Teen Quotes\' member',
+					'emails.newsletters.'.$type,
+					compact('quotes')
+				);
 			}
 		}
 	}
@@ -175,10 +159,10 @@ class SendNewsletterCommand extends ScheduledCommand {
 	 */
 	protected function getArguments()
 	{
-		return array(
-			array('type', InputArgument::REQUIRED, 'The type of newsletter we will send. '.$this->presentPossibleTypes()),
-			array('nb_quotes', InputArgument::OPTIONAL, 'The number of quotes to send.'),
-		);
+		return [
+			['type', InputArgument::REQUIRED, 'The type of newsletter we will send. '.$this->presentPossibleTypes()],
+			['nb_quotes', InputArgument::OPTIONAL, 'The number of quotes to send.'],
+		];
 	}
 
 	/**
@@ -188,6 +172,6 @@ class SendNewsletterCommand extends ScheduledCommand {
 	 */
 	protected function getOptions()
 	{
-		return array();
+		return [];
 	}
 }
