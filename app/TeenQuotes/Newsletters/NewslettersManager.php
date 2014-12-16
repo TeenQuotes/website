@@ -29,14 +29,14 @@ class NewslettersManager {
 		$this->newslettersRepo->createForUserAndType($user, $type);
 
 		if ($this->shouldCallAPI()) {
-			$this->newsletterList->subscribeTo($this->getListNameFromType($type), $user);
+			$this->newslettersList->subscribeTo($this->getListNameFromType($type), $user);
 		}
 	}
 
 	public function deleteForUserAndType(User $u, $type)
 	{
 		if ($this->shouldCallAPI()) {
-			$this->newsletterList->unsubscribeFrom($this->getListNameFromType($type), $u);
+			$this->newslettersList->unsubscribeFrom($this->getListNameFromType($type), $u);
 		}
 
 		return $this->newslettersRepo->deleteForUserAndType($u, $type);
@@ -46,7 +46,7 @@ class NewslettersManager {
 	{
 		if ($this->shouldCallAPI()) {
 			foreach (Newsletter::getPossibleTypes() as $type)
-				$this->newsletterList->unsubscribeUsersFrom($this->getListNameFromType($type), $users);
+				$this->newslettersList->unsubscribeUsersFrom($this->getListNameFromType($type), $users);
 		}
 		
 		return $this->newslettersRepo->deleteForUsers($users);
