@@ -19,7 +19,7 @@ use TeenQuotes\Users\Models\Relations\UserTrait as UserRelationsTrait;
 use TeenQuotes\Users\Models\Scopes\UserTrait as UserScopesTrait;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
-	
+
 	use PresentableTrait, RemindableTrait, UserTrait, UserRelationsTrait, UserScopesTrait;
 
 	protected $presenter = 'TeenQuotes\Users\Presenters\UserPresenter';
@@ -80,10 +80,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	private $quoteRepo;
 
-	function __construct($attributes = [])
+	public function __construct($attributes = [])
 	{
 		parent::__construct($attributes);
-		
+
 		$this->favQuoteRepo   = App::make('TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository');
 		$this->settingRepo    = App::make('TeenQuotes\Settings\Repositories\SettingRepository');
 		$this->newsletterRepo = App::make('TeenQuotes\Newsletters\Repositories\NewsletterRepository');
@@ -173,7 +173,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 		if (empty($idsQuotesPublished))
 			return 0;
-		
+
 		return $this->favQuoteRepo->nbFavoritesForQuotes($idsQuotesPublished);
 	}
 
@@ -235,7 +235,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	/**
 	 * Returns the array of the ID of the quotes in the favorites of the user
-	 * @return array 
+	 * @return array
 	 */
 	public function arrayIDFavoritesQuotes()
 	{

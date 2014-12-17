@@ -10,7 +10,7 @@ class ProfileEditComposer extends AbstractDeepLinksComposer {
 	public function compose($view)
 	{
 		$data = $view->getData();
-		$user = $data['user']; 
+		$user = $data['user'];
 		$login = $user->login;
 
 		// For deep links

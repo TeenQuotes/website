@@ -1,8 +1,6 @@
 <?php namespace TeenQuotes\Users\Console;
 
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
+use Lang, Log, Mail;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use TeenQuotes\Mail\MailSwitcher;
@@ -95,7 +93,7 @@ class SendBirthdayCommand extends ScheduledCommand {
 	 */
 	protected function getArguments()
 	{
-		return array();
+		return [];
 	}
 
 	/**
@@ -105,6 +103,6 @@ class SendBirthdayCommand extends ScheduledCommand {
 	 */
 	protected function getOptions()
 	{
-		return array();
+		return [];
 	}
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\ServiceProvider;
 use TeenQuotes\Tools\Namespaces\NamespaceTrait;
 
 class NewslettersServiceProvider extends ServiceProvider {
-	
+
 	use NamespaceTrait;
 
 	/**
@@ -26,7 +26,7 @@ class NewslettersServiceProvider extends ServiceProvider {
 	}
 
 	private function registerBindings()
-	{		
+	{
 		$this->app->bind(
 			$this->getNamespaceRepositories().'NewsletterRepository',
 			$this->getNamespaceRepositories().'DbNewsletterRepository'
@@ -36,7 +36,7 @@ class NewslettersServiceProvider extends ServiceProvider {
 	private function registerCommands()
 	{
 		$commands = [
-			'newsletters.console.sendNewsletter'           => $this->getNamespaceConsole().'SendNewsletterCommand',
+			'newsletters.console.sendNewsletter'   => $this->getNamespaceConsole().'SendNewsletterCommand',
 			'newsletters.console.unsubscribeUsers' => $this->getNamespaceConsole().'UnsubscribeUsersCommand',
 		];
 

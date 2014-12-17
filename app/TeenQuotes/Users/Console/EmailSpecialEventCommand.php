@@ -1,8 +1,6 @@
 <?php namespace TeenQuotes\Users\Console;
 
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
+use Lang, Log, Mail;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -86,11 +84,12 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 	 */
 	public function fire()
 	{
-		if ($this->eventTypeIsValid()) {		
+		if ($this->eventTypeIsValid())
+		{
 			$event = $this->getEvent();
 
 			$users = $this->userRepo->getAll();
-			
+
 			$users->each(function($user) use($event)
 			{
 				// Log this info
@@ -110,7 +109,8 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 	{
 		$event = $this->getEvent();
 
-		if (is_null($event) OR !in_array($event, $this->possibleEvents)) {
+		if (is_null($event) or ! in_array($event, $this->possibleEvents))
+		{
 			$this->error('Wrong type of event! Got '.$event.'. Possible values are: '.$this->presentPossibleEvents().'.');
 			return false;
 		}
@@ -135,9 +135,9 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 	 */
 	protected function getArguments()
 	{
-		return array(
-			array('event', InputArgument::REQUIRED, 'The name of the event. '.$this->presentPossibleEvents()),
-		);
+		return [
+			['event', InputArgument::REQUIRED, 'The name of the event. '.$this->presentPossibleEvents()],
+		];
 	}
 
 	/**
@@ -147,6 +147,6 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 	 */
 	protected function getOptions()
 	{
-		return array();
+		return [];
 	}
 }

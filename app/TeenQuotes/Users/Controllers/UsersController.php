@@ -57,13 +57,13 @@ class UsersController extends BaseController {
 	 */
 	private $userValidator;
 
-	public function __construct(CommentRepository $commentRepo, CountryRepository $countryRepo, 
-		QuoteRepository $quoteRepo, SettingRepository $settingRepo, UserRepository $userRepo, 
+	public function __construct(CommentRepository $commentRepo, CountryRepository $countryRepo,
+		QuoteRepository $quoteRepo, SettingRepository $settingRepo, UserRepository $userRepo,
 		UserValidator $userValidator)
 	{
 		$this->beforeFilter('guest', ['only' => 'store']);
 		$this->beforeFilter('auth', ['only' => ['edit', 'update', 'putPassword', 'putSettings']]);
-		
+
 		$this->api           = App::make('TeenQuotes\Api\V1\Controllers\UsersController');
 		$this->commentRepo   = $commentRepo;
 		$this->countryRepo   = $countryRepo;
@@ -123,14 +123,14 @@ class UsersController extends BaseController {
 
 		// Call the API - skip the API validator
 		$response = $this->api->store(false);
-		if ($response->getStatusCode() == 201) {
-			
+		if ($response->getStatusCode() == 201)
+		{
 			// Log the user in
 			Auth::login($response->getOriginalData());
 
 			if (Session::has('url.intended'))
 				return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', ['login' => $data['login']]));
-			
+
 			return Redirect::route('users.show', $data['login'])->with('success', Lang::get('auth.signupSuccessfull', ['login' => $data['login']]));
 		}
 	}
@@ -147,7 +147,7 @@ class UsersController extends BaseController {
 		$publishPossible   = $user->hasPublishedQuotes();
 		$favoritesPossible = $user->hasFavoriteQuotes();
 		$commentsPossible  = $user->hasPostedComments();
-		
+
 		// Check if we have content to display
 		// If we have nothing to show, try to redirect somewhere else
 		switch ($type) {
@@ -198,7 +198,7 @@ class UsersController extends BaseController {
 	{
 		// Get the user
 		$user = $this->userRepo->getByLogin($user_id);
-		
+
 		if (is_null($user)) throw new UserNotFoundException;
 
 		// Try to redirect to a better place if content is available
@@ -399,7 +399,7 @@ class UsersController extends BaseController {
 		$user = $this->userRepo->getByLogin($id);
 		if (! $this->userIsAllowedToEdit($user))
 			App::abort(401, 'Refused');
-		
+
 		$this->userRepo->updatePassword($user, $data['password']);
 
 		return Redirect::back()->with('success', Lang::get('users.updatePasswordSuccessfull', ['login' => $user->login]));
@@ -416,13 +416,13 @@ class UsersController extends BaseController {
 		$user = $this->userRepo->getByLogin($id);
 		if ( ! $this->userIsAllowedToEdit($user))
 			App::abort(401, 'Refused');
-		
+
 		$response = $this->api->putSettings($user);
 
 		// Handle error
 		if ($response->getStatusCode() == 400) {
 			$json = json_decode($response->getContent());
-			
+
 			// If the color was wrong
 			if ($json->status == 'wrong_color')
 				return Redirect::back()->with('warning', Lang::get('users.colorNotAllowed'));
@@ -447,7 +447,7 @@ class UsersController extends BaseController {
 
 		// We will use a custom message for the delete confirmation input
 		$messages = [
-    		'delete-confirmation.in' => Lang::get('users.writeDeleteHere'),
+			'delete-confirmation.in' => Lang::get('users.writeDeleteHere'),
 		];
 
 		try {
@@ -459,7 +459,7 @@ class UsersController extends BaseController {
 				->withErrors($e->getErrors())
 				->withInput(Input::except('password'));
 		}
-		
+
 		unset($data['delete-confirmation']);
 		if ( ! Auth::validate($data))
 			return $this->redirectToDeleteAccount(Auth::user()->login)

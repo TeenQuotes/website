@@ -29,13 +29,13 @@ class DbUserRepository implements UserRepository {
 
 	/**
 	 * Retrieve a user by its login
-	 * @param  string $login 
+	 * @param  string $login
 	 * @return TeenQuotes\Users\Models\User
 	 */
 	public function getByLogin($login)
 	{
 		return User::whereLogin($login)
-			->first();	
+			->first();
 	}
 
 	/**
@@ -75,7 +75,7 @@ class DbUserRepository implements UserRepository {
 	public function updateProfile($u, $gender, $country, $city, $about_me, $birthdate, $avatar)
 	{
 		$user = $this->retrieveUser($u);
-		
+
 		if ( ! empty($gender))
 			$user->gender    = $gender;
 		if ( ! empty($country))
@@ -84,7 +84,7 @@ class DbUserRepository implements UserRepository {
 			$user->city      = $city;
 		if ( ! empty($about_me))
 			$user->about_me  = $about_me;
-		$user->birthdate = empty($birthdate) ? NULL : $birthdate;
+		$user->birthdate = empty($birthdate) ? null : $birthdate;
 
 		if ( ! is_null($avatar)) {
 			$filename = $user->id.'.'.$avatar->getClientOriginalExtension();
@@ -247,7 +247,7 @@ class DbUserRepository implements UserRepository {
 	{
 		return $pagesize * ($page - 1);
 	}
-	
+
 	/**
 	 * Retrieve a user by its ID or just the user instance
 	 * @param  TeenQuotes\Users\Models\User|int $u
