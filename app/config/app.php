@@ -27,9 +27,9 @@ return array(
 	*/
 
 	'url'           => 'http://teen-quotes.com',
-	
+
 	'domain'        => 'teen-quotes.com',
-	
+
 	'domainAPI'     => 'api.teen-quotes.com',
 	'domainStories' => 'stories.teen-quotes.com',
 	'domainAdmin'   => 'admin.teen-quotes.com',
@@ -146,6 +146,7 @@ return array(
 		'TeenQuotes\Mail\MandrillServiceProvider',
 		'TeenQuotes\Newsletters\NewsletterListServiceProvider',
 		'TeenQuotes\Newsletters\NewslettersServiceProvider',
+		'TeenQuotes\Notifiers\AdminNotifierServiceProvider',
 		'TeenQuotes\Pages\PagesServiceProvider',
 		'TeenQuotes\Quotes\QuotesServiceProvider',
 		'TeenQuotes\Settings\SettingsServiceProvider',
@@ -244,24 +245,24 @@ return array(
 	*/
 
 	'comments.nbCommentsPerPage'     => 10,
-	
+
 	'quotes.nbQuotesToPublishPerDay' => 5,
-	
+
 	'quotes.nbQuotesPerPage'         => 10,
-	
+
 	'quotes.maxSubmitPerDay'         => 5,
-	
+
 	// International Association for Suicide Prevention
 	'quotes.moderationURLHelp'         => 'http://www.iasp.info/resources/Crisis_Centres/',
-	
+
 	'newsletters.nbQuotesToSendWeekly' => 10,
-	
+
 	'newsletters.nbQuotesToSendDaily'  => 2,
-	
+
 	'users.avatarPath'                 => 'uploads/avatar',
 	'users.avatarWidth'                => 200,
 	'users.avatarHeight'               => 200,
-	
+
 	'users.colorsAvailableQuotesPublished'      => [
 		'blue',
 		'green',
@@ -269,12 +270,12 @@ return array(
 		'red',
 		'orange',
 	],
-	
+
 	'users.defaultColorQuotesPublished' => 'blue',
-	
+
 	'users.nbQuotesPerPage'             => 5,
-	
+
 	'search.maxResultsPerCategory'      => 10,
-	
+
 	'stories.nbStoriesPerPage'          => 5,
 );
