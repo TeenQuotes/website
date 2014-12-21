@@ -1,14 +1,9 @@
 <?php namespace TeenQuotes\Quotes\Console;
 
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
+use Cache, Config, Lang, Log, Mail;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use TeenQuotes\Mail\MailSwitcher;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
@@ -86,7 +81,7 @@ class QuotesPublishCommand extends ScheduledCommand {
 	{
 		if (is_null($this->argument('nb_quotes')))
 			return Config::get('app.quotes.nbQuotesToPublishPerDay');
-		else 
+		else
 			return $this->argument('nb_quotes');
 	}
 
@@ -149,7 +144,7 @@ class QuotesPublishCommand extends ScheduledCommand {
 		if (Cache::has(Quote::$cacheNameNumberPublished))
 			Cache::increment(Quote::$cacheNameNumberPublished, $this->nbQuotesPublished);
 	}
-	
+
 	/**
 	 * We need to forget pages of quotes that are stored in cache
 	 * where the published quotes should be displayed
@@ -157,12 +152,12 @@ class QuotesPublishCommand extends ScheduledCommand {
 	private function forgetPagesStoredInCache()
 	{
 		$nbPages = ceil($this->nbQuotesPublished / Config::get('app.quotes.nbQuotesPerPage'));
-		
+
 		for ($i = 1; $i <= $nbPages; $i++) {
 			Cache::forget(Quote::$cacheNameQuotesAPIPage.$i);
 		}
 	}
-	
+
 	/**
 	 * We forgot EVERY published quotes stored in cache for every user
 	 * that has published a quote this time
@@ -183,9 +178,9 @@ class QuotesPublishCommand extends ScheduledCommand {
 	 */
 	protected function getArguments()
 	{
-		return array(
-			array('nb_quotes', InputArgument::OPTIONAL, 'The number of quotes to publish.'),
-		);
+		return [
+			['nb_quotes', InputArgument::OPTIONAL, 'The number of quotes to publish.'],
+		];
 	}
 
 	/**
@@ -195,6 +190,6 @@ class QuotesPublishCommand extends ScheduledCommand {
 	 */
 	protected function getOptions()
 	{
-		return array();
+		return [];
 	}
 }
