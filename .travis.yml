@@ -19,6 +19,7 @@ before_script:
 script:
   - vendor/bin/codecept build
   - vendor/bin/codecept run functional
+  - vendor/bin/codecept run integration
   - vendor/bin/codecept run unit
 
 matrix:
