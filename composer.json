@@ -13,7 +13,7 @@
         }
     ],
 	"require": {
-		"laravel/framework": "4.2.12",
+		"laravel/framework": "4.2.*",
 		"graham-campbell/htmlmin": "~2.0",
 		"nesbot/Carbon": "*",
 		"tijsverkoyen/css-to-inline-styles": "1.2.*",
