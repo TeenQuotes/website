@@ -55,6 +55,7 @@ return array(
 			'token'   => getenv('IRON_TOKEN'),
 			'project' => getenv('IRON_PROJECT'),
 			'queue'   => 'teenquotes-production',
+			'encrypt' => true,
 		),
 
 		'redis' => array(
