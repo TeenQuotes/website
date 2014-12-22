@@ -1,9 +1,7 @@
 <?php namespace TeenQuotes\Quotes\Repositories;
 
 use Carbon;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
+use Cache, Config, DB;
 use InvalidArgumentException;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Users\Models\User;
@@ -32,7 +30,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Grab pending quotes
-	 * @param  int $nb The number of quotes to grab
+	 * @param int $nb The number of quotes to grab
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
 	public function lastPendingQuotes($nb)
@@ -46,7 +44,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Retrieve a quote by its ID
-	 * @param  int $id
+	 * @param int $id
 	 * @return TeenQuotes\Quotes\Models\Quote
 	 */
 	public function getById($id)
@@ -56,7 +54,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Retrieve a quote by its ID
-	 * @param  int $id
+	 * @param int $id
 	 * @return TeenQuotes\Quotes\Models\Quote
 	 */
 	public function getByIdWithUser($id)
@@ -68,7 +66,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Retrieve a waiting quote by its ID
-	 * @param  int $id
+	 * @param int $id
 	 * @return TeenQuotes\Quotes\Models\Quote
 	 */
 	public function waitingById($id)
@@ -81,7 +79,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Get full information about a quote given its ID
-	 * @param  int $id
+	 * @param int $id
 	 * @return TeenQuotes\Quotes\Models\Quote
 	 */
 	public function showQuote($id)
@@ -96,8 +94,8 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Count the number of quotes by approved type for a user
-	 * @param  string $approved
-	 * @param  TeenQuotes\Users\Models\User $u
+	 * @param string $approved
+	 * @param TeenQuotes\Users\Models\User $u
 	 * @return int
 	 */
 	public function countQuotesByApprovedForUser($approved, User $u)
@@ -111,9 +109,9 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Update the content and the approved type for a quote
-	 * @param  int $id       
-	 * @param  string $content 
-	 * @param  int $approved
+	 * @param int $id
+	 * @param string $content
+	 * @param int $approved
 	 * @return TeenQuotes\Quotes\Models\Quote
 	 */
 	public function updateContentAndApproved($id, $content, $approved)
@@ -130,14 +128,14 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Update the approved type for a quote
-	 * @param  int $id       
-	 * @param  int $approved
+	 * @param int $id
+	 * @param int $approved
 	 * @return TeenQuotes\Quotes\Models\Quote
 	 */
 	public function updateApproved($id, $approved)
 	{
 		$this->guardApproved($approved);
-		
+
 		$q = $this->getById($id);
 		$q->approved = $approved;
 		$q->save();
@@ -152,7 +150,7 @@ class DbQuoteRepository implements QuoteRepository {
 	public function totalPublished()
 	{
 		$expiresAt = Carbon::now()->addMinutes(10);
-		
+
 		$totalQuotes = Cache::remember(Quote::$cacheNameNumberPublished, $expiresAt, function()
 		{
 			return Quote::published()->count();
@@ -163,7 +161,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Get the number of results for a query against published quotes
-	 * @param  string $query
+	 * @param string $query
 	 * @return int
 	 */
 	public function searchCountPublishedWithQuery($query)
@@ -180,7 +178,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Get the number of quotes submitted today for a user
-	 * @param  TeenQuotes\Users\Models\User $u
+	 * @param TeenQuotes\Users\Models\User $u
 	 * @return int
 	 */
 	public function submittedTodayForUser(User $u)
@@ -192,8 +190,8 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Create a quote for a user
-	 * @param  TeenQuotes\Users\Models\User $u
-	 * @param  string $content 
+	 * @param TeenQuotes\Users\Models\User $u
+	 * @param string $content
 	 * @return TeenQuotes\Quotes\Models\Quote
 	 */
 	public function createQuoteForUser(User $u, $content)
@@ -207,8 +205,8 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * List published quotes for a given page and pagesize
-	 * @param  int $page     
-	 * @param  int $pagesize
+	 * @param int $page
+	 * @param int $pagesize
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
 	public function index($page, $pagesize)
@@ -242,7 +240,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Retrieve some random published quotes
-	 * @param  int $nb
+	 * @param int $nb
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
 	public function randomPublished($nb)
@@ -256,7 +254,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Retrieve some random published quotes, published today
-	 * @param  int $nb
+	 * @param int $nb
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
 	public function randomPublishedToday($nb)
@@ -271,15 +269,15 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * List published random quotes for a given page and pagesize
-	 * @param  int $page     
-	 * @param  int $pagesize
+	 * @param int $page
+	 * @param int $pagesize
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
 	public function indexRandom($page, $pagesize)
 	{
 		// Number of quotes to skip
 		$skip = $this->computeSkip($page, $pagesize);
-		
+
 		// Use caching only with the default pagesize
 		if ($pagesize == $this->getDefaultNbQuotesPerPage()) {
 
@@ -306,7 +304,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * List IDs of published quotes for a user
-	 * @param  TeenQuotes\Users\Models\User $u
+	 * @param TeenQuotes\Users\Models\User $u
 	 * @return array
 	 */
 	public function listPublishedIdsForUser(User $u)
@@ -318,7 +316,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Get the number of published quotes for a user
-	 * @param  TeenQuotes\Users\Models\User $u 
+	 * @param TeenQuotes\Users\Models\User $u
 	 * @return int
 	 */
 	public function nbPublishedForUser(User $u)
@@ -333,9 +331,9 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Retrieve quotes for given IDs, page and pagesize
-	 * @param  array $ids
-	 * @param  int $page
-	 * @param  int $pagesize
+	 * @param array $ids
+	 * @param int $page
+	 * @param int $pagesize
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
 	public function getForIds($ids, $page, $pagesize)
@@ -347,15 +345,15 @@ class DbQuoteRepository implements QuoteRepository {
 
 		if (Config::get('database.default') == 'mysql')
 			$query = $query->orderBy(DB::raw("FIELD(id, ".implode(',', $ids).")"));
-		
+
 		return $query->get();
 	}
 
 	/**
 	 * Search published quote with a query
-	 * @param  string $query
-	 * @param  int $page
-	 * @param  int $pagesize
+	 * @param string $query
+	 * @param int $page
+	 * @param int $pagesize
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
 	public function searchPublishedWithQuery($query, $page, $pagesize)
@@ -377,10 +375,10 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Get quotes by approved type for a user
-	 * @param  TeenQuotes\Users\Models\User $u       
-	 * @param  string $approved
-	 * @param  int $page     
-	 * @param  int $pagesize
+	 * @param TeenQuotes\Users\Models\User $u
+	 * @param string $approved
+	 * @param int $page
+	 * @param int $pagesize
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
 	public function getQuotesByApprovedForUser(User $u, $approved, $page, $pagesize)
@@ -426,6 +424,6 @@ class DbQuoteRepository implements QuoteRepository {
 
 	private function computeSkip($page, $pagesize)
 	{
-		return $pagesize * ($page - 1);	
+		return $pagesize * ($page - 1);
 	}
 }
