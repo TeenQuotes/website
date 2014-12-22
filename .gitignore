@@ -15,4 +15,5 @@ tests/_output/*
 tests/functional/FunctionalTester.php
 tests/search/SearchTester.php
 tests/unit/UnitTester.php
+tests/integration/IntegrationTester.php
 Thumbs.db

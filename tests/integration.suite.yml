@@ -1,0 +1,13 @@
+class_name: IntegrationTester
+modules:
+    enabled:
+        - Asserts
+        - Db
+        - DbSeederHelper
+        - IntegrationHelper
+        - Laravel4
+    config:
+        Laravel4:
+            environment: codeception
+            cleanup: true
+            filters: true
