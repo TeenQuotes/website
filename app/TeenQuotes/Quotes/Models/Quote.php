@@ -1,13 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Models;
 
-use Carbon;
-use Easyrec;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
+use App, Auth, Cache, Carbon, DB, Easyrec, Queue, Session, URL;
 use InvalidArgumentException;
 use Laracasts\Presenter\PresentableTrait;
 use ResourceServer;
@@ -19,7 +12,7 @@ use TeenQuotes\Users\Models\User;
 use Toloquent;
 
 class Quote extends Toloquent {
-	
+
 	use PresentableTrait, QuoteRelationsTrait, QuoteScopesTrait;
 
 	protected $presenter = 'TeenQuotes\Quotes\Presenters\QuotePresenter';
@@ -88,7 +81,7 @@ class Quote extends Toloquent {
 	function __construct($attributes = [])
 	{
 		parent::__construct($attributes);
-		
+
 		$this->favQuoteRepo = App::make('TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository');
 	}
 
@@ -103,7 +96,7 @@ class Quote extends Toloquent {
 		$colors = array();
 
 		// We will build an array if we have at least one quote
-		if (count($quotesIDs) >= 1) {		
+		if (count($quotesIDs) >= 1) {
 			$func = function($value) use ($color) {
 				if (is_null($color))
 					return 'color-'.$value;
@@ -171,7 +164,7 @@ class Quote extends Toloquent {
 	public function isFavoriteForCurrentUser()
 	{
 		$idUserApi = ResourceServer::getOwnerId();
-		
+
 		// Try to get information from cache
 		if (Auth::check() OR ! empty($idUserApi)) {
 			// Time for cache
@@ -218,7 +211,7 @@ class Quote extends Toloquent {
 	 */
 	public function registerViewAction()
 	{
-		if ( ! in_array(App::environment(), ['testing', 'codeception'])) {		
+		if ( ! in_array(App::environment(), ['testing', 'codeception'])) {
 			// Try to retrieve the ID of the user
 			if (Auth::guest()) {
 				$idUserApi = ResourceServer::getOwnerId();
@@ -226,9 +219,14 @@ class Quote extends Toloquent {
 			}
 			else
 				$userRecommendation = Auth::id();
-			
+
 			// Register in the recommendation system
-			Easyrec::view($this->id, "Quote ".$this->id, URL::route("quotes.show", $this->id, false), $userRecommendation, null, null, "QUOTE");
+			$data = [
+				'quote_id' => $this->id,
+				'user_id'  => $userRecommendation,
+			];
+
+			Queue::push('TeenQuotes\Queues\Workers\EasyrecWorker@viewQuote', $data);
 		}
 	}
 

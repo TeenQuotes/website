@@ -148,6 +148,7 @@ return array(
 		'TeenQuotes\Newsletters\NewslettersServiceProvider',
 		'TeenQuotes\Notifiers\AdminNotifierServiceProvider',
 		'TeenQuotes\Pages\PagesServiceProvider',
+		'TeenQuotes\Queues\QueuesServiceProvider',
 		'TeenQuotes\Quotes\QuotesServiceProvider',
 		'TeenQuotes\Settings\SettingsServiceProvider',
 		'TeenQuotes\Stories\StoriesServiceProvider',
