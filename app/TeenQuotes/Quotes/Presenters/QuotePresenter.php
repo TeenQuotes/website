@@ -1,8 +1,7 @@
 <?php namespace TeenQuotes\Quotes\Presenters;
 
+use Lang, URL;
 use Laracasts\Presenter\Presenter;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\URL;
 
 class QuotePresenter extends Presenter {
 
@@ -37,7 +36,7 @@ class QuotePresenter extends Presenter {
 	public function textTwitterCard()
 	{
 		$content = $this->content;
-		$maxLength = 180;
+		$maxLength = 197;
 
 		if (strlen($content) > $maxLength)  {
 			$content = substr($content, 0, $maxLength);
@@ -62,7 +61,7 @@ class QuotePresenter extends Presenter {
 		// We have got too much people who favorited this quote
 		if ($nbFavorites > 3)
 			$data['nbRemaining'] = $nbFavorites - 3;
-		
+
 		// Collect a maximum of 3 users
 		$i = 0;
 		$favorites = $this->favorites;
@@ -82,10 +81,10 @@ class QuotePresenter extends Presenter {
 	 * @return string
 	 */
 	public function linkForUser($user)
-	{		
+	{
 		if ($user->isHiddenProfile())
 			return $user->login;
-		
+
 		return "<a href='".URL::route('users.show', $user->login)."'>".$user->login."</a>";
 	}
 }
