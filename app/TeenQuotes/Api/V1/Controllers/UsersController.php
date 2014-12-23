@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use App, Auth, Config, DB, Input, Str;
+use App, Auth, Config, DB, Input, Queue, Str;
 use Buonzz\GeoIP\Laravel4\Facades\GeoIP;
 use Carbon\Carbon;
 use Exception;
@@ -57,12 +57,12 @@ class UsersController extends APIGlobalController {
 		if (Gravatar::exists($data['email']))
 			$avatar = Gravatar::src($data['email'], 150);
 
-		$user = $this->userRepo->create($data['login'], $data['email'], $data['password'], 
-			$_SERVER['REMOTE_ADDR'], Carbon::now()->toDateTimeString(), 
+		$user = $this->userRepo->create($data['login'], $data['email'], $data['password'],
+			$_SERVER['REMOTE_ADDR'], Carbon::now()->toDateTimeString(),
 			self::detectCountry(), self::detectCity(), $avatar
 		);
 
-		// Send a welcome e-mail and subscribe the user to the 
+		// Send a welcome e-mail and subscribe the user to the
 		// weekly newsletter thanks to its observer
 
 		return Response::json($user, 201, [], JSON_NUMERIC_CHECK);
@@ -85,6 +85,8 @@ class UsersController extends APIGlobalController {
 			$data[$key] = $user->$method();
 		}
 
+		$user->registerViewUserProfile();
+
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
@@ -104,7 +106,7 @@ class UsersController extends APIGlobalController {
 		$totalUsers = $this->userRepo->countByPartialLogin($query);
 
 		$data = self::paginateContent($page, $pagesize, $totalUsers, $content, 'users');
-		
+
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
@@ -125,8 +127,8 @@ class UsersController extends APIGlobalController {
 		// Everything went fine, update the user
 		$user = $this->retrieveUser();
 
-		$this->userRepo->updateProfile($user, $data['gender'], $data['country'], 
-			$data['city'], $data['about_me'], $data['birthdate'], 
+		$this->userRepo->updateProfile($user, $data['gender'], $data['country'],
+			$data['city'], $data['about_me'], $data['birthdate'],
 		$data['avatar']);
 
 		// Move the avatar if required
@@ -144,10 +146,10 @@ class UsersController extends APIGlobalController {
 	{
 		$filename = $user->id.'.'.$avatar->getClientOriginalExtension();
 		$filepath = Config::get('app.users.avatarPath').'/'.$filename;
-		
+
 		// Save to the final location
 		Input::file('avatar')->move(Config::get('app.users.avatarPath'), $filename);
-		
+
 		// Crop the image and save it
 		$center = new CropEntropy($filepath);
 		$croppedImage = $center->resizeAndCrop(Config::get('app.users.avatarWidth'), Config::get('app.users.avatarHeight'));
@@ -177,7 +179,7 @@ class UsersController extends APIGlobalController {
 			$user = $this->retrieveUser();
 		else
 			$user = $userInstance;
-		
+
 		// We just want booleans
 		$data = [
 			'notification_comment_quote' => Input::has('notification_comment_quote') ? filter_var(Input::get('notification_comment_quote'), FILTER_VALIDATE_BOOLEAN) : false,

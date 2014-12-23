@@ -20,4 +20,21 @@ class EasyrecWorker {
 			"QUOTE"
 		);
 	}
+
+	/**
+	 * Register the view of a user profile
+	 * @param \Illuminate\Queue\Jobs\SyncJob $job
+	 * @param array $data Required keys: viewer_user_id, user_login and user_id.
+	 */
+	public function viewUserProfile($job, $data)
+	{
+		Easyrec::view($data['user_id'],
+			"User ".$data['user_id'],
+			URL::route("users.show", $data['user_login'], false),
+			$data['viewer_user_id'],
+			null, // No image URL
+			null, // Current timestamp
+			"USERPROFILE"
+		);
+	}
 }

@@ -1,15 +1,10 @@
 <?php namespace TeenQuotes\Users\Models;
 
-use Carbon;
-use Eloquent;
+use App, Auth, Cache, Carbon, Config, Eloquent, Hash, Queue, ResourceServer;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\UserTrait;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Hash;
 use Laracasts\Presenter\PresentableTrait;
 use TeenQuotes\Newsletters\Models\Newsletter;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
@@ -226,6 +221,28 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		Cache::put(self::$cacheNameForColorsQuotesPublished.$this->id, $toPut, Carbon::now()->addMinutes(10));
 
 		return $toPut;
+	}
+
+	public function registerViewUserProfile()
+	{
+		if ( ! in_array(App::environment(), ['testing', 'codeception'])) {
+			// Try to retrieve the ID of the user
+			if (Auth::guest()) {
+				$idUserApi = ResourceServer::getOwnerId();
+				$viewingUserId = ! empty($idUserApi) ? $idUserApi : null;
+			}
+			else
+				$viewingUserId = Auth::id();
+
+			// Register in the recommendation system
+			$data = [
+				'viewer_user_id' => $viewingUserId,
+				'user_id'        => $this->id,
+				'user_login'     => $this->login,
+			];
+
+			Queue::push('TeenQuotes\Queues\Workers\EasyrecWorker@viewUserProfile', $data);
+		}
 	}
 
 	public function getURLAvatarAttribute()

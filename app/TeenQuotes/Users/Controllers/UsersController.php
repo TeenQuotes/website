@@ -201,6 +201,9 @@ class UsersController extends BaseController {
 
 		if (is_null($user)) throw new UserNotFoundException;
 
+		// Register the view in the recommendation system
+		$user->registerViewUserProfile();
+
 		// Try to redirect to a better place if content is available
 		$redirect = $this->redirectUserIfContentNotAvailable($user, $type);
 		if ( ! is_null($redirect))
