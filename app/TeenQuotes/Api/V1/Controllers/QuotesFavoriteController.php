@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use App, Config;
+use App, Config, Queue;
 use Laracasts\Validation\FormValidationException;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
@@ -18,13 +18,13 @@ class QuotesFavoriteController extends APIGlobalController {
 	{
 		$this->favQuoteValidator = App::make('TeenQuotes\Quotes\Validation\FavoriteQuoteValidator');
 	}
-	
+
 	public function postFavorite($quote_id, $doValidation = true)
 	{
 		$user = $this->retrieveUser();
-		
-		if ($doValidation) {		
-			
+
+		if ($doValidation) {
+
 			try {
 				$this->favQuoteValidator->validatePostForQuote(compact('quote_id'));
 			}
@@ -38,7 +38,7 @@ class QuotesFavoriteController extends APIGlobalController {
 
 			// Check if the quote is published
 			$quote = $this->quoteRepo->getById($quote_id);
-			
+
 			if ( ! $quote->isPublished())
 				return Response::json([
 					'status' => 'quote_not_published',
@@ -58,6 +58,14 @@ class QuotesFavoriteController extends APIGlobalController {
 		// Store the favorite
 		$favorite = $this->favQuoteRepo->create($user, $quote_id);
 
+		// Register in the recommendation system
+		$data = [
+			'quote_id' => $quote_id,
+			'user_id'  => $user->id
+		];
+		Queue::push('TeenQuotes\Queues\Workers\EasyrecWorker@favoriteAQuote', $data);
+
+
 		// The cache flush will be handled by the observer
 
 		return Response::json($favorite, 201, [], JSON_NUMERIC_CHECK);
@@ -66,8 +74,8 @@ class QuotesFavoriteController extends APIGlobalController {
 	public function deleteFavorite($quote_id, $doValidation = true)
 	{
 		$user = $this->retrieveUser();
-		
-		if ($doValidation) {		
+
+		if ($doValidation) {
 
 			try {
 				$this->favQuoteValidator->setUserForRemove($user)->validateRemoveForQuote(compact('quote_id'));
@@ -83,6 +91,13 @@ class QuotesFavoriteController extends APIGlobalController {
 
 		// Delete the FavoriteQuote from database
 		$this->favQuoteRepo->deleteForUserAndQuote($user, $quote_id);
+
+		// Register in the recommendation system
+		$data = [
+			'quote_id' => $quote_id,
+			'user_id'  => $user->id
+		];
+		Queue::push('TeenQuotes\Queues\Workers\EasyrecWorker@unfavoriteAQuote', $data);
 
 		return Response::json([
 			'status'  => 'favorite_deleted',

@@ -37,4 +37,42 @@ class EasyrecWorker {
 			"USERPROFILE"
 		);
 	}
+
+	/**
+	 * Add a quote to the favorites
+	 * @param \Illuminate\Queue\Jobs\SyncJob $job  [description]
+	 * @param array $data Required keys: quote_id, user_id
+	 */
+	public function favoriteAQuote($job, $data)
+	{
+		Easyrec::sendAction($data['quote_id'],
+			"Quote ".$data['quote_id'],
+			URL::route("quotes.show", $data['quote_id'], false),
+			"FAVORITE",
+			null, // Action value
+			$data['user_id'],
+			null, // No image URL
+			null, // Current timestamp
+			"QUOTE"
+		);
+	}
+
+	/**
+	 * Remove a quote from the favorites
+	 * @param \Illuminate\Queue\Jobs\SyncJob $job  [description]
+	 * @param array $data Required keys: quote_id, user_id
+	 */
+	public function unfavoriteAQuote($job, $data)
+	{
+		Easyrec::sendAction($data['quote_id'],
+			"Quote ".$data['quote_id'],
+			URL::route("quotes.show", $data['quote_id'], false),
+			"UNFAVORITE",
+			null, // Action value
+			$data['user_id'],
+			null, // No image URL
+			null, // Current timestamp
+			"QUOTE"
+		);
+	}
 }
