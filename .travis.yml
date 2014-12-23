@@ -7,7 +7,7 @@ php:
 
 before_script:
   - gem install mailcatcher
-  - mailcatcher
+  - mailcatcher -f -v > out.txt&
   - sudo apt-get update -q
   - sudo apt-get install -y imagemagick
   - printf "\n" | pecl install imagick
