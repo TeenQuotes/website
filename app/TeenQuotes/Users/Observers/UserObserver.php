@@ -7,7 +7,7 @@ use TeenQuotes\Mail\MailSwitcher;
 use TeenQuotes\Newsletters\Models\Newsletter;
 
 class UserObserver {
-	
+
 	/**
 	 * Will be triggered when a model is created
 	 * @param User $user
@@ -23,8 +23,8 @@ class UserObserver {
 			'email' => $user->email,
 		];
 
-		// Send the welcome email via Postfix
-		new MailSwitcher('sendmail');
+		// Send the welcome email via SMTP
+		new MailSwitcher('smtp');
 		Mail::send('emails.welcome', $data, function($m) use($data)
 		{
 			$m->to($data['email'], $data['login'])->subject(Lang::get('auth.subjectWelcomeEmail', ['login' => $data['login']]));
