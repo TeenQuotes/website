@@ -28,6 +28,8 @@ return [
 	'randomPageDescription'       => 'Random quotes released on '.Lang::get('layout.nameWebsite').'. Because some quotes are simply true. Your everyday life moments.',
 	'randomPageTitle'             => 'Random quotes | '.Lang::get('layout.nameWebsite'),
 	'rulesAddQuote'               => '<li>Your quote must be written in proper English</li><li>Your quote should not already be on '.Lang::get('layout.nameWebsite').'</li><li>Your quote should not be too sad</li>',
+	'sharePromotion'              => 'Enjoying '.Lang::get('layout.nameWebsite').'? Share the love with your friends and share a quote!',
+	'sharePromotionTitle'         => 'Share the love',
 	'singleQuotePageTitle'        => 'Quote #:id | '.Lang::get('layout.nameWebsite'),
 	'speakYourMind'               => 'Speak your mind and share your thoughts with the world!',
 	'submitMyQuote'               => 'Submit my quote!',
