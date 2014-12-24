@@ -4,7 +4,7 @@ namespace TeenQuotes\Mail;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class Mailer extends \Illuminate\Mail\Mailer {
- 
+
 	/**
 	 * Render the given view.
 	 *
@@ -15,15 +15,15 @@ class Mailer extends \Illuminate\Mail\Mailer {
 	protected function getView($view, $data)
 	{
 		$cssInline = new CssToInlineStyles();
- 
-		$view = $this->views->make($view, $data)->render(); 
-		
+
+		$view = $this->views->make($view, $data)->render();
+
 		// Inline CSS
 		$cssInline->setUseInlineStylesBlock();
 		$cssInline->setStripOriginalStyleTags();
 		$cssInline->setCleanup();
 		$cssInline->setHTML($view);
- 
+
 		return $cssInline->convert();
 	}
 }
