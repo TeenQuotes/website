@@ -9,7 +9,7 @@ class DbUserRepository implements UserRepository {
 
 	/**
 	 * Retrieve a user by its ID
-	 * @param  int $id
+	 * @param int $id
 	 * @return TeenQuotes\Users\Models\User
 	 */
 	public function getById($id)
@@ -19,7 +19,7 @@ class DbUserRepository implements UserRepository {
 
 	/**
 	 * Get users from an array of emails
-	 * @param  array  $emails Email addresses
+	 * @param array  $emails Email addresses
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
 	public function getByEmails(array $emails)
@@ -29,7 +29,7 @@ class DbUserRepository implements UserRepository {
 
 	/**
 	 * Retrieve a user by its login
-	 * @param  string $login
+	 * @param string $login
 	 * @return TeenQuotes\Users\Models\User
 	 */
 	public function getByLogin($login)
@@ -40,7 +40,7 @@ class DbUserRepository implements UserRepository {
 
 	/**
 	 * Count the number of users that match the given login
-	 * @param  string $login
+	 * @param string $login
 	 * @return int
 	 */
 	public function countByPartialLogin($login)
@@ -52,8 +52,8 @@ class DbUserRepository implements UserRepository {
 
 	/**
 	 * Update the password for a user
-	 * @param  TeenQuotes\Users\Models\User|int $u
-	 * @param  string $password
+	 * @param TeenQuotes\Users\Models\User|int $u
+	 * @param string $password
 	 */
 	public function updatePassword($u, $password)
 	{
@@ -64,13 +64,13 @@ class DbUserRepository implements UserRepository {
 
 	/**
 	 * Update a user's profile
-	 * @param  TeenQuotes\Users\Models\User|int $u
-	 * @param  string $gender
-	 * @param  int $country
-	 * @param  string $city
-	 * @param  string $about_me
-	 * @param  string $birthdate
-	 * @param  string $avatar
+	 * @param TeenQuotes\Users\Models\User|int $u
+	 * @param string $gender
+	 * @param int $country
+	 * @param string $city
+	 * @param string $about_me
+	 * @param string $birthdate
+	 * @param string $avatar
 	 */
 	public function updateProfile($u, $gender, $country, $city, $about_me, $birthdate, $avatar)
 	{
@@ -96,9 +96,9 @@ class DbUserRepository implements UserRepository {
 
 	/**
 	 * Update a user's settings
-	 * @param  TeenQuotes\Users\Models\User|int $u
-	 * @param  boolean $notification_comment_quote
-	 * @param  boolean $hide_profile
+	 * @param TeenQuotes\Users\Models\User|int $u
+	 * @param boolean $notification_comment_quote
+	 * @param boolean $hide_profile
 	 */
 	public function updateSettings($u, $notification_comment_quote, $hide_profile)
 	{
@@ -129,7 +129,7 @@ class DbUserRepository implements UserRepository {
 
 	/**
 	 * Retrieve a user by its login or its ID
-	 * @param  string|int $user_id
+	 * @param string|int $user_id
 	 * @return TeenQuotes\Users\Models\User
 	 */
 	public function showByLoginOrId($user_id)
@@ -146,10 +146,25 @@ class DbUserRepository implements UserRepository {
 	}
 
 	/**
+	 * Get users that have logged in since a given date
+	 * @param DateTime $since
+	 * @param int $page
+	 * @param int $pagesize
+	 * @return Illuminate\Database\Eloquent\Collection
+	 */
+	public function getLoggedInSince($since, $page, $pagesize)
+	{
+		return User::where('last_visit', '>=', $since)
+			->take($pagesize)
+			->skip($this->computeSkip($page, $pagesize))
+			->get();
+	}
+
+	/**
 	 * Search user matching a login
-	 * @param  string $query
-	 * @param  int $page
-	 * @param  int $pagesize
+	 * @param string $query
+	 * @param int $page
+	 * @param int $pagesize
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
 	public function searchByPartialLogin($query, $page, $pagesize)
@@ -164,7 +179,7 @@ class DbUserRepository implements UserRepository {
 
 	/**
 	 * Count the number of users matching a login
-	 * @param  string $query
+	 * @param string $query
 	 * @return int
 	 */
 	public function searchCountByPartialLogin($query)
@@ -176,14 +191,14 @@ class DbUserRepository implements UserRepository {
 
 	/**
 	 * Create a user
-	 * @param  string $login
-	 * @param  string $email
-	 * @param  string $password
-	 * @param  string $ip
-	 * @param  string $lastVisit
-	 * @param  int $country
-	 * @param  string $city
-	 * @param  string $avatar
+	 * @param string $login
+	 * @param string $email
+	 * @param string $password
+	 * @param string $ip
+	 * @param string $lastVisit
+	 * @param int $country
+	 * @param string $city
+	 * @param string $avatar
 	 * @return TeenQuotes\Users\Models\User
 	 */
 	public function create($login, $email, $password, $ip, $lastVisit, $country, $city, $avatar = null)
@@ -207,7 +222,7 @@ class DbUserRepository implements UserRepository {
 
 	/**
 	 * Delete a user
-	 * @param  int|TeenQuotes\Users\Models\User $id
+	 * @param int|TeenQuotes\Users\Models\User $id
 	 * @return TeenQuotes\Users\Models\User
 	 */
 	public function destroy($u)
@@ -250,7 +265,7 @@ class DbUserRepository implements UserRepository {
 
 	/**
 	 * Retrieve a user by its ID or just the user instance
-	 * @param  TeenQuotes\Users\Models\User|int $u
+	 * @param TeenQuotes\Users\Models\User|int $u
 	 * @return TeenQuotes\Users\Models\User
 	 * @throws InvalidArgumentException If the type can't be recognised
 	 */
