@@ -1,22 +1,29 @@
 <?php namespace TeenQuotes\Users\Observers;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Mail;
+use App, Lang, Mail;
 use TeenQuotes\Mail\MailSwitcher;
 use TeenQuotes\Newsletters\Models\Newsletter;
 
 class UserObserver {
-	
+
+	/**
+	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
+	 */
+	private $newsletterRepo;
+
+	public function __construct()
+	{
+		$this->newsletterRepo = App::make('TeenQuotes\Newsletters\Repositories\NewsletterRepository');
+	}
+
 	/**
 	 * Will be triggered when a model is created
-	 * @param User $user
+	 * @param TeenQuotes\Users\Models\User $user
 	 */
 	public function created($user)
 	{
 		// Subscribe the user to the weekly newsletter
-		$repo = App::make('TeenQuotes\Newsletters\Repositories\NewsletterRepository');
-		$repo->createForUserAndType($user, Newsletter::WEEKLY);
+		$this->newsletterRepo->createForUserAndType($user, Newsletter::WEEKLY);
 
 		$data = [
 			'login' => $user->login,
