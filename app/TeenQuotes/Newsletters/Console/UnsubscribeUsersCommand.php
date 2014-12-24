@@ -1,12 +1,9 @@
 <?php namespace TeenQuotes\Newsletters\Console;
 
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
+use MandrillClient, Lang, Log;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
-use MandrillClient;
-use TeenQuotes\Mail\MailSwitcher;
+use TeenQuotes\Mail\UserMailer;
 use TeenQuotes\Newsletters\NewslettersManager;
 use TeenQuotes\Users\Repositories\UserRepository;
 
@@ -37,16 +34,22 @@ class UnsubscribeUsersCommand extends ScheduledCommand {
 	private $newslettersManager;
 
 	/**
+	 * @var TeenQuotes\Mail\UserMailer
+	 */
+	private $userMailer;
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
-	public function __construct(UserRepository $userRepo, NewslettersManager $newslettersManager)
+	public function __construct(UserRepository $userRepo, NewslettersManager $newslettersManager, UserMailer $userMailer)
 	{
 		parent::__construct();
 
-		$this->userRepo = $userRepo;
 		$this->newslettersManager = $newslettersManager;
+		$this->userMailer = $userMailer;
+		$this->userRepo = $userRepo;
 	}
 
 	/**
@@ -96,10 +99,11 @@ class UnsubscribeUsersCommand extends ScheduledCommand {
 			// Log this info
 			$this->writeToLog("Unsubscribing user from newsletters: ".$user->login." - ".$user->email);
 
-			Mail::send('emails.newsletters.unsubscribe', compact('user'), function($m) use($user)
-			{
-				$m->to($user->email, $user->login)->subject(Lang::get('email.unsubscribeNewsletterSubject'));
-			});
+			$this->userMailer->send('emails.newsletters.unsubscribe',
+				$user,
+				compact('user'),
+				Lang::get('email.unsubscribeNewsletterSubject')
+			);
 		});
 	}
 
@@ -116,7 +120,7 @@ class UnsubscribeUsersCommand extends ScheduledCommand {
 		$users->each(function($user) use ($instance)
 		{
 			MandrillClient::deleteEmailFromRejection($user->email);
-			
+
 			// Log this info
 			$instance->writeToLog("Removing user from the rejection list: ".$user->login." - ".$user->email);
 		});

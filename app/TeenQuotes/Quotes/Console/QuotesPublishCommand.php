@@ -1,10 +1,10 @@
 <?php namespace TeenQuotes\Quotes\Console;
 
-use Cache, Config, Lang, Log, Mail;
+use Cache, Config, Lang, Log;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
-use TeenQuotes\Mail\MailSwitcher;
+use TeenQuotes\Mail\UserMailer;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Users\Models\User;
@@ -43,15 +43,21 @@ class QuotesPublishCommand extends ScheduledCommand {
 	private $quoteRepo;
 
 	/**
+	 * @var TeenQuotes\Mail\UserMailer
+	 */
+	private $userMailer;
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
-	public function __construct(QuoteRepository $quoteRepo)
+	public function __construct(QuoteRepository $quoteRepo, UserMailer $userMailer)
 	{
 		parent::__construct();
 
 		$this->quoteRepo = $quoteRepo;
+		$this->userMailer = $userMailer;
 	}
 
 	/**
@@ -106,17 +112,16 @@ class QuotesPublishCommand extends ScheduledCommand {
 			$this->users[] = $quote->user;
 
 			// Log this info
-			$this->info("Published quote #".$quote->id);
-			Log::info("Published quote #".$quote->id, ['quote' => $quote->toArray()]);
+			$this->log("Published quote #".$quote->id);
 
 			$this->incrementCachePublishedForUser($quote->user);
 
-			// Send an email to the author via SMTP
-			new MailSwitcher('smtp');
-			Mail::send('emails.quotes.published', compact('quote'), function($m) use($quote)
-			{
-				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('quotes.quotePublishedSubjectEmail'));
-			});
+			// Send an email to the author
+			$this->userMailer->send('emails.quotes.published',
+				$quote->user, // The author of the quote
+				compact('quote'),
+				Lang::get('quotes.quotePublishedSubjectEmail')
+			);
 		});
 
 		$this->updateNumberPublishedQuotes();
@@ -124,6 +129,12 @@ class QuotesPublishCommand extends ScheduledCommand {
 		$this->forgetPagesStoredInCache();
 
 		$this->forgetPublishedQuotesPagesForUser();
+	}
+
+	private function log($string)
+	{
+		$this->info($string);
+		Log::info($string);
 	}
 
 	/**
@@ -153,9 +164,8 @@ class QuotesPublishCommand extends ScheduledCommand {
 	{
 		$nbPages = ceil($this->nbQuotesPublished / Config::get('app.quotes.nbQuotesPerPage'));
 
-		for ($i = 1; $i <= $nbPages; $i++) {
+		for ($i = 1; $i <= $nbPages; $i++)
 			Cache::forget(Quote::$cacheNameQuotesAPIPage.$i);
-		}
 	}
 
 	/**

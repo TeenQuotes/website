@@ -1,7 +1,6 @@
 <?php namespace TeenQuotes\Comments\Observers;
 
-use App, Cache, Lang, Mail;
-use TeenQuotes\Mail\MailSwitcher;
+use App, Cache, Lang;
 use TeenQuotes\Quotes\Models\Quote;
 
 class CommentObserver {
@@ -11,9 +10,15 @@ class CommentObserver {
 	 */
 	private $quoteRepo;
 
+	/**
+	 * @var TeenQuotes\Mail\UserMailer
+	 */
+	private $userMailer;
+
 	function __construct()
 	{
 		$this->quoteRepo = App::make('TeenQuotes\Quotes\Repositories\QuoteRepository');
+		$this->userMailer = App::make('TeenQuotes\Mail\UserMailer');
 	}
 
 	/**
@@ -25,17 +30,8 @@ class CommentObserver {
 		$quote = $this->quoteRepo->getByIdWithUser($comment->quote_id);
 
 		// Send an email to the author of the quote if he wants it
-		// Do not send an e-mail if the author of the comment has written
-		// the quote
-		if ($quote->user->wantsEmailComment() AND $comment->user_id != $quote->user->id) {
-
-			// Send the email via SMTP
-			new MailSwitcher('smtp');
-			Mail::send('emails.comments.posted', compact('quote'), function($m) use($quote)
-			{
-				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('comments.commentAddedSubjectEmail', ['id' => $quote->id]));
-			});
-		}
+		if ($this->needToWarnByEmail($quote, $comment))
+			$this->sendEmailToQuoteAuthor($quote);
 
 		// If we have the number of comments in cache, increment it
 		if (Cache::has(Quote::$cacheNameNbComments.$comment->quote_id))
@@ -51,5 +47,24 @@ class CommentObserver {
 		// Update the number of comments on the related quote in cache
 		if (Cache::has(Quote::$cacheNameNbComments.$comment->quote_id))
 			Cache::decrement(Quote::$cacheNameNbComments.$comment->quote_id);
+	}
+
+	private function sendEmailToQuoteAuthor($quote)
+	{
+		$author = $quote->user;
+
+		$subject = Lang::get('comments.commentAddedSubjectEmail', ['id' => $quote->id]);
+		$this->userMailer->send('emails.comments.posted',
+			$author,
+			compact('quote'),
+			$subject
+		);
+	}
+
+	private function needToWarnByEmail($quote, $comment)
+	{
+		// Do not send an e-mail if the author of the comment
+		// has written the quote
+		return $quote->user->wantsEmailComment() AND $comment->user_id != $quote->user->id;
 	}
 }

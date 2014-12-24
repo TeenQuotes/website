@@ -1,9 +1,9 @@
 <?php namespace TeenQuotes\Users\Console;
 
-use Lang, Log, Mail;
+use Lang, Log;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
-use TeenQuotes\Mail\MailSwitcher;
+use TeenQuotes\Mail\UserMailer;
 use TeenQuotes\Users\Repositories\UserRepository;
 
 class SendBirthdayCommand extends ScheduledCommand {
@@ -28,15 +28,21 @@ class SendBirthdayCommand extends ScheduledCommand {
 	private $userRepo;
 
 	/**
+	 * @var TeenQuotes\Mail\UserMailer
+	 */
+	private $userMailer;
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
-	public function __construct(UserRepository $userRepo)
+	public function __construct(UserRepository $userRepo, UserMailer $userMailer)
 	{
 		parent::__construct();
 
 		$this->userRepo = $userRepo;
+		$this->userMailer = $userMailer;
 	}
 
 	/**
@@ -69,21 +75,25 @@ class SendBirthdayCommand extends ScheduledCommand {
 	 */
 	public function fire()
 	{
-		$users = $this->userRepo->birthdayToday();
+		$users = $this->userRepo->getByEmails(['antoine.augusti@gmail.com']);
 
 		$users->each(function($user)
 		{
 			// Log this info
-			$this->info("Wishing happy birthday to ".$user->login." - ".$user->email);
-			Log::info("Wishing happy birthday to ".$user->login." - ".$user->email);
+			$this->log("Wishing happy birthday to ".$user->login." - ".$user->email);
 
-			// Send the email to the user via SMTP
-			new MailSwitcher('smtp');
-			Mail::send('emails.events.birthday', compact('user'), function($m) use($user)
-			{
-				$m->to($user->email, $user->login)->subject(Lang::get('email.happyBirthdaySubjectEmail'));
-			});
+			$this->userMailer->send('emails.events.birthday',
+				$user,
+				compact('user'),
+				Lang::get('email.happyBirthdaySubjectEmail')
+			);
 		});
+	}
+
+	private function log($string)
+	{
+		$this->info($string);
+		Log::info($string);
 	}
 
 	/**

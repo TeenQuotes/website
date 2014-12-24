@@ -1,7 +1,6 @@
 <?php namespace TeenQuotes\Users\Observers;
 
-use App, Lang, Mail;
-use TeenQuotes\Mail\MailSwitcher;
+use App, Carbon, Lang, Mail;
 use TeenQuotes\Newsletters\Models\Newsletter;
 
 class UserObserver {
@@ -11,9 +10,15 @@ class UserObserver {
 	 */
 	private $newsletterRepo;
 
+	/**
+	 * @var TeenQuotes\Mail\UserMailer
+	 */
+	private $userMailer;
+
 	public function __construct()
 	{
 		$this->newsletterRepo = App::make('TeenQuotes\Newsletters\Repositories\NewsletterRepository');
+		$this->userMailer = App::make('TeenQuotes\Mail\UserMailer');
 	}
 
 	/**
@@ -25,16 +30,23 @@ class UserObserver {
 		// Subscribe the user to the weekly newsletter
 		$this->newsletterRepo->createForUserAndType($user, Newsletter::WEEKLY);
 
+		$this->sendWelcomeEmail($user);
+	}
+
+	private function sendWelcomeEmail($user)
+	{
 		$data = [
 			'login' => $user->login,
 			'email' => $user->email,
 		];
 
-		// Send the welcome email via SMTP
-		new MailSwitcher('smtp');
-		Mail::send('emails.welcome', $data, function($m) use($data)
-		{
-			$m->to($data['email'], $data['login'])->subject(Lang::get('auth.subjectWelcomeEmail', ['login' => $data['login']]));
-		});
+		$subject = Lang::get('auth.subjectWelcomeEmail', ['login' => $data['login']]);
+		$this->userMailer->sendLater('emails.welcome',
+			$user,
+			$data,
+			$subject,
+			null, // Use the default driver
+			Carbon::now()->addMinutes(10) // Defer the email
+		);
 	}
 }

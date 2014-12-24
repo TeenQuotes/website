@@ -1,11 +1,11 @@
 <?php namespace TeenQuotes\AdminPanel\Controllers;
 
-use App, Config, Input, Lang, Mail, Redirect, Request, Response, View;
+use App, Config, Input, Lang, Redirect, Request, Response, View;
 use BaseController;
 use InvalidArgumentException;
 use TeenQuotes\Exceptions\QuoteNotFoundException;
-use TeenQuotes\Mail\MailSwitcher;
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Mail\UserMailer;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
 
 class QuotesAdminController extends BaseController {
@@ -20,10 +20,16 @@ class QuotesAdminController extends BaseController {
 	 */
 	private $quoteValidator;
 
-	function __construct(QuoteRepository $quoteRepo)
+	/**
+	 * @var TeenQuotes\Mail\UserMailer
+	 */
+	private $userMailer;
+
+	function __construct(QuoteRepository $quoteRepo, UserMailer $userMailer)
 	{
 		$this->quoteRepo = $quoteRepo;
 		$this->quoteValidator = App::make('TeenQuotes\Quotes\Validation\QuoteValidator');
+		$this->userMailer = $userMailer;
 	}
 
 	/**
@@ -58,8 +64,7 @@ class QuotesAdminController extends BaseController {
 	{
 		$quote = $this->quoteRepo->waitingById($id);
 
-		if (is_null($quote))
-			throw new QuoteNotFoundException;
+		if (is_null($quote)) throw new QuoteNotFoundException;
 
 		return View::make('admin.edit')->withQuote($quote);
 	}
@@ -74,8 +79,7 @@ class QuotesAdminController extends BaseController {
 	{
 		$quote = $this->quoteRepo->waitingById($id);
 
-		if (is_null($quote))
-			throw new QuoteNotFoundException;
+		if (is_null($quote)) throw new QuoteNotFoundException;
 
 		$data = [
 			'content'              => Input::get('content'),
@@ -84,17 +88,12 @@ class QuotesAdminController extends BaseController {
 		];
 
 		$this->quoteValidator->validatePosting($data);
-		
+
 		// Update the quote
 		$quote = $this->quoteRepo->updateContentAndApproved($id, $data['content'], Quote::PENDING);
 
 		// Contact the author of the quote
-		// Send mail via SMTP
-		new MailSwitcher('smtp');
-		Mail::send('emails.quotes.approve', compact('quote'), function($m) use($quote)
-		{
-			$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('quotes.quoteApproveSubjectEmail'));
-		});
+		$this->sendMailForQuoteAndApprove($quote, 'approve');
 
 		return Redirect::route('admin.quotes.index')->with('success', 'The quote has been edited and approved!');
 	}
@@ -109,10 +108,7 @@ class QuotesAdminController extends BaseController {
 	 */
 	public function postModerate($id, $type)
 	{
-		$availableTypes = ['approve', 'unapprove', 'alert'];
-
-		if ( ! in_array($type, $availableTypes))
-			throw new InvalidArgumentException("Wrong type. Got ".$type.". Available values: ".implode('|', $availableTypes));
+		$this->guardType($type);
 
 		if (Request::ajax()) {
 			$quote = $this->quoteRepo->waitingById($id);
@@ -125,14 +121,34 @@ class QuotesAdminController extends BaseController {
 			$quote = $this->quoteRepo->updateApproved($id, $approved);
 
 			// Contact the author of the quote
-			// Send mail via SMTP
-			new MailSwitcher('smtp');
-			Mail::send('emails.quotes.'.$type, compact('quote'), function($m) use($quote, $type)
-			{
-				$m->to($quote->user->email, $quote->user->login)->subject(Lang::get('quotes.quote'.ucfirst($type).'SubjectEmail'));
-			});
+			$this->sendMailForQuoteAndApprove($quote, $type);
 
 			return Response::json(['success' => true], 200);
 		}
+	}
+
+	private function guardType($type)
+	{
+		if ( ! in_array($type, $this->getAvailableTypes()))
+			throw new InvalidArgumentException("Wrong type. Got ".$type.". Available values: ".$this->presentAvailableTypes());
+	}
+
+	private function getAvailableTypes()
+	{
+		return ['approve', 'unapprove', 'alert'];
+	}
+
+	private function presentAvailableTypes()
+	{
+		return implode('|', $this->getAvailableTypes());
+	}
+
+	private function sendMailForQuoteAndApprove($quote, $type)
+	{
+		$this->userMailer->send('emails.quotes.'.$type,
+			$quote->user,
+			compact('quote'),
+			Lang::get('quotes.quote'.ucfirst($type).'SubjectEmail')
+		);
 	}
 }
