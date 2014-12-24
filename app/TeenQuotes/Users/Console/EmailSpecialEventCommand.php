@@ -1,9 +1,10 @@
 <?php namespace TeenQuotes\Users\Console;
 
-use Lang, Log, Mail;
+use Carbon, Lang, Log, Mail;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
+use TeenQuotes\Mail\UserMailer;
 use TeenQuotes\Users\Repositories\UserRepository;
 
 class EmailSpecialEventCommand extends ScheduledCommand {
@@ -34,15 +35,21 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 	private $userRepo;
 
 	/**
+	 * @var TeenQuotes\Mail\UserMailer
+	 */
+	private $userMailer;
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
-	public function __construct(UserRepository $userRepo)
+	public function __construct(UserRepository $userRepo, UserMailer $userMailer)
 	{
 		parent::__construct();
 
 		$this->userRepo = $userRepo;
+		$this->userMailer = $userMailer;
 	}
 
 	/**
@@ -58,14 +65,14 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 				->args(['newyear'])
 				->months(1)
 				->daysOfTheMonth(1)
-				->hours(12)
+				->hours(4)
 				->minutes(15),
 
 			$scheduler
 				->args(['christmas'])
 				->months(12)
 				->daysOfTheMonth(25)
-				->hours(12)
+				->hours(4)
 				->minutes(15),
 		];
 	}
@@ -88,21 +95,49 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 		{
 			$event = $this->getEvent();
 
-			$users = $this->userRepo->getAll();
+			// Retrieve users that have logged in the last year
+			$allUsers = $this->userRepo->getLoggedInSince(Carbon::now()->subYear(1), 1, 2000);
 
-			$users->each(function($user) use($event)
+			$delay = Carbon::now()->addMinutes(5);
+			$i = 1;
+			// We will send 60 emails every hour
+			foreach ($allUsers->chunk(60) as $users)
 			{
-				// Log this info
-				$this->info("Sending email for event ".$event." to ".$user->login." - ".$user->email);
-				Log::info("Sending email for event ".$event." to ".$user->login." - ".$user->email);
+				$driver = $this->determineMailDriver($i);
 
-				// Send the email to the user
-				Mail::send('emails.events.'.$event, compact('user'), function($m) use($user, $event)
+				$users->each(function($user) use($event, $delay, $driver)
 				{
-					$m->to($user->email, $user->login)->subject(Lang::get('email.event'.ucfirst($event).'SubjectEmail'));
+					// Log this info
+					$this->log("Scheduled email for event ".$event." to ".$user->login." - ".$user->email." for ".$delay->toDateTimeString());
+
+					// Add the email to the queue
+					$this->userMailer->sendLater('emails.events.'.$event, // View
+						$user,
+						['login' => $user->login], // Data
+						'email.event'.ucfirst($event).'SubjectEmail', // Subject key
+						$driver,
+						$delay
+					);
 				});
-			});
+
+				$i++;
+				$delay->addHour();
+			}
 		}
+	}
+
+	private function determineMailDriver($i)
+	{
+		if ($i > 1000)
+			return null;
+
+		return 'smtp';
+	}
+
+	private function log($string)
+	{
+		$this->info($string);
+		Log::info($string);
 	}
 
 	private function eventTypeIsValid()

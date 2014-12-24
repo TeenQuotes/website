@@ -30,8 +30,8 @@ class UserObserver {
 			'email' => $user->email,
 		];
 
-		// Send the welcome email via Postfix
-		new MailSwitcher('sendmail');
+		// Send the welcome email via SMTP
+		new MailSwitcher('smtp');
 		Mail::send('emails.welcome', $data, function($m) use($data)
 		{
 			$m->to($data['email'], $data['login'])->subject(Lang::get('auth.subjectWelcomeEmail', ['login' => $data['login']]));

@@ -1,7 +1,6 @@
 <?php
 
-// TODO : update config
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -55,9 +54,9 @@ return array(
 	|
 	*/
 
-	'from'          => array('address' => 'support@teen-quotes.com', 'name' => 'Teen Quotes'),
-	'from.smtp'     => array('address' => 'support@teen-quotes.com', 'name' => 'Teen Quotes'),
-	'from.sendmail' => array('address' => 'support@teen-quotes.com', 'name' => 'Teen Quotes'),
+	'from'          => ['address' => 'support@teen-quotes.com', 'name' => 'Teen Quotes'],
+	'from.smtp'     => ['address' => 'support@teen-quotes.com', 'name' => 'Teen Quotes'],
+	'from.sendmail' => ['address' => 'support@teen-quotes.com', 'name' => 'Teen Quotes'],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -123,4 +122,4 @@ return array(
 	*/
 
 	'pretend' => false,
-);
+];
