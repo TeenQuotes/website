@@ -1,9 +1,6 @@
 <?php namespace TeenQuotes\Comments\Observers;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Mail;
+use App, Cache, Lang, Mail;
 use TeenQuotes\Mail\MailSwitcher;
 use TeenQuotes\Quotes\Models\Quote;
 
@@ -21,7 +18,7 @@ class CommentObserver {
 
 	/**
 	 * Will be triggered when a model is created
-	 * @param Comment $comment
+	 * @param TeenQuotes\Comments\Models\Comment $comment
 	 */
 	public function created($comment)
 	{
@@ -47,7 +44,7 @@ class CommentObserver {
 
 	/**
 	 * Will be triggered when a model is deleted
-	 * @param Comment $comment
+	 * @param TeenQuotes\Comments\Models\Comment $comment
 	 */
 	public function deleted($comment)
 	{
