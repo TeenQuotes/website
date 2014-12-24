@@ -1,40 +1,71 @@
 <?php namespace TeenQuotes\Mail;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Session;
-use InvalidArgumentException;
+use App, Config, InvalidArgumentException, Session;
 
 class MailSwitcher {
 
-	function __construct($name) {
-		
-		$possibleValues = ['smtp', 'sendmail'];
-		
-		if ( ! in_array(strtolower($name), $possibleValues))
-			throw new InvalidArgumentException($name." is not a valid argument. Possible values are: ".implode('|', $possibleValues).'.');
+	public function __construct($driver)
+	{
+		self::guardDriver($driver);
 
 		// Postfix is not always installed on developers' computer
 		// We will fallback to SMTP
-		if (App::environment() == 'local')
-			$name = 'smtp';
+		if (App::environment() == 'local') $driver = 'smtp';
 
-		// Do not change the configuration for codeception
-		if (App::environment() == 'codeception')
-			return;
-		
-		switch (strtolower($name)) {
-			case 'smtp':
-				// Switch to SMTP
-				Config::set('mail.driver', 'smtp');
-				Config::set('mail.from', Config::get('mail.from.smtp'));
-				break;
+		// Do not change the configuration on a testing environment
+		if ($this->isTestingEnvironment()) return;
 
-			case 'sendmail':
-				// Switch to Postfix
-				Config::set('mail.driver', 'sendmail');
-				Config::set('mail.from', Config::get('mail.from.sendmail'));
-				break;
+		if ($this->driverNeedsChange($driver)) {
+
+			// Update the configuration
+			switch (strtolower($driver)) {
+				case 'smtp':
+					// Switch to SMTP
+					Config::set('mail.driver', 'smtp');
+					Config::set('mail.from', Config::get('mail.from.smtp'));
+					break;
+
+				case 'mandrill':
+					// Switch to Postfix
+					Config::set('mail.driver', 'mandrill');
+					Config::set('mail.from', Config::get('mail.from'));
+					break;
+			}
+
+			// Since we have changed the transport layer,
+			// we need to register again the service provider
+			App::register('TeenQuotes\Mail\MailServiceProvider');
 		}
+	}
+
+	public static function getAvailableDrivers()
+	{
+		return ['smtp', 'mandrill'];
+	}
+
+	public static function presentAvailableDrivers()
+	{
+		return implode('|', self::getAvailableDrivers());
+	}
+
+	public static function guardDriver($driver)
+	{
+		if ( ! in_array($driver, self::getAvailableDrivers()))
+			throw new InvalidArgumentException("Unknown driver. Got ".$driver.". Possible values are: ".self::presentAvailableDrivers());
+	}
+
+	private function isTestingEnvironment()
+	{
+		return in_array(App::environment(), ['testing', 'codeception', 'codeceptionSearch']);
+	}
+
+	private function driverNeedsChange($newDriver)
+	{
+		return $newDriver != $this->getCurrentDriver();
+	}
+
+	private function getCurrentDriver()
+	{
+		return Config::get('mail.driver');
 	}
 }
