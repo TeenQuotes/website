@@ -84,7 +84,13 @@ class UserMailer {
 
 	private function guardDriver($driver)
 	{
-		MailSwitcher::guardDriver($driver);
+		if (! $this->isTestingEnvironment())
+			MailSwitcher::guardDriver($driver);
+	}
+
+	private function isTestingEnvironment()
+	{
+		return in_array(App::environment(), ['testing', 'codeception', 'codeceptionSearch']);
 	}
 
 	private function getAvailableDrivers()

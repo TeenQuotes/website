@@ -6,14 +6,15 @@ class MailSwitcher {
 
 	public function __construct($driver)
 	{
+		// Do not change the configuration on a testing environment
+		if ($this->isTestingEnvironment()) return;
+
 		self::guardDriver($driver);
 
 		// Postfix is not always installed on developers' computer
 		// We will fallback to SMTP
 		if (App::environment() == 'local') $driver = 'smtp';
 
-		// Do not change the configuration on a testing environment
-		if ($this->isTestingEnvironment()) return;
 
 		if ($this->driverNeedsChange($driver)) {
 
