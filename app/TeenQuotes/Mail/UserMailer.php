@@ -2,7 +2,6 @@
 
 use App;
 use Illuminate\Config\Repository as Config;
-use Illuminate\Translation\Translator as Lang;
 use TeenQuotes\Users\Models\User;
 
 class UserMailer {
@@ -13,19 +12,13 @@ class UserMailer {
 	private $config;
 
 	/**
-	 * @var Illuminate\Translation\Translator
-	 */
-	private $lang;
-
-	/**
 	 * @var Illuminate\Mail\Mailer
 	 */
 	private $mail;
 
-	public function __construct(Config $config, Lang $lang)
+	public function __construct(Config $config)
 	{
 		$this->config = $config;
-		$this->lang = $lang;
 	}
 
 	/**
@@ -33,15 +26,14 @@ class UserMailer {
 	 * @param string $viewName The name of the view
 	 * @param TeenQuotes\Users\Models\User $user
 	 * @param array $data Data to pass the email view
-	 * @param string $subjectKey The translation key for the subject of the email
+	 * @param string $subject The subject of the email
 	 * @param string $driver The name of the driver that we will use to send the email
 	 */
-	public function send($viewName, User $user, $data, $subjectKey, $driver = null)
+	public function send($viewName, User $user, $data, $subject, $driver = null)
 	{
 		$this->switchDriverIfNeeded($driver);
 
 		// Send the email
-		$subject = $this->lang->get($subjectKey);
 		$this->mail->send($viewName, $data, function ($m) use($user, $subject)
 		{
 			$m->to($user->email, $user->login)->subject($subject);
@@ -53,16 +45,15 @@ class UserMailer {
 	 * @param string $viewName The name of the view
 	 * @param TeenQuotes\Users\Models\User $user
 	 * @param array $data Data to pass the email view
-	 * @param string $subjectKey The translation key for the subject of the email
+	 * @param string $subject The subject of the email
 	 * @param string $driver The name of the driver that we will use to send the email
 	 * @param DateTime|int $delay
 	 */
-	public function sendLater($viewName, User $user, $data, $subjectKey, $driver = null, $delay = 0)
+	public function sendLater($viewName, User $user, $data, $subject, $driver = null, $delay = 0)
 	{
 		$this->switchDriverIfNeeded($driver);
 
 		// Queue the email
-		$subject = $this->lang->get($subjectKey);
 		$this->mail->later($delay, $viewName, $data, function ($m) use($user, $subject)
 		{
 			$m->to($user->email, $user->login)->subject($subject);
@@ -79,6 +70,11 @@ class UserMailer {
 		new MailSwitcher($driver);
 
 		$this->registerMailDriver();
+	}
+
+	private function getCurrentDriver()
+	{
+		return $this->config->get('mail.driver');
 	}
 
 	private function registerMailDriver()

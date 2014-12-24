@@ -114,7 +114,7 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 					$this->userMailer->sendLater('emails.events.'.$event, // View
 						$user,
 						['login' => $user->login], // Data
-						'email.event'.ucfirst($event).'SubjectEmail', // Subject key
+						Lang::get('email.event'.ucfirst($event).'SubjectEmail'), // Subject key
 						$driver,
 						$delay
 					);
