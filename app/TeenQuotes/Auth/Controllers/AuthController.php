@@ -1,15 +1,8 @@
 <?php namespace TeenQuotes\Auth\Controllers;
 
-use BaseController;
-use Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\View;
+use Auth, BaseController, Carbon, Input, Lang, Redirect, Request, Session, View;
 use Laracasts\Validation\FormValidationException;
+// use Laravel\Socialite\Contracts\Factory as Socialite;
 use TeenQuotes\Users\Models\User;
 use TeenQuotes\Users\Validation\UserValidator;
 
@@ -20,12 +13,18 @@ class AuthController extends BaseController {
 	 */
 	private $userValidator;
 
+	/**
+	 * @var Laravel\Socialite\Contracts\Factory
+	 */
+	private $socialite;
+
 	public function __construct(UserValidator $userValidator)
 	{
 		$this->beforeFilter('guest', ['only' => 'getSignin']);
 		$this->beforeFilter('auth', ['only' => 'getLogout']);
 
 		$this->userValidator = $userValidator;
+		// $this->socialite = $socialite;
 	}
 
 	/**
@@ -101,5 +100,37 @@ class AuthController extends BaseController {
 		Auth::logout();
 
 		return Redirect::route('home')->with('success', Lang::get('auth.logoutSuccessfull', compact('login')));
+	}
+
+	public function getAuthTwitter()
+	{
+		$hasCode = Request::has('code');
+
+		if (! $hasCode) return $this->getTwitterAuthorization();
+
+		$user = $this->getTwitterUser();
+		// Prefill the signup view
+		Session::flash('login', $user->getNickname());
+		Session::flash('email', $user->getEmail());
+		// Store the URL of the avatar is session
+		// It'll be saved when calling the API
+		Session::set('avatar', $user->getAvatar());
+
+		return Redirect::route('signup');
+	}
+
+	/**
+	* @return \Symfony\Component\HttpFoundation\RedirectResponse
+	*/
+	private function getTwitterAuthorization()
+	{
+		return $this->socialite->driver('twitter')->redirect();
+	}
+	/**
+	* @return \Laravel\Socialite\Contracts\User
+	*/
+	private function getTwitterUser()
+	{
+		return $this->socialite->driver('twitter')->user();
 	}
 }
