@@ -36,6 +36,12 @@ $(document).ready(function() {
 		doneTypingLoginPassword.call(this);
 	});
 
+	// Signup promotion when indexing quotes
+	$("#js-promotion-signup").hover(function() {
+		console.log("Log");
+		ga('send', 'event', 'signup', 'promotion-quote-signup', 'click');
+	});
+
 	// Signin view
 	$("#listener-wants-account").mouseenter(function() {
 			$("#wants-account").addClass("animated shake");
@@ -234,7 +240,7 @@ $(document).ready(function() {
 		return false;
 	});
 
-	// Delete a comment 
+	// Delete a comment
 	$('i.delete-comment').click(function() {
 		var url, id_comment;
 		url = $(this).attr('data-url');

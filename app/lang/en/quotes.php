@@ -30,6 +30,8 @@ return [
 	'rulesAddQuote'               => '<li>Your quote must be written in proper English</li><li>Your quote should not already be on '.Lang::get('layout.nameWebsite').'</li><li>Your quote should not be too sad</li>',
 	'sharePromotion'              => 'Enjoying '.Lang::get('layout.nameWebsite').'? Share the love with your friends and share a quote!',
 	'sharePromotionTitle'         => 'Share the love',
+	'signupPromotion'             => "<a href=':url' id='js-promotion-signup'>Create an account</a> right now. You can save quotes in your favorites, add your own quote and a lot more.",
+	'signupPromotionTitle'        => 'Enjoying '.Lang::get('layout.nameWebsite').'?',
 	'singleQuotePageTitle'        => 'Quote #:id | '.Lang::get('layout.nameWebsite'),
 	'speakYourMind'               => 'Speak your mind and share your thoughts with the world!',
 	'submitMyQuote'               => 'Submit my quote!',

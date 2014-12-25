@@ -6,8 +6,8 @@
 	@foreach ($quotes as $quote)
 		@include('quotes.singleQuote', compact("quote"))
 		<?php $i++ ?>
-		@if ($shouldDisplaySharePromotion AND $i == 5)
-			@include('quotes.partials.promoteSharing')
+		@if ($shouldDisplayPromotion AND $i == 5)
+			@include('quotes.partials.promotion')
 		@endif
 	@endforeach
 

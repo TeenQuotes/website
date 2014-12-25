@@ -844,7 +844,7 @@ h3 {
 	text-align: center;
 }
 
-.quotes__promote-sharing {
+.quotes__promotion-container {
 	background: $lightBlue;
 	color: white;
 	font-weight: 300;
@@ -852,6 +852,11 @@ h3 {
 	width: 80%;
 	margin: 0 auto 25px auto;
 	font-size: 1.2em;
+	@media screen and (max-width: $breakpointSmartphone) {
+		width: 90%;
+	}
+
+	@include link-lightblue-on-blue;
 
 	h4 {
 		margin-top: 0;

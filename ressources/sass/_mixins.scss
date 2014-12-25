@@ -109,6 +109,10 @@
 	@include abstract-link($orange, white);
 }
 
+@mixin link-lightblue-on-blue {
+	@include abstract-link(lighten($lightBlue, 40%), $lightBlue);
+}
+
 @mixin blue-container {
 	padding: 30px;
 	background: $lightBlue;
