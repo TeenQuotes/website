@@ -2,7 +2,9 @@
 
 use App;
 use Illuminate\Config\Repository as Config;
+use Illuminate\Queue\QueueManager as Queue;
 use TeenQuotes\Users\Models\User;
+use TeenQuotes\Users\Repositories\UserRepository;
 
 class UserMailer {
 
@@ -16,9 +18,21 @@ class UserMailer {
 	 */
 	private $mail;
 
-	public function __construct(Config $config)
+	/**
+	 * @var Illuminate\Queue\QueueManager
+	 */
+	private $queue;
+
+	/**
+	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 */
+	private $userRepo;
+
+	public function __construct(Config $config, Queue $queue, UserRepository $userRepo)
 	{
-		$this->config = $config;
+		$this->config   = $config;
+		$this->queue    = $queue;
+		$this->userRepo = $userRepo;
 	}
 
 	/**
@@ -51,13 +65,31 @@ class UserMailer {
 	 */
 	public function sendLater($viewName, User $user, $data, $subject, $driver = null, $delay = 0)
 	{
-		$this->switchDriverIfNeeded($driver);
+		$data = compact('viewName', 'user', 'data', 'subject', 'driver');
 
 		// Queue the email
-		$this->mail->later($delay, $viewName, $data, function ($m) use($user, $subject)
-		{
-			$m->to($user->email, $user->login)->subject($subject);
-		});
+		$this->queue->later($delay, get_class($this).'@dispatchToSend', $data);
+	}
+
+	/**
+	 * Send an email with a job
+	 * @param \Illuminate\Queue\Jobs\SyncJob $job
+	 * @param array $data Required keys: viewName, user, data, subject and driver.
+	 */
+	public function dispatchToSend($job, $data)
+	{
+		extract($data);
+		$this->send($viewName, $this->getUserFromId($user['id']), $data, $subject, $driver);
+	}
+
+	/**
+	 * Retrieve an user by its ID
+	 * @param int $id
+	 * @return TeenQuotes\Users\Models\User
+	 */
+	private function getUserFromId($id)
+	{
+		return $this->userRepo->getById($id);
 	}
 
 	private function switchDriverIfNeeded($driver)
