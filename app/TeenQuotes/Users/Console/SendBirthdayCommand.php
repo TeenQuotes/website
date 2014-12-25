@@ -75,7 +75,7 @@ class SendBirthdayCommand extends ScheduledCommand {
 	 */
 	public function fire()
 	{
-		$users = $this->userRepo->getByEmails(['antoine.augusti@gmail.com']);
+		$users = $this->userRepo->birthdayToday();
 
 		$users->each(function($user)
 		{
