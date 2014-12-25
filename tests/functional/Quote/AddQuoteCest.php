@@ -1,7 +1,7 @@
 <?php
 
 class AddQuoteCest {
-	
+
 	public function _before(FunctionalTester $I)
 	{
 		$I->logANewUser();
@@ -12,7 +12,7 @@ class AddQuoteCest {
 	{
 		$I->am('a member of Teen Quotes');
 		$I->wantTo("submit a new quote");
-		
+
 		$I->submitANewQuote();
 	}
 

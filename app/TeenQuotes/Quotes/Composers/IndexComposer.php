@@ -6,6 +6,8 @@ use TeenQuotes\Tools\Composers\Interfaces\QuotesColorsExtractor;
 
 class IndexComposer implements QuotesColorsExtractor {
 
+	private static $shouldDisplaySharingPromotion = null;
+
 	public function compose($view)
 	{
 		$data = $view->getData();
@@ -20,8 +22,9 @@ class IndexComposer implements QuotesColorsExtractor {
 		$view->with('colors', $this->extractAndStoreColors($data['quotes']));
 
 		// If we have an available promotion, display it
-		$view->with('shouldDisplayPromotion', $this->shouldDisplayPromotion());
-		if ($this->shouldDisplayPromotion())
+		$shouldDisplayPromotion = $this->shouldDisplayPromotion();
+		$view->with('shouldDisplayPromotion', $shouldDisplayPromotion);
+		if ($shouldDisplayPromotion)
 			$view = $this->addPromotionToData($view);
 	}
 
@@ -72,7 +75,10 @@ class IndexComposer implements QuotesColorsExtractor {
 
 	private function shouldDisplaySharingPromotion()
 	{
-		return rand(1, 100) == 42;
+		if (is_null(self::$shouldDisplaySharingPromotion))
+			self::$shouldDisplaySharingPromotion = (rand(1, 100) == 42);
+
+		return self::$shouldDisplaySharingPromotion;
 	}
 
 	private function shouldDisplaySignupPromotion()
