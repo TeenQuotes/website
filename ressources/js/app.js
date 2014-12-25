@@ -38,7 +38,6 @@ $(document).ready(function() {
 
 	// Signup promotion when indexing quotes
 	$("#js-promotion-signup").hover(function() {
-		console.log("Log");
 		ga('send', 'event', 'signup', 'promotion-quote-signup', 'click');
 	});
 
@@ -253,8 +252,6 @@ $(document).ready(function() {
 			dataType: 'json',
 			data: {},
 			success: function(data) {
-
-				console.log(data);
 				// Success
 				if (data.success) {
 					// Update counter on the user's profile
@@ -338,7 +335,6 @@ $(document).ready(function() {
 			dataType: 'json',
 			data: {},
 			success: function(data) {
-				console.log(data);
 				// Errors
 				if (data.success === false) {
 					var arr = data.errors;
