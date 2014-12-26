@@ -12,6 +12,7 @@ return [
 	'catchphrase'        => 'Because some quotes are simply true',
 	'contact'            => 'Contact',
 	'goBack'             => 'Go back',
+	'instagramUsername'  => '@officialohteenquotes',
 	'legalTerms'         => 'Legal',
 	'login'              => 'Log in',
 	'logout'             => 'Log out',
