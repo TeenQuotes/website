@@ -1,4 +1,5 @@
 <?php
+
 return [
 	'birthdayContent'              => "Today is a special day for you :login! :age years old, how amazing it is? You will have to celebrate this day with your family and your friends!<br/><br/> All the team want to wish you a happy birthday! We hope that you will have a great day :)<br/><br/>See you soon on ".Lang::get('layout.nameWebsite')." and have a nice day!",
 	'christmasBody'                => "The entire team of ".Lang::get('layout.nameWebsite')." wishes you a Merry Christmas and hope you enjoy these few days of family vacation. We hope you've been nice this year and that Santa will give you great gifts!<br/><br/>We're looking forward to see you soon on ".Lang::get('layout.nameWebsite')."!",
