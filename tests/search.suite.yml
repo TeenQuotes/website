@@ -1,6 +1,6 @@
 class_name: SearchTester
 modules:
-    enabled: 
+    enabled:
         - Asserts
         - Db
         - DbSeederHelper
@@ -12,7 +12,7 @@ modules:
         - QuotesHelper
     config:
         Laravel4:
-            environment: codeceptionSearch
+            environment: codeceptionMysql
             cleanup: true
             filters: true
         Db:

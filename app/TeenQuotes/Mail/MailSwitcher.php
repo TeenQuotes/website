@@ -57,7 +57,7 @@ class MailSwitcher {
 
 	private function isTestingEnvironment()
 	{
-		return in_array(App::environment(), ['testing', 'codeception', 'codeceptionSearch']);
+		return in_array(App::environment(), ['testing', 'codeception', 'codeceptionMysql']);
 	}
 
 	private function driverNeedsChange($newDriver)

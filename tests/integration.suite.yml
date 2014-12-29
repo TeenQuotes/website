@@ -7,7 +7,15 @@ modules:
         - IntegrationHelper
         - Laravel4
     config:
+        config:
         Laravel4:
-            environment: codeception
+            environment: codeceptionMysql
             cleanup: true
             filters: true
+        Db:
+            dsn: 'mysql:host=localhost;dbname=codeception'
+            user: 'travis'
+            password: ''
+            dump: tests/_data/dumpSearch.sql
+            populate: true
+            cleanup: true
