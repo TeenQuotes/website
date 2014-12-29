@@ -140,8 +140,10 @@ class QuoteRepoCest
 		$I->insertInDatabase(3, 'Quote', ['approved' => Quote::WAITING]);
 
 		$quotes = $this->repo->index(1, 5);
+		$ids = $quotes->lists('id');
+		sort($ids);
 		$I->assertIsCollection($quotes);
-		$I->assertEquals(range(1, 5), $quotes->lists('id'));
+		$I->assertEquals(range(1, 5), $ids);
 	}
 
 	public function testRandomPublished(IntegrationTester $I)
