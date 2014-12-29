@@ -260,6 +260,7 @@ return array(
 
 	'newsletters.nbQuotesToSendDaily'  => 2,
 
+	'users.avatar.default'             => 'http://teen-quotes.com/assets/images/chat.png',
 	'users.avatarPath'                 => 'uploads/avatar',
 	'users.avatarWidth'                => 200,
 	'users.avatarHeight'               => 200,

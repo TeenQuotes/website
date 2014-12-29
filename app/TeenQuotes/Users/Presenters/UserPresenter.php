@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Laracasts\Presenter\Presenter;
 
 class UserPresenter extends Presenter {
-	
+
 	/**
 	 * Get the URL of the user's avatar
 	 * @return string The URL to the avatar
@@ -18,7 +18,7 @@ class UserPresenter extends Presenter {
 		if (Str::startsWith($this->avatar, 'http'))
 			return $this->avatar;
 		elseif (is_null($this->avatar))
-			return Config::get('app.url').'/assets/images/chat.png';
+			return Config::get('app.users.avatar.default');
 		// Local URL
 		else
 			return str_replace('public/', '', Request::root().'/'.Config::get('app.users.avatarPath').'/'.$this->avatar);
@@ -40,7 +40,7 @@ class UserPresenter extends Presenter {
 	public function age()
 	{
 		$carbon = Carbon::createFromFormat('Y-m-d', $this->birthdate);
-		
+
 		return $carbon->age;
 	}
 }
