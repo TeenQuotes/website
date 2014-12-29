@@ -59,7 +59,7 @@ class SearchController extends BaseController {
 		$nbUsers = 0;
 		$users = null;
 		if ($this->stringIsASingleWord($query)) {
-			$nbUsers = $this->userRepo->searchCountByPartialLogin($query);
+			$nbUsers = $this->userRepo->countByPartialLogin($query);
 			$users = $this->userRepo->searchByPartialLogin($query, 1, Config::get('app.search.maxResultsPerCategory'));
 		}
 

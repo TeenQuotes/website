@@ -39,7 +39,7 @@ class DbUserRepository implements UserRepository {
 	}
 
 	/**
-	 * Count the number of users that match the given login
+	 * Count the number of users that match the given login. Do not count users with an hidden profile.
 	 * @param string $login
 	 * @return int
 	 */
@@ -70,7 +70,7 @@ class DbUserRepository implements UserRepository {
 	 * @param string $city
 	 * @param string $about_me
 	 * @param string $birthdate
-	 * @param string $avatar
+	 * @param Symfony\Component\HttpFoundation\File\UploadedFile $avatar
 	 */
 	public function updateProfile($u, $gender, $country, $city, $about_me, $birthdate, $avatar)
 	{
@@ -175,18 +175,6 @@ class DbUserRepository implements UserRepository {
 			->take($pagesize)
 			->skip($this->computeSkip($page, $pagesize))
 			->get();
-	}
-
-	/**
-	 * Count the number of users matching a login
-	 * @param string $query
-	 * @return int
-	 */
-	public function searchCountByPartialLogin($query)
-	{
-		return User::partialLogin($query)
-			->notHidden()
-			->count();
 	}
 
 	/**

@@ -24,7 +24,7 @@ interface UserRepository {
 	public function getByLogin($login);
 
 	/**
-	 * Count the number of users that match the given login
+	 * Count the number of users that match the given login. Do not count users with an hidden profile.
 	 * @param string $login
 	 * @return int
 	 */
@@ -45,7 +45,7 @@ interface UserRepository {
 	 * @param string $city
 	 * @param string $about_me
 	 * @param string $birthdate
-	 * @param string $avatar
+	 * @param Symfony\Component\HttpFoundation\File\UploadedFile $avatar
 	 */
 	public function updateProfile($u, $gender, $country, $city, $about_me, $birthdate, $avatar);
 
@@ -93,13 +93,6 @@ interface UserRepository {
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
 	public function searchByPartialLogin($query, $page, $pagesize);
-
-	/**
-	 * Count the number of users matching a login
-	 * @param string $query
-	 * @return int
-	 */
-	public function searchCountByPartialLogin($query);
 
 	/**
 	 * Create a user
