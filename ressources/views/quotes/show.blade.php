@@ -33,7 +33,7 @@
 		@include('comments.addComment', compact("quote"))
 	<!-- Call to sign in / sign up -->
 	@else
-		@include('quotes.partials.signInCall');
+		@include('quotes.partials.signInCall')
 	@endif
 @stop
 
