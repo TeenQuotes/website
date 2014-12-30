@@ -1,10 +1,9 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use App, Auth, Config, DB, Input, Queue, Str;
+use App, Auth, Config, DB, Input, Session, Str;
 use Buonzz\GeoIP\Laravel4\Facades\GeoIP;
 use Carbon\Carbon;
 use Exception;
-use Laracasts\Validation\FormValidationException;
 use stojg\crop\CropEntropy;
 use TeenQuotes\Countries\Models\Country;
 use TeenQuotes\Exceptions\ApiNotFoundException;
@@ -52,9 +51,10 @@ class UsersController extends APIGlobalController {
 			$this->userValidator->validateSignup($data);
 
 		// Store the new user
+		$avatar = Session::get('avatar', null);
+
 		// If the new user has got a Gravatar, set the avatar
-		$avatar = null;
-		if (Gravatar::exists($data['email']))
+		if (is_null($avatar) AND Gravatar::exists($data['email']))
 			$avatar = Gravatar::src($data['email'], 150);
 
 		$user = $this->userRepo->create($data['login'], $data['email'], $data['password'],

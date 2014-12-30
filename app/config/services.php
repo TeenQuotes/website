@@ -37,4 +37,10 @@ return [
 		'apiKey'   => getenv('EASYREC_APIKEY'),
 		'tenantID' => 'teenquotes_'.App::environment()
 	],
+
+	'twitter' => [
+		'client_id'     => getenv('TWITTER_CLIENT_ID'),
+		'client_secret' => getenv('TWITTER_CLIENT_SECRET'),
+		'redirect'      => 'http://'.Config::get('app.domain').'/auth/twitter'
+	],
 ];
