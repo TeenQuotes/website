@@ -99,13 +99,14 @@ class UsersController extends BaseController {
 		{
 			return Response::json([
 				'success' => false,
-				'message' => $e->getErrors()->first('login')
+				'message' => $e->getErrors()->first('login'),
+				'failed'  => $this->userValidator->getFailedReasonFor('login'),
 			]);
 		}
 
 		return Response::json([
 			'success' => true,
-			'message' => $data['login'].'? '.Lang::get('auth.loginAwesome')
+			'message' => $data['login'].'? '.Lang::get('auth.loginAwesome'),
 		]);
 	}
 

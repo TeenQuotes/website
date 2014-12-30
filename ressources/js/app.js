@@ -476,7 +476,10 @@ function doneTypingLoginSignup() {
 				$("#login-validator i.fa").removeClass("green").addClass("black");
 				$("#login-error").remove();
 				$("#login-validator").removeClass("green").addClass("orange").fadeIn(500);
-				ga('send', 'event', 'signup', 'fill-login', 'wrong-login');
+				ga('send', 'event', 'signup', 'fill-login', {
+					reason: 'wrong-login',
+					rule: data.failed
+				});
 				// Success
 			} else {
 				$("#login-validator").html("<i class='" + icon + "'></i>" + data.message);

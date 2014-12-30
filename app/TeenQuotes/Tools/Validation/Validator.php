@@ -1,9 +1,8 @@
 <?php namespace TeenQuotes\Tools\Validation;
 
-use BadMethodCallException;
+use BadMethodCallException, InvalidArgumentException, Str;
 use Laracasts\Validation\FormValidationException;
 use Laracasts\Validation\LaravelValidator;
-use Str;
 
 abstract class Validator extends LaravelValidator {
 
@@ -23,6 +22,33 @@ abstract class Validator extends LaravelValidator {
 	}
 
 	/**
+	 * Get the failed rule of an attribute for the current validator
+	 * @param  string $key The name of the attribute
+	 * @return string
+	 */
+	public function getFailedReasonFor($key)
+	{
+		$failed = $this->validation->failed();
+
+		if (! array_key_exists($key, $failed))
+			throw new InvalidArgumentException("Validator didn't failed for key: ".$key);
+
+		return Str::slug($this->getFailedReasonForKey($failed, $key));
+	}
+
+	public function getRulesFor($rule, $key = null)
+	{
+		$ruleName = 'rules'.$rule;
+		$property = $this->$ruleName;
+
+		$cleanedRules = $this->cleanProperties($property);
+		if (is_null($key))
+			return $cleanedRules;
+
+		return $cleanedRules[$key];
+	}
+
+	/**
 	 * Magic call method to forward validate* methods
 	 * @param  string $name
 	 * @param  array $arguments
@@ -37,10 +63,10 @@ abstract class Validator extends LaravelValidator {
 
 			if (! property_exists($this, $property))
 				throw new BadMethodCallException("Property ".$property." does not exist on class ".get_class($this).".");
-			
+
 			if (count($arguments) == 1)
 				return $this->validateForRule($arguments[0], $property);
-			
+
 			return $this->validateForRule($arguments[0], $property, $arguments[1]);
 		}
 
@@ -49,6 +75,36 @@ abstract class Validator extends LaravelValidator {
 			array($this, $name),
 			$arguments
 		);
+	}
+
+	private function getFailedReasonForKey($failed, $key)
+	{
+		return array_keys($failed[$key])[0];
+	}
+
+	private function cleanProperties($properties)
+	{
+		$out = [];
+
+		foreach ($properties as $key => $value)
+		{
+			$out[$key] = $this->cleanRules($value);
+		}
+
+		return $out;
+	}
+
+	private function cleanRules($property)
+	{
+		$rules = explode('|', $property);
+
+		$out = [];
+		foreach ($rules as $rule)
+		{
+			$out[] = explode(':', $rule)[0];
+		}
+
+		return $out;
 	}
 
 	private function handleValidation()
