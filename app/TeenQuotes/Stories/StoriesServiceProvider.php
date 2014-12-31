@@ -1,8 +1,11 @@
 <?php namespace TeenQuotes\Stories;
 
 use Illuminate\Support\ServiceProvider;
+use TeenQuotes\Tools\Namespaces\NamespaceTrait;
 
 class StoriesServiceProvider extends ServiceProvider {
+
+	use NamespaceTrait;
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -33,11 +36,11 @@ class StoriesServiceProvider extends ServiceProvider {
 
 	private function registerBindings()
 	{
-		$namespace = 'TeenQuotes\Stories\Repositories';
+		$namespace = $this->getNamespaceRepositories();
 
 		$this->app->bind(
-			$namespace.'\StoryRepository',
-			$namespace.'\DbStoryRepository'
+			$namespace.'StoryRepository',
+			$namespace.'DbStoryRepository'
 		);
 	}
 
@@ -49,7 +52,7 @@ class StoriesServiceProvider extends ServiceProvider {
 	{
 		return [
 			'domain'    => $this->app['config']->get('app.domainStories'),
-			'namespace' => 'TeenQuotes\Stories\Controllers'
+			'namespace' => $this->getBaseNamespace().'Controllers'
 		];
 	}
 
