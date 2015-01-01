@@ -125,7 +125,8 @@ class UserRepoCest
 	public function testBirthdayToday(IntegrationTester $I)
 	{
 		$birthDate = Carbon::now()->subYears(20)->format('Y-m-d');
-		$I->insertInDatabase(2, 'User', ['birthdate' => '2000-01-01']);
+		$notBirthDate = Carbon::now()->subYears(2)->subDays(5)->format('Y-m-d');
+		$I->insertInDatabase(2, 'User', ['birthdate' => $notBirthDate]);
 		$u = $I->insertInDatabase(1, 'User', ['birthdate' => $birthDate]);
 
 		$users = $this->repo->birthdayToday();
