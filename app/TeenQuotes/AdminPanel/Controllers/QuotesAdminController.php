@@ -145,9 +145,14 @@ class QuotesAdminController extends BaseController {
 
 	private function sendMailForQuoteAndApprove($quote, $type)
 	{
+		$nbDays = 0;
+		// Retrieve the number of days before publication of the quote
+		if ($type == 'approve')
+			$nbDays = $this->quoteRepo->nbDaysUntilPublication($quote);
+
 		$this->userMailer->send('emails.quotes.'.$type,
 			$quote->user,
-			compact('quote'),
+			compact('quote', 'nbDays'),
 			Lang::get('quotes.quote'.ucfirst($type).'SubjectEmail')
 		);
 	}
