@@ -1,6 +1,7 @@
 <?php namespace TeenQuotes\Quotes\Repositories;
 
 use Cache, Carbon, Config, DB, InvalidArgumentException;
+use Illuminate\Database\Eloquent\Collection;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Users\Models\User;
 
@@ -336,6 +337,8 @@ class DbQuoteRepository implements QuoteRepository {
 	 */
 	public function getForIds($ids, $page, $pagesize)
 	{
+		if (empty($ids)) return new Collection;
+
 		$query = Quote::whereIn('id', $ids)
 			->withSmallUser()
 			->take($pagesize)
