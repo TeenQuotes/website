@@ -1,8 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Repositories;
 
-use Carbon;
-use Cache, Config, DB;
-use InvalidArgumentException;
+use Cache, Carbon, Config, DB, InvalidArgumentException;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Users\Models\User;
 
@@ -403,6 +401,54 @@ class DbQuoteRepository implements QuoteRepository {
 		});
 
 		return $quotes;
+	}
+
+	/**
+	 * Compute the number of days before publication for a quote waiting to be published.
+	 * @param  TeenQuotes\Quotes\Models\Quote|int $q
+	 * @return int
+	 * @throws InvalidArgumentException If the quote is not waiting to be published
+	 */
+	public function nbDaysUntilPublication($q)
+	{
+		$q = $this->getQuote($q);
+
+		if (! $q->isPending())
+			throw new InvalidArgumentException("Quote #".$q->id." is not waiting to be published.");
+
+		return ceil($this->getNbQuotesToPublishBefore($q) / $this->getNbQuotesToPublishPerDay());
+	}
+
+	private function getNbQuotesToPublishBefore(Quote $q)
+	{
+		$pending = $this->lastPendingQuotes(1000);
+
+		$id = $q->id;
+
+		$nbToPublishedBefore = $pending->filter(function($quote) use($id)
+		{
+			return $quote->id <= $id;
+		})->count();
+
+		return $nbToPublishedBefore;
+	}
+
+	/**
+	 * Get a quote object
+	 * @param  TeenQuotes\Quotes\Models\Quote|int $q
+	 * @return TeenQuotes\Quotes\Models\Quote
+	 */
+	private function getQuote($q)
+	{
+		if ($q instanceof Quote)
+			return $q;
+
+		return $this->getById($q);
+	}
+
+	private function getNbQuotesToPublishPerDay()
+	{
+		return Config::get('app.quotes.nbQuotesToPublishPerDay');
 	}
 
 	private function getDefaultNbQuotesPerPage()

@@ -175,4 +175,12 @@ interface QuoteRepository {
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
 	public function getQuotesByApprovedForUser(User $u, $approved, $page, $pagesize);
+
+	/**
+	 * Compute the number of days before publication for a quote waiting to be published.
+	 * @param  TeenQuotes\Quotes\Models\Quote|int $q
+	 * @return int
+	 * @throws InvalidArgumentException If the quote is not waiting to be published
+	 */
+	public function nbDaysUntilPublication($q);
 }

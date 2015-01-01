@@ -10,9 +10,9 @@ class ModerationIndexComposer {
 	{
 		$data = $view->getData();
 
-		// Compute the number of days required to publish the current 
+		// Compute the number of days required to publish the current
 		// waiting number of quotes
-		$nbDays = floor($data['nbQuotesPending'] / $data['nbQuotesPerDay']);		
+		$nbDays = ceil($data['nbQuotesPending'] / $data['nbQuotesPerDay']);
 		$view->with('nbDays', $nbDays);
 
 		JavaScript::put([

@@ -225,4 +225,21 @@ class QuoteRepoCest
 		$quotes = $this->repo->getQuotesByApprovedForUser($user, 'published', 1, 2);
 		$I->assertEquals([1, 2], $quotes->lists('id'));
 	}
+
+	public function testNbDaysUntilPublication(IntegrationTester $I)
+	{
+		$nbQuotesPublishedPerDay = Config::get('app.quotes.nbQuotesToPublishPerDay');
+
+		$I->insertInDatabase(1, 'Quote');
+		$firstQuote = $I->insertInDatabase(1, 'Quote', ['approved' => Quote::PENDING]);
+
+		// We can pass an ID
+		$I->assertEquals(1, $this->repo->nbDaysUntilPublication($firstQuote->id));
+		$I->insertInDatabase($nbQuotesPublishedPerDay, 'Quote', ['approved' => Quote::PENDING]);
+		// We can pass an object
+		$I->assertEquals(1, $this->repo->nbDaysUntilPublication($firstQuote));
+		// It computes the right number for multiple days
+		$I->assertEquals(1, $this->repo->nbDaysUntilPublication($nbQuotesPublishedPerDay + 1));
+		$I->assertEquals(2, $this->repo->nbDaysUntilPublication($nbQuotesPublishedPerDay + 2));
+	}
 }
