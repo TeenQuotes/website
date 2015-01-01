@@ -19,29 +19,32 @@ class QuotesTableSeeder extends Seeder {
 		{
 			// Generate 50 quotes for each approved value
 			// between -1 and 2
-			if ($i < 50)
-				$approved = -1;
-			else {
-				if ($i < 100)
-					$approved = 0;
-				else {
-					if ($i < 150)
-						$approved = 2;
-					else
-						$approved = 1;
-				}
-			}
+
 
 			Quote::create([
 				'content'    => $faker->paragraph(3),
 				'user_id'    => $faker->numberBetween(1, 100),
-				'approved'   => $approved ,
+				'approved'   => $this->getApproveForNumber($i),
 				'created_at' => $date,
 			]);
 
 			$date = $date->addDay();
 			$i++;
 		}
+	}
+
+	private function getApproveForNumber($i)
+	{
+		if ($i < 50)
+			$approved = Quote::REFUSED;
+		if ($i >= 50 AND $i <= 700)
+			$approved = Quote::PUBLISHED;
+		if ($i > 700 AND $i <= 725)
+			$approved = Quote::PENDING;
+		if ($i > 725)
+			$approved = Quote::WAITING;
+
+		return $approved;
 	}
 
 }
