@@ -242,4 +242,16 @@ class QuoteRepoCest
 		$I->assertEquals(1, $this->repo->nbDaysUntilPublication($nbQuotesPublishedPerDay + 1));
 		$I->assertEquals(2, $this->repo->nbDaysUntilPublication($nbQuotesPublishedPerDay + 2));
 	}
+
+	public function testNbQuotesWithFavorites(IntegrationTester $I)
+	{
+		$I->insertInDatabase(2, 'Quote');
+		$I->assertEquals(0, $this->repo->nbQuotesWithFavorites());
+
+		$I->insertInDatabase(1, 'FavoriteQuote', ['quote_id' => 1]);
+		$I->assertEquals(1, $this->repo->nbQuotesWithFavorites());
+
+		$I->insertInDatabase(2, 'FavoriteQuote', ['quote_id' => 2]);
+		$I->assertEquals(2, $this->repo->nbQuotesWithFavorites());
+	}
 }

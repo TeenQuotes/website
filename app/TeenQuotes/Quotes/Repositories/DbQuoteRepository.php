@@ -337,7 +337,7 @@ class DbQuoteRepository implements QuoteRepository {
 	public function getForIds($ids, $page, $pagesize)
 	{
 		$query = Quote::whereIn('id', $ids)
-			->with('user')
+			->withSmallUser()
 			->take($pagesize)
 			->skip($this->computeSkip($page, $pagesize));
 
@@ -417,6 +417,15 @@ class DbQuoteRepository implements QuoteRepository {
 			throw new InvalidArgumentException("Quote #".$q->id." is not waiting to be published.");
 
 		return ceil($this->getNbQuotesToPublishBefore($q) / $this->getNbQuotesToPublishPerDay());
+	}
+
+	/**
+	 * Get the number of quotes having at least a favorite
+	 * @return int
+	 */
+	public function nbQuotesWithFavorites()
+	{
+		return Quote::has('favorites')->count();
 	}
 
 	private function getNbQuotesToPublishBefore(Quote $q)

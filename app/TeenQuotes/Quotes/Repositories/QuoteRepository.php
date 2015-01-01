@@ -183,4 +183,10 @@ interface QuoteRepository {
 	 * @throws InvalidArgumentException If the quote is not waiting to be published
 	 */
 	public function nbDaysUntilPublication($q);
+
+	/**
+	 * Get the number of quotes having at least a favorite
+	 * @return int
+	 */
+	public function nbQuotesWithFavorites();
 }
