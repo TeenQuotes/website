@@ -33,7 +33,7 @@ class Quote extends Toloquent {
 	 * Adding customs attributes to the object
 	 * @var array
 	 */
-	protected $appends = ['has_comments', 'total_comments', 'is_favorite'];
+	protected $appends = ['has_comments', 'total_comments', 'is_favorite', 'total_favorites'];
 
 	/**
 	 * The colors that will be used for quotes on the admin page
