@@ -17,7 +17,7 @@ class FavoriteQuotesTableSeeder extends Seeder {
 		foreach(range(1, 2000) as $index)
 		{
 			FavoriteQuote::create([
-				'quote_id' => $faker->numberBetween(150, 750),
+				'quote_id' => $faker->numberBetween(50, 700),
 				'user_id'  => $faker->numberBetween(1, 100),
 			]);
 
