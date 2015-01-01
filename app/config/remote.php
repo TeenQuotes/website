@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -26,18 +26,18 @@ return array(
 	|
 	*/
 
-	'connections' => array(
+	'connections' => [
 
-		'production' => array(
-			'host'      => '',
-			'username'  => '',
-			'password'  => '',
-			'key'       => '',
-			'keyphrase' => '',
-			'root'      => '/var/www',
-		),
+		'production' => [
+			'host'      => getenv('SERVER_PRODUCTION_HOST'),
+			'username'  => getenv('SERVER_PRODUCTION_USERNAME'),
+			'password'  => getenv('SERVER_PRODUCTION_PASSWORD'),
+			'key'       => getenv('SERVER_PRODUCTION_KEY'),
+			'keyphrase' => getenv('SERVER_PRODUCTION_KEYPHRASE'),
+			'root'      => getenv('SERVER_PRODUCTION_ROOT'),
+		],
 
-	),
+	],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -50,10 +50,8 @@ return array(
 	|
 	*/
 
-	'groups' => array(
+	'groups' => [
+		'web' => ['production']
+	],
 
-		'web' => array('production')
-
-	),
-
-);
+];
