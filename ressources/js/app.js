@@ -358,7 +358,7 @@ $(document).ready(function() {
 						if ($("#text-quotes").text() == 'quote')
 							$("#text-quotes").text(laravel.quotesPlural);
 
-						nbDays = Math.floor(numberOfQuotePending / laravel.nbQuotesPerDay);
+						nbDays = Math.ceil(numberOfQuotePending / laravel.nbQuotesPerDay);
 						$("#nb-quotes-per-day").text(nbDays);
 						if (nbDays > 1)
 							$("#text-days").text(laravel.daysPlural);
