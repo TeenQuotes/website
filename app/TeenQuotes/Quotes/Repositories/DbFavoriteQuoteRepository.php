@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Repositories;
 
-use Illuminate\Support\Facades\Cache;
+use Cache, DB;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Users\Models\User;
 
@@ -43,7 +43,7 @@ class DbFavoriteQuoteRepository implements FavoriteQuoteRepository {
 		$fav = FavoriteQuote::where('quote_id', '=' , $quote_id)
 			->forUser($u)
 			->first();
-		
+
 		$fav->delete();
 	}
 
@@ -86,5 +86,29 @@ class DbFavoriteQuoteRepository implements FavoriteQuoteRepository {
 		$favorite->save();
 
 		return $favorite;
+	}
+
+	/**
+	 * Get a top of quotes by the number of favorites, in descending order
+	 * @param int $page
+	 * @param int $pagesize
+	 * @return array The ID of the quotes
+	 */
+	public function getTopQuotes($page, $pagesize)
+	{
+		$countKey = 'fav_count';
+
+		return FavoriteQuote::select(DB::raw('count(*) as '.$countKey.', quote_id'))
+			->groupBy('quote_id')
+			->orderBy($countKey, 'DESC')
+			->having($countKey, '>=', 1)
+			->take($pagesize)
+			->skip($this->computeSkip($page, $pagesize))
+			->lists('quote_id');
+	}
+
+	private function computeSkip($page, $pagesize)
+	{
+		return $pagesize * ($page - 1);
 	}
 }

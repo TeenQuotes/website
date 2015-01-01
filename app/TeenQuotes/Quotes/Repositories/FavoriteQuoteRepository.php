@@ -41,4 +41,12 @@ interface FavoriteQuoteRepository {
 	 * @return TeenQuotes\Quotes\Models\FavoriteQuote
 	 */
 	public function create(User $u, $quote_id);
+
+	/**
+	 * Get a top of quotes by the number of favorites, in descending order
+	 * @param int $page
+	 * @param int $pagesize
+	 * @return array The ID of the quotes
+	 */
+	public function getTopQuotes($page, $pagesize);
 }
