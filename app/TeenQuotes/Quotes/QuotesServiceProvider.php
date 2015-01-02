@@ -99,6 +99,7 @@ class QuotesServiceProvider extends ServiceProvider {
 			$this->app['router']->get('/', ['as' => 'home', 'uses' => $controller.'@index']);
 			$this->app['router']->get('top', ['as' => 'quotes.top', 'uses' => $controller.'@redirectTop']);
 			$this->app['router']->get('top/favorites', ['as' => 'quotes.top.favorites', 'uses' => $controller.'@topFavorites']);
+			$this->app['router']->get('top/comments', ['as' => 'quotes.top.comments', 'uses' => $controller.'@topComments']);
 			$this->app['router']->get('random', ['as' => 'random', 'uses' => $controller.'@random']);
 			$this->app['router']->get('addquote', ['as' => 'addquote', 'before' => 'auth', 'uses' => $controller.'@create']);
 			$this->app['router']->get('quote-{quote_id}', ['uses' => $controller.'@redirectOldUrl']);
@@ -122,7 +123,9 @@ class QuotesServiceProvider extends ServiceProvider {
 	{
 		// When indexing quotes
 		$this->app['view']->composer([
-			'quotes.partials.multiple'
+			'quotes.partials.multiple',
+			'quotes.top.comments',
+			'quotes.top.favorites',
 		], $this->getNamespaceComposers().'IndexComposer');
 
 		// When adding a quote

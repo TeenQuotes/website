@@ -27,6 +27,8 @@ return [
 	'quoteHasBeenRefusedEnd'            => "Please take into consideration that we refuse almost 75 % of the quotes because we want to keep the very best.<br/<br/>Don't worry, one of your quotes is gonna be approved soon. Remember: write an original quote, in proper English, and eventually you will be published on ".Lang::get('layout.nameWebsite')."!<br/><br/>Thanks a lot for submitting a quote :login.",
 	'quotePublishedSubjectEmail'        => 'Your quote has been published!',
 	'quotesText'                        => 'quote|quotes',
+	'quotesTopCommentsPageDescription'  => 'A list of the most commented quotes available on '.Lang::get('layout.nameWebsite').'.',
+	'quotesTopCommentsPageTitle'        => 'Most commented quotes | '.Lang::get('layout.nameWebsite'),
 	'quotesTopFavoritesPageDescription' => 'A list of the most favorited quotes available on '.Lang::get('layout.nameWebsite').'.',
 	'quotesTopFavoritesPageTitle'       => 'Most favorited quotes | '.Lang::get('layout.nameWebsite'),
 	'quoteUnapproveSubjectEmail'        => 'Your quote has been rejected',
@@ -40,5 +42,7 @@ return [
 	'singleQuotePageTitle'              => 'Quote #:id | '.Lang::get('layout.nameWebsite'),
 	'speakYourMind'                     => 'Speak your mind and share your thoughts with the world!',
 	'submitMyQuote'                     => 'Submit my quote!',
+	'topComments'                       => 'By comments',
+	'topFavorites'                      => 'By favorites',
 	'yourQuote'                         => 'Your quote',
 ];

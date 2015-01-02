@@ -85,6 +85,18 @@ class QuotesController extends BaseController {
 	}
 
 	/**
+	 * Display top commented quotes
+	 *
+	 * @return Response
+	 */
+	public function topComments()
+	{
+		$response = $this->retrieveTopComments();
+
+		return $this->buildIndexResponse('quotes.top.comments', $response);
+	}
+
+	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
@@ -187,6 +199,15 @@ class QuotesController extends BaseController {
 	private function retrieveTopFavorites()
 	{
 		$apiResponse = $this->api->getTopFavoritedQuotes();
+
+		$this->guardAgainstNotFound($apiResponse);
+
+		return $apiResponse->getOriginalData();
+	}
+
+	private function retrieveTopComments()
+	{
+		$apiResponse = $this->api->getTopCommentedQuotes();
 
 		$this->guardAgainstNotFound($apiResponse);
 

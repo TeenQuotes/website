@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Composers;
 
-use Auth, Input, JavaScript, Lang, URL;
+use Auth, Input, InvalidArgumentException, JavaScript, Lang, URL;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Tools\Composers\Interfaces\QuotesColorsExtractor;
 
@@ -26,6 +26,37 @@ class IndexComposer implements QuotesColorsExtractor {
 		$view->with('shouldDisplayPromotion', $shouldDisplayPromotion);
 		if ($shouldDisplayPromotion)
 			$view = $this->addPromotionToData($view);
+
+		// Add stuff related to tops
+		$view->with('possibleTopTypes', $this->getPossibleTopTypes());
+		$view = $this->buildIconsForTops($view);
+	}
+
+	private function buildIconsForTops($view)
+	{
+		foreach ($this->getPossibleTopTypes() as $topType)
+			$view->with('iconForTop'.ucfirst($topType), $this->getIconForTopType($topType));
+
+		return $view;
+	}
+
+	private function getIconForTopType($topType)
+	{
+		switch ($topType)
+		{
+			case 'favorites':
+				return 'fa-heart';
+
+			case 'comments':
+				return 'fa-comments';
+		}
+
+		throw new InvalidArgumentException("Can't find icon for view ".$viewName);
+	}
+
+	private function getPossibleTopTypes()
+	{
+		return ['favorites', 'comments'];
 	}
 
 	private function addPromotionToData($view)
