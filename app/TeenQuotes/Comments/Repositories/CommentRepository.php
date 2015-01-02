@@ -14,15 +14,15 @@ interface CommentRepository {
 
 	/**
 	 * Retrieve a comment thanks to its ID and add the related quote
-	 * @param  int $id 
+	 * @param  int $id
 	 * @return TeenQuotes\Comments\Models\Comment
 	 */
 	public function findByIdWithQuote($id);
 
 	/**
 	 * List quotes for a given quote, page and pagesize
-	 * @param  int $quote_id 
-	 * @param  int $page     
+	 * @param  int $quote_id
+	 * @param  int $page
 	 * @param  int $pagesize
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
@@ -30,8 +30,8 @@ interface CommentRepository {
 
 	/**
 	 * List quotes for a given quote, page and pagesize and add the related quotes
-	 * @param  int $quote_id 
-	 * @param  int $page     
+	 * @param  int $quote_id
+	 * @param  int $page
 	 * @param  int $pagesize
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
@@ -40,7 +40,7 @@ interface CommentRepository {
 	/**
 	 * Retrieve comments posted by a user for a page and a pagesize
 	 * @param  TeenQuotes\Users\Models\User $user
-	 * @param  int $page    
+	 * @param  int $page
 	 * @param  int $pagesize
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
@@ -72,8 +72,16 @@ interface CommentRepository {
 
 	/**
 	 * Delete a comment
-	 * @param  int $id 
+	 * @param  int $id
 	 * @return TeenQuotes\Comments\Models\Comment
 	 */
 	public function delete($id);
+
+	/**
+	 * Get a top of quotes by the number of comments, in descending order
+	 * @param int $page
+	 * @param int $pagesize
+	 * @return array The ID of the quotes
+	 */
+	public function getTopQuotes($page, $pagesize);
 }

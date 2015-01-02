@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Comments\Repositories;
 
-use InvalidArgumentException;
+use DB, InvalidArgumentException;
 use TeenQuotes\Comments\Models\Comment;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Users\Models\User;
@@ -21,7 +21,7 @@ class DbCommentRepository implements CommentRepository {
 
 	/**
 	 * Retrieve a comment thanks to its ID and add the related quote
-	 * @param  int $id 
+	 * @param  int $id
 	 * @return TeenQuotes\Comments\Models\Comment
 	 */
 	public function findByIdWithQuote($id)
@@ -34,8 +34,8 @@ class DbCommentRepository implements CommentRepository {
 
 	/**
 	 * List quotes for a given quote, page and pagesize
-	 * @param  int $quote_id 
-	 * @param  int $page     
+	 * @param  int $quote_id
+	 * @param  int $page
 	 * @param  int $pagesize
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
@@ -51,8 +51,8 @@ class DbCommentRepository implements CommentRepository {
 
 	/**
 	 * List quotes for a given quote, page and pagesize and add the related quotes
-	 * @param  int $quote_id 
-	 * @param  int $page     
+	 * @param  int $quote_id
+	 * @param  int $page
 	 * @param  int $pagesize
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
@@ -70,7 +70,7 @@ class DbCommentRepository implements CommentRepository {
 	/**
 	 * Retrieve comments posted by a user for a page and a pagesize
 	 * @param  TeenQuotes\Users\Models\User $user
-	 * @param  int $page    
+	 * @param  int $page
 	 * @param  int $pagesize
 	 * @return Illuminate\Database\Eloquent\Collection
 	 */
@@ -109,7 +109,7 @@ class DbCommentRepository implements CommentRepository {
 		$comment->quote_id = $q->id;
 		$comment->user_id  = $u->id;
 		$comment->save();
-		
+
 		return $comment;
 	}
 
@@ -122,21 +122,40 @@ class DbCommentRepository implements CommentRepository {
 	public function update($c, $content)
 	{
 		$c = $this->retrieveComment($c);
-		
+
 		$c->content = $content;
 		$c->save();
-		
+
 		return $c;
 	}
 
 	/**
 	 * Delete a comment
-	 * @param  int $id 
+	 * @param  int $id
 	 * @return TeenQuotes\Comments\Models\Comment
 	 */
 	public function delete($id)
 	{
 		return Comment::find($id)->delete();
+	}
+
+	/**
+	 * Get a top of quotes by the number of comments, in descending order
+	 * @param int $page
+	 * @param int $pagesize
+	 * @return array The ID of the quotes
+	 */
+	public function getTopQuotes($page, $pagesize)
+	{
+		$countKey = 'comment_count';
+
+		return Comment::select(DB::raw('count(*) as '.$countKey.', quote_id'))
+			->groupBy('quote_id')
+			->orderBy($countKey, 'DESC')
+			->having($countKey, '>=', 1)
+			->take($pagesize)
+			->skip($this->computeSkip($page, $pagesize))
+			->lists('quote_id');
 	}
 
 	/**
@@ -149,7 +168,7 @@ class DbCommentRepository implements CommentRepository {
 	{
 		if (is_numeric($c))
 			return $this->findById($c);
-		
+
 		if ($c instanceof Comment)
 			return $c;
 
