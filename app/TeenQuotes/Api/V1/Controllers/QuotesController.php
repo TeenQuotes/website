@@ -45,7 +45,8 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		$user = $this->userRepo->getById($user_id);
 
 		// Handle user not found
-		if (is_null($user)) {
+		if (is_null($user))
+		{
 			$data = [
 				'status' => 'user_not_found',
 				'error'  => "The user #".$user_id." was not found.",
@@ -71,7 +72,8 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		$user = $this->userRepo->getById($user_id);
 
 		// Handle user not found
-		if (is_null($user)) {
+		if (is_null($user))
+		{
 			$data = [
 				'status' => 'user_not_found',
 				'error'  => "The user #".$user_id." was not found.",
@@ -140,8 +142,8 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		$content = Input::get('content');
 		$quotesSubmittedToday = $this->quoteRepo->submittedTodayForUser($user);
 
-		if ($doValidation) {
-
+		if ($doValidation)
+		{
 			try {
 				$this->quoteValidator->validateNbSubmittedToday(compact('quotesSubmittedToday'));
 			}
@@ -177,7 +179,8 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 
 	public function getPagesize()
 	{
-		switch ($this->relationInvolved) {
+		switch ($this->relationInvolved)
+		{
 			case 'users':
 				return Input::get('pagesize', Config::get('app.users.nbQuotesPerPage'));
 
