@@ -120,7 +120,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		$ids = $this->commentRepo->getTopQuotes($this->getPage(), $this->getPagesize());
 		$quotes = $this->quoteRepo->getForIds($ids, 1, count($ids));
 
-		$total = $this->quoteRepo->nbQuotesWithFavorites();
+		$total = $this->quoteRepo->nbQuotesWithComments();
 
 		return $this->buildPaginatedResponse($quotes, $total);
 	}

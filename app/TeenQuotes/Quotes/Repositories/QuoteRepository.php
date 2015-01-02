@@ -189,4 +189,10 @@ interface QuoteRepository {
 	 * @return int
 	 */
 	public function nbQuotesWithFavorites();
+
+	/**
+	 * Get the number of quotes having at least a comment
+	 * @return int
+	 */
+	public function nbQuotesWithComments();
 }

@@ -431,6 +431,15 @@ class DbQuoteRepository implements QuoteRepository {
 		return Quote::has('favorites')->count();
 	}
 
+	/**
+	 * Get the number of quotes having at least a comment
+	 * @return int
+	 */
+	public function nbQuotesWithComments()
+	{
+		return Quote::has('comments')->count();
+	}
+
 	private function getNbQuotesToPublishBefore(Quote $q)
 	{
 		$pending = $this->lastPendingQuotes(1000);
