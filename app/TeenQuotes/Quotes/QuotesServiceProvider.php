@@ -36,7 +36,7 @@ class QuotesServiceProvider extends ServiceProvider {
 		// FavoriteQuote
 		$this->registerFavoriteQuoteRoutes();
 		$this->registerFavoriteQuoteBindings();
-		
+
 		// Quotes
 		$this->registerQuoteRoutes();
 		$this->registerQuotesComposers();
@@ -84,7 +84,7 @@ class QuotesServiceProvider extends ServiceProvider {
 	private function registerFavoriteQuoteRoutes()
 	{
 		$controller = 'FavoriteQuoteController';
-		
+
 		$this->app['router']->group($this->getRouteGroupParams(), function() use ($controller) {
 			$this->app['router']->post('favorite/{quote_id}', ['as' => 'favorite', 'before' => 'auth', 'uses' => $controller.'@store']);
 			$this->app['router']->post('unfavorite/{quote_id}', ['as' => 'unfavorite', 'before' => 'auth', 'uses' => $controller.'@destroy']);
@@ -94,10 +94,12 @@ class QuotesServiceProvider extends ServiceProvider {
 	private function registerQuoteRoutes()
 	{
 		$controller = 'QuotesController';
-		
+
 		$this->app['router']->group($this->getRouteGroupParams(), function() use ($controller) {
 			$this->app['router']->get('/', ['as' => 'home', 'uses' => $controller.'@index']);
-			$this->app['router']->get('random', ['as' => 'random', 'uses' => $controller.'@index']);
+			$this->app['router']->get('top', ['as' => 'quotes.top', 'uses' => $controller.'@redirectTop']);
+			$this->app['router']->get('top/favorites', ['as' => 'quotes.top.favorites', 'uses' => $controller.'@topFavorites']);
+			$this->app['router']->get('random', ['as' => 'random', 'uses' => $controller.'@random']);
 			$this->app['router']->get('addquote', ['as' => 'addquote', 'before' => 'auth', 'uses' => $controller.'@create']);
 			$this->app['router']->get('quote-{quote_id}', ['uses' => $controller.'@redirectOldUrl']);
 			$this->app['router']->post('quotes/favorites-info', ['as' => 'quotes.favoritesInfo', 'uses' => $controller.'@getDataFavoritesInfo']);
@@ -108,7 +110,7 @@ class QuotesServiceProvider extends ServiceProvider {
 	private function registerSearchRoutes()
 	{
 		$controller = 'SearchController';
-		
+
 		$this->app['router']->group($this->getRouteGroupParams(), function() use ($controller) {
 			$this->app['router']->get('search', ['as' => 'search.form', 'uses' => $controller.'@showForm']);
 			$this->app['router']->post('search', ['as' => 'search.dispatcher', 'uses' => $controller.'@dispatcher']);
@@ -120,7 +122,7 @@ class QuotesServiceProvider extends ServiceProvider {
 	{
 		// When indexing quotes
 		$this->app['view']->composer([
-			'quotes.index'
+			'quotes.partials.multiple'
 		], $this->getNamespaceComposers().'IndexComposer');
 
 		// When adding a quote
@@ -135,7 +137,7 @@ class QuotesServiceProvider extends ServiceProvider {
 
 		// View a single quote
 		$this->app['view']->composer([
-			'quotes.singleQuote'
+			'quotes.partials.singleQuote'
 		], $this->getNamespaceComposers().'SingleComposer');
 
 		// For deeps link

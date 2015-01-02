@@ -1,4 +1,4 @@
-<?php $i = 0; 
+<?php $i = 0;
 $count = 'nb'.ucfirst($element);
 ?>
 
@@ -19,7 +19,7 @@ $count = 'nb'.ucfirst($element);
 	<!-- Displaying results -->
 	@foreach ($$element as $el)
 		@if ($element == 'quotes')
-			@include('quotes.singleQuote', ['quote' => $el])
+			@include('quotes.partials.singleQuote', ['quote' => $el])
 		@else
 			@include('search.partials.singleUser', ['user' => $el])
 		@endif

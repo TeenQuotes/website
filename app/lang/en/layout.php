@@ -21,5 +21,6 @@ return [
 	'randomQuotes'       => 'Random quotes',
 	'search'             => 'Search',
 	'stories'            => 'Stories',
+	'topQuotes'          => 'Tops',
 	'twitterUsername'    => '@ohteenquotes',
 ];

@@ -1,18 +1,7 @@
 <?php namespace TeenQuotes\Quotes\Controllers;
 
-use BaseController;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Paginator;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\View;
+use App, Auth, BaseController, Input, Lang, Paginator, Redirect, Response;
+use Route, Session, URL, Validator, View;
 use TeenQuotes\Exceptions\QuoteNotFoundException;
 use TeenQuotes\Http\JsonResponse;
 use TeenQuotes\Quotes\Models\Quote;
@@ -54,56 +43,45 @@ class QuotesController extends BaseController {
 		return Redirect::route('quotes.show', $id, 301);
 	}
 
+	public function redirectTop()
+	{
+		return Redirect::route('quotes.top.favorites', null, 301);
+	}
+
 	/**
-	 * Display a bunch of quotes
+	 * Display last quotes
 	 *
 	 * @return Response
 	 */
 	public function index()
-	{		
-		// Random quotes or not?
-		$response = (Route::currentRouteName() == 'random') ? $this->retrieveRandomQuotes() : $this->retrieveLastQuotes();
-
-		// Grab quotes
-		$quotes = $response['quotes'];
-
-		$data = [
-			'quotes'          => $quotes,
-			'pageTitle'       => Lang::get('quotes.'.Route::currentRouteName().'PageTitle'),
-			'pageDescription' => Lang::get('quotes.'.Route::currentRouteName().'PageDescription'),
-			'paginator'       => Paginator::make($quotes->toArray(), $response['total_quotes'], $response['pagesize']),
-		];
-
-		return View::make('quotes.index', $data);
-	}
-
-	private function retrieveLastQuotes()
 	{
-		$apiResponse = $this->api->index();
-		
-		$this->guardAgainstNotFound($apiResponse);
+		$response = $this->retrieveLastQuotes();
 
-		return $apiResponse->getOriginalData();
-	}
-
-	private function retrieveRandomQuotes()
-	{
-		$apiResponse = $this->api->random();
-		
-		$this->guardAgainstNotFound($apiResponse);
-
-		return $apiResponse->getOriginalData();
+		return $this->buildIndexResponse('quotes.index', $response);
 	}
 
 	/**
-	 * Throw an exception if the given response is a not found response
-	 * @param  JsonResponse $response the response
-	 * @return void|TeenQuotes\Exceptions\QuoteNotFoundException
+	 * Display random quotes
+	 *
+	 * @return Response
 	 */
-	private function guardAgainstNotFound(JsonResponse $response)
+	public function random()
 	{
-		if ($this->responseIsNotFound($response))
-			throw new QuoteNotFoundException;
+		$response = $this->retrieveRandomQuotes();
+
+		return $this->buildIndexResponse('quotes.index', $response);
+	}
+
+	/**
+	 * Display top favorites quotes
+	 *
+	 * @return Response
+	 */
+	public function topFavorites()
+	{
+		$response = $this->retrieveTopFavorites();
+
+		return $this->buildIndexResponse('quotes.top.favorites', $response);
 	}
 
 	/**
@@ -126,7 +104,7 @@ class QuotesController extends BaseController {
 		$response = $this->api->store(false);
 		if ($response->getStatusCode() == 201)
 			return Redirect::route('home')->with('success', Lang::get('quotes.quoteAddedSuccessfull', ['login' => $user->login]));
-		
+
 		App::abort(500, "Can't create quote.");
 	}
 
@@ -158,8 +136,8 @@ class QuotesController extends BaseController {
 		$response = $this->api->show($id);
 
 		$this->guardAgainstNotFound($response);
-		
-		$quote = $response->getOriginalData(); 
+
+		$quote = $response->getOriginalData();
 
 		// If the user was not logged in, we store the current URL in its session
 		// After sign in / sign up, he will be redirected here
@@ -185,5 +163,62 @@ class QuotesController extends BaseController {
 		$translate = Lang::choice('quotes.favoritesText', $data['nbFavorites'], $data);
 
 		return Response::json(compact('translate'), 200);
+	}
+
+	private function buildIndexResponse($viewName, $response)
+	{
+		$quotes = $response['quotes'];
+
+		$data = [
+			'quotes'          => $quotes,
+			'pageTitle'       => Lang::get('quotes.'.$this->cleanLangKey(Route::currentRouteName().'PageTitle')),
+			'pageDescription' => Lang::get('quotes.'.$this->cleanLangKey(Route::currentRouteName().'PageDescription')),
+			'paginator'       => Paginator::make($quotes->toArray(), $response['total_quotes'], $response['pagesize']),
+		];
+
+		return View::make($viewName, $data);
+	}
+
+	private function cleanLangKey($key)
+	{
+		return lcfirst(str_replace(' ', '', ucwords(str_replace('.', ' ', $key))));
+	}
+
+	private function retrieveTopFavorites()
+	{
+		$apiResponse = $this->api->getTopFavoritedQuotes();
+
+		$this->guardAgainstNotFound($apiResponse);
+
+		return $apiResponse->getOriginalData();
+	}
+
+	private function retrieveLastQuotes()
+	{
+		$apiResponse = $this->api->index();
+
+		$this->guardAgainstNotFound($apiResponse);
+
+		return $apiResponse->getOriginalData();
+	}
+
+	private function retrieveRandomQuotes()
+	{
+		$apiResponse = $this->api->random();
+
+		$this->guardAgainstNotFound($apiResponse);
+
+		return $apiResponse->getOriginalData();
+	}
+
+	/**
+	 * Throw an exception if the given response is a not found response
+	 * @param  JsonResponse $response the response
+	 * @return void|TeenQuotes\Exceptions\QuoteNotFoundException
+	 */
+	private function guardAgainstNotFound(JsonResponse $response)
+	{
+		if ($this->responseIsNotFound($response))
+			throw new QuoteNotFoundException;
 	}
 }

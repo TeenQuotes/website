@@ -10,7 +10,7 @@
 				<i class="fa fa-info"></i> {{ Lang::get('users.profileCurrentlyHidden') }}
 			</div>
 		@endif
-		
+
 		<!-- Profile basic info and counters -->
 		@include('users.profile.info')
 
@@ -23,7 +23,7 @@
 		@if ( ! empty($quotes))
 			@if ($type == 'favorites')
 				<h2><i class="fa fa-heart"></i> {{ Lang::get('users.favoriteQuotes') }}</h2>
-			@elseif ($type == 'comments')	
+			@elseif ($type == 'comments')
 				<h2><i class="fa fa-comments"></i> {{ Lang::get('users.comments') }}</h2>
 			@else
 				<h2><i class="fa fa-pencil"></i> {{ Lang::get('users.publishedQuotes') }}</h2>
@@ -33,8 +33,8 @@
 			@foreach ($quotes as $quote)
 				<!-- Quotes -->
 				@if ($type != 'comments')
-					@include('quotes.singleQuote', compact("quote"))
-				
+					@include('quotes.partials.singleQuote', compact("quote"))
+
 				<!-- Comments -->
 				@else
 					<?php $comment = $quote; ?>
@@ -43,7 +43,7 @@
 						<a href="{{URL::route('quotes.show', $comment->quote->id)}}">#{{$comment->quote->id}}</a> - {{{ $comment->quote->content }}}
 					</div>
 				@endif
-				
+
 				<?php $i++ ?>
 			@endforeach
 
@@ -51,7 +51,7 @@
 				{{ $paginator->links() }}
 			</div>
 		@endif
-		
+
 		<!-- The welcome tutorial, if available -->
 		@yield("welcome-tutorial")
 	</div>

@@ -4,7 +4,7 @@
 
 @section('content')
 	<!-- THE QUOTE -->
-	@include('quotes.singleQuote', compact("quote"))
+	@include('quotes.partials.singleQuote', compact("quote"))
 
 	<!-- Favorites' Info-->
 	@include('quotes.partials.favoritesInfo', ['data' => $quote->present()->favoritesData])
