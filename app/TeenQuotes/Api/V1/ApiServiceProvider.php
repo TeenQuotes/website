@@ -98,6 +98,7 @@ class ApiServiceProvider extends ServiceProvider {
 			$this->app['router']->get('quotes/{quote_id}', ['uses' => 'QuotesController@show']);
 			$this->app['router']->get('quotes/{random?}', ['uses' => 'QuotesController@index']);
 			$this->app['router']->get('quotes/top_favorites', ['uses' => 'QuotesController@getTopFavoritedQuotes']);
+			$this->app['router']->get('quotes/top_comments', ['uses' => 'QuotesController@getTopCommentedQuotes']);
 			$this->app['router']->get('quotes/favorites/{user_id?}', ['uses' => 'QuotesController@indexFavoritesQuotes']);
 			$this->app['router']->get('quotes/{quote_approved_type}/{user_id}', ['uses' => 'QuotesController@indexByApprovedQuotes']);
 			$this->app['router']->get('quotes/search/{query}', ['uses' => 'QuotesController@getSearch']);
