@@ -5,14 +5,14 @@ use Illuminate\Http\Response;
 use Auth, Input, Str;
 
 class ApiHelper extends Module {
-	
+
 	/**
 	 * The controller class to use for the current test case
 	 * @var mixed
 	 */
 	protected $controller;
-	
-	/** 
+
+	/**
 	 * The response given by a controller
 	 * @var Illuminate\Http\Response
 	 */
@@ -73,7 +73,7 @@ class ApiHelper extends Module {
 	protected $requiredAttributes;
 
 	public function assertResponseIsNotFound()
-	{		
+	{
 		$this->assertStatusCodeIs(Response::HTTP_NOT_FOUND);
 		$this->assertObjectHasAttribute('status', $this->json);
 		$this->assertObjectHasAttribute('error', $this->json);
@@ -95,7 +95,7 @@ class ApiHelper extends Module {
 	{
 		if ($length == 0)
 			return '';
-		
+
 		return str_random($length);
 	}
 
@@ -110,7 +110,7 @@ class ApiHelper extends Module {
 	public function assertStatusCodeIs($code)
 	{
 		$this->assertEquals($code, $this->response->getStatusCode());
-		
+
 		return $this;
 	}
 
@@ -157,28 +157,28 @@ class ApiHelper extends Module {
 	public function withStatusMessage($status)
 	{
 		$this->assertResponseKeyIs('status', $status);
-		
+
 		return $this;
 	}
 
 	public function withSuccessMessage($status)
 	{
 		$this->assertResponseKeyIs('success', $status);
-		
+
 		return $this;
 	}
 
 	public function withErrorMessage($error)
 	{
 		$this->assertResponseKeyIs('error', $error);
-		
+
 		return $this;
 	}
 
 	public function tryStore($method = 'store', $requestParams = null)
 	{
 		$this->doRequest($method, $requestParams);
-		
+
 		return $this;
 	}
 
@@ -195,7 +195,7 @@ class ApiHelper extends Module {
 			$this->response = $this->controller->$method();
 		else
 			$this->response = call_user_func_array([$this->controller, $method], (array) $params);
-		
+
 		$this->bindJson($this->response->getContent());
 
 		// Delete overriden request parameters
@@ -245,7 +245,7 @@ class ApiHelper extends Module {
 		$this->replacePagesInput();
 
 		$this->doRequest($method, $requestParams);
-		
+
 		$this->assertIsPaginatedResponse();
 
 		$objectName = $this->contentType;
@@ -264,7 +264,7 @@ class ApiHelper extends Module {
 	private function assertObjectMatchesExpectedSchema($object)
 	{
 		$this->assertObjectHasAttributes($object, $this->requiredAttributes);
-			
+
 		if ($this->embedsSmallUser())
 			$this->assertObjectContainsSmallUser($object);
 		if ($this->embedsQuote())
@@ -286,7 +286,7 @@ class ApiHelper extends Module {
 
 		$this->assertIsPaginatedResponse();
 		$this->assertHasNextAndPreviousPage();
-		
+
 		$objectName = $this->contentType;
 		$objects = $this->json->$objectName;
 
@@ -327,7 +327,7 @@ class ApiHelper extends Module {
 	private function assertObjectContainsNewsletters($object)
 	{
 		$newsletters = $object->newsletters;
-		
+
 		// Check the format for each newsletter
 		foreach ($newsletters as $o) {
 			$this->assertObjectIsNewsletter($o);
@@ -387,7 +387,7 @@ class ApiHelper extends Module {
 	private function assertNeighborsPagesMatch()
 	{
 		$this->checkPagesAreSet();
-		
+
 		$nextPage = $this->page + 1;
 		$previousPage = $this->page - 1;
 
@@ -406,7 +406,7 @@ class ApiHelper extends Module {
 		$this->assertObjectHasAttribute('profile_hidden', $object);
 		$this->assertObjectHasAttribute('url_avatar', $object);
 		$this->assertObjectHasAttribute('wants_notification_comment_quote', $object);
-		
+
 		// Assert types
 		$this->assertTrue(is_integer($object->id));
 		$this->assertTrue(is_bool($object->is_admin));
@@ -426,7 +426,8 @@ class ApiHelper extends Module {
 		$this->assertObjectHasAttribute('has_comments', $object);
 		$this->assertObjectHasAttribute('total_comments', $object);
 		$this->assertObjectHasAttribute('is_favorite', $object);
-		
+		$this->assertObjectHasAttribute('total_favorites', $object);
+
 		// Assert types
 		$this->assertTrue(is_integer($object->id));
 		$this->assertTrue(is_string($object->content));
@@ -436,6 +437,7 @@ class ApiHelper extends Module {
 		$this->assertTrue(is_bool($object->has_comments));
 		$this->assertTrue(is_integer($object->total_comments));
 		$this->assertTrue(is_bool($object->is_favorite));
+		$this->assertTrue(is_integer($object->total_favorites));
 	}
 
 	private function assertObjectIsCountry($object)
@@ -443,7 +445,7 @@ class ApiHelper extends Module {
 		// Assert attributes
 		$this->assertObjectHasAttribute('id', $object);
 		$this->assertObjectHasAttribute('name', $object);
-		
+
 		// Assert types
 		$this->assertTrue(is_integer($object->id));
 		$this->assertTrue(is_string($object->name));
@@ -455,7 +457,7 @@ class ApiHelper extends Module {
 		$this->assertObjectHasAttribute('user_id', $object);
 		$this->assertObjectHasAttribute('type', $object);
 		$this->assertObjectHasAttribute('created_at', $object);
-		
+
 		// Assert types
 		$this->assertTrue(is_integer($object->user_id));
 		$this->assertTrue(is_string($object->type));
@@ -466,7 +468,7 @@ class ApiHelper extends Module {
 	private function assertIsPaginatedResponse()
 	{
 		$this->checkPagesAreSet();
-		
+
 		// Assert attributes
 		$attributeName = 'total_'.$this->contentType;
 		$this->assertObjectHasAttribute($attributeName, $this->json);
@@ -476,10 +478,10 @@ class ApiHelper extends Module {
 		$this->assertObjectHasAttribute('url', $this->json);
 		$this->assertObjectHasAttribute('has_next_page', $this->json);
 		$this->assertObjectHasAttribute('has_previous_page', $this->json);
-		
+
 		if ($this->json->has_next_page)
 			$this->assertObjectHasAttribute('next_page', $this->json);
-		
+
 		if ($this->json->has_previous_page)
 			$this->assertObjectHasAttribute('previous_page', $this->json);
 
@@ -497,12 +499,12 @@ class ApiHelper extends Module {
 		$this->assertEquals($this->nbRessources, $this->json->$attributeName);
 		$this->assertEquals($this->computeTotalPages(), $this->json->total_pages);
 
-		// Check URL format		
+		// Check URL format
 		if ($this->json->has_next_page)
 			$this->assertTrue(Str::startsWith($this->json->next_page, 'http'));
 		else
 			$this->assertObjectNotHasAttribute('next_page', $this->json);
-		
+
 		if ($this->json->has_previous_page)
 			$this->assertTrue(Str::startsWith($this->json->previous_page, 'http'));
 		else
@@ -517,23 +519,23 @@ class ApiHelper extends Module {
 	private function checkPagesAreSet()
 	{
 		if (is_null($this->page) OR is_null($this->pagesize))
-			throw new \InvalidArgumentException("Page and pagesize must be set before calling this method", 1);	
+			throw new \InvalidArgumentException("Page and pagesize must be set before calling this method", 1);
 	}
 
 	private function assertHasNextAndPreviousPage()
-	{		
+	{
 		$this->assertTrue($this->json->has_next_page);
 		$this->assertTrue($this->json->has_previous_page);
 	}
 
 	private function assertHasNextPage()
-	{		
+	{
 		$this->assertTrue($this->json->has_next_page);
 		$this->assertFalse($this->json->has_previous_page);
 	}
 
 	private function assertHasPreviousPage()
-	{		
+	{
 		$this->assertFalse($this->json->has_next_page);
 		$this->assertTrue($this->json->has_previous_page);
 	}

@@ -2,24 +2,27 @@
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
-use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Models\Quote;
 
 class QuotesTest extends ApiTest {
 
-	protected $requiredAttributes = ['id', 'content', 'user_id', 'approved', 'created_at', 'has_comments', 'total_comments', 'is_favorite'];
+	protected $requiredAttributes = ['id', 'content', 'user_id', 'approved', 'created_at', 'has_comments', 'total_comments', 'is_favorite', 'total_favorites'];
 	protected $embedsRelation = ['user_small'];
 	protected $approvedTypes = ['waiting', 'refused', 'pending', 'published'];
 
 	protected function _before()
 	{
 		parent::_before();
-		
+
 		$this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\QuotesController'));
 
 		$this->unitTester->setContentType('quotes');
 
-		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Quote');
+		$totalItems = $this->unitTester->getNbRessources();
+
+		$quotes = $this->unitTester->insertInDatabase($totalItems, 'Quote');
+		foreach ($quotes as $quote)
+			$this->unitTester->insertInDatabase($quote->id, 'FavoriteQuote', ['quote_id' => $quote->id]);
 	}
 
 	public function testShowNotFound()
@@ -51,9 +54,9 @@ class QuotesTest extends ApiTest {
 	 * @expectedExceptionMessage quotes
 	 */
 	public function testIndexNotFound()
-	 {
+	{
 		$this->unitTester->tryPaginatedContentNotFound();
-	 }
+	}
 
 	public function testIndexRandom()
 	{
@@ -69,9 +72,9 @@ class QuotesTest extends ApiTest {
 	 * @expectedExceptionMessage quotes
 	 */
 	public function testIndexRandomNotFound()
-	 {
+	{
 		$this->unitTester->tryPaginatedContentNotFound('random');
-	 }
+	}
 
 	public function testStoreContentTooSmall()
 	{
@@ -98,7 +101,7 @@ class QuotesTest extends ApiTest {
 		$this->unitTester->logUserWithId(1);
 
 		$this->unitTester->addInputReplace(['content' => $this->unitTester->generateString(100)]);
-		
+
 		$this->unitTester->tryStore()
 			->assertStatusCodeIs(Response::HTTP_CREATED)
 			->assertBelongsToLoggedInUser();
@@ -111,7 +114,7 @@ class QuotesTest extends ApiTest {
 		$this->unitTester->insertInDatabase(5, 'Quote', ['user_id' => $u['id']]);
 
 		$this->unitTester->addInputReplace(['content' => $this->unitTester->generateString(100)]);
-		
+
 		$this->unitTester->logUserWithId($u['id']);
 
 		// Try to submit another quote but we should reach the limit
@@ -146,12 +149,8 @@ class QuotesTest extends ApiTest {
 	{
 		// Create favorites for a user
 		$u = $this->unitTester->insertInDatabase(1, 'User');
-		for ($i = 1; $i <= $this->unitTester->getNbRessources(); $i++) { 
-			$f = new FavoriteQuote;
-			$f->user_id = $u['id'];
-			$f->quote_id = $i;
-			$f->save();
-		}
+		for ($i = 1; $i <= $this->unitTester->getNbRessources(); $i++)
+			$this->unitTester->insertInDatabase(1, 'FavoriteQuote', ['user_id' => $u->id, 'quote_id' => $i]);
 
 		$this->unitTester->tryMiddlePage('indexFavoritesQuotes', $u['id']);
 
@@ -163,7 +162,7 @@ class QuotesTest extends ApiTest {
 		$idNonExistingUser = 500;
 
 		foreach ($this->approvedTypes as $approved) {
-			
+
 			$this->unitTester->doRequest('indexByApprovedQuotes', [$approved, $idNonExistingUser])
 				->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 				->withStatusMessage('user_not_found')
@@ -178,7 +177,7 @@ class QuotesTest extends ApiTest {
 	public function testQuotesByApprovedUnexistingQuotes()
 	{
 		foreach ($this->approvedTypes as $approved) {
-			
+
 			// Create a new user each time, with no quotes
 			$u = $this->unitTester->insertInDatabase(1, 'User');
 			$idUser = $u['id'];
@@ -196,9 +195,9 @@ class QuotesTest extends ApiTest {
 		$u = $this->unitTester->insertInDatabase(1, 'User');
 		$idUser = $u['id'];
 		$this->unitTester->logUserWithId($idUser);
-		
+
 		foreach ($this->approvedTypes as $approved) {
-			
+
 			// Create some quotes with the given approved type for this user
 			$this->createQuotesForUserWithApproved($idUser, $approved);
 
@@ -208,10 +207,19 @@ class QuotesTest extends ApiTest {
 		}
 	}
 
+	/**
+	 * @expectedException        TeenQuotes\Exceptions\ApiNotFoundException
+	 * @expectedExceptionMessage quotes
+	 */
+	public function testTopFavoritedQuotesNotFound()
+	{
+		$this->unitTester->tryPaginatedContentNotFound('getTopFavoritedQuotes');
+	}
+
 	private function createQuotesForUserWithApproved($id, $approved)
 	{
 		$approvedType = constant("TeenQuotes\Quotes\Models\Quote::".strtoupper($approved));
-		
+
 		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Quote', ['user_id' => $id, 'approved' => $approvedType]);
 	}
 
@@ -219,7 +227,7 @@ class QuotesTest extends ApiTest {
 	{
 		if ($approved == 'published')
 			$this->unitTester->insertInDatabase(1, 'Quote', ['user_id' => $id, 'approved' => Quote::WAITING]);
-		
+
 		$this->unitTester->insertInDatabase(1, 'Quote', ['user_id' => $id, 'approved' => Quote::PUBLISHED]);
 	}
 

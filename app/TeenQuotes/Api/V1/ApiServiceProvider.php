@@ -40,7 +40,7 @@ class ApiServiceProvider extends ServiceProvider {
 		{
 			$status = 404;
 			$error = 'No '.$exception->getMessage().' have been found.';
-			
+
 			return \TeenQuotes\Http\Facades\Response::json(compact('status', 'error'), 404);
 		});
 	}
@@ -84,7 +84,7 @@ class ApiServiceProvider extends ServiceProvider {
 	}
 
 	private function registerPasswordRoutes()
-	{		
+	{
 		$this->app['router']->group($this->getRouteGroupParams(), function() {
 			$this->app['router']->post('password/remind', ['uses' => 'PasswordController@postRemind']);
 			$this->app['router']->post('password/reset', ['uses' => 'PasswordController@postReset']);
@@ -97,6 +97,7 @@ class ApiServiceProvider extends ServiceProvider {
 			$this->app['router']->post('quotes', ['uses' => 'QuotesController@store']);
 			$this->app['router']->get('quotes/{quote_id}', ['uses' => 'QuotesController@show']);
 			$this->app['router']->get('quotes/{random?}', ['uses' => 'QuotesController@index']);
+			$this->app['router']->get('quotes/top_favorites', ['uses' => 'QuotesController@getTopFavoritedQuotes']);
 			$this->app['router']->get('quotes/favorites/{user_id?}', ['uses' => 'QuotesController@indexFavoritesQuotes']);
 			$this->app['router']->get('quotes/{quote_approved_type}/{user_id}', ['uses' => 'QuotesController@indexByApprovedQuotes']);
 			$this->app['router']->get('quotes/search/{query}', ['uses' => 'QuotesController@getSearch']);
@@ -116,7 +117,7 @@ class ApiServiceProvider extends ServiceProvider {
 			$this->app['router']->get('users/search/{query}', ['uses' => 'UsersController@getSearch']);
 		});
 	}
-				
+
 	private function registerSearchRoutes()
 	{
 		$this->app['router']->group($this->getRouteGroupParams(), function() {
@@ -140,7 +141,7 @@ class ApiServiceProvider extends ServiceProvider {
 		$routeGroupParams['before'] = 'session.remove';
 		// No prefix
 		array_forget($routeGroupParams, 'prefix');
-		
+
 		$this->app['router']->group($routeGroupParams, function() {
 			$this->app['router']->post('oauth', ['uses' => 'APIGlobalController@postOauth']);
 			$this->app['router']->get('/', ['uses' => 'APIGlobalController@showWelcome']);
@@ -155,8 +156,8 @@ class ApiServiceProvider extends ServiceProvider {
 	{
 		return [
 			'domain'    => $this->app['config']->get('app.domainAPI'),
-			'before'    => 'oauth|session.remove', 
-			'prefix'    => 'v1', 
+			'before'    => 'oauth|session.remove',
+			'prefix'    => 'v1',
 			'namespace' => 'TeenQuotes\Api\V1\Controllers'
 		];
 	}

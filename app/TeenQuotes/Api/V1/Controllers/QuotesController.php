@@ -31,7 +31,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 				'status' => 'quote_not_found',
 				'error'  => "The quote #".$quote_id." was not found.",
 			], 404);
-					
+
 		// Register the view in the recommendation engine
 		$quote->registerViewAction();
 
@@ -40,12 +40,10 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 
 	public function indexFavoritesQuotes($user_id)
 	{
-		$page = $this->getPage();
 		$this->relationInvolved = 'users';
-		$pagesize = $this->getPagesize();
 
 		$user = $this->userRepo->getById($user_id);
-		
+
 		// Handle user not found
 		if (is_null($user)) {
 			$data = [
@@ -59,30 +57,19 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		// Get the list of favorite quotes
 		$arrayIDFavoritesQuotesForUser = $user->arrayIDFavoritesQuotes();
 
-		$totalQuotes = count($arrayIDFavoritesQuotesForUser);
-		
-		// Get quotes
-		$content = array();
-		if ($totalQuotes > 0)
-			$content = $this->getQuotesFavorite($page, $pagesize, $arrayIDFavoritesQuotesForUser);
+		$total = count($arrayIDFavoritesQuotesForUser);
 
-		// Handle no quotes found
-		if (is_null($content) OR empty($content) OR $content->count() == 0)
-			throw new ApiNotFoundException('quotes');
+		$quotes = $this->getQuotesFavorite($this->getPage(), $this->getPagesize(), $arrayIDFavoritesQuotesForUser);
 
-		$data = self::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
-		
-		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
+		return $this->buildPaginatedResponse($quotes, $total);
 	}
 
 	public function indexByApprovedQuotes($quote_approved_type, $user_id)
 	{
-		$page = $this->getPage();
 		$this->relationInvolved = 'users';
-		$pagesize = $this->getPagesize();
 
 		$user = $this->userRepo->getById($user_id);
-		
+
 		// Handle user not found
 		if (is_null($user)) {
 			$data = [
@@ -92,67 +79,49 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 
 			return Response::json($data, 400);
 		}
-		
-		// Get quotes
-		$content = $this->getQuotesByApprovedForUser($page, $pagesize, $user, $quote_approved_type);
 
-		// Handle no quotes found
-		$totalQuotes = 0;
-		if (is_null($content) OR empty($content) OR $content->count() == 0)
-			throw new ApiNotFoundException('quotes');
+		$quotes = $this->getQuotesByApprovedForUser($this->getPage(), $this->getPagesize(), $user, $quote_approved_type);
 
-		$totalQuotes = $this->quoteRepo->countQuotesByApprovedForUser($quote_approved_type, $user);
+		$total = $this->quoteRepo->countQuotesByApprovedForUser($quote_approved_type, $user);
 
-		$data = self::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
-		
-		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
+		return $this->buildPaginatedResponse($quotes, $total);
 	}
 
-	public function index($random = null)
+	public function index()
 	{
-		$page = $this->getPage();
-		$pagesize = $this->getPagesize();
+		$quotes = $this->getQuotesHome($this->getPage(), $this->getPagesize());
 
-		$totalQuotes = $this->quoteRepo->totalPublished();
+		$total = $this->quoteRepo->totalPublished();
 
-		// Get quotes
-		if (is_null($random))
-			$content = $this->getQuotesHome($page, $pagesize);
-		else
-			$content = $this->getQuotesRandom($page, $pagesize);
-
-		// Handle no quotes found
-		if (is_null($content) OR $content->count() == 0)
-			throw new ApiNotFoundException('quotes');
-
-		$data = self::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
-		
-		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
+		return $this->buildPaginatedResponse($quotes, $total);
 	}
 
 	public function random()
 	{
-		return $this->index(true);
+		$quotes = $this->getQuotesRandom($this->getPage(), $this->getPagesize());
+
+		$total = $this->quoteRepo->totalPublished();
+
+		return $this->buildPaginatedResponse($quotes, $total);
+	}
+
+	public function getTopFavoritedQuotes()
+	{
+		$ids = $this->favQuoteRepo->getTopQuotes($this->getPage(), $this->getPagesize());
+		$quotes = $this->quoteRepo->getForIds($ids, 1, count($ids));
+
+		$total = $this->quoteRepo->nbQuotesWithFavorites();
+
+		return $this->buildPaginatedResponse($quotes, $total);
 	}
 
 	public function getSearch($query)
 	{
-		$page = $this->getPage();
-		$pagesize = $this->getPagesize();
+		$quotes = $this->getQuotesSearch($this->getPage(), $this->getPagesize(), $query);
 
-		// Get quotes
-		$content = $this->getQuotesSearch($page, $pagesize, $query);
+		$total = $this->quoteRepo->searchCountPublishedWithQuery($query);
 
-		// Handle no quotes found
-		$totalQuotes = 0;
-		if (is_null($content) OR empty($content) OR $content->count() == 0)
-			throw new ApiNotFoundException('quotes');
-
-		$totalQuotes = $this->quoteRepo->searchCountPublishedWithQuery($query);
-
-		$data = self::paginateContent($page, $pagesize, $totalQuotes, $content, 'quotes');
-		
-		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
+		return $this->buildPaginatedResponse($quotes, $total);
 	}
 
 	public function store($doValidation = true)
@@ -172,7 +141,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 					'status' => 'too_much_submitted_quotes',
 					'error'  => "The maximum number of quotes you can submit is 5 per day."
 				];
-				
+
 				return Response::json($errors, 400);
 			}
 
@@ -207,7 +176,25 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		}
 	}
 
-	public function getQuotesSearch($page, $pagesize, $query)
+	/**
+	 * Build a paginated response for quotes
+	 * @param  Illuminate\Database\Eloquent\Collection $quotes
+	 * @param  int $total
+	 * @throws TeenQuotes\Exceptions\ApiNotFoundException If no quotes were found
+	 * @return TeenQuotes\Http\Facades\Response
+	 */
+	private function buildPaginatedResponse($quotes, $total)
+	{
+		// Handle no quotes found
+		if (is_null($quotes) OR $quotes->count() == 0)
+			throw new ApiNotFoundException('quotes');
+
+		$data = self::paginateContent($this->getPage(), $this->getPagesize(), $total, $quotes, 'quotes');
+
+		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
+	}
+
+	private function getQuotesSearch($page, $pagesize, $query)
 	{
 		return $this->quoteRepo->searchPublishedWithQuery($query, $page, $pagesize);
 	}
@@ -231,7 +218,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 	{
 		return $this->quoteRepo->getForIds($arrayIDFavoritesQuotesForUser, $page, $pagesize);
 	}
-	
+
 	private function getQuotesByApprovedForUser($page, $pagesize, $user, $quote_approved_type)
 	{
 		return $this->quoteRepo->getQuotesByApprovedForUser($user, $quote_approved_type, $page, $pagesize);
