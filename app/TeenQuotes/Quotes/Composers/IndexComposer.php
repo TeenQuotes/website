@@ -51,7 +51,7 @@ class IndexComposer implements QuotesColorsExtractor {
 				return 'fa-comments';
 		}
 
-		throw new InvalidArgumentException("Can't find icon for view ".$viewName);
+		throw new InvalidArgumentException("Can't find icon for top type: ".$topType);
 	}
 
 	private function getPossibleTopTypes()
