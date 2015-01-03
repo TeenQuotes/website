@@ -6,9 +6,9 @@ use TeenQuotes\Newsletters\Models\Newsletter;
 class UserObserver {
 
 	/**
-	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
+	 * @var TeenQuotes\Newsletters\NewslettersManager
 	 */
-	private $newsletterRepo;
+	private $newsletterManager;
 
 	/**
 	 * @var TeenQuotes\Mail\UserMailer
@@ -17,7 +17,7 @@ class UserObserver {
 
 	public function __construct()
 	{
-		$this->newsletterRepo = App::make('TeenQuotes\Newsletters\Repositories\NewsletterRepository');
+		$this->newsletterManager = App::make('TeenQuotes\Newsletters\NewslettersManager');
 		$this->userMailer = App::make('TeenQuotes\Mail\UserMailer');
 	}
 
@@ -28,7 +28,7 @@ class UserObserver {
 	public function created($user)
 	{
 		// Subscribe the user to the weekly newsletter
-		$this->newsletterRepo->createForUserAndType($user, Newsletter::WEEKLY);
+		$this->newsletterManager->createForUserAndType($user, Newsletter::WEEKLY);
 
 		$this->sendWelcomeEmail($user);
 	}
