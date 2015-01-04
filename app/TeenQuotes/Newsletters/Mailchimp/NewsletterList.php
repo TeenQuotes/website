@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Illuminate\View\Factory as View;
 use TeenQuotes\Newsletters\NewsletterList as NewsletterListInterface;
 use TeenQuotes\Users\Models\User;
+use TeenQuotes\Users\Repositories\UserRepository;
 
 class NewsletterList implements NewsletterListInterface {
 
@@ -25,18 +26,24 @@ class NewsletterList implements NewsletterListInterface {
 	protected $config;
 
 	/**
+	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 */
+	protected $userRepo;
+
+	/**
 	 * @var array
 	 */
 	protected $lists = [
 		'weeklyNewsletter' => 'd22415c1ea',
 		'dailyNewsletter'  => 'f9e52170f4',
 	];
-	
-	function __construct(View $view, Config $config)
+
+	function __construct(View $view, Config $config, UserRepository $userRepo)
 	{
 		$this->mailchimp = App::make('MailchimpClient');
 		$this->view = $view;
 		$this->config = $config;
+		$this->userRepo = $userRepo;
 	}
 
 	/**
@@ -60,7 +67,7 @@ class NewsletterList implements NewsletterListInterface {
 
 	/**
 	 * Subscribe multiple users to a newsletter
-	 * 
+	 *
 	 * @param  string $listName
 	 * @param  Illuminate\Support\Collection $collection A collection of users
 	 * @return mixed
@@ -98,7 +105,7 @@ class NewsletterList implements NewsletterListInterface {
 
 	/**
 	 * Unsubscribe multiple users from a newsletter
-	 * 
+	 *
 	 * @param  string $listName
 	 * @param  Illuminate\Support\Collection $collection A collection of users
 	 * @return mixed
@@ -118,7 +125,7 @@ class NewsletterList implements NewsletterListInterface {
 
 	/**
 	 * Send a campaign to a list
-	 * 
+	 *
 	 * @param  string $listName
 	 * @param  string $subject
 	 * @param  string $toName
@@ -144,8 +151,37 @@ class NewsletterList implements NewsletterListInterface {
 		$content = compact('html');
 
 		$campaign = $this->mailchimp->campaigns->create('regular', $options, $content);
-		
+
 		return $this->mailchimp->campaigns->send($campaign['id']);
+	}
+
+	/**
+	 * Get users who unsubscribed from a list
+	 *
+	 * @param  string $listName
+	 * @return Illuminate\Support\Collection $collection A collection of users
+	 */
+	public function getUnsubscribesFromList($listName)
+	{
+		$emails = $this->getEmailsUnsubscribedFromList($listName);
+
+		return $this->userRepo->getByEmails($emails);
+	}
+
+	private function getEmailsUnsubscribedFromList($listName)
+	{
+		$emails = [];
+
+		$out = $this->mailchimp->lists->members(
+			$this->getListId($listName),
+			'unsubscribed', // Status: subscribed|unsubscribed|cleaned
+			null // Options
+		);
+
+		foreach ($out['data'] as $user)
+			$emails[] = $user['email'];
+
+		return $emails;
 	}
 
 	private function extractBatchSubscribe(Collection $c)
@@ -157,7 +193,7 @@ class NewsletterList implements NewsletterListInterface {
 			$out['email'] = ['email' => $user->email];
 			$out['email_type'] = 'html';
 			$out['merge_vars'] = $this->getMergeVarsForUser($user);
-			
+
 			$batch[] = $out;
 		}
 

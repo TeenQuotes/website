@@ -16,7 +16,7 @@ interface NewsletterList {
 
 	/**
 	 * Subscribe multiple users to a newsletter
-	 * 
+	 *
 	 * @param  string $listName
 	 * @param  Illuminate\Support\Collection $collection A collection of users
 	 * @return mixed
@@ -34,7 +34,7 @@ interface NewsletterList {
 
 	/**
 	 * Unsubscribe multiple users from a newsletter
-	 * 
+	 *
 	 * @param  string $listName
 	 * @param  Illuminate\Support\Collection $collection A collection of users
 	 * @return mixed
@@ -43,7 +43,7 @@ interface NewsletterList {
 
 	/**
 	 * Send a campaign to a list
-	 * 
+	 *
 	 * @param  string $listName
 	 * @param  string $subject
 	 * @param  string $toName
@@ -52,4 +52,12 @@ interface NewsletterList {
 	 * @return mixed
 	 */
 	public function sendCampaign($listName, $subject, $toName, $viewName, $viewData);
+
+	/**
+	 * Get users who unsubscribed from a list
+	 *
+	 * @param  string $listName
+	 * @return Illuminate\Support\Collection A collection of users
+	 */
+	public function getUnsubscribesFromList($listName);
 }
