@@ -23,6 +23,16 @@ class NewslettersServiceProvider extends ServiceProvider {
 	{
 		$this->registerBindings();
 		$this->registerCommands();
+		$this->registerWebhooks();
+	}
+
+	private function registerWebhooks()
+	{
+		$controller = 'MailchimpWebhook';
+
+		$this->app['router']->group($this->getRouteGroupParams(), function() use ($controller) {
+			$this->app['router']->get('mailchimp/webhook', ['as' => 'mailchimp.webhook', 'uses' => $controller.'@listen']);
+		});
 	}
 
 	private function registerBindings()
@@ -49,5 +59,17 @@ class NewslettersServiceProvider extends ServiceProvider {
 
 			$this->commands($key);
 		}
+	}
+
+	/**
+	 * Parameters for the group of routes
+	 * @return array
+	 */
+	private function getRouteGroupParams()
+	{
+		return [
+			'domain'    => $this->app['config']->get('app.domain'),
+			'namespace' => $this->getBaseNamespace().'Controllers',
+		];
 	}
 }
