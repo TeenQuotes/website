@@ -60,4 +60,18 @@ interface NewsletterList {
 	 * @return Illuminate\Support\Collection A collection of users
 	 */
 	public function getUnsubscribesFromList($listName);
+
+	/**
+	 * Get a mailing list ID from its user-friendly name
+	 * @param  string $name
+	 * @return string
+	 */
+	public function getListIdFromName($name);
+
+	/**
+	 * Get the user-friendly name of a mailing list from its ID
+	 * @param  string $listId
+	 * @return string
+	 */
+	public function getNameFromListId($listId);
 }

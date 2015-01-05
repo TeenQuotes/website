@@ -56,7 +56,7 @@ class NewsletterList implements NewsletterListInterface {
 	public function subscribeTo($listName, User $user)
 	{
 		return $this->mailchimp->lists->subscribe(
-			$this->getListId($listName),
+			$this->getListIdFromName($listName),
 			['email' => $user->email],
 			$this->getMergeVarsForUser($user), // Merge vars
 			'html', // Email type
@@ -77,7 +77,7 @@ class NewsletterList implements NewsletterListInterface {
 		$batch = $this->extractBatchSubscribe($collection);
 
 		return $this->mailchimp->lists->batchSubscribe(
-			$this->getListId($listName),
+			$this->getListIdFromName($listName),
 			$batch,
 			false, // Require double opt in?
 			true, // Update existing customers.
@@ -95,7 +95,7 @@ class NewsletterList implements NewsletterListInterface {
 	public function unsubscribeFrom($listName, User $user)
 	{
 		return $this->mailchimp->lists->unsubscribe(
-			$this->getListId($listName),
+			$this->getListIdFromName($listName),
 			['email' => $user->email],
 			false, // Delete the member permanently
 			false, // Send goodbye email?
@@ -115,7 +115,7 @@ class NewsletterList implements NewsletterListInterface {
 		$batch = $this->extractBatchUnsubscribe($collection);
 
 		return $this->mailchimp->lists->batchUnsubscribe(
-			$this->getListId($listName),
+			$this->getListIdFromName($listName),
 			$batch,
 			true, // Delete member
 			false, // Send goodbye
@@ -138,7 +138,7 @@ class NewsletterList implements NewsletterListInterface {
 		$from = $this->config->get('mail.from');
 
 		$options = [
-			'list_id'       => $this->getListId($listName),
+			'list_id'       => $this->getListIdFromName($listName),
 			'subject'       => $subject,
 			'to_name'       => $toName,
 			'from_email'    => $from['address'],
@@ -168,12 +168,32 @@ class NewsletterList implements NewsletterListInterface {
 		return $this->userRepo->getByEmails($emails);
 	}
 
+	/**
+	 * Get a mailing list ID from its user-friendly name
+	 * @param  string $name
+	 * @return string
+	 */
+	public function getListIdFromName($name)
+	{
+		return $this->lists[$name];
+	}
+
+	/**
+	 * Get the user-friendly name of a mailing list from its ID
+	 * @param  string $listId
+	 * @return string
+	 */
+	public function getNameFromListId($listId)
+	{
+		return array_search($listId, $this->lists);
+	}
+
 	private function getEmailsUnsubscribedFromList($listName)
 	{
 		$emails = [];
 
 		$out = $this->mailchimp->lists->members(
-			$this->getListId($listName),
+			$this->getListIdFromName($listName),
 			'unsubscribed', // Status: subscribed|unsubscribed|cleaned
 			null // Options
 		);
@@ -217,10 +237,5 @@ class NewsletterList implements NewsletterListInterface {
 		return [
 			'LOGIN' => $u->login,
 		];
-	}
-
-	private function getListId($name)
-	{
-		return $this->lists[$name];
 	}
 }
