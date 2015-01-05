@@ -45,6 +45,13 @@ interface UserRepository {
 	public function updatePassword($u, $password);
 
 	/**
+	 * Update the email for a user
+	 * @param TeenQuotes\Users\Models\User|int $u
+	 * @param string $email
+	 */
+	public function updateEmail($u, $email);
+
+	/**
 	 * Update a user's profile
 	 * @param TeenQuotes\Users\Models\User|int $u
 	 * @param string $gender

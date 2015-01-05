@@ -72,6 +72,18 @@ class DbUserRepository implements UserRepository {
 	}
 
 	/**
+	 * Update the email for a user
+	 * @param TeenQuotes\Users\Models\User|int $u
+	 * @param string $email
+	 */
+	public function updateEmail($u, $email)
+	{
+		$user = $this->retrieveUser($u);
+		$user->email = $email;
+		$user->save();
+	}
+
+	/**
 	 * Update a user's profile
 	 * @param TeenQuotes\Users\Models\User|int $u
 	 * @param string $gender

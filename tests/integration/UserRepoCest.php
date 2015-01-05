@@ -85,6 +85,18 @@ class UserRepoCest
 		$I->assertTrue(Auth::validate($credentials));
 	}
 
+	public function testUpdateEmail(IntegrationTester $I)
+	{
+		$u = $I->insertInDatabase(1, 'User');
+		$newEmail = 'foobar@bar.com';
+
+		$this->repo->updateEmail($u, $newEmail);
+
+		$user = $this->repo->getById(1);
+
+		$I->assertEquals($newEmail, $user->email);
+	}
+
 	public function testUpdateProfile(IntegrationTester $I)
 	{
 		$gender = 'F';
