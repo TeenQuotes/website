@@ -54,10 +54,11 @@ class UsersServiceProvider extends ServiceProvider {
 	private function registerRoutes()
 	{
 		$this->app['router']->pattern('display_type', 'favorites|comments');
-		
+
 		$this->app['router']->group($this->getRouteGroupParams(), function() {
 			$this->app['router']->delete('users', ['as' => 'users.delete', 'before' => 'auth', 'uses' => $this->getController().'@destroy']);
 			$this->app['router']->get("signup", ["as" => "signup", "before" => "guest", "uses" => "UsersController@getSignup"]);
+			$this->app['router']->get('user-{user_id}', ['uses' => $this->getController().'@redirectOldUrl'])->where('user_id', '[0-9]+');
 			$this->app['router']->get('users/{user_id}/{display_type?}', ['as' => 'users.show', 'uses' => $this->getController().'@show']);
 			$this->app['router']->put('users/{user_id}/password', ['as' => 'users.password', 'uses' => $this->getController().'@putPassword']);
 			$this->app['router']->put('users/{user_id}/avatar', ['as' => 'users.avatar', 'uses' => $this->getController().'@putAvatar']);

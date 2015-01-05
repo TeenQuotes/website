@@ -73,6 +73,13 @@ class UsersController extends BaseController {
 		$this->userValidator = $userValidator;
 	}
 
+	public function redirectOldUrl($userId)
+	{
+		$user = $this->userRepo->getById($userId);
+
+		return Redirect::route('users.show', $user->login, 301);
+	}
+
 	/**
 	 * Displays the signup form
 	 *
