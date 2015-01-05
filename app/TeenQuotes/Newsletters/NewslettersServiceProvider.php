@@ -31,7 +31,7 @@ class NewslettersServiceProvider extends ServiceProvider {
 		$controller = 'MailchimpWebhook';
 
 		$this->app['router']->group($this->getRouteGroupParams(), function() use ($controller) {
-			$this->app['router']->get('mailchimp/webhook', ['as' => 'mailchimp.webhook', 'uses' => $controller.'@listen']);
+			$this->app['router']->match(['GET', 'POST'],'mailchimp/webhook', ['as' => 'mailchimp.webhook', 'uses' => $controller.'@listen']);
 		});
 	}
 
