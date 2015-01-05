@@ -31,6 +31,17 @@ class UserRepoCest
 		$I->assertEquals($u->email, $user->email);
 	}
 
+	public function testGetByEmail(IntegrationTester $I)
+	{
+		$I->insertInDatabase(1, 'User');
+		$u = $I->insertInDatabase(1, 'User');
+
+		$user = $this->repo->getByEmail($u->email);
+
+		$I->assertEquals($u->login, $user->login);
+		$I->assertEquals($u->email, $user->email);
+	}
+
 	public function testGetByEmails(IntegrationTester $I)
 	{
 		$I->insertInDatabase(2, 'User');
