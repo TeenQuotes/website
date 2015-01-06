@@ -38,16 +38,31 @@ class MailchimpWebhook extends BaseController {
 
 		switch ($type)
 		{
+			// Unsubscribe from Mailchimp website
 			case 'unsubscribe':
 				$this->unsubscribe(Input::get('data'));
 				break;
 
+			// Update of the email address
 			case 'upemail':
 				$this->changeEmail(Input::get('data'));
+				break;
+
+			// Hard bounce or spam complaint
+			case 'cleaned':
+				$this->bounce(Input::get('data'));
 				break;
 		}
 
 		return Response::make('DONE', 200);
+	}
+
+	private function bounce($data)
+	{
+		$user = $this->userRepo->getByEmail($data['email']);
+
+		if (! is_null($user))
+			$this->newsletterRepo->deleteForUser($user);
 	}
 
 	private function unsubscribe($data)
