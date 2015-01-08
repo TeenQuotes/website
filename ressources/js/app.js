@@ -37,8 +37,9 @@ $(document).ready(function() {
 	});
 
 	// Signup promotion when indexing quotes
-	$("#js-promotion-signup").hover(function() {
+	$("#js-promotion-signup").click(function() {
 		ga('send', 'event', 'signup', 'promotion-quote-signup', 'click');
+		window.location.href = $(this).attr('href');
 	});
 
 	// Signin view
