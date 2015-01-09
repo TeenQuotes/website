@@ -1,7 +1,7 @@
 <?php
 
-class CommentRepoCest
-{
+class CommentRepoCest {
+
 	/**
 	 * @var TeenQuotes\Comments\Repositories\CommentRepository
 	 */

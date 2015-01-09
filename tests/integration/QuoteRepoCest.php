@@ -2,8 +2,7 @@
 
 use TeenQuotes\Quotes\Models\Quote;
 
-class QuoteRepoCest
-{
+class QuoteRepoCest {
 	/**
 	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
 	 */
