@@ -21,6 +21,9 @@
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
+	
+	<!-- Color of the address bar in Chrome -->
+	<meta name="theme-color" content="#22313F">
 </head>
 <body>
 
