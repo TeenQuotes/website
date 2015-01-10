@@ -44,6 +44,11 @@ class UsersServiceProvider extends ServiceProvider {
 			$this->getNamespaceRepositories().'UserRepository',
 			$this->getNamespaceRepositories().'DbUserRepository'
 		);
+
+		$this->app->bind(
+			$this->getNamespaceRepositories().'ProfileVisitorRepository',
+			$this->getNamespaceRepositories().'DbProfileVisitorRepository'
+		);
 	}
 
 	private function registerObserver()

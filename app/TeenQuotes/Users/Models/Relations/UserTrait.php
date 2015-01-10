@@ -1,7 +1,7 @@
 <?php namespace TeenQuotes\Users\Models\Relations;
 
 trait UserTrait {
-	
+
 	public function comments()
 	{
 		return $this->hasMany('TeenQuotes\Comments\Models\Comment');
@@ -13,7 +13,7 @@ trait UserTrait {
 	}
 
 	public function newsletters()
-	{		
+	{
 		return $this->hasMany('TeenQuotes\Newsletters\Models\Newsletter');
 	}
 
@@ -32,14 +32,14 @@ trait UserTrait {
 		return $this->hasMany('TeenQuotes\Stories\Models\Story');
 	}
 
-	public function usersVisitors()
+	public function visitors()
 	{
-		return $this->hasMany('TeenQuotes\Users\Models\ProfileVisitor', 'user_id', 'id');
+		return $this->belongsToMany('TeenQuotes\Users\Models\User', 'profile_visitors', 'visitor_id', 'user_id')->withTimestamps();
 	}
 
-	public function usersVisited()
+	public function visited()
 	{
-		return $this->hasMany('TeenQuotes\Users\Models\ProfileVisitor', 'visitor_id', 'id');
+		return $this->belongsToMany('TeenQuotes\Users\Models\User', 'profile_visitors', 'user_id', 'visitor_id')->withTimestamps();
 	}
 
 	public function favoriteQuotes()
