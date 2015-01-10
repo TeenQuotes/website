@@ -49,6 +49,7 @@ class DbProfileVisitorRepository implements ProfileVisitorRepository {
 				$q->where('users.hide_profile', 0);
 			})
 			->latest('profile_visitors.id')
+			->distinct()
 			->get();
 	}
 
