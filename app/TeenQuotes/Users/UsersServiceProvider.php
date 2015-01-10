@@ -40,15 +40,15 @@ class UsersServiceProvider extends ServiceProvider {
 
 	private function registerBindings()
 	{
-		$this->app->bind(
-			$this->getNamespaceRepositories().'UserRepository',
-			$this->getNamespaceRepositories().'DbUserRepository'
-		);
+		$repos = ['User', 'ProfileVisitor'];
 
-		$this->app->bind(
-			$this->getNamespaceRepositories().'ProfileVisitorRepository',
-			$this->getNamespaceRepositories().'DbProfileVisitorRepository'
-		);
+		foreach ($repos as $repo)
+		{
+			$this->app->bind(
+				$this->getNamespaceRepositories().$repo.'Repository',
+				$this->getNamespaceRepositories().'Db'.$repo.'Repository'
+			);
+		}
 	}
 
 	private function registerObserver()
