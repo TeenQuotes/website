@@ -1,8 +1,19 @@
 <?php namespace TeenQuotes\Queues\Workers;
 
 use Easyrec, URL;
+use Illuminate\Foundation\Application as App;
 
 class EasyrecWorker {
+
+	/**
+	 * @var Illuminate\Foundation\Application
+	 */
+	private $app;
+
+	public function __construct(App $app)
+	{
+		$this->app = $app;
+	}
 
 	/**
 	 * Register the view of a quote
@@ -11,6 +22,8 @@ class EasyrecWorker {
 	 */
 	public function viewQuote($job, $data)
 	{
+		if (! $this->isEnabled()) return;
+
 		Easyrec::view($data['quote_id'],
 			"Quote ".$data['quote_id'],
 			URL::route("quotes.show", $data['quote_id'], false),
@@ -28,6 +41,8 @@ class EasyrecWorker {
 	 */
 	public function viewUserProfile($job, $data)
 	{
+		if (! $this->isEnabled()) return;
+
 		Easyrec::view($data['user_id'],
 			"User ".$data['user_id'],
 			URL::route("users.show", $data['user_login'], false),
@@ -45,6 +60,8 @@ class EasyrecWorker {
 	 */
 	public function favoriteAQuote($job, $data)
 	{
+		if (! $this->isEnabled()) return;
+
 		Easyrec::sendAction($data['quote_id'],
 			"Quote ".$data['quote_id'],
 			URL::route("quotes.show", $data['quote_id'], false),
@@ -64,6 +81,8 @@ class EasyrecWorker {
 	 */
 	public function unfavoriteAQuote($job, $data)
 	{
+		if (! $this->isEnabled()) return;
+
 		Easyrec::sendAction($data['quote_id'],
 			"Quote ".$data['quote_id'],
 			URL::route("quotes.show", $data['quote_id'], false),
@@ -74,5 +93,10 @@ class EasyrecWorker {
 			null, // Current timestamp
 			"QUOTE"
 		);
+	}
+
+	private function isEnabled()
+	{
+		return $this->app->environment() == 'production';
 	}
 }
