@@ -13,6 +13,13 @@ Teen Quotes lets teenagers share their daily thoughts and feelings. It describes
 - MySQL >= 5.6 (because we need to perform FULLTEXT search on InnoDB tables)
 - Memcached >= 1.4 or another cache storage (Redis for example)
 
+# External services I'm relying on
+- [Mailgun](http://www.mailgun.com) for transactional emails
+- [Mailchimp](http://mailchimp.com) for newsletters
+- [Easyrec](http://easyrec.org) for the recommendation system (not actively used for the moment)
+- [iron.io](http://www.iron.io) for message queues
+- The SMS API of Free. Free is a mobile carrier in France. Used for notifications for administrators.
+
 # How to run locally?
 Update environment variables with your values in the file `.env.example` and then rename the file to `.env`.
 
