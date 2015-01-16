@@ -1,7 +1,8 @@
 <?php namespace TeenQuotes\Users\Repositories;
 
-use TeenQuotes\Users\Repositories\UserRepository;
 use TeenQuotes\Users\Models\ProfileVisitor;
+use TeenQuotes\Users\Models\User;
+use TeenQuotes\Users\Repositories\UserRepository;
 
 class DbProfileVisitorRepository implements ProfileVisitorRepository {
 
@@ -65,7 +66,12 @@ class DbProfileVisitorRepository implements ProfileVisitorRepository {
 	{
 		$collection = $this->getVisitors($u, $page, $pagesize);
 
-		return $collection->lists('avatar', 'login');
+		return $collection->reduce(function($result, $u)
+		{
+			$result[$u->login] = $u->getURLAvatarAttribute();
+
+			return $result;
+		});
 	}
 
 	/**
@@ -91,7 +97,7 @@ class DbProfileVisitorRepository implements ProfileVisitorRepository {
 	 */
 	private function retrieveUser($u)
 	{
-		if ($u instanceof TeenQuotes\Users\Models\User) return $u;
+		if ($u instanceof User) return $u;
 
 		return $this->userRepo->getById($u);
 	}
