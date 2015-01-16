@@ -7,7 +7,8 @@ class DbStoryRepository implements StoryRepository {
 
 	/**
 	 * Retrieve a story by its ID
-	 * @param  int $id 
+	 *
+	 * @param  int $id
 	 * @return TeenQuotes\Stories\Models\Story
 	 */
 	public function findById($id)
@@ -19,6 +20,7 @@ class DbStoryRepository implements StoryRepository {
 
 	/**
 	 * List stories
+	 *
 	 * @param  int $page
 	 * @param  int $pagesize
 	 * @return Illuminate\Database\Eloquent\Collection
@@ -34,6 +36,7 @@ class DbStoryRepository implements StoryRepository {
 
 	/**
 	 * Get the total number of stories
+	 *
 	 * @return int
 	 */
 	public function total()
@@ -43,6 +46,7 @@ class DbStoryRepository implements StoryRepository {
 
 	/**
 	 * Create a story
+	 *
 	 * @param  TeenQuotes\Users\Models\User   $u
 	 * @param  string $represent_txt
 	 * @param  string $frequence_txt

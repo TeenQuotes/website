@@ -6,13 +6,15 @@ interface StoryRepository {
 
 	/**
 	 * Retrieve a story by its ID
-	 * @param  int $id 
+	 *
+	 * @param  int $id
 	 * @return TeenQuotes\Stories\Models\Story
 	 */
 	public function findById($id);
 
 	/**
 	 * List stories
+	 *
 	 * @param  int $page
 	 * @param  int $pagesize
 	 * @return Illuminate\Database\Eloquent\Collection
@@ -21,12 +23,14 @@ interface StoryRepository {
 
 	/**
 	 * Get the total number of stories
+	 *
 	 * @return int
 	 */
 	public function total();
 
 	/**
 	 * Create a story
+	 *
 	 * @param  TeenQuotes\Users\Models\User   $u
 	 * @param  string $represent_txt
 	 * @param  string $frequence_txt
