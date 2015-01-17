@@ -14,13 +14,13 @@ class UsersTest extends ApiTest {
 	protected function _before()
 	{
 		parent::_before();
-		
+
 		$this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\UsersController'));
 
 		$this->unitTester->setContentType('users');
 
 		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'User');
-		
+
 		$this->attachCountryForAllUsers();
 	}
 
@@ -329,7 +329,7 @@ class UsersTest extends ApiTest {
 	{
 		$newColor = 'foo';
 		$this->assertFalse(in_array($newColor, Config::get('app.users.colorsAvailableQuotesPublished')));
-		
+
 		$this->unitTester->addInputReplace([
 			'notification_comment_quote' => true,
 			'hide_profile'               => true,
@@ -381,11 +381,6 @@ class UsersTest extends ApiTest {
 		$this->assertTrue($u->getIsSubscribedToDaily());
 		$this->assertTrue($u->isHiddenProfile());
 		$this->assertFalse($u->wantsEmailComment());
-		
-		// Verify cache for quotes published color
-		$this->assertFalse(Cache::has(User::$cacheNameForColorsQuotesPublished.$u->id));
-		$this->assertEquals($u->getColorsQuotesPublished(), $newColor);
-		$this->assertEquals(Cache::get(User::$cacheNameForColorsQuotesPublished.$u->id), $newColor);
 	}
 
 	/**

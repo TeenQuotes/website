@@ -50,12 +50,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public static $cacheNameForNumberQuotesPublished = 'number_quotes_published_';
 
 	/**
-	 * The name of the key to store in cache. Describes the colors used for the published quotes of the user
-	 * @var array
-	 */
-	public static $cacheNameForColorsQuotesPublished = 'colors_quotes_published_';
-
-	/**
 	 * @var TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
 	 */
 	private $favQuoteRepo;
@@ -205,22 +199,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	public function getColorsQuotesPublished()
 	{
-		// If we have something in cache, return it immediately
-		if (Cache::has(self::$cacheNameForColorsQuotesPublished.$this->id))
-			return Cache::get(self::$cacheNameForColorsQuotesPublished.$this->id);
+		$color = $this->settingRepo->findForUserAndKey($this, 'colorsQuotesPublished');
 
-		$confColor = $this->settingRepo->findForUserAndKey($this, 'colorsQuotesPublished');
+		// We couldn't find a value, get back to the default
+		if (is_null($color))
+			return Config::get('app.users.defaultColorQuotesPublished');
 
-		// Set colors to put in cache for the user
-		if (is_null($confColor))
-			$toPut = Config::get('app.users.defaultColorQuotesPublished');
-		else
-			$toPut = $confColor->value;
-
-		// Store in cache
-		Cache::put(self::$cacheNameForColorsQuotesPublished.$this->id, $toPut, Carbon::now()->addMinutes(10));
-
-		return $toPut;
+		return $color->value;
 	}
 
 	public function registerViewUserProfile()
