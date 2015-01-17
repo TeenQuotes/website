@@ -78,7 +78,7 @@ class DbSeederHelper extends Module
 			'newsletter',
 			'quote',
 			'setting',
-			'story'
+			'story',
 			'user',
 		];
 
