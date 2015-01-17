@@ -37,3 +37,9 @@ TeenQuotes\Stories\Models\Story:
     frequence_txt: $text
     user_id:
         type: TeenQuotes\Users\Models\User
+
+TeenQuotes\Settings\Models\Setting:
+    user_id:
+        type: TeenQuotes\Users\Models\User
+    key: $string
+    value: $string

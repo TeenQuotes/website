@@ -3,8 +3,8 @@
 use Codeception\Module;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Laracasts\TestDummy\Factory as TestDummy;
 use InvalidArgumentException;
+use Laracasts\TestDummy\Factory as TestDummy;
 
 class DbSeederHelper extends Module
 {
@@ -14,7 +14,7 @@ class DbSeederHelper extends Module
 	 * @return TeenQuotes\Users\Models\User The created user instance
 	 */
 	public function haveAnAccount($overrides = [])
-	{		
+	{
 		return $this->insertInDatabase(1, 'User', $overrides);
 	}
 
@@ -52,19 +52,36 @@ class DbSeederHelper extends Module
 	private function classToFullNamespace($class)
 	{
 		// "Nice behaviour" classes
-		if (in_array(strtolower($class), ['comment', 'country', 'newsletter', 'quote', 'user', 'story'])) {
+		if ($this->isNiceBehaviourClass($class))
+		{
 			$plural = ucfirst(strtolower(Str::plural($class)));
-			
+
 			return 'TeenQuotes\\'.$plural.'\\Models\\'.ucfirst(strtolower($class));
 		}
 
 		// Other classes
-		switch ($class) {
+		switch ($class)
+		{
 			case 'FavoriteQuote':
 				return 'TeenQuotes\\Quotes\\Models\\FavoriteQuote';
 		}
 
 		// We haven't be able to resolve this class
 		throw new InvalidArgumentException("Can't resolve the full namespace for the given class name: ".$class);
+	}
+
+	private function isNiceBehaviourClass($name)
+	{
+		$niceClasses = [
+			'comment',
+			'country',
+			'newsletter',
+			'quote',
+			'setting',
+			'story'
+			'user',
+		];
+
+		return in_array(strtolower($name), $niceClasses);
 	}
 }
