@@ -56,24 +56,6 @@ class Quote extends Toloquent {
 	public static $cacheNameNbFavorites = 'nb_favorites_';
 
 	/**
-	 * The name of the key to store in cache. Describes the quotes for a given page in API with default pagesize.
-	 * @var string
-	 */
-	public static $cacheNameQuotesAPIPage = 'quotes_api_';
-
-	/**
-	 * The name of the key to store in cache. Describes the quotes for a given "random" page in API with default pagesize.
-	 * @var string
-	 */
-	public static $cacheNameRandomAPIPage = 'quotes_random_api';
-
-	/**
-	 * The name of the key to store in cache. Describes the number of quotes that have been published.
-	 * @var string
-	 */
-	public static $cacheNameNumberPublished = 'nb_quotes_published';
-
-	/**
 	 * @var TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
 	 */
 	private $favQuoteRepo;
@@ -228,20 +210,6 @@ class Quote extends Toloquent {
 
 			Queue::push('TeenQuotes\Queues\Workers\EasyrecWorker@viewQuote', $data);
 		}
-	}
-
-	/**
-	 * Get the cache array that describes the tag to retrieve quotes for a given user, by approved
-	 * @param  TeenQuotes\Users\Models\User   $u
-	 * @param  string $approve
-	 * @return array
-	 */
-	public static function getCacheNameForUserAndApproved(User $u, $approve)
-	{
-		if (! in_array($approve, ['pending', 'refused', 'waiting', 'published']))
-			throw new InvalidArgumentException("Wrong approved type. Got ".$approve);
-
-		return ['quotes', 'user', $u->id, $approve];
 	}
 
 	/**

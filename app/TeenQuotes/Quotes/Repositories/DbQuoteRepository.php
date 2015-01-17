@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Repositories;
 
-use Cache, Carbon, Config, DB, InvalidArgumentException;
+use Config, DB, InvalidArgumentException;
 use Illuminate\Database\Eloquent\Collection;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Users\Models\User;
@@ -148,14 +148,7 @@ class DbQuoteRepository implements QuoteRepository {
 	 */
 	public function totalPublished()
 	{
-		$expiresAt = Carbon::now()->addMinutes(10);
-
-		$totalQuotes = Cache::remember(Quote::$cacheNameNumberPublished, $expiresAt, function()
-		{
-			return Quote::published()->count();
-		});
-
-		return $totalQuotes;
+		return Quote::published()->count();
 	}
 
 	/**
@@ -210,30 +203,11 @@ class DbQuoteRepository implements QuoteRepository {
 	 */
 	public function index($page, $pagesize)
 	{
-		// Number of quotes to skip
-		$skip = $this->computeSkip($page, $pagesize);
-
-		// Use caching only with the default pagesize
-		if ($pagesize == $this->getDefaultNbQuotesPerPage()) {
-
-			// Time to store in cache
-			$expiresAt = Carbon::now()->addMinutes(1);
-
-			return Cache::remember(Quote::$cacheNameQuotesAPIPage.$page, $expiresAt, function() use($pagesize, $skip) {
-				return Quote::published()
-					->withSmallUser()
-					->orderDescending()
-					->take($pagesize)
-					->skip($skip)
-					->get();
-			});
-		}
-
 		return Quote::published()
 			->withSmallUser()
 			->orderDescending()
 			->take($pagesize)
-			->skip($skip)
+			->skip($this->computeSkip($page, $pagesize))
 			->get();
 	}
 
@@ -274,30 +248,11 @@ class DbQuoteRepository implements QuoteRepository {
 	 */
 	public function indexRandom($page, $pagesize)
 	{
-		// Number of quotes to skip
-		$skip = $this->computeSkip($page, $pagesize);
-
-		// Use caching only with the default pagesize
-		if ($pagesize == $this->getDefaultNbQuotesPerPage()) {
-
-			// Time to store in cache
-			$expiresAt = Carbon::now()->addMinutes(1);
-
-			return Cache::remember(Quote::$cacheNameRandomAPIPage.$page, $expiresAt, function() use($pagesize, $skip) {
-				return Quote::published()
-					->withSmallUser()
-					->random()
-					->take($pagesize)
-					->skip($skip)
-					->get();
-			});
-		}
-
 		return Quote::published()
 			->withSmallUser()
 			->random()
 			->take($pagesize)
-			->skip($skip)
+			->skip($this->computeSkip($page, $pagesize))
 			->get();
 	}
 
@@ -320,12 +275,9 @@ class DbQuoteRepository implements QuoteRepository {
 	 */
 	public function nbPublishedForUser(User $u)
 	{
-		return Cache::rememberForever(User::$cacheNameForNumberQuotesPublished.$u->id, function() use ($u)
-		{
-			return Quote::forUser($u)
-				->published()
-				->count();
-		});
+		return Quote::forUser($u)
+			->published()
+			->count();
 	}
 
 	/**
@@ -386,24 +338,13 @@ class DbQuoteRepository implements QuoteRepository {
 	{
 		$this->guardApprovedScope($approved);
 
-		// Time to store quotes in cache
-		$expiresAt = Carbon::now()->addMinutes(5);
-
-		// Number of quotes to skip
-		$skip = $this->computeSkip($page, $pagesize);
-
-		$quotes = Cache::tags(Quote::getCacheNameForUserAndApproved($u, $approved))->remember($page, $expiresAt, function() use ($approved, $u, $pagesize, $skip)
-		{
-			return Quote::$approved()
-				->withSmallUser()
-				->forUser($u)
-				->orderDescending()
-				->take($pagesize)
-				->skip($skip)
-				->get();
-		});
-
-		return $quotes;
+		return Quote::$approved()
+			->withSmallUser()
+			->forUser($u)
+			->orderDescending()
+			->take($pagesize)
+			->skip($this->computeSkip($page, $pagesize))
+			->get();
 	}
 
 	/**
@@ -470,11 +411,6 @@ class DbQuoteRepository implements QuoteRepository {
 	private function getNbQuotesToPublishPerDay()
 	{
 		return Config::get('app.quotes.nbQuotesToPublishPerDay');
-	}
-
-	private function getDefaultNbQuotesPerPage()
-	{
-		return Config::get('app.quotes.nbQuotesPerPage');
 	}
 
 	private function guardApprovedScope($approved)

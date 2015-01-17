@@ -42,7 +42,7 @@ class SettingsServiceProvider extends ServiceProvider {
 		{
 			$eloquentRepo = new DbSettingRepository;
 
-			return new CachingSettingRepository($eloquentRepo, $this->app['cache.store']);
+			return new CachingSettingRepository($eloquentRepo, $this->app->make('Illuminate\Cache\Repository'));
 		});
 	}
 }

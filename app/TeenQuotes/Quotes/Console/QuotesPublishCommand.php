@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Console;
 
-use Cache, Config, Lang, Log;
+use Config, Lang, Log;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -87,8 +87,8 @@ class QuotesPublishCommand extends ScheduledCommand {
 	{
 		if (is_null($this->argument('nb_quotes')))
 			return Config::get('app.quotes.nbQuotesToPublishPerDay');
-		else
-			return $this->argument('nb_quotes');
+
+		return $this->argument('nb_quotes');
 	}
 
 	/**
@@ -114,8 +114,6 @@ class QuotesPublishCommand extends ScheduledCommand {
 			// Log this info
 			$this->log("Published quote #".$quote->id);
 
-			$this->incrementCachePublishedForUser($quote->user);
-
 			// Send an email to the author
 			$this->userMailer->send('emails.quotes.published',
 				$quote->user, // The author of the quote
@@ -123,62 +121,12 @@ class QuotesPublishCommand extends ScheduledCommand {
 				Lang::get('quotes.quotePublishedSubjectEmail')
 			);
 		});
-
-		$this->updateNumberPublishedQuotes();
-
-		$this->forgetPagesStoredInCache();
-
-		$this->forgetPublishedQuotesPagesForUser();
 	}
 
 	private function log($string)
 	{
 		$this->info($string);
 		Log::info($string);
-	}
-
-	/**
-	 * Update the number of published quotes for a user
-	 * @param  TeenQuotes\Users\Models\User   $u
-	 */
-	private function incrementCachePublishedForUser(User $u)
-	{
-		if (Cache::has(User::$cacheNameForNumberQuotesPublished.$u->id))
-			Cache::increment(User::$cacheNameForNumberQuotesPublished.$u->id);
-	}
-
-	/**
-	 * Update number of published quotes in cache
-	 */
-	private function updateNumberPublishedQuotes()
-	{
-		if (Cache::has(Quote::$cacheNameNumberPublished))
-			Cache::increment(Quote::$cacheNameNumberPublished, $this->nbQuotesPublished);
-	}
-
-	/**
-	 * We need to forget pages of quotes that are stored in cache
-	 * where the published quotes should be displayed
-	 */
-	private function forgetPagesStoredInCache()
-	{
-		$nbPages = ceil($this->nbQuotesPublished / Config::get('app.quotes.nbQuotesPerPage'));
-
-		for ($i = 1; $i <= $nbPages; $i++)
-			Cache::forget(Quote::$cacheNameQuotesAPIPage.$i);
-	}
-
-	/**
-	 * We forgot EVERY published quotes stored in cache for every user
-	 * that has published a quote this time
-	 */
-	private function forgetPublishedQuotesPagesForUser()
-	{
-		foreach ($this->users as $user)
-		{
-			Cache::tags(Quote::getCacheNameForUserAndApproved($user, 'waiting'))->flush();
-			Cache::tags(Quote::getCacheNameForUserAndApproved($user, 'published'))->flush();
-		}
 	}
 
 	/**

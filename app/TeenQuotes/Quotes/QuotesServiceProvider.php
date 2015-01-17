@@ -3,6 +3,11 @@
 use Illuminate\Support\ServiceProvider;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Observers\FavoriteQuoteObserver;
+use TeenQuotes\Quotes\Repositories\CachingQuoteRepository;
+use TeenQuotes\Quotes\Repositories\DbFavoriteQuoteRepository;
+use TeenQuotes\Quotes\Repositories\DbQuoteRepository;
+use TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository;
+use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Tools\Namespaces\NamespaceTrait;
 
 class QuotesServiceProvider extends ServiceProvider {
@@ -68,17 +73,19 @@ class QuotesServiceProvider extends ServiceProvider {
 	private function registerFavoriteQuoteBindings()
 	{
 		$this->app->bind(
-			$this->getNamespaceRepositories().'FavoriteQuoteRepository',
-			$this->getNamespaceRepositories().'DbFavoriteQuoteRepository'
+			FavoriteQuoteRepository::class,
+			DbFavoriteQuoteRepository::class
 		);
 	}
 
 	private function registerQuotesBindings()
 	{
-		$this->app->bind(
-			$this->getNamespaceRepositories().'QuoteRepository',
-			$this->getNamespaceRepositories().'DbQuoteRepository'
-		);
+		$this->app->bind(QuoteRepository::class, function()
+		{
+			$eloquentRepo = new DbQuoteRepository;
+
+			return new CachingQuoteRepository($eloquentRepo);
+		});
 	}
 
 	private function registerFavoriteQuoteRoutes()
