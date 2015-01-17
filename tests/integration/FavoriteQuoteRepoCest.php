@@ -16,7 +16,7 @@ class FavoriteQuoteRepoCest {
 	{
 		$u = $I->insertInDatabase(1, 'User');
 		$I->insertInDatabase(2, 'Quote');
-		$this->fav($I, 1, $u->id);
+		$this->fav(1, $u);
 
 		$I->assertTrue($this->repo->isFavoriteForUserAndQuote($u, 1));
 		$I->assertFalse($this->repo->isFavoriteForUserAndQuote($u->id, 2));
@@ -26,7 +26,7 @@ class FavoriteQuoteRepoCest {
 	{
 		$u = $I->insertInDatabase(1, 'User');
 		$I->insertInDatabase(2, 'Quote');
-		$this->fav($I, 1, $u->id);
+		$this->fav(1, $u);
 
 		$this->repo->deleteForUserAndQuote($u, 1);
 
@@ -50,10 +50,10 @@ class FavoriteQuoteRepoCest {
 
 		$I->assertEquals([], $this->repo->quotesFavoritesForUser($u));
 
-		$this->fav($I, 1, $u->id);
+		$this->fav(1, $u);
 		$I->assertEquals([1], $this->repo->quotesFavoritesForUser($u->id));
 
-		$this->fav($I, 2, $u->id);
+		$this->fav(2, $u);
 		$out = $this->repo->quotesFavoritesForUser($u->id);
 		sort($out);
 		$I->assertEquals([1, 2], $out);
@@ -83,8 +83,19 @@ class FavoriteQuoteRepoCest {
 		$I->assertEquals([2, 1], $this->repo->getTopQuotes(1, 3));
 	}
 
-	private function fav(IntegrationTester $I, $quote_id, $user_id)
+	public function testNbFavoritesForQuote(IntegrationTester $I)
 	{
-		$I->insertInDatabase(1, 'FavoriteQuote', compact('quote_id', 'user_id'));
+		$I->insertInDatabase(2, 'Quote');
+		$u = $I->insertInDatabase(1, 'User');
+
+		$I->assertEquals(0, $this->repo->nbFavoritesForQuote(1));
+
+		$this->fav(1, $u);
+		$I->assertEquals(1, $this->repo->nbFavoritesForQuote(1));
+	}
+
+	private function fav($quote_id, $user_id)
+	{
+		$this->repo->create($user_id, $quote_id);
 	}
 }

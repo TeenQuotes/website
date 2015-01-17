@@ -44,12 +44,6 @@ class Quote extends Toloquent {
 	];
 
 	/**
-	 * The name of the key to store in cache. Describes the number of favorites for a given quote.
-	 * @var string
-	 */
-	public static $cacheNameNbFavorites = 'nb_favorites_';
-
-	/**
 	 * @var \TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
 	 */
 	private $favQuoteRepo;
@@ -116,10 +110,7 @@ class Quote extends Toloquent {
 		if ( ! $this->isPublished())
 			return 0;
 
-		return Cache::rememberForever(self::$cacheNameNbFavorites.$this->id, function()
-		{
-			return $this->favorites->count();
-		});
+		return $this->favQuoteRepo->nbFavoritesForQuote($this->id);
 	}
 
 	public function getHasCommentsAttribute()
@@ -144,22 +135,11 @@ class Quote extends Toloquent {
 	{
 		$idUserApi = ResourceServer::getOwnerId();
 
-		// Try to get information from cache
-		if (Auth::check() OR ! empty($idUserApi)) {
-			// Time for cache
-			$expiresAt = Carbon::now()->addMinutes(10);
+		if (Auth::check() OR ! empty($idUserApi))
+		{
+			$id = Auth::check() ? Auth::id() : $idUserApi;
 
-			$id = Auth::check() ? Auth::id() : ResourceServer::getOwnerId();
-			$favQuoteRepo = $this->favQuoteRepo;
-
-			// Here we use the direct call to cache because we don't
-			// want to create a User model just to call the dedicated method
-			$favoriteQuotes = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$id, $expiresAt, function() use($favQuoteRepo, $id)
-			{
-				return $favQuoteRepo->quotesFavoritesForUser($id);
-			});
-
-			return in_array($this->id, $favoriteQuotes);
+			return $this->favQuoteRepo->isFavoriteForUserAndQuote($id, $this->id);
 		}
 
 		return false;

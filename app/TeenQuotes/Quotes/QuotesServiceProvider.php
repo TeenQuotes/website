@@ -1,8 +1,7 @@
 <?php namespace TeenQuotes\Quotes;
 
 use Illuminate\Support\ServiceProvider;
-use TeenQuotes\Quotes\Models\FavoriteQuote;
-use TeenQuotes\Quotes\Observers\FavoriteQuoteObserver;
+use TeenQuotes\Quotes\Repositories\CachingFavoriteQuoteRepository;
 use TeenQuotes\Quotes\Repositories\CachingQuoteRepository;
 use TeenQuotes\Quotes\Repositories\DbFavoriteQuoteRepository;
 use TeenQuotes\Quotes\Repositories\DbQuoteRepository;
@@ -28,7 +27,7 @@ class QuotesServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->registerObserver();
+		//
 	}
 
 	/**
@@ -65,17 +64,14 @@ class QuotesServiceProvider extends ServiceProvider {
 		$this->commands('quotes.console.quotesPublish');
 	}
 
-	private function registerObserver()
-	{
-		FavoriteQuote::observe(new FavoriteQuoteObserver);
-	}
-
 	private function registerFavoriteQuoteBindings()
 	{
-		$this->app->bind(
-			FavoriteQuoteRepository::class,
-			DbFavoriteQuoteRepository::class
-		);
+		$this->app->bind(FavoriteQuoteRepository::class, function()
+		{
+			$eloquentRepo = new DbFavoriteQuoteRepository;
+
+			return new CachingFavoriteQuoteRepository($eloquentRepo);
+		});
 	}
 
 	private function registerQuotesBindings()

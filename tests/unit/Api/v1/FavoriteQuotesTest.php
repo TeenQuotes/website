@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
-use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Models\Quote;
 
 class FavoriteQuotesTest extends ApiTest {
@@ -11,17 +10,17 @@ class FavoriteQuotesTest extends ApiTest {
 	protected $user;
 	protected $idRefusedQuote;
 	protected $idPublishedQuote;
-	
+
 	protected function _before()
 	{
 		parent::_before();
-		
+
 		$this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\QuotesFavoriteController'));
-		
+
 		// Create a user and log him in
 		$user = $this->unitTester->insertInDatabase(1, 'User');
 		$this->user = $this->unitTester->logUserWithId($user['id']);
-		
+
 		$this->idRefusedQuote = $this->getIdRefusedQuote();
 		$this->idPublishedQuote = $this->getIdPublishedQuote();
 	}
@@ -36,7 +35,7 @@ class FavoriteQuotesTest extends ApiTest {
 	}
 
 	public function testPostQuoteNotPublished()
-	{		
+	{
 		$this->post($this->idRefusedQuote);
 
 		$this->unitTester->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
@@ -53,18 +52,16 @@ class FavoriteQuotesTest extends ApiTest {
 
 		$this->unitTester->assertStatusCodeIs(Response::HTTP_CREATED)
 			->assertResponseHasRequiredAttributes();
-		
+
 		// Verify that the quote cache has been set
-		$this->assertTrue($quote->total_favorites == 1);
-		$this->assertTrue(Cache::get(Quote::$cacheNameNbFavorites.$idPublishedQuote) == 1);
+		$this->assertEquals(1, $quote->total_favorites);
 
 		// Verify that the user cache has been set properly
-		$this->assertEquals([$idPublishedQuote], $this->user->arrayIDFavoritesQuotes());
-		$this->assertEquals([$idPublishedQuote], Cache::get(FavoriteQuote::$cacheNameFavoritesForUser.$this->user->id));
+		$this->assertEquals([$idPublishedQuote], $this->user->quotesFavorited());
 	}
 
 	public function testPostQuoteAlreadyFavorited()
-	{	
+	{
 		// Add to favorite
 		$this->post($this->idPublishedQuote);
 
@@ -91,7 +88,7 @@ class FavoriteQuotesTest extends ApiTest {
 
 		// Add to favorite and run all assertions
 		$this->testPostQuoteSuccess();
-		
+
 		// Delete it from favorites
 		$this->delete($this->idPublishedQuote);
 
@@ -100,12 +97,10 @@ class FavoriteQuotesTest extends ApiTest {
 			->withSuccessMessage("The quote #".$this->idPublishedQuote.' was deleted from favorites.');
 
 		// Verify that the quote cache has been deleted
-		$this->assertTrue($quote->total_favorites == 0);
-		$this->assertTrue(Cache::get(Quote::$cacheNameNbFavorites.$this->idPublishedQuote) == 0);
+		$this->assertEquals(0, $quote->total_favorites);
 
 		// Verify that the user cache has been deleted properly
-		$this->assertEmpty($this->user->arrayIDFavoritesQuotes());
-		$this->assertEmpty(Cache::get(FavoriteQuote::$cacheNameFavoritesForUser.$this->user->id));
+		$this->assertEmpty($this->user->quotesFavorited());
 	}
 
 	private function post($quote_id)
@@ -113,7 +108,7 @@ class FavoriteQuotesTest extends ApiTest {
 		$this->unitTester->setResponse(
 			$this->unitTester->getController()->postFavorite($quote_id)
 		);
-		
+
 		$this->unitTester->bindJson(
 			$this->unitTester->getResponse()->getContent()
 		);
@@ -124,7 +119,7 @@ class FavoriteQuotesTest extends ApiTest {
 		$this->unitTester->setResponse(
 			$this->unitTester->getController()->deleteFavorite($quote_id)
 		);
-		
+
 		$this->unitTester->bindJson(
 			$this->unitTester->getResponse()->getContent()
 		);

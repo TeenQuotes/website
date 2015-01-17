@@ -1,7 +1,7 @@
 <?php
 
 class DeleteFavoriteCest {
-	
+
 	/**
 	 * The logged in user
 	 * @var User
@@ -17,11 +17,11 @@ class DeleteFavoriteCest {
 	public function _before(FunctionalTester $I)
 	{
 		$I->createSomePublishedQuotes();
-		
+
 		// Create a new user and a fresh published quote
 		$this->user = $I->logANewUser();
 		$this->firstQuote = $I->insertInDatabase(1, 'Quote', ['created_at' => Carbon::now()->addMonth(), 'user_id' => $this->user->id]);
-		
+
 		// Add to the user's favorites the first quote
 		$I->addAFavoriteForUser($this->firstQuote->id, $this->user->id);
 	}
@@ -37,16 +37,16 @@ class DeleteFavoriteCest {
 		$I->seeElement('.quote i.fa-heart');
 		$I->assertEquals(1, $this->firstQuote->total_favorites);
 		$I->assertTrue($this->firstQuote->isFavoriteForCurrentUser());
-		$I->assertEquals([$this->firstQuote->id], $this->user->arrayIDFavoritesQuotes());
+		$I->assertEquals([$this->firstQuote->id], $this->user->quotesFavorited());
 
 		// Remove the quote from my favorites
 		$I->sendAjaxPostRequest(URL::route('unfavorite', $this->firstQuote->id));
-		
+
 		// Run our assertions
 		$I->assertEquals(0, $this->firstQuote->total_favorites);
 		$I->assertFalse($this->firstQuote->isFavoriteForCurrentUser());
-		$I->assertEquals([], $this->user->arrayIDFavoritesQuotes());
-		
+		$I->assertEquals([], $this->user->quotesFavorited());
+
 		// Check that the single quote offers me to add the quote to my favorites
 		$I->amOnRoute('quotes.show', $this->firstQuote->id);
 		$I->seeElement('.quote i.fa-heart-o');

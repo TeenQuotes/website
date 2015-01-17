@@ -7,10 +7,8 @@ use TeenQuotes\Quotes\Models\Scopes\FavoriteQuoteTrait as FavoriteQuoteScopesTra
 class FavoriteQuote extends Eloquent {
 
 	use FavoriteQuoteRelationsTrait, FavoriteQuoteScopesTrait;
-	
+
 	protected $table = 'favorite_quotes';
 
 	protected $fillable = [];
-
-	public static $cacheNameFavoritesForUser = 'favorites_quotes_for_user_';
 }

@@ -49,4 +49,11 @@ interface FavoriteQuoteRepository {
 	 * @return array The ID of the quotes
 	 */
 	public function getTopQuotes($page, $pagesize);
+
+	/**
+	 * Get the number of favorites for a quote
+	 * @param  int $quote_id
+	 * @return int
+	 */
+	public function nbFavoritesForQuote($quote_id);
 }

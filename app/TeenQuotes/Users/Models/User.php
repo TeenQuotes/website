@@ -208,6 +208,15 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $color->value;
 	}
 
+	/**
+	 * Get the IDs of the quotes favorited by the user
+	 * @return array
+	 */
+	public function quotesFavorited()
+	{
+		return $this->favQuoteRepo->quotesFavoritesForUser($this);
+	}
+
 	public function registerViewUserProfile()
 	{
 		if ( ! in_array(App::environment(), ['testing', 'codeception'])) {
@@ -233,24 +242,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function getURLAvatarAttribute()
 	{
 		return $this->present()->avatarLink;
-	}
-
-	/**
-	 * Returns the array of the ID of the quotes in the favorites of the user
-	 * @return array
-	 */
-	public function arrayIDFavoritesQuotes()
-	{
-		$expiresAt = Carbon::now()->addMinutes(10);
-		$user = $this;
-		$favQuoteRepo = $this->favQuoteRepo;
-
-		$arrayIDFavoritesQuotesForUser = Cache::remember(FavoriteQuote::$cacheNameFavoritesForUser.$this->id, $expiresAt, function() use ($favQuoteRepo, $user)
-		{
-			return $favQuoteRepo->quotesFavoritesForUser($user);
-		});
-
-		return $arrayIDFavoritesQuotesForUser;
 	}
 
 	public function hasPublishedQuotes()

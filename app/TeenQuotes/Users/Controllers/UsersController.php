@@ -254,13 +254,13 @@ class UsersController extends BaseController {
 		$pageNumber = Input::get('page', 1);
 
 		// Get the list of favorite quotes
-		$arrayIDFavoritesQuotesForUser = $user->arrayIDFavoritesQuotes();
+		$quotesFavorited = $this->favoriteQuoteRepo->quotesFavoritesForUser($user);
 
 		// Fetch the quotes
-		$quotes = $this->quoteRepo->getForIds($arrayIDFavoritesQuotesForUser, $pageNumber, Config::get('app.users.nbQuotesPerPage'));
+		$quotes = $this->quoteRepo->getForIds($quotesFavorited, $pageNumber, Config::get('app.users.nbQuotesPerPage'));
 
 		// Build the associated paginator
-		$paginator = Paginator::make($quotes->toArray(), count($arrayIDFavoritesQuotesForUser), Config::get('app.users.nbQuotesPerPage'));
+		$paginator = Paginator::make($quotes->toArray(), count($quotesFavorited), Config::get('app.users.nbQuotesPerPage'));
 		$paginator->setBaseUrl(URL::route('users.show', [$user->login, 'favorites'], false));
 
 		return compact('quotes', 'paginator');

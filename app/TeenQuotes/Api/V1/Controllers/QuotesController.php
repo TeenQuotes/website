@@ -56,11 +56,11 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		}
 
 		// Get the list of favorite quotes
-		$arrayIDFavoritesQuotesForUser = $user->arrayIDFavoritesQuotes();
+		$quotesFavorited = $this->favQuoteRepo->quotesFavoritesForUser($user);
 
-		$total = count($arrayIDFavoritesQuotesForUser);
+		$total = count($quotesFavorited);
 
-		$quotes = $this->getQuotesFavorite($this->getPage(), $this->getPagesize(), $arrayIDFavoritesQuotesForUser);
+		$quotes = $this->getQuotesFavorite($this->getPage(), $this->getPagesize(), $quotesFavorited);
 
 		return $this->buildPaginatedResponse($quotes, $total);
 	}
@@ -227,9 +227,9 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		return $this->quoteRepo->indexRandom($page, $pagesize);
 	}
 
-	private function getQuotesFavorite($page, $pagesize, $arrayIDFavoritesQuotesForUser)
+	private function getQuotesFavorite($page, $pagesize, $quotesFavorited)
 	{
-		return $this->quoteRepo->getForIds($arrayIDFavoritesQuotesForUser, $page, $pagesize);
+		return $this->quoteRepo->getForIds($quotesFavorited, $page, $pagesize);
 	}
 
 	private function getQuotesByApprovedForUser($page, $pagesize, $user, $quote_approved_type)
