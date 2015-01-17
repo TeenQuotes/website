@@ -3,6 +3,9 @@
 use Illuminate\Support\ServiceProvider;
 use TeenQuotes\Comments\Models\Comment;
 use TeenQuotes\Comments\Observers\CommentObserver;
+use TeenQuotes\Comments\Repositories\CachingCommentRepository;
+use TeenQuotes\Comments\Repositories\CommentRepository;
+use TeenQuotes\Comments\Repositories\DbCommentRepository;
 
 class CommentsServiceProvider extends ServiceProvider {
 
@@ -38,11 +41,13 @@ class CommentsServiceProvider extends ServiceProvider {
 	private function registerBindings()
 	{
 		$namespace = 'TeenQuotes\Comments\Repositories';
-		
-		$this->app->bind(
-			$namespace.'\CommentRepository',
-			$namespace.'\DbCommentRepository'
-		);
+
+		$this->app->bind(CommentRepository::class, function()
+		{
+			$eloquentRepo = new DbCommentRepository;
+
+			return new CachingCommentRepository($eloquentRepo);
+		});
 	}
 
 	private function registerComposers()

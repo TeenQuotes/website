@@ -159,6 +159,16 @@ class DbCommentRepository implements CommentRepository {
 	}
 
 	/**
+	 * Get the number of comments for a quote
+	 * @param  TeenQuotes\Quotes\Models\Quote  $q
+	 * @return int
+	 */
+	public function nbCommentsForQuote(Quote $q)
+	{
+		return Comment::forQuoteId($q->id)->count();
+	}
+
+	/**
 	 * Retrieve a comment by its ID or by its instance
 	 * @param  TeenQuotes\Comments\Models\Comment|int $c
 	 * @return TeenQuotes\Comments\Models\Comment

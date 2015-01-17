@@ -14,7 +14,7 @@ class CommentsTest extends ApiTest {
 	protected function _before()
 	{
 		parent::_before();
-		
+
 		$this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\CommentsController'));
 
 		$this->unitTester->setContentType('comments');
@@ -24,7 +24,7 @@ class CommentsTest extends ApiTest {
 		$this->quoteId = $q['id'];
 		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Comment', ['quote_id' => $this->quoteId]);
 	}
-	
+
 	public function testIndexWithoutQuote()
 	{
 		$this->doNotEmbedsQuote();
@@ -72,7 +72,7 @@ class CommentsTest extends ApiTest {
 	}
 
 	public function testShowFoundWithQuote()
-	{		
+	{
 		$this->activateEmbedsQuote();
 		$this->unitTester->tryShowFound($this->quoteId);
 	}
@@ -85,7 +85,7 @@ class CommentsTest extends ApiTest {
 	{
 		// Empty content
 		$this->unitTester->addInputReplace(['content' => '']);
-		
+
 		$this->assertStoreWithWrongContent();
 	}
 
@@ -97,7 +97,7 @@ class CommentsTest extends ApiTest {
 	{
 		// Too small content
 		$this->unitTester->addInputReplace(['content' => $this->unitTester->generateString(9)]);
-		
+
 		$this->assertStoreWithWrongContent();
 	}
 
@@ -109,7 +109,7 @@ class CommentsTest extends ApiTest {
 	{
 		// Too long content
 		$this->unitTester->addInputReplace(['content' => $this->unitTester->generateString(501)]);
-		
+
 		$this->assertStoreWithWrongContent();
 	}
 
@@ -128,9 +128,8 @@ class CommentsTest extends ApiTest {
 	{
 		$q = Quote::find($this->quoteId);
 
-		// Check number of comments in cache
+		// Check number of comments
 		$this->assertEquals($this->unitTester->getNbRessources(), $q->total_comments);
-		$this->assertEquals($this->unitTester->getNbRessources(), Cache::get(Quote::$cacheNameNbComments.$q->id));
 
 		$oldNbComments = $q->total_comments;
 
@@ -139,14 +138,13 @@ class CommentsTest extends ApiTest {
 		$this->unitTester->addInputReplace([
 			'content' => $this->unitTester->generateString(150),
 		]);
-		
+
 		$this->store($q->id)
 			->unitTester->assertStatusCodeIs(Response::HTTP_CREATED)
 			->assertResponseHasRequiredAttributes();
 
-		// Verify that the cache has been incremented
+		// Verify the total number of comments
 		$this->assertEquals($oldNbComments + 1, $q->total_comments);
-		$this->assertEquals($oldNbComments + 1, Cache::get(Quote::$cacheNameNbComments.$q->id));
 	}
 
 	public function testDestroyCommentNotFound()
@@ -179,7 +177,7 @@ class CommentsTest extends ApiTest {
 		$c = Comment::first();
 
 		$this->unitTester->logUserWithId($c->user_id);
-		
+
 		$this->destroy($c->id)
 			->unitTester->assertStatusCodeIs(Response::HTTP_OK)
 			->withStatusMessage('comment_deleted')
@@ -221,7 +219,7 @@ class CommentsTest extends ApiTest {
 	{
 		// Too small content
 		$this->unitTester->addInputReplace(['content' => $this->unitTester->generateString(9)]);
-		
+
 		$this->assertUpdateWithWrongContent();
 	}
 
@@ -233,7 +231,7 @@ class CommentsTest extends ApiTest {
 	{
 		// Too long content
 		$this->unitTester->addInputReplace(['content' => $this->unitTester->generateString(501)]);
-		
+
 		$this->assertUpdateWithWrongContent();
 	}
 
@@ -245,7 +243,7 @@ class CommentsTest extends ApiTest {
 	{
 		// No content
 		$this->unitTester->addInputReplace(['content' => '']);
-		
+
 		$this->assertUpdateWithWrongContent();
 	}
 
@@ -258,7 +256,7 @@ class CommentsTest extends ApiTest {
 		$this->unitTester->addInputReplace([
 			'content' => $this->unitTester->generateString(150),
 		]);
-		
+
 		$this->update($c->id)
 			->unitTester->assertStatusCodeIs(Response::HTTP_OK)
 			->withStatusMessage('comment_updated')
@@ -269,7 +267,7 @@ class CommentsTest extends ApiTest {
 	{
 		$u = $this->unitTester->insertInDatabase(1, 'User');
 		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Comment', ['user_id' => $u->id]);
-		
+
 		$this->activateEmbedsQuote();
 
 		// Test first page
@@ -282,7 +280,7 @@ class CommentsTest extends ApiTest {
 	public function testIndexForUserNotFound()
 	{
 		$this->unitTester->doRequest('getCommentsForUser', 100);
-		
+
 		$this->unitTester->assertStatusCodeIs(Response::HTTP_BAD_REQUEST)
 			->withStatusMessage('user_not_found')
 			->withErrorMessage('The user #100 was not found.');
@@ -295,7 +293,7 @@ class CommentsTest extends ApiTest {
 	public function testIndexForUserNoComments()
 	{
 		$u = $this->unitTester->insertInDatabase(1, 'User');
-		
+
 		// Try with a user with no comments
 		$this->unitTester->tryFirstPage('getCommentsForUser', $u->id);
 	}
@@ -303,7 +301,7 @@ class CommentsTest extends ApiTest {
 	private function assertStoreWithWrongContent()
 	{
 		$this->unitTester->logUserWithId(1);
-		
+
 		$this->store($this->quoteId);
 	}
 
@@ -311,7 +309,7 @@ class CommentsTest extends ApiTest {
 	{
 		$c = Comment::first();
 		$this->unitTester->logUserWithId($c->user_id);
-		
+
 		$this->store($c->id);
 	}
 

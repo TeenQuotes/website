@@ -118,4 +118,14 @@ class CommentRepoCest {
 
 		$I->assertEquals([2, 1], $this->repo->getTopQuotes(1, 10));
 	}
+
+	public function testGetNbCommentsForQuote(IntegrationTester $I)
+	{
+		$first = $I->insertInDatabase(1, 'Quote');
+		$second = $I->insertInDatabase(1, 'Quote');
+		$I->insertInDatabase(2, 'Comment', ['quote_id' => 2]);
+
+		$I->assertEquals(0, $this->repo->nbCommentsForQuote($first));
+		$I->assertEquals(2, $this->repo->nbCommentsForQuote($second));
+	}
 }

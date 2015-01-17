@@ -44,27 +44,27 @@ class Quote extends Toloquent {
 	];
 
 	/**
-	 * The name of the key to store in cache. Describes the number of comments for a given quote.
-	 * @var string
-	 */
-	public static $cacheNameNbComments = 'nb_comments_';
-
-	/**
 	 * The name of the key to store in cache. Describes the number of favorites for a given quote.
 	 * @var string
 	 */
 	public static $cacheNameNbFavorites = 'nb_favorites_';
 
 	/**
-	 * @var TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 * @var \TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
 	 */
 	private $favQuoteRepo;
+
+	/**
+	 * @var \TeenQuotes\Comments\Repositories\CommentRepository
+	 */
+	private $commentRepo;
 
 	function __construct($attributes = [])
 	{
 		parent::__construct($attributes);
 
 		$this->favQuoteRepo = App::make('TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository');
+		$this->commentRepo = App::make('TeenQuotes\Comments\Repositories\CommentRepository');
 	}
 
 	/**
@@ -102,10 +102,7 @@ class Quote extends Toloquent {
 		if ( ! $this->isPublished())
 			return 0;
 
-		return Cache::rememberForever(self::$cacheNameNbComments.$this->id, function()
-		{
-			return $this->comments->count();
-		});
+		return $this->commentRepo->nbCommentsForQuote($this);
 	}
 
 	public function getHasFavoritesAttribute()

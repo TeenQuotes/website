@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Comments\Observers;
 
-use App, Cache, Lang;
+use App, Lang;
 use TeenQuotes\Quotes\Models\Quote;
 
 class CommentObserver {
@@ -32,21 +32,6 @@ class CommentObserver {
 		// Send an email to the author of the quote if he wants it
 		if ($this->needToWarnByEmail($quote, $comment))
 			$this->sendEmailToQuoteAuthor($quote);
-
-		// If we have the number of comments in cache, increment it
-		if (Cache::has(Quote::$cacheNameNbComments.$comment->quote_id))
-			Cache::increment(Quote::$cacheNameNbComments.$comment->quote_id);
-	}
-
-	/**
-	 * Will be triggered when a model is deleted
-	 * @param TeenQuotes\Comments\Models\Comment $comment
-	 */
-	public function deleted($comment)
-	{
-		// Update the number of comments on the related quote in cache
-		if (Cache::has(Quote::$cacheNameNbComments.$comment->quote_id))
-			Cache::decrement(Quote::$cacheNameNbComments.$comment->quote_id);
 	}
 
 	private function sendEmailToQuoteAuthor($quote)
@@ -54,6 +39,7 @@ class CommentObserver {
 		$author = $quote->user;
 
 		$subject = Lang::get('comments.commentAddedSubjectEmail', ['id' => $quote->id]);
+
 		$this->userMailer->send('emails.comments.posted',
 			$author,
 			compact('quote'),

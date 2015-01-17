@@ -84,4 +84,11 @@ interface CommentRepository {
 	 * @return array The ID of the quotes
 	 */
 	public function getTopQuotes($page, $pagesize);
+
+	/**
+	 * Get the number of comments for a quote
+	 * @param  TeenQuotes\Quotes\Models\Quote  $q
+	 * @return int
+	 */
+	public function nbCommentsForQuote(Quote $q);
 }
