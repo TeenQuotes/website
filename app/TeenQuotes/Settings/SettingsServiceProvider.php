@@ -1,8 +1,9 @@
 <?php namespace TeenQuotes\Settings;
 
 use Illuminate\Support\ServiceProvider;
-use TeenQuotes\Settings\Models\Setting;
-use TeenQuotes\Settings\Observers\SettingObserver;
+use TeenQuotes\Settings\Repositories\CachingSettingRepository;
+use TeenQuotes\Settings\Repositories\DbSettingRepository;
+use TeenQuotes\Settings\Repositories\SettingRepository;
 
 class SettingsServiceProvider extends ServiceProvider {
 
@@ -20,7 +21,7 @@ class SettingsServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->registerObserver();
+		//
 	}
 
 	/**
@@ -33,18 +34,15 @@ class SettingsServiceProvider extends ServiceProvider {
 		$this->registerBindings();
 	}
 
-	private function registerObserver()
-	{
-		Setting::observe(new SettingObserver);
-	}
-
 	private function registerBindings()
 	{
-		$namespace = 'TeenQuotes\Settings\Repositories';
+		$namespace = 'TeenQuotes\Settings\Repositories\\';
 
-		$this->app->bind(
-			$namespace.'\SettingRepository',
-			$namespace.'\DbSettingRepository'
-		);
+		$this->app->bind(SettingRepository::class, function() use ($namespace)
+		{
+			$eloquentRepo = new DbSettingRepository;
+
+			return new CachingSettingRepository($eloquentRepo, $this->app['cache.store']);
+		});
 	}
 }
