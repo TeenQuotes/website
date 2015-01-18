@@ -34,7 +34,7 @@ class APIGlobalController extends BaseController {
 	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
 	 */
 	protected $newsletterRepo;
-	
+
 	/**
 	 * @var TeenQuotes\Newsletters\NewslettersManager
 	 */
@@ -88,7 +88,7 @@ class APIGlobalController extends BaseController {
 			'status'            => 'You have arrived',
 			'message'           => 'Welcome to the Teen Quotes API',
 			'version'           => '1.0alpha',
-			'url_documentation' => 'https://github.com/TeenQuotes/api-documentation',
+			'url_documentation' => 'https://developers.teen-quotes.com',
 			'contact'           => 'antoine.augusti@teen-quotes.com',
 		], 200);
 	}
@@ -110,7 +110,7 @@ class APIGlobalController extends BaseController {
 	public static function paginateContent($page, $pagesize, $totalContent, $content, $contentName = 'quotes')
 	{
 		$totalPages = ceil($totalContent / $pagesize);
-		
+
 		$data = [
 			$contentName          => $content,
 			'total_'.$contentName => $totalContent,
@@ -119,7 +119,7 @@ class APIGlobalController extends BaseController {
 			'pagesize'            => (int) $pagesize,
 			'url'                 => URL::current()
 		];
-		
+
 		$additionalGet = null;
 		if (Input::has('quote'))
 			$additionalGet = '&quote=true';
