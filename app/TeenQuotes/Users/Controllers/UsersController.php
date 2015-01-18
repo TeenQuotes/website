@@ -1,19 +1,16 @@
 <?php namespace TeenQuotes\Users\Controllers;
 
-use BaseController;
-use Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use App, Auth, Config, Input, Lang, Paginator;
+use App, Auth, BaseController, Carbon, Config, Input, Lang, Paginator;
 use Redirect, Response, Session, URL, View;
+use Illuminate\Database\Eloquent\Collection;
 use Laracasts\Validation\FormValidationException;
 use TeenQuotes\Api\V1\Controllers\UsersController as UsersAPIController;
 use TeenQuotes\Comments\Repositories\CommentRepository;
 use TeenQuotes\Countries\Repositories\CountryRepository;
 use TeenQuotes\Exceptions\HiddenProfileException;
 use TeenQuotes\Exceptions\UserNotFoundException;
-use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
-use TeenQuotes\Settings\Models\Setting;
 use TeenQuotes\Settings\Repositories\SettingRepository;
 use TeenQuotes\Users\Models\User;
 use TeenQuotes\Users\Repositories\UserRepository;
@@ -22,7 +19,6 @@ use TeenQuotes\Users\Validation\UserValidator;
 class UsersController extends BaseController {
 
 	/**
-	 * The API controller
 	 * @var TeenQuotes\Api\V1\Controllers\UsersController
 	 */
 	private $api;
@@ -36,6 +32,11 @@ class UsersController extends BaseController {
 	 * @var TeenQuotes\Countries\Repositories\CountryRepository
 	 */
 	private $countryRepo;
+
+	/**
+	 * @var TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 */
+	private $favQuoteRepo;
 
 	/**
 	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
@@ -58,8 +59,8 @@ class UsersController extends BaseController {
 	private $userValidator;
 
 	public function __construct(CommentRepository $commentRepo, CountryRepository $countryRepo,
-		QuoteRepository $quoteRepo, SettingRepository $settingRepo, UserRepository $userRepo,
-		UserValidator $userValidator)
+		FavoriteQuoteRepository $favQuoteRepo, QuoteRepository $quoteRepo,
+		SettingRepository $settingRepo, UserRepository $userRepo, UserValidator $userValidator)
 	{
 		$this->beforeFilter('guest', ['only' => 'store']);
 		$this->beforeFilter('auth', ['only' => ['edit', 'update', 'putPassword', 'putSettings']]);
@@ -67,6 +68,7 @@ class UsersController extends BaseController {
 		$this->api           = App::make('TeenQuotes\Api\V1\Controllers\UsersController');
 		$this->commentRepo   = $commentRepo;
 		$this->countryRepo   = $countryRepo;
+		$this->favQuoteRepo  = $favQuoteRepo;
 		$this->quoteRepo     = $quoteRepo;
 		$this->settingRepo   = $settingRepo;
 		$this->userRepo      = $userRepo;
@@ -254,7 +256,7 @@ class UsersController extends BaseController {
 		$pageNumber = Input::get('page', 1);
 
 		// Get the list of favorite quotes
-		$quotesFavorited = $this->favoriteQuoteRepo->quotesFavoritesForUser($user);
+		$quotesFavorited = $this->favQuoteRepo->quotesFavoritesForUser($user);
 
 		// Fetch the quotes
 		$quotes = $this->quoteRepo->getForIds($quotesFavorited, $pageNumber, Config::get('app.users.nbQuotesPerPage'));
