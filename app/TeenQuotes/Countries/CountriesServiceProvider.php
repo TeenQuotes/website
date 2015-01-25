@@ -1,6 +1,9 @@
 <?php namespace TeenQuotes\Countries;
 
 use Illuminate\Support\ServiceProvider;
+use TeenQuotes\Countries\Repositories\CachingCountryRepository;
+use TeenQuotes\Countries\Repositories\CountryRepository;
+use TeenQuotes\Countries\Repositories\DbCountryRepository;
 use TeenQuotes\Tools\Namespaces\NamespaceTrait;
 
 class CountriesServiceProvider extends ServiceProvider {
@@ -27,10 +30,12 @@ class CountriesServiceProvider extends ServiceProvider {
 
 	private function registerBindings()
 	{
-		$this->app->bind(
-			$this->getNamespaceRepositories().'CountryRepository',
-			$this->getNamespaceRepositories().'DbCountryRepository'
-		);
+		$this->app->bind(CountryRepository::class, function()
+		{
+			$eloquentRepo = new DbCountryRepository;
+
+			return new CachingCountryRepository($eloquentRepo);
+		});
 	}
 
 	private function registerCommands()
