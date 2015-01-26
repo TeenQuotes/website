@@ -2,8 +2,9 @@
 
 use Illuminate\Translation\Translator as Lang;
 use Pushbullet;
+use TeenQuotes\Notifiers\AdminNotifier;
 
-class PushbulletAdminNotifier {
+class PushbulletAdminNotifier implements AdminNotifier {
 
 	/**
 	 * The API key of Pushbullet
