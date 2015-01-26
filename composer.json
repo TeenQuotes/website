@@ -37,7 +37,8 @@
 		"mailchimp/mailchimp": "~2.0",
 		"vlucas/phpdotenv": "~1.0",
 		"iron-io/iron_mq": "~1.0",
-		"healey/robots": "dev-master"
+		"healey/robots": "dev-master",
+		"ivkos/pushbullet": "~2.0"
 	},
 	"require-dev": {
 		"way/generators": "2.*",
