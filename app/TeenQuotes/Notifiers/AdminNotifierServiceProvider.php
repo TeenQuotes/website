@@ -1,7 +1,7 @@
 <?php namespace TeenQuotes\Notifiers;
 
 use Illuminate\Support\ServiceProvider;
-use TeenQuotes\Notifiers\Sms\SmsAdminNotifier;
+use TeenQuotes\Notifiers\Pushbullet\PushbulletAdminNotifier;
 
 class AdminNotifierServiceProvider extends ServiceProvider {
 
@@ -12,11 +12,13 @@ class AdminNotifierServiceProvider extends ServiceProvider {
 	{
 		$this->app->bind('TeenQuotes\Notifiers\AdminNotifier', function($app)
 		{
-			$url = 'https://smsapi.free-mobile.fr/sendmsg';
-			$user = getenv('SMS_USER');
-			$password = getenv('SMS_PASSWORD');
+			$config = $this->app['config'];
 
-			return new SmsAdminNotifier($url, $user, $password);
+			$lang = $this->app['translator'];
+			$apiKey = $config->get('services.pushbullet.apiKey');
+			$deviceIden = $config->get('services.pushbullet.deviceIden');
+
+			return new PushbulletAdminNotifier($lang, $apiKey, $deviceIden);
 		});
 	}
 }

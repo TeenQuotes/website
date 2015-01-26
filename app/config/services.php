@@ -37,4 +37,9 @@ return [
 		'apiKey'   => getenv('EASYREC_APIKEY'),
 		'tenantID' => 'teenquotes_'.App::environment()
 	],
+
+	'pushbullet' => [
+		'apiKey'     => getenv('PUSHBULLET_APIKEY'),
+		'deviceIden' => getenv('PUSHBULLET_DEVICE_IDEN'),
+	]
 ];
