@@ -5,9 +5,9 @@ use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use TeenQuotes\Mail\UserMailer;
+use TeenQuotes\Notifiers\AdminNotifier;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
-use TeenQuotes\Users\Models\User;
 
 class QuotesPublishCommand extends ScheduledCommand {
 
@@ -48,16 +48,23 @@ class QuotesPublishCommand extends ScheduledCommand {
 	private $userMailer;
 
 	/**
+	 * @var TeenQuotes\Notifiers\AdminNotifier
+	 */
+	private $adminNotifier;
+
+	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
-	public function __construct(QuoteRepository $quoteRepo, UserMailer $userMailer)
+	public function __construct(QuoteRepository $quoteRepo, UserMailer $userMailer,
+								AdminNotifier $adminNotifier)
 	{
 		parent::__construct();
 
-		$this->quoteRepo = $quoteRepo;
-		$this->userMailer = $userMailer;
+		$this->quoteRepo     = $quoteRepo;
+		$this->userMailer    = $userMailer;
+		$this->adminNotifier = $adminNotifier;
 	}
 
 	/**
@@ -121,6 +128,33 @@ class QuotesPublishCommand extends ScheduledCommand {
 				Lang::get('quotes.quotePublishedSubjectEmail')
 			);
 		});
+
+		// Notify the administrator about the remaining
+		// number of days to published queued quotes
+		$this->notifyAdministrator();
+	}
+
+	private function notifyAdministrator()
+	{
+		$nbDays = $this->getNbRemainingDaysPublication();
+
+		$message = 'Number of days with quotes waiting to be published: '.$nbDays;
+
+		$this->adminNotifier->notify($message);
+	}
+
+	/**
+	 * Compute the number of days required to publish
+	 * quotes waiting to be published
+	 *
+	 * @return int
+	 */
+	private function getNbRemainingDaysPublication()
+	{
+		$nbQuotesPending = $this->quoteRepo->nbPending();
+		$quotesPerDay = Config::get('app.quotes.nbQuotesToPublishPerDay');
+
+		return ceil($nbQuotesPending / $quotesPerDay);
 	}
 
 	private function log($string)
