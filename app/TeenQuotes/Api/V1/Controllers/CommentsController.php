@@ -2,19 +2,17 @@
 
 use App, Config, Input;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
-use TeenQuotes\Comments\Models\Comment;
 use TeenQuotes\Exceptions\ApiNotFoundException;
 use TeenQuotes\Http\Facades\Response;
-use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Users\Models\User;
 
 class CommentsController extends APIGlobalController implements PaginatedContentInterface {
 
 	/**
-	 * @var TeenQuotes\Comments\Validation\CommentValidator
+	 * @var \TeenQuotes\Comments\Validation\CommentValidator
 	 */
 	private $commentValidator;
-	
+
 	public function bootstrap()
 	{
 		$this->commentValidator = App::make('TeenQuotes\Comments\Validation\CommentValidator');
@@ -34,13 +32,13 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 		// Handle no comments found
 		if (is_null($content) OR $content->count() == 0)
 			throw new ApiNotFoundException('comments');
-		
+
 		// Get the total number of comments for the related quote
 		$relatedQuote = $this->quoteRepo->getById($quote_id);
 		$totalComments = $relatedQuote->total_comments;
 
 		$data = self::paginateContent($page, $pagesize, $totalComments, $content, 'comments');
-		
+
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
@@ -50,7 +48,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 		$pagesize = $this->getPagesize();
 
 		$user = $this->userRepo->getById($user_id);
-		
+
 		// Handle user not found
 		if (is_null($user))
 			return $this->tellUserWasNotFound($user_id);
@@ -60,27 +58,27 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
 		// Handle no comments found
 		$totalComments = 0;
-		if (is_null($content) OR empty($content) OR $content->count() == 0)
+		if ($this->isNotFound($content))
 			throw new ApiNotFoundException('comments');
 
 		$totalComments = $this->commentRepo->countForUser($user);
 
 		$data = self::paginateContent($page, $pagesize, $totalComments, $content, 'comments');
-		
+
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
 	public function show($comment_id)
-	{		
+	{
 		if (Input::has('quote'))
 			$comment = $this->commentRepo->findByIdWithQuote($comment_id);
 		else
 			$comment = $this->commentRepo->findById($comment_id);
-		
+
 		// Handle not found
 		if (is_null($comment))
 			return $this->tellCommentWasNotFound($comment_id);
-		
+
 		return Response::json($comment, 200, [], JSON_NUMERIC_CHECK);
 	}
 
@@ -91,9 +89,9 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
 		if ($doValidation)
 			$this->commentValidator->validatePosting(compact('content', 'quote_id'));
-		
+
 		$quote = $this->quoteRepo->getById($quote_id);
-		
+
 		// Check if the quote is published
 		if ( ! $quote->isPublished())
 			return Response::json([
@@ -103,9 +101,6 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
 		// Store the comment
 		$comment = $this->commentRepo->create($quote, $user, $content);
-
-		// Send an e-mail to the author of the quote if he wants it
-		// Update number of comments in cache
 
 		return Response::json($comment, 201, [], JSON_NUMERIC_CHECK);
 	}
@@ -151,7 +146,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
 		// Delete the comment
 		$this->commentRepo->delete($id);
-		
+
 		// Decrease the number of comments on the quote in cache
 
 		return Response::json([
@@ -163,6 +158,17 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 	public function getPagesize()
 	{
 		return Input::get('pagesize', Config::get('app.comments.nbCommentsPerPage'));
+	}
+
+	/**
+	 * Determine if a collection contains no results
+	 *
+	 * @param  null|\Illuminate\Support\Collection  $content
+	 * @return boolean
+	 */
+	private function isNotFound($content)
+	{
+		return (is_null($content) OR empty($content) OR $content->count() == 0);
 	}
 
 	private function tellCommentWasNotFound($id)
@@ -183,11 +189,9 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
 	private function tellUserWasNotFound($user_id)
 	{
-		$data = [
+		return Response::json([
 			'status' => 'user_not_found',
 			'error'  => "The user #".$user_id." was not found.",
-		];
-
-		return Response::json($data, 400);
+		], 400);
 	}
 }

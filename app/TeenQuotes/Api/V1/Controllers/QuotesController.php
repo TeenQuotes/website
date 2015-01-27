@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use App, Config, Input;
+use App, Config, Input, InvalidArgumentException;
 use Laracasts\Validation\FormValidationException;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Exceptions\ApiNotFoundException;
@@ -179,7 +179,9 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 
 	public function getPagesize()
 	{
-		switch ($this->relationInvolved)
+		$relation = $this->relationInvolved;
+
+		switch ($relation)
 		{
 			case 'users':
 				return Input::get('pagesize', Config::get('app.users.nbQuotesPerPage'));
@@ -187,14 +189,19 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 			case 'quotes':
 				return Input::get('pagesize', $this->getDefaultNbQuotesPerPage());
 		}
+
+		$message = "Can't determine pagesize for relation: ".$relation;
+
+		throw new InvalidArgumentException($message);
 	}
 
 	/**
 	 * Build a paginated response for quotes
-	 * @param  Illuminate\Database\Eloquent\Collection $quotes
-	 * @param  int $total
-	 * @throws TeenQuotes\Exceptions\ApiNotFoundException If no quotes were found
-	 * @return TeenQuotes\Http\Facades\Response
+	 *
+	 * @param  \Illuminate\Database\Eloquent\Collection $quotes
+	 * @param  int $total The total number of results for the ressource
+	 * @throws \TeenQuotes\Exceptions\ApiNotFoundException If no quotes were found
+	 * @return \TeenQuotes\Http\Facades\Response
 	 */
 	private function buildPaginatedResponse($quotes, $total)
 	{

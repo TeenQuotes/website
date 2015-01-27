@@ -1,12 +1,10 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Lang;
-use Password;
+use Input, Lang, Password;
 use TeenQuotes\Http\Facades\Response;
 
 class PasswordController extends APIGlobalController {
-	
+
 	public function postRemind()
 	{
 		$response = Password::remind(Input::only('email'), function($message)
@@ -88,5 +86,5 @@ class PasswordController extends APIGlobalController {
 		}
 
 		return Response::json($data, $status);
-	}	
+	}
 }

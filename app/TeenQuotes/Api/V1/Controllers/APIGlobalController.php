@@ -15,6 +15,7 @@ use TeenQuotes\Stories\Repositories\StoryRepository;
 use TeenQuotes\Users\Repositories\UserRepository;
 
 class APIGlobalController extends BaseController {
+
 	/**
 	 * @var TeenQuotes\Countries\Repositories\CountryRepository
 	 */
@@ -82,6 +83,11 @@ class APIGlobalController extends BaseController {
 
 	protected function bootstrap() {}
 
+	/**
+	 * Display the welcome message at the root of the API
+	 *
+	 * @return \TeenQuotes\Http\Facades\Response
+	 */
 	public function showWelcome()
 	{
 		return Response::json([
@@ -99,13 +105,15 @@ class APIGlobalController extends BaseController {
 	}
 
 	/**
-	 * Paginate content for the API after a search for example
+	 * Paginate content for the API
+	 *
 	 * @param  int $page The current page number
 	 * @param  int $pagesize The number of items per page
 	 * @param  int $totalContent The total number of items for the search
-	 * @param  Collection $content The content we searched for
+	 * @param  \Illuminate\Support\Collection $content The content
 	 * @param  string $contentName The name of the content. Example: quotes|users
-	 * @return array A big array
+	 * @return array Keys: total_<ressource>, total_pages, page, pagesize, url,
+	 * has_next_page, has_previous_page[, next_page, previous_page]
 	 */
 	public static function paginateContent($page, $pagesize, $totalContent, $content, $contentName = 'quotes')
 	{
@@ -125,7 +133,8 @@ class APIGlobalController extends BaseController {
 			$additionalGet = '&quote=true';
 
 		// Add next page URL
-		if ($page < $totalPages) {
+		if ($page < $totalPages)
+		{
 			$data['has_next_page'] = true;
 			$data['next_page'] = $data['url'].'?page='.($page + 1).'&pagesize='.$pagesize.$additionalGet;
 		}
@@ -133,7 +142,8 @@ class APIGlobalController extends BaseController {
 			$data['has_next_page'] = false;
 
 		// Add previous page URL
-		if ($page >= 2) {
+		if ($page >= 2)
+		{
 			$data['has_previous_page'] = true;
 			$data['previous_page'] = $data['url'].'?page='.($page - 1).'&pagesize='.$pagesize.$additionalGet;
 		}
@@ -143,17 +153,28 @@ class APIGlobalController extends BaseController {
 		return $data;
 	}
 
+	/**
+	 * Get the current page
+	 *
+	 * @return int
+	 */
 	public function getPage()
 	{
 		return max(1, Input::get('page', 1));
 	}
 
 	/**
-	 * Retrieve the authenticated user from the website or via the API
-	 * @return \User The user object
+	 * Retrieve the authenticated user from the website or through OAuth
+	 *
+	 * @return \TeenQuotes\Models\Users\User The user object
 	 */
 	public function retrieveUser()
 	{
-		return ResourceServer::getOwnerId() ? $this->userRepo->getById(ResourceServer::getOwnerId()) : Auth::user();
+		// Get the user from OAuth 2
+		if (ResourceServer::getOwnerId())
+			return $this->userRepo->getById(ResourceServer::getOwnerId());
+
+		// Get the logged in user
+		return Auth::user();
 	}
 }
