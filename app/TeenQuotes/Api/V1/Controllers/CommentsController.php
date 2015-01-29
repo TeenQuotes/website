@@ -4,7 +4,6 @@ use App, Config, Input;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Exceptions\ApiNotFoundException;
 use TeenQuotes\Http\Facades\Response;
-use TeenQuotes\Users\Models\User;
 
 class CommentsController extends APIGlobalController implements PaginatedContentInterface {
 
@@ -30,7 +29,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 			$content = $this->commentRepo->indexForQuote($quote_id, $page, $pagesize);
 
 		// Handle no comments found
-		if (is_null($content) OR $content->count() == 0)
+		if ($this->isNotFound($content))
 			throw new ApiNotFoundException('comments');
 
 		// Get the total number of comments for the related quote
@@ -117,7 +116,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
 		// Check that the user is the owner of the comment
 		if ( ! $comment->isPostedByUser($user))
-			return $this->tellCommentWasNotPostedByUser($id, $user);
+			return $this->tellCommentWasNotPostedByUser($id, $user->id);
 
 		// Perform validation
 		$this->commentValidator->validateEditing(compact('content'));
@@ -142,12 +141,10 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
 		// Check that the user is the owner of the comment
 		if ( ! $comment->isPostedByUser($user))
-			return $this->tellCommentWasNotPostedByUser($id, $user);
+			return $this->tellCommentWasNotPostedByUser($id, $user->id);
 
 		// Delete the comment
 		$this->commentRepo->delete($id);
-
-		// Decrease the number of comments on the quote in cache
 
 		return Response::json([
 			'status'  => 'comment_deleted',
@@ -155,22 +152,22 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 		], 200);
 	}
 
+	/**
+	 * Get the pagesize
+	 *
+	 * @return int
+	 */
 	public function getPagesize()
 	{
 		return Input::get('pagesize', Config::get('app.comments.nbCommentsPerPage'));
 	}
 
 	/**
-	 * Determine if a collection contains no results
+	 * Tell that the comment was not found
 	 *
-	 * @param  null|\Illuminate\Support\Collection  $content
-	 * @return boolean
+	 * @param  int $id
+	 * @return \TeenQuotes\Http\Facades\Response
 	 */
-	private function isNotFound($content)
-	{
-		return (is_null($content) OR empty($content) OR $content->count() == 0);
-	}
-
 	private function tellCommentWasNotFound($id)
 	{
 		return Response::json([
@@ -179,14 +176,27 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 		], 404);
 	}
 
-	private function tellCommentWasNotPostedByUser($id, User $user)
+	/**
+	 * Tell that a comment a comment was not posted by a user
+	 *
+	 * @param  int $id The ID of the comment
+	 * @param  int $user_id The ID of the user
+	 * @return \TeenQuotes\Http\Facades\Response
+	 */
+	private function tellCommentWasNotPostedByUser($id, $user_id)
 	{
 		return Response::json([
 			'status' => 'comment_not_self',
-			'error'  => "The comment #".$id." was not posted by user #".$user->id.".",
+			'error'  => "The comment #".$id." was not posted by user #".$user_id.".",
 		], 400);
 	}
 
+	/**
+	 * Tell that we can't find a user
+	 *
+	 * @param  int $user_id
+	 * @return \TeenQuotes\Http\Facades\Response
+	 */
 	private function tellUserWasNotFound($user_id)
 	{
 		return Response::json([

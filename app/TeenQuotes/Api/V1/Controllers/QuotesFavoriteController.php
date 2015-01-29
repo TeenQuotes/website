@@ -3,14 +3,11 @@
 use App, Config, Queue;
 use Laracasts\Validation\FormValidationException;
 use TeenQuotes\Http\Facades\Response;
-use TeenQuotes\Quotes\Models\FavoriteQuote;
-use TeenQuotes\Quotes\Models\Quote;
-use TeenQuotes\Users\Models\User;
 
 class QuotesFavoriteController extends APIGlobalController {
 
 	/**
-	 * @var TeenQuotes\Quotes\Validation\FavoriteQuoteValidator
+	 * @var \TeenQuotes\Quotes\Validation\FavoriteQuoteValidator
 	 */
 	private $favQuoteValidator;
 
@@ -23,17 +20,14 @@ class QuotesFavoriteController extends APIGlobalController {
 	{
 		$user = $this->retrieveUser();
 
-		if ($doValidation) {
-
+		if ($doValidation)
+		{
 			try {
 				$this->favQuoteValidator->validatePostForQuote(compact('quote_id'));
 			}
 			catch (FormValidationException $e)
 			{
-				return Response::json([
-					'status' => 'quote_not_found',
-					'error'  => "The quote #".$quote_id." was not found.",
-				], 400);
+				return $this->tellQuoteWasNotFound($quote_id);
 			}
 
 			// Check if the quote is published
@@ -65,9 +59,6 @@ class QuotesFavoriteController extends APIGlobalController {
 		];
 		Queue::push('TeenQuotes\Queues\Workers\EasyrecWorker@favoriteAQuote', $data);
 
-
-		// The cache flush will be handled by the observer
-
 		return Response::json($favorite, 201, [], JSON_NUMERIC_CHECK);
 	}
 
@@ -82,10 +73,7 @@ class QuotesFavoriteController extends APIGlobalController {
 			}
 			catch (FormValidationException $e)
 			{
-				return Response::json([
-					'status' => 'quote_not_found',
-					'error'  => "The quote #".$quote_id." was not found.",
-				], 400);
+				return $this->tellQuoteWasNotFound($quote_id);
 			}
 		}
 
@@ -103,5 +91,19 @@ class QuotesFavoriteController extends APIGlobalController {
 			'status'  => 'favorite_deleted',
 			'success' => "The quote #".$quote_id." was deleted from favorites.",
 		], 200, [], JSON_NUMERIC_CHECK);
+	}
+
+	/**
+	 * Tell that a quote was not found
+	 *
+	 * @param  int $quote_id
+	 * @return \TeenQuotes\Http\Facades\Response
+	 */
+	private function tellQuoteWasNotFound($quote_id)
+	{
+		return Response::json([
+			'status' => 'quote_not_found',
+			'error'  => "The quote #".$quote_id." was not found.",
+		], 400);
 	}
 }

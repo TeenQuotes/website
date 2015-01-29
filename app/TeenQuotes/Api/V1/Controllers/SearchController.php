@@ -1,14 +1,9 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\URL;
+use Config, Input, URL;
 use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Exceptions\ApiNotFoundException;
 use TeenQuotes\Http\Facades\Response;
-use TeenQuotes\Quotes\Models\Quote;
-use TeenQuotes\Users\Models\User;
 
 class SearchController extends APIGlobalController implements PaginatedContentInterface {
 
@@ -16,20 +11,10 @@ class SearchController extends APIGlobalController implements PaginatedContentIn
 	{
 		$page = $this->getPage();
 		$pagesize = $this->getPagesize();
-				
+
 		// Get content
-		$quotes = App::make('TeenQuotes\Api\V1\Controllers\QuotesController')->getQuotesSearch($page, $pagesize, $query);
-		$users = App::make('TeenQuotes\Api\V1\Controllers\UsersController')->getUsersSearch($page, $pagesize, $query);
-
-		$totalQuotes = 0;
-		$totalUsers = 0;
-
-		if ( ! is_null($quotes) AND ! empty($quotes) AND $quotes->count() > 0) {
-			$totalQuotes = $this->quoteRepo->searchCountPublishedWithQuery($query);
-		}
-
-		if ( ! is_null($users) AND ! empty($users) AND $users->count() > 0)
-			$totalUsers = $this->userRepo->countByPartialLogin($query);
+		list($quotes, $totalQuotes) = $this->getTotalQuotesAndQuotesForQuery($page, $pagesize, $query);
+		list($users, $totalUsers) = $this->getTotalUsersAndUsersForQuery($page, $pagesize, $query);
 
 		// Handle no results
 		if ($totalQuotes == 0 AND $totalUsers == 0)
@@ -48,5 +33,49 @@ class SearchController extends APIGlobalController implements PaginatedContentIn
 	public function getPagesize()
 	{
 		return Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
+	}
+
+	/**
+	 * Get the total number of quotes and these objects for a page,
+	 * pagesize and query
+	 *
+	 * @param  int $page The page number
+	 * @param  int $pagesize The pagesize
+	 * @param  string $query The search query
+	 * @return array The first element are the quotes, the second one is
+	 * the total number of quotes
+	 */
+	private function getTotalQuotesAndQuotesForQuery($page, $pagesize, $query)
+	{
+		$quotes = $this->quoteRepo->searchPublishedWithQuery($query, $page, $pagesize);
+
+		$totalQuotes = 0;
+		// Don't search the total number of items if we have found nothing
+		if ( ! $this->isNotFound($quotes))
+			$totalQuotes = $this->quoteRepo->searchCountPublishedWithQuery($query);
+
+		return [$quotes, $totalQuotes];
+	}
+
+	/**
+	 * Get the total number of users and these objects for a page,
+	 * pagesize and query
+	 *
+	 * @param  int $page The page number
+	 * @param  int $pagesize The pagesize
+	 * @param  string $query The search query
+	 * @return array The first element are the users, the second one is
+	 * the total number of users
+	 */
+	private function getTotalUsersAndUsersForQuery($page, $pagesize, $query)
+	{
+		$users = $this->userRepo->searchByPartialLogin($query, $page, $pagesize);
+
+		$totalUsers = 0;
+		// Don't search the total number of items if we have found nothing
+		if ( ! $this->isNotFound($users))
+			$totalUsers = $this->userRepo->countByPartialLogin($query);
+
+		return [$users, $totalUsers];
 	}
 }

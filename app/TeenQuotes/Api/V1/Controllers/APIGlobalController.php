@@ -17,47 +17,47 @@ use TeenQuotes\Users\Repositories\UserRepository;
 class APIGlobalController extends BaseController {
 
 	/**
-	 * @var TeenQuotes\Countries\Repositories\CountryRepository
+	 * @var \TeenQuotes\Countries\Repositories\CountryRepository
 	 */
 	protected $countryRepo;
 
 	/**
-	 * @var TeenQuotes\Comments\Repositories\CommentRepository
+	 * @var \TeenQuotes\Comments\Repositories\CommentRepository
 	 */
 	protected $commentRepo;
 
 	/**
-	 * @var TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 * @var \TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
 	 */
 	protected $favQuoteRepo;
 
 	/**
-	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
+	 * @var \TeenQuotes\Newsletters\Repositories\NewsletterRepository
 	 */
 	protected $newsletterRepo;
 
 	/**
-	 * @var TeenQuotes\Newsletters\NewslettersManager
+	 * @var \TeenQuotes\Newsletters\NewslettersManager
 	 */
 	protected $newslettersManager;
 
 	/**
-	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 * @var \TeenQuotes\Quotes\Repositories\QuoteRepository
 	 */
 	protected $quoteRepo;
 
 	/**
-	 * @var TeenQuotes\Settings\Repositories\SettingRepository
+	 * @var \TeenQuotes\Settings\Repositories\SettingRepository
 	 */
 	protected $settingRepo;
 
 	/**
-	 * @var TeenQuotes\Stories\Repositories\StoryRepository
+	 * @var \TeenQuotes\Stories\Repositories\StoryRepository
 	 */
 	protected $storyRepo;
 
 	/**
-	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 * @var \TeenQuotes\Users\Repositories\UserRepository
 	 */
 	protected $userRepo;
 
@@ -168,7 +168,7 @@ class APIGlobalController extends BaseController {
 	 *
 	 * @return \TeenQuotes\Models\Users\User The user object
 	 */
-	public function retrieveUser()
+	protected function retrieveUser()
 	{
 		// Get the user from OAuth 2
 		if (ResourceServer::getOwnerId())
@@ -176,5 +176,16 @@ class APIGlobalController extends BaseController {
 
 		// Get the logged in user
 		return Auth::user();
+	}
+
+	/**
+	 * Determine if a collection contains no results
+	 *
+	 * @param  null|\Illuminate\Support\Collection  $content
+	 * @return boolean
+	 */
+	protected function isNotFound($content)
+	{
+		return (is_null($content) OR empty($content) OR $content->count() == 0);
 	}
 }

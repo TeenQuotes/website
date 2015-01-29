@@ -1,17 +1,17 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
 use App, Config, Input;
-use TeenQuotes\Http\Facades\Response;
-use TeenQuotes\Stories\Models\Story;
-use TeenQuotes\Users\Models\User;
+use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
 use TeenQuotes\Exceptions\ApiNotFoundException;
-class StoriesController extends APIGlobalController {
+use TeenQuotes\Http\Facades\Response;
+
+class StoriesController extends APIGlobalController implements PaginatedContentInterface {
 
 	/**
-	 * @var TeenQuotes\Stories\Validation\StoryValidator
+	 * @var \TeenQuotes\Stories\Validation\StoryValidator
 	 */
 	private $storyValidator;
-	
+
 	protected function bootstrap()
 	{
 		$this->storyValidator = App::make('TeenQuotes\Stories\Validation\StoryValidator');
@@ -20,17 +20,17 @@ class StoriesController extends APIGlobalController {
 	public function index()
 	{
 		$page = $this->getPage();
-		$pagesize = Input::get('pagesize', Config::get('app.stories.nbStoriesPerPage'));
+		$pagesize = $this->getPagesize();
 
 		// Get stories
-		$content = $this->storyRepo->index($page, $pagesize);
+		$stories = $this->storyRepo->index($page, $pagesize);
 
 		// Handle no stories found
-		if (is_null($content) OR $content->count() == 0)
+		if ($this->isNotFound($stories))
 			throw new ApiNotFoundException('stories');
 
-		$data = self::paginateContent($page, $pagesize, $this->storyRepo->total(), $content, 'stories');
-		
+		$data = self::paginateContent($page, $pagesize, $this->storyRepo->total(), $stories, 'stories');
+
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
@@ -39,12 +39,9 @@ class StoriesController extends APIGlobalController {
 		$story = $this->storyRepo->findById($story_id);
 
 		// Handle not found
-		if (is_null($story))
-			return Response::json([
-				'status' => 'story_not_found',
-				'error'  => "The story #".$story_id." was not found.",
-			], 404);
-					
+		if ($this->isNotFound($story))
+			return $this->tellStoryWasNotFound($story_id);
+
 		return Response::json($story, 200, [], JSON_NUMERIC_CHECK);
 	}
 
@@ -60,5 +57,24 @@ class StoriesController extends APIGlobalController {
 		$story = $this->storyRepo->create($user, $data['represent_txt'], $data['frequence_txt']);
 
 		return Response::json($story, 201, [], JSON_NUMERIC_CHECK);
+	}
+
+	public function getPagesize()
+	{
+		return Input::get('pagesize', Config::get('app.stories.nbStoriesPerPage'));
+	}
+
+	/**
+	 * Tell that a story was not found
+	 *
+	 * @param  int $story_id
+	 * @return \TeenQuotes\Http\Facades\Response
+	 */
+	private function tellStoryWasNotFound($story_id)
+	{
+		return Response::json([
+			'status' => 'story_not_found',
+			'error'  => "The story #".$story_id." was not found.",
+		], 404);
 	}
 }
