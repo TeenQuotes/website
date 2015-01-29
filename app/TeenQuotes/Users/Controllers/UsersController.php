@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Laracasts\Validation\FormValidationException;
 use TeenQuotes\Api\V1\Controllers\UsersController as UsersAPIController;
 use TeenQuotes\Comments\Repositories\CommentRepository;
+use TeenQuotes\Countries\Localisation\Detector;
 use TeenQuotes\Countries\Repositories\CountryRepository;
 use TeenQuotes\Exceptions\HiddenProfileException;
 use TeenQuotes\Exceptions\UserNotFoundException;
@@ -19,60 +20,67 @@ use TeenQuotes\Users\Validation\UserValidator;
 class UsersController extends BaseController {
 
 	/**
-	 * @var TeenQuotes\Api\V1\Controllers\UsersController
+	 * @var \TeenQuotes\Api\V1\Controllers\UsersController
 	 */
 	private $api;
 
 	/**
-	 * @var TeenQuotes\Comments\Repositories\CommentRepository
+	 * @var \TeenQuotes\Comments\Repositories\CommentRepository
 	 */
 	private $commentRepo;
 
 	/**
-	 * @var TeenQuotes\Countries\Repositories\CountryRepository
+	 * @var \TeenQuotes\Countries\Repositories\CountryRepository
 	 */
 	private $countryRepo;
 
 	/**
-	 * @var TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 * @var \TeenQuotes\Countries\Localisation\Detector
+	 */
+	private $localisationDetector;
+
+	/**
+	 * @var \TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
 	 */
 	private $favQuoteRepo;
 
 	/**
-	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 * @var \TeenQuotes\Quotes\Repositories\QuoteRepository
 	 */
 	private $quoteRepo;
 
 	/**
-	 * @var TeenQuotes\Settings\Repositories\SettingRepository
+	 * @var \TeenQuotes\Settings\Repositories\SettingRepository
 	 */
 	private $settingRepo;
 
 	/**
-	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 * @var \TeenQuotes\Users\Repositories\UserRepository
 	 */
 	private $userRepo;
 
 	/**
-	 * @var TeenQuotes\Users\Validation\UserValidator
+	 * @var \TeenQuotes\Users\Validation\UserValidator
 	 */
 	private $userValidator;
 
 	public function __construct(CommentRepository $commentRepo, CountryRepository $countryRepo,
-		FavoriteQuoteRepository $favQuoteRepo, QuoteRepository $quoteRepo,
-		SettingRepository $settingRepo, UserRepository $userRepo, UserValidator $userValidator)
+		Detector $localisationDetector, FavoriteQuoteRepository $favQuoteRepo,
+		QuoteRepository $quoteRepo, SettingRepository $settingRepo, UserRepository $userRepo,
+		UserValidator $userValidator)
 	{
 		$this->beforeFilter('guest', ['only' => 'store']);
 		$this->beforeFilter('auth', ['only' => ['edit', 'update', 'putPassword', 'putSettings']]);
 
-		$this->api           = App::make('TeenQuotes\Api\V1\Controllers\UsersController');
-		$this->commentRepo   = $commentRepo;
-		$this->countryRepo   = $countryRepo;
-		$this->favQuoteRepo  = $favQuoteRepo;
-		$this->quoteRepo     = $quoteRepo;
-		$this->settingRepo   = $settingRepo;
-		$this->userRepo      = $userRepo;
-		$this->userValidator = $userValidator;
+		$this->api                  = App::make(UsersAPIController::class);
+		$this->commentRepo          = $commentRepo;
+		$this->countryRepo          = $countryRepo;
+		$this->localisationDetector = $localisationDetector;
+		$this->favQuoteRepo         = $favQuoteRepo;
+		$this->quoteRepo            = $quoteRepo;
+		$this->settingRepo          = $settingRepo;
+		$this->userRepo             = $userRepo;
+		$this->userValidator        = $userValidator;
 	}
 
 	public function redirectOldUrl($userId)
@@ -344,13 +352,15 @@ class UsersController extends BaseController {
 	 */
 	private function getCountryAndCity(User $user)
 	{
+		$request = Input::instance();
+
 		// If the user hasn't filled its country yet we will try to auto-detect it
 		// If it's not possible, we will fall back to the most common country: the USA
-		$selectedCountry = is_null($user->country) ? UsersAPIController::detectCountry() : $user->country;
+		$selectedCountry = is_null($user->country) ? $this->localisationDetector->detectCountry($request) : $user->country;
 
 		// If the user hasn't filled its city yet we will try to auto-detect it
 		if (empty(Input::old('city')) AND is_null($user->city))
-			$selectedCity = UsersAPIController::detectCity();
+			$selectedCity = $this->localisationDetector->detectCity($request);
 		else
 			$selectedCity = Input::old('city');
 

@@ -1,30 +1,34 @@
 <?php namespace TeenQuotes\Api\V1\Controllers;
 
-use App, Auth, Config, DB, Input, Queue, Str;
-use Buonzz\GeoIP\Laravel4\Facades\GeoIP;
+use App, Auth, Config, DB, Exception, Input, Queue, Str;
 use Carbon\Carbon;
-use Exception;
 use Laracasts\Validation\FormValidationException;
 use stojg\crop\CropEntropy;
-use TeenQuotes\Countries\Models\Country;
+use TeenQuotes\Api\V1\Interfaces\PaginatedContentInterface;
+use TeenQuotes\Countries\Localisation\Detector;
 use TeenQuotes\Exceptions\ApiNotFoundException;
 use TeenQuotes\Http\Facades\Response;
 use TeenQuotes\Newsletters\Models\Newsletter;
-use TeenQuotes\Settings\Models\Setting;
 use TeenQuotes\Users\Models\User;
 use TeenQuotes\Users\Validation\UserValidator;
 use Thomaswelton\LaravelGravatar\Facades\Gravatar;
 
-class UsersController extends APIGlobalController {
+class UsersController extends APIGlobalController implements PaginatedContentInterface {
 
 	/**
-	 * @var TeenQuotes\Users\Validation\UserValidator
+	 * @var \TeenQuotes\Users\Validation\UserValidator
 	 */
 	private $userValidator;
 
+	/**
+	 * @var \TeenQuotes\Countries\Localisation\Detector
+	 */
+	private $localisationDetector;
+
 	protected function bootstrap()
 	{
-		$this->userValidator = App::make('TeenQuotes\Users\Validation\UserValidator');
+		$this->userValidator        = App::make(UserValidator::class);
+		$this->localisationDetector = App::make(Detector::class);
 	}
 
 	public function destroy()
@@ -57,9 +61,14 @@ class UsersController extends APIGlobalController {
 		if (Gravatar::exists($data['email']))
 			$avatar = Gravatar::src($data['email'], 150);
 
+		// Try to detect the city and the country from the request
+		$request = Input::instance();
+		$country = $this->localisationDetector->detectCountry($request);
+		$city = $this->localisationDetector->detectCity($request);
+
 		$user = $this->userRepo->create($data['login'], $data['email'], $data['password'],
 			$_SERVER['REMOTE_ADDR'], Carbon::now()->toDateTimeString(),
-			self::detectCountry(), self::detectCity(), $avatar
+			$country, $city, $avatar
 		);
 
 		// Send a welcome e-mail and subscribe the user to the
@@ -73,7 +82,7 @@ class UsersController extends APIGlobalController {
 		$user = $this->userRepo->showByLoginOrId($user_id);
 
 		// User not found
-		if (empty($user) OR $user->count() == 0)
+		if ($this->isNotFound($user))
 			return Response::json([
 				'status' => 404,
 				'error' => 'User not found.'
@@ -93,19 +102,19 @@ class UsersController extends APIGlobalController {
 	public function getSearch($query)
 	{
 		$page = $this->getPage();
-		$pagesize = Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
+		$pagesize = $this->getPagesize();
 
 		// Get users
-		$content = $this->getUsersSearch($page, $pagesize, $query);
+		$users = $this->getUsersSearch($page, $pagesize, $query);
 
 		// Handle no users found
 		$totalUsers = 0;
-		if (is_null($content) OR empty($content) OR $content->count() == 0)
+		if ($this->isNotFound($users))
 			throw new ApiNotFoundException('users');
 
 		$totalUsers = $this->userRepo->countByPartialLogin($query);
 
-		$data = self::paginateContent($page, $pagesize, $totalUsers, $content, 'users');
+		$data = self::paginateContent($page, $pagesize, $totalUsers, $users, 'users');
 
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
@@ -132,28 +141,13 @@ class UsersController extends APIGlobalController {
 		$data['avatar']);
 
 		// Move the avatar if required
-		if ( ! is_null($data['avatar'])) {
+		if ( ! is_null($data['avatar']))
 			$this->cropAndMoveAvatar($user, $data['avatar']);
-		}
 
 		return Response::json([
 			'status'  => 'profile_updated',
 			'success' => 'The profile has been updated.'
 		], 200);
-	}
-
-	private function cropAndMoveAvatar(User $user, $avatar)
-	{
-		$filename = $user->id.'.'.$avatar->getClientOriginalExtension();
-		$filepath = Config::get('app.users.avatarPath').'/'.$filename;
-
-		// Save to the final location
-		Input::file('avatar')->move(Config::get('app.users.avatarPath'), $filename);
-
-		// Crop the image and save it
-		$center = new CropEntropy($filepath);
-		$croppedImage = $center->resizeAndCrop(Config::get('app.users.avatarWidth'), Config::get('app.users.avatarHeight'));
-		$croppedImage->writeimage($filepath);
 	}
 
 	public function putPassword()
@@ -164,7 +158,7 @@ class UsersController extends APIGlobalController {
 
 		$this->userValidator->validateUpdatePassword($data);
 
-		// Update new password
+		// Update the new password
 		$this->userRepo->updatePassword($user, $data['password']);
 
 		return Response::json([
@@ -221,7 +215,6 @@ class UsersController extends APIGlobalController {
 
 		$this->settingRepo->updateOrCreate($user, 'colorsQuotesPublished', $data['colors']);
 
-		// Observer: clean setting cache
 
 		return Response::json([
 			'status'  => 'profile_updated',
@@ -235,41 +228,25 @@ class UsersController extends APIGlobalController {
 	}
 
 	/**
-	 * Try to detect the country of the user, otherwise select the default country (the most common one)
-	 * @return string The country
+	 * Get the pagesize
+	 * @return int
 	 */
-	public static function detectCountry()
+	public function getPagesize()
 	{
-		// List of know countries
-		$availableCountries = App::make('TeenQuotes\Countries\Repositories\CountryRepository')->listNameAndId();
-
-		try {
-			$countryDetected = GeoIP::getCountry();
-		} catch (Exception $e) {
-			$selectedCountry = Country::getDefaultCountry();
-		}
-
-		// If the detected country in the possible countries, we will select it
-		if ( ! isset($selectedCountry) AND in_array($countryDetected, array_values($availableCountries)))
-			$selectedCountry = array_search($countryDetected, $availableCountries);
-		else
-			$selectedCountry = Country::getDefaultCountry();
-
-		return $selectedCountry;
+		return Input::get('pagesize', Config::get('app.quotes.nbQuotesPerPage'));
 	}
 
-	/**
-	 * Try to detect the city of the user thanks to its IP address
-	 * @return string The city detected
-	 */
-	public static function detectCity()
+	private function cropAndMoveAvatar(User $user, $avatar)
 	{
-		try {
-			$cityDetected = GeoIP::getCity();
-			return $cityDetected;
-		} catch (Exception $e) {
-			$selectedCity = "";
-			return $selectedCity;
-		}
+		$filename = $user->id.'.'.$avatar->getClientOriginalExtension();
+		$filepath = Config::get('app.users.avatarPath').'/'.$filename;
+
+		// Save to the final location
+		Input::file('avatar')->move(Config::get('app.users.avatarPath'), $filename);
+
+		// Crop the image and save it
+		$center = new CropEntropy($filepath);
+		$croppedImage = $center->resizeAndCrop(Config::get('app.users.avatarWidth'), Config::get('app.users.avatarHeight'));
+		$croppedImage->writeimage($filepath);
 	}
 }
