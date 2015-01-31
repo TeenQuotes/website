@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Newsletters\Console;
 
-use MandrillClient, Lang, Log;
+use MandrillClient, Log;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use TeenQuotes\Mail\UserMailer;
@@ -24,17 +24,17 @@ class UnsubscribeUsersCommand extends ScheduledCommand {
 	protected $description = 'Unsubscribe users from newsletters.';
 
 	/**
-	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 * @var \TeenQuotes\Users\Repositories\UserRepository
 	 */
 	private $userRepo;
 
 	/**
-	 * @var TeenQuotes\Newsletters\NewslettersManager
+	 * @var \TeenQuotes\Newsletters\NewslettersManager
 	 */
 	private $newslettersManager;
 
 	/**
-	 * @var TeenQuotes\Mail\UserMailer
+	 * @var \TeenQuotes\Mail\UserMailer
 	 */
 	private $userMailer;
 
@@ -68,6 +68,7 @@ class UnsubscribeUsersCommand extends ScheduledCommand {
 
 	/**
 	 * Choose the environment(s) where the command should run
+	 *
 	 * @return array Array of environments' name
 	 */
 	public function environment()
@@ -99,17 +100,15 @@ class UnsubscribeUsersCommand extends ScheduledCommand {
 			// Log this info
 			$this->writeToLog("Unsubscribing user from newsletters: ".$user->login." - ".$user->email);
 
-			$this->userMailer->send('emails.newsletters.unsubscribe',
-				$user,
-				compact('user'),
-				Lang::get('email.unsubscribeNewsletterSubject')
-			);
+			// Send the actual email
+			$this->userMailer->unsubscribeUserFromNewsletter($user);
 		});
 	}
 
 	/**
-	 * Get users that has already have been affected by an hard bounce
-	 * @return Illuminate\Database\Eloquent\Collection
+	 * Get users that have already been affected by a hard bounce
+	 *
+	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	private function getHardBouncedUsers()
 	{
