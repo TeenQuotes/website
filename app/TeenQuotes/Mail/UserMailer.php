@@ -171,6 +171,41 @@ class UserMailer {
 	}
 
 	/**
+	 * Send a moderation decision for a quote to its author
+	 *
+	 * @param  string $type The decision
+	 * @param  \TeenQuotes\Quotes\Models\Quote $quote
+	 * @param  int $nbDays The number of days before the publication of the quote
+	 */
+	public function sendModeration($type, $quote, $nbDays)
+	{
+		$this->send('emails.quotes.'.$type,
+			$quote->user,
+			compact('quote', 'nbDays'),
+			Lang::get('quotes.quote'.ucfirst($type).'SubjectEmail')
+		);
+	}
+
+	/**
+	 * Schedule an e-mail to send about an event for a user
+	 *
+	 * @param  string $event
+	 * @param  \TeenQuotes\Users\Models\User $user
+	 * @param  string $driver The e-mail driver to use
+	 * @param  \DateTime $delay When we should send the e-mail
+	 */
+	public function sendEvent($event, $user, $driver, $delay)
+	{
+		$this->sendLater('emails.events.'.$event, // View
+			$user,
+			['login' => $user->login], // Data
+			Lang::get('email.event'.ucfirst($event).'SubjectEmail'), // Subject key
+			$driver,
+			$delay
+		);
+	}
+
+	/**
 	 * Retrieve an user by its ID
 	 *
 	 * @param int $id

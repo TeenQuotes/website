@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Users\Console;
 
-use Carbon, Lang, Log, Mail;
+use Carbon, Log;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -30,12 +30,12 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 	private $possibleEvents = ['christmas', 'newyear'];
 
 	/**
-	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 * @var \TeenQuotes\Users\Repositories\UserRepository
 	 */
 	private $userRepo;
 
 	/**
-	 * @var TeenQuotes\Mail\UserMailer
+	 * @var \TeenQuotes\Mail\UserMailer
 	 */
 	private $userMailer;
 
@@ -111,13 +111,7 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 					$this->log("Scheduled email for event ".$event." to ".$user->login." - ".$user->email." for ".$delay->toDateTimeString());
 
 					// Add the email to the queue
-					$this->userMailer->sendLater('emails.events.'.$event, // View
-						$user,
-						['login' => $user->login], // Data
-						Lang::get('email.event'.ucfirst($event).'SubjectEmail'), // Subject key
-						$driver,
-						$delay
-					);
+					$this->userMailer->sendEvent($event, $user, $driver, $delay);
 				});
 
 				$i++;
