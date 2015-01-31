@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Users\Console;
 
-use Lang, Log;
+use Log;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use TeenQuotes\Mail\UserMailer;
@@ -23,12 +23,12 @@ class SendBirthdayCommand extends ScheduledCommand {
 	protected $description = 'Whish happy birthday to the concerned users.';
 
 	/**
-	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 * @var \TeenQuotes\Users\Repositories\UserRepository
 	 */
 	private $userRepo;
 
 	/**
-	 * @var TeenQuotes\Mail\UserMailer
+	 * @var \TeenQuotes\Mail\UserMailer
 	 */
 	private $userMailer;
 
@@ -79,14 +79,9 @@ class SendBirthdayCommand extends ScheduledCommand {
 
 		$users->each(function($user)
 		{
-			// Log this info
 			$this->log("Wishing happy birthday to ".$user->login." - ".$user->email);
 
-			$this->userMailer->send('emails.events.birthday',
-				$user,
-				compact('user'),
-				Lang::get('email.happyBirthdaySubjectEmail')
-			);
+			$this->userMailer->wishHappyBirthday($user);
 		});
 	}
 

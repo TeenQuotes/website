@@ -122,11 +122,7 @@ class QuotesPublishCommand extends ScheduledCommand {
 			$this->log("Published quote #".$quote->id);
 
 			// Send an email to the author
-			$this->userMailer->send('emails.quotes.published',
-				$quote->user, // The author of the quote
-				compact('quote'),
-				Lang::get('quotes.quotePublishedSubjectEmail')
-			);
+			$this->userMailer->tellQuoteWasPublished($quote);
 		});
 
 		// Notify the administrator about the remaining

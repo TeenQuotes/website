@@ -1,17 +1,17 @@
 <?php namespace TeenQuotes\Users\Observers;
 
-use App, Carbon, Lang, Mail;
+use App;
 use TeenQuotes\Newsletters\Models\Newsletter;
 
 class UserObserver {
 
 	/**
-	 * @var TeenQuotes\Newsletters\NewslettersManager
+	 * @var \TeenQuotes\Newsletters\NewslettersManager
 	 */
 	private $newsletterManager;
 
 	/**
-	 * @var TeenQuotes\Mail\UserMailer
+	 * @var \TeenQuotes\Mail\UserMailer
 	 */
 	private $userMailer;
 
@@ -23,30 +23,14 @@ class UserObserver {
 
 	/**
 	 * Will be triggered when a model is created
-	 * @param TeenQuotes\Users\Models\User $user
+	 *
+	 * @param \TeenQuotes\Users\Models\User $user
 	 */
 	public function created($user)
 	{
 		// Subscribe the user to the weekly newsletter
 		$this->newsletterManager->createForUserAndType($user, Newsletter::WEEKLY);
 
-		$this->sendWelcomeEmail($user);
-	}
-
-	private function sendWelcomeEmail($user)
-	{
-		$data = [
-			'login' => $user->login,
-			'email' => $user->email,
-		];
-
-		$subject = Lang::get('auth.subjectWelcomeEmail', ['login' => $data['login']]);
-		$this->userMailer->sendLater('emails.welcome',
-			$user,
-			$data,
-			$subject,
-			null, // Use the default driver
-			Carbon::now()->addMinutes(10) // Defer the email
-		);
+		$this->userMailer->sendWelcome($user);
 	}
 }

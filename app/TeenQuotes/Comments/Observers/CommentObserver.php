@@ -1,17 +1,17 @@
 <?php namespace TeenQuotes\Comments\Observers;
 
-use App, Lang;
+use App;
 use TeenQuotes\Quotes\Models\Quote;
 
 class CommentObserver {
 
 	/**
-	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 * @var \TeenQuotes\Quotes\Repositories\QuoteRepository
 	 */
 	private $quoteRepo;
 
 	/**
-	 * @var TeenQuotes\Mail\UserMailer
+	 * @var \TeenQuotes\Mail\UserMailer
 	 */
 	private $userMailer;
 
@@ -23,7 +23,8 @@ class CommentObserver {
 
 	/**
 	 * Will be triggered when a model is created
-	 * @param TeenQuotes\Comments\Models\Comment $comment
+	 *
+	 * @param \TeenQuotes\Comments\Models\Comment $comment
 	 */
 	public function created($comment)
 	{
@@ -38,19 +39,13 @@ class CommentObserver {
 	{
 		$author = $quote->user;
 
-		$subject = Lang::get('comments.commentAddedSubjectEmail', ['id' => $quote->id]);
-
-		$this->userMailer->send('emails.comments.posted',
-			$author,
-			compact('quote'),
-			$subject
-		);
+		$this->userMailer->warnAuthorAboutCommentPosted($author, $quote);
 	}
 
 	private function needToWarnByEmail($quote, $comment)
 	{
 		// Do not send an e-mail if the author of the comment
-		// has written the quote
+		// is the author of the quote
 		return $quote->user->wantsEmailComment() AND $comment->user_id != $quote->user->id;
 	}
 }
