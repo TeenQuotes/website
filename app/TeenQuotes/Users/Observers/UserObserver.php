@@ -31,6 +31,8 @@ class UserObserver {
 		// Subscribe the user to the weekly newsletter
 		$this->newsletterManager->createForUserAndType($user, Newsletter::WEEKLY);
 
+		$this->userMailer->scheduleSigningUpFeedBack($user);
+
 		$this->userMailer->sendWelcome($user);
 	}
 }

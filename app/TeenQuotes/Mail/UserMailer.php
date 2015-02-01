@@ -83,7 +83,14 @@ class UserMailer {
 	public function dispatchToSend($job, $data)
 	{
 		extract($data);
-		$this->send($viewName, $this->getUserFromId($user['id']), $data, $subject, $driver);
+
+		// Retrieve the user
+		$user = $this->getUserFromId($user['id']);
+
+		// It is possible that the user has deleted its account
+		// while an e-mail was queued so we do a quick check
+		if ( ! is_null($user))
+			$this->send($viewName, $user, $data, $subject, $driver);
 	}
 
 	/**
@@ -199,9 +206,25 @@ class UserMailer {
 		$this->sendLater('emails.events.'.$event, // View
 			$user,
 			['login' => $user->login], // Data
-			Lang::get('email.event'.ucfirst($event).'SubjectEmail'), // Subject key
+			Lang::get('email.event'.ucfirst($event).'SubjectEmail'), // Subject
 			$driver,
 			$delay
+		);
+	}
+
+	/**
+	 * Queue an e-mail to request feedback for a user after 5 days
+	 *
+	 * @param  \TeenQuotes\Users\Models\User $user
+	 */
+	public function scheduleSigningUpFeedBack(User $user)
+	{
+		$this->sendLater('emails.feedback.welcome', // View
+			$user,
+			['login' => $user->login], // Data
+			Lang::get('feedback.welcomeSubject'), // Subject
+			null, // Default driver
+			Carbon::now()->addDays(5)
 		);
 	}
 
