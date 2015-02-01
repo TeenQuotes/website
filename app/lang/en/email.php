@@ -11,7 +11,7 @@ return [
 	'footerTwitter'                => 'Twitter:',
 	'footerWebsite'                => 'Website:',
 	'happyBirthdaySubjectEmail'    => 'Happy birthday!',
-	'hiWithLogin'                  => 'Hi :login!,',
+	'hiWithLogin'                  => 'Hi :login!',
 	'iconApp'                      => 'http://'.Config::get('app.domain').'/assets/images/emails/app.png',
 	'iconInstagram'                => 'http://'.Config::get('app.domain').'/assets/images/emails/instagram.png',
 	'iconStories'                  => 'http://'.Config::get('app.domain').'/assets/images/emails/stories.png',

@@ -65,7 +65,7 @@ return array(
 	'newUserTutorialFavoritesTitle'     => 'Adding some favorites',
 	'newUserTutorialFavoritesContent'   => 'If you love quotes as much as we do, you may want to add some quotes in your favorites! Once added in your favorites, you can read them from your profile.',
 	'newUserTutorialSettingsTitle'      => 'Managing settings',
-	'newUserTutorialSettingsContent'    => "You have been subscribed to the weekly newsletter and will receive some quotes on mondays. You can always <a href=':url'>edit your settings</a>.",
+	'newUserTutorialSettingsContent'    => "You have been subscribed to the weekly newsletter and will receive some quotes on Mondays. You can always <a href=':url'>edit your settings</a>.",
 	'hintBirthdate'                     => 'We only use this to display your age.',
 	'hintAvatar'                        => 'Show us how beautiful you are!',
 );
