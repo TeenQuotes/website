@@ -1,15 +1,12 @@
 <?php namespace TeenQuotes\Users\Models;
 
-use App, Auth, Cache, Carbon, Config, Eloquent, Hash, Queue, ResourceServer;
+use App, Auth, Config, Eloquent, Hash, Queue, ResourceServer;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\UserTrait;
 use Laracasts\Presenter\PresentableTrait;
 use TeenQuotes\Newsletters\Models\Newsletter;
-use TeenQuotes\Quotes\Models\FavoriteQuote;
-use TeenQuotes\Quotes\Models\Quote;
-use TeenQuotes\Settings\Models\Setting;
 use TeenQuotes\Users\Models\Relations\UserTrait as UserRelationsTrait;
 use TeenQuotes\Users\Models\Scopes\UserTrait as UserScopesTrait;
 
@@ -42,12 +39,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var array
 	 */
 	public static $appendsFull = ['total_comments', 'favorite_count', 'added_fav_count', 'published_quotes_count', 'is_subscribed_to_daily', 'is_subscribed_to_weekly'];
-
-	/**
-	 * The name of the key to store in cache. Describes the number of quotes published by a user
-	 * @var array
-	 */
-	public static $cacheNameForNumberQuotesPublished = 'number_quotes_published_';
 
 	/**
 	 * @var TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
@@ -219,24 +210,26 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function registerViewUserProfile()
 	{
-		if ( ! in_array(App::environment(), ['testing', 'codeception'])) {
-			// Try to retrieve the ID of the user
-			if (Auth::guest()) {
-				$idUserApi = ResourceServer::getOwnerId();
-				$viewingUserId = ! empty($idUserApi) ? $idUserApi : null;
-			}
-			else
-				$viewingUserId = Auth::id();
+		if ($this->isTestingEnvironment())
+			return;
 
-			// Register in the recommendation system
-			$data = [
-				'viewer_user_id' => $viewingUserId,
-				'user_id'        => $this->id,
-				'user_login'     => $this->login,
-			];
-
-			Queue::push('TeenQuotes\Queues\Workers\EasyrecWorker@viewUserProfile', $data);
+		// Try to retrieve the ID of the user
+		if (Auth::guest())
+		{
+			$idUserApi = ResourceServer::getOwnerId();
+			$viewingUserId = ! empty($idUserApi) ? $idUserApi : null;
 		}
+		else
+			$viewingUserId = Auth::id();
+
+		// Register in the recommendation system
+		$data = [
+			'viewer_user_id' => $viewingUserId,
+			'user_id'        => $this->id,
+			'user_login'     => $this->login,
+		];
+
+		Queue::push('TeenQuotes\Queues\Workers\EasyrecWorker@viewUserProfile', $data);
 	}
 
 	public function getURLAvatarAttribute()
@@ -257,5 +250,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function hasPostedComments()
 	{
 		return $this->getTotalComments() > 0;
+	}
+
+	private function isTestingEnvironment()
+	{
+		return in_array(App::environment(), ['testing', 'codeception']);
 	}
 }
