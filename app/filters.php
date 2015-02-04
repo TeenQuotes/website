@@ -20,7 +20,8 @@ App::before(function($request)
 			$data = compact('bindings', 'time', 'name');
 
 			// Format binding data for sql insertion
-			foreach ($bindings as $i => $binding) {
+			foreach ($bindings as $i => $binding)
+			{
 				if ($binding instanceof \DateTime)
 					$bindings[$i] = $binding->format('\'Y-m-d H:i:s\'');
 				else if (is_string($binding))
@@ -55,21 +56,23 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) {
-		if (Route::currentRouteName() == 'addquote') {
+	if (Auth::guest())
+	{
+		if (Route::currentRouteName() == 'addquote')
+		{
 			// Flash an attribute in session to display a custom message
 			// on the signin / signup page
 			Session::flash('requireLoggedInAddQuote', true);
 			return Redirect::guest('signin');
 		}
-		
+
 		return Redirect::guest('signin')->with('warning', Lang::get('auth.requireLoggedIn'));
 	}
 });
 
 Route::filter('admin', function()
 {
-	if (!(Auth::check() AND Auth::user()->is_admin))
+	if ( ! (Auth::check() AND Auth::user()->is_admin))
 		App::abort('401', 'Nothing to do here');
 });
 
