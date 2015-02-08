@@ -29,6 +29,11 @@ create index password_reminders_token_index on "password_reminders" ("token");
 drop table if exists "settings";
 create table "settings" ("id" integer not null primary key autoincrement, "user_id" integer not null, "key" varchar not null, "value" varchar not null, foreign key("user_id") references "users"("id") on delete cascade);
 create index settings_user_id_index on "settings" ("user_id");
+create table "tags" ("id" integer not null primary key autoincrement, "name" varchar not null);
+create unique index tags_name_unique on "tags" ("name");
+create table "user_tag" ("quote_id" integer not null, "tag_id" integer not null, foreign key("quote_id") references "quotes"("id") on delete cascade, foreign key("tag_id") references "tags"("id") on delete cascade);
+create index user_tag_quote_id_index on "user_tag" ("quote_id");
+create index user_tag_tag_id_index on "user_tag" ("tag_id");
 
 -- Seed countries table
 INSERT INTO `countries` (`id`, `name`)
