@@ -2,6 +2,7 @@
 
 use Cache, Config;
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Tags\Models\Tag;
 use TeenQuotes\Users\Models\User;
 
 class CachingQuoteRepository implements QuoteRepository {
@@ -265,6 +266,14 @@ class CachingQuoteRepository implements QuoteRepository {
 	public function nbQuotesWithComments()
 	{
 		return $this->quotes->nbQuotesWithComments();
+	}
+
+	/**
+	 * @see \TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
+	public function getQuotesForTag(Tag $t, $page, $pagesize)
+	{
+		return $this->quotes->getQuotesForTag($t, $page, $pagesize);
 	}
 
 	private function flushQuotesForQuote($id)

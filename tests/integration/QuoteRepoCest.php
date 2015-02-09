@@ -3,14 +3,21 @@
 use TeenQuotes\Quotes\Models\Quote;
 
 class QuoteRepoCest {
+
 	/**
 	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
 	 */
 	private $repo;
 
+	/**
+	 * @var \TeenQuotes\Tags\Repositories\TagRepository
+	 */
+	private $tagRepo;
+
 	public function _before()
 	{
 		$this->repo = App::make('TeenQuotes\Quotes\Repositories\QuoteRepository');
+		$this->tagRepo = App::make('TeenQuotes\Tags\Repositories\TagRepository');
 	}
 
 	public function testRetrieveLastWaitingQuotes(IntegrationTester $I)
@@ -252,5 +259,24 @@ class QuoteRepoCest {
 
 		$I->insertInDatabase(2, 'FavoriteQuote', ['quote_id' => 2]);
 		$I->assertEquals(2, $this->repo->nbQuotesWithFavorites());
+	}
+
+	public function testGetQuotesForTag(IntegrationTester $I)
+	{
+		$quotes = $I->insertInDatabase(2, 'Quote');
+		$tags = $I->insertInDatabase(2, 'Tag');
+
+		$I->assertEmpty($this->repo->getQuotesForTag($tags[0], 1, 10));
+
+		$this->tagRepo->tagQuote($quotes[0], $tags[0]);
+
+		$quotesResult = $this->repo->getQuotesForTag($tags[0], 1, 10);
+		$I->assertIsCollection($quotesResult);
+		$I->assertEquals(1, count($quotesResult));
+
+		// Add another quote with this tag
+		$this->tagRepo->tagQuote($quotes[1], $tags[0]);
+		$quotesResult = $this->repo->getQuotesForTag($tags[0], 1, 10);
+		$I->assertEquals(2, count($quotesResult));
 	}
 }
