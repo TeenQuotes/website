@@ -6,7 +6,7 @@ use TeenQuotes\Quotes\Models\Quote;
 
 class QuotesTest extends ApiTest {
 
-	protected $requiredAttributes = ['id', 'content', 'user_id', 'approved', 'created_at', 'has_comments', 'total_comments', 'is_favorite', 'total_favorites'];
+	protected $requiredAttributes = ['id', 'content', 'user_id', 'approved', 'created_at', 'has_comments', 'total_comments', 'is_favorite', 'total_favorites', 'tags_list'];
 	protected $embedsRelation = ['user_small'];
 	protected $approvedTypes = ['waiting', 'refused', 'pending', 'published'];
 

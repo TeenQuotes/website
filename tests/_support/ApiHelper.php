@@ -427,6 +427,7 @@ class ApiHelper extends Module {
 		$this->assertObjectHasAttribute('total_comments', $object);
 		$this->assertObjectHasAttribute('is_favorite', $object);
 		$this->assertObjectHasAttribute('total_favorites', $object);
+		$this->assertObjectHasAttribute('tags_list', $object);
 
 		// Assert types
 		$this->assertTrue(is_integer($object->id));
@@ -438,6 +439,7 @@ class ApiHelper extends Module {
 		$this->assertTrue(is_integer($object->total_comments));
 		$this->assertTrue(is_bool($object->is_favorite));
 		$this->assertTrue(is_integer($object->total_favorites));
+		$this->assertTrue(is_array($object->tags_list));
 	}
 
 	private function assertObjectIsCountry($object)
