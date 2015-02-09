@@ -34,6 +34,9 @@ create unique index tags_name_unique on "tags" ("name");
 create table "user_tag" ("quote_id" integer not null, "tag_id" integer not null, foreign key("quote_id") references "quotes"("id") on delete cascade, foreign key("tag_id") references "tags"("id") on delete cascade);
 create index user_tag_quote_id_index on "user_tag" ("quote_id");
 create index user_tag_tag_id_index on "user_tag" ("tag_id");
+create table "quote_tag" ("quote_id" integer not null, "tag_id" integer not null, foreign key("quote_id") references "quotes"("id") on delete cascade, foreign key("tag_id") references "tags"("id") on delete cascade);
+create index quote_tag_quote_id_index on "quote_tag" ("quote_id");
+create index quote_tag_tag_id_index on "quote_tag" ("tag_id");
 
 -- Seed countries table
 INSERT INTO `countries` (`id`, `name`)
