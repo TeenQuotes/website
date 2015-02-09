@@ -53,6 +53,11 @@ class CachingTagRepository implements TagRepository {
 	{
 		Cache::forget($this->cacheNameForListTags($q));
 
+		$keyTotal = $this->cacheNameTotalQuotesForTag($t);
+
+		if (Cache::has($keyTotal))
+			Cache::increment($keyTotal);
+
 		return $this->tags->tagQuote($q, $t);
 	}
 
@@ -65,6 +70,11 @@ class CachingTagRepository implements TagRepository {
 	public function untagQuote(Quote $q, Tag $t)
 	{
 		Cache::forget($this->cacheNameForListTags($q));
+
+		$keyTotal = $this->cacheNameTotalQuotesForTag($t);
+
+		if (Cache::has($keyTotal))
+			Cache::decrement($keyTotal);
 
 		return $this->tags->untagQuote($q, $t);
 	}
@@ -88,6 +98,24 @@ class CachingTagRepository implements TagRepository {
 	}
 
 	/**
+	 * Get the total number of quotes having a tag
+	 *
+	 * @param  \TeenQuotes\Tags\Models\Tag $t
+	 * @return int
+	 */
+	public function totalQuotesForTag(Tag $t)
+	{
+		$key = $this->cacheNameTotalQuotesForTag($t);
+
+		$callback = function() use ($t)
+		{
+			return $this->tags->totalQuotesForTag($t);
+		};
+
+		return Cache::remember($key, 10, $callback);
+	}
+
+	/**
 	 * Get the key name when we list tags for a quote
 	 *
 	 * @param  \TeenQuotes\Quotes\Models\Quote $q
@@ -96,5 +124,17 @@ class CachingTagRepository implements TagRepository {
 	private function cacheNameForListTags(Quote $q)
 	{
 		return 'tags.quote-'.$q->id.'.list-name';
+	}
+
+	/**
+	 * Get the key name to have the number of quotes
+	 * having a tag
+	 *
+	 * @param  \TeenQuotes\Tags\Models\Tag $t
+	 * @return string
+	 */
+	private function cacheNameTotalQuotesForTag(Tag $t)
+	{
+		return 'tags.tag-'.$t->name.'.total-quotes';
 	}
 }

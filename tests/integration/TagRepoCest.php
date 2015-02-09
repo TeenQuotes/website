@@ -91,4 +91,24 @@ class TagRepoCest {
 		$quoteTwo = $I->insertInDatabase(1, 'Quote');
 		$I->assertEquals([], $this->repo->tagsForQuote($quoteTwo));
 	}
+
+	public function testTotalQuotesForTag(IntegrationTester $I)
+	{
+		$quotes = $I->insertInDatabase(2, 'Quote');
+		$tag = $I->insertInDatabase(1, 'Tag');
+
+		$I->assertEquals(0, $this->repo->totalQuotesForTag($tag));
+
+		// Tag a first quote
+		$this->repo->tagQuote($quotes[0], $tag);
+		$I->assertEquals(1, $this->repo->totalQuotesForTag($tag));
+
+		// Add another quote
+		$this->repo->tagQuote($quotes[1], $tag);
+		$I->assertEquals(2, $this->repo->totalQuotesForTag($tag));
+
+		// Untag a quote
+		$this->repo->untagQuote($quotes[0], $tag);
+		$I->assertEquals(1, $this->repo->totalQuotesForTag($tag));
+	}
 }

@@ -44,4 +44,12 @@ interface TagRepository {
 	 * @return array
 	 */
 	public function tagsForQuote(Quote $q);
+
+	/**
+	 * Get the total number of quotes having a tag
+	 *
+	 * @param  \TeenQuotes\Tags\Models\Tag $t
+	 * @return int
+	 */
+	public function totalQuotesForTag(Tag $t);
 }
