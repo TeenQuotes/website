@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Tags\Repositories;
 
-use Cache, Lang;
+use Cache;
 use TeenQuotes\Tags\Models\Tag;
 use TeenQuotes\Quotes\Models\Quote;
 
@@ -95,6 +95,6 @@ class CachingTagRepository implements TagRepository {
 	 */
 	private function cacheNameForListTags(Quote $q)
 	{
-		return 'tags.quote-'.$q->id.'.list-name.locale-'.Lang::locale();
+		return 'tags.quote-'.$q->id.'.list-name';
 	}
 }

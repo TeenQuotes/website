@@ -74,18 +74,18 @@ class TagRepoCest {
 
 		// Add a first tag to the quote
 		$this->repo->tagQuote($quote, $this->repo->getByName('love'));
-		$I->assertEquals($this->repo->tagsForQuote($quote), ['Love']);
+		$I->assertEquals($this->repo->tagsForQuote($quote), ['love']);
 
 		// Add another tag to the quote
 		$this->repo->tagQuote($quote, $this->repo->getByName('family'));
 		$tagsResult = $this->repo->tagsForQuote($quote);
 		sort($tagsResult);
 
-		$I->assertEquals($tagsResult, ['Family', 'Love']);
+		$I->assertEquals($tagsResult, ['family', 'love']);
 
 		// Remove a tag
 		$this->repo->untagQuote($quote, $this->repo->getByName('family'));
-		$I->assertEquals($this->repo->tagsForQuote($quote), ['Love']);
+		$I->assertEquals($this->repo->tagsForQuote($quote), ['love']);
 
 		// We get an empty array if we have no tags
 		$quoteTwo = $I->insertInDatabase(1, 'Quote');

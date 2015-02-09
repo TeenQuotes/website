@@ -58,20 +58,6 @@ class DbTagRepository implements TagRepository {
 	 */
 	public function tagsForQuote(Quote $q)
 	{
-		$out = [];
-		$tagsName = $q->tags()->lists('name');
-
-		foreach ($tagsName as $tagName)
-		{
-			// Fetch the translation for the tag name
-			$out[] = $this->translationForTagName($tagName);
-		}
-
-		return $out;
-	}
-
-	private function translationForTagName($tagName)
-	{
-		return Lang::get('tags.'.$tagName);
+		return $q->tags()->lists('name');
 	}
 }
