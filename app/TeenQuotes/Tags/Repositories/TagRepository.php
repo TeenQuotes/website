@@ -36,4 +36,12 @@ interface TagRepository {
 	 * @param \TeenQuotes\Tags\Models\Tag $t
 	 */
 	public function untagQuote(Quote $q, Tag $t);
+
+	/**
+	 * Get a list of tags for a given quote
+	 *
+	 * @param  \TeenQuotes\Quotes\Models\Quote $q
+	 * @return array
+	 */
+	public function tagsForQuote(Quote $q);
 }

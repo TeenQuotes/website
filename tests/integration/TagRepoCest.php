@@ -61,4 +61,27 @@ class TagRepoCest {
 		$this->repo->untagQuote($quote, $tag);
 		$I->dontSeeRecord('quote_tag', ['quote_id' => $quote->id, 'tag_id' => $tag->id]);
 	}
+
+	public function testTagsForQuote(IntegrationTester $I)
+	{
+		$tags = ['love', 'family'];
+		foreach($tags as $name)
+		{
+			$I->insertInDatabase(1, 'Tag', compact('name'));
+		}
+
+		$quote = $I->insertInDatabase(1, 'Quote');
+
+		$this->repo->tagQuote($quote, $this->repo->getByName('love'));
+		$this->repo->tagQuote($quote, $this->repo->getByName('family'));
+
+		$tagsResult = $this->repo->tagsForQuote($quote);
+		sort($tagsResult);
+
+		$I->assertEquals($tagsResult, ['Family', 'Love']);
+
+		// We get an empty array if we have no tags
+		$quoteTwo = $I->insertInDatabase(1, 'Quote');
+		$I->assertEquals([], $this->repo->tagsForQuote($quoteTwo));
+	}
 }

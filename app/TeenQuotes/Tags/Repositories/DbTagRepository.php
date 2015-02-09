@@ -1,5 +1,6 @@
 <?php namespace TeenQuotes\Tags\Repositories;
 
+use Lang;
 use TeenQuotes\Tags\Models\Tag;
 use TeenQuotes\Quotes\Models\Quote;
 
@@ -47,5 +48,30 @@ class DbTagRepository implements TagRepository {
 	public function untagQuote(Quote $q, Tag $t)
 	{
 		$q->tags()->detach($t);
+	}
+
+	/**
+	 * Get a list of tags for a given quote
+	 *
+	 * @param  \TeenQuotes\Quotes\Models\Quote $q
+	 * @return array
+	 */
+	public function tagsForQuote(Quote $q)
+	{
+		$out = [];
+		$tagsName = $q->tags()->lists('name');
+
+		foreach ($tagsName as $tagName)
+		{
+			// Fetch the translation for the tag name
+			$out[] = $this->translationForTagName($tagName);
+		}
+
+		return $out;
+	}
+
+	private function translationForTagName($tagName)
+	{
+		return Lang::get('tags.'.$tagName);
 	}
 }
