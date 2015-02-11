@@ -1,7 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Composers;
 
-use Illuminate\Support\Facades\URL;
-use JavaScript;
+use JavaScript, URL;
 use TeenQuotes\Tools\Composers\AbstractDeepLinksComposer;
 
 class SingleComposer extends AbstractDeepLinksComposer {

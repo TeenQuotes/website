@@ -100,6 +100,7 @@ class QuotesServiceProvider extends ServiceProvider {
 
 		$this->app['router']->group($this->getRouteGroupParams(), function() use ($controller) {
 			$this->app['router']->get('/', ['as' => 'home', 'uses' => $controller.'@index']);
+			$this->app['router']->get('tags/{tag_name}', ['as' => 'quotes.tags.index', 'uses' => $controller.'@indexForTag']);
 			$this->app['router']->get('top', ['as' => 'quotes.top', 'uses' => $controller.'@redirectTop']);
 			$this->app['router']->get('top/favorites', ['as' => 'quotes.top.favorites', 'uses' => $controller.'@topFavorites']);
 			$this->app['router']->get('top/comments', ['as' => 'quotes.top.comments', 'uses' => $controller.'@topComments']);
@@ -124,27 +125,36 @@ class QuotesServiceProvider extends ServiceProvider {
 
 	private function registerQuotesComposers()
 	{
+		$composersNamespace = $this->getNamespaceComposers();
+
 		// When indexing quotes
 		$this->app['view']->composer([
 			'quotes.partials.multiple',
+		], $composersNamespace.'IndexComposer');
+
+		$this->app['view']->composer([
+			'quotes.tags.index',
+		], $composersNamespace.'IndexForTagComposer');
+
+		$this->app['view']->composer([
 			'quotes.top.comments',
 			'quotes.top.favorites',
-		], $this->getNamespaceComposers().'IndexComposer');
+		], $composersNamespace.'IndexForTopsComposer');
 
 		// When adding a quote
 		$this->app['view']->composer([
 			'quotes.addquote'
-		], $this->getNamespaceComposers().'AddComposer');
+		], $composersNamespace.'AddComposer');
 
 		// When adding a comment on a single quote
 		$this->app['view']->composer([
 			'quotes.show'
-		], $this->getNamespaceComposers().'ShowComposer');
+		], $composersNamespace.'ShowComposer');
 
 		// View a single quote
 		$this->app['view']->composer([
 			'quotes.partials.singleQuote'
-		], $this->getNamespaceComposers().'SingleComposer');
+		], $composersNamespace.'SingleComposer');
 
 		// For deeps link
 		$this->app['view']->composer([

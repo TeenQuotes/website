@@ -1,8 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Composers;
 
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Session;
-use JavaScript;
+use JavaScript, Lang, Session;
 
 class ShowComposer {
 
@@ -13,7 +11,7 @@ class ShowComposer {
 		// The ID of the current quote
 		$id = $data['quote']->id;
 
-		// Put some useful variables for the JS		
+		// Put some useful variables for the JS
 		JavaScript::put([
 			'contentShortHint' => Lang::get('comments.contentShortHint'),
 			'contentGreatHint' => Lang::get('comments.contentGreatHint'),
