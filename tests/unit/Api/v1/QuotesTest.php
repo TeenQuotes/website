@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Cache;
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Tags\Models\Tag;
 
 class QuotesTest extends ApiTest {
 
@@ -10,9 +10,16 @@ class QuotesTest extends ApiTest {
 	protected $embedsRelation = ['user_small'];
 	protected $approvedTypes = ['waiting', 'refused', 'pending', 'published'];
 
+	/**
+	 * @var \TeenQuotes\Tags\Repositories\TagRepository
+	 */
+	private $tagRepo;
+
 	protected function _before()
 	{
 		parent::_before();
+
+		$this->tagRepo = App::make('TeenQuotes\Tags\Repositories\TagRepository');
 
 		$this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\QuotesController'));
 
@@ -214,6 +221,55 @@ class QuotesTest extends ApiTest {
 	public function testTopFavoritedQuotesNotFound()
 	{
 		$this->unitTester->tryPaginatedContentNotFound('getTopFavoritedQuotes');
+	}
+
+	/**
+	 * @expectedException        TeenQuotes\Exceptions\ApiNotFoundException
+	 * @expectedExceptionMessage tags
+	 */
+	public function testQuotesForTagTagNotFound()
+	{
+		$tagName = 'notfound';
+
+		$this->unitTester->tryPaginatedContentNotFound('getQuotesForTag', $tagName);
+	}
+
+	/**
+	 * @expectedException        TeenQuotes\Exceptions\ApiNotFoundException
+	 * @expectedExceptionMessage quotes
+	 */
+	public function testQuotesForTagQuotesNotFound()
+	{
+		$name = 'love';
+		$this->unitTester->insertInDatabase(1, 'Tag', compact('name'));
+
+		$this->unitTester->tryPaginatedContentNotFound('getQuotesForTag', $name);
+	}
+
+	public function testQuotesForTagSuccess()
+	{
+		// Create a tag
+		$name = 'love';
+		$tag = $this->unitTester->insertInDatabase(1, 'Tag', compact('name'));
+
+		// Associate quotes to this tag
+		$this->createQuotesWithTag($tag);
+
+		// Call endpoints
+		$this->unitTester->tryMiddlePage('getQuotesForTag', $name);
+
+		$this->unitTester->tryFirstPage('getQuotesForTag', $name);
+	}
+
+	private function createQuotesWithTag(Tag $t)
+	{
+		$totalQuotes = $this->unitTester->getNbRessources();
+		$quotes = $this->unitTester->insertInDatabase($totalQuotes, 'Quote');
+
+		foreach ($quotes as $quote)
+		{
+			$this->tagRepo->tagQuote($quote, $t);
+		}
 	}
 
 	private function createQuotesForUserWithApproved($id, $approved)

@@ -1,8 +1,8 @@
 <?php namespace Codeception\Module;
 
+use Auth, Input, InvalidArgumentException,\ Str;
 use Codeception\Module;
 use Illuminate\Http\Response;
-use Auth, Input, Str;
 
 class ApiHelper extends Module {
 
@@ -131,23 +131,24 @@ class ApiHelper extends Module {
 
 	private function assertObjectHasAttributes($object, $array)
 	{
-		foreach ($array as $value) {
+		foreach ($array as $value)
+		{
 			$this->assertObjectHasAttribute($value, $object);
 			if (Str::contains($value, '_id'))
 				$this->assertTrue(is_integer($object->$value));
 		}
 	}
 
-	public function tryPaginatedContentNotFound($params = null)
+	public function tryPaginatedContentNotFound($method = 'index', $params = null)
 	{
 		$data = [
-			'page' => $this->getIdNonExistingRessource(),
+			'page'     => $this->getIdNonExistingRessource(),
 			'pagesize' => $this->nbRessources
 		];
 
 		$this->addInputReplace($data);
 
-		$this->doRequest('index', $params);
+		$this->doRequest($method, $params);
 
 		$this->assertResponseIsNotFound();
 
@@ -329,7 +330,8 @@ class ApiHelper extends Module {
 		$newsletters = $object->newsletters;
 
 		// Check the format for each newsletter
-		foreach ($newsletters as $o) {
+		foreach ($newsletters as $o)
+		{
 			$this->assertObjectIsNewsletter($o);
 		}
 	}
@@ -521,7 +523,7 @@ class ApiHelper extends Module {
 	private function checkPagesAreSet()
 	{
 		if (is_null($this->page) OR is_null($this->pagesize))
-			throw new \InvalidArgumentException("Page and pagesize must be set before calling this method", 1);
+			throw new InvalidArgumentException("Page and pagesize must be set before calling this method", 1);
 	}
 
 	private function assertHasNextAndPreviousPage()
