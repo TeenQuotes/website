@@ -9,6 +9,9 @@
 	<!-- Favorites' Info-->
 	@include('quotes.partials.favoritesInfo', ['data' => $quote->present()->favoritesData])
 
+	<!-- Tags -->
+	@include('quotes.partials.tags', ['tagsName' => $tagsName])
+
 	<!-- SHOW COMMENTS -->
 	@if ($quote->has_comments)
 		<div class="animated fadeInUp">

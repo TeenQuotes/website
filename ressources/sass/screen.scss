@@ -5,6 +5,9 @@
 @import "mixins";
 @import "breakpoints";
 
+@import "modules/quotes/tags";
+@import "modules/quotes/tops";
+
 $imagesFolder:"/assets/images/";
 
 html, body {
@@ -50,26 +53,6 @@ body {
 
 .form-horizontal .control-label {
 	margin-bottom: 10px;
-}
-
-.red {
-	color: $red;
-}
-
-.black {
-	color: black;
-}
-
-.green {
-	color: $green;
-}
-
-.orange {
-	color: $orange;
-}
-
-.light-blue {
-	color: $lightBlue;
 }
 
 .alert {
@@ -842,36 +825,6 @@ h3 {
 
 .text-center {
 	text-align: center;
-}
-
-.quotes__tags-title {
-	color: $lightBlue;
-	margin-bottom: 1.7em;
-}
-
-.quotes__tags-title-tag {
-	color: $orange;
-}
-
-.quotes__top-container {
-	background: $lightGray;
-	padding: 15px 20px;
-	width: 90%;
-	margin: 0 auto 25px auto;
-
-	@include link-blue-on-gray;
-
-	i.fa {
-		margin-right: 10px;
-	}
-
-	.fa-heart {
-		color: $red;
-	}
-
-	.fa-comments {
-		color: $orange;
-	}
 }
 
 .quotes__promotion-container {

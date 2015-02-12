@@ -1,0 +1,20 @@
+.quotes__top-container {
+	background: $lightGray;
+	padding: 15px 20px;
+	width: 90%;
+	margin: 0 auto 25px auto;
+
+	@include link-blue-on-gray;
+
+	i.fa {
+		margin-right: 10px;
+	}
+
+	.fa-heart {
+		color: $red;
+	}
+
+	.fa-comments {
+		color: $orange;
+	}
+}

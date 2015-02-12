@@ -7,6 +7,7 @@ $pink:#f17285;
 $red:#e74c3c;
 $topbarColor:#22313F;
 $veryLightGray:#f9f9f9;
+$darkGray:#666666;
 $yellow:#f1c40f;
 $colorsQuote:#27ae60, #16a085, #d35400, #e74c3c, #8e44ad, #F9690E, #2c3e50, #f1c40f, #65C6BB, #E08283;
 $colorsQuoteBlue:#5C97BF, #2574A9, #52B3D9, #1E8BC3, #3498DB;
@@ -22,3 +23,23 @@ $availableColors:
 	"red"		$colorsQuoteRed,
 	"orange"	$colorsQuoteOrange
 ;
+
+.red {
+	color: $red;
+}
+
+.black {
+	color: black;
+}
+
+.green {
+	color: $green;
+}
+
+.orange {
+	color: $orange;
+}
+
+.light-blue {
+	color: $lightBlue;
+}
