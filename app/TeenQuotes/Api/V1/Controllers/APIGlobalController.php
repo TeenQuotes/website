@@ -12,6 +12,7 @@ use TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Settings\Repositories\SettingRepository;
 use TeenQuotes\Stories\Repositories\StoryRepository;
+use TeenQuotes\Tags\Repositories\TagRepository;
 use TeenQuotes\Users\Repositories\UserRepository;
 
 class APIGlobalController extends BaseController {
@@ -57,6 +58,11 @@ class APIGlobalController extends BaseController {
 	protected $storyRepo;
 
 	/**
+	 * @var \TeenQuotes\Tags\Repositories\TagRepository
+	 */
+	protected $tagRepo;
+
+	/**
 	 * @var \TeenQuotes\Users\Repositories\UserRepository
 	 */
 	protected $userRepo;
@@ -66,7 +72,7 @@ class APIGlobalController extends BaseController {
 		FavoriteQuoteRepository $favQuoteRepo, NewsletterRepository $newsletterRepo,
 		NewslettersManager $newslettersManager, QuoteRepository $quoteRepo,
 		SettingRepository $settingRepo, StoryRepository $storyRepo,
-		UserRepository $userRepo)
+		TagRepository $tagRepo, UserRepository $userRepo)
 	{
 		$this->commentRepo        = $commentRepo;
 		$this->countryRepo        = $countryRepo;
@@ -76,6 +82,7 @@ class APIGlobalController extends BaseController {
 		$this->quoteRepo          = $quoteRepo;
 		$this->settingRepo        = $settingRepo;
 		$this->storyRepo          = $storyRepo;
+		$this->tagRepo            = $tagRepo;
 		$this->userRepo           = $userRepo;
 
 		$this->bootstrap();

@@ -121,6 +121,21 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		return $this->buildPaginatedResponse($quotes, $total);
 	}
 
+	public function getQuotesForTag($tag_name)
+	{
+		$tag = $this->tagRepo->getByName($tag_name);
+
+		// Check if the tag has been found
+		if ($this->isNotFound($tag))
+			throw new ApiNotFoundException('tags');
+
+		$quotes = $this->quoteRepo->getQuotesForTag($tag, $this->getPage(), $this->getPagesize());
+
+		$total = $this->tagRepo->totalQuotesForTag($tag);
+
+		return $this->buildPaginatedResponse($quotes, $total);
+	}
+
 	public function store($doValidation = true)
 	{
 		$user = $this->retrieveUser();

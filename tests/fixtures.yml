@@ -43,3 +43,6 @@ TeenQuotes\Settings\Models\Setting:
         type: TeenQuotes\Users\Models\User
     key: $string
     value: $string
+
+TeenQuotes\Tags\Models\Tag:
+    name: $string

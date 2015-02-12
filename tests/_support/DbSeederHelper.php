@@ -79,6 +79,7 @@ class DbSeederHelper extends Module
 			'quote',
 			'setting',
 			'story',
+			'tag',
 			'user',
 		];
 

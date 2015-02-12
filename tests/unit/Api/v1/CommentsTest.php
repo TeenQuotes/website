@@ -54,7 +54,7 @@ class CommentsTest extends ApiTest {
 	public function testIndexNotFound()
 	{
 		// Test not found
-		$this->unitTester->tryPaginatedContentNotFound($this->quoteId);
+		$this->unitTester->tryPaginatedContentNotFound('index', $this->quoteId);
 	}
 
 	public function testShowNotFound()

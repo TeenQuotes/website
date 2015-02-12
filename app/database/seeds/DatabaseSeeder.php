@@ -10,7 +10,7 @@ class DatabaseSeeder extends Seeder {
 	public function run()
 	{
 		Eloquent::unguard();
-		
+
 		$this->disableForeignKeyChecks();
 
 		// Reset and rerun all migrations
@@ -28,9 +28,10 @@ class DatabaseSeeder extends Seeder {
 		$this->call('StoriesTableSeeder');
 		$this->call('CountriesTableSeeder');
 		$this->call('SettingsTableSeeder');
-		
+		$this->call('TagsTableSeeder');
+
 		$this->enableForeignKeyChecks();
-		
+
 		// Flush the cache
 		Artisan::call('cache:clear');
 	}

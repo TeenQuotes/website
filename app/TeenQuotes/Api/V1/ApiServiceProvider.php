@@ -54,6 +54,7 @@ class ApiServiceProvider extends ServiceProvider {
 		$this->app['router']->pattern('user_id', '[a-zA-Z0-9_-]+');
 		$this->app['router']->pattern('quote_approved_type', 'waiting|refused|pending|published');
 		$this->app['router']->pattern('random', 'random');
+		$this->app['router']->pattern('tag_name', '[a-z]+');
 	}
 
 	private function registerCommentsRoutes()
@@ -102,6 +103,7 @@ class ApiServiceProvider extends ServiceProvider {
 			$this->app['router']->get('quotes/favorites/{user_id?}', ['uses' => 'QuotesController@indexFavoritesQuotes']);
 			$this->app['router']->get('quotes/{quote_approved_type}/{user_id}', ['uses' => 'QuotesController@indexByApprovedQuotes']);
 			$this->app['router']->get('quotes/search/{query}', ['uses' => 'QuotesController@getSearch']);
+			$this->app['router']->get('quotes/tags/{tag_name}', ['uses' => 'QuotesController@getQuotesForTag']);
 		});
 	}
 

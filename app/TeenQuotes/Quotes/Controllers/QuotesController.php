@@ -11,17 +11,18 @@ class QuotesController extends BaseController {
 
 	/**
 	 * The API controller
-	 * @var TeenQuotes\Api\V1\Controllers\QuotesController
+	 *
+	 * @var \TeenQuotes\Api\V1\Controllers\QuotesController
 	 */
 	private $api;
 
 	/**
-	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 * @var \TeenQuotes\Quotes\Repositories\QuoteRepository
 	 */
 	private $quoteRepo;
 
 	/**
-	 * @var TeenQuotes\Quotes\Validation\QuoteValidator
+	 * @var \TeenQuotes\Quotes\Validation\QuoteValidator
 	 */
 	private $quoteValidator;
 
@@ -94,6 +95,19 @@ class QuotesController extends BaseController {
 		$response = $this->retrieveTopComments();
 
 		return $this->buildIndexResponse('quotes.top.comments', $response);
+	}
+
+	/**
+	 * Index quotes for a given tag name
+	 *
+	 * @param  string $tagName The name of the tag
+	 * @return Response
+	 */
+	public function indexForTag($tagName)
+	{
+		$response = $this->retrieveQuotesForTag($tagName);
+
+		return $this->buildIndexResponse('quotes.tags.index', $response);
 	}
 
 	/**
@@ -232,8 +246,18 @@ class QuotesController extends BaseController {
 		return $apiResponse->getOriginalData();
 	}
 
+	private function retrieveQuotesForTag($tagName)
+	{
+		$apiResponse = $this->api->getQuotesForTag($tagName);
+
+		$this->guardAgainstNotFound($apiResponse);
+
+		return $apiResponse->getOriginalData();
+	}
+
 	/**
 	 * Throw an exception if the given response is a not found response
+	 *
 	 * @param  JsonResponse $response the response
 	 * @return void|TeenQuotes\Exceptions\QuoteNotFoundException
 	 */

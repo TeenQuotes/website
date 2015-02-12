@@ -33,7 +33,7 @@ class Quote extends Toloquent {
 	 * Adding customs attributes to the object
 	 * @var array
 	 */
-	protected $appends = ['has_comments', 'total_comments', 'is_favorite', 'total_favorites'];
+	protected $appends = ['tags_list', 'has_comments', 'total_comments', 'is_favorite', 'total_favorites'];
 
 	/**
 	 * The colors that will be used for quotes on the admin page
@@ -53,12 +53,18 @@ class Quote extends Toloquent {
 	 */
 	private $commentRepo;
 
+	/**
+	 * @var \TeenQuotes\Tags\Repositories\TagRepository
+	 */
+	private $tagsRepo;
+
 	function __construct($attributes = [])
 	{
 		parent::__construct($attributes);
 
 		$this->favQuoteRepo = App::make('TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository');
 		$this->commentRepo = App::make('TeenQuotes\Comments\Repositories\CommentRepository');
+		$this->tagsRepo = App::make('TeenQuotes\Tags\Repositories\TagRepository');
 	}
 
 	/**
@@ -90,6 +96,11 @@ class Quote extends Toloquent {
 		return $colors;
 	}
 
+	/**
+	 * Get the total number of comments
+	 *
+	 * @return int
+	 */
 	public function getTotalCommentsAttribute()
 	{
 		// If the quote is not published, obviously we have no comments
@@ -99,11 +110,21 @@ class Quote extends Toloquent {
 		return $this->commentRepo->nbCommentsForQuote($this);
 	}
 
+	/**
+	 * Tell if the quote has comment
+	 *
+	 * @return boolean
+	 */
 	public function getHasFavoritesAttribute()
 	{
 		return ($this->total_favorites > 0);
 	}
 
+	/**
+	 * Get the total number of favorites
+	 *
+	 * @return integer
+	 */
 	public function getTotalFavoritesAttribute()
 	{
 		// If the quote is not published, obviously we have no favorites
@@ -113,14 +134,34 @@ class Quote extends Toloquent {
 		return $this->favQuoteRepo->nbFavoritesForQuote($this->id);
 	}
 
+	/**
+	 * Tell if the quote has comments
+	 *
+	 * @return boolean
+	 */
 	public function getHasCommentsAttribute()
 	{
 		return ($this->total_comments > 0);
 	}
 
+	/**
+	 * Tell if the quote is favorited for the current logged-in user
+	 *
+	 * @return boolean
+	 */
 	public function getIsFavoriteAttribute()
 	{
 		return $this->isFavoriteForCurrentUser();
+	}
+
+	/**
+	 * Get the list of tags for the quote
+	 *
+	 * @return array
+	 */
+	public function getTagsListAttribute()
+	{
+		return $this->tagsRepo->tagsForQuote($this);
 	}
 
 	public static function getRandomColors()

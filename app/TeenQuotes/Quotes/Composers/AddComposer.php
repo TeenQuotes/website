@@ -1,7 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Composers;
 
-use Illuminate\Support\Facades\Lang;
-use JavaScript;
+use JavaScript, Lang;
 
 class AddComposer {
 

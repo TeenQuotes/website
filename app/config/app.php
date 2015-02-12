@@ -154,6 +154,7 @@ return array(
 		'TeenQuotes\Robots\RobotsServiceProvider',
 		'TeenQuotes\Settings\SettingsServiceProvider',
 		'TeenQuotes\Stories\StoriesServiceProvider',
+		'TeenQuotes\Tags\TagsServiceProvider',
 		'TeenQuotes\Users\UsersServiceProvider',
 		'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',
 		'Way\Generators\GeneratorsServiceProvider',

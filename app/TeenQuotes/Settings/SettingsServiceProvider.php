@@ -36,9 +36,7 @@ class SettingsServiceProvider extends ServiceProvider {
 
 	private function registerBindings()
 	{
-		$namespace = 'TeenQuotes\Settings\Repositories\\';
-
-		$this->app->bind(SettingRepository::class, function() use ($namespace)
+		$this->app->bind(SettingRepository::class, function()
 		{
 			$eloquentRepo = new DbSettingRepository;
 

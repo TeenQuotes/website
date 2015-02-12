@@ -26,6 +26,8 @@ return [
 	'quoteHasBeenRefusedAlertSad'       => "We found that your quote was very sad and we can't promote such sadness on ".Lang::get('layout.nameWebsite').". If you are personally going through some difficult times, please do get in touch with someone you can trust or <a href=':urlHelp'>call someone that can help you</a>. Life is something amazing. Don't do something you will definitely regret.",
 	'quoteHasBeenRefusedEnd'            => "Please take into consideration that we refuse almost 75 % of the quotes because we want to keep the very best.<br/<br/>Don't worry, one of your quotes is gonna be approved soon. Remember: write an original quote, in proper English, and eventually you will be published on ".Lang::get('layout.nameWebsite')."!<br/><br/>Thanks a lot for submitting a quote :login.",
 	'quotePublishedSubjectEmail'        => 'Your quote has been published!',
+	'quotesTagsIndexPageDescription'    => 'Browse quotes for a specific tag, sharing a common topic on '.Lang::get('layout.nameWebsite').'.',
+	'quotesTagsIndexPageTitle'          => 'Browse quotes for a tag | '.Lang::get('layout.nameWebsite'),
 	'quotesText'                        => 'quote|quotes',
 	'quotesTopCommentsPageDescription'  => 'A list of the most commented quotes available on '.Lang::get('layout.nameWebsite').'.',
 	'quotesTopCommentsPageTitle'        => 'Most commented quotes | '.Lang::get('layout.nameWebsite'),
@@ -45,4 +47,5 @@ return [
 	'topComments'                       => 'By comments',
 	'topFavorites'                      => 'By favorites',
 	'yourQuote'                         => 'Your quote',
+	'quotesForTag'                      => 'Quotes for tag',
 ];
