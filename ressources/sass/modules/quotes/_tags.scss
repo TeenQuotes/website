@@ -1,6 +1,10 @@
 .quotes__tags-title {
 	color: $lightBlue;
 	margin: .2em 0 1.7em 0;
+
+	@media screen and (max-width: $breakpointSmartphone) {
+		margin-bottom: .7em;
+	}
 }
 
 .quotes__tags-container {
