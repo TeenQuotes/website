@@ -2,7 +2,9 @@
 
 use App, Auth, BaseController, Input, Lang, Paginator, Redirect, Response;
 use Route, Session, URL, Validator, View;
+use TeenQuotes\Exceptions\ApiNotFoundException;
 use TeenQuotes\Exceptions\QuoteNotFoundException;
+use TeenQuotes\Exceptions\TagNotFoundException;
 use TeenQuotes\Http\JsonResponse;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
@@ -212,45 +214,67 @@ class QuotesController extends BaseController {
 
 	private function retrieveTopFavorites()
 	{
-		$apiResponse = $this->api->getTopFavoritedQuotes();
-
-		$this->guardAgainstNotFound($apiResponse);
+		try {
+			$apiResponse = $this->api->getTopFavoritedQuotes();
+		}
+		catch (ApiNotFoundException $e) {
+			throw new QuoteNotFoundException;
+		}
 
 		return $apiResponse->getOriginalData();
 	}
 
 	private function retrieveTopComments()
 	{
-		$apiResponse = $this->api->getTopCommentedQuotes();
-
-		$this->guardAgainstNotFound($apiResponse);
+		try {
+			$apiResponse = $this->api->getTopCommentedQuotes();
+		}
+		catch (ApiNotFoundException $e) {
+			throw new QuoteNotFoundException;
+		}
 
 		return $apiResponse->getOriginalData();
 	}
 
 	private function retrieveLastQuotes()
 	{
-		$apiResponse = $this->api->index();
-
-		$this->guardAgainstNotFound($apiResponse);
+		try {
+			$apiResponse = $this->api->index();
+		}
+		catch (ApiNotFoundException $e) {
+			throw new QuoteNotFoundException;
+		}
 
 		return $apiResponse->getOriginalData();
 	}
 
 	private function retrieveRandomQuotes()
 	{
-		$apiResponse = $this->api->random();
-
-		$this->guardAgainstNotFound($apiResponse);
+		try {
+			$apiResponse = $this->api->random();
+		}
+		catch (ApiNotFoundException $e) {
+			throw new QuoteNotFoundException;
+		}
 
 		return $apiResponse->getOriginalData();
 	}
 
 	private function retrieveQuotesForTag($tagName)
 	{
-		$apiResponse = $this->api->getQuotesForTag($tagName);
+		try {
+			$apiResponse = $this->api->getQuotesForTag($tagName);
+		}
+		catch (ApiNotFoundException $e) {
+			switch ($e->getMessage())
+			{
+				case 'quotes':
+					throw new QuoteNotFoundException;
 
-		$this->guardAgainstNotFound($apiResponse);
+				case 'tags':
+					throw new TagNotFoundException;
+			}
+		}
 
 		return $apiResponse->getOriginalData();
 	}
