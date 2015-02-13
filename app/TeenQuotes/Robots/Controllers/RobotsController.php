@@ -7,7 +7,7 @@ use Healey\Robots\Robots;
 class RobotsController extends BaseController {
 
 	/**
-	 * @var Healey\Robots\Robots
+	 * @var \Healey\Robots\Robots
 	 */
 	private $robots;
 
@@ -30,13 +30,13 @@ class RobotsController extends BaseController {
 	{
 		switch ($env)
 		{
-			// If on the live server, serve a nice, welcoming robots.txt.
+			// If on the live server, serve a nice, welcoming robots.txt
 			case 'production':
 				$response = $this->robots->addUserAgent('*');
 				$response .= $this->robots->addAllow('/');
 				break;
 
-			// If you're on any other server, tell everyone to go away.
+			// If you're on any other server, tell everyone to go away
 			default:
 				$response = $this->robots->addUserAgent('*');
 				$response .= $this->robots->addDisallow('/');

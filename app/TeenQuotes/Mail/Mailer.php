@@ -1,5 +1,4 @@
-<?php
-namespace TeenQuotes\Mail;
+<?php namespace TeenQuotes\Mail;
 
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 

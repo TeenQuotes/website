@@ -16,7 +16,7 @@ class CachingFavoriteQuoteRepository implements FavoriteQuoteRepository {
 	}
 
 	/**
-	 * @see TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 * @see \TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
 	 */
 	public function isFavoriteForUserAndQuote($u, $quote_id)
 	{
@@ -24,7 +24,7 @@ class CachingFavoriteQuoteRepository implements FavoriteQuoteRepository {
 	}
 
 	/**
-	 * @see TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 * @see \TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
 	 */
 	public function deleteForUserAndQuote($u, $quote_id)
 	{
@@ -45,7 +45,7 @@ class CachingFavoriteQuoteRepository implements FavoriteQuoteRepository {
 	}
 
 	/**
-	 * @see TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 * @see \TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
 	 */
 	public function nbFavoritesForQuotes($idsQuotes)
 	{
@@ -53,7 +53,7 @@ class CachingFavoriteQuoteRepository implements FavoriteQuoteRepository {
 	}
 
 	/**
-	 * @see TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 * @see \TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
 	 */
 	public function quotesFavoritesForUser($u)
 	{
@@ -70,7 +70,7 @@ class CachingFavoriteQuoteRepository implements FavoriteQuoteRepository {
 	}
 
 	/**
-	 * @see TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 * @see \TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
 	 */
 	public function create(User $u, $quote_id)
 	{
@@ -91,7 +91,7 @@ class CachingFavoriteQuoteRepository implements FavoriteQuoteRepository {
 	}
 
 	/**
-	 * @see TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 * @see \TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
 	 */
 	public function getTopQuotes($page, $pagesize)
 	{

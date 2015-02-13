@@ -4,14 +4,14 @@ use TeenQuotes\Tools\Validation\Validator as BaseValidator;
 use TeenQuotes\Users\Models\User;
 
 class FavoriteQuoteValidator extends BaseValidator {
-	
+
 	/**
 	 * The validation rules when adding a favorite quote
 	 * @var array
 	 */
 	protected $rulesPost = [
 		'quote_id' => 'required|exists:quotes,id',
-		'user_id' => 'required|exists:users,id',
+		'user_id'  => 'required|exists:users,id',
 	];
 
 	/**
@@ -27,7 +27,7 @@ class FavoriteQuoteValidator extends BaseValidator {
 	 */
 	protected $rulesRemove = [
 		'quote_id' => 'required|exists:quotes,id|exists:favorite_quotes,quote_id',
-		'user_id' => 'required|exists:users,id|exists:favorite_quotes,user_id',
+		'user_id'  => 'required|exists:users,id|exists:favorite_quotes,user_id',
 	];
 
 	protected $rulesRemoveForQuote = [

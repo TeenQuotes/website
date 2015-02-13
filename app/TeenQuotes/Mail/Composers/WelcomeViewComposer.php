@@ -1,7 +1,6 @@
 <?php namespace TeenQuotes\Mail\Composers;
 
-use Illuminate\Support\Facades\URL;
-use TextTools;
+use URL, TextTools;
 
 class WelcomeViewComposer {
 

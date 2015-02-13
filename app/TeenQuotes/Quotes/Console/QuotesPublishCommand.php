@@ -38,17 +38,17 @@ class QuotesPublishCommand extends ScheduledCommand {
 	protected $nbQuotesPublished = 0;
 
 	/**
-	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 * @var \TeenQuotes\Quotes\Repositories\QuoteRepository
 	 */
 	private $quoteRepo;
 
 	/**
-	 * @var TeenQuotes\Mail\UserMailer
+	 * @var \TeenQuotes\Mail\UserMailer
 	 */
 	private $userMailer;
 
 	/**
-	 * @var TeenQuotes\Notifiers\AdminNotifier
+	 * @var \TeenQuotes\Notifiers\AdminNotifier
 	 */
 	private $adminNotifier;
 
@@ -70,7 +70,7 @@ class QuotesPublishCommand extends ScheduledCommand {
 	/**
 	 * When a command should run
 	 *
-	 * @param Scheduler $scheduler
+	 * @param  \Indatus\Dispatcher\Scheduling\Schedulable
 	 * @return \Indatus\Dispatcher\Scheduling\Schedulable
 	 */
 	public function schedule(Schedulable $scheduler)

@@ -5,7 +5,7 @@ use TeenQuotes\Users\Repositories\ProfileVisitorRepository;
 class ProfileVisitorWorker {
 
 	/**
-	 * @var TeenQuotes\Users\Repositories\ProfileVisitorRepository
+	 * @var \TeenQuotes\Users\Repositories\ProfileVisitorRepository
 	 */
 	private $repo;
 
@@ -17,8 +17,8 @@ class ProfileVisitorWorker {
 	/**
 	 * View a user profile
 	 *
-	 * @param \Illuminate\Queue\Jobs\SyncJob $job
-	 * @param array $data Required keys: visitor_id and user_id.
+	 * @param  \Illuminate\Queue\Jobs\SyncJob $job
+	 * @param  array $data Required keys: visitor_id and user_id.
 	 */
 	public function viewProfile($job, $data)
 	{

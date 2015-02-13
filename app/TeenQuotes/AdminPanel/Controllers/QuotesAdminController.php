@@ -11,17 +11,17 @@ use TeenQuotes\Quotes\Repositories\QuoteRepository;
 class QuotesAdminController extends BaseController {
 
 	/**
-	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 * @var \TeenQuotes\Quotes\Repositories\QuoteRepository
 	 */
 	private $quoteRepo;
 
 	/**
-	 * @var TeenQuotes\Quotes\Validation\QuoteValidator
+	 * @var \TeenQuotes\Quotes\Validation\QuoteValidator
 	 */
 	private $quoteValidator;
 
 	/**
-	 * @var TeenQuotes\Mail\UserMailer
+	 * @var \TeenQuotes\Mail\UserMailer
 	 */
 	private $userMailer;
 
@@ -35,7 +35,7 @@ class QuotesAdminController extends BaseController {
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function index()
 	{
@@ -58,7 +58,7 @@ class QuotesAdminController extends BaseController {
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param  int  $id The ID of the quote that we want to edit
-	 * @return Response
+	 * @return \Response
 	 */
 	public function edit($id)
 	{
@@ -73,7 +73,7 @@ class QuotesAdminController extends BaseController {
 	 * Update the specified resource in storage.
 	 *
 	 * @param  int  $id The ID of the quote we want to edit
-	 * @return Response
+	 * @return \Response
 	 */
 	public function update($id)
 	{
@@ -104,7 +104,7 @@ class QuotesAdminController extends BaseController {
 	 * @param  int  $id The ID of the quote
 	 * @param  string $type The decision of the moderation: approve|unapprove
 	 * @warning Should be called using Ajax
-	 * @return Response
+	 * @return \Response
 	 */
 	public function postModerate($id, $type)
 	{

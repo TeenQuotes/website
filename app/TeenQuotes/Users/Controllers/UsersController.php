@@ -93,7 +93,7 @@ class UsersController extends BaseController {
 	/**
 	 * Displays the signup form
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function getSignup()
 	{
@@ -130,7 +130,7 @@ class UsersController extends BaseController {
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function store()
 	{
@@ -155,9 +155,9 @@ class UsersController extends BaseController {
 
 	/**
 	 * Redirect the user to a place where we have content to show if possible
-	 * @param  TeenQuotes\Users\Models\User $user The user
+	 * @param  \TeenQuotes\Users\Models\User $user The user
 	 * @param  string $type The requested type to show
-	 * @return Response|null If null is returned, we can't find a better place to show content
+	 * @return \Response|null If null is returned, we can't find a better place to show content
 	 */
 	private function redirectUserIfContentNotAvailable($user, $type)
 	{
@@ -208,9 +208,9 @@ class UsersController extends BaseController {
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param string $user_id The login of the user
-	 * @param string $type Can be 'favorites'|'comments'|'published'
-	 * @return Response
+	 * @param  string $user_id The login of the user
+	 * @param  string $type Can be 'favorites'|'comments'|'published'
+	 * @return \Response
 	 */
 	public function show($user_id, $type = 'published')
 	{
@@ -311,7 +311,7 @@ class UsersController extends BaseController {
 	 *
 	 * @param  string $id The login of the user
 	 * @throws TeenQuotes\Exceptions\UserNotFoundException
-	 * @return Response
+	 * @return \Response
 	 */
 	public function edit($id)
 	{
@@ -347,7 +347,7 @@ class UsersController extends BaseController {
 
 	/**
 	 * Get country and city for a given user. If we have no information, try to guess it!
-	 * @param  TeenQuotes\Users\Models\User $user The user model
+	 * @param  \TeenQuotes\Users\Models\User $user The user model
 	 * @return array The country and the city
 	 */
 	private function getCountryAndCity(User $user)
@@ -376,7 +376,7 @@ class UsersController extends BaseController {
 	 * Update the specified resource in storage.
 	 *
 	 * @param  string $id The login of the user
-	 * @return Response
+	 * @return \Response
 	 */
 	public function update($id)
 	{
@@ -403,7 +403,7 @@ class UsersController extends BaseController {
 	 * Update the password in storage
 	 *
 	 * @param  string $id The login of the user
-	 * @return Response
+	 * @return \Response
 	 */
 	public function putPassword($id)
 	{
@@ -432,7 +432,7 @@ class UsersController extends BaseController {
 	 * Update settings for the user
 	 *
 	 * @param  string $id The login of the user
-	 * @return Response
+	 * @return \Response
 	 */
 	public function putSettings($id)
 	{
@@ -458,7 +458,7 @@ class UsersController extends BaseController {
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function destroy()
 	{

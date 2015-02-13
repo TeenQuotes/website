@@ -30,7 +30,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Grab pending quotes
-	 * @param int $nb The number of quotes to grab
+	 * @param  int $nb The number of quotes to grab
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function lastPendingQuotes($nb)
@@ -44,7 +44,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Retrieve a quote by its ID
-	 * @param int $id
+	 * @param  int $id
 	 * @return \TeenQuotes\Quotes\Models\Quote
 	 */
 	public function getById($id)
@@ -54,7 +54,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Retrieve a quote by its ID
-	 * @param int $id
+	 * @param  int $id
 	 * @return \TeenQuotes\Quotes\Models\Quote
 	 */
 	public function getByIdWithUser($id)
@@ -66,7 +66,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Retrieve a waiting quote by its ID
-	 * @param int $id
+	 * @param  int $id
 	 * @return \TeenQuotes\Quotes\Models\Quote
 	 */
 	public function waitingById($id)
@@ -79,7 +79,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Get full information about a quote given its ID
-	 * @param int $id
+	 * @param  int $id
 	 * @return \TeenQuotes\Quotes\Models\Quote
 	 */
 	public function showQuote($id)
@@ -94,8 +94,8 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Count the number of quotes by approved type for a user
-	 * @param string $approved
-	 * @param \TeenQuotes\Users\Models\User $u
+	 * @param  string $approved
+	 * @param  \TeenQuotes\Users\Models\User $u
 	 * @return int
 	 */
 	public function countQuotesByApprovedForUser($approved, User $u)
@@ -109,9 +109,9 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Update the content and the approved type for a quote
-	 * @param int $id
-	 * @param string $content
-	 * @param int $approved
+	 * @param  int $id
+	 * @param  string $content
+	 * @param  int $approved
 	 * @return \TeenQuotes\Quotes\Models\Quote
 	 */
 	public function updateContentAndApproved($id, $content, $approved)
@@ -128,8 +128,8 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Update the approved type for a quote
-	 * @param int $id
-	 * @param int $approved
+	 * @param  int $id
+	 * @param  int $approved
 	 * @return \TeenQuotes\Quotes\Models\Quote
 	 */
 	public function updateApproved($id, $approved)
@@ -154,7 +154,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Get the number of results for a query against published quotes
-	 * @param string $query
+	 * @param  string $query
 	 * @return int
 	 */
 	public function searchCountPublishedWithQuery($query)
@@ -171,7 +171,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Get the number of quotes submitted today for a user
-	 * @param \TeenQuotes\Users\Models\User $u
+	 * @param  \TeenQuotes\Users\Models\User $u
 	 * @return int
 	 */
 	public function submittedTodayForUser(User $u)
@@ -183,8 +183,8 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Create a quote for a user
-	 * @param \TeenQuotes\Users\Models\User $u
-	 * @param string $content
+	 * @param  \TeenQuotes\Users\Models\User $u
+	 * @param  string $content
 	 * @return \TeenQuotes\Quotes\Models\Quote
 	 */
 	public function createQuoteForUser(User $u, $content)
@@ -198,8 +198,8 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * List published quotes for a given page and pagesize
-	 * @param int $page
-	 * @param int $pagesize
+	 * @param  int $page
+	 * @param  int $pagesize
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function index($page, $pagesize)
@@ -214,7 +214,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Retrieve some random published quotes
-	 * @param int $nb
+	 * @param  int $nb
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function randomPublished($nb)
@@ -228,7 +228,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Retrieve some random published quotes, published today
-	 * @param int $nb
+	 * @param  int $nb
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function randomPublishedToday($nb)
@@ -243,8 +243,8 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * List published random quotes for a given page and pagesize
-	 * @param int $page
-	 * @param int $pagesize
+	 * @param  int $page
+	 * @param  int $pagesize
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function indexRandom($page, $pagesize)
@@ -259,7 +259,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * List IDs of published quotes for a user
-	 * @param \TeenQuotes\Users\Models\User $u
+	 * @param  \TeenQuotes\Users\Models\User $u
 	 * @return array
 	 */
 	public function listPublishedIdsForUser(User $u)
@@ -271,7 +271,7 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Get the number of published quotes for a user
-	 * @param \TeenQuotes\Users\Models\User $u
+	 * @param  \TeenQuotes\Users\Models\User $u
 	 * @return int
 	 */
 	public function nbPublishedForUser(User $u)
@@ -283,9 +283,9 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Retrieve quotes for given IDs, page and pagesize
-	 * @param array $ids
-	 * @param int $page
-	 * @param int $pagesize
+	 * @param  array $ids
+	 * @param  int $page
+	 * @param  int $pagesize
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function getForIds($ids, $page, $pagesize)
@@ -305,9 +305,9 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Search published quote with a query
-	 * @param string $query
-	 * @param int $page
-	 * @param int $pagesize
+	 * @param  string $query
+	 * @param  int $page
+	 * @param  int $pagesize
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function searchPublishedWithQuery($query, $page, $pagesize)
@@ -329,10 +329,10 @@ class DbQuoteRepository implements QuoteRepository {
 
 	/**
 	 * Get quotes by approved type for a user
-	 * @param \TeenQuotes\Users\Models\User $u
-	 * @param string $approved
-	 * @param int $page
-	 * @param int $pagesize
+	 * @param  \TeenQuotes\Users\Models\User $u
+	 * @param  string $approved
+	 * @param  int $page
+	 * @param  int $pagesize
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function getQuotesByApprovedForUser(User $u, $approved, $page, $pagesize)
@@ -352,7 +352,7 @@ class DbQuoteRepository implements QuoteRepository {
 	 * Compute the number of days before publication for a quote waiting to be published.
 	 * @param  \TeenQuotes\Quotes\Models\Quote|int $q
 	 * @return int
-	 * @throws InvalidArgumentException If the quote is not waiting to be published
+	 * @throws \InvalidArgumentException If the quote is not waiting to be published
 	 */
 	public function nbDaysUntilPublication($q)
 	{

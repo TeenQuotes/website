@@ -16,17 +16,17 @@ class NewsletterList implements NewsletterListInterface {
 	protected $mailchimp;
 
 	/**
-	 * @var Illuminate\View\Factory
+	 * @var \Illuminate\View\Factory
 	 */
 	protected $view;
 
 	/**
-	 * @var Illuminate\Config\Repository
+	 * @var \Illuminate\Config\Repository
 	 */
 	protected $config;
 
 	/**
-	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 * @var \TeenQuotes\Users\Repositories\UserRepository
 	 */
 	protected $userRepo;
 
@@ -49,8 +49,8 @@ class NewsletterList implements NewsletterListInterface {
 	/**
 	 * Subscribe a user to a Mailchimp list
 	 *
-	 * @param string $listName
-	 * @param TeenQuotes\Users\Models\User $email
+	 * @param  string $listName
+	 * @param  \TeenQuotes\Users\Models\User $email
 	 * @return mixed
 	 */
 	public function subscribeTo($listName, User $user)
@@ -69,7 +69,7 @@ class NewsletterList implements NewsletterListInterface {
 	 * Subscribe multiple users to a newsletter
 	 *
 	 * @param  string $listName
-	 * @param  Illuminate\Support\Collection $collection A collection of users
+	 * @param  \Illuminate\Support\Collection $collection A collection of users
 	 * @return mixed
 	 */
 	public function subscribeUsersTo($listName, Collection $collection)
@@ -88,8 +88,8 @@ class NewsletterList implements NewsletterListInterface {
 	/**
 	 * Unsubscribe a user from a Mailchimp list
 	 *
-	 * @param string $listName
-	 * @param TeenQuotes\Users\Models\User $email
+	 * @param  string $listName
+	 * @param  \TeenQuotes\Users\Models\User $email
 	 * @return mixed
 	 */
 	public function unsubscribeFrom($listName, User $user)
@@ -107,7 +107,7 @@ class NewsletterList implements NewsletterListInterface {
 	 * Unsubscribe multiple users from a newsletter
 	 *
 	 * @param  string $listName
-	 * @param  Illuminate\Support\Collection $collection A collection of users
+	 * @param  \Illuminate\Support\Collection $collection A collection of users
 	 * @return mixed
 	 */
 	public function unsubscribeUsersFrom($listName, Collection $collection)
@@ -159,7 +159,7 @@ class NewsletterList implements NewsletterListInterface {
 	 * Get users who unsubscribed from a list
 	 *
 	 * @param  string $listName
-	 * @return Illuminate\Support\Collection $collection A collection of users
+	 * @return \Illuminate\Support\Collection $collection A collection of users
 	 */
 	public function getUnsubscribesFromList($listName)
 	{

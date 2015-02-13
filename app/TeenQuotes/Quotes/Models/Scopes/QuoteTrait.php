@@ -1,8 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Models\Scopes;
 
-use Carbon;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
+use Carbon, Config, DB;
 
 trait QuoteTrait {
 

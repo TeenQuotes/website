@@ -1,7 +1,9 @@
 <?php namespace TeenQuotes\Newsletters;
 
-use Illuminate\Support\ServiceProvider;
 use Mailchimp;
+use Illuminate\Support\ServiceProvider;
+use TeenQuotes\Newsletters\Mailchimp\NewsletterList as MailchimpNewsletterList;
+use TeenQuotes\Newsletters\NewsletterList;
 
 class NewsletterListServiceProvider extends ServiceProvider {
 
@@ -18,8 +20,8 @@ class NewsletterListServiceProvider extends ServiceProvider {
 		});
 
 		$app->bind(
-			'TeenQuotes\Newsletters\NewsletterList',
-			'TeenQuotes\Newsletters\Mailchimp\NewsletterList'
+			NewsletterList::class,
+			MailchimpNewsletterList::class
 		);
 	}
 }

@@ -24,7 +24,7 @@ class UserObserver {
 	/**
 	 * Will be triggered when a model is created
 	 *
-	 * @param \TeenQuotes\Users\Models\User $user
+	 * @param  \TeenQuotes\Users\Models\User $user
 	 */
 	public function created($user)
 	{

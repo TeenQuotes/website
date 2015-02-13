@@ -24,14 +24,14 @@ class SmsAdminNotifier implements AdminNotifier {
 
 	public function __construct($url, $user, $password)
 	{
-		$this->url = $url;
-		$this->user = $user;
+		$this->url      = $url;
+		$this->user     = $user;
 		$this->password = $password;
 	}
 
 	/**
 	 * Notify an administrator about an event
-	 * @param string $message
+	 * @param  string $message
 	 */
 	public function notify($message)
 	{

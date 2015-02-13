@@ -16,7 +16,7 @@ class ShowComposer implements QuotesColorsExtractor {
 
 	/**
 	 * The user viewed
-	 * @var TeenQuotes\Users\Models\User
+	 * @var \TeenQuotes\Users\Models\User
 	 */
 	private $user;
 

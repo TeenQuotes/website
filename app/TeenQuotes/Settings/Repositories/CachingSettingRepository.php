@@ -18,16 +18,16 @@ class CachingSettingRepository implements SettingRepository {
 	public function __construct(SettingRepository $settings, Cache $cache)
 	{
 		$this->settings = $settings;
-		$this->cache = $cache;
+		$this->cache    = $cache;
 	}
 
 	/**
 	 * Update or create a setting for a given user and key
 	 *
-	 * @param  TeenQuotes\Users\Models\User   $u
+	 * @param  \TeenQuotes\Users\Models\User $u
 	 * @param  string $key
 	 * @param  mixed $value
-	 * @return TeenQuotes\Settings\Models\Setting
+	 * @return \TeenQuotes\Settings\Models\Setting
 	 */
 	public function updateOrCreate(User $u, $key, $value)
 	{
@@ -42,9 +42,9 @@ class CachingSettingRepository implements SettingRepository {
 	/**
 	 * Retrieve a row for a given user and key
 	 *
-	 * @param  TeenQuotes\Users\Models\User   $u
+	 * @param  \TeenQuotes\Users\Models\User $u
 	 * @param  string $key
-	 * @return TeenQuotes\Settings\Models\Setting
+	 * @return \TeenQuotes\Settings\Models\Setting
 	 */
 	public function findForUserAndKey(User $u, $key)
 	{

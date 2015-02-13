@@ -16,7 +16,7 @@ class Detector implements CityDetector, CountryDetector {
 
 	public function __construct(CityDetector $cityDetector, CountryDetector $countryDetector)
 	{
-		$this->cityDetector = $cityDetector;
+		$this->cityDetector    = $cityDetector;
 		$this->countryDetector = $countryDetector;
 	}
 

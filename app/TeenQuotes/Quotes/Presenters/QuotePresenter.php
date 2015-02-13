@@ -16,7 +16,8 @@ class QuotePresenter extends Presenter {
 		$twitterUsername = Lang::get('layout.twitterUsername');
 		$maxLengthAddTwitterUsername = $maxLength - strlen($twitterUsername);
 
-		if (strlen($content) > $maxLength)  {
+		if (strlen($content) > $maxLength)
+		{
 			$content = substr($content, 0, $maxLength);
 			$lastSpace = strrpos($content, " ");
 
@@ -38,7 +39,8 @@ class QuotePresenter extends Presenter {
 		$content = $this->content;
 		$maxLength = 197;
 
-		if (strlen($content) > $maxLength)  {
+		if (strlen($content) > $maxLength)
+		{
 			$content = substr($content, 0, $maxLength);
 			$lastSpace = strrpos($content, " ");
 
@@ -66,7 +68,8 @@ class QuotePresenter extends Presenter {
 		$i = 0;
 		$favorites = $this->favorites;
 
-		while ($i < 3 AND ! $favorites->isEmpty()) {
+		while ($i < 3 AND ! $favorites->isEmpty())
+		{
 			$fav = $favorites->shift();
 			$data['name'.$i] = $this->linkForUser($fav->user);
 			$i++;
@@ -77,7 +80,7 @@ class QuotePresenter extends Presenter {
 
 	/**
 	 * Returns a link to a user's profile or just its login if its profile is hidden
-	 * @param  TeenQuotes\Users\Models\User $user The User object
+	 * @param  \TeenQuotes\Users\Models\User $user The User object
 	 * @return string
 	 */
 	public function linkForUser($user)

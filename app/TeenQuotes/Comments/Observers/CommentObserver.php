@@ -24,7 +24,7 @@ class CommentObserver {
 	/**
 	 * Will be triggered when a model is created
 	 *
-	 * @param \TeenQuotes\Comments\Models\Comment $comment
+	 * @param  \TeenQuotes\Comments\Models\Comment $comment
 	 */
 	public function created($comment)
 	{

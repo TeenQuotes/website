@@ -1,7 +1,7 @@
 <?php namespace TeenQuotes\Notifiers\Pushbullet;
 
-use Illuminate\Translation\Translator as Lang;
 use Pushbullet;
+use Illuminate\Translation\Translator as Lang;
 use TeenQuotes\Notifiers\AdminNotifier;
 
 class PushbulletAdminNotifier implements AdminNotifier {
@@ -19,7 +19,7 @@ class PushbulletAdminNotifier implements AdminNotifier {
 	private $deviceIden;
 
 	/**
-	 * @var Illuminate\Translation\Translator
+	 * @var \Illuminate\Translation\Translator
 	 */
 	private $lang;
 
@@ -32,7 +32,7 @@ class PushbulletAdminNotifier implements AdminNotifier {
 
 	/**
 	 * Notify an administrator about an event
-	 * @param string $message
+	 * @param  string $message
 	 */
 	public function notify($message)
 	{

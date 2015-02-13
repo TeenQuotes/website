@@ -7,7 +7,7 @@ use TeenQuotes\Users\Repositories\UserRepository;
 class DbProfileVisitorRepository implements ProfileVisitorRepository {
 
 	/**
-	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 * @var \TeenQuotes\Users\Repositories\UserRepository
 	 */
 	private $userRepo;
 
@@ -19,8 +19,8 @@ class DbProfileVisitorRepository implements ProfileVisitorRepository {
 	/**
 	 * Tell that a user visited another user's profile
 	 *
-	 * @param int|TeenQuotes\Users\Models\User $visited
-	 * @param int|TeenQuotes\Users\Models\User $visitor
+	 * @param  int|\TeenQuotes\Users\Models\User $visited
+	 * @param  int|\TeenQuotes\Users\Models\User $visitor
 	 */
 	public function addVisitor($visited, $visitor)
 	{
@@ -33,10 +33,10 @@ class DbProfileVisitorRepository implements ProfileVisitorRepository {
 	/**
 	 * Get visitors for a given user
 	 *
-	 * @param  int|TeenQuotes\Users\Models\User $u
+	 * @param  int|\TeenQuotes\Users\Models\User $u
 	 * @param  int $page
 	 * @param  int $pagesize
-	 * @return Illuminate\Database\Eloquent\Collection
+	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function getVisitors($u, $page, $pagesize)
 	{
@@ -57,7 +57,7 @@ class DbProfileVisitorRepository implements ProfileVisitorRepository {
 	/**
 	 * Get visitors' information for a given user
 	 *
-	 * @param  int|TeenQuotes\Users\Models\User $u
+	 * @param  int|\TeenQuotes\Users\Models\User $u
 	 * @param  int $page
 	 * @param  int $pagesize
 	 * @return array ['login' => 'avatarURL'] array
@@ -77,8 +77,8 @@ class DbProfileVisitorRepository implements ProfileVisitorRepository {
 	/**
 	 * Tells if a user has visited the profile of another user
 	 *
-	 * @param  int|TeenQuotes\Users\Models\User $visitor
-	 * @param  int|TeenQuotes\Users\Models\User $visited
+	 * @param  int|\TeenQuotes\Users\Models\User $visitor
+	 * @param  int|\TeenQuotes\Users\Models\User $visited
 	 * @return boolean
 	 */
 	public function hasVisited($visitor, $visited)
@@ -92,8 +92,8 @@ class DbProfileVisitorRepository implements ProfileVisitorRepository {
 	/**
 	 * Retrieves a user
 	 *
-	 * @param  int|TeenQuotes\Users\Models\User $u
-	 * @return TeenQuotes\Users\Models\User
+	 * @param  int|\TeenQuotes\Users\Models\User $u
+	 * @return \TeenQuotes\Users\Models\User
 	 */
 	private function retrieveUser($u)
 	{

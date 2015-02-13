@@ -1,8 +1,7 @@
-<?php
-namespace TeenQuotes\Mail\Transport;
+<?php namespace TeenQuotes\Mail\Transport;
 
-use Illuminate\Mail\Transport\MandrillTransport as BaseMandrillTransport;
 use Swift_Mime_Message;
+use Illuminate\Mail\Transport\MandrillTransport as BaseMandrillTransport;
 
 class MandrillTransport extends BaseMandrillTransport {
 

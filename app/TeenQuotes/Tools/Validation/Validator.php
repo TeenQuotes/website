@@ -12,7 +12,7 @@ abstract class Validator extends LaravelValidator {
 	 * @param  string $rule The name of the property for the rules
 	 * @param  array $messages
 	 * @return boolean
-	 * @throws Laracasts\Validation\FormValidationException
+	 * @throws \Laracasts\Validation\FormValidationException
 	 */
 	protected function validateForRule($data, $rule, $messages = [])
 	{

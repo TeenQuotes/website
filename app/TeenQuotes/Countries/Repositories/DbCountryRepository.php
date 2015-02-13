@@ -8,7 +8,7 @@ class DbCountryRepository implements CountryRepository {
 	 * Retrieve a country by its id
 	 *
 	 * @param  int $id
-	 * @return TeenQuotes\Countries\Models\Country
+	 * @return \TeenQuotes\Countries\Models\Country
 	 */
 	public function findById($id)
 	{
@@ -28,7 +28,7 @@ class DbCountryRepository implements CountryRepository {
 	/**
 	 * Retrieve all countries
 	 *
-	 * @return Illuminate\Database\Eloquent\Collection
+	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function getAll()
 	{

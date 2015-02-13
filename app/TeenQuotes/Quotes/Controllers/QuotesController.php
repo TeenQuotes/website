@@ -11,7 +11,6 @@ class QuotesController extends BaseController {
 
 	/**
 	 * The API controller
-	 *
 	 * @var \TeenQuotes\Api\V1\Controllers\QuotesController
 	 */
 	private $api;
@@ -35,9 +34,10 @@ class QuotesController extends BaseController {
 	}
 
 	/**
-	 * Redirect to the new URL type
-	 * @param  int $id ID of the Quote
-	 * @return Response
+	 * Redirect to the new URL schema
+	 *
+	 * @param  int $id ID of the quote
+	 * @return \Response
 	 */
 	public function redirectOldUrl($id)
 	{
@@ -52,7 +52,7 @@ class QuotesController extends BaseController {
 	/**
 	 * Display last quotes
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function index()
 	{
@@ -64,7 +64,7 @@ class QuotesController extends BaseController {
 	/**
 	 * Display random quotes
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function random()
 	{
@@ -74,9 +74,9 @@ class QuotesController extends BaseController {
 	}
 
 	/**
-	 * Display top favorites quotes
+	 * Display top favorited quotes
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function topFavorites()
 	{
@@ -88,7 +88,7 @@ class QuotesController extends BaseController {
 	/**
 	 * Display top commented quotes
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function topComments()
 	{
@@ -101,7 +101,7 @@ class QuotesController extends BaseController {
 	 * Index quotes for a given tag name
 	 *
 	 * @param  string $tagName The name of the tag
-	 * @return Response
+	 * @return \Response
 	 */
 	public function indexForTag($tagName)
 	{
@@ -111,9 +111,9 @@ class QuotesController extends BaseController {
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Store a new quote in storage
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function store()
 	{
@@ -137,7 +137,7 @@ class QuotesController extends BaseController {
 	/**
 	 * Display the form to add a quote
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function create()
 	{
@@ -146,8 +146,6 @@ class QuotesController extends BaseController {
 			'pageDescription' => Lang::get('quotes.addquotePageDescription'),
 		];
 
-		// JS variables are set in a view composer
-
 		return View::make('quotes.addquote', $data);
 	}
 
@@ -155,7 +153,7 @@ class QuotesController extends BaseController {
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
-	 * @return Response
+	 * @return \Response
 	 */
 	public function show($id)
 	{
@@ -259,7 +257,7 @@ class QuotesController extends BaseController {
 	 * Throw an exception if the given response is a not found response
 	 *
 	 * @param  JsonResponse $response the response
-	 * @return void|TeenQuotes\Exceptions\QuoteNotFoundException
+	 * @return void|\TeenQuotes\Exceptions\QuoteNotFoundException
 	 */
 	private function guardAgainstNotFound(JsonResponse $response)
 	{

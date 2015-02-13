@@ -12,7 +12,7 @@ class Response extends ResponseFacadeOriginal {
 	 * @param  int    $status
 	 * @param  array  $headers
 	 * @param  int    $options
-	 * @return TeenQuotes\Http\JsonResponse
+	 * @return \TeenQuotes\Http\JsonResponse
 	 */
 	public static function json($data = array(), $status = 200, array $headers = array(), $options = 0)
 	{

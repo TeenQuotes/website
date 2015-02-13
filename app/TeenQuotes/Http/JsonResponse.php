@@ -4,7 +4,7 @@ use Illuminate\Http\JsonResponse as JsonResponseOriginal;
 use Illuminate\Support\Contracts\ArrayableInterface;
 
 class JsonResponse extends JsonResponseOriginal {
-	
+
 	/**
 	 * The original data
 	 * @var mixed
@@ -25,9 +25,7 @@ class JsonResponse extends JsonResponseOriginal {
 		$this->originalData = $data;
 
 		if ($data instanceof ArrayableInterface)
-		{
 			$data = $data->toArray();
-		}
 
 		parent::__construct($data, $status, $headers, $options);
 	}

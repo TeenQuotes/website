@@ -39,11 +39,11 @@ class UserMailer {
 	/**
 	 * Send a mail to a user
 	 *
-	 * @param string $viewName The name of the view
-	 * @param TeenQuotes\Users\Models\User $user
-	 * @param array $data Data to pass the email view
-	 * @param string $subject The subject of the email
-	 * @param string $driver The name of the driver that we will use to send the email
+	 * @param  string $viewName The name of the view
+	 * @param  \TeenQuotes\Users\Models\User $user
+	 * @param  array $data Data to pass the email view
+	 * @param  string $subject The subject of the email
+	 * @param  string $driver The name of the driver that we will use to send the email
 	 */
 	public function send($viewName, User $user, $data, $subject, $driver = null)
 	{
@@ -59,12 +59,12 @@ class UserMailer {
 	/**
 	 * Send a delayed mail to a user
 	 *
-	 * @param string $viewName The name of the view
-	 * @param TeenQuotes\Users\Models\User $user
-	 * @param array $data Data to pass the email view
-	 * @param string $subject The subject of the email
-	 * @param string $driver The name of the driver that we will use to send the email
-	 * @param DateTime|int $delay
+	 * @param  string $viewName The name of the view
+	 * @param  \TeenQuotes\Users\Models\User $user
+	 * @param  array $data Data to pass the email view
+	 * @param  string $subject The subject of the email
+	 * @param  string $driver The name of the driver that we will use to send the email
+	 * @param  \DateTime|int $delay
 	 */
 	public function sendLater($viewName, User $user, $data, $subject, $driver = null, $delay = 0)
 	{
@@ -77,8 +77,8 @@ class UserMailer {
 	/**
 	 * Send an email with a job
 	 *
-	 * @param \Illuminate\Queue\Jobs\Job $job
-	 * @param array $data Required keys: viewName, user, data, subject and driver.
+	 * @param  \Illuminate\Queue\Jobs\Job $job
+	 * @param  array $data Required keys: viewName, user, data, subject and driver.
 	 */
 	public function dispatchToSend($job, $data)
 	{
@@ -231,8 +231,8 @@ class UserMailer {
 	/**
 	 * Retrieve an user by its ID
 	 *
-	 * @param int $id
-	 * @return TeenQuotes\Users\Models\User
+	 * @param  int $id
+	 * @return \TeenQuotes\Users\Models\User
 	 */
 	private function getUserFromId($id)
 	{

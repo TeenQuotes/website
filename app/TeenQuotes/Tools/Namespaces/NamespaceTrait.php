@@ -1,12 +1,11 @@
 <?php namespace TeenQuotes\Tools\Namespaces;
 
-use Str;
-use ReflectionClass;
+use Str, ReflectionClass;
 
 trait NamespaceTrait {
 
 	public function getBaseNamespace()
-	{	
+	{
 		$reflection = new ReflectionClass(__CLASS__);
 		return $reflection->getNamespaceName().'\\';
 	}

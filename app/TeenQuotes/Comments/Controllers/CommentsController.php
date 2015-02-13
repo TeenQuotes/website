@@ -1,7 +1,7 @@
 <?php namespace TeenQuotes\Comments\Controllers;
 
-use App, Input, Lang, Redirect, Request, Response, View;
-use BaseController;
+use App, BaseController, Input, Lang, Redirect, Request;
+use Response, View;
 use Illuminate\Http\Response as ResponseClass;
 use TeenQuotes\Comments\Models\Comment;
 
@@ -9,12 +9,12 @@ class CommentsController extends BaseController {
 
 	/**
 	 * The API controller
-	 * @var TeenQuotes\Api\V1\Controllers\CommentsController
+	 * @var \TeenQuotes\Api\V1\Controllers\CommentsController
 	 */
 	private $api;
 
 	/**
-	 * @var TeenQuotes\Comments\Validation\CommentValidator
+	 * @var \TeenQuotes\Comments\Validation\CommentValidator
 	 */
 	private $commentValidator;
 
@@ -28,7 +28,7 @@ class CommentsController extends BaseController {
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function store()
 	{
@@ -46,7 +46,7 @@ class CommentsController extends BaseController {
 	 * Show the form to edit a comment
 	 *
 	 * @param  int  $id
-	 * @return Response
+	 * @return \Response
 	 */
 	public function edit($id)
 	{
@@ -66,7 +66,7 @@ class CommentsController extends BaseController {
 	 * Edit a comment
 	 *
 	 * @param  int  $id
-	 * @return Response
+	 * @return \Response
 	 */
 	public function update($id)
 	{
@@ -86,14 +86,14 @@ class CommentsController extends BaseController {
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int  $id
-	 * @return Response
+	 * @return \Response
 	 */
 	public function destroy($id)
 	{
-		if (Request::ajax()) {
-
+		if (Request::ajax())
+		{
 			$response = $this->api->destroy($id);
-			
+
 			return Response::json([
 				'success' => ($response->getStatusCode() == ResponseClass::HTTP_OK)
 			]);

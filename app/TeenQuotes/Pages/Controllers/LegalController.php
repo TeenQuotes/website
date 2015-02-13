@@ -1,12 +1,9 @@
 <?php namespace TeenQuotes\Pages\Controllers;
 
-use BaseController;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\View;
+use BaseController, Lang, Redirect, View;
 
 class LegalController extends BaseController {
-	
+
 	public function show($page = null)
 	{
 		// Redirect to the default page if no argument has been given
@@ -21,7 +18,7 @@ class LegalController extends BaseController {
 		$arianeLineLinks = [
 			'tos'     => Lang::get('legal.termsOfUseTitle'),
 			'privacy' => Lang::get('legal.privacyPolicyTitle'),
-		]; 
+		];
 
 		$data = [
 			'title'           => Lang::get('legal.'.$displayName.'Title'),

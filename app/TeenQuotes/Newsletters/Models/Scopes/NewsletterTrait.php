@@ -4,10 +4,10 @@ use InvalidArgumentException;
 use TeenQuotes\Users\Models\User;
 
 trait NewsletterTrait {
-	
+
 	public function scopeType($query, $type)
 	{
-		if (!in_array($type, [self::WEEKLY, self::DAILY]))
+		if (! in_array($type, [self::WEEKLY, self::DAILY]))
 			throw new InvalidArgumentException("Newsletter's type only accepts weekly or daily. ".$type." was given.");
 
 		return $query->whereType($type);

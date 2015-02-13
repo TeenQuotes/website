@@ -8,12 +8,12 @@ class Mandrill {
 
 	/**
 	 * The client for the Mandrill API
-	 * @var Mandrill
+	 * @var \Mandrill
 	 */
 	private $api;
 
 	/**
-	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 * @var \TeenQuotes\Users\Repositories\UserRepository
 	 */
 	private $userRepo;
 
@@ -42,7 +42,7 @@ class Mandrill {
 
 	/**
 	 * Get users that has already have been affected by an hard bounce
-	 * @return Illuminate\Database\Eloquent\Collection
+	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function getHardBouncedUsers()
 	{

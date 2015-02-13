@@ -1,15 +1,13 @@
 <?php namespace TeenQuotes\Quotes\Models;
 
-use App, Auth, Cache, Carbon, DB, Easyrec, Queue, Session, URL;
-use InvalidArgumentException;
+use App, Auth, Cache, Carbon, DB, Easyrec, InvalidArgumentException;
+use Queue, ResourceServer, Session, Toloquent, URL;
 use Laracasts\Presenter\PresentableTrait;
-use ResourceServer;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Quotes\Models\Relations\QuoteTrait as QuoteRelationsTrait;
 use TeenQuotes\Quotes\Models\Scopes\QuoteTrait as QuoteScopesTrait;
 use TeenQuotes\Users\Models\User;
-use Toloquent;
 
 class Quote extends Toloquent {
 
@@ -63,8 +61,8 @@ class Quote extends Toloquent {
 		parent::__construct($attributes);
 
 		$this->favQuoteRepo = App::make('TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository');
-		$this->commentRepo = App::make('TeenQuotes\Comments\Repositories\CommentRepository');
-		$this->tagsRepo = App::make('TeenQuotes\Tags\Repositories\TagRepository');
+		$this->commentRepo  = App::make('TeenQuotes\Comments\Repositories\CommentRepository');
+		$this->tagsRepo     = App::make('TeenQuotes\Tags\Repositories\TagRepository');
 	}
 
 	/**
@@ -75,7 +73,7 @@ class Quote extends Toloquent {
 	 */
 	public static function storeQuotesColors($quotesIDs, $color = null)
 	{
-		$colors = array();
+		$colors = [];
 
 		// We will build an array if we have at least one quote
 		if (count($quotesIDs) >= 1) {
@@ -167,6 +165,7 @@ class Quote extends Toloquent {
 	public static function getRandomColors()
 	{
 		$colors = self::$colors;
+
 		shuffle($colors);
 
 		return $colors;
@@ -233,8 +232,8 @@ class Quote extends Toloquent {
 	/**
 	 * Lighten or darken a color from an hexadecimal code
 	 * @author http://stackoverflow.com/questions/3512311/how-to-generate-lighter-darker-color-with-php
-	 * @param string $hex The color in hexadecimal
-	 * @param int $steps Steps should be between -255 and 255. Negative = darker, positive = lighter
+	 * @param  string $hex The color in hexadecimal
+	 * @param  int $steps Steps should be between -255 and 255. Negative = darker, positive = lighter
 	 * @return string The computed hexadecimal color
 	 */
 	public static function adjustBrightness($hex, $steps)

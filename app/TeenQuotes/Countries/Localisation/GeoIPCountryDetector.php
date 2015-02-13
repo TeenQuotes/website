@@ -68,7 +68,7 @@ class GeoIPCountryDetector implements CountryDetector {
 
 	/**
 	 * Set the default ID to return if we don't match something
-	 * @param int $id
+	 * @param  int $id
 	 */
 	public function setDefault($id)
 	{

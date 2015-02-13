@@ -6,7 +6,7 @@ use Illuminate\Foundation\Application as App;
 class EasyrecWorker {
 
 	/**
-	 * @var Illuminate\Foundation\Application
+	 * @var \Illuminate\Foundation\Application
 	 */
 	private $app;
 
@@ -17,8 +17,8 @@ class EasyrecWorker {
 
 	/**
 	 * Register the view of a quote
-	 * @param \Illuminate\Queue\Jobs\SyncJob $job
-	 * @param array $data Required keys: quote_id and user_id.
+	 * @param  \Illuminate\Queue\Jobs\Job $job
+	 * @param  array $data Required keys: quote_id and user_id.
 	 */
 	public function viewQuote($job, $data)
 	{
@@ -36,8 +36,8 @@ class EasyrecWorker {
 
 	/**
 	 * Register the view of a user profile
-	 * @param \Illuminate\Queue\Jobs\SyncJob $job
-	 * @param array $data Required keys: viewer_user_id, user_login and user_id.
+	 * @param  \Illuminate\Queue\Jobs\Job $job
+	 * @param  array $data Required keys: viewer_user_id, user_login and user_id.
 	 */
 	public function viewUserProfile($job, $data)
 	{
@@ -55,8 +55,8 @@ class EasyrecWorker {
 
 	/**
 	 * Add a quote to the favorites
-	 * @param \Illuminate\Queue\Jobs\SyncJob $job  [description]
-	 * @param array $data Required keys: quote_id, user_id
+	 * @param  \Illuminate\Queue\Jobs\Job $job  [ription]
+	 * @param  array $data Required keys: quote_id, user_id
 	 */
 	public function favoriteAQuote($job, $data)
 	{
@@ -76,8 +76,8 @@ class EasyrecWorker {
 
 	/**
 	 * Remove a quote from the favorites
-	 * @param \Illuminate\Queue\Jobs\SyncJob $job  [description]
-	 * @param array $data Required keys: quote_id, user_id
+	 * @param  \Illuminate\Queue\Jobs\Job $job  [ription]
+	 * @param  array $data Required keys: quote_id, user_id
 	 */
 	public function unfavoriteAQuote($job, $data)
 	{

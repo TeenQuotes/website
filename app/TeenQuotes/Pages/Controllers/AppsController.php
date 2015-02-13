@@ -1,12 +1,6 @@
 <?php namespace TeenQuotes\Pages\Controllers;
 
-use Agent;
-use BaseController;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\View;
-use LaraSetting;
+use Agent, BaseController, Lang, LaraSetting, Redirect, URL, View;
 
 class AppsController extends BaseController {
 
@@ -20,14 +14,15 @@ class AppsController extends BaseController {
 		// Tablet
 		if (Agent::isTablet())
 			return Redirect::route('apps.device', 'tablet');
-		
+
 		// Mobile
-		elseif (Agent::isMobile()) {
+		elseif (Agent::isMobile())
+		{
 			if (Agent::isAndroidOS())
 				return Redirect::route('apps.device', 'android');
 			elseif (Agent::isiOS())
 				return Redirect::route('apps.device', 'ios');
-			
+
 			return Redirect::route('apps.device', 'mobile');
 		}
 
@@ -55,14 +50,16 @@ class AppsController extends BaseController {
 		return View::make('apps.download', $data);
 	}
 
-	private function getIconTitle($device) {
-		switch ($device) {
+	private function getIconTitle($device)
+	{
+		switch ($device)
+		{
 			case 'android':
 			case 'ios':
 			case 'mobile':
 				$result = 'fa-mobile';
 				break;
-			
+
 			case 'tablet':
 				$result = 'fa-tablet';
 				break;

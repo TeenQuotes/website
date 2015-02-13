@@ -21,7 +21,7 @@ class GeoIPCityDetector implements CityDetector {
 	 *
 	 * @param  \Symfony\Component\HttpFoundation\Request $request
 	 * @see    \TeenQuotes\Countries\Models\Country
-	 * @return string The name of the detected city
+	 * @return string|null The name of the detected city
 	 * If we can't find a match, return null
 	 */
 	public function detectCity(Request $request)

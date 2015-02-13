@@ -1,25 +1,18 @@
 <?php namespace TeenQuotes\Quotes\Controllers;
 
-use BaseController;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\View;
-use TeenQuotes\Quotes\Models\Quote;
+use BaseController, Config, Input, Lang, Redirect, View;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
-use TeenQuotes\Users\Models\User;
 use TeenQuotes\Users\Repositories\UserRepository;
 
 class SearchController extends BaseController {
 
 	/**
-	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 * @var \TeenQuotes\Quotes\Repositories\QuoteRepository
 	 */
 	private $quoteRepo;
 
 	/**
-	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 * @var \TeenQuotes\Users\Repositories\UserRepository
 	 */
 	private $userRepo;
 
@@ -32,7 +25,7 @@ class SearchController extends BaseController {
 
 	/**
 	 * Show the search form
-	 * @return Response
+	 * @return \Response
 	 */
 	public function showForm()
 	{
@@ -47,7 +40,7 @@ class SearchController extends BaseController {
 	/**
 	 * Show results after a search
 	 * @var string $query The search query
-	 * @return Response
+	 * @return \Response
 	 */
 	public function getResults($query)
 	{
@@ -82,7 +75,7 @@ class SearchController extends BaseController {
 
 	/**
 	 * Dispatch the search form to search results
-	 * @return Response
+	 * @return \Response
 	 */
 	public function dispatcher()
 	{

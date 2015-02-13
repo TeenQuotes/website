@@ -1,20 +1,19 @@
 <?php namespace TeenQuotes\Stories\Controllers;
 
-use App, Auth, Input, Lang, Paginator, Redirect, View;
-use BaseController;
+use App, Auth, BaseController, Input, Lang, Paginator, Redirect, View;
 use TeenQuotes\Exceptions\StoryNotFoundException;
 use Laracasts\Validation\FormValidationException;
 
 class StoriesController extends BaseController {
-	
+
 	/**
 	 * The API controller
-	 * @var TeenQuotes\Api\V1\Controllers\StoriesController
+	 * @var \TeenQuotes\Api\V1\Controllers\StoriesController
 	 */
 	private $api;
 
 	/**
-	 * @var TeenQuotes\Stories\Validation\StoryValidator
+	 * @var \TeenQuotes\Stories\Validation\StoryValidator
 	 */
 	private $storyValidator;
 
@@ -30,7 +29,7 @@ class StoriesController extends BaseController {
 		$apiResponse = $this->api->index();
 		if ($this->responseIsNotFound($apiResponse))
 			throw new StoryNotFoundException;
-		
+
 		// Extract the stories collection
 		$response = $apiResponse->getOriginalData();
 		$stories = $response['stories'];
@@ -88,6 +87,6 @@ class StoriesController extends BaseController {
 		$response = $this->api->store(false);
 		if ($response->getStatusCode() == 201)
 			return Redirect::route('stories')
-				->with('success', Lang::get('stories.storyAddedSuccessfull', ['login' => Auth::user()->login]));		
+				->with('success', Lang::get('stories.storyAddedSuccessfull', ['login' => Auth::user()->login]));
 	}
 }

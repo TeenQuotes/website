@@ -1,9 +1,8 @@
 <?php namespace TeenQuotes\Countries\Console;
 
-use Illuminate\Support\Facades\Log;
+use LaraSetting, Log;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
-use LaraSetting;
 use TeenQuotes\Countries\Models\Country;
 use TeenQuotes\Countries\Repositories\CountryRepository;
 use TeenQuotes\Users\Repositories\UserRepository;
@@ -25,12 +24,12 @@ class MostCommonCountryCommand extends ScheduledCommand {
 	protected $description = 'Compute the most common country ID and update it in settings.json.';
 
 	/**
-	 * @var TeenQuotes\Countries\Repositories\CountryRepository
+	 * @var \TeenQuotes\Countries\Repositories\CountryRepository
 	 */
 	private $countryRepo;
 
 	/**
-	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 * @var \TeenQuotes\Users\Repositories\UserRepository
 	 */
 	private $userRepo;
 
@@ -50,7 +49,7 @@ class MostCommonCountryCommand extends ScheduledCommand {
 	/**
 	 * When a command should run
 	 *
-	 * @param Scheduler $scheduler
+	 * @param  \Indatus\Dispatcher\Scheduling\Schedulable
 	 * @return \Indatus\Dispatcher\Scheduling\Schedulable
 	 */
 	public function schedule(Schedulable $scheduler)
@@ -78,16 +77,16 @@ class MostCommonCountryCommand extends ScheduledCommand {
 	public function fire()
 	{
 		$currentMostCommonCountryID = Country::getDefaultCountry();
-		
+
 		// Get the most common country in the users' table
 		$mostCommonCountryID = $this->userRepo->mostCommonCountryId();
 
 		// The value was different, update it
 		if ($currentMostCommonCountryID != $mostCommonCountryID) {
-			
+
 			$country = $this->countryRepo->findById($mostCommonCountryID);
 			Log::info("Most common country updated. This is now ".$country->name.".");
-			
+
 			LaraSetting::set('countries.defaultCountry', $mostCommonCountryID);
 		}
 	}
@@ -99,7 +98,7 @@ class MostCommonCountryCommand extends ScheduledCommand {
 	 */
 	protected function getArguments()
 	{
-		return array();
+		return [];
 	}
 
 	/**
@@ -109,6 +108,6 @@ class MostCommonCountryCommand extends ScheduledCommand {
 	 */
 	protected function getOptions()
 	{
-		return array();
+		return [];
 	}
 }

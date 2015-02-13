@@ -9,15 +9,15 @@ use TeenQuotes\Newsletters\Models\Newsletter;
 class NewslettersManager {
 
 	/**
-	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
+	 * @var \TeenQuotes\Newsletters\Repositories\NewsletterRepository
 	 */
 	private $newslettersRepo;
 
 	/**
-	 * @var TeenQuotes\Newsletters\NewsletterList
+	 * @var \TeenQuotes\Newsletters\NewsletterList
 	 */
 	private $newslettersList;
-	
+
 	public function __construct(NewsletterRepository $newslettersRepo, NewsletterList $newslettersList)
 	{
 		$this->newslettersRepo = $newslettersRepo;
@@ -28,27 +28,26 @@ class NewslettersManager {
 	{
 		$this->newslettersRepo->createForUserAndType($user, $type);
 
-		if ($this->shouldCallAPI()) {
+		if ($this->shouldCallAPI())
 			$this->newslettersList->subscribeTo($this->getListNameFromType($type), $user);
-		}
 	}
 
 	public function deleteForUserAndType(User $u, $type)
 	{
-		if ($this->shouldCallAPI()) {
+		if ($this->shouldCallAPI())
 			$this->newslettersList->unsubscribeFrom($this->getListNameFromType($type), $u);
-		}
 
 		return $this->newslettersRepo->deleteForUserAndType($u, $type);
 	}
 
 	public function deleteForUsers(Collection $users)
 	{
-		if ($this->shouldCallAPI()) {
+		if ($this->shouldCallAPI())
+		{
 			foreach (Newsletter::getPossibleTypes() as $type)
 				$this->newslettersList->unsubscribeUsersFrom($this->getListNameFromType($type), $users);
 		}
-		
+
 		return $this->newslettersRepo->deleteForUsers($users);
 	}
 

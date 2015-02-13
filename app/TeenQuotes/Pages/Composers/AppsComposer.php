@@ -1,7 +1,6 @@
 <?php namespace TeenQuotes\Pages\Composers;
 
-use Agent;
-use JavaScript;
+use Agent, JavaScript;
 
 class AppsComposer {
 

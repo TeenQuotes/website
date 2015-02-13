@@ -31,12 +31,12 @@ class SendNewsletterCommand extends ScheduledCommand {
 	private $possibleTypes = ['daily', 'weekly'];
 
 	/**
-	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 * @var \TeenQuotes\Quotes\Repositories\QuoteRepository
 	 */
 	private $quoteRepo;
 
 	/**
-	 * @var TeenQuotes\Newsletters\NewsletterList
+	 * @var \TeenQuotes\Newsletters\NewsletterList
 	 */
 	private $newsletterList;
 
@@ -56,8 +56,8 @@ class SendNewsletterCommand extends ScheduledCommand {
 	/**
 	 * When a command should run
 	 *
-	 * @param Scheduler $scheduler
-	 * @return \Indatus\Dispatcher\Scheduling\Schedulable
+	 * @param  \Indatus\Dispatcher\Scheduling\Schedulable
+	 * @return array
 	 */
 	public function schedule(Schedulable $scheduler)
 	{
@@ -92,7 +92,7 @@ class SendNewsletterCommand extends ScheduledCommand {
 	 */
 	public function fire()
 	{
-		if ($this->eventTypeIsValid()) {		
+		if ($this->eventTypeIsValid()) {
 			$type = $this->getType();
 
 			$quotes = ($type == 'weekly') ? $this->retrieveWeeklyQuotes() : $this->retrieveDailyQuotes();
@@ -111,12 +111,12 @@ class SendNewsletterCommand extends ScheduledCommand {
 	}
 
 	private function retrieveWeeklyQuotes()
-	{		
+	{
 		return $this->quoteRepo->randomPublished($this->getNbQuotes());
 	}
 
 	private function retrieveDailyQuotes()
-	{		
+	{
 		return $this->quoteRepo->randomPublishedToday($this->getNbQuotes());
 	}
 

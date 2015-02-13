@@ -10,7 +10,7 @@ class DbCommentRepository implements CommentRepository {
 	/**
 	 * Retrieve a comment thanks to its ID
 	 * @param  int $id
-	 * @return TeenQuotes\Comments\Models\Comment
+	 * @return \TeenQuotes\Comments\Models\Comment
 	 */
 	public function findById($id)
 	{
@@ -22,7 +22,7 @@ class DbCommentRepository implements CommentRepository {
 	/**
 	 * Retrieve a comment thanks to its ID and add the related quote
 	 * @param  int $id
-	 * @return TeenQuotes\Comments\Models\Comment
+	 * @return \TeenQuotes\Comments\Models\Comment
 	 */
 	public function findByIdWithQuote($id)
 	{
@@ -37,7 +37,7 @@ class DbCommentRepository implements CommentRepository {
 	 * @param  int $quote_id
 	 * @param  int $page
 	 * @param  int $pagesize
-	 * @return Illuminate\Database\Eloquent\Collection
+	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function indexForQuote($quote_id, $page, $pagesize)
 	{
@@ -54,7 +54,7 @@ class DbCommentRepository implements CommentRepository {
 	 * @param  int $quote_id
 	 * @param  int $page
 	 * @param  int $pagesize
-	 * @return Illuminate\Database\Eloquent\Collection
+	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function indexForQuoteWithQuote($quote_id, $page, $pagesize)
 	{
@@ -69,10 +69,10 @@ class DbCommentRepository implements CommentRepository {
 
 	/**
 	 * Retrieve comments posted by a user for a page and a pagesize
-	 * @param  TeenQuotes\Users\Models\User $user
+	 * @param  \TeenQuotes\Users\Models\User $user
 	 * @param  int $page
 	 * @param  int $pagesize
-	 * @return Illuminate\Database\Eloquent\Collection
+	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function findForUser(User $user, $page, $pagesize)
 	{
@@ -87,7 +87,7 @@ class DbCommentRepository implements CommentRepository {
 
 	/**
 	 * Count the number of posted comments for a user
-	 * @param  TeenQuotes\Users\Models\User   $user
+	 * @param  \TeenQuotes\Users\Models\User $user
 	 * @return int
 	 */
 	public function countForUser(User $user)
@@ -97,10 +97,10 @@ class DbCommentRepository implements CommentRepository {
 
 	/**
 	 * Post a comment on a quote
-	 * @param  TeenQuotes\Quotes\Models\Quote  $q
-	 * @param  TeenQuotes\Users\Models\User   $u
+	 * @param  \TeenQuotes\Quotes\Models\Quote  $q
+	 * @param  \TeenQuotes\Users\Models\User $u
 	 * @param  string $content
-	 * @return TeenQuotes\Comments\Models\Comment
+	 * @return \TeenQuotes\Comments\Models\Comment
 	 */
 	public function create(Quote $q, User $u, $content)
 	{
@@ -115,9 +115,9 @@ class DbCommentRepository implements CommentRepository {
 
 	/**
 	 * Update the content of a comment
-	 * @param  TeenQuotes\Comments\Models\Comment|int   $c
+	 * @param  \TeenQuotes\Comments\Models\Comment|int   $c
 	 * @param  string $content
-	 * @return TeenQuotes\Comments\Models\Comment
+	 * @return \TeenQuotes\Comments\Models\Comment
 	 */
 	public function update($c, $content)
 	{
@@ -132,7 +132,7 @@ class DbCommentRepository implements CommentRepository {
 	/**
 	 * Delete a comment
 	 * @param  int $id
-	 * @return TeenQuotes\Comments\Models\Comment
+	 * @return \TeenQuotes\Comments\Models\Comment
 	 */
 	public function delete($id)
 	{
@@ -141,8 +141,8 @@ class DbCommentRepository implements CommentRepository {
 
 	/**
 	 * Get a top of quotes by the number of comments, in descending order
-	 * @param int $page
-	 * @param int $pagesize
+	 * @param  int $page
+	 * @param  int $pagesize
 	 * @return array The ID of the quotes
 	 */
 	public function getTopQuotes($page, $pagesize)
@@ -160,7 +160,7 @@ class DbCommentRepository implements CommentRepository {
 
 	/**
 	 * Get the number of comments for a quote
-	 * @param  TeenQuotes\Quotes\Models\Quote  $q
+	 * @param  \TeenQuotes\Quotes\Models\Quote  $q
 	 * @return int
 	 */
 	public function nbCommentsForQuote(Quote $q)
@@ -170,9 +170,9 @@ class DbCommentRepository implements CommentRepository {
 
 	/**
 	 * Retrieve a comment by its ID or by its instance
-	 * @param  TeenQuotes\Comments\Models\Comment|int $c
-	 * @return TeenQuotes\Comments\Models\Comment
-	 * @throws InvalidArgumentException If we can't retrieve a comment with the given data
+	 * @param  \TeenQuotes\Comments\Models\Comment|int $c
+	 * @return \TeenQuotes\Comments\Models\Comment
+	 * @throws \InvalidArgumentException If we can't retrieve a comment with the given data
 	 */
 	private function retrieveComment($c)
 	{

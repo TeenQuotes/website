@@ -1,7 +1,6 @@
 <?php namespace TeenQuotes\Stories\Presenters;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Str;
+use App, Str;
 use Laracasts\Presenter\Presenter;
 use TeenQuotes\Quotes\Models\Quote;
 

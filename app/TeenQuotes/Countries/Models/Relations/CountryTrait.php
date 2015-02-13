@@ -1,9 +1,11 @@
 <?php namespace TeenQuotes\Countries\Models\Relations;
 
+use TeenQuotes\Users\Models\User;
+
 trait CountryTrait {
-	
+
 	public function users()
 	{
-		return $this->hasMany('TeenQuotes\Users\Models\User', 'country', 'id');
+		return $this->hasMany(User::class, 'country', 'id');
 	}
 }

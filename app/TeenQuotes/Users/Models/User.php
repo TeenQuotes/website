@@ -41,22 +41,22 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public static $appendsFull = ['total_comments', 'favorite_count', 'added_fav_count', 'published_quotes_count', 'is_subscribed_to_daily', 'is_subscribed_to_weekly'];
 
 	/**
-	 * @var TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 * @var \TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
 	 */
 	private $favQuoteRepo;
 
 	/**
-	 * @var TeenQuotes\Settings\Repositories\SettingRepository
+	 * @var \TeenQuotes\Settings\Repositories\SettingRepository
 	 */
 	private $settingRepo;
 
 	/**
-	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
+	 * @var \TeenQuotes\Newsletters\Repositories\NewsletterRepository
 	 */
 	private $newsletterRepo;
 
 	/**
-	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 * @var \TeenQuotes\Quotes\Repositories\QuoteRepository
 	 */
 	private $quoteRepo;
 

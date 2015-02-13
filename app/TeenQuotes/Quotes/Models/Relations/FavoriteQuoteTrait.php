@@ -1,14 +1,17 @@
 <?php namespace TeenQuotes\Quotes\Models\Relations;
 
+use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Users\Models\User;
+
 trait FavoriteQuoteTrait {
 
 	public function user()
 	{
-		return $this->belongsTo('TeenQuotes\Users\Models\User');
+		return $this->belongsTo(User::class);
 	}
 
 	public function quote()
 	{
-		return $this->belongsTo('TeenQuotes\Quotes\Models\Quote');
+		return $this->belongsTo(Quote::class);
 	}
 }

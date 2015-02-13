@@ -8,7 +8,7 @@ interface TagRepository {
 	/**
 	 * Create a new tag
 	 *
-	 * @param string $name
+	 * @param  string $name
 	 * @return \TeenQuotes\Tags\Models\Tag
 	 */
 	public function create($name);
@@ -16,7 +16,7 @@ interface TagRepository {
 	/**
 	 * Get a tag thanks to its name
 	 *
-	 * @param string $name
+	 * @param  string $name
 	 * @return \TeenQuotes\Tags\Models\Tag|null
 	 */
 	public function getByName($name);
@@ -24,16 +24,16 @@ interface TagRepository {
 	/**
 	 * Add a tag to a quote
 	 *
-	 * @param \TeenQuotes\Quotes\Models\Quote $q
-	 * @param \TeenQuotes\Tags\Models\Tag $t
+	 * @param  \TeenQuotes\Quotes\Models\Quote $q
+	 * @param  \TeenQuotes\Tags\Models\Tag $t
 	 */
 	public function tagQuote(Quote $q, Tag $t);
 
 	/**
 	 * Remove a tag from a quote
 	 *
-	 * @param \TeenQuotes\Quotes\Models\Quote $q
-	 * @param \TeenQuotes\Tags\Models\Tag $t
+	 * @param  \TeenQuotes\Quotes\Models\Quote $q
+	 * @param  \TeenQuotes\Tags\Models\Tag $t
 	 */
 	public function untagQuote(Quote $q, Tag $t);
 

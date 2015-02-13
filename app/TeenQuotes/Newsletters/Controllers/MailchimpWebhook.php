@@ -8,17 +8,17 @@ use TeenQuotes\Users\Repositories\UserRepository;
 class MailchimpWebhook extends BaseController {
 
 	/**
-	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
+	 * @var \TeenQuotes\Newsletters\Repositories\NewsletterRepository
 	 */
 	private $newsletterRepo;
 
 	/**
-	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 * @var \TeenQuotes\Users\Repositories\UserRepository
 	 */
 	private $userRepo;
 
 	/**
-	 * @var TeenQuotes\Newsletters\NewsletterList
+	 * @var \TeenQuotes\Newsletters\NewsletterList
 	 */
 	private $newsletterList;
 

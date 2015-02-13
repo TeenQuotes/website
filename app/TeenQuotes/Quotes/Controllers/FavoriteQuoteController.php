@@ -1,7 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Controllers;
 
-use App, Auth, Request, Response;
-use BaseController;
+use App, Auth, BaseController, Request, Response;
 use Laracasts\Validation\FormValidationException;
 use TeenQuotes\Quotes\Models\FavoriteQuote;
 use TeenQuotes\Quotes\Models\Quote;
@@ -10,12 +9,12 @@ class FavoriteQuoteController extends BaseController {
 
 	/**
 	 * The API controller
-	 * @var TeenQuotes\Api\V1\Controllers\QuotesFavoriteController
+	 * @var \TeenQuotes\Api\V1\Controllers\QuotesFavoriteController
 	 */
 	private $api;
 
 	/**
-	 * @var TeenQuotes\Quotes\Validation\FavoriteQuoteValidator
+	 * @var \TeenQuotes\Quotes\Validation\FavoriteQuoteValidator
 	 */
 	private $favQuoteValidator;
 
@@ -28,15 +27,15 @@ class FavoriteQuoteController extends BaseController {
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function store($quote_id)
 	{
-		if (Request::ajax()) {
-
+		if (Request::ajax())
+		{
 			// Call the API to store the favorite
 			$response = $this->api->postFavorite($quote_id);
-			
+
 			return Response::json(['success' => ($response->getStatusCode() == 201)], 200);
 		}
 	}
@@ -45,12 +44,12 @@ class FavoriteQuoteController extends BaseController {
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int  $id
-	 * @return Response
+	 * @return \Response
 	 */
 	public function destroy($quote_id)
 	{
-		if (Request::ajax()) {
-
+		if (Request::ajax())
+		{
 			$user = Auth::user();
 			$data = [
 				'quote_id' => $quote_id,
@@ -70,7 +69,7 @@ class FavoriteQuoteController extends BaseController {
 
 			// Call the API to delete the favorite
 			$response = $this->api->deleteFavorite($quote_id, false);
-							
+
 			if ($response->getStatusCode() == 200)
 				return Response::json(['success' => true], 200);
 		}

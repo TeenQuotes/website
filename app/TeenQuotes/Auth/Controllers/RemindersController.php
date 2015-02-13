@@ -1,13 +1,7 @@
 <?php namespace TeenQuotes\Auth\Controllers;
 
-use BaseController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\View;
+use Auth, BaseController, Input, Lang, Password;
+use Redirect, URL, View;
 use TeenQuotes\Exceptions\TokenNotFoundException;
 
 class RemindersController extends BaseController {
@@ -20,7 +14,7 @@ class RemindersController extends BaseController {
 	/**
 	 * Display the password reminder view.
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function getRemind()
 	{
@@ -30,7 +24,7 @@ class RemindersController extends BaseController {
 	/**
 	 * Handle a POST request to remind a user of their password.
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function postRemind()
 	{
@@ -52,12 +46,12 @@ class RemindersController extends BaseController {
 	/**
 	 * Display the password reset view for the given token.
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function getReset()
 	{
 		$token = Input::get('token', null);
-		
+
 		if (is_null($token))
 			throw new TokenNotFoundException;
 
@@ -75,11 +69,10 @@ class RemindersController extends BaseController {
 	/**
 	 * Handle a POST request to reset a user's password.
 	 *
-	 * @return Response
+	 * @return \Response
 	 */
 	public function postReset()
 	{
-
 		// Here we don't use password_confirmation but we keep it
 		// to call the reset function
 		$credentials = [
