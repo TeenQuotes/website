@@ -2,8 +2,9 @@
 
 use JavaScript, Lang, Session;
 use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Tools\Composers\AbstractDeepLinksComposer;
 
-class ShowComposer {
+class ShowComposer extends AbstractDeepLinksComposer {
 
 	public function compose($view)
 	{
@@ -29,6 +30,9 @@ class ShowComposer {
 		}
 
 		$view->with('colors', $colors);
+
+		// Deep links
+		$view->with('deepLinksArray', $this->createDeepLinks('quotes/'.$id));
 
 		// Perform translation on tags
 		$view->with('tagsName', $this->transformTags($data['quote']));
