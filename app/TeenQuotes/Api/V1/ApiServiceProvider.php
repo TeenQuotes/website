@@ -1,6 +1,8 @@
 <?php namespace TeenQuotes\Api\V1;
 
 use Illuminate\Support\ServiceProvider;
+use TeenQuotes\Exceptions\ApiNotFoundException;
+use TeenQuotes\Http\Facades\Response;
 
 class ApiServiceProvider extends ServiceProvider {
 
@@ -36,12 +38,12 @@ class ApiServiceProvider extends ServiceProvider {
 
 	private function registerErrorHandlers()
 	{
-		$this->app->error(function(\TeenQuotes\Exceptions\ApiNotFoundException $exception, $code)
+		$this->app->error(function(ApiNotFoundException $exception, $code)
 		{
 			$status = 404;
 			$error = 'No '.$exception->getMessage().' have been found.';
 
-			return \TeenQuotes\Http\Facades\Response::json(compact('status', 'error'), 404);
+			return Response::json(compact('status', 'error'), 404);
 		});
 	}
 

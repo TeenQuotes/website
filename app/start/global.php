@@ -67,7 +67,7 @@ App::error(function(Laracasts\Validation\FormValidationException $e, $code)
 	if (Request::wantsJson()) {
 
 		$failedKey = array_keys($e->getErrors()->getMessages())[0];
-		
+
 		return Response::json([
 			'status' => 'wrong_'.$failedKey,
 			'error'  => $e->getErrors()->first($failedKey),
@@ -84,7 +84,7 @@ App::error(function(TeenQuotes\Exceptions\TQNotFoundException $exception, $code)
 {
 	$resourceName = strtolower(str_replace("NotFoundException", "", class_basename(get_class($exception))));
 
-	if (in_array($resourceName, ['quote', 'user', 'token', 'story'])) {
+	if (in_array($resourceName, ['quote', 'user', 'tag', 'token', 'story'])) {
 		$data = [
 			'content'   => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.'.$resourceName.'Text')]),
 			'title'     => Lang::get('errors.'.$resourceName.'NotFoundTitle'),
@@ -97,7 +97,7 @@ App::error(function(TeenQuotes\Exceptions\TQNotFoundException $exception, $code)
 			'eventAction'   => $resourceName,
 			'eventLabel'    => URL::current()
     	]);
-		
+
 		return Response::view('errors.default', $data, 404);
 	}
 });
@@ -124,7 +124,7 @@ App::missing(function($exception)
 App::pushError(function(Exception $exception, $code)
 {
 	Log::error($exception);
-	
+
 	// Show a custom view
 	if (App::environment() != 'local')
 		return Response::view('errors.500', ['pageTitle' => 'Oops, something is wrong!'], $code);
