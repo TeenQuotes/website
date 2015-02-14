@@ -102,6 +102,7 @@ return array(
 
 		'Antoineaugusti\LaravelEasyrec\LaravelEasyrecServiceProvider',
 		'Antoineaugusti\LaravelSentimentAnalysis\LaravelSentimentAnalysisServiceProvider',
+		'Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider',
 		'Buonzz\GeoIP\Laravel4\ServiceProviders\GeoIPServiceProvider',
 		'Dinesh\Bugonemail\BugonemailServiceProvider',
 		'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
@@ -193,6 +194,7 @@ return array(
 		'AuthorizationServer' => 'LucaDegasperi\OAuth2Server\Facades\AuthorizationServerFacade',
 		'BaseController'      => 'TeenQuotes\Tools\BaseController',
 		'Blade'               => 'Illuminate\Support\Facades\Blade',
+		'Bugsnag'             => 'Bugsnag\BugsnagLaravel\BugsnagFacade',
 		'Cache'               => 'Illuminate\Support\Facades\Cache',
 		'Carbon'              => 'Carbon\Carbon',
 		'ClassLoader'         => 'Illuminate\Support\ClassLoader',

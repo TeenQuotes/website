@@ -38,7 +38,8 @@
 		"vlucas/phpdotenv": "~1.0",
 		"iron-io/iron_mq": "~1.0",
 		"healey/robots": "dev-master",
-		"ivkos/pushbullet": "~2.0"
+		"ivkos/pushbullet": "~2.0",
+		"bugsnag/bugsnag-laravel": "1.*"
 	},
 	"require-dev": {
 		"way/generators": "2.*",
