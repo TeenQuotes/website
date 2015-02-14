@@ -7,4 +7,6 @@ return [
 	'friends' => 'Friends',
 	'holiday' => 'Holiday',
 	'music'   => 'Music',
+	'awkward' => 'Awkward',
+	'book'    => 'Book',
 ];
