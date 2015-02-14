@@ -7,7 +7,8 @@
 	@if (isset($pageDescription))
 		<meta name="description" content="{{ $pageDescription }}">
 	@endif
-	{{ HTML::style('assets/css/styles.min.css') }}
+
+	<link rel="stylesheet" href="{{ elixir('assets/css/styles.min.css') }}">
 	<link rel="shortcut icon" href="/assets/images/favicon.png"/>
 
 	<!-- Special cards for social networks -->
@@ -21,7 +22,7 @@
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-	
+
 	<!-- Color of the address bar in Chrome -->
 	<meta name="theme-color" content="#22313F">
 </head>

@@ -56,7 +56,10 @@
 		],
 		"psr-0": {
 			"TeenQuotes": "app"
-		}
+		},
+		"files": [
+			"app/helpers.php"
+		]
 	},
 	"scripts": {
 		"post-install-cmd": [
