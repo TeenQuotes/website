@@ -18,7 +18,8 @@ Teen Quotes lets teenagers share their daily thoughts and feelings. It describes
 - [Mailchimp](http://mailchimp.com) for newsletters
 - [Easyrec](http://easyrec.org) for the recommendation system (not actively used for the moment)
 - [iron.io](http://www.iron.io) for message queues
-- The SMS API of Free. Free is a mobile carrier in France. Used for notifications for administrators.
+- [Pushbullet](https://www.pushbullet.com) for notifications for administrators
+- [Bugsnag](https://bugsnag.com) to track exceptions
 
 # How to run locally?
 Update environment variables with your values in the file `.env.example` and then rename the file to `.env`.
@@ -37,7 +38,7 @@ If you want to edit JS files and Compass files, you will need to install [Compas
 ```bash
 # Install Gulp globally
 $ sudo npm install -g gulp
-# Grap required packages
+# Grab required packages
 $ npm install
 ```
 
