@@ -1,8 +1,6 @@
 <?php namespace TeenQuotes\Users\Repositories;
 
-use Carbon;
-use Illuminate\Support\Facades\DB;
-use InvalidArgumentException;
+use Carbon, DB, InvalidArgumentException;
 use TeenQuotes\Users\Models\User;
 
 class DbUserRepository implements UserRepository {

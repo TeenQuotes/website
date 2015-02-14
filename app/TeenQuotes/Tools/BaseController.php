@@ -1,9 +1,7 @@
 <?php namespace TeenQuotes\Tools;
 
-use Controller;
+use App, Controller, View;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\View;
 use TeenQuotes\Http\JsonResponse;
 
 class BaseController extends Controller {

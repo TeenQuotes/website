@@ -1,7 +1,6 @@
 <?php namespace TeenQuotes\Users\Composers;
 
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Lang;
+use Config, Lang;
 use TeenQuotes\Newsletters\Models\Newsletter;
 use TeenQuotes\Tools\Composers\AbstractDeepLinksComposer;
 

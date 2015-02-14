@@ -58,7 +58,8 @@ class ShowComposer implements QuotesColorsExtractor {
 
 		$colors = [];
 
-		switch ($this->type) {
+		switch ($this->type)
+		{
 			case 'favorites':
 				$colors = Quote::storeQuotesColors($quotes->lists('id'));
 				break;

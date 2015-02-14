@@ -56,7 +56,7 @@ class EmailSpecialEventCommand extends ScheduledCommand {
 	 * When a command should run
 	 *
 	 * @param  \Indatus\Dispatcher\Scheduling\Schedulable
-	 * @return \Indatus\Dispatcher\Scheduling\Schedulable
+	 * @return array
 	 */
 	public function schedule(Schedulable $scheduler)
 	{

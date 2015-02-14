@@ -1,8 +1,6 @@
 <?php namespace TeenQuotes\Users\Composers;
 
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\URL;
+use Lang, Route, URL;
 use TeenQuotes\Tools\Composers\AbstractDeepLinksComposer;
 
 class WelcomeComposer extends AbstractDeepLinksComposer {
@@ -14,13 +12,13 @@ class WelcomeComposer extends AbstractDeepLinksComposer {
 		$type = $viewData['type'];
 
 		$welcomeText = Lang::get('users.newUserWelcomeProfile', ['login' => $login]);
-		
+
 		$updateProfileTitle = Lang::get('users.newUserTutorialProfileTitle');
 		$updateProfileContent = Lang::get('users.newUserTutorialProfileContent', ['url' => URL::route('users.edit', $login)]);
-		
+
 		$addingQuoteTitle = Lang::get('users.newUserTutorialAddingQuoteTitle');
 		$addingQuoteContent = Lang::get('users.newUserTutorialAddingQuoteContent', ['url' => URL::route('addquote')]);
-		
+
 		$addingFavoritesTitle = Lang::get('users.newUserTutorialFavoritesTitle');
 		$addingFavoritesContent = Lang::get('users.newUserTutorialFavoritesContent');
 

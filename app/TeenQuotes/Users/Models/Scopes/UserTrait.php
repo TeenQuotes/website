@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Users\Models\Scopes;
 
-use Illuminate\Support\Facades\DB;
+use DB;
 
 trait UserTrait {
 

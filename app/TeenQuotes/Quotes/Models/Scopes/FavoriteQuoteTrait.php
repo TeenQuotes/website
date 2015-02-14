@@ -1,7 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Models\Scopes;
 
-use NotAllowedException;
-use Illuminate\Support\Facades\Auth;
+use Auth, NotAllowedException;
 
 trait FavoriteQuoteTrait {
 

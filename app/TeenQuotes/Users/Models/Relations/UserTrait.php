@@ -1,50 +1,58 @@
 <?php namespace TeenQuotes\Users\Models\Relations;
 
+use TeenQuotes\Comments\Models\Comment;
+use TeenQuotes\Countries\Models\Country;
+use TeenQuotes\Newsletters\Models\Newsletter;
+use TeenQuotes\Quotes\Models\Quote;
+use TeenQuotes\Settings\Models\Setting;
+use TeenQuotes\Stories\Models\Story;
+use TeenQuotes\Users\Models\User;
+
 trait UserTrait {
 
 	public function comments()
 	{
-		return $this->hasMany('TeenQuotes\Comments\Models\Comment');
+		return $this->hasMany(Comment::class);
 	}
 
 	public function countryObject()
 	{
-		return $this->belongsTo('TeenQuotes\Countries\Models\Country', 'country', 'id');
+		return $this->belongsTo(Country::class, 'country', 'id');
 	}
 
 	public function newsletters()
 	{
-		return $this->hasMany('TeenQuotes\Newsletters\Models\Newsletter');
+		return $this->hasMany(Newsletter::class);
 	}
 
 	public function quotes()
 	{
-		return $this->hasMany('TeenQuotes\Quotes\Models\Quote');
+		return $this->hasMany(Quote::class);
 	}
 
 	public function settings()
 	{
-		return $this->hasMany('TeenQuotes\Settings\Models\Setting');
+		return $this->hasMany(Setting::class);
 	}
 
 	public function stories()
 	{
-		return $this->hasMany('TeenQuotes\Stories\Models\Story');
+		return $this->hasMany(Story::class);
 	}
 
 	public function visitors()
 	{
-		return $this->belongsToMany('TeenQuotes\Users\Models\User', 'profile_visitors', 'visitor_id', 'user_id')->withTimestamps();
+		return $this->belongsToMany(User::class, 'profile_visitors', 'visitor_id', 'user_id')->withTimestamps();
 	}
 
 	public function visited()
 	{
-		return $this->belongsToMany('TeenQuotes\Users\Models\User', 'profile_visitors', 'user_id', 'visitor_id')->withTimestamps();
+		return $this->belongsToMany(User::class, 'profile_visitors', 'user_id', 'visitor_id')->withTimestamps();
 	}
 
 	public function favoriteQuotes()
 	{
-		return $this->belongsToMany('TeenQuotes\Quotes\Models\Quote', 'favorite_quotes')
+		return $this->belongsToMany(Quote::class, 'favorite_quotes')
 			->with('user')
 			->orderBy('favorite_quotes.id', 'DESC');
 	}

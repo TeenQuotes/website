@@ -1,9 +1,6 @@
 <?php namespace TeenQuotes\Users\Presenters;
 
-use Carbon;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Str;
+use Carbon, Config, Request, Str;
 use Laracasts\Presenter\Presenter;
 
 class UserPresenter extends Presenter {

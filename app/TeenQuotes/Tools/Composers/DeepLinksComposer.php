@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Tools\Composers;
 
-use Illuminate\Support\Facades\Route;
+use Route;
 use TeenQuotes\Tools\Composers\AbstractDeepLinksComposer;
 
 class DeepLinksComposer extends AbstractDeepLinksComposer {

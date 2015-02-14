@@ -170,7 +170,8 @@ class UsersController extends BaseController {
 		// If we have nothing to show, try to redirect somewhere else
 		switch ($type) {
 			case 'favorites':
-				if ( ! $favoritesPossible) {
+				if ( ! $favoritesPossible)
+				{
 					if ($publishPossible)
 						return Redirect::route('users.show', $user->login);
 					if ($commentsPossible)
@@ -179,7 +180,8 @@ class UsersController extends BaseController {
 				break;
 
 			case 'comments':
-				if ( ! $commentsPossible) {
+				if ( ! $commentsPossible)
+				{
 					if ($publishPossible)
 						return Redirect::route('users.show', $user->login);
 					if ($favoritesPossible)
@@ -189,7 +191,8 @@ class UsersController extends BaseController {
 
 			// Asked for published quotes
 			case 'published':
-				if ( ! $publishPossible) {
+				if ( ! $publishPossible)
+				{
 					if ($favoritesPossible)
 						return Redirect::route('users.show', [$user->login, 'favorites']);
 					if ($commentsPossible)
@@ -412,8 +415,7 @@ class UsersController extends BaseController {
 		try {
 			$this->userValidator->validateUpdatePassword($data);
 		}
-		catch (FormValidationException $e)
-		{
+		catch (FormValidationException $e) {
 			return Redirect::to(URL::route('users.edit', Auth::user()->login)."#edit-password")
 				->withErrors($e->getErrors())
 				->withInput(Input::all());
