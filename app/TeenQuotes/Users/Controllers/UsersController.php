@@ -91,6 +91,16 @@ class UsersController extends BaseController {
 	}
 
 	/**
+	 * Throw a "not found" exception
+	 *
+	 * @throws \TeenQuotes\Exceptions\UserNotFoundException
+	 */
+	public function notFound()
+	{
+		throw new UserNotFoundException;
+	}
+
+	/**
 	 * Displays the signup form
 	 *
 	 * @return \Response
