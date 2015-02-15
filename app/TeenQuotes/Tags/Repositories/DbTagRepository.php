@@ -1,6 +1,5 @@
 <?php namespace TeenQuotes\Tags\Repositories;
 
-use Lang;
 use TeenQuotes\Tags\Models\Tag;
 use TeenQuotes\Quotes\Models\Quote;
 
