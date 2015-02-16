@@ -17,6 +17,7 @@ elixir(function(mix) {
 			'cosmo.css',
 			'animate.css',
 			'font-awesome.css',
+			'flags.css',
 			'screen.css'
 		], outputCSS + '/styles.min.css', inputCSS)
 		.scripts([

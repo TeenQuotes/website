@@ -28,6 +28,7 @@
 				<!-- Country -->
 				@if ( ! is_null($user->country) AND ! empty($user->country))
 					{{{ $user->country_object->name }}}
+					@include('countries.partials.flag', ['country' => $user->country_object])
 				@endif
 				<br/>
 			@endif

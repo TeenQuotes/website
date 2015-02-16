@@ -11,6 +11,7 @@
 		@if ( ! is_null($user->country))
 			<div class="country hidden-xs">
 				{{ $user->country_object->name}}
+				@include('countries.partials.flag', ['country' => $user->country_object])
 			</div>
 		@endif
 

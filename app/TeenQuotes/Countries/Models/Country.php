@@ -1,14 +1,35 @@
 <?php namespace TeenQuotes\Countries\Models;
 
 use Eloquent, LaraSetting;
+use Laracasts\Presenter\PresentableTrait;
 use TeenQuotes\Countries\Models\Relations\CountryTrait as CountryRelationsTrait;
 
 class Country extends Eloquent {
 
-	use CountryRelationsTrait;
+	use CountryRelationsTrait, PresentableTrait;
 
+	/**
+	 * The name of the presenter class
+	 * @var string
+	 */
+	protected $presenter = 'TeenQuotes\Countries\Presenters\CountryPresenter';
+
+	/**
+	 * The database table used by the model.
+	 * @var string
+	 */
 	protected $table = 'countries';
+
+	/**
+	 * Does the model include timestamps?
+	 * @var boolean
+	 */
 	public $timestamps = false;
+
+	/**
+	 * Fillable properties
+	 * @var array
+	 */
 	protected $fillable = ['name', 'country_code'];
 
 	/**

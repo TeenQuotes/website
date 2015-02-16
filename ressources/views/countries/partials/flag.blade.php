@@ -1,0 +1,1 @@
+<img src="blank.gif" class="flag {{$country->present()->countryCodeClass()}}" alt="{{{ $user->country_object->name }}}" />
