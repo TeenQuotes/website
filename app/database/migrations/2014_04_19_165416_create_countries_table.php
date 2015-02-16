@@ -16,6 +16,7 @@ class CreateCountriesTable extends Migration {
 			$table->engine = "InnoDB";
 			$table->increments('id');
 			$table->string('name')->unique();
+			$table->string('country_code', 5)->unique();
 		});
 	}
 

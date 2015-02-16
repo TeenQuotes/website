@@ -23,6 +23,7 @@ class CountryRepoCest {
 		$country = $this->repo->findById($c->id);
 
 		$I->assertEquals($c->name, $country->name);
+		$I->assertEquals($c->country_code, $country->country_code);
 	}
 
 	public function testListNameAndId(IntegrationTester $I)

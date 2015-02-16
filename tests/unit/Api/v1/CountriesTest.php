@@ -4,12 +4,12 @@ use Illuminate\Http\Response;
 
 class CountriesTest extends ApiTest {
 
-	protected $requiredAttributes = ['id', 'name'];
+	protected $requiredAttributes = ['id', 'name', 'country_code'];
 
 	protected function _before()
 	{
 		parent::_before();
-		
+
 		$this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Country');
 
 		$this->unitTester->setContentType('comments');
@@ -36,7 +36,7 @@ class CountriesTest extends ApiTest {
 	{
 		// List all countries
 		$this->unitTester->doRequest('show');
-		$object = $this->unitTester->getDecodedJson(); 
+		$object = $this->unitTester->getDecodedJson();
 
 		$this->assertCount($this->unitTester->getNbRessources(), $object);
 		foreach ($object as $country)

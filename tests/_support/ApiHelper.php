@@ -449,10 +449,12 @@ class ApiHelper extends Module {
 		// Assert attributes
 		$this->assertObjectHasAttribute('id', $object);
 		$this->assertObjectHasAttribute('name', $object);
+		$this->assertObjectHasAttribute('country_code', $object);
 
 		// Assert types
 		$this->assertTrue(is_integer($object->id));
 		$this->assertTrue(is_string($object->name));
+		$this->assertTrue(is_string($object->country_code));
 	}
 
 	private function assertObjectIsNewsletter($object)

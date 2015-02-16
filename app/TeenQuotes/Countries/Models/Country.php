@@ -9,7 +9,7 @@ class Country extends Eloquent {
 
 	protected $table = 'countries';
 	public $timestamps = false;
-	protected $fillable = ['name'];
+	protected $fillable = ['name', 'country_code'];
 
 	/**
 	 * The ID of the United States
