@@ -119,6 +119,7 @@ class ApiServiceProvider extends ServiceProvider {
 			$this->app['router']->get('users/{user_id}', ['uses' => 'UsersController@show']);
 			$this->app['router']->put('users/password', ['uses' => 'UsersController@putPassword']);
 			$this->app['router']->put('users/settings', ['uses' => 'UsersController@putSettings']);
+			$this->app['router']->get('users/countries/{country_id}', ['uses' => 'UsersController@fromCountry']);
 			$this->app['router']->get('users/search/{query}', ['uses' => 'UsersController@getSearch']);
 		});
 	}
