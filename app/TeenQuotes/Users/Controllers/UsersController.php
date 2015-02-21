@@ -87,6 +87,9 @@ class UsersController extends BaseController {
 	{
 		$user = $this->userRepo->getById($userId);
 
+		if (is_null($user))
+			return $this->notFound();
+
 		return Redirect::route('users.show', $user->login, 301);
 	}
 
