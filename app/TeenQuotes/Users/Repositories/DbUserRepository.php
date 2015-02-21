@@ -282,6 +282,18 @@ class DbUserRepository implements UserRepository {
 			->get();
 	}
 
+	/**
+	 * Count the number of users who are from a country
+	 * @param  \TeenQuotes\Countries\Models\Country $c
+	 * @return int
+	 */
+	public function countFromCountry(Country $c)
+	{
+		return User::notHidden()
+			->fromCountry($c)
+			->count();
+	}
+
 	private function computeSkip($page, $pagesize)
 	{
 		return $pagesize * ($page - 1);

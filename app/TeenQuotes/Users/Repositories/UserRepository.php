@@ -151,4 +151,11 @@ interface UserRepository {
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function fromCountry(Country $c, $page, $pagesize);
+
+	/**
+	 * Count the number of users who are from a country without an hidden profile
+	 * @param  \TeenQuotes\Countries\Models\Country $c
+	 * @return int
+	 */
+	public function countFromCountry(Country $c);
 }

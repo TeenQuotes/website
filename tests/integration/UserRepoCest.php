@@ -274,6 +274,22 @@ class UserRepoCest {
 		$I->assertEquals(2, count($this->repo->fromCountry($firstCountry, 1, 2)));
 	}
 
+	public function testCountFromCountry(IntegrationTester $I)
+	{
+		$firstCountry = $this->countryRepo->findById(1);
+		$secondCountry = $this->countryRepo->findById(2);
+
+		// Create some users from the first country
+		$I->insertInDatabase(2, 'User', ['country' => $firstCountry->id]);
+		// One user with an hidden profile
+		$I->insertInDatabase(1, 'User', ['country' => $firstCountry->id, 'hide_profile' => 1]);
+
+		// We shouldn't count the user with an hidden profile
+		$I->assertEquals(2, $this->repo->countFromCountry($firstCountry));
+
+		$I->assertEquals(0, $this->repo->countFromCountry($secondCountry));
+	}
+
 	private function insertUsersForSearch(IntegrationTester $I, $partial)
 	{
 		$I->insertInDatabase(2, 'User');
