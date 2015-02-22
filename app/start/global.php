@@ -64,8 +64,9 @@ App::error(function(TeenQuotes\Exceptions\HiddenProfileException $exception, $co
 
 App::error(function(Laracasts\Validation\FormValidationException $e, $code)
 {
-	if (Request::wantsJson()) {
-
+	// In the API
+	if (Request::wantsJson())
+	{
 		$failedKey = array_keys($e->getErrors()->getMessages())[0];
 
 		return Response::json([
@@ -79,12 +80,12 @@ App::error(function(Laracasts\Validation\FormValidationException $e, $code)
 		->withErrors($e->getErrors());
 });
 
-// Catch QuoteNotFoundException, StoryNotFoundException, TokenNotFoundException, UserNotFoundException
 App::error(function(TeenQuotes\Exceptions\TQNotFoundException $exception, $code)
 {
 	$resourceName = strtolower(str_replace("NotFoundException", "", class_basename(get_class($exception))));
 
-	if (in_array($resourceName, ['quote', 'user', 'tag', 'token', 'story'])) {
+	if (in_array($resourceName, ['quote', 'user', 'tag', 'token', 'story', 'country']))
+	{
 		$data = [
 			'content'   => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.'.$resourceName.'Text')]),
 			'title'     => Lang::get('errors.'.$resourceName.'NotFoundTitle'),
