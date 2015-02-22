@@ -1,6 +1,7 @@
 <?php namespace TeenQuotes\Users\Repositories;
 
 use Carbon, DB, InvalidArgumentException;
+use TeenQuotes\Countries\Models\Country;
 use TeenQuotes\Users\Models\User;
 
 class DbUserRepository implements UserRepository {
@@ -263,6 +264,34 @@ class DbUserRepository implements UserRepository {
 		return User::where('last_visit', '<=', Carbon::now()->subYear())
 			->has('newsletters')
 			->get();
+	}
+
+	/**
+	 * Get users from a country without an hidden profile
+	 * @param  \TeenQuotes\Countries\Models\Country $c
+	 * @param  int $page
+	 * @param  int $pagesize
+	 * @return \Illuminate\Database\Eloquent\Collection
+	 */
+	public function fromCountry(Country $c, $page, $pagesize)
+	{
+		return User::notHidden()
+			->fromCountry($c)
+			->take($pagesize)
+			->skip($this->computeSkip($page, $pagesize))
+			->get();
+	}
+
+	/**
+	 * Count the number of users who are from a country
+	 * @param  \TeenQuotes\Countries\Models\Country $c
+	 * @return int
+	 */
+	public function countFromCountry(Country $c)
+	{
+		return User::notHidden()
+			->fromCountry($c)
+			->count();
 	}
 
 	private function computeSkip($page, $pagesize)

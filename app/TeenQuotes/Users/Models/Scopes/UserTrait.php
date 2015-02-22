@@ -1,6 +1,7 @@
 <?php namespace TeenQuotes\Users\Models\Scopes;
 
 use DB;
+use TeenQuotes\Countries\Models\Country;
 
 trait UserTrait {
 
@@ -22,5 +23,10 @@ trait UserTrait {
 	public function scopePartialLogin($query, $login)
 	{
 		return $query->whereRaw('login LIKE ?', ["%$login%"])->orderBy('login', 'ASC');
+	}
+
+	public function scopeFromCountry($query, Country $c)
+	{
+		return $query->where('country', $c->id);
 	}
 }

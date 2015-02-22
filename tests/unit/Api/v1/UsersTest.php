@@ -454,6 +454,39 @@ class UsersTest extends ApiTest {
 		$this->unitTester->doRequest('getSearch', 'abc');
 	}
 
+	public function testFromCountryUnexistingCountry()
+	{
+		$countryId = 42000;
+
+		$this->unitTester->doRequest('fromCountry', $countryId)
+			->assertResponseIsNotFound()
+			->withStatusMessage('country_not_found')
+			->withErrorMessage('The country #'.$countryId.' was not found.');
+	}
+
+	/**
+	 * @expectedException        TeenQuotes\Exceptions\ApiNotFoundException
+	 * @expectedExceptionMessage users
+	 */
+	public function testFromCountryNoUsers()
+	{
+		$country = $this->unitTester->insertInDatabase(1, 'Country');
+
+		$this->unitTester->doRequest('fromCountry', $country->id);
+	}
+
+	public function testFromCountrySuccess()
+	{
+		$country = $this->unitTester->insertInDatabase(1, 'Country');
+
+		// Create users from this country
+		$nbUsers = $this->unitTester->getNbRessources();
+		$this->unitTester->insertInDatabase($nbUsers, 'User', ['country' => $country->id]);
+
+		$this->unitTester->tryFirstPage('fromCountry', $country->id);
+		$this->unitTester->tryMiddlePage('fromCountry', $country->id);
+	}
+
 	private function generateUsersWithPartialLogin($string)
 	{
 		$this->deleteAllUsers();
@@ -482,9 +515,7 @@ class UsersTest extends ApiTest {
 
 	private function deleteAllUsers()
 	{
-		User::all()->each(function($u){
-			$u->delete();
-		});
+		User::truncate();
 	}
 
 	private function attachCountryForAllUsers()

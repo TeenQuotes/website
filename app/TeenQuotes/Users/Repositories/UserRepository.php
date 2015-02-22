@@ -1,5 +1,7 @@
 <?php namespace TeenQuotes\Users\Repositories;
 
+use TeenQuotes\Countries\Models\Country;
+
 interface UserRepository {
 
 	/**
@@ -140,4 +142,20 @@ interface UserRepository {
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function getNonActiveHavingNewsletter();
+
+	/**
+	 * Get users from a country without an hidden profile
+	 * @param  \TeenQuotes\Countries\Models\Country $c
+	 * @param  int $page
+	 * @param  int $pagesize
+	 * @return \Illuminate\Database\Eloquent\Collection
+	 */
+	public function fromCountry(Country $c, $page, $pagesize);
+
+	/**
+	 * Count the number of users who are from a country without an hidden profile
+	 * @param  \TeenQuotes\Countries\Models\Country $c
+	 * @return int
+	 */
+	public function countFromCountry(Country $c);
 }

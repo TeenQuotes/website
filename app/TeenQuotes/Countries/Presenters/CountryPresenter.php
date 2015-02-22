@@ -1,5 +1,6 @@
 <?php namespace TeenQuotes\Countries\Presenters;
 
+use URL;
 use Laracasts\Presenter\Presenter;
 
 class CountryPresenter extends Presenter {
@@ -14,5 +15,10 @@ class CountryPresenter extends Presenter {
 		$countryCode = strtolower($this->entity->country_code);
 
 		return 'flag-'.$countryCode;
+	}
+
+	public function searchUsers()
+	{
+		return URL::route('search.users.country', $this->entity->id);
 	}
 }

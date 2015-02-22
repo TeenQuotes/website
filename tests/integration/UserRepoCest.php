@@ -13,10 +13,16 @@ class UserRepoCest {
 	 */
 	private $newsletterRepo;
 
+	/**
+	 * @var \TeenQuotes\Countries\Repositories\CountryRepository
+	 */
+	private $countryRepo;
+
 	public function _before()
 	{
-		$this->repo = App::make('TeenQuotes\Users\Repositories\UserRepository');
+		$this->repo           = App::make('TeenQuotes\Users\Repositories\UserRepository');
 		$this->newsletterRepo = App::make('TeenQuotes\Newsletters\Repositories\NewsletterRepository');
+		$this->countryRepo    = App::make('TeenQuotes\Countries\Repositories\CountryRepository');
 	}
 
 	public function testGetById(IntegrationTester $I)
@@ -250,6 +256,38 @@ class UserRepoCest {
 		$I->assertIsCollection($users);
 		$I->assertEquals(1, count($users));
 		$I->assertEquals($u->login, $users->first()->login);
+	}
+
+	public function testFromCountry(IntegrationTester $I)
+	{
+		$firstCountry = $this->countryRepo->findById(1);
+		$secondCountry = $this->countryRepo->findById(2);
+
+		// Create some users from the first country
+		$I->insertInDatabase(5, 'User', ['country' => $firstCountry->id]);
+
+		// It shouldn't retrieve users from the 1st country
+		$I->assertEmpty($this->repo->fromCountry($secondCountry, 1, 10));
+		// We should retrieve our users from the 2nd country
+		$I->assertEquals(5, count($this->repo->fromCountry($firstCountry, 1, 10)));
+		// We shouldn't retrieve too much users
+		$I->assertEquals(2, count($this->repo->fromCountry($firstCountry, 1, 2)));
+	}
+
+	public function testCountFromCountry(IntegrationTester $I)
+	{
+		$firstCountry = $this->countryRepo->findById(1);
+		$secondCountry = $this->countryRepo->findById(2);
+
+		// Create some users from the first country
+		$I->insertInDatabase(2, 'User', ['country' => $firstCountry->id]);
+		// One user with an hidden profile
+		$I->insertInDatabase(1, 'User', ['country' => $firstCountry->id, 'hide_profile' => 1]);
+
+		// We shouldn't count the user with an hidden profile
+		$I->assertEquals(2, $this->repo->countFromCountry($firstCountry));
+
+		$I->assertEquals(0, $this->repo->countFromCountry($secondCountry));
 	}
 
 	private function insertUsersForSearch(IntegrationTester $I, $partial)

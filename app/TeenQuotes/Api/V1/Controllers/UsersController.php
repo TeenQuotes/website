@@ -31,6 +31,10 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
 		$this->localisationDetector = App::make(Detector::class);
 	}
 
+	/**
+	 * Destroy the account of the logged in user
+	 * @return \TeenQuotes\Http\Facades\Response
+	 */
 	public function destroy()
 	{
 		$this->userRepo->destroy($this->retrieveUser());
@@ -41,6 +45,11 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
 		], 200);
 	}
 
+
+	/**
+	 * Show information about the logged in user
+	 * @return \TeenQuotes\Http\Facades\Response
+	 */
 	public function getUsers()
 	{
 		$u = $this->retrieveUser();
@@ -48,6 +57,11 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
 		return $this->show($u->id);
 	}
 
+	/**
+	 * Create a new account
+	 * @param  boolean $doValidation Do we need to perform validation?
+	 * @return \TeenQuotes\Http\Facades\Response
+	 */
 	public function store($doValidation = true)
 	{
 		$data = Input::only(['login', 'password', 'email']);
@@ -77,6 +91,11 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
 		return Response::json($user, 201, [], JSON_NUMERIC_CHECK);
 	}
 
+	/**
+	 * Show a user's profile
+	 * @param  int $user_id The ID of the user
+	 * @return \TeenQuotes\Http\Facades\Response
+	 */
 	public function show($user_id)
 	{
 		$user = $this->userRepo->showByLoginOrId($user_id);
@@ -89,7 +108,8 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
 			], 404);
 
 		$data = $user->toArray();
-		foreach (User::$appendsFull as $key) {
+		foreach (User::$appendsFull as $key)
+		{
 			$method = Str::camel('get_'.$key);
 			$data[$key] = $user->$method();
 		}
@@ -99,26 +119,28 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 
+	/**
+	 * Search users without an hidden profile from a partial username
+	 * @param  string $query
+	 * @return \TeenQuotes\Http\Facades\Response
+	 * @throws \TeenQuotes\Exceptions\ApiNotFoundException If no users were found
+	 */
 	public function getSearch($query)
 	{
-		$page = $this->getPage();
-		$pagesize = $this->getPagesize();
-
 		// Get users
-		$users = $this->getUsersSearch($page, $pagesize, $query);
+		$users = $this->getUsersSearch($this->getPage(), $this->getPagesize(), $query);
 
-		// Handle no users found
-		$totalUsers = 0;
-		if ($this->isNotFound($users))
-			throw new ApiNotFoundException('users');
-
+		// Count the total number of results
 		$totalUsers = $this->userRepo->countByPartialLogin($query);
 
-		$data = self::paginateContent($page, $pagesize, $totalUsers, $users, 'users');
-
-		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
+		return $this->buildPaginatedResponse($users, $totalUsers);
 	}
 
+	/**
+	 * Update a user's profile
+	 * @param  boolean $doValidation Do we perform validation?
+	 * @return \TeenQuotes\Http\Facades\Response
+	 */
 	public function putProfile($doValidation = true)
 	{
 		$data = [
@@ -150,6 +172,10 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
 		], 200);
 	}
 
+	/**
+	 * Update the password of the logged in user
+	 * @return \TeenQuotes\Http\Facades\Response
+	 */
 	public function putPassword()
 	{
 		$user = $this->retrieveUser();
@@ -167,6 +193,11 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
 		], 200, [], JSON_NUMERIC_CHECK);
 	}
 
+	/**
+	 * Update the user's settings
+	 * @param  \TeenQuotes\Users\Models\User|null $userInstance
+	 * @return \TeenQuotes\Http\Facades\Response
+	 */
 	public function putSettings($userInstance = null)
 	{
 		if (is_null($userInstance))
@@ -189,7 +220,8 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
 		foreach (Newsletter::getPossibleTypes() as $newsletterType)
 		{
 			// The user wants the newsletter
-			if ($data[$newsletterType.'_newsletter']) {
+			if ($data[$newsletterType.'_newsletter'])
+			{
 				// He was NOT already subscribed, store this in storage
 				if ( ! $user->isSubscribedToNewsletter($newsletterType))
 					$this->newslettersManager->createForUserAndType($user, $newsletterType);
@@ -208,13 +240,9 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
 
 		// Update colors for quotes
 		if ( ! in_array($data['colors'], Config::get('app.users.colorsAvailableQuotesPublished')))
-			return Response::json([
-				'status' => 'wrong_color',
-				'error'  => 'This color is not allowed.'
-			], 400);
+			return $this->colorIsNotAllowed();
 
 		$this->settingRepo->updateOrCreate($user, 'colorsQuotesPublished', $data['colors']);
-
 
 		return Response::json([
 			'status'  => 'profile_updated',
@@ -222,6 +250,33 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
 		], 200);
 	}
 
+	/**
+	 * Get users from a given country
+	 * @param  int $country_id The ID of the country
+	 * @return \TeenQuotes\Http\Facades\Response
+	 * @throws \TeenQuotes\Exceptions\ApiNotFoundException If no users were found
+	 */
+	public function fromCountry($country_id)
+	{
+		$country = $this->countryRepo->findById($country_id);
+
+		if ($this->isNotFound($country))
+			return $this->countryWasNotFound($country_id);
+
+		$users = $this->userRepo->fromCountry($country, $this->getPage(), $this->getPagesize());
+
+		$totalUsers = $this->userRepo->countFromCountry($country);
+
+		return $this->buildPaginatedResponse($users, $totalUsers);
+	}
+
+	/**
+	 * Retrieve users from a partial username for a given page and pagesize
+	 * @param  int $page
+	 * @param  int $pagesize
+	 * @param  string $query
+	 * @return \Illuminate\Database\Eloquent\Collection
+	 */
 	public function getUsersSearch($page, $pagesize, $query)
 	{
 		return $this->userRepo->searchByPartialLogin($query, $page, $pagesize);
@@ -248,5 +303,50 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
 		$center = new CropEntropy($filepath);
 		$croppedImage = $center->resizeAndCrop(Config::get('app.users.avatarWidth'), Config::get('app.users.avatarHeight'));
 		$croppedImage->writeimage($filepath);
+	}
+
+	/**
+	 * Tell that a country was not found
+	 *
+	 * @param  int $id The country's ID
+	 * @return \TeenQuotes\Http\Facades\Response
+	 */
+	private function countryWasNotFound($id)
+	{
+		return Response::json([
+			'status' => 'country_not_found',
+			'error'  => "The country #".$id." was not found.",
+		], 404);
+	}
+
+	/**
+	 * Tell that a color is not allowed
+	 * @return \TeenQuotes\Http\Facades\Response
+	 */
+	private function colorIsNotAllowed()
+	{
+		return Response::json([
+			'status' => 'wrong_color',
+			'error'  => 'This color is not allowed.'
+		], 400);
+	}
+
+	/**
+	 * Build a paginated response for users
+	 *
+	 * @param  \Illuminate\Database\Eloquent\Collection $users
+	 * @param  int $total The total number of results for the ressource
+	 * @throws \TeenQuotes\Exceptions\ApiNotFoundException If no users were found
+	 * @return \TeenQuotes\Http\Facades\Response
+	 */
+	private function buildPaginatedResponse($users, $total)
+	{
+		// Handle no users found
+		if ($this->isNotFound($users))
+			throw new ApiNotFoundException('users');
+
+		$data = self::paginateContent($this->getPage(), $this->getPagesize(), $total, $users, 'users');
+
+		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
 }
