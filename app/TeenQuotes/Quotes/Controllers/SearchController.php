@@ -1,6 +1,10 @@
 <?php namespace TeenQuotes\Quotes\Controllers;
 
-use BaseController, Config, Input, Lang, Redirect, View;
+use BaseController, Config, Input, Lang, Paginator, Redirect, View;
+use TeenQuotes\Countries\Models\Country;
+use TeenQuotes\Countries\Repositories\CountryRepository;
+use TeenQuotes\Exceptions\CountryNotFoundException;
+use TeenQuotes\Exceptions\UserNotFoundException;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
 use TeenQuotes\Users\Repositories\UserRepository;
 
@@ -16,11 +20,23 @@ class SearchController extends BaseController {
 	 */
 	private $userRepo;
 
-	public function __construct(QuoteRepository $quoteRepo, UserRepository $userRepo)
+	public function __construct(CountryRepository $countryRepo, QuoteRepository $quoteRepo, UserRepository $userRepo)
 	{
 		$this->beforeFilter('search.isValid', ['only' => ['getResults', 'dispatcher']]);
-		$this->quoteRepo = $quoteRepo;
-		$this->userRepo = $userRepo;
+
+		$this->countryRepo = $countryRepo;
+		$this->quoteRepo   = $quoteRepo;
+		$this->userRepo    = $userRepo;
+	}
+
+	/**
+	 * Dispatch the search form to search results
+	 * @return \Response
+	 */
+	public function dispatcher()
+	{
+		// filter search.isValid before
+		return Redirect::route('search.results', Input::get('search'));
 	}
 
 	/**
@@ -44,20 +60,23 @@ class SearchController extends BaseController {
 	 */
 	public function getResults($query)
 	{
+		$nbResultsPerCategory = $this->nbOfResultsPerCategory();
+
 		// Search quotes
 		$nbQuotes = $this->quoteRepo->searchCountPublishedWithQuery($query);
-		$quotes = $this->quoteRepo->searchPublishedWithQuery($query, 1, Config::get('app.search.maxResultsPerCategory'));
+		$quotes = $this->quoteRepo->searchPublishedWithQuery($query, 1, $nbResultsPerCategory);
 
 		// Search users
 		$nbUsers = 0;
 		$users = null;
-		if ($this->stringIsASingleWord($query)) {
+		if ($this->shouldSearchForUsers($query))
+		{
 			$nbUsers = $this->userRepo->countByPartialLogin($query);
-			$users = $this->userRepo->searchByPartialLogin($query, 1, Config::get('app.search.maxResultsPerCategory'));
+			$users = $this->userRepo->searchByPartialLogin($query, 1, $nbResultsPerCategory);
 		}
 
 		// Handle no results
-		if ($quotes->count() == 0 AND (is_null($users) OR $users->count() == 0))
+		if ($this->resultsAreEmpty($quotes, $users))
 			return Redirect::route('search.form')->with('warning', Lang::get('search.noResultsAtAll'));
 
 		$data = compact('quotes', 'users', 'nbQuotes', 'nbUsers', 'query');
@@ -68,18 +87,104 @@ class SearchController extends BaseController {
 		return View::make('search.results', $data);
 	}
 
-	private function stringIsASingleWord($string)
+	/**
+	 * Search users coming from a given country
+	 * @param  int $country_id The ID of the country
+	 * @throws \TeenQuotes\Exceptions\CountryNotFoundException If the country was not found
+	 * @throws \TeenQuotes\Exceptions\UserNotFoundException If no users were found
+	 * @return \Response
+	 */
+	public function usersFromCountry($country_id)
 	{
-		return (str_word_count($string) == 1);
+		$country = $this->countryRepo->findById($country_id);
+
+		// Handle country not found
+		if (is_null($country))
+			throw new CountryNotFoundException;
+
+		$page = Input::get('page', 1);
+		$pagesize = $this->nbOfResultsPerCategory();
+
+		$users = $this->userRepo->fromCountry($country, $page, $pagesize);
+		if ($users->isEmpty() AND $this->countryIsMostCommon($country_id))
+			throw new UserNotFoundException;
+		elseif ($users->isEmpty())
+			return $this->redirectToDefaultCountrySearch();
+
+		$totalResults = $this->userRepo->countFromCountry($country);
+
+		$paginator = Paginator::make($users->toArray(), $totalResults, $pagesize);
+		$data = compact('users', 'paginator', 'country');
+
+		return View::make('search.users', $data);
 	}
 
 	/**
-	 * Dispatch the search form to search results
+	 * Redirect to results from the most common country with a warning
 	 * @return \Response
 	 */
-	public function dispatcher()
+	private function redirectToDefaultCountrySearch()
 	{
-		// filter search.isValid before
-		return Redirect::route('search.results', Input::get('search'));
+		return Redirect::route('search.users.country', Country::getDefaultCountry(), 302)
+			->with('redirectedToMostCommonCountry', true);
+	}
+
+	/**
+	 * Get the most common country ID for our users
+	 * @return int
+	 */
+	private function getMostCommonCountryID()
+	{
+		return Country::getDefaultCountry();
+	}
+
+	/**
+	 * Tell if the given ID is the most common country
+	 * @param  int $countryID
+	 * @return boolean
+	 */
+	private function countryIsMostCommon($countryID)
+	{
+		return $countryID === $this->getMostCommonCountryID();
+	}
+
+	/**
+	 * Return the number of results per category
+	 * @return int
+	 */
+	private function nbOfResultsPerCategory()
+	{
+		return Config::get('app.search.maxResultsPerCategory');
+	}
+
+	/**
+	 * Tell if search results are empty
+	 * @param  \Illuminate\Database\Eloquent\Collection $quotes
+	 * @param  null|\Illuminate\Database\Eloquent\Collection $users
+	 * @return boolean
+	 */
+	private function resultsAreEmpty($quotes, $users)
+	{
+		return $quotes->isEmpty() AND (is_null($users) OR $users->isEmpty());
+	}
+
+	/**
+	 * Determine if we should search for users from a search query
+	 * @param  string $query
+	 * @return boolean
+	 */
+	private function shouldSearchForUsers($query)
+	{
+		return $this->stringIsSingleWord($query);
+	}
+
+	/**
+	 * Tell if a string is only a single word
+	 * @param  string $string
+	 * @return boolean
+	 */
+	private function stringIsSingleWord($string)
+	{
+		return (str_word_count($string) == 1);
 	}
 }

@@ -33,6 +33,7 @@ class UsersServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->registerRoutes();
+		$this->registerSearchRoutes();
 		$this->registerBindings();
 		$this->registerViewComposers();
 		$this->registerCommands();
@@ -77,6 +78,17 @@ class UsersServiceProvider extends ServiceProvider {
 		});
 	}
 
+	private function registerSearchRoutes()
+	{
+		$controller = 'SearchController';
+		$routeGroup = $this->getRouteGroupParams();
+		$routeGroup['namespace'] = 'TeenQuotes\Quotes\Controllers';
+
+		$this->app['router']->group($routeGroup, function() use ($controller) {
+			$this->app['router']->get('search/users/country/{country_id}', ['as' => 'search.users.country', 'uses' => $controller.'@usersFromCountry']);
+		});
+	}
+
 	private function registerViewComposers()
 	{
 		$namespace = $this->getBaseNamespace().'Composers';
@@ -95,6 +107,11 @@ class UsersServiceProvider extends ServiceProvider {
 		$this->app['view']->composer([
 			'users.edit'
 		], $namespace.'\ProfileEditComposer');
+
+		// Search users coming from a given country
+		$this->app['view']->composer([
+			'search.users'
+		], $namespace.'\SearchUsersCountryComposer');
 	}
 
 	/**
