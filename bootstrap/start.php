@@ -32,13 +32,13 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(array(
+$env = $app->detectEnvironment([
 
 	'local'      => ['antoine', 'aaugusti', 'aaugusti-mba', '*.home', '*.local', '*.lan'],
 	'staging'    => ['teen-quotes-staging'],
 	'production' => ['teen-quotes-production'],
 
-));
+]);
 
 /*
 |--------------------------------------------------------------------------

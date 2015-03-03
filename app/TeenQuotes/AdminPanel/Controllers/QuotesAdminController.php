@@ -1,8 +1,7 @@
 <?php namespace TeenQuotes\AdminPanel\Controllers;
 
-use App, Config, Input, Lang, Redirect, Request, Response, View;
-use BaseController;
-use InvalidArgumentException;
+use App, BaseController, Config, Input, InvalidArgumentException, Lang;
+use Redirect, Request, Response, View;
 use TeenQuotes\Exceptions\QuoteNotFoundException;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Mail\UserMailer;
@@ -27,9 +26,9 @@ class QuotesAdminController extends BaseController {
 
 	function __construct(QuoteRepository $quoteRepo, UserMailer $userMailer)
 	{
-		$this->quoteRepo = $quoteRepo;
+		$this->quoteRepo      = $quoteRepo;
 		$this->quoteValidator = App::make('TeenQuotes\Quotes\Validation\QuoteValidator');
-		$this->userMailer = $userMailer;
+		$this->userMailer     = $userMailer;
 	}
 
 	/**
@@ -46,10 +45,7 @@ class QuotesAdminController extends BaseController {
 			'colors'          => Quote::getRandomColors(),
 			'nbQuotesPending' => $this->quoteRepo->nbPending(),
 			'nbQuotesPerDay'  => Config::get('app.quotes.nbQuotesToPublishPerDay'),
-			'pageTitle'       => 'Admin | '.Lang::get('layout.nameWebsite'),
 		];
-
-		// Bind JS variables to the view in a view composer
 
 		return View::make('admin.index', $data);
 	}
@@ -110,7 +106,8 @@ class QuotesAdminController extends BaseController {
 	{
 		$this->guardType($type);
 
-		if (Request::ajax()) {
+		if (Request::ajax())
+		{
 			$quote = $this->quoteRepo->waitingById($id);
 
 			// Handle quote not found
@@ -127,22 +124,40 @@ class QuotesAdminController extends BaseController {
 		}
 	}
 
+	/**
+	 * Guard the moderation decision against available values
+	 * @param  string $type The moderation decision to test
+	 * @throws \InvalidArgumentException If the type is not supported
+	 */
 	private function guardType($type)
 	{
 		if ( ! in_array($type, $this->getAvailableTypes()))
 			throw new InvalidArgumentException("Wrong type. Got ".$type.". Available values: ".$this->presentAvailableTypes());
 	}
 
+	/**
+	 * Get available types of moderation
+	 * @return array
+	 */
 	private function getAvailableTypes()
 	{
 		return ['approve', 'unapprove', 'alert'];
 	}
 
+	/**
+	 * Present available types of moderation
+	 * @return string
+	 */
 	private function presentAvailableTypes()
 	{
 		return implode('|', $this->getAvailableTypes());
 	}
 
+	/**
+	 * Send an email to the author of quote telling the moderation decision
+	 * @param  \TeenQuotes\Quotes\Models\Quote $quote
+	 * @param  string $type The moderation decision
+	 */
 	private function sendMailForQuoteAndApprove($quote, $type)
 	{
 		$nbDays = 0;
