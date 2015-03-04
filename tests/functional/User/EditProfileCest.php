@@ -4,7 +4,7 @@ class EditProfileCest {
 
 	/**
 	 * The authenticated user
-	 * @var User
+	 * @var \TeenQuotes\Users\Models\User
 	 */
 	private $user;
 
@@ -28,7 +28,7 @@ class EditProfileCest {
 		];
 
 		// Do not pass the country name to TestDummy
-		// We just want the country name to assert that 
+		// We just want the country name to assert that
 		// the form is filled with the right values
 		$overrides = $this->userParams;
 		array_forget($overrides, 'country_name');
@@ -46,7 +46,7 @@ class EditProfileCest {
 		$I->navigateToMyEditProfilePage();
 		$I->assertEditProfileFormIsFilledWith($this->userParams);
 
-		// Edit the user's profile and assert that he has 
+		// Edit the user's profile and assert that he has
 		// got a new profile
 		$newParams = [
 			'about_me'     => 'I am a tester',

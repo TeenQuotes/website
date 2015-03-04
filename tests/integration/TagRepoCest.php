@@ -3,7 +3,7 @@
 class TagRepoCest {
 
 	/**
-	 * @var TeenQuotes\Tags\Repositories\TagRepository
+	 * @var \TeenQuotes\Tags\Repositories\TagRepository
 	 */
 	private $repo;
 

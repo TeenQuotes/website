@@ -5,7 +5,7 @@ use TeenQuotes\Quotes\Models\Quote;
 class QuoteRepoCest {
 
 	/**
-	 * @var TeenQuotes\Quotes\Repositories\QuoteRepository
+	 * @var \TeenQuotes\Quotes\Repositories\QuoteRepository
 	 */
 	private $repo;
 

@@ -1,16 +1,16 @@
 <?php
 
 class IndexQuotesCest {
-	
+
 	/**
 	 * The logged in user
-	 * @var User
+	 * @var \TeenQuotes\Users\Models\User
 	 */
 	private $user;
 
 	/**
 	 * The first quote on the first page
-	 * @var TeenQuotes\Quotes\Models\Quote
+	 * @var \TeenQuotes\Quotes\Models\Quote
 	 */
 	private $firstQuote;
 
@@ -49,7 +49,7 @@ class IndexQuotesCest {
 	{
 		$I->am('a member of Teen Quotes');
 		$I->wantTo("view comments and favorites on last quotes");
-		
+
 		// Add to the user's favorites the first quote
 		$I->addAFavoriteForUser($this->firstQuote->id, $this->user->id);
 
@@ -72,23 +72,23 @@ class IndexQuotesCest {
 	{
 		$I->seeNumberOfElements('.quote', $I->getNbQuotesPerPage());
 
-		for ($i = 1; $i <= $I->getNbQuotesPerPage(); $i++) { 
+		for ($i = 1; $i <= $I->getNbQuotesPerPage(); $i++) {
 			// Verify that we have got our quotes with different colors
 			$I->seeElement('.color-'.$i);
-			
+
 			// All of them are not in my favorites
 			$I->seeElement('.color-'.$i.' .favorite-action i.fa-heart-o');
-			
+
 			// All of them contain social media buttons
 			$I->seeElement('.color-'.$i.' i.fa-facebook');
 			$I->seeElement('.color-'.$i.' i.fa-twitter');
 		}
-		
+
 		// I am on the first page
 		$I->see('1', '#paginator-quotes ul li.active');
-		
+
 		// I can see that we have got our links to pages
-		for ($i = 2; $i <= $I->getNbPagesToCreate(); $i++) { 
+		for ($i = 2; $i <= $I->getNbPagesToCreate(); $i++) {
 			$I->see($i, '#paginator-quotes li a');
 		}
 

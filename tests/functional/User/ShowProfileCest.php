@@ -4,7 +4,7 @@ class ShowProfileCest {
 
 	/**
 	 * The authenticated user
-	 * @var User
+	 * @var \TeenQuotes\Users\Models\User
 	 */
 	private $user;
 
@@ -28,7 +28,7 @@ class ShowProfileCest {
 		];
 
 		// Do not pass the country name to TestDummy
-		// We just want the country name to assert that 
+		// We just want the country name to assert that
 		// the form is filled with the right values
 		$overrides = $this->userParams;
 		array_forget($overrides, 'country_name');
@@ -73,9 +73,9 @@ class ShowProfileCest {
 	{
 		$I->am('a logged in Teen Quotes member');
 		$I->wantTo('be redirected to my published quotes if I have no favorites');
-		
+
 		$I->insertInDatabase(5, 'Quote', ['user_id' => $this->user->id]);
-		
+
 		$I->amOnRoute('users.show', [$this->user->login, 'favorites']);
 		$I->seeCurrentRouteIs('users.show', $this->user->login);
 	}
@@ -84,9 +84,9 @@ class ShowProfileCest {
 	{
 		$I->am('a logged in Teen Quotes member');
 		$I->wantTo('be redirected to my comments if I have no favorites and no published quotes');
-		
+
 		$I->insertInDatabase(5, 'Comment', ['user_id' => $this->user->id]);
-		
+
 		$I->amOnRoute('users.show', [$this->user->login, 'favorites']);
 		$I->seeCurrentRouteIs('users.show', [$this->user->login, 'comments']);
 	}
@@ -95,9 +95,9 @@ class ShowProfileCest {
 	{
 		$I->am('a logged in Teen Quotes member');
 		$I->wantTo('be redirected to my published quotes if I have no comments');
-		
+
 		$I->insertInDatabase(5, 'Quote', ['user_id' => $this->user->id]);
-		
+
 		$I->amOnRoute('users.show', [$this->user->login, 'comments']);
 		$I->seeCurrentRouteIs('users.show', $this->user->login);
 	}
@@ -106,9 +106,9 @@ class ShowProfileCest {
 	{
 		$I->am('a logged in Teen Quotes member');
 		$I->wantTo('be redirected to my published quotes if I have no comments and published quotes');
-		
+
 		$I->insertInDatabase(5, 'FavoriteQuote', ['user_id' => $this->user->id]);
-		
+
 		$I->amOnRoute('users.show', [$this->user->login, 'comments']);
 		$I->seeCurrentRouteIs('users.show', [$this->user->login, 'favorites']);
 	}
@@ -117,9 +117,9 @@ class ShowProfileCest {
 	{
 		$I->am('a logged in Teen Quotes member');
 		$I->wantTo('be redirected to my favorites if I have no published quotes');
-		
+
 		$I->insertInDatabase(5, 'FavoriteQuote', ['user_id' => $this->user->id]);
-		
+
 		$I->navigateToMyProfile();
 		$I->seeCurrentRouteIs('users.show', [$this->user->login, 'favorites']);
 	}
@@ -128,9 +128,9 @@ class ShowProfileCest {
 	{
 		$I->am('a logged in Teen Quotes member');
 		$I->wantTo('be redirected to my comments if I have no published quotes and favorites');
-		
+
 		$I->insertInDatabase(5, 'Comment', ['user_id' => $this->user->id]);
-		
+
 		$I->navigateToMyProfile();
 		$I->seeCurrentRouteIs('users.show', [$this->user->login, 'comments']);
 	}

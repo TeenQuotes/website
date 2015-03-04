@@ -3,13 +3,14 @@
 use TeenQuotes\Quotes\Models\Quote;
 
 class UserRepoCest {
+
 	/**
-	 * @var TeenQuotes\Users\Repositories\UserRepository
+	 * @var \TeenQuotes\Users\Repositories\UserRepository
 	 */
 	private $repo;
 
 	/**
-	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
+	 * @var \TeenQuotes\Newsletters\Repositories\NewsletterRepository
 	 */
 	private $newsletterRepo;
 

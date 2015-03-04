@@ -1,21 +1,21 @@
 <?php
 
 class ShowStoryCest {
-	
+
 	/**
 	 * The logged in user
-	 * @var User
+	 * @var \TeenQuotes\Users\Models\User
 	 */
 	private $user;
 
 	/**
 	 * The hidden story
-	 * @var array
+	 * @var \TeenQuotes\Stories\Models\Story
 	 */
 	private $hiddenStory;
 
 	public function _before(FunctionalTester $I)
-	{		
+	{
 		// Create some published quotes and some stories
 		$I->createSomePublishedQuotes();
 		$I->createSomeStories();
@@ -40,7 +40,7 @@ class ShowStoryCest {
 		// I don't see a link to the author's profile in the title
 		$I->dontSeeElement('.story[data-id="'.$this->hiddenStory->id.'"] h3 a.author-link');
 		$I->seeElement('.story[data-id="'.$this->hiddenStory->id.'"] h3');
-		
+
 		// I don't see a link to the author's profile on its avatar
 		$I->dontSeeElement('.story[data-id="'.$this->hiddenStory->id.'"] a img.avatar');
 		$I->seeElement('.story[data-id="'.$this->hiddenStory->id.'"] img.avatar');
@@ -60,7 +60,7 @@ class ShowStoryCest {
 
 		// I see a link to the author's profile in the title
 		$I->seeElement('.story[data-id="'.$id.'"] h3 a.author-link');
-		
+
 		// I see a link to the author's profile on its avatar
 		$I->seeElement('.story[data-id="'.$id.'"] a img.avatar');
 
@@ -71,7 +71,7 @@ class ShowStoryCest {
 	{
 		$I->seeElement('.story[data-id="'.$id.'"] .story-date');
 		$I->seeElement('.story[data-id="'.$id.'"] .story-id');
-		
+
 		$I->see('Tell us your story', '.story[data-id="'.$id.'"]');
 		$I->see('Tell us how you use', '.story[data-id="'.$id.'"]');
 

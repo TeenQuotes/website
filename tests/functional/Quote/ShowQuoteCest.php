@@ -4,13 +4,13 @@ class ShowQuoteCest {
 
 	/**
 	 * The logged in user
-	 * @var User
+	 * @var \TeenQuotes\Users\Models\User
 	 */
 	private $user;
 
 	/**
 	 * The first quote on the first page
-	 * @var TeenQuotes\Quotes\Models\Quote
+	 * @var \TeenQuotes\Quotes\Models\Quote
 	 */
 	private $firstQuote;
 

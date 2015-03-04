@@ -3,7 +3,7 @@
 class CommentRepoCest {
 
 	/**
-	 * @var TeenQuotes\Comments\Repositories\CommentRepository
+	 * @var \TeenQuotes\Comments\Repositories\CommentRepository
 	 */
 	private $repo;
 

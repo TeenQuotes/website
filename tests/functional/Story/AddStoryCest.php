@@ -1,15 +1,15 @@
 <?php
 
 class AddStoryCest {
-	
+
 	/**
 	 * The logged in user
-	 * @var User
+	 * @var \TeenQuotes\Users\Models\User
 	 */
 	private $user;
 
 	public function _before(FunctionalTester $I)
-	{		
+	{
 		// Create some published quotes and some stories
 		$I->createSomePublishedQuotes();
 		$I->createSomeStories();
@@ -81,7 +81,7 @@ class AddStoryCest {
 	{
 		$represent = '';
 		$frequence = '';
-		
+
 		if ($representLength > 0)
 			$represent = Str::random($representLength);
 		if ($frequenceLength > 0)

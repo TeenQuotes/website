@@ -3,7 +3,7 @@
 class StoryRepoCest {
 
 	/**
-	 * @var TeenQuotes\Stories\Repositories\StoryRepository
+	 * @var \TeenQuotes\Stories\Repositories\StoryRepository
 	 */
 	private $repo;
 

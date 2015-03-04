@@ -3,7 +3,7 @@
 class ProfileVisitorRepoCest {
 
 	/**
-	 * @var TeenQuotes\Users\Repositories\ProfileVisitorRepository
+	 * @var \TeenQuotes\Users\Repositories\ProfileVisitorRepository
 	 */
 	private $repo;
 

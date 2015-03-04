@@ -3,7 +3,7 @@
 class FavoriteQuoteRepoCest {
 
 	/**
-	 * @var TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
+	 * @var \TeenQuotes\Quotes\Repositories\FavoriteQuoteRepository
 	 */
 	private $repo;
 

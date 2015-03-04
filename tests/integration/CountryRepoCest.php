@@ -5,7 +5,7 @@ use TeenQuotes\Countries\Models\Country;
 class CountryRepoCest {
 
 	/**
-	 * @var TeenQuotes\Countries\Repositories\CountryRepository
+	 * @var \TeenQuotes\Countries\Repositories\CountryRepository
 	 */
 	private $repo;
 

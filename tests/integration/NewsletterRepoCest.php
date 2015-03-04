@@ -6,7 +6,7 @@ use TeenQuotes\Newsletters\Models\Newsletter;
 class NewsletterRepoCest {
 
 	/**
-	 * @var TeenQuotes\Newsletters\Repositories\NewsletterRepository
+	 * @var \TeenQuotes\Newsletters\Repositories\NewsletterRepository
 	 */
 	private $repo;
 

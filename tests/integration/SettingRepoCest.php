@@ -3,7 +3,7 @@
 class SettingRepoCest {
 
 	/**
-	 * @var TeenQuotes\Settings\Repositories\SettingRepository
+	 * @var \TeenQuotes\Settings\Repositories\SettingRepository
 	 */
 	private $repo;
 

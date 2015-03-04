@@ -4,7 +4,7 @@ class UpdatePasswordCest {
 
 	/**
 	 * The authenticated user
-	 * @var User
+	 * @var \TeenQuotes\Users\Models\User
 	 */
 	private $user;
 
@@ -32,7 +32,7 @@ class UpdatePasswordCest {
 		// Sign in again with the new password
 		$I->navigateToTheSignInPage();
 		$I->fillSigninForm($this->user->login, $newPassword);
-		
+
 		// Assert that we have been authenticated
 		$I->assertTrue(Auth::check());
 	}
@@ -48,7 +48,7 @@ class UpdatePasswordCest {
 		// Try to update the user's password
 		$I->navigateToMyEditProfilePage();
 		$I->fillChangePasswordForm($newPassword, $confirmPassword);
-		
+
 		// Assert that we can't change the password
 		$I->seeFormError('The password confirmation does not match.');
 	}

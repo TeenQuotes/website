@@ -4,7 +4,7 @@ class UpdateSettingsCest {
 
 	/**
 	 * The authenticated user
-	 * @var User
+	 * @var \TeenQuotes\Users\Models\User
 	 */
 	private $user;
 
