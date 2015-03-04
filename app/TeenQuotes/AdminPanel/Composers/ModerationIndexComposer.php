@@ -9,7 +9,7 @@ class ModerationIndexComposer {
 		$data = $view->getData();
 
 		// The number of days required to publish waiting quotes
-		$nbDays = $this->getNbdaysToPublishQuotes($data['nbQuotesPending'] / $data['nbQuotesPerDay']);
+		$nbDays = $this->getNbdaysToPublishQuotes($data['nbQuotesPending'], $data['nbQuotesPerDay']);
 		$view->with('nbDays', $nbDays);
 
 		// The page title
