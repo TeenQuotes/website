@@ -19,7 +19,7 @@ class Mandrill {
 
 	public function __construct(M $api, UserRepository $userRepo)
 	{
-		$this->api = $api;
+		$this->api      = $api;
 		$this->userRepo = $userRepo;
 	}
 
@@ -41,7 +41,7 @@ class Mandrill {
 	}
 
 	/**
-	 * Get users that has already have been affected by an hard bounce
+	 * Get users that have already been affected by an hard bounce
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function getHardBouncedUsers()

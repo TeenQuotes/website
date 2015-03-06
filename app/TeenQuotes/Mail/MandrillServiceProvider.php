@@ -1,5 +1,6 @@
 <?php namespace TeenQuotes\Mail;
 
+use Mandrill as BaseMandrill;
 use Illuminate\Support\ServiceProvider;
 
 class MandrillServiceProvider extends ServiceProvider {
@@ -17,7 +18,7 @@ class MandrillServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		// 
+		//
 	}
 
 	/**
@@ -30,7 +31,7 @@ class MandrillServiceProvider extends ServiceProvider {
 		$this->app->bind('mandrill', function()
 		{
 			$mandrillSecret = $this->app['config']->get('services.mandrill.secret');
-			$mandrillAPI = new \Mandrill($mandrillSecret);
+			$mandrillAPI = new BaseMandrill($mandrillSecret);
 
 			return new Mandrill($mandrillAPI, $this->app->make('TeenQuotes\Users\Repositories\UserRepository'));
 		});
