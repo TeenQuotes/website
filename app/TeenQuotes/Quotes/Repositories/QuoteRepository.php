@@ -1,5 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Repositories;
 
+use Carbon;
 use TeenQuotes\Tags\Models\Tag;
 use TeenQuotes\Users\Models\User;
 
@@ -205,4 +206,11 @@ interface QuoteRepository {
 	 * @return \Illuminate\Database\Eloquent\Collection
 	 */
 	public function getQuotesForTag(Tag $t, $page, $pagesize);
+
+	/**
+	 * Get the number of pending quotes submitted after a given date
+	 * @param  \Carbon\Carbon $date
+	 * @return int
+	 */
+	public function countPendingQuotesSince(Carbon $date);
 }

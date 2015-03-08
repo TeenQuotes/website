@@ -279,4 +279,30 @@ class QuoteRepoCest {
 		$quotesResult = $this->repo->getQuotesForTag($tags[0], 1, 10);
 		$I->assertEquals(2, count($quotesResult));
 	}
+
+	public function testCountPendingQuotesSince(IntegrationTester $I)
+	{
+		$twoDaysAgo   = $this->nbDaysAgo(2);
+		$threeDaysAgo = $this->nbDaysAgo(3);
+		$fourDaysAgo  = $this->nbDaysAgo(4);
+
+		// A published quote in the period
+		$I->insertInDatabase(1, 'Quote', ['created_at' => $twoDaysAgo]);
+		// A pending quote before the period
+		$I->insertInDatabase(1, 'Quote', ['created_at' => $fourDaysAgo, 'approved' => Quote::PENDING]);
+		// Quotes we should target
+		$I->insertInDatabase(2, 'Quote', ['created_at' => $twoDaysAgo, 'approved' => Quote::PENDING]);
+
+		$I->assertEquals(2, $this->repo->countPendingQuotesSince($threeDaysAgo));
+	}
+
+	/**
+	 * Get a date from a number of days ago
+	 * @param  int $number
+	 * @return \Carbon\Carbon
+	 */
+	private function nbDaysAgo($number)
+	{
+		return Carbon::now()->subDays($number);
+	}
 }

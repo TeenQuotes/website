@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Repositories;
 
-use Cache, Config;
+use Cache, Carbon, Config;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Tags\Models\Tag;
 use TeenQuotes\Users\Models\User;
@@ -274,6 +274,14 @@ class CachingQuoteRepository implements QuoteRepository {
 	public function getQuotesForTag(Tag $t, $page, $pagesize)
 	{
 		return $this->quotes->getQuotesForTag($t, $page, $pagesize);
+	}
+
+	/**
+	 * @see \TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
+	public function countPendingQuotesSince(Carbon $date)
+	{
+		return $this->quotes->countPendingQuotesSince($date);
 	}
 
 	private function flushQuotesForQuote($id)

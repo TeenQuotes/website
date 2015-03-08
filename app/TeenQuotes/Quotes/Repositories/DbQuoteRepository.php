@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\Quotes\Repositories;
 
-use Config, DB, InvalidArgumentException;
+use Carbon, Config, DB, InvalidArgumentException;
 use Illuminate\Database\Eloquent\Collection;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Tags\Models\Tag;
@@ -397,6 +397,18 @@ class DbQuoteRepository implements QuoteRepository {
 	public function nbQuotesWithComments()
 	{
 		return Quote::has('comments')->count();
+	}
+
+	/**
+	 * Get the number of pending quotes submitted after a given date
+	 * @param  \Carbon\Carbon $date
+	 * @return int
+	 */
+	public function countPendingQuotesSince(Carbon $date)
+	{
+		return Quote::pending()
+			->createdAfter($date)
+			->count();
 	}
 
 	private function getNbQuotesToPublishBefore(Quote $q)
