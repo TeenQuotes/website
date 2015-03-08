@@ -54,14 +54,22 @@ class QuotesServiceProvider extends ServiceProvider {
 
 	private function registerQuotesCommands()
 	{
-		$commandName = $this->getBaseNamespace().'Console\QuotesPublishCommand';
+		$commands = [
+			'quotesPublish' => 'QuotesPublishCommand',
+			'quotesPending' => 'PendingQuotesCommand',
+		];
 
-		$this->app->bindShared('quotes.console.quotesPublish', function($app) use($commandName)
+		foreach ($commands as $key => $class)
 		{
-			return $app->make($commandName);
-		});
+			$commandName = $this->getBaseNamespace().'Console\\'.$class;
 
-		$this->commands('quotes.console.quotesPublish');
+			$this->app->bindShared('quotes.console.'.$key, function($app) use($commandName)
+			{
+				return $app->make($commandName);
+			});
+
+			$this->commands('quotes.console.'.$key);
+		}
 	}
 
 	private function registerFavoriteQuoteBindings()
