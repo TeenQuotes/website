@@ -56,7 +56,7 @@ class QuotesServiceProvider extends ServiceProvider {
 	{
 		$commands = [
 			'quotesPublish' => 'QuotesPublishCommand',
-			'quotesPending' => 'PendingQuotesCommand',
+			'quotesWaiting' => 'WaitingQuotesCommand',
 		];
 
 		foreach ($commands as $key => $class)

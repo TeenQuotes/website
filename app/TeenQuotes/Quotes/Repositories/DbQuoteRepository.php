@@ -29,6 +29,15 @@ class DbQuoteRepository implements QuoteRepository {
 	}
 
 	/**
+	 * Get the number of quotes waiting moderation
+	 * @return int
+	 */
+	public function nbWaiting()
+	{
+		return Quote::waiting()->count();
+	}
+
+	/**
 	 * Grab pending quotes
 	 * @param  int $nb The number of quotes to grab
 	 * @return \Illuminate\Database\Eloquent\Collection
@@ -400,13 +409,13 @@ class DbQuoteRepository implements QuoteRepository {
 	}
 
 	/**
-	 * Get the number of pending quotes submitted after a given date
+	 * Get the number of waiting quotes submitted after a given date
 	 * @param  \Carbon\Carbon $date
 	 * @return int
 	 */
-	public function countPendingQuotesSince(Carbon $date)
+	public function countWaitingQuotesSince(Carbon $date)
 	{
-		return Quote::pending()
+		return Quote::waiting()
 			->createdAfter($date)
 			->count();
 	}

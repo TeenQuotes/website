@@ -39,6 +39,14 @@ class QuoteRepoCest {
 		$I->assertEquals(4, $this->repo->nbPending());
 	}
 
+	public function testNbWaiting(IntegrationTester $I)
+	{
+		$I->insertInDatabase(3, 'Quote', ['approved' => Quote::PUBLISHED]);
+		$I->insertInDatabase(4, 'Quote', ['approved' => Quote::WAITING]);
+
+		$I->assertEquals(4, $this->repo->nbWaiting());
+	}
+
 	public function testGetById(IntegrationTester $I)
 	{
 		$content = 'Testing you know';
@@ -280,7 +288,7 @@ class QuoteRepoCest {
 		$I->assertEquals(2, count($quotesResult));
 	}
 
-	public function testCountPendingQuotesSince(IntegrationTester $I)
+	public function testCountWaitingQuotesSince(IntegrationTester $I)
 	{
 		$twoDaysAgo   = $this->nbDaysAgo(2);
 		$threeDaysAgo = $this->nbDaysAgo(3);
@@ -289,11 +297,11 @@ class QuoteRepoCest {
 		// A published quote in the period
 		$I->insertInDatabase(1, 'Quote', ['created_at' => $twoDaysAgo]);
 		// A pending quote before the period
-		$I->insertInDatabase(1, 'Quote', ['created_at' => $fourDaysAgo, 'approved' => Quote::PENDING]);
+		$I->insertInDatabase(1, 'Quote', ['created_at' => $fourDaysAgo, 'approved' => Quote::WAITING]);
 		// Quotes we should target
-		$I->insertInDatabase(2, 'Quote', ['created_at' => $twoDaysAgo, 'approved' => Quote::PENDING]);
+		$I->insertInDatabase(2, 'Quote', ['created_at' => $twoDaysAgo, 'approved' => Quote::WAITING]);
 
-		$I->assertEquals(2, $this->repo->countPendingQuotesSince($threeDaysAgo));
+		$I->assertEquals(2, $this->repo->countWaitingQuotesSince($threeDaysAgo));
 	}
 
 	/**

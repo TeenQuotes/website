@@ -6,21 +6,21 @@ use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use TeenQuotes\Notifiers\AdminNotifier;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
 
-class PendingQuotesCommand extends ScheduledCommand {
+class WaitingQuotesCommand extends ScheduledCommand {
 
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'quotes:pending';
+	protected $name = 'quotes:waiting';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Get some statistics about pending quotes.';
+	protected $description = 'Get some statistics about waiting quotes.';
 
 	/**
 	 * @var \TeenQuotes\Quotes\Repositories\QuoteRepository
@@ -77,22 +77,22 @@ class PendingQuotesCommand extends ScheduledCommand {
 	public function fire()
 	{
 		// Retrieve data
-		$pendingToday = $this->getPendingToday();
-		$totalPending = $this->getPendingAllTime();
+		$waitingToday = $this->getWaitingToday();
+		$totalWaiting = $this->getTotalWaiting();
 
 		// Warn the administrator
-		$this->sendStatsToAdministrator($pendingToday, $totalPending);
+		$this->sendStatsToAdministrator($waitingToday, $totalWaiting);
 	}
 
 	/**
 	 * Send some statistics to the administrator
 	 *
-	 * @param  int $pendingToday The number of quotes submitted today
-	 * @param  int $totalPending The number of quotes waiting moderation
+	 * @param  int $waitingToday The number of quotes submitted today
+	 * @param  int $totalWaiting The number of quotes waiting moderation
 	 */
-	private function sendStatsToAdministrator($pendingToday, $totalPending)
+	private function sendStatsToAdministrator($waitingToday, $totalWaiting)
 	{
-		$message = "Number of quotes submitted today: ".$pendingToday." Total: ".$totalPending;
+		$message = "Number of quotes submitted today: ".$waitingToday." Total: ".$totalWaiting;
 
 		$this->adminNotifier->notify($message);
 	}
@@ -102,11 +102,11 @@ class PendingQuotesCommand extends ScheduledCommand {
 	 *
 	 * @return int
 	 */
-	private function getPendingToday()
+	private function getWaitingToday()
 	{
 		$yesterday = Carbon::now()->subDay();
 
-		return $this->quoteRepo->countPendingQuotesSince($yesterday);
+		return $this->quoteRepo->countWaitingQuotesSince($yesterday);
 	}
 
 	/**
@@ -114,9 +114,9 @@ class PendingQuotesCommand extends ScheduledCommand {
 	 *
 	 * @return int
 	 */
-	private function getPendingAllTime()
+	private function getTotalWaiting()
 	{
-		return $this->quoteRepo->nbPending();
+		return $this->quoteRepo->nbWaiting();
 	}
 
 	/**

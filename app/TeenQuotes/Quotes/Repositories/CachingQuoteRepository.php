@@ -39,6 +39,14 @@ class CachingQuoteRepository implements QuoteRepository {
 	/**
 	 * @see \TeenQuotes\Quotes\Repositories\QuoteRepository
 	 */
+	public function nbWaiting()
+	{
+		return $this->quotes->nbWaiting();
+	}
+
+	/**
+	 * @see \TeenQuotes\Quotes\Repositories\QuoteRepository
+	 */
 	public function lastPendingQuotes($nb)
 	{
 		return $this->quotes->lastPendingQuotes($nb);
@@ -279,9 +287,9 @@ class CachingQuoteRepository implements QuoteRepository {
 	/**
 	 * @see \TeenQuotes\Quotes\Repositories\QuoteRepository
 	 */
-	public function countPendingQuotesSince(Carbon $date)
+	public function countWaitingQuotesSince(Carbon $date)
 	{
-		return $this->quotes->countPendingQuotesSince($date);
+		return $this->quotes->countWaitingQuotesSince($date);
 	}
 
 	private function flushQuotesForQuote($id)

@@ -19,6 +19,12 @@ interface QuoteRepository {
 	public function nbPending();
 
 	/**
+	 * Get the number of quotes waiting moderation
+	 * @return int
+	 */
+	public function nbWaiting();
+
+	/**
 	 * Grab pending quotes
 	 * @param  int $nb The number of quotes to grab
 	 * @return \Illuminate\Database\Eloquent\Collection
@@ -208,9 +214,9 @@ interface QuoteRepository {
 	public function getQuotesForTag(Tag $t, $page, $pagesize);
 
 	/**
-	 * Get the number of pending quotes submitted after a given date
+	 * Get the number of waiting quotes submitted after a given date
 	 * @param  \Carbon\Carbon $date
 	 * @return int
 	 */
-	public function countPendingQuotesSince(Carbon $date);
+	public function countWaitingQuotesSince(Carbon $date);
 }
