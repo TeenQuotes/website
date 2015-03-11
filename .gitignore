@@ -4,7 +4,6 @@
 bootstrap/compiled.php
 composer.lock
 composer.phar
-migrate*
 node_modules
 public/assets/css/screen.css
 public/assets/css/styles.min.css
