@@ -72,7 +72,8 @@ class IndexQuotesCest {
 	{
 		$I->seeNumberOfElements('.quote', $I->getNbQuotesPerPage());
 
-		for ($i = 1; $i <= $I->getNbQuotesPerPage(); $i++) {
+		for ($i = 1; $i <= $I->getNbQuotesPerPage(); $i++)
+		{
 			// Verify that we have got our quotes with different colors
 			$I->seeElement('.color-'.$i);
 
@@ -88,9 +89,8 @@ class IndexQuotesCest {
 		$I->see('1', '#paginator-quotes ul li.active');
 
 		// I can see that we have got our links to pages
-		for ($i = 2; $i <= $I->getNbPagesToCreate(); $i++) {
+		for ($i = 2; $i <= $I->getNbPagesToCreate(); $i++)
 			$I->see($i, '#paginator-quotes li a');
-		}
 
 		// Go to the second page and check that the page
 		// parameter has been set in the URL

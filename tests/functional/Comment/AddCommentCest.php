@@ -15,7 +15,7 @@ class AddCommentCest {
 	 * @var array
 	 */
 	private $quotes;
-	
+
 	public function _before(FunctionalTester $I)
 	{
 		$I->logANewUser();
@@ -42,6 +42,7 @@ class AddCommentCest {
 		$I->seeSuccessFlashMessage('Your comment has been added successfully!');
 		$I->seeNumberOfElements('.comment', $nbCommentsExpected);
 		$I->see($txtToAdd, '.comment[data-id='.($nbCommentsExpected).']');
+
 		// We have got a link to the profile of the comment's author
 		$I->see(Auth::user()->login, '.comment[data-id='.$nbCommentsExpected.'] a.link-author-name');
 		$I->assertEquals(1, Auth::user()->getTotalComments());
@@ -64,7 +65,7 @@ class AddCommentCest {
 		// Assert that we have got an error
 		$I->amOnRoute('quotes.show', $this->quotes[0]->id);
 		$I->seeFormError('The content must be at least 10 characters.');
-		
+
 		// The comment was not posted
 		$I->seeNumberOfElements('.comment', $this->nbComments);
 		$I->assertEquals($this->nbComments, Quote::find($this->quotes[0]->id)->total_comments);
@@ -86,7 +87,7 @@ class AddCommentCest {
 		// Assert that we have got an error
 		$I->amOnRoute('quotes.show', $this->quotes[0]->id);
 		$I->seeFormError('The content may not be greater than 500 characters.');
-		
+
 		// The comment was not posted
 		$I->seeNumberOfElements('.comment', $this->nbComments);
 		$I->assertEquals($this->nbComments, Quote::find($this->quotes[0]->id)->total_comments);
@@ -107,7 +108,7 @@ class AddCommentCest {
 		// Assert that we have got an error
 		$I->amOnRoute('quotes.show', $this->quotes[0]->id);
 		$I->seeFormError('The content field is required.');
-		
+
 		// The comment was not posted
 		$I->seeNumberOfElements('.comment', $this->nbComments);
 		$I->assertEquals($this->nbComments, Quote::find($this->quotes[0]->id)->total_comments);

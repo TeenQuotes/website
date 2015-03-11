@@ -18,18 +18,18 @@ class EditCommentCest {
 
 	/**
 	 * My comment
-	 * @var StdClass
+	 * @var \TeenQuotes\Comments\Models\Comment
 	 */
 	private $myComment;
-	
+
 	public function _before(FunctionalTester $I)
 	{
 		$u = $I->logANewUser();
-		
+
 		// Create some quotes and add some comments to the first quote
 		$this->firstQuoteId = array_values($I->createSomePublishedQuotes())[0]->id;
 		$I->insertInDatabase($this->nbComments, 'Comment', ['quote_id' => $this->firstQuoteId]);
-		
+
 		// Create a comment posted by the user
 		$this->myComment = $I->insertInDatabase(1, 'Comment', ['quote_id' => $this->firstQuoteId, 'user_id' => $u->id]);
 	}
@@ -45,7 +45,7 @@ class EditCommentCest {
 		$I->amOnRoute('quotes.show', $this->firstQuoteId);
 		$I->seeNumberOfElements('.controls-large a.edit-comment', 1);
 		$I->seeElement('.comment[data-id='.$this->myComment->id.'] a.edit-comment');
-		
+
 		// Go to the edit comment page and fill the form
 		$this->goToTheEditFormForMyComment($I);
 		$I->fillEditCommentForm($newContent);
@@ -75,9 +75,9 @@ class EditCommentCest {
 	}
 
 	private function fillEditFormAndSeeFormError(FunctionalTester $I, $toFill, $expectedError)
-	{		
+	{
 		$I->amOnRoute('quotes.show', $this->firstQuoteId);
-		
+
 		// Go to the edit comment page and fill the form
 		$this->goToTheEditFormForMyComment($I);
 		$I->fillEditCommentForm($toFill);
