@@ -14,6 +14,13 @@ class NavigationHelper extends Module {
 		$I->click('My profile', '.nav');
 	}
 
+	public function navigateToTheAdminPanel()
+	{
+		$I = $this->getModule('Laravel4');
+
+		$I->amOnRoute('admin.quotes.index');
+	}
+
 	public function navigateToTheSearchPage()
 	{
 		$I = $this->getModule('Laravel4');
