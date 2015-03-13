@@ -11,7 +11,7 @@ class DbSeederHelper extends Module
 	/**
 	 * Create a new user and store it in database. Can pass an array (key-value) to override dummy values
 	 * @param  array $overrides The key-value array used to override dummy values
-	 * @return TeenQuotes\Users\Models\User The created user instance
+	 * @return \TeenQuotes\Users\Models\User The created user instance
 	 */
 	public function haveAnAccount($overrides = [])
 	{
@@ -21,7 +21,7 @@ class DbSeederHelper extends Module
 	/**
 	 * Log a new user. Can pass an array (key-value) to override dummy values
 	 * @param  array $overrides The key-value array used to override dummy values
-	 * @return User The logged in user
+	 * @return \TeenQuotes\Users\Models\User The logged in user
 	 */
 	public function logANewUser($overrides = [])
 	{
@@ -70,6 +70,11 @@ class DbSeederHelper extends Module
 		throw new InvalidArgumentException("Can't resolve the full namespace for the given class name: ".$class);
 	}
 
+	/**
+	 * Tell if a class behaves nicely
+	 * @param  string  $name The name of the class, without a namespace
+	 * @return boolean
+	 */
 	private function isNiceBehaviourClass($name)
 	{
 		$niceClasses = [
