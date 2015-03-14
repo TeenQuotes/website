@@ -2,9 +2,10 @@
 
 use App, BaseController, Config, Input, InvalidArgumentException, Lang;
 use Redirect, Request, Response, View;
+use TeenQuotes\AdminPanel\Helpers\Moderation;
 use TeenQuotes\Exceptions\QuoteNotFoundException;
-use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Mail\UserMailer;
+use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Quotes\Repositories\QuoteRepository;
 
 class QuotesAdminController extends BaseController {
@@ -89,7 +90,7 @@ class QuotesAdminController extends BaseController {
 		$quote = $this->quoteRepo->updateContentAndApproved($id, $data['content'], Quote::PENDING);
 
 		// Contact the author of the quote
-		$this->sendMailForQuoteAndApprove($quote, 'approve');
+		$this->sendMailForQuoteAndModeration($quote, new Moderation('approve'));
 
 		return Redirect::route('admin.quotes.index')->with('success', 'The quote has been edited and approved!');
 	}
@@ -104,7 +105,7 @@ class QuotesAdminController extends BaseController {
 	 */
 	public function postModerate($id, $type)
 	{
-		$this->guardType($type);
+		$moderation = new Moderation($type);
 
 		if (Request::ajax())
 		{
@@ -114,57 +115,28 @@ class QuotesAdminController extends BaseController {
 			if (is_null($quote))
 				throw new InvalidArgumentException("Quote ".$id." is not a waiting quote.");
 
-			$approved = ($type == 'approve') ? Quote::PENDING : Quote::REFUSED;
+			$approved = $moderation->isApproved() ? Quote::PENDING : Quote::REFUSED;
 			$quote = $this->quoteRepo->updateApproved($id, $approved);
 
 			// Contact the author of the quote
-			$this->sendMailForQuoteAndApprove($quote, $type);
+			$this->sendMailForQuoteAndModeration($quote, $moderation);
 
 			return Response::json(['success' => true], 200);
 		}
 	}
 
 	/**
-	 * Guard the moderation decision against available values
-	 * @param  string $type The moderation decision to test
-	 * @throws \InvalidArgumentException If the type is not supported
-	 */
-	private function guardType($type)
-	{
-		if ( ! in_array($type, $this->getAvailableTypes()))
-			throw new InvalidArgumentException("Wrong type. Got ".$type.". Available values: ".$this->presentAvailableTypes());
-	}
-
-	/**
-	 * Get available types of moderation
-	 * @return array
-	 */
-	private function getAvailableTypes()
-	{
-		return ['approve', 'unapprove', 'alert'];
-	}
-
-	/**
-	 * Present available types of moderation
-	 * @return string
-	 */
-	private function presentAvailableTypes()
-	{
-		return implode('|', $this->getAvailableTypes());
-	}
-
-	/**
 	 * Send an email to the author of quote telling the moderation decision
 	 * @param  \TeenQuotes\Quotes\Models\Quote $quote
-	 * @param  string $type The moderation decision
+	 * @param  \TeenQuotes\AdminPanel\Helpers\Moderation $moderation The moderation decision
 	 */
-	private function sendMailForQuoteAndApprove($quote, $type)
+	private function sendMailForQuoteAndModeration($quote, Moderation $moderation)
 	{
 		$nbDays = 0;
 		// Retrieve the number of days before the publication of the quote
-		if ($type == 'approve')
+		if ($moderation->isApproved())
 			$nbDays = $this->quoteRepo->nbDaysUntilPublication($quote);
 
-		$this->userMailer->sendModeration($type, $quote, $nbDays);
+		$this->userMailer->sendModeration($moderation, $quote, $nbDays);
 	}
 }

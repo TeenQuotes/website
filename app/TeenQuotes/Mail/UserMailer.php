@@ -3,6 +3,7 @@
 use App, Carbon, Lang;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Queue\QueueManager as Queue;
+use TeenQuotes\AdminPanel\Helpers\Moderation;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Users\Models\User;
 use TeenQuotes\Users\Repositories\UserRepository;
@@ -180,12 +181,14 @@ class UserMailer {
 	/**
 	 * Send a moderation decision for a quote to its author
 	 *
-	 * @param  string $type The decision
+	 * @param  \TeenQuotes\AdminPanel\Helpers\Moderation $moderation The moderation decision
 	 * @param  \TeenQuotes\Quotes\Models\Quote $quote
 	 * @param  int $nbDays The number of days before the publication of the quote
 	 */
-	public function sendModeration($type, $quote, $nbDays)
+	public function sendModeration(Moderation $moderation, $quote, $nbDays)
 	{
+		$type = $moderation->getType();
+
 		$this->send('emails.quotes.'.$type,
 			$quote->user,
 			compact('quote', 'nbDays'),
