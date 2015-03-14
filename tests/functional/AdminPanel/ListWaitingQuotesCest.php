@@ -1,5 +1,8 @@
 <?php
 
+use TeenQuotes\AdminPanel\Helpers\Moderation;
+use TeenQuotes\Quotes\Models\Quote;
+
 class ListWaitingQuotesCest {
 
 	/**
@@ -19,6 +22,12 @@ class ListWaitingQuotesCest {
 	 */
 	private $nbQuotes;
 
+	/**
+	 * Quotes that are waiting to be published
+	 * @var array
+	 */
+	private $waitingQuotes;
+
 	public function _before(FunctionalTester $I)
 	{
 		$this->tester = $I;
@@ -29,7 +38,7 @@ class ListWaitingQuotesCest {
 		];
 
 		$I->createSomePublishedQuotes();
-		$I->createSomeWaitingQuotes(['nb_quotes' => $this->nbQuotes['waiting']]);
+		$this->waitingQuotes = $I->createSomeWaitingQuotes(['nb_quotes' => $this->nbQuotes['waiting']]);
 		$I->createSomePendingQuotes(['nb_quotes' => $this->nbQuotes['pending']]);
 
 		$this->admin = $I->logANewUser(['security_level' => 1]);
@@ -37,7 +46,7 @@ class ListWaitingQuotesCest {
 
 	public function clickOnLogoutOnProfile(FunctionalTester $I)
 	{
-		$I->am('a Teen Quotes\' administrator');
+		$I->am("a Teen Quotes' administrator");
 		$I->wantTo('view quotes waiting for moderation');
 
 		$nbDaysToPublish = $this->computeNbDaysToPublishQuotes($this->nbQuotes['pending']);
@@ -49,6 +58,61 @@ class ListWaitingQuotesCest {
 		$this->seeNumberOfWaitingQuotesIs($this->nbQuotes['waiting']);
 		$this->seeNumberOfPendingQuotesIs($this->nbQuotes['pending']);
 		$this->seeNumberOfDaysToPublishIs($nbDaysToPublish);
+
+		$this->seeRequiredElementsForQuotes($this->waitingQuotes);
+	}
+
+	/**
+	 * I can see that quotes have things properly being displayed
+	 * @param  array  $quotes
+	 */
+	private function seeRequiredElementsForQuotes(array $quotes)
+	{
+		foreach ($this->waitingQuotes as $quote)
+		{
+			$this->seeModerationButtonsForQuote($quote);
+			$this->seeContentForQuote($quote);
+		}
+	}
+
+	/**
+	 * I can see that the content of a quote is displayed
+	 * @param  \TeenQuotes\Quotes\Models\Quote  $q
+	 */
+	private function seeContentForQuote(Quote $q)
+	{
+		$parentClass = $this->getCssParentClass($q);
+
+		$this->tester->see($q->content, $parentClass);
+	}
+
+	/**
+	 * I can see moderation buttons for each quote
+	 * @param  \TeenQuotes\Quotes\Models\Quote  $q
+	 */
+	private function seeModerationButtonsForQuote(Quote $q)
+	{
+		$parentClass = $this->getCssParentClass($q);
+
+		// I can see moderation decisions
+		$moderationDecisions = Moderation::getAvailableTypes();
+		foreach ($moderationDecisions as $decision)
+		{
+			$cssClass = $parentClass.' .quote-moderation[data-decision="'.$decision.'"]';
+			$this->tester->seeNumberOfElements($cssClass, 1);
+		}
+
+		// I can see the edit button
+		$this->tester->seeNumberOfElements($parentClass.' .fa-pencil-square-o', 1);
+	}
+
+	/**
+	 * Get the CSS class for a quote
+	 * @param  \TeenQuotes\Quotes\ModelsQuote  $q
+	 */
+	private function getCssParentClass(Quote $q)
+	{
+		return '.quote[data-id='.$q->id.']';
 	}
 
 	/**
