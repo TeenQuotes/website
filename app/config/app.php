@@ -104,7 +104,6 @@ return array(
 		'Antoineaugusti\LaravelSentimentAnalysis\LaravelSentimentAnalysisServiceProvider',
 		'Bugsnag\BugsnagLaravel\BugsnagLaravelServiceProvider',
 		'Buonzz\GeoIP\Laravel4\ServiceProviders\GeoIPServiceProvider',
-		'Dinesh\Bugonemail\BugonemailServiceProvider',
 		'GrahamCampbell\HTMLMin\HTMLMinServiceProvider',
 		'Healey\Robots\RobotsServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',

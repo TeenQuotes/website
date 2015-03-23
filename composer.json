@@ -23,7 +23,6 @@
 		"guzzlehttp/guzzle": "~4.0",
 		"jenssegers/agent": "~2.0",
 		"buonzz/laravel-4-freegeoip": "dev-master",
-		"dinesh/bugonemail": "~1.0",
 		"thomaswelton/laravel-gravatar": "0.1.x",
 		"antoineaugusti/laravel-sentiment-analysis": "~1.0",
 		"philf/setting": "dev-master",
