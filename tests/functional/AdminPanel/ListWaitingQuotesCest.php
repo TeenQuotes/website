@@ -44,7 +44,7 @@ class ListWaitingQuotesCest {
 		$this->admin = $I->logANewUser(['security_level' => 1]);
 	}
 
-	public function clickOnLogoutOnProfile(FunctionalTester $I)
+	public function viewQuotesWaitingForModeration(FunctionalTester $I)
 	{
 		$I->am("a Teen Quotes' administrator");
 		$I->wantTo('view quotes waiting for moderation');
