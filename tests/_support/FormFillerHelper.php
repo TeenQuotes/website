@@ -19,7 +19,7 @@ class FormFillerHelper extends Module {
 	public function fillEditCommentForm($text)
 	{
 		$I = $this->getModule('Laravel4');
-		
+
 		$I->fillField('#content-comment', $text);
 		$I->click('Edit my comment!');
 	}
@@ -132,6 +132,18 @@ class FormFillerHelper extends Module {
 		$I->fillField('New password', $password);
 		$I->fillField('Confirm your password', $passwordRepeat);
 		$I->click('Change my password!');
+	}
+
+	/**
+	 * Fill and submit the form to set the new content of a quote waiting to be moderated
+	 * @param  string $content The new content
+	 */
+	public function fillNewContentWaitingQuoteForm($content)
+	{
+		$I = $this->getModule('Laravel4');
+
+		$I->fillField('Content of the quote', $content);
+		$I->click('Edit this quote!');
 	}
 
 	public function fillUserSettingsForm(array $params)
