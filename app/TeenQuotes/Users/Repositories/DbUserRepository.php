@@ -248,6 +248,7 @@ class DbUserRepository implements UserRepository {
 	public function mostCommonCountryId()
 	{
 		$u = User::select('country', DB::raw('count(*) as total'))
+			->whereNotNull('country')
 			->groupBy('country')
 			->orderBy('total', 'DESC')
 			->first();
