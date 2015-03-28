@@ -38,7 +38,55 @@ class AdminPanelHelper extends Module {
 		}
 
 		// I can see the edit button
-		$I->seeNumberOfElements($parentClass.' .fa-pencil-square-o', 1);
+		$I->seeNumberOfElements($this->getCssEditLink($q), 1);
+	}
+
+	/**
+	 * Click the edit button for a quote and assert that we've been redirected
+	 * @param  \TeenQuotes\Quotes\Models\Quote  $q
+	 */
+	public function clickEditButtonFor(Quote $q)
+	{
+		$I = $this->getModule('Laravel4');
+
+		$I->click($this->getCssEditLink($q));
+		$I->seeCurrentRouteIs('admin.quotes.edit', $q->id);
+	}
+
+	/**
+	 * Check that the author of a quote got an email telling him that one of its
+	 * quote was approved
+	 * @param  \TeenQuotes\Quotes\Models\Quote  $quote
+	 */
+	public function seeAuthorOfQuoteHasBeenWarnedOfApproval(Quote $quote)
+	{
+		$I = $this->getModule('MailCatcher');
+
+		$I->seeInLastEmailTo($quote->user->email, 'Your quote has been approved!');
+	}
+
+	/**
+	 * Check that a quote is pending. Grab the quote from the DB
+	 * @param  \TeenQuotes\Quotes\Models\Quote  $q
+	 */
+	public function seeQuoteIsPending(Quote $q)
+	{
+		$I = $this->getModule('Laravel4');
+
+		$quote = $I->grabRecord('quotes', ['id' => $q->id]);
+
+		$I->assertEquals($quote->approved, Quote::PENDING);
+	}
+
+	/**
+	 * Get the CSS class for the link to the edit form for a quote
+	 * @param  \TeenQuotes\Quotes\ModelsQuote  $q
+	 */
+	private function getCssEditLink(Quote $q)
+	{
+		$parentClass = $this->getCssParentClass($q);
+
+		return $parentClass.' .admin__quote__edit-button';
 	}
 
 	/**

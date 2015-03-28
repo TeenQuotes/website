@@ -1,10 +1,11 @@
 <?php namespace TeenQuotes\Newsletters;
 
 use App;
+use Illuminate\Support\Collection;
+use TeenQuotes\Newsletters\Models\Newsletter;
 use TeenQuotes\Newsletters\NewsletterList;
 use TeenQuotes\Newsletters\Repositories\NewsletterRepository;
 use TeenQuotes\Users\Models\User;
-use TeenQuotes\Newsletters\Models\Newsletter;
 
 class NewslettersManager {
 

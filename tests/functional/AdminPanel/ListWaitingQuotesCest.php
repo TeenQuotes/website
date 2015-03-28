@@ -1,6 +1,5 @@
 <?php
 
-use TeenQuotes\AdminPanel\Helpers\Moderation;
 use TeenQuotes\Quotes\Models\Quote;
 
 class ListWaitingQuotesCest {
@@ -70,49 +69,9 @@ class ListWaitingQuotesCest {
 	{
 		foreach ($this->waitingQuotes as $quote)
 		{
-			$this->seeModerationButtonsForQuote($quote);
-			$this->seeContentForQuote($quote);
+			$this->tester->seeModerationButtonsForQuote($quote);
+			$this->tester->seeContentForQuoteWaitingForModeration($quote);
 		}
-	}
-
-	/**
-	 * I can see that the content of a quote is displayed
-	 * @param  \TeenQuotes\Quotes\Models\Quote  $q
-	 */
-	private function seeContentForQuote(Quote $q)
-	{
-		$parentClass = $this->getCssParentClass($q);
-
-		$this->tester->see($q->content, $parentClass);
-	}
-
-	/**
-	 * I can see moderation buttons for each quote
-	 * @param  \TeenQuotes\Quotes\Models\Quote  $q
-	 */
-	private function seeModerationButtonsForQuote(Quote $q)
-	{
-		$parentClass = $this->getCssParentClass($q);
-
-		// I can see moderation decisions
-		$moderationDecisions = Moderation::getAvailableTypes();
-		foreach ($moderationDecisions as $decision)
-		{
-			$cssClass = $parentClass.' .quote-moderation[data-decision="'.$decision.'"]';
-			$this->tester->seeNumberOfElements($cssClass, 1);
-		}
-
-		// I can see the edit button
-		$this->tester->seeNumberOfElements($parentClass.' .fa-pencil-square-o', 1);
-	}
-
-	/**
-	 * Get the CSS class for a quote
-	 * @param  \TeenQuotes\Quotes\ModelsQuote  $q
-	 */
-	private function getCssParentClass(Quote $q)
-	{
-		return '.quote[data-id='.$q->id.']';
 	}
 
 	/**
