@@ -94,7 +94,6 @@ class UnsubscribeUsersCommand extends ScheduledCommand {
 		$this->newslettersManager->deleteForUsers($allUsers);
 
 		// Send an email to each user to notice them
-		new MailSwitcher('smtp');
 		$nonActiveUsers->each(function($user)
 		{
 			// Log this info
