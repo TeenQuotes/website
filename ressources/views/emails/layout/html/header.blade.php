@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
 	<meta charset="utf-8">
-	@include('layouts.email.style')
+	@include('emails.layout.html.style')
 </head>
 <body>
 	<div id="background">
