@@ -323,6 +323,18 @@ $(document).ready(function() {
 		$('html, body').show();
 	}
 
+	// The "getting started" guide on the user's profile
+	$("#welcome-profile__just-signed-up-button").on("click", function() {
+		// Hide the div to tweet the message
+		$(".welcome_profile__just-signed-up").slideUp(500);
+		// Register the event
+		var tweetedText = $('#js--just-signed-up').val().trim();
+		ga('send', 'event', 'welcome-profile', 'tweet-text', tweetedText);
+	});
+
+	if ($('#js--just-signed-up').length)
+		updateWelcomeButton();
+
 	// Moderation
 	$('.quote-moderation').click(function() {
 		var id_quote, numberOfQuoteAwaitingMode, decision;
@@ -508,3 +520,12 @@ function doneTypingLoginPassword() {
 
 	$("#submit-form").removeClass("animated fadeInUp").addClass("animated shake");
 }
+
+var updateWelcomeButton = function() {
+	var text = $('#js--just-signed-up').val().trim();
+	var baseURL = "https://twitter.com/home?status=";
+	var fullURL = baseURL + encodeURIComponent(text).replace(/%20/g, '+');
+	$('#welcome-profile__just-signed-up-button').attr('href', fullURL);
+};
+
+$('#js--just-signed-up').bind('input propertychange', updateWelcomeButton);
