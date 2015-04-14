@@ -1,30 +1,14 @@
 @extends('users.show')
 
-@section('welcome-tutorial')	
+@section('welcome-tutorial')
 	<div id="welcome-profile">
 		{{ $welcomeText }}
-		<div class="row">
-			<div class="col-md-6 col-xs-12">
-				<h3><i class="fa fa-edit"></i>{{ $updateProfileTitle }}</h3>
-				{{ $updateProfileContent }}
-			</div>
 
-			<div class="col-md-6 col-xs-12">
-				<h3><i class="fa fa-comment"></i>{{ $addingQuoteTitle }}</h3>
-				{{ $addingQuoteContent }}
-			</div>
-		</div>
+		{{-- Suggest to write a tweet --}}
+		@include('users.partials.getting-started')
 
-		<div class="row">
-			<div class="col-md-6 col-xs-12">
-				<h3><i class="fa fa-wrench"></i>{{ $editSettingsTitle }}</h3>
-				{{ $editSettingsContent }}
-			</div>
+		{{-- Some welcome cards, to suggest some actions --}}
+		@include('users.partials.welcome-cards')
 
-			<div class="col-md-6 col-xs-12">
-				<h3><i class="fa fa-heart"></i>{{ $addingFavoritesTitle }}</h3>
-				{{ $addingFavoritesContent }}
-			</div>
-		</div>
 	</div>
 @stop
