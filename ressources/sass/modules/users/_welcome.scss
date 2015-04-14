@@ -1,0 +1,60 @@
+#welcome-profile {
+	margin: 2em 0 3em 0;
+}
+
+.welcome-profile__cards-container {
+	@include link-orange-on-white;
+
+	.row {
+		@media screen and (min-width: $breakpointSmartphone) {
+			margin-top: 1.5em;
+			margin-bottom: 2.5em;
+		}
+
+		.col-xs-12 {
+			@media screen and (max-width: $breakpointSmartphone) {
+				margin-top: .5em;
+				margin-bottom: .5em;
+			}
+		}
+	}
+
+	h3 {
+		color: $lightBlue;
+	}
+}
+
+.welcome_profile__just-signed-up {
+	margin: 1.5em 0;
+}
+
+.welcome-profile__just-signed-up-textarea {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 10px 15px;
+	background: #f4f4f4;
+	color: #555;
+	border: 1px solid darken(#f4f4f4, 10%);
+	outline: none;
+}
+
+#welcome-profile__just-signed-up-button {
+	background: #f4f4f4;
+	padding: 10px 15px;
+	margin-top: 15px;
+	color: $blueTwitter;
+	display: inline-block;
+	float: right;
+	cursor: pointer;
+	font-weight: 600;
+	text-decoration: none;
+	@include element-transition;
+
+	&:hover {
+		background: darken(#f4f4f4, 5%);
+	}
+
+	i.fa {
+		margin-right: 10px;
+	}
+}

@@ -8,6 +8,7 @@
 @import "modules/countries";
 @import "modules/quotes/tags";
 @import "modules/quotes/tops";
+@import "modules/users/welcome";
 
 $imagesFolder:"/assets/images/";
 
@@ -1310,30 +1311,6 @@ h3 {
 		padding: 5px 10px;
 
 		@include link-white-on-blue;
-	}
-
-	#welcome-profile {
-		margin: 2em 0 3em 0;
-
-		h3 {
-			color: $lightBlue;
-		}
-
-		.row {
-			@media screen and (min-width: $breakpointSmartphone) {
-				margin-top: 1.5em;
-				margin-bottom: 2.5em;
-			}
-
-			.col-xs-12 {
-				@media screen and (max-width: $breakpointSmartphone) {
-					margin-top: .5em;
-					margin-bottom: .5em;
-				}
-			}
-		}
-
-		@include link-orange-on-white;
 	}
 }
 
