@@ -1,6 +1,8 @@
 <?php namespace TeenQuotes\Api\V1;
 
 use Illuminate\Support\ServiceProvider;
+use TeenQuotes\Api\V1\Interfaces\PageBuilderInterface;
+use TeenQuotes\Api\V1\Tools\PageBuilder;
 use TeenQuotes\Exceptions\ApiNotFoundException;
 use TeenQuotes\Http\Facades\Response;
 
@@ -25,6 +27,7 @@ class ApiServiceProvider extends ServiceProvider {
 	{
 		$this->registerOAuthRoutes();
 		$this->registerRoutesPatterns();
+		$this->registerBindings();
 
 		$this->registerCommentsRoutes();
 		$this->registerCountriesRoutes();
@@ -138,6 +141,11 @@ class ApiServiceProvider extends ServiceProvider {
 			$this->app['router']->post('stories', ['uses' => 'StoriesController@store']);
 			$this->app['router']->get('stories/{story_id}', ['uses' => 'StoriesController@show']);
 		});
+	}
+
+	private function registerBindings()
+	{
+		$this->app->bind(PageBuilderInterface::class, PageBuilder::class);
 	}
 
 	private function registerOAuthRoutes()

@@ -209,7 +209,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 		if ($this->isNotFound($quotes))
 			throw new ApiNotFoundException('quotes');
 
-		$data = self::paginateContent($this->getPage(), $this->getPagesize(), $total, $quotes, 'quotes');
+		$data = $this->paginateContent($this->getPage(), $this->getPagesize(), $total, $quotes, 'quotes');
 
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
