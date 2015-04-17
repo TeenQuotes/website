@@ -36,7 +36,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 		$relatedQuote = $this->quoteRepo->getById($quote_id);
 		$totalComments = $relatedQuote->total_comments;
 
-		$data = self::paginateContent($page, $pagesize, $totalComments, $content, 'comments');
+		$data = $this->paginateContent($page, $pagesize, $totalComments, $content, 'comments');
 
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
@@ -62,7 +62,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
 		$totalComments = $this->commentRepo->countForUser($user);
 
-		$data = self::paginateContent($page, $pagesize, $totalComments, $content, 'comments');
+		$data = $this->paginateContent($page, $pagesize, $totalComments, $content, 'comments');
 
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}

@@ -14,8 +14,9 @@ use TeenQuotes\Settings\Repositories\SettingRepository;
 use TeenQuotes\Stories\Repositories\StoryRepository;
 use TeenQuotes\Tags\Repositories\TagRepository;
 use TeenQuotes\Users\Repositories\UserRepository;
+use TeenQuotes\Api\V1\Interfaces\PageBuilderInterface;
 
-class APIGlobalController extends BaseController {
+class APIGlobalController extends BaseController implements PageBuilderInterface {
 
 	/**
 	 * @var \TeenQuotes\Countries\Repositories\CountryRepository
@@ -67,12 +68,17 @@ class APIGlobalController extends BaseController {
 	 */
 	protected $userRepo;
 
+	/**
+	 * @var \TeenQuotes\Api\V1\Interfaces\PageBuilderInterface
+	 */
+	protected $pageBuilder;
+
 	public function __construct(
 		CommentRepository $commentRepo, CountryRepository $countryRepo,
 		FavoriteQuoteRepository $favQuoteRepo, NewsletterRepository $newsletterRepo,
 		NewslettersManager $newslettersManager, QuoteRepository $quoteRepo,
 		SettingRepository $settingRepo, StoryRepository $storyRepo,
-		TagRepository $tagRepo, UserRepository $userRepo)
+		TagRepository $tagRepo, UserRepository $userRepo, PageBuilderInterface $pageBuilder)
 	{
 		$this->commentRepo        = $commentRepo;
 		$this->countryRepo        = $countryRepo;
@@ -84,11 +90,24 @@ class APIGlobalController extends BaseController {
 		$this->storyRepo          = $storyRepo;
 		$this->tagRepo            = $tagRepo;
 		$this->userRepo           = $userRepo;
+		$this->pageBuilder        = $pageBuilder;
 
 		$this->bootstrap();
 	}
 
+	/**
+	 * Bootstrap things we need to do just after the constructor
+	 * has been called
+	 */
 	protected function bootstrap() {}
+
+	/**
+	 * @see \TeenQuotes\Api\V1\Interfaces\PageBuilderInterface
+	 */
+	public function buildPagesArray($page, $pagesize, $totalPages, $url, $getParams)
+	{
+		return $this->pageBuilder->buildPagesArray($page, $pagesize, $totalPages, $url, $getParams);
+	}
 
 	/**
 	 * Display the welcome message at the root of the API
@@ -122,7 +141,7 @@ class APIGlobalController extends BaseController {
 	 * @return array Keys: total_<ressource>, total_pages, page, pagesize, url,
 	 * has_next_page, has_previous_page[, next_page, previous_page]
 	 */
-	public static function paginateContent($page, $pagesize, $totalContent, $content, $contentName = 'quotes')
+	public function paginateContent($page, $pagesize, $totalContent, $content, $contentName = 'quotes')
 	{
 		$totalPages = ceil($totalContent / $pagesize);
 
@@ -135,29 +154,14 @@ class APIGlobalController extends BaseController {
 			'url'                 => URL::current()
 		];
 
-		$additionalGet = null;
+		$getParams = null;
 		if (Input::has('quote'))
-			$additionalGet = '&quote=true';
+			$getParams = '&quote=true';
 
-		// Add next page URL
-		if ($page < $totalPages)
-		{
-			$data['has_next_page'] = true;
-			$data['next_page'] = $data['url'].'?page='.($page + 1).'&pagesize='.$pagesize.$additionalGet;
-		}
-		else
-			$data['has_next_page'] = false;
+		// Get information about previous and next pages
+		$pagesArray = $this->buildPagesArray($page, $pagesize, $totalPages, $data['url'], $getParams);
 
-		// Add previous page URL
-		if ($page >= 2)
-		{
-			$data['has_previous_page'] = true;
-			$data['previous_page'] = $data['url'].'?page='.($page - 1).'&pagesize='.$pagesize.$additionalGet;
-		}
-		else
-			$data['has_previous_page'] = false;
-
-		return $data;
+		return array_merge($data, $pagesArray);
 	}
 
 	/**

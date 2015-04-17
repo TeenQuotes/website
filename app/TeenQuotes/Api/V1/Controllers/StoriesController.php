@@ -29,7 +29,7 @@ class StoriesController extends APIGlobalController implements PaginatedContentI
 		if ($this->isNotFound($stories))
 			throw new ApiNotFoundException('stories');
 
-		$data = self::paginateContent($page, $pagesize, $this->storyRepo->total(), $stories, 'stories');
+		$data = $this->paginateContent($page, $pagesize, $this->storyRepo->total(), $stories, 'stories');
 
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}

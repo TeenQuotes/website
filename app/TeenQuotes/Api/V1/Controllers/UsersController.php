@@ -345,7 +345,7 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
 		if ($this->isNotFound($users))
 			throw new ApiNotFoundException('users');
 
-		$data = self::paginateContent($this->getPage(), $this->getPagesize(), $total, $users, 'users');
+		$data = $this->paginateContent($this->getPage(), $this->getPagesize(), $total, $users, 'users');
 
 		return Response::json($data, 200, [], JSON_NUMERIC_CHECK);
 	}
