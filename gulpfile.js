@@ -22,7 +22,6 @@ elixir(function(mix) {
 		], outputCSS + '/styles.min.css', inputCSS)
 		.scripts([
 			'jquery-2.1.0.min.js',
-			'wow.min.js',
 			'bootstrap.min.js',
 			'mailgun-validator.js',
 			'app.js'
