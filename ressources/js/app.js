@@ -1,7 +1,7 @@
 window.laravel = window.laravel || {};
 var timeoutLoginSignup, timeoutPassword;
 
-$('html, body').hide();
+new WOW().init();
 
 $(document).ready(function() {
 
@@ -318,8 +318,6 @@ $(document).ready(function() {
 			$('html, body').scrollTop(0).show();
 			jump();
 		}, 0);
-	} else {
-		$('html, body').show();
 	}
 
 	// The "getting started" guide on the user's profile
