@@ -5,10 +5,6 @@ new WOW().init();
 
 $(document).ready(function() {
 
-	$('.social-buttons a i').delay(200).queue(function() {
-		$(this).addClass('animated fadeIn');
-	});
-
 	// Signup view
 	$('input#login-signup').keypress(function() {
 		var el = this;
