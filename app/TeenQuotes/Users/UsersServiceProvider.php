@@ -65,16 +65,20 @@ class UsersServiceProvider extends ServiceProvider {
 
 		$this->app['router']->group($this->getRouteGroupParams(), function() use ($controller)
 		{
-			$this->app['router']->delete('users', ['as' => 'users.delete', 'before' => 'auth', 'uses' => $controller.'@destroy']);
-			$this->app['router']->get("signup", ["as" => "signup", "before" => "guest", "uses" => $controller."@getSignup"]);
 			$this->app['router']->get('user-{user_id}', ['uses' => $controller.'@redirectOldUrl'])->where('user_id', '[0-9]+');
 			$this->app['router']->get('users/{user_id}/{display_type?}', ['as' => 'users.show', 'uses' => $controller.'@show']);
+			$this->app['router']->post('users/loginvalidator', ['as' => 'users.loginValidator', 'uses' => $controller.'@postLoginValidator']);
+			$this->app['router']->any('users/{wildcard}', $this->getController().'@notFound');
+		});
+
+		$this->app['router']->group($this->getRouteGroupParamsAccount(), function() use ($controller)
+		{
+			$this->app['router']->delete('users', ['as' => 'users.delete', 'before' => 'auth', 'uses' => $controller.'@destroy']);
+			$this->app['router']->get('signup', ['as' => 'signup', 'before' => 'guest', 'uses' => $controller.'@getSignup']);
+			$this->app['router']->resource('users', $controller, ['only' => ['store', 'edit', 'update']]);
 			$this->app['router']->put('users/{user_id}/password', ['as' => 'users.password', 'uses' => $controller.'@putPassword']);
 			$this->app['router']->put('users/{user_id}/avatar', ['as' => 'users.avatar', 'uses' => $controller.'@putAvatar']);
 			$this->app['router']->put('users/{user_id}/settings', ['as' => 'users.settings', 'uses' => $controller.'@putSettings']);
-			$this->app['router']->post('users/loginvalidator', ['as' => 'users.loginValidator', 'uses' => $controller.'@postLoginValidator']);
-			$this->app['router']->resource('users', $controller, ['only' => ['store', 'edit', 'update']]);
-			$this->app['router']->any('users/{wildcard}', $this->getController().'@notFound');
 		});
 	}
 
@@ -124,6 +128,19 @@ class UsersServiceProvider extends ServiceProvider {
 			'domain'    => $this->app['config']->get('app.domain'),
 			'namespace' => $this->getBaseNamespace().'Controllers',
 		];
+	}
+
+	/**
+	 * Get parameters for the account section
+	 * @return array
+	 */
+	private function getRouteGroupParamsAccount()
+	{
+		$data = $this->getRouteGroupParams();
+		// Switch to the secure domain
+		$data['domain'] = $this->app['config']->get('app.domainAccount');
+
+		return $data;
 	}
 
 	private function registerCommands()
