@@ -160,7 +160,7 @@ class UsersController extends BaseController {
 			Auth::login($response->getOriginalData());
 
 			if (Session::has('url.intended'))
-				return Redirect::intended('/')->with('success', Lang::get('auth.signupSuccessfull', ['login' => $data['login']]));
+				return Redirect::intended(route('home'))->with('success', Lang::get('auth.signupSuccessfull', ['login' => $data['login']]));
 
 			return Redirect::route('users.show', $data['login'])->with('success', Lang::get('auth.signupSuccessfull', ['login' => $data['login']]));
 		}

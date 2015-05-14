@@ -70,7 +70,7 @@ class AuthController extends BaseController {
 			$user->last_visit = Carbon::now()->toDateTimeString();
 			$user->save();
 
-			return Redirect::intended('/')->with('success', Lang::get('auth.loginSuccessfull', ['login' => $data['login']]));
+			return Redirect::intended(route('home'))->with('success', Lang::get('auth.loginSuccessfull', ['login' => $data['login']]));
 		}
 		// Maybe the user uses the old hash method
 		else
@@ -86,7 +86,7 @@ class AuthController extends BaseController {
 
 				Auth::login($user, true);
 
-				return Redirect::intended('/')->with('success', Lang::get('auth.loginSuccessfull', ['login' => $data['login']]));
+				return Redirect::intended(route('home'))->with('success', Lang::get('auth.loginSuccessfull', ['login' => $data['login']]));
 			}
 
 			return Redirect::route('signin')->withErrors(array('password' => Lang::get('auth.passwordInvalid')))->withInput(Input::except('password'));

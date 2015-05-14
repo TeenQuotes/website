@@ -14,15 +14,16 @@ return array(
 	*/
 
 	'debug'            => true,
-	
+
 	'users.avatarPath' => 'public/uploads/avatar',
-	
+
 	'url'              => 'http://dev.tq:8000',
 	'domain'           => 'dev.tq',
-	
+
 	'domainAPI'        => 'api.dev.tq',
 	'domainStories'    => 'stories.dev.tq',
 	'domainAdmin'      => 'admin.dev.tq',
+	'domainAccount'    => 'account.dev.tq',
 
 	'connections' => array(
 		'mysql' => array(

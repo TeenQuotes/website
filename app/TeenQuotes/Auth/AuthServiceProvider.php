@@ -57,7 +57,7 @@ class AuthServiceProvider extends ServiceProvider {
 		$this->app['view']->composer([
 			'auth.signin',
 			'auth.signup'
-		], 'TeenQuotes\Tools\Composers\DeepLinksComposer');	
+		], 'TeenQuotes\Tools\Composers\DeepLinksComposer');
 	}
 
 	private function registerReminderRoutes()
@@ -78,11 +78,11 @@ class AuthServiceProvider extends ServiceProvider {
 		$this->app['view']->composer([
 			'password.reset'
 		], $this->getNamespaceComposers().'ResetComposer');
-		
+
 		// For deeps link
 		$this->app['view']->composer([
 			'password.remind'
-		], 'TeenQuotes\Tools\Composers\DeepLinksComposer');	
+		], 'TeenQuotes\Tools\Composers\DeepLinksComposer');
 	}
 
 	/**
@@ -92,7 +92,7 @@ class AuthServiceProvider extends ServiceProvider {
 	private function getRouteGroupParams()
 	{
 		return [
-			'domain'    => $this->app['config']->get('app.domain'),
+			'domain'    => $this->app['config']->get('app.domainAccount'),
 			'namespace' => 'TeenQuotes\Auth\Controllers'
 		];
 	}
