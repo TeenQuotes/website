@@ -1,6 +1,6 @@
 <?php namespace TeenQuotes\AdminPanel\Controllers;
 
-use App, BaseController, Config, Input, InvalidArgumentException, Lang;
+use App, BaseController, Config, Input, InvalidArgumentException;
 use Redirect, Request, Response, View;
 use TeenQuotes\AdminPanel\Helpers\Moderation;
 use TeenQuotes\Exceptions\QuoteNotFoundException;
@@ -123,11 +123,11 @@ class QuotesAdminController extends BaseController {
 	}
 
 	/**
-	 * Send an email to the author of quote telling the moderation decision
-	 * @param  \TeenQuotes\Quotes\Models\Quote $quote
-	 * @param  \TeenQuotes\AdminPanel\Helpers\Moderation $moderation The moderation decision
+	 * Send an email to the author of the quote telling the moderation decision
+	 * @param  Quote $quote
+	 * @param  Moderation $moderation The moderation decision
 	 */
-	private function sendMailForQuoteAndModeration($quote, Moderation $moderation)
+	private function sendMailForQuoteAndModeration(Quote $quote, Moderation $moderation)
 	{
 		$nbDays = 0;
 		// Retrieve the number of days before the publication of the quote
