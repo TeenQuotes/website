@@ -1,93 +1,103 @@
-<?php namespace TeenQuotes\Quotes\Composers;
+<?php
 
-use Auth, Input, InvalidArgumentException, JavaScript, Lang, URL;
+namespace TeenQuotes\Quotes\Composers;
+
+use Auth;
+use Input;
+use JavaScript;
+use Lang;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Tools\Composers\Interfaces\QuotesColorsExtractor;
+use URL;
 
-class IndexComposer implements QuotesColorsExtractor {
+class IndexComposer implements QuotesColorsExtractor
+{
+    private static $shouldDisplaySharingPromotion = null;
 
-	private static $shouldDisplaySharingPromotion = null;
+    public function compose($view)
+    {
+        $data = $view->getData();
 
-	public function compose($view)
-	{
-		$data = $view->getData();
+        // The AdBlock disclaimer
+        JavaScript::put([
+            'moneyDisclaimer' => Lang::get('quotes.adblockDisclaimer'),
+        ]);
 
-		// The AdBlock disclaimer
-		JavaScript::put([
-			'moneyDisclaimer' => Lang::get('quotes.adblockDisclaimer'),
-		]);
+        // Build the associative array #quote->id => "color"
+        // and store it in session
+        $view->with('colors', $this->extractAndStoreColors($data['quotes']));
 
-		// Build the associative array #quote->id => "color"
-		// and store it in session
-		$view->with('colors', $this->extractAndStoreColors($data['quotes']));
+        // If we have an available promotion, display it
+        $shouldDisplayPromotion = $this->shouldDisplayPromotion();
+        $view->with('shouldDisplayPromotion', $shouldDisplayPromotion);
+        if ($shouldDisplayPromotion) {
+            $view = $this->addPromotionToData($view);
+        }
+    }
 
-		// If we have an available promotion, display it
-		$shouldDisplayPromotion = $this->shouldDisplayPromotion();
-		$view->with('shouldDisplayPromotion', $shouldDisplayPromotion);
-		if ($shouldDisplayPromotion)
-			$view = $this->addPromotionToData($view);
-	}
+    private function addPromotionToData($view)
+    {
+        $data = $this->getDataPromotion();
 
-	private function addPromotionToData($view)
-	{
-		$data = $this->getDataPromotion();
+        foreach ($data as $key => $value) {
+            $view->with($key, $value);
+        }
 
-		foreach ($data as $key => $value) {
-			$view->with($key, $value);
-		}
+        return $view;
+    }
 
-		return $view;
-	}
+    public function extractAndStoreColors($quotes)
+    {
+        $colors = Quote::storeQuotesColors($quotes->lists('id'));
 
-	public function extractAndStoreColors($quotes)
-	{
-		$colors = Quote::storeQuotesColors($quotes->lists('id'));
+        return $colors;
+    }
 
-		return $colors;
-	}
+    private function getDataPromotion()
+    {
+        if ($this->shouldDisplaySignupPromotion()) {
+            return $this->getDataSignupPromotion();
+        }
 
-	private function getDataPromotion()
-	{
-		if ($this->shouldDisplaySignupPromotion())
-			return $this->getDataSignupPromotion();
+        if ($this->shouldDisplaySharingPromotion()) {
+            return $this->getDataSharingPromotion();
+        }
+    }
 
-		if ($this->shouldDisplaySharingPromotion())
-			return $this->getDataSharingPromotion();
-	}
+    private function getDataSharingPromotion()
+    {
+        return [
+            'promotionTitle' => Lang::get('quotes.sharePromotionTitle'),
+            'promotionText'  => Lang::get('quotes.sharePromotion'),
+            'promotionIcon'  => 'fa-heart-o',
+        ];
+    }
 
-	private function getDataSharingPromotion()
-	{
-		return [
-			'promotionTitle' => Lang::get('quotes.sharePromotionTitle'),
-			'promotionText'  => Lang::get('quotes.sharePromotion'),
-			'promotionIcon'  => 'fa-heart-o',
-		];
-	}
+    private function getDataSignupPromotion()
+    {
+        return [
+            'promotionTitle' => Lang::get('quotes.signupPromotionTitle'),
+            'promotionText'  => Lang::get('quotes.signupPromotion', ['url' => URL::route('signup')]),
+            'promotionIcon'  => 'fa-smile-o',
+        ];
+    }
 
-	private function getDataSignupPromotion()
-	{
-		return [
-			'promotionTitle' => Lang::get('quotes.signupPromotionTitle'),
-			'promotionText'  => Lang::get('quotes.signupPromotion', ['url' => URL::route('signup')]),
-			'promotionIcon'  => 'fa-smile-o',
-		];
-	}
+    private function shouldDisplaySharingPromotion()
+    {
+        if (is_null(self::$shouldDisplaySharingPromotion)) {
+            self::$shouldDisplaySharingPromotion = (rand(1, 100) == 42);
+        }
 
-	private function shouldDisplaySharingPromotion()
-	{
-		if (is_null(self::$shouldDisplaySharingPromotion))
-			self::$shouldDisplaySharingPromotion = (rand(1, 100) == 42);
+        return self::$shouldDisplaySharingPromotion;
+    }
 
-		return self::$shouldDisplaySharingPromotion;
-	}
+    private function shouldDisplaySignupPromotion()
+    {
+        return Auth::guest() and Input::get('page') >= 2;
+    }
 
-	private function shouldDisplaySignupPromotion()
-	{
-		return Auth::guest() AND Input::get('page') >= 2;
-	}
-
-	private function shouldDisplayPromotion()
-	{
-		return $this->shouldDisplaySharingPromotion() OR $this->shouldDisplaySignupPromotion();
-	}
+    private function shouldDisplayPromotion()
+    {
+        return $this->shouldDisplaySharingPromotion() or $this->shouldDisplaySignupPromotion();
+    }
 }

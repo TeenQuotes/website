@@ -2,33 +2,34 @@
 
 use Codeception\TestCase\Test;
 
-abstract class ApiTest extends Test {
+abstract class ApiTest extends Test
+{
+    /**
+     * @var UnitTester
+     */
+    protected $tester;
 
-	/**
-	* @var UnitTester
-	*/
-	protected $tester;
-	
-	protected function _before()
-	{
-		Artisan::call('migrate');
+    protected function _before()
+    {
+        Artisan::call('migrate');
 
-		// We'll run all tests through a transaction,
-		// and then rollback afterward.
-		DB::beginTransaction();
+        // We'll run all tests through a transaction,
+        // and then rollback afterward.
+        DB::beginTransaction();
 
-		// Set required attributes
-		$this->unitTester->setRequiredAttributes($this->requiredAttributes);
+        // Set required attributes
+        $this->unitTester->setRequiredAttributes($this->requiredAttributes);
 
-		$this->unitTester->setEmbedsRelation([]);
-	}
+        $this->unitTester->setEmbedsRelation([]);
+    }
 
-	protected function _after()
-	{
-		if (Auth::check())
-			Auth::logout();
-		
-		// Rollback the transaction
-		DB::rollBack();
-	}
+    protected function _after()
+    {
+        if (Auth::check()) {
+            Auth::logout();
+        }
+
+        // Rollback the transaction
+        DB::rollBack();
+    }
 }

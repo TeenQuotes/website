@@ -1,16 +1,19 @@
-<?php namespace TeenQuotes\Pages\Composers;
+<?php
 
-use Agent, JavaScript;
+namespace TeenQuotes\Pages\Composers;
 
-class AppsComposer {
+use Agent;
+use JavaScript;
 
-	public function compose($view)
-	{
-		// Data for Google Analytics
-		JavaScript::put([
-			'eventCategory' => 'apps',
-			'eventAction'   => 'download-page',
-			'eventLabel'    => Agent::platform().' - '.Agent::device()
-		]);
-	}
+class AppsComposer
+{
+    public function compose($view)
+    {
+        // Data for Google Analytics
+        JavaScript::put([
+            'eventCategory' => 'apps',
+            'eventAction'   => 'download-page',
+            'eventLabel'    => Agent::platform().' - '.Agent::device(),
+        ]);
+    }
 }

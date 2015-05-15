@@ -11,11 +11,11 @@
 |
 */
 
-ClassLoader::addDirectories(array(
+ClassLoader::addDirectories([
 
-	app_path().'/commands',
-	app_path().'/database/seeds',
-));
+    app_path().'/commands',
+    app_path().'/database/seeds',
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -43,92 +43,86 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 |
 */
 
-App::error(function(TeenQuotes\Exceptions\HiddenProfileException $exception, $code)
-{
-	$userLogin = Route::input('user_id');
+App::error(function (TeenQuotes\Exceptions\HiddenProfileException $exception, $code) {
+    $userLogin = Route::input('user_id');
 
-	$data = [
-		'title'   => Lang::get('errors.hiddenProfileTitle'),
-		'content' => Lang::get('errors.hiddenProfileBody', ['login' => $userLogin]),
-	];
+    $data = [
+        'title'   => Lang::get('errors.hiddenProfileTitle'),
+        'content' => Lang::get('errors.hiddenProfileBody', ['login' => $userLogin]),
+    ];
 
-	// Send event to Google Analytics
-	JavaScript::put([
-		'eventCategory' => 'profile-hidden',
-		'eventAction'   => $userLogin,
-		'eventLabel'    => URL::current()
-	]);
+    // Send event to Google Analytics
+    JavaScript::put([
+        'eventCategory' => 'profile-hidden',
+        'eventAction'   => $userLogin,
+        'eventLabel'    => URL::current(),
+    ]);
 
-	return Response::view('errors.default', $data, 401);
+    return Response::view('errors.default', $data, 401);
 });
 
-App::error(function(Laracasts\Validation\FormValidationException $e, $code)
-{
-	// In the API
-	if (Request::wantsJson())
-	{
-		$failedKey = array_keys($e->getErrors()->getMessages())[0];
+App::error(function (Laracasts\Validation\FormValidationException $e, $code) {
+    // In the API
+    if (Request::wantsJson()) {
+        $failedKey = array_keys($e->getErrors()->getMessages())[0];
 
-		return Response::json([
-			'status' => 'wrong_'.$failedKey,
-			'error'  => $e->getErrors()->first($failedKey),
-		], 400);
-	}
+        return Response::json([
+            'status' => 'wrong_'.$failedKey,
+            'error'  => $e->getErrors()->first($failedKey),
+        ], 400);
+    }
 
-	return Redirect::back()
-		->withInput(Input::except(['password', 'avatar']))
-		->withErrors($e->getErrors());
+    return Redirect::back()
+        ->withInput(Input::except(['password', 'avatar']))
+        ->withErrors($e->getErrors());
 });
 
-App::error(function(TeenQuotes\Exceptions\TQNotFoundException $exception, $code)
-{
-	$resourceName = strtolower(str_replace("NotFoundException", "", class_basename(get_class($exception))));
+App::error(function (TeenQuotes\Exceptions\TQNotFoundException $exception, $code) {
+    $resourceName = strtolower(str_replace('NotFoundException', '', class_basename(get_class($exception))));
 
-	if (in_array($resourceName, ['quote', 'user', 'tag', 'token', 'story', 'country']))
-	{
-		$data = [
-			'content'   => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.'.$resourceName.'Text')]),
-			'title'     => Lang::get('errors.'.$resourceName.'NotFoundTitle'),
-			'pageTitle' => Lang::get('errors.'.$resourceName.'NotFoundPageTitle'),
-		];
+    if (in_array($resourceName, ['quote', 'user', 'tag', 'token', 'story', 'country'])) {
+        $data = [
+            'content'   => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.'.$resourceName.'Text')]),
+            'title'     => Lang::get('errors.'.$resourceName.'NotFoundTitle'),
+            'pageTitle' => Lang::get('errors.'.$resourceName.'NotFoundPageTitle'),
+        ];
 
-		// Send event to Google Analytics
-		JavaScript::put([
-			'eventCategory' => '404',
-			'eventAction'   => $resourceName,
-			'eventLabel'    => URL::current()
-    	]);
+        // Send event to Google Analytics
+        JavaScript::put([
+            'eventCategory' => '404',
+            'eventAction'   => $resourceName,
+            'eventLabel'    => URL::current(),
+        ]);
 
-		return Response::view('errors.default', $data, 404);
-	}
+        return Response::view('errors.default', $data, 404);
+    }
 });
 
 // Handle 404
-App::missing(function($exception)
-{
-	$data = [
-		'content' => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.pageText')]),
-		'title'   => Lang::get('errors.pageNotFoundTitle')
-	];
+App::missing(function ($exception) {
+    $data = [
+        'content' => Lang::get('errors.defaultNotFound', ['resource' => Lang::get('errors.pageText')]),
+        'title'   => Lang::get('errors.pageNotFoundTitle'),
+    ];
 
-	// Send event to Google Analytics
-	JavaScript::put([
-		'eventCategory' => '404',
-		'eventAction'   => 'unknow',
-		'eventLabel'    => URL::current()
-	]);
+    // Send event to Google Analytics
+    JavaScript::put([
+        'eventCategory' => '404',
+        'eventAction'   => 'unknow',
+        'eventLabel'    => URL::current(),
+    ]);
 
     return Response::view('errors.default', $data, 404);
 });
 
 // This error handler will be at the end of the stack
-App::pushError(function(Exception $exception, $code)
-{
-	Log::error($exception);
+App::pushError(function (Exception $exception, $code) {
+    Log::error($exception);
 
-	// Show a custom view
-	if (App::environment() != 'local')
-		return Response::view('errors.500', ['pageTitle' => 'Oops, something is wrong!'], $code);
+    // Show a custom view
+    if (App::environment() != 'local') {
+        return Response::view('errors.500', ['pageTitle' => 'Oops, something is wrong!'], $code);
+    }
 });
 
 /*
@@ -142,9 +136,8 @@ App::pushError(function(Exception $exception, $code)
 |
 */
 
-App::down(function()
-{
-	return Response::view('errors.maintenance', ['pageTitle' => 'Be right back!'], 503);
+App::down(function () {
+    return Response::view('errors.maintenance', ['pageTitle' => 'Be right back!'], 503);
 });
 
 /*

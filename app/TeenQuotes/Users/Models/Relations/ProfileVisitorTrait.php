@@ -1,16 +1,18 @@
-<?php namespace TeenQuotes\Users\Models\Relations;
+<?php
+
+namespace TeenQuotes\Users\Models\Relations;
 
 use TeenQuotes\Users\Models\User;
 
-trait ProfileVisitorTrait {
+trait ProfileVisitorTrait
+{
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 
-	public function user()
-	{
-		return $this->belongsTo(User::class, 'user_id', 'id');
-	}
-
-	public function visitor()
-	{
-		return $this->belongsTo(User::class, 'visitor_id', 'id');
-	}
+    public function visitor()
+    {
+        return $this->belongsTo(User::class, 'visitor_id', 'id');
+    }
 }

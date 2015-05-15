@@ -1,15 +1,18 @@
-<?php namespace TeenQuotes\Comments\Composers;
+<?php
 
-use JavaScript, Lang;
+namespace TeenQuotes\Comments\Composers;
 
-class EditComposer {
+use JavaScript;
+use Lang;
 
-	public function compose($view)
-	{
-		// Put some useful variables for the JS
-		JavaScript::put([
-			'contentShortHisnt' => Lang::get('comments.contentShortHint'),
-			'contentGreatHint'  => Lang::get('comments.contentGreatHint'),
-		]);
-	}
+class EditComposer
+{
+    public function compose($view)
+    {
+        // Put some useful variables for the JS
+        JavaScript::put([
+            'contentShortHisnt' => Lang::get('comments.contentShortHint'),
+            'contentGreatHint'  => Lang::get('comments.contentGreatHint'),
+        ]);
+    }
 }

@@ -1,24 +1,27 @@
-<?php namespace TeenQuotes\Countries\Presenters;
+<?php
 
-use URL;
+namespace TeenQuotes\Countries\Presenters;
+
 use Laracasts\Presenter\Presenter;
+use URL;
 
-class CountryPresenter extends Presenter {
+class CountryPresenter extends Presenter
+{
+    /**
+     * The CSS class used to display the flag associated with
+     * the country.
+     *
+     * @return string
+     */
+    public function countryCodeClass()
+    {
+        $countryCode = strtolower($this->entity->country_code);
 
-	/**
-	 * The CSS class used to display the flag associated with
-	 * the country
-	 * @return string
-	 */
-	public function countryCodeClass()
-	{
-		$countryCode = strtolower($this->entity->country_code);
+        return 'flag-'.$countryCode;
+    }
 
-		return 'flag-'.$countryCode;
-	}
-
-	public function searchUsers()
-	{
-		return URL::route('search.users.country', $this->entity->id);
-	}
+    public function searchUsers()
+    {
+        return URL::route('search.users.country', $this->entity->id);
+    }
 }
