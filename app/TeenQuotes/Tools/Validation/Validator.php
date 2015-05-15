@@ -36,18 +36,6 @@ abstract class Validator extends LaravelValidator {
 		return Str::slug($this->getFailedReasonForKey($failed, $key));
 	}
 
-	public function getRulesFor($rule, $key = null)
-	{
-		$ruleName = 'rules'.$rule;
-		$property = $this->$ruleName;
-
-		$cleanedRules = $this->cleanProperties($property);
-		if (is_null($key))
-			return $cleanedRules;
-
-		return $cleanedRules[$key];
-	}
-
 	/**
 	 * Magic call method to forward validate* methods
 	 * @param  string $name
@@ -64,49 +52,37 @@ abstract class Validator extends LaravelValidator {
 			if (! property_exists($this, $property))
 				throw new BadMethodCallException("Property ".$property." does not exist on class ".get_class($this).".");
 
+			// No custom validation messages were given
 			if (count($arguments) == 1)
 				return $this->validateForRule($arguments[0], $property);
 
+			// Validate for a rule with custom validation messages
 			return $this->validateForRule($arguments[0], $property, $arguments[1]);
 		}
 
-		// Return other calls
+		// Forward other calls
 		return call_user_func_array(
 			array($this, $name),
 			$arguments
 		);
 	}
 
+	/**
+	 * Get the failed raison for a given key
+	 * @param  array $failed
+	 * @param  string $key
+	 * @return string The failed rule for this key
+	 */
 	private function getFailedReasonForKey($failed, $key)
 	{
 		return array_keys($failed[$key])[0];
 	}
 
-	private function cleanProperties($properties)
-	{
-		$out = [];
-
-		foreach ($properties as $key => $value)
-		{
-			$out[$key] = $this->cleanRules($value);
-		}
-
-		return $out;
-	}
-
-	private function cleanRules($property)
-	{
-		$rules = explode('|', $property);
-
-		$out = [];
-		foreach ($rules as $rule)
-		{
-			$out[] = explode(':', $rule)[0];
-		}
-
-		return $out;
-	}
-
+	/**
+	 * Perform validation when the validator has been bound
+	 * @return boolean
+	 * @throws FormValidationException When the validation has failed
+	 */
 	private function handleValidation()
 	{
 		if ($this->validation->fails())
@@ -120,6 +96,10 @@ abstract class Validator extends LaravelValidator {
 		return true;
 	}
 
+	/**
+	 * Get the first failed key when validation has failed
+	 * @return string
+	 */
 	private function getFirstKeyFail()
 	{
 		$keys = array_keys($this->validation->errors()->getMessages());
