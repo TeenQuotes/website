@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     /*
     |--------------------------------------------------------------------------
@@ -58,23 +58,23 @@ return array(
     |
     */
 
-    'grant_types' => array(
+    'grant_types' => [
 
-        'authorization_code' => array(
+        'authorization_code' => [
             'class'            => 'League\OAuth2\Server\Grant\AuthCode',
             'access_token_ttl' => 3600,
             'auth_token_ttl'   => 3600,
-        ),
+        ],
 
-        'password' => array(
+        'password' => [
             'class'            => 'League\OAuth2\Server\Grant\Password',
             'access_token_ttl' => 604800,
             'callback'         => function ($login, $password) {
 
-                $credentials = array(
+                $credentials = [
                     'login'    => $login,
                     'password' => $password,
-                );
+                ];
 
                 $valid = Auth::validate($credentials);
 
@@ -82,9 +82,9 @@ return array(
 
                 // Credentials were not valid
                 if (!$valid) {
-                    
+
                     // Maybe the user uses the old hash method
-                    if (!is_null($user) AND ($user->password == User::oldHashMethod($credentials))) {
+                    if (!is_null($user) and ($user->password == User::oldHashMethod($credentials))) {
                         // Update the password in database
                         $user->password   = $credentials['password'];
                         $user->last_visit = Carbon::now()->toDateTimeString();
@@ -101,22 +101,22 @@ return array(
                 $user->save();
 
                 return Auth::getProvider()->retrieveByCredentials($credentials)->id;
-            }
-        ),
+            },
+        ],
 
-        'refresh_token' => array(
+        'refresh_token' => [
             'class'                 => 'League\OAuth2\Server\Grant\RefreshToken',
             'access_token_ttl'      => 604800,
             'refresh_token_ttl'     => 604800,
             'rotate_refresh_tokens' => false,
-        ),
+        ],
 
-        'client_credentials' => array(
+        'client_credentials' => [
             'class'            => 'League\OAuth2\Server\Grant\ClientCredentials',
             'access_token_ttl' => 3600,
-        ),
+        ],
 
-    ),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -212,4 +212,4 @@ return array(
     |
     */
     'http_headers_only' => false,
-);
+];

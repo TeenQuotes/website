@@ -1,5 +1,7 @@
-<?php namespace TeenQuotes\Exceptions;
+<?php
 
-class CountryNotFoundException extends TQNotFoundException {
+namespace TeenQuotes\Exceptions;
 
+class CountryNotFoundException extends TQNotFoundException
+{
 }

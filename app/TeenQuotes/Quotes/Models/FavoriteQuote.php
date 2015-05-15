@@ -1,14 +1,16 @@
-<?php namespace TeenQuotes\Quotes\Models;
+<?php
+
+namespace TeenQuotes\Quotes\Models;
 
 use Eloquent;
 use TeenQuotes\Quotes\Models\Relations\FavoriteQuoteTrait as FavoriteQuoteRelationsTrait;
 use TeenQuotes\Quotes\Models\Scopes\FavoriteQuoteTrait as FavoriteQuoteScopesTrait;
 
-class FavoriteQuote extends Eloquent {
+class FavoriteQuote extends Eloquent
+{
+    use FavoriteQuoteRelationsTrait, FavoriteQuoteScopesTrait;
 
-	use FavoriteQuoteRelationsTrait, FavoriteQuoteScopesTrait;
+    protected $table = 'favorite_quotes';
 
-	protected $table = 'favorite_quotes';
-
-	protected $fillable = [];
+    protected $fillable = [];
 }

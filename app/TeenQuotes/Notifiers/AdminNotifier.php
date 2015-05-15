@@ -1,10 +1,13 @@
-<?php namespace TeenQuotes\Notifiers;
+<?php
 
-interface AdminNotifier {
+namespace TeenQuotes\Notifiers;
 
-	/**
-	 * Notify an administrator about an event
-	 * @param  string $message
-	 */
-	public function notify($message);
+interface AdminNotifier
+{
+    /**
+     * Notify an administrator about an event.
+     *
+     * @param string $message
+     */
+    public function notify($message);
 }

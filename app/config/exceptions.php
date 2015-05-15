@@ -1,6 +1,6 @@
 <?php
 
-return array(
-	// HTTP code => view name
-	500 =>  'errors.500'
-);
+return [
+    // HTTP code => view name
+    500 =>  'errors.500',
+];

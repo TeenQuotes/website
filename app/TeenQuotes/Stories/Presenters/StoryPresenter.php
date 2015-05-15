@@ -1,26 +1,28 @@
-<?php namespace TeenQuotes\Stories\Presenters;
+<?php
 
-use App, Str;
+namespace TeenQuotes\Stories\Presenters;
+
+use App;
 use Laracasts\Presenter\Presenter;
-use TeenQuotes\Quotes\Models\Quote;
+use Str;
 
-class StoryPresenter extends Presenter {
+class StoryPresenter extends Presenter
+{
+    public function storyAge()
+    {
+        return $this->created_at->diffForHumans();
+    }
 
-	public function storyAge()
-	{
-		return $this->created_at->diffForHumans();
-	}
+    public function totalQuotes()
+    {
+        // Round to nearest thousand
+        $quoteRepo = App::make('TeenQuotes\Quotes\Repositories\QuoteRepository');
 
-	public function totalQuotes()
-	{
-		// Round to nearest thousand
-		$quoteRepo = App::make('TeenQuotes\Quotes\Repositories\QuoteRepository');
+        return number_format(round($quoteRepo->totalPublished(), -3), 0, '.', ',');
+    }
 
-		return number_format(round($quoteRepo->totalPublished(), - 3), 0, '.', ',');
-	}
-
-	public function pageDescription()
-	{
-		return Str::limit($this->frequence_txt, 200);
-	}
+    public function pageDescription()
+    {
+        return Str::limit($this->frequence_txt, 200);
+    }
 }

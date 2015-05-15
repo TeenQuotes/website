@@ -11,36 +11,31 @@
 |
 */
 
-App::before(function($request)
-{
-	if (Config::get('database.log', false) OR App::environment('local'))
-	{
-		Event::listen('illuminate.query', function($query, $bindings, $time, $name)
-		{
-			$data = compact('bindings', 'time', 'name');
+App::before(function ($request) {
+    if (Config::get('database.log', false) or App::environment('local')) {
+        Event::listen('illuminate.query', function ($query, $bindings, $time, $name) {
+            $data = compact('bindings', 'time', 'name');
 
-			// Format binding data for sql insertion
-			foreach ($bindings as $i => $binding)
-			{
-				if ($binding instanceof \DateTime)
-					$bindings[$i] = $binding->format('\'Y-m-d H:i:s\'');
-				else if (is_string($binding))
-					$bindings[$i] = "'$binding'";
-			}
+            // Format binding data for sql insertion
+            foreach ($bindings as $i => $binding) {
+                if ($binding instanceof \DateTime) {
+                    $bindings[$i] = $binding->format('\'Y-m-d H:i:s\'');
+                } elseif (is_string($binding)) {
+                    $bindings[$i] = "'$binding'";
+                }
+            }
 
-			// Insert bindings into query
-			$query = str_replace(array('%', '?'), array('%%', '%s'), $query);
-			$query = vsprintf($query, $bindings);
+            // Insert bindings into query
+            $query = str_replace(['%', '?'], ['%%', '%s'], $query);
+            $query = vsprintf($query, $bindings);
 
-			Log::info($query, $data);
-		});
-	}
+            Log::info($query, $data);
+        });
+    }
 });
 
-
-App::after(function($request, $response)
-{
-	//
+App::after(function ($request, $response) {
+    //
 });
 
 /*
@@ -54,53 +49,48 @@ App::after(function($request, $response)
 |
 */
 
-Route::filter('auth', function()
-{
-	if (Auth::guest())
-	{
-		if (Route::currentRouteName() == 'addquote')
-		{
-			// Flash an attribute in session to display a custom message
-			// on the signin / signup page
-			Session::flash('requireLoggedInAddQuote', true);
-			return Redirect::guest('signin');
-		}
+Route::filter('auth', function () {
+    if (Auth::guest()) {
+        if (Route::currentRouteName() == 'addquote') {
+            // Flash an attribute in session to display a custom message
+            // on the signin / signup page
+            Session::flash('requireLoggedInAddQuote', true);
 
-		return Redirect::guest('signin')->with('warning', Lang::get('auth.requireLoggedIn'));
-	}
+            return Redirect::guest('signin');
+        }
+
+        return Redirect::guest('signin')->with('warning', Lang::get('auth.requireLoggedIn'));
+    }
 });
 
-Route::filter('admin', function()
-{
-	if ( ! (Auth::check() AND Auth::user()->is_admin))
-		App::abort('401', 'Nothing to do here');
+Route::filter('admin', function () {
+    if (!(Auth::check() and Auth::user()->is_admin)) {
+        App::abort('401', 'Nothing to do here');
+    }
 });
 
-
-Route::filter('auth.basic', function()
-{
-	return Auth::basic();
+Route::filter('auth.basic', function () {
+    return Auth::basic();
 });
 
-Route::filter('session.remove', function()
-{
-	return Config::set('session.driver', 'array');
+Route::filter('session.remove', function () {
+    return Config::set('session.driver', 'array');
 });
 
-Route::filter('search.isValid', function($route)
-{
-	// search.getResults has the query as a parameter
-	// search.dispatcher uses a POST
-	$query = (count($route->parameters()) > 0) ? $route->getParameter('query') : Input::get('search');
+Route::filter('search.isValid', function ($route) {
+    // search.getResults has the query as a parameter
+    // search.dispatcher uses a POST
+    $query = (count($route->parameters()) > 0) ? $route->getParameter('query') : Input::get('search');
 
-	$data = [
-		'search' => $query,
-	];
+    $data = [
+        'search' => $query,
+    ];
 
-	$validator = Validator::make($data, ['search' => 'min:3']);
+    $validator = Validator::make($data, ['search' => 'min:3']);
 
-	if ($validator->fails())
-		return Redirect::route('search.form')->withErrors($validator)->withInput(['search' => $query]);
+    if ($validator->fails()) {
+        return Redirect::route('search.form')->withErrors($validator)->withInput(['search' => $query]);
+    }
 });
 
 /*
@@ -114,10 +104,10 @@ Route::filter('search.isValid', function($route)
 |
 */
 
-Route::filter('guest', function()
-{
-	if (Auth::check())
-		return Redirect::route('home')->with('warning', Lang::get('auth.alreadyLoggedIn'));
+Route::filter('guest', function () {
+    if (Auth::check()) {
+        return Redirect::route('home')->with('warning', Lang::get('auth.alreadyLoggedIn'));
+    }
 });
 
 /*
@@ -131,10 +121,8 @@ Route::filter('guest', function()
 |
 */
 
-Route::filter('csrf', function()
-{
-	if (Session::token() != Input::get('_token'))
-	{
-		throw new Illuminate\Session\TokenMismatchException;
-	}
+Route::filter('csrf', function () {
+    if (Session::token() != Input::get('_token')) {
+        throw new Illuminate\Session\TokenMismatchException();
+    }
 });
