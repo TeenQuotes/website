@@ -235,7 +235,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface
     public function registerViewUserProfile()
     {
         if ($this->isTestingEnvironment()) {
-            return;
+            return null;
         }
 
         // Try to retrieve the ID of the user

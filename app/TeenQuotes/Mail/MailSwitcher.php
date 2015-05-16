@@ -19,7 +19,7 @@ class MailSwitcher
     {
         // Do not change the configuration on a testing environment
         if ($this->isTestingEnvironment()) {
-            return;
+            return null;
         }
 
         self::guardDriver($driver);

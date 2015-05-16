@@ -27,7 +27,7 @@ class EasyrecWorker
     public function viewQuote($job, $data)
     {
         if (!$this->isEnabled()) {
-            return;
+            return null;
         }
 
         Easyrec::view($data['quote_id'],
@@ -49,7 +49,7 @@ class EasyrecWorker
     public function viewUserProfile($job, $data)
     {
         if (!$this->isEnabled()) {
-            return;
+            return null;
         }
 
         Easyrec::view($data['user_id'],
@@ -71,7 +71,7 @@ class EasyrecWorker
     public function favoriteAQuote($job, $data)
     {
         if (!$this->isEnabled()) {
-            return;
+            return null;
         }
 
         Easyrec::sendAction($data['quote_id'],
@@ -95,7 +95,7 @@ class EasyrecWorker
     public function unfavoriteAQuote($job, $data)
     {
         if (!$this->isEnabled()) {
-            return;
+            return null;
         }
 
         Easyrec::sendAction($data['quote_id'],

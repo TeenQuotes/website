@@ -3,8 +3,8 @@
 namespace TeenQuotes\Tools;
 
 use Illuminate\Support\ServiceProvider;
-use TeenQuotes\Tools\Colors\ColorGeneratorInterface;
 use TeenQuotes\Tools\Colors\ColorGenerator;
+use TeenQuotes\Tools\Colors\ColorGeneratorInterface;
 
 class ToolsServiceProvider extends ServiceProvider
 {

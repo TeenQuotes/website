@@ -59,7 +59,7 @@ class DbNewsletterRepository implements NewsletterRepository
         $this->guardType($type);
 
         if ($this->userIsSubscribedToNewsletterType($user, $type)) {
-            return;
+            return null;
         }
 
         $newsletter          = new Newsletter();
