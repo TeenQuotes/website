@@ -5,9 +5,20 @@ namespace TeenQuotes\AdminPanel\Composers;
 use Config;
 use JavaScript;
 use Lang;
+use TeenQuotes\Tools\Colors\ColorGeneratorInterface;
 
 class ModerationIndexComposer
 {
+    /**
+     * @var ColorGeneratorInterface
+     */
+    private $colorGenerator;
+
+    public function __construct(ColorGeneratorInterface $colorGenerator)
+    {
+        $this->colorGenerator = $colorGenerator;
+    }
+
     public function compose($view)
     {
         $data = $view->getData();
@@ -18,6 +29,9 @@ class ModerationIndexComposer
 
         // The page title
         $view->with('pageTitle', 'Admin | '.Lang::get('layout.nameWebsite'));
+
+        // The color generator
+        $view->with('colorGenerator', $this->colorGenerator);
 
         // Useful JS variables
         JavaScript::put([
