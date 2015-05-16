@@ -10,7 +10,8 @@
 		</div>
 
 		@foreach ($quotes as $quote)
-			@include('quotes.singleQuoteAdmin', compact('quote', 'colorGenerator'))
+			@include('quotes.singleQuoteAdmin', compact('quote', 'colorGenerator', 'i'))
+			<?php $i++; ?>
 		@endforeach
 	</div>
 @stop

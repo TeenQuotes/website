@@ -11,6 +11,6 @@ else
 
 	<!-- Moderation buttons -->
 	<div class="row quotes-info">
-		@include ('quotes.partials.moderationButtons')
+		@include('quotes.partials.moderationButtons', compact('quote'))
 	</div>
 </div>
