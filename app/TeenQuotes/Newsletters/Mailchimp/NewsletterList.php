@@ -18,17 +18,17 @@ class NewsletterList implements NewsletterListInterface
     protected $mailchimp;
 
     /**
-     * @var \Illuminate\View\Factory
+     * @var View
      */
     protected $view;
 
     /**
-     * @var \Illuminate\Config\Repository
+     * @var Config
      */
     protected $config;
 
     /**
-     * @var \TeenQuotes\Users\Repositories\UserRepository
+     * @var UserRepository
      */
     protected $userRepo;
 

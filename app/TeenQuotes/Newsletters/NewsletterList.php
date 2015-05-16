@@ -10,8 +10,8 @@ interface NewsletterList
     /**
      * Subscribe a user to a newsletter list.
      *
-     * @param string                        $listName
-     * @param \TeenQuotes\Users\Models\User $email
+     * @param string $listName
+     * @param User   $email
      *
      * @return mixed
      */
@@ -20,8 +20,8 @@ interface NewsletterList
     /**
      * Subscribe multiple users to a newsletter.
      *
-     * @param string                         $listName
-     * @param \Illuminate\Support\Collection $collection A collection of users
+     * @param string     $listName
+     * @param Collection $collection A collection of users
      *
      * @return mixed
      */
@@ -30,8 +30,8 @@ interface NewsletterList
     /**
      * Unsubscribe a user from a newsletter list.
      *
-     * @param string                        $listName
-     * @param \TeenQuotes\Users\Models\User $email
+     * @param string $listName
+     * @param User   $email
      *
      * @return mixed
      */
@@ -40,8 +40,8 @@ interface NewsletterList
     /**
      * Unsubscribe multiple users from a newsletter.
      *
-     * @param string                         $listName
-     * @param \Illuminate\Support\Collection $collection A collection of users
+     * @param string     $listName
+     * @param Collection $collection A collection of users
      *
      * @return mixed
      */
@@ -65,7 +65,7 @@ interface NewsletterList
      *
      * @param string $listName
      *
-     * @return \Illuminate\Support\Collection A collection of users
+     * @return Collection A collection of users
      */
     public function getUnsubscribesFromList($listName);
 
