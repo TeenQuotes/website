@@ -11,12 +11,12 @@ class Mandrill
     /**
      * The client for the Mandrill API.
      *
-     * @var \Mandrill
+     * @var M
      */
     private $api;
 
     /**
-     * @var \TeenQuotes\Users\Repositories\UserRepository
+     * @var UserRepository
      */
     private $userRepo;
 

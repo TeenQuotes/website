@@ -5,6 +5,7 @@ namespace TeenQuotes\Mail;
 use App;
 use Carbon;
 use Illuminate\Config\Repository as Config;
+use Illuminate\Queue\Jobs\Job;
 use Illuminate\Queue\QueueManager as Queue;
 use Lang;
 use TeenQuotes\AdminPanel\Helpers\Moderation;
@@ -15,7 +16,7 @@ use TeenQuotes\Users\Repositories\UserRepository;
 class UserMailer
 {
     /**
-     * @var \Illuminate\Config\Repository
+     * @var Config
      */
     private $config;
 
@@ -25,12 +26,12 @@ class UserMailer
     private $mail;
 
     /**
-     * @var \Illuminate\Queue\QueueManager
+     * @var Queue
      */
     private $queue;
 
     /**
-     * @var \TeenQuotes\Users\Repositories\UserRepository
+     * @var UserRepository
      */
     private $userRepo;
 
@@ -44,11 +45,11 @@ class UserMailer
     /**
      * Send a mail to a user.
      *
-     * @param string                        $viewName The name of the view
-     * @param \TeenQuotes\Users\Models\User $user
-     * @param array                         $data     Data to pass the email view
-     * @param string                        $subject  The subject of the email
-     * @param string                        $driver   The name of the driver that we will use to send the email
+     * @param string $viewName The name of the view
+     * @param User   $user
+     * @param array  $data     Data to pass the email view
+     * @param string $subject  The subject of the email
+     * @param string $driver   The name of the driver that we will use to send the email
      */
     public function send($viewName, User $user, $data, $subject, $driver = null)
     {
@@ -63,12 +64,12 @@ class UserMailer
     /**
      * Send a delayed mail to a user.
      *
-     * @param string                        $viewName The name of the view
-     * @param \TeenQuotes\Users\Models\User $user
-     * @param array                         $data     Data to pass the email view
-     * @param string                        $subject  The subject of the email
-     * @param string                        $driver   The name of the driver that we will use to send the email
-     * @param \DateTime|int                 $delay
+     * @param string        $viewName The name of the view
+     * @param User          $user
+     * @param array         $data     Data to pass the email view
+     * @param string        $subject  The subject of the email
+     * @param string        $driver   The name of the driver that we will use to send the email
+     * @param \DateTime|int $delay
      */
     public function sendLater($viewName, User $user, $data, $subject, $driver = null, $delay = 0)
     {
@@ -81,10 +82,10 @@ class UserMailer
     /**
      * Send an email with a job.
      *
-     * @param \Illuminate\Queue\Jobs\Job $job
-     * @param array                      $data Required keys: viewName, user, data, subject and driver.
+     * @param Job   $job
+     * @param array $data Required keys: viewName, user, data, subject and driver.
      */
-    public function dispatchToSend($job, $data)
+    public function dispatchToSend(Job $job, $data)
     {
         extract($data);
 
@@ -102,8 +103,8 @@ class UserMailer
      * Tell an author of a quote that a comment was posted on one of
      * its quote.
      *
-     * @param \TeenQuotes\Users\Models\User   $author The author of the quote
-     * @param \TeenQuotes\Quotes\Models\Quote $quote  The quote
+     * @param User  $author The author of the quote
+     * @param Quote $quote  The quote
      */
     public function warnAuthorAboutCommentPosted(User $author, Quote $quote)
     {
@@ -119,7 +120,7 @@ class UserMailer
     /**
      * Tell a user that he was subscribed from our newsletters.
      *
-     * @param \TeenQuotes\Users\Models\User $user
+     * @param User $user
      */
     public function unsubscribeUserFromNewsletter(User $user)
     {
@@ -133,7 +134,7 @@ class UserMailer
     /**
      * Tell the author of a quote that its quote was published.
      *
-     * @param \TeenQuotes\Quotes\Models\Quote $quote
+     * @param Quote $quote
      */
     public function tellQuoteWasPublished(Quote $quote)
     {
@@ -147,7 +148,7 @@ class UserMailer
     /**
      * Wish happy birthday to a user.
      *
-     * @param \TeenQuotes\Users\Models\User $user
+     * @param User $user
      */
     public function wishHappyBirthday(User $user)
     {
@@ -161,7 +162,7 @@ class UserMailer
     /**
      * Send the welcome email to a user.
      *
-     * @param \TeenQuotes\Users\Models\User $user
+     * @param User $user
      */
     public function sendWelcome(User $user)
     {
@@ -185,9 +186,9 @@ class UserMailer
     /**
      * Send a moderation decision for a quote to its author.
      *
-     * @param \TeenQuotes\AdminPanel\Helpers\Moderation $moderation The moderation decision
-     * @param \TeenQuotes\Quotes\Models\Quote           $quote
-     * @param int                                       $nbDays     The number of days before the publication of the quote
+     * @param Moderation $moderation The moderation decision
+     * @param Quote      $quote
+     * @param int        $nbDays     The number of days before the publication of the quote
      */
     public function sendModeration(Moderation $moderation, $quote, $nbDays)
     {
@@ -203,10 +204,10 @@ class UserMailer
     /**
      * Schedule an e-mail to send about an event for a user.
      *
-     * @param string                        $event
-     * @param \TeenQuotes\Users\Models\User $user
-     * @param string                        $driver The e-mail driver to use
-     * @param \DateTime                     $delay  When we should send the e-mail
+     * @param string    $event
+     * @param User      $user
+     * @param string    $driver The e-mail driver to use
+     * @param \DateTime $delay  When we should send the e-mail
      */
     public function sendEvent($event, $user, $driver, $delay)
     {
@@ -222,7 +223,7 @@ class UserMailer
     /**
      * Queue an e-mail to request feedback for a user after 5 days.
      *
-     * @param \TeenQuotes\Users\Models\User $user
+     * @param User $user
      */
     public function scheduleSigningUpFeedBack(User $user)
     {
@@ -240,7 +241,7 @@ class UserMailer
      *
      * @param int $id
      *
-     * @return \TeenQuotes\Users\Models\User
+     * @return User
      */
     private function getUserFromId($id)
     {

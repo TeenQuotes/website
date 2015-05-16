@@ -13,7 +13,7 @@ class MailSwitcher
      *
      * @param string $driver The new mail driver
      *
-     * @throws \InvalidArgumentException If the driver is not supported
+     * @throws InvalidArgumentException If the driver is not supported
      */
     public function __construct($driver)
     {
@@ -40,7 +40,7 @@ class MailSwitcher
                     break;
 
                 case 'mandrill':
-                    // Switch to Postfix
+                    // Switch to Mandrill
                     Config::set('mail.driver', 'mandrill');
                     Config::set('mail.from', Config::get('mail.from'));
                     break;
@@ -77,7 +77,7 @@ class MailSwitcher
      *
      * @param string $driver
      *
-     * @throws \InvalidArgumentException If the driver is not supported
+     * @throws InvalidArgumentException If the driver is not supported
      */
     public static function guardDriver($driver)
     {

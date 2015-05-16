@@ -21,11 +21,7 @@ class WelcomeViewComposer
         $urlProfile = URL::route('users.show', $login);
         $urlCampaignProfile = TextTools::linkCampaign($urlProfile, 'callToProfile', 'email', 'welcome', 'linkBodyEmail');
 
-        $data = [
-            'login'              => $login,
-            'urlCampaignProfile' => $urlCampaignProfile,
-            'urlProfile'         => $urlProfile,
-        ];
+        $data = compact('login', 'urlCampaignProfile', 'urlProfile');
 
         // Content
         $view->with('data', $data);
