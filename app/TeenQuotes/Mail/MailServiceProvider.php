@@ -64,5 +64,10 @@ class MailServiceProvider extends \Illuminate\Mail\MailServiceProvider
         $this->app['view']->composer([
             'emails.welcome',
         ], 'TeenQuotes\Mail\Composers\WelcomeViewComposer');
+
+        // When listing multiple quotes
+        $this->app['view']->composer([
+            'emails.quotes.multiple',
+        ], 'TeenQuotes\Mail\Composers\IndexQuotesComposer');
     }
 }

@@ -1,4 +1,13 @@
-<div class="quote">
+@if (isset($colorGenerator))
+	<?php
+	$darkColorQuote = $colorGenerator->darken(20);
+	$colorQuote = $colorGenerator->nextColor();
+	?>
+	<div class="quote" style="background-color:<?= $colorQuote; ?>;border-bottom-color:<?= $darkColorQuote; ?>">
+@else
+	<div class="quote">
+@endif
+
 	{{{ $quote->content}}}
 	<div class="info">
 		@if ($quote->isPublished())

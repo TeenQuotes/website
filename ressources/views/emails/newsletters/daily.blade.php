@@ -4,10 +4,8 @@
 	{{ Lang::get('email.hiWithLogin', ['login' => '*|LOGIN|*']) }}
 	<br/><br/>
 	{{ Lang::get('newsletters.someQuotesPublishedToday') }}
-	
-	@foreach ($quotes as $quote)
-		@include('emails.quotes.single', compact('quote'))
-	@endforeach
+
+	@include('emails.quotes.multiple', compact('quotes'))
 
 	{{ Lang::get('newsletters.otherQuotesToRead', ['login' => '*|LOGIN|*']) }}
 @stop
