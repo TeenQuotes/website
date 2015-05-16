@@ -52,7 +52,6 @@ class QuotesAdminController extends BaseController
 
         $data = [
             'quotes'          => $quotes,
-            'colors'          => Quote::getRandomColors(),
             'nbQuotesPending' => $this->quoteRepo->nbPending(),
             'nbQuotesPerDay'  => Config::get('app.quotes.nbQuotesToPublishPerDay'),
         ];

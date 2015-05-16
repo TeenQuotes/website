@@ -156,6 +156,7 @@ return [
         'TeenQuotes\Settings\SettingsServiceProvider',
         'TeenQuotes\Stories\StoriesServiceProvider',
         'TeenQuotes\Tags\TagsServiceProvider',
+        'TeenQuotes\Tools\ToolsServiceProvider',
         'TeenQuotes\Users\UsersServiceProvider',
         'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',
         'Way\Generators\GeneratorsServiceProvider',

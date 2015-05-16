@@ -1,6 +1,6 @@
 <?php
-$colorQuote = $colors[$i];
-$darkColorQuote = TeenQuotes\Quotes\Models\Quote::adjustBrightness($colors[$i], -30);
+$darkColorQuote = $colorGenerator->darken(20);
+$colorQuote = $colorGenerator->nextColor();
 if ($i % 2 == 1)
 	$transition = 'fadeInRight';
 else
@@ -11,6 +11,6 @@ else
 
 	<!-- Moderation buttons -->
 	<div class="row quotes-info">
-		@include ('quotes.partials.moderationButtons')
+		@include('quotes.partials.moderationButtons', compact('quote'))
 	</div>
 </div>
