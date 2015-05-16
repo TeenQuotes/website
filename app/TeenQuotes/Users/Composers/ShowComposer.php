@@ -26,6 +26,11 @@ class ShowComposer implements QuotesColorsExtractor
      */
     private $user;
 
+    /**
+     * Add data to the view.
+     *
+     * @param \Illuminate\View\View $view
+     */
     public function compose($view)
     {
         $data = $view->getData();

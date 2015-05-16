@@ -6,6 +6,11 @@ use JavaScript;
 
 class SigninComposer
 {
+    /**
+     * Add data to the view.
+     *
+     * @param \Illuminate\View\View $view
+     */
     public function compose($view)
     {
         $data = $view->getData();

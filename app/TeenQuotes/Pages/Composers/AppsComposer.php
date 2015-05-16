@@ -7,6 +7,11 @@ use JavaScript;
 
 class AppsComposer
 {
+    /**
+     * Add data to the view.
+     *
+     * @param \Illuminate\View\View $view
+     */
     public function compose($view)
     {
         // Data for Google Analytics

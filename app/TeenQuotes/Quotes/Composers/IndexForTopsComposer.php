@@ -6,6 +6,11 @@ use InvalidArgumentException;
 
 class IndexForTopsComposer extends IndexComposer
 {
+    /**
+     * Add data to the view.
+     *
+     * @param \Illuminate\View\View $view
+     */
     public function compose($view)
     {
         // Add stuff related to tops

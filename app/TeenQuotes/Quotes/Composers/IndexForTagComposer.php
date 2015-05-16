@@ -6,6 +6,11 @@ use Route;
 
 class IndexForTagComposer extends IndexComposer
 {
+    /**
+     * Add data to the view.
+     *
+     * @param \Illuminate\View\View $view
+     */
     public function compose($view)
     {
         // Bind to the view the name of the tag

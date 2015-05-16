@@ -7,6 +7,11 @@ use TeenQuotes\Tools\Composers\Interfaces\QuotesColorsExtractor;
 
 class ResultsComposer implements QuotesColorsExtractor
 {
+    /**
+     * Add data to the view.
+     *
+     * @param \Illuminate\View\View $view
+     */
     public function compose($view)
     {
         $data = $view->getData();

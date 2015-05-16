@@ -7,6 +7,11 @@ use URL;
 
 class WelcomeViewComposer
 {
+    /**
+     * Add data to the view.
+     *
+     * @param \Illuminate\View\View $view
+     */
     public function compose($view)
     {
         $viewData = $view->getData();

@@ -10,6 +10,11 @@ use TeenQuotes\Tools\Composers\AbstractDeepLinksComposer;
 
 class ShowComposer extends AbstractDeepLinksComposer
 {
+    /**
+     * Add data to the view.
+     *
+     * @param \Illuminate\View\View $view
+     */
     public function compose($view)
     {
         $data = $view->getData();

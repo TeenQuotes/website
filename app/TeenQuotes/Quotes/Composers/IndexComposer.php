@@ -14,6 +14,11 @@ class IndexComposer implements QuotesColorsExtractor
 {
     private static $shouldDisplaySharingPromotion = null;
 
+    /**
+     * Add data to the view.
+     *
+     * @param \Illuminate\View\View $view
+     */
     public function compose($view)
     {
         $data = $view->getData();

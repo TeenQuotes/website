@@ -9,6 +9,11 @@ use URL;
 
 class SignupComposer
 {
+    /**
+     * Add data to the view.
+     *
+     * @param \Illuminate\View\View $view
+     */
     public function compose($view)
     {
         JavaScript::put([

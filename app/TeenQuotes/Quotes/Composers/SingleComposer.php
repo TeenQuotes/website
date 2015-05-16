@@ -8,6 +8,11 @@ use URL;
 
 class SingleComposer extends AbstractDeepLinksComposer
 {
+    /**
+     * Add data to the view.
+     *
+     * @param \Illuminate\View\View $view
+     */
     public function compose($view)
     {
         JavaScript::put([
