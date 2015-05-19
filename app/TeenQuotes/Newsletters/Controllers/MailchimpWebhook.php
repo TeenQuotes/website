@@ -14,20 +14,25 @@ use TeenQuotes\Users\Repositories\UserRepository;
 class MailchimpWebhook extends BaseController
 {
     /**
-     * @var \TeenQuotes\Newsletters\Repositories\NewsletterRepository
+     * @var NewsletterRepository
      */
     private $newsletterRepo;
 
     /**
-     * @var \TeenQuotes\Users\Repositories\UserRepository
+     * @var UserRepository
      */
     private $userRepo;
 
     /**
-     * @var \TeenQuotes\Newsletters\NewsletterList
+     * @var NewsletterList
      */
     private $newsletterList;
 
+    /**
+     * @param UserRepository       $userRepo
+     * @param NewsletterRepository $newsletterRepo
+     * @param NewsletterList       $newsletterList
+     */
     public function __construct(UserRepository $userRepo, NewsletterRepository $newsletterRepo,
                                 NewsletterList $newsletterList)
     {
@@ -36,6 +41,11 @@ class MailchimpWebhook extends BaseController
         $this->newsletterList = $newsletterList;
     }
 
+    /**
+     * Listen for the incoming webhooks and handle them.
+     *
+     * @return Response
+     */
     public function listen()
     {
         $this->checkKey(Input::get('key'));
@@ -62,7 +72,12 @@ class MailchimpWebhook extends BaseController
         return Response::make('DONE', 200);
     }
 
-    private function bounce($data)
+    /**
+     * Handle the bounce event.
+     *
+     * @param array $data
+     */
+    private function bounce(array $data)
     {
         $user = $this->userRepo->getByEmail($data['email']);
 
@@ -71,7 +86,12 @@ class MailchimpWebhook extends BaseController
         }
     }
 
-    private function unsubscribe($data)
+    /**
+     * Handle the unsubscribe event.
+     *
+     * @param array $data
+     */
+    private function unsubscribe(array $data)
     {
         $type = $this->getTypeFromListId($data['list_id']);
 
@@ -82,7 +102,12 @@ class MailchimpWebhook extends BaseController
         }
     }
 
-    private function changeEmail($data)
+    /**
+     * Handle the event when an user has changed its email address.
+     *
+     * @param array $data
+     */
+    private function changeEmail(array $data)
     {
         $oldEmail = $data['old_email'];
         $newEmail = $data['new_email'];
@@ -94,11 +119,25 @@ class MailchimpWebhook extends BaseController
         }
     }
 
+    /**
+     * Get the type of a newsletter from its list ID.
+     *
+     * @param string $listId
+     *
+     * @return string
+     */
     private function getTypeFromListId($listId)
     {
         return str_replace('Newsletter', '', $this->newsletterList->getNameFromListId($listId));
     }
 
+    /**
+     * Check the given secret key.
+     *
+     * @param string $key
+     *
+     * @throws InvalidArgumentException The key was wrong
+     */
     private function checkKey($key)
     {
         if ($key != Config::get('services.mailchimp.secret')) {

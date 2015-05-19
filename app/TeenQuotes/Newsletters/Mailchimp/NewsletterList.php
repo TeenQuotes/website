@@ -40,6 +40,11 @@ class NewsletterList implements NewsletterListInterface
         'dailyNewsletter'  => 'f9e52170f4',
     ];
 
+    /**
+     * @param View           $view
+     * @param Config         $config
+     * @param UserRepository $userRepo
+     */
     public function __construct(View $view, Config $config, UserRepository $userRepo)
     {
         $this->mailchimp = App::make('MailchimpClient');
@@ -51,8 +56,8 @@ class NewsletterList implements NewsletterListInterface
     /**
      * Subscribe a user to a Mailchimp list.
      *
-     * @param string                        $listName
-     * @param \TeenQuotes\Users\Models\User $email
+     * @param string $listName
+     * @param User   $email
      *
      * @return mixed
      */
@@ -92,8 +97,8 @@ class NewsletterList implements NewsletterListInterface
     /**
      * Unsubscribe a user from a Mailchimp list.
      *
-     * @param string                        $listName
-     * @param \TeenQuotes\Users\Models\User $email
+     * @param string $listName
+     * @param User   $email
      *
      * @return mixed
      */
@@ -167,7 +172,7 @@ class NewsletterList implements NewsletterListInterface
      *
      * @param string $listName
      *
-     * @return \Illuminate\Support\Collection $collection A collection of users
+     * @return Collection $collection A collection of users
      */
     public function getUnsubscribesFromList($listName)
     {

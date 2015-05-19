@@ -10,8 +10,8 @@ interface NewsletterRepository
     /**
      * Tells if a user if subscribed to a newsletter type.
      *
-     * @param \TeenQuotes\Users\Models\User $u    The given user
-     * @param string                        $type The newsletter's type
+     * @param User   $u    The given user
+     * @param string $type The newsletter's type
      *
      * @return bool
      *
@@ -24,7 +24,7 @@ interface NewsletterRepository
      *
      * @param string $type
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      *
      * @see \TeenQuotes\Newsletters\Models\Newsletter::getPossibleTypes()
      */
@@ -53,7 +53,7 @@ interface NewsletterRepository
     /**
      * Delete all newsletters for a given user.
      *
-     * @param \TeenQuotes\Users\Models\User $u
+     * @param User $u
      *
      * @return int The number of affected rows
      */
@@ -62,7 +62,7 @@ interface NewsletterRepository
     /**
      * Delete newsletters for a list of users.
      *
-     * @param \Illuminate\Support\Collection $users The collection of users
+     * @param Collection $users The collection of users
      *
      * @return int The number of affected rows
      */

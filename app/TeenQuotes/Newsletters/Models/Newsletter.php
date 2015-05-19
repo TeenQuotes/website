@@ -18,11 +18,21 @@ class Newsletter extends Eloquent
 
     protected $fillable = [];
 
+    /**
+     * Tell if it's the daily newsletter.
+     *
+     * @return bool
+     */
     public function isDaily()
     {
         return ($this->type == self::DAILY);
     }
 
+    /**
+     * Tell if it's the weekly newsletter.
+     *
+     * @return bool
+     */
     public function isWeekly()
     {
         return ($this->type == self::WEEKLY);

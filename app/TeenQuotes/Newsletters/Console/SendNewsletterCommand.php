@@ -35,17 +35,18 @@ class SendNewsletterCommand extends ScheduledCommand
     private $possibleTypes = ['daily', 'weekly'];
 
     /**
-     * @var \TeenQuotes\Quotes\Repositories\QuoteRepository
+     * @var QuoteRepository
      */
     private $quoteRepo;
 
     /**
-     * @var \TeenQuotes\Newsletters\NewsletterList
+     * @var NewsletterList
      */
     private $newsletterList;
 
     /**
-     * Create a new command instance.
+     * @param QuoteRepository $quoteRepo
+     * @param NewsletterList  $newsletterList
      */
     public function __construct(QuoteRepository $quoteRepo, NewsletterList $newsletterList)
     {
@@ -58,7 +59,7 @@ class SendNewsletterCommand extends ScheduledCommand
     /**
      * When a command should run.
      *
-     * @param  \Indatus\Dispatcher\Scheduling\Schedulable
+     * @param Schedulable
      *
      * @return array
      */
@@ -113,21 +114,41 @@ class SendNewsletterCommand extends ScheduledCommand
         }
     }
 
+    /**
+     * Get some random published quotes.
+     *
+     * @return \Illuminate\Support\Collection
+     */
     private function retrieveWeeklyQuotes()
     {
         return $this->quoteRepo->randomPublished($this->getNbQuotes());
     }
 
+    /**
+     * Get some quotes that were published today.
+     *
+     * @return \Illuminate\Support\Collection
+     */
     private function retrieveDailyQuotes()
     {
         return $this->quoteRepo->randomPublishedToday($this->getNbQuotes());
     }
 
+    /**
+     * Get the type given when the command was launched.
+     *
+     * @return string
+     */
     private function getType()
     {
         return $this->argument('type');
     }
 
+    /**
+     * Get the number of quotes to send.
+     *
+     * @return int
+     */
     private function getNbQuotes()
     {
         $type = $this->getType();
