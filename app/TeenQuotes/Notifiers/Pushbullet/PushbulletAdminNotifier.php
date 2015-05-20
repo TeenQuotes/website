@@ -1,45 +1,50 @@
-<?php namespace TeenQuotes\Notifiers\Pushbullet;
+<?php
 
-use Pushbullet;
+namespace TeenQuotes\Notifiers\Pushbullet;
+
 use Illuminate\Translation\Translator as Lang;
+use Pushbullet;
 use TeenQuotes\Notifiers\AdminNotifier;
 
-class PushbulletAdminNotifier implements AdminNotifier {
+class PushbulletAdminNotifier implements AdminNotifier
+{
+    /**
+     * The API key of Pushbullet.
+     *
+     * @var string
+     */
+    private $apiKey;
 
-	/**
-	 * The API key of Pushbullet
-	 * @var string
-	 */
-	private $apiKey;
+    /**
+     * The ID of the device we will send the notification on.
+     *
+     * @var string
+     */
+    private $deviceIden;
 
-	/**
-	 * The ID of the device we will send the notification on
-	 * @var string
-	 */
-	private $deviceIden;
+    /**
+     * @var \Illuminate\Translation\Translator
+     */
+    private $lang;
 
-	/**
-	 * @var \Illuminate\Translation\Translator
-	 */
-	private $lang;
+    public function __construct(Lang $lang, $apiKey, $deviceIden)
+    {
+        $this->apiKey     = $apiKey;
+        $this->deviceIden = $deviceIden;
+        $this->lang       = $lang;
+    }
 
-	public function __construct(Lang $lang, $apiKey, $deviceIden)
-	{
-		$this->apiKey     = $apiKey;
-		$this->deviceIden = $deviceIden;
-		$this->lang       = $lang;
-	}
+    /**
+     * Notify an administrator about an event.
+     *
+     * @param string $message
+     */
+    public function notify($message)
+    {
+        $title = $this->lang->get('layout.nameWebsite');
 
-	/**
-	 * Notify an administrator about an event
-	 * @param  string $message
-	 */
-	public function notify($message)
-	{
-		$title = $this->lang->get('layout.nameWebsite');
+        $p = new Pushbullet($this->apiKey);
 
-		$p = new Pushbullet($this->apiKey);
-
-		$p->pushNote($this->deviceIden, $title, $message);
-	}
+        $p->pushNote($this->deviceIden, $title, $message);
+    }
 }

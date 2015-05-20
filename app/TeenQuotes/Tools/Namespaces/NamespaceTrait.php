@@ -1,29 +1,32 @@
-<?php namespace TeenQuotes\Tools\Namespaces;
+<?php
 
-use Str, ReflectionClass;
+namespace TeenQuotes\Tools\Namespaces;
 
-trait NamespaceTrait {
+use ReflectionClass;
+use Str;
 
-	public function getBaseNamespace()
-	{
-		$reflection = new ReflectionClass(__CLASS__);
-		return $reflection->getNamespaceName().'\\';
-	}
+trait NamespaceTrait
+{
+    public function getBaseNamespace()
+    {
+        $reflection = new ReflectionClass(__CLASS__);
 
-	public function __call($name, $arguments)
-	{
-		// Handle getNamespace with a directory name
-		if (Str::startsWith($name, 'getNamespace'))
-		{
-			$directory = str_replace('getNamespace', '', $name);
+        return $reflection->getNamespaceName().'\\';
+    }
 
-			return $this->getBaseNamespace().$directory.'\\';
-		}
+    public function __call($name, $arguments)
+    {
+        // Handle getNamespace with a directory name
+        if (Str::startsWith($name, 'getNamespace')) {
+            $directory = str_replace('getNamespace', '', $name);
 
-		// Return other calls
-		return call_user_func_array(
-			array($this, $name),
-			$arguments
-		);
-	}
+            return $this->getBaseNamespace().$directory.'\\';
+        }
+
+        // Return other calls
+        return call_user_func_array(
+            [$this, $name],
+            $arguments
+        );
+    }
 }

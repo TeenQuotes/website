@@ -1,5 +1,7 @@
-<?php namespace TeenQuotes\Exceptions;
+<?php
 
-class TagNotFoundException extends TQNotFoundException {
+namespace TeenQuotes\Exceptions;
 
+class TagNotFoundException extends TQNotFoundException
+{
 }

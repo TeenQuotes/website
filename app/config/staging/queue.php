@@ -1,5 +1,5 @@
 <?php
 
 return [
-	'default' => 'sync',
+    'default' => 'sync',
 ];

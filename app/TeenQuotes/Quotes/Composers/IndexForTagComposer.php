@@ -1,15 +1,22 @@
-<?php namespace TeenQuotes\Quotes\Composers;
+<?php
+
+namespace TeenQuotes\Quotes\Composers;
 
 use Route;
 
-class IndexForTagComposer extends IndexComposer {
+class IndexForTagComposer extends IndexComposer
+{
+    /**
+     * Add data to the view.
+     *
+     * @param \Illuminate\View\View $view
+     */
+    public function compose($view)
+    {
+        // Bind to the view the name of the tag
+        $view->with('tagName', Route::input('tag_name'));
 
-	public function compose($view)
-	{
-		// Bind to the view the name of the tag
-		$view->with('tagName', Route::input('tag_name'));
-
-		// Delegate the difficult stuff to the parent
-		parent::compose($view);
-	}
+        // Delegate the difficult stuff to the parent
+        parent::compose($view);
+    }
 }

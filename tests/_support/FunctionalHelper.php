@@ -1,77 +1,84 @@
-<?php namespace Codeception\Module;
+<?php
+
+namespace Codeception\Module;
 
 use Codeception\Module;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Laracasts\TestDummy\Factory as TestDummy;
 use TeenQuotes\Quotes\Models\Quote;
-use InvalidArgumentException;
 
 class FunctionalHelper extends Module
 {
-	/**
-	 * Assert that I can see an error message on a form
-	 * @param  string $message The expected message
-	 */
-	public function seeFormError($message)
-	{
-		$I = $this->getModule('Laravel4');
-		
-		$I->see($message, '.error-form');
-	}
+    /**
+     * Assert that I can see an error message on a form.
+     *
+     * @param string $message The expected message
+     */
+    public function seeFormError($message)
+    {
+        $I = $this->getModule('Laravel4');
 
-	/**
-	 * Assert that we can see a success alert with a given message
-	 * @param  string $message The expected message
-	 */
-	public function seeSuccessFlashMessage($message)
-	{
-		$I = $this->getModule('Laravel4');
-		
-		$I->see($message, '.alert-success');
-	}
+        $I->see($message, '.error-form');
+    }
 
-	/**
-	 * Create a new user. Can pass an array (key-value) to override dummy values
-	 * @param  array $overrides The key-value array used to override dummy values
-	 * @return TeenQuotes\Users\Models\User The created user instance
-	 */
-	public function buildUser($overrides = [])
-	{
-		return TestDummy::build($this->classToFullNamespace('User'), $overrides);		
-	}
+    /**
+     * Assert that we can see a success alert with a given message.
+     *
+     * @param string $message The expected message
+     */
+    public function seeSuccessFlashMessage($message)
+    {
+        $I = $this->getModule('Laravel4');
 
-	public function sendAjaxDeleteRequest($uri, $params = [])
-	{
-		$this->getModule('Laravel4')->sendAjaxRequest('DELETE', $uri, $params);
-	}
+        $I->see($message, '.alert-success');
+    }
 
-	public function sendAjaxPutRequest($uri, $params = [])
-	{
-		$this->getModule('Laravel4')->sendAjaxRequest('PUT', $uri, $params);
-	}
+    /**
+     * Create a new user. Can pass an array (key-value) to override dummy values.
+     *
+     * @param array $overrides The key-value array used to override dummy values
+     *
+     * @return TeenQuotes\Users\Models\User The created user instance
+     */
+    public function buildUser($overrides = [])
+    {
+        return TestDummy::build($this->classToFullNamespace('User'), $overrides);
+    }
 
-	/**
-	 * Resolve a class name to its full namespace
-	 * @param  string $class
-	 * @return string
-	 */
-	private function classToFullNamespace($class)
-	{
-		// "Nice behaviour" classes
-		if (in_array(strtolower($class), ['comment', 'country', 'newsletter', 'quote', 'user', 'story'])) {
-			$plural = ucfirst(strtolower(Str::plural($class)));
-			
-			return 'TeenQuotes\\'.$plural.'\\Models\\'.ucfirst(strtolower($class));
-		}
+    public function sendAjaxDeleteRequest($uri, $params = [])
+    {
+        $this->getModule('Laravel4')->sendAjaxRequest('DELETE', $uri, $params);
+    }
 
-		// Other classes
-		switch ($class) {
-			case 'FavoriteQuote':
-				return 'TeenQuotes\\Quotes\\Models\\FavoriteQuote';
-		}
+    public function sendAjaxPutRequest($uri, $params = [])
+    {
+        $this->getModule('Laravel4')->sendAjaxRequest('PUT', $uri, $params);
+    }
 
-		// We haven't be able to resolve this class
-		throw new InvalidArgumentException("Can't resolve the full namespace for the given class name: ".$class);
-	}
+    /**
+     * Resolve a class name to its full namespace.
+     *
+     * @param string $class
+     *
+     * @return string
+     */
+    private function classToFullNamespace($class)
+    {
+        // "Nice behaviour" classes
+        if (in_array(strtolower($class), ['comment', 'country', 'newsletter', 'quote', 'user', 'story'])) {
+            $plural = ucfirst(strtolower(Str::plural($class)));
+
+            return 'TeenQuotes\\'.$plural.'\\Models\\'.ucfirst(strtolower($class));
+        }
+
+        // Other classes
+        switch ($class) {
+            case 'FavoriteQuote':
+                return 'TeenQuotes\\Quotes\\Models\\FavoriteQuote';
+        }
+
+        // We haven't be able to resolve this class
+        throw new InvalidArgumentException("Can't resolve the full namespace for the given class name: ".$class);
+    }
 }

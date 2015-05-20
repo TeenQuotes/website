@@ -3,48 +3,50 @@
 use Faker\Factory as Faker;
 use TeenQuotes\Quotes\Models\Quote;
 
-class QuotesTableSeeder extends Seeder {
+class QuotesTableSeeder extends Seeder
+{
+    public function run()
+    {
+        $this->command->info('Deleting existing Quotes table ...');
+        Quote::truncate();
 
-	public function run()
-	{
-		$this->command->info('Deleting existing Quotes table ...');
-		Quote::truncate();
+        $faker = Faker::create();
 
-		$faker = Faker::create();
-
-		$this->command->info('Seeding Quotes table using Faker...');
-		$i = 1;
-		$date = Carbon::createFromDate(2011, 12, 1);
-		foreach(range(1, 750) as $index)
-		{
-			// Generate 50 quotes for each approved value
-			// between -1 and 2
+        $this->command->info('Seeding Quotes table using Faker...');
+        $i = 1;
+        $date = Carbon::createFromDate(2011, 12, 1);
+        foreach (range(1, 750) as $index) {
+            // Generate 50 quotes for each approved value
+            // between -1 and 2
 
 
-			Quote::create([
-				'content'    => $faker->paragraph(3),
-				'user_id'    => $faker->numberBetween(1, 100),
-				'approved'   => $this->getApproveForNumber($i),
-				'created_at' => $date,
-			]);
+            Quote::create([
+                'content'    => $faker->paragraph(3),
+                'user_id'    => $faker->numberBetween(1, 100),
+                'approved'   => $this->getApproveForNumber($i),
+                'created_at' => $date,
+            ]);
 
-			$date = $date->addDay();
-			$i++;
-		}
-	}
+            $date = $date->addDay();
+            $i++;
+        }
+    }
 
-	private function getApproveForNumber($i)
-	{
-		if ($i < 50)
-			$approved = Quote::REFUSED;
-		if ($i >= 50 AND $i <= 700)
-			$approved = Quote::PUBLISHED;
-		if ($i > 700 AND $i <= 725)
-			$approved = Quote::PENDING;
-		if ($i > 725)
-			$approved = Quote::WAITING;
+    private function getApproveForNumber($i)
+    {
+        if ($i < 50) {
+            $approved = Quote::REFUSED;
+        }
+        if ($i >= 50 and $i <= 700) {
+            $approved = Quote::PUBLISHED;
+        }
+        if ($i > 700 and $i <= 725) {
+            $approved = Quote::PENDING;
+        }
+        if ($i > 725) {
+            $approved = Quote::WAITING;
+        }
 
-		return $approved;
-	}
-
+        return $approved;
+    }
 }

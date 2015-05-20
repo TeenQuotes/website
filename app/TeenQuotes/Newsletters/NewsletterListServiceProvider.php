@@ -1,27 +1,27 @@
-<?php namespace TeenQuotes\Newsletters;
+<?php
 
-use Mailchimp;
+namespace TeenQuotes\Newsletters;
+
 use Illuminate\Support\ServiceProvider;
+use Mailchimp;
 use TeenQuotes\Newsletters\Mailchimp\NewsletterList as MailchimpNewsletterList;
-use TeenQuotes\Newsletters\NewsletterList;
 
-class NewsletterListServiceProvider extends ServiceProvider {
+class NewsletterListServiceProvider extends ServiceProvider
+{
+    /**
+     * Register binding in IoC container.
+     */
+    public function register()
+    {
+        $app = $this->app;
 
-	/**
-	 * Register binding in IoC container
-	 */
-	public function register()
-	{
-		$app = $this->app;
+        $this->app->singleton('MailchimpClient', function () use ($app) {
+            return new Mailchimp($app['config']->get('services.mailchimp.secret'));
+        });
 
-		$this->app->singleton('MailchimpClient', function() use ($app)
-		{
-			return new Mailchimp($app['config']->get('services.mailchimp.secret'));
-		});
-
-		$app->bind(
-			NewsletterList::class,
-			MailchimpNewsletterList::class
-		);
-	}
+        $app->bind(
+            NewsletterList::class,
+            MailchimpNewsletterList::class
+        );
+    }
 }

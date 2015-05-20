@@ -49,6 +49,9 @@
 	#container #body-content .quote {
 		background-color: #27AE60;
 		color: #FFFFFF;
+		border-bottom-width: 2px;
+		border-bottom-style: solid;
+		border-bottom-color: #27AE60;
 		padding: 10px 10px 15px 10px;
 		margin: 25px 15px 25px 15px;
 	}

@@ -1,36 +1,38 @@
-<?php namespace TeenQuotes\Queues;
+<?php
 
-use Queue;
+namespace TeenQuotes\Queues;
+
 use Illuminate\Support\ServiceProvider;
+use Queue;
 
-class QueuesServiceProvider extends ServiceProvider {
+class QueuesServiceProvider extends ServiceProvider
+{
+    /**
+     * Register binding in IoC container.
+     */
+    public function register()
+    {
+        $this->registerRoutes();
+    }
 
-	/**
-	 * Register binding in IoC container
-	 */
-	public function register()
-	{
-		$this->registerRoutes();
-	}
+    public function registerRoutes()
+    {
+        $this->app['router']->group($this->getRouteGroupParams(), function () {
+            $this->app['router']->post('queues/work', function () {
+                return Queue::marshal();
+            });
+        });
+    }
 
-	public function registerRoutes()
-	{
-		$this->app['router']->group($this->getRouteGroupParams(), function() {
-			$this->app['router']->post('queues/work', function()
-			{
-				return Queue::marshal();
-			});
-		});
-	}
-
-	/**
-	 * Parameters for the group of routes
-	 * @return array
-	 */
-	private function getRouteGroupParams()
-	{
-		return [
-			'domain' => $this->app['config']->get('app.domain'),
-		];
-	}
+    /**
+     * Parameters for the group of routes.
+     *
+     * @return array
+     */
+    private function getRouteGroupParams()
+    {
+        return [
+            'domain' => $this->app['config']->get('app.domain'),
+        ];
+    }
 }

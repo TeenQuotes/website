@@ -1,7 +1,7 @@
 <?php
 
-return array(
-	'search_ignore_folders' => array('config', 'database', 'lang', 'start', 'storage', 'tests'),
-	'search_exclude_files'  => array('pagination', 'reminders', 'validation'),
-	'digg_folders'          => array('app/views', 'app/commands'),
-);
+return [
+    'search_ignore_folders' => ['config', 'database', 'lang', 'start', 'storage', 'tests'],
+    'search_exclude_files'  => ['pagination', 'reminders', 'validation'],
+    'digg_folders'          => ['app/views', 'app/commands'],
+];

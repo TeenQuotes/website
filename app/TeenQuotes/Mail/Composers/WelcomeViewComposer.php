@@ -1,25 +1,29 @@
-<?php namespace TeenQuotes\Mail\Composers;
+<?php
 
-use URL, TextTools;
+namespace TeenQuotes\Mail\Composers;
 
-class WelcomeViewComposer {
+use TextTools;
+use URL;
 
-	public function compose($view)
-	{
-		$viewData = $view->getData();
-		$login = $viewData['login'];
+class WelcomeViewComposer
+{
+    /**
+     * Add data to the view.
+     *
+     * @param \Illuminate\View\View $view
+     */
+    public function compose($view)
+    {
+        $viewData = $view->getData();
+        $login = $viewData['login'];
 
-		// Construct a URL to track with Google Analytics
-		$urlProfile = URL::route('users.show', $login);
-		$urlCampaignProfile = TextTools::linkCampaign($urlProfile, 'callToProfile', 'email', 'welcome', 'linkBodyEmail');
+        // Construct a URL to track with Google Analytics
+        $urlProfile = URL::route('users.show', $login);
+        $urlCampaignProfile = TextTools::linkCampaign($urlProfile, 'callToProfile', 'email', 'welcome', 'linkBodyEmail');
 
-		$data = [
-			'login'              => $login,
-			'urlCampaignProfile' => $urlCampaignProfile,
-			'urlProfile'         => $urlProfile,
-		];
+        $data = compact('login', 'urlCampaignProfile', 'urlProfile');
 
-		// Content
-		$view->with('data', $data);
-	}
+        // Content
+        $view->with('data', $data);
+    }
 }

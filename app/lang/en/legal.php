@@ -1,8 +1,9 @@
 <?php
-return array(
-	'termsOfUseTitle' => 'Terms of use',
-	'pageDescription' => 'Our terms of use and our privacy are available here. Ready to have a lot of fun?',
-	'termsOfUseContent' => '
+
+return [
+    'termsOfUseTitle' => 'Terms of use',
+    'pageDescription' => 'Our terms of use and our privacy are available here. Ready to have a lot of fun?',
+    'termsOfUseContent' => '
 	<p>
 		The use of submissions found in the server '.Config::get('app.domain').' is authorized under condition of non-alteration of its contents and the restriction of its use to personal use only and for the purpose of information. Its use for commercial activities is strictly prohibited. Any other use than the above herein mentioned is strictly prohibited by law.<br/><br/>
 		Anyone who does not respect the applicable provisions is guilty of the delict of piracy and is object of the penalties stipulated by law. The information provided does not include the design or the pagination of '.Config::get('app.domain').' or of any other site managed, controlled or owned by '.Lang::get('layout.nameWebsite').'.<br/><br/>
@@ -15,10 +16,10 @@ return array(
 		Regarding the comments and other submissions by any member, the author of the before mentioned submissions acknowledges full agreement to '.Lang::get('layout.nameWebsite').' to (1) use, copy, distribute, transmit, publicly display, publicly perform, reproduce, edit, modify, translate and reformat his or her contribution within the framework of the website '.Config::get('app.domain').' and any of its partners, (2) to redistribute its rights in the full extent permitted by the applicable regulations.<br/><br/>
 		The contributions posted on '.Config::get('app.domain').' are not financially compensated. '.Config::get('app.domain').' reserves the right to remove comments and submissions at any time without prior notice. By submitting or posting to any part of the site, you automatically grant, and you represent and warrant that you have the right to grant to '.Lang::get('layout.nameWebsite').' the authorizations stipulated in the present article. '.Lang::get('layout.nameWebsite').' reserves the right to change, modify, add, or delete portions of the terms of use and caution sentences of its websites at any time without further notice. It is your responsibility to regularly check the site to determine if there have been changes to these terms of use and to review such changes. Your continued use of the service or the site '.Config::get('app.domain').' after any such changes constitutes your acceptance of the new terms of use.
 	</p>',
-	'privacyPolicyTitle' => 'Privacy Policy',
-	'privacyPolicyContent' => "
+    'privacyPolicyTitle' => 'Privacy Policy',
+    'privacyPolicyContent' => '
 	<p>
-		This Privacy Policy discloses the privacy practices of the ".Config::get('app.domain')." website (the Site). Specifically, it outlines the types of information that we gather about you while you are using the Site, and the ways in which we use and share this information.<br/><br/>
+		This Privacy Policy discloses the privacy practices of the '.Config::get('app.domain')." website (the Site). Specifically, it outlines the types of information that we gather about you while you are using the Site, and the ways in which we use and share this information.<br/><br/>
 		We will not use the information that we collect while you are using the Site, nor will we authorize third parties to use such information, to mail or email promotional offers directly to you unless you have specifically informed us that you would like to receive such promotional offers.<br/><br/>
 		Please read this Privacy Policy carefully. By visiting and using the Site, you agree that your use of our Site, and any dispute over our online privacy practices, is governed by this Privacy Policy and of Terms of use. Because the Web is an evolving medium, we may need to change our Privacy Policy at some point in the future, in which case we'll post the revised Privacy Policy on this website and update the Last Updated date to reflect the date of the changes. By continuing to use the Site after we post any such changes, you accept the Privacy Policy as modified.<br/><br/>
 	</p>
@@ -38,7 +39,7 @@ return array(
 		We also collect and store non-personally identifiable information that is generated automatically as you navigate through the Site. For example, we may collect information about your computer's connection to the Internet, which allows us, among other things, to improve the delivery of our web pages to you and to measure traffic on the Site. We also may use a standard feature found in browser software called a cookie to enhance your experience with the Site. Cookies are small files that your web browser places on your hard drive for record-keeping purposes. By showing how and when visitors use the Site, cookies help us deliver advertisements, identify how many unique users visit us, and track user trends and patterns. They also prevent you from having to re-enter your preferences on certain areas of the Site where you have entered preference information before. This Site also may use web beacons (single-pixel graphic files also known as transparent GIFs) to access cookies and to count users who visit the Site or open our HTML-formatted email messages.<br/><br/>
 		If you want to limit the non-personally identifiable information that is automatically collected while you use our Site, most Web browsers allow you to disable cookies. To disable cookies using Internet Explorer, select “Internet Options” under the Tools menu and click on “Privacy.” Select “High” or “Block All Cookies.” To disable cookies using Mozilla Firefox, select “Options” under the “Tools” menu. If you choose to disable cookies, you may not be able to use or participate in some or all of the features offered through the Site.
 	</p>
-	
+
 	<h2>How is this Information Used?</h2>
 	<p>
 		We use the information we collect from you while you are using the Site in a variety of ways, including, for example, to process your registration request, provide you with services and communications that you have requested, customize features and advertising that appear on the Site, deliver our Site content to you, measure Site traffic, measure user interests and traffic patterns, and improve the Site and the services and features offered via the Site.<br/><br/>
@@ -51,7 +52,7 @@ return array(
 
 	<p>
 		Please be aware that we may occasionally release information about visitors if required to do so by law or if, in our business judgment, such disclosure is reasonably necessary: (a) to comply with legal process; (b) to enforce our Terms of Service; or (c) to protect the rights, property, or personal safety of our Site, us, our affiliates, our officers, directors, employees, representatives, our licensors, other users, and/or the public.<br/><br/>
-		Please also note that as our business grows, we may buy or sell various assets. In the unlikely event that we sell some or all of our assets, or our Site, is acquired by another company, information about our Site users may be among the transferred assets. 
+		Please also note that as our business grows, we may buy or sell various assets. In the unlikely event that we sell some or all of our assets, or our Site, is acquired by another company, information about our Site users may be among the transferred assets.
 	</p>
 
 	<h2>Data Collected in Connection with Ad Serving and Targeting</h2>
@@ -65,21 +66,21 @@ return array(
 	<p>
 		This children's privacy statement explains our practices with respect to the online collection and use of personal information from children under the age of 13.<br/><br/>
 		This Site is not directed to children under the age of thirteen and we do NOT knowingly collect personally identifiable information from children under the age of 13 as part of the Site. We screen users who wish to provide personal information in order to prevent users under the age of 13 from providing such information. If we become aware that we have inadvertently received personally identifiable information from a user under the age of 13 as part of the Site, we will delete such information from our records. Because we do not collect any personally identifiable information from children under the age of 13 via the Site, we also do NOT knowingly distribute such information to third parties. We do NOT knowingly allow children under the age of 13 to publicly post or otherwise distribute personally identifiable contact information through the Site.<br/><br/>
-		Because we do not collect any personally identifiable information from children under the age of 13 via the Site, we do NOT condition the participation of a child under 13 in the Site's online activities on providing personally identifiable information. 
+		Because we do not collect any personally identifiable information from children under the age of 13 via the Site, we do NOT condition the participation of a child under 13 in the Site's online activities on providing personally identifiable information.
 	</p>
 
 	<h2>How To Make Changes to Your Information</h2>
 	<p>
-		If you are a registered member of our Site, you can make changes to your account information by logging in to the Site and using the account tools available via the Site. If you have subscribed to one or more of our email newsletters, you may also change your subscriber information, modify your subscriptions, and/or unsubscribe from these newsletters at any time by visiting your account member's editing form. 
+		If you are a registered member of our Site, you can make changes to your account information by logging in to the Site and using the account tools available via the Site. If you have subscribed to one or more of our email newsletters, you may also change your subscriber information, modify your subscriptions, and/or unsubscribe from these newsletters at any time by visiting your account member's editing form.
 	</p>
-	
+
 	<h2>Storage of Information</h2>
 	<p>
-		All information we gather on our Site is stored within a database to which only we and our hosting services provider are provided access. However, as effective as the reasonable security measures implemented by us may be, no physical or electronic security system is impenetrable. We cannot guarantee the security of our Site’s servers or databases, nor can we guarantee that information you supply will not be intercepted while being transmitted to us over the Internet 
+		All information we gather on our Site is stored within a database to which only we and our hosting services provider are provided access. However, as effective as the reasonable security measures implemented by us may be, no physical or electronic security system is impenetrable. We cannot guarantee the security of our Site’s servers or databases, nor can we guarantee that information you supply will not be intercepted while being transmitted to us over the Internet
 	</p>
-	
+
 	<h2>Questions Regarding Privacy</h2>
 	<p>
-		If you have questions or concerns about this Privacy Policy, our privacy practices, or your dealings with us, please contact us by writing to: ".HTML::email('support@'.Config::get("app.domain"))."
-	</p>",
-);
+		If you have questions or concerns about this Privacy Policy, our privacy practices, or your dealings with us, please contact us by writing to: ".HTML::email('support@'.Config::get('app.domain')).'
+	</p>',
+];

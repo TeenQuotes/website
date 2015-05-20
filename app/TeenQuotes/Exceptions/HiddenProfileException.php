@@ -1,7 +1,9 @@
-<?php namespace TeenQuotes\Exceptions;
+<?php
+
+namespace TeenQuotes\Exceptions;
 
 use Exception;
 
-class HiddenProfileException extends Exception {
-
+class HiddenProfileException extends Exception
+{
 }

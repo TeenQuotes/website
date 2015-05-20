@@ -1,28 +1,34 @@
-<?php namespace TeenQuotes\Pages\Controllers;
+<?php
 
-use BaseController, Lang, LaraSetting, View;
+namespace TeenQuotes\Pages\Controllers;
 
-class ContactController extends BaseController {
+use BaseController;
+use Lang;
+use LaraSetting;
+use View;
 
-	public function index()
-	{
-		$data = [
-			'chooseYourWeapon'   => Lang::get('contact.chooseYourWeapon'),
-			'contactTitle'       => Lang::get('contact.contactTitle'),
-			'emailAddress'       => Lang::get('contact.emailAddress'),
-			'pageDescription'    => Lang::get('contact.pageDescription'),
-			'pageTitle'          => Lang::get('contact.pageTitle'),
-			'stayInTouchContent' => Lang::get('contact.stayInTouchContent'),
-			'stayInTouchTitle'   => Lang::get('contact.stayInTouchTitle'),
-			'teamMembers'        => LaraSetting::get('team'),
-			'teamTitle'       	 => Lang::get('contact.teamTitle'),
-			'twitterAccount'     => Lang::get('layout.twitterUsername'),
-		];
+class ContactController extends BaseController
+{
+    public function index()
+    {
+        $data = [
+            'chooseYourWeapon'   => Lang::get('contact.chooseYourWeapon'),
+            'contactTitle'       => Lang::get('contact.contactTitle'),
+            'emailAddress'       => Lang::get('contact.emailAddress'),
+            'pageDescription'    => Lang::get('contact.pageDescription'),
+            'pageTitle'          => Lang::get('contact.pageTitle'),
+            'stayInTouchContent' => Lang::get('contact.stayInTouchContent'),
+            'stayInTouchTitle'   => Lang::get('contact.stayInTouchTitle'),
+            'teamMembers'        => LaraSetting::get('team'),
+            'teamTitle'            => Lang::get('contact.teamTitle'),
+            'twitterAccount'     => Lang::get('layout.twitterUsername'),
+        ];
 
-		// Add description for each team member
-		foreach ($data['teamMembers'] as $teamName)
-			$data['teamDescription'.$teamName['firstName']] = Lang::get('contact.teamDescription'.$teamName['firstName']);
+        // Add description for each team member
+        foreach ($data['teamMembers'] as $teamName) {
+            $data['teamDescription'.$teamName['firstName']] = Lang::get('contact.teamDescription'.$teamName['firstName']);
+        }
 
-		return View::make('contact.show', $data);
-	}
+        return View::make('contact.show', $data);
+    }
 }
