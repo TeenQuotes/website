@@ -56,10 +56,10 @@ Route::filter('auth', function () {
             // on the signin / signup page
             Session::flash('requireLoggedInAddQuote', true);
 
-            return Redirect::guest('signin');
+            return Redirect::guest(URL::route('signin'));
         }
 
-        return Redirect::guest('signin')->with('warning', Lang::get('auth.requireLoggedIn'));
+        return Redirect::guest(URL::route('signin'))->with('warning', Lang::get('auth.requireLoggedIn'));
     }
 });
 
