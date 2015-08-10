@@ -4,6 +4,7 @@ namespace TeenQuotes\Pages\Controllers;
 
 use Agent;
 use BaseController;
+use Config;
 use Lang;
 use LaraSetting;
 use Redirect;
@@ -19,16 +20,28 @@ class AppsController extends BaseController
 
     public function index()
     {
+        $hasAndroidApp = Config::get('mobile.androidApp');
+        $hasIOSApp = Config::get('mobile.iOSApp');
+
         // Tablet
         if (Agent::isTablet()) {
             return Redirect::route('apps.device', 'tablet');
         }
-
         // Mobile
         elseif (Agent::isMobile()) {
+            // Android
             if (Agent::isAndroidOS()) {
+                if ($hasAndroidApp) {
+                    return Redirect::away(Config::get('mobile.downloadLinkAndroid'));
+                }
+
                 return Redirect::route('apps.device', 'android');
+            // iOS
             } elseif (Agent::isiOS()) {
+                if ($hasIOSApp) {
+                    return Redirect::away(Config::get('mobile.downloadLinkiOS'));
+                }
+
                 return Redirect::route('apps.device', 'ios');
             }
 

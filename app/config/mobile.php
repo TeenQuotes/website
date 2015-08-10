@@ -2,19 +2,20 @@
 
 return [
     // Do we have an iOS app?
-    'iOSApp'            => false,
+    'iOSApp' => true,
 
     // Do we have an Android app?
-    'androidApp'        => false,
+    'androidApp' => true,
 
     // The ID of the iOS application
-    'iOSAppID'          => 'id577239995',
+    'iOSAppID' => 'id1008642341',
 
     // The name of package for the Android app
-    'androidPackage'    => '',
+    'androidPackage' => 'com.mytriber.ohteenquotes',
 
-    // The URL to download the iOS application
-    'downloadLinkiOS'   => 'https://itunes.apple.com/us/app/teen-quotes/id577239995',
+    // URLs to download applications
+    'downloadLinkiOS' => 'https://itunes.apple.com/us/app/id1008642341',
+    'downloadLinkAndroid' => 'https://play.google.com/store/apps/details?id=com.mytriber.ohteenquotes',
 
     // Scheme for deep links
     'deepLinksProtocol' => 'TeenQuotes://',
