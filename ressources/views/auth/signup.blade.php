@@ -21,14 +21,14 @@
 			<div id="signup-text">
 				{{Lang::get('auth.signupText')}}
 			</div>
-			{{ Form::open(array('url' => URL::route('users.store'), 'class' => 'form-horizontal')) }}
+			{{ Form::open(['url' => URL::route('users.store'), 'class' => 'form-horizontal']) }}
 
 				<!-- Login -->
 				<div class="form-group {{{ $errors->has('login') ? 'error' : '' }}}">
 					{{ Form::label('login', Lang::get('auth.login'), ['class' => 'col-sm-2 control-label']) }}
 
 					<div class="col-sm-10">
-						{{ Form::text('login', Input::old('login'), array('class' => 'form-control', 'id' => 'login-signup')) }}
+						{{ Form::text('login', Input::old('login'), ['class' => 'form-control', 'id' => 'login-signup', 'placeholder' => 'janedoe']) }}
 						<div id="login-validator">
 
 						</div>
@@ -45,7 +45,7 @@
 					{{ Form::label('email', Lang::get('auth.emailAddress'), ['class' => 'col-sm-2 control-label']) }}
 
 					<div class="col-sm-10">
-						{{ Form::email('email', Input::old('email'), array('class' => 'form-control', 'id' => 'email-signup')) }}
+						{{ Form::email('email', Input::old('email'), ['class' => 'form-control', 'id' => 'email-signup', 'placeholder' => 'jane@example.com']) }}
 						<div id="respect-privacy">
 							{{ Lang::get('auth.carefulPrivacy') }}
 						</div>
@@ -72,7 +72,7 @@
 				<!-- Submit button -->
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						{{ Form::submit(Lang::get('auth.signupButton'), array('class' => 'transition animated fadeInUp btn btn-primary btn-lg', 'id' => 'submit-form')) }}
+						{{ Form::submit(Lang::get('auth.signupButton'), ['class' => 'transition animated fadeInUp btn btn-primary btn-lg', 'id' => 'submit-form']) }}
 					</div>
 				</div>
 			</div>

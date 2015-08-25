@@ -13,7 +13,7 @@ class FormFillerHelper extends Module
     {
         $I = $this->getModule('Laravel4');
 
-        $I->fillField('Login', $login);
+        $I->fillField('Username', $login);
         $I->fillField('Password', $password);
         $I->click('Log me in!', 'form');
     }
