@@ -34,7 +34,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment([
 
-	'local'      => ['antoine', 'aaugusti', 'aaugusti-mba', '*.home', '*.local', '*.lan'],
+	'local'      => ['cinderella', '*.home', '*.local', '*.lan'],
 	'staging'    => ['teen-quotes-staging'],
 	'production' => ['teen-quotes-production'],
 
