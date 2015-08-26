@@ -4,7 +4,7 @@ return [
     'alreadyLoggedIn'                => 'You are already logged in.',
     'loginSuccessfull'               => 'Hi :login! Nice to see you :)',
     'passwordInvalid'                => 'Your password is invalid.',
-    'login'                          => 'Login',
+    'login'                          => 'Username',
     'password'                       => 'Password',
     'emailAddress'                   => 'Email address',
     'loginButton'                    => 'Log me in!',
