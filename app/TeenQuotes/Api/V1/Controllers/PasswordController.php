@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Api\V1\Controllers;
 
 use Input;
@@ -18,7 +27,7 @@ class PasswordController extends APIGlobalController
         switch ($response) {
             case Password::INVALID_USER:
                 $status = 400;
-                $data = [
+                $data   = [
                     'status' => 'wrong_user',
                     'error'  => "The email address doesn't match a user.",
                 ];
@@ -26,7 +35,7 @@ class PasswordController extends APIGlobalController
 
             case Password::REMINDER_SENT:
                 $status = 200;
-                $data = [
+                $data   = [
                     'status'  => 'reminder_sent',
                     'success' => 'An email was sent to the user.',
                 ];
@@ -55,7 +64,7 @@ class PasswordController extends APIGlobalController
         switch ($response) {
             case Password::INVALID_PASSWORD:
                 $status = 400;
-                $data = [
+                $data   = [
                     'status' => 'wrong_password',
                     'error'  => 'The password is wrong.',
                 ];
@@ -63,7 +72,7 @@ class PasswordController extends APIGlobalController
 
             case Password::INVALID_TOKEN:
                 $status = 400;
-                $data = [
+                $data   = [
                     'status' => 'wrong_token',
                     'error'  => 'The reset token is invalid.',
                 ];
@@ -71,7 +80,7 @@ class PasswordController extends APIGlobalController
 
             case Password::INVALID_USER:
                 $status = 400;
-                $data = [
+                $data   = [
                     'status' => 'wrong_user',
                     'error'  => "The email address doesn't match a user.",
                 ];
@@ -79,7 +88,7 @@ class PasswordController extends APIGlobalController
 
             case Password::PASSWORD_RESET:
                 $status = 200;
-                $data = [
+                $data   = [
                     'status'  => 'password_reset',
                     'success' => 'The new password has been set.',
                 ];

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Users\Repositories;
 
 use Carbon;
@@ -80,7 +89,7 @@ class DbUserRepository implements UserRepository
      */
     public function updatePassword($u, $password)
     {
-        $user = $this->retrieveUser($u);
+        $user           = $this->retrieveUser($u);
         $user->password = $password;
         $user->save();
     }
@@ -93,7 +102,7 @@ class DbUserRepository implements UserRepository
      */
     public function updateEmail($u, $email)
     {
-        $user = $this->retrieveUser($u);
+        $user        = $this->retrieveUser($u);
         $user->email = $email;
         $user->save();
     }
@@ -128,7 +137,7 @@ class DbUserRepository implements UserRepository
         $user->birthdate = empty($birthdate) ? null : $birthdate;
 
         if (!is_null($avatar)) {
-            $filename = $user->id.'.'.$avatar->getClientOriginalExtension();
+            $filename     = $user->id.'.'.$avatar->getClientOriginalExtension();
             $user->avatar = $filename;
         }
 
@@ -144,7 +153,7 @@ class DbUserRepository implements UserRepository
      */
     public function updateSettings($u, $notification_comment_quote, $hide_profile)
     {
-        $user = $this->retrieveUser($u);
+        $user                             = $this->retrieveUser($u);
         $user->notification_comment_quote = $notification_comment_quote;
         $user->hide_profile               = $hide_profile;
         $user->save();
@@ -346,9 +355,9 @@ class DbUserRepository implements UserRepository
      *
      * @param \TeenQuotes\Users\Models\User|int $u
      *
-     * @return \TeenQuotes\Users\Models\User
-     *
      * @throws \InvalidArgumentException If the type can't be recognised
+     *
+     * @return \TeenQuotes\Users\Models\User
      */
     private function retrieveUser($u)
     {

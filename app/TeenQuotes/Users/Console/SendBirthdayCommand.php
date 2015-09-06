@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Users\Console;
 
 use Indatus\Dispatcher\Scheduling\Schedulable;
@@ -41,7 +50,7 @@ class SendBirthdayCommand extends ScheduledCommand
     {
         parent::__construct();
 
-        $this->userRepo = $userRepo;
+        $this->userRepo   = $userRepo;
         $this->userMailer = $userMailer;
     }
 

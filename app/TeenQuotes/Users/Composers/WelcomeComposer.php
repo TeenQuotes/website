@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Users\Composers;
 
 use Lang;
@@ -17,21 +26,21 @@ class WelcomeComposer extends AbstractDeepLinksComposer
     public function compose($view)
     {
         $viewData = $view->getData();
-        $login = $viewData['user']->login;
-        $type = $viewData['type'];
+        $login    = $viewData['user']->login;
+        $type     = $viewData['type'];
 
         $welcomeText = Lang::get('users.newUserWelcomeProfile', ['login' => $login]);
 
-        $updateProfileTitle = Lang::get('users.newUserTutorialProfileTitle');
+        $updateProfileTitle   = Lang::get('users.newUserTutorialProfileTitle');
         $updateProfileContent = Lang::get('users.newUserTutorialProfileContent', ['url' => URL::route('users.edit', $login)]);
 
-        $addingQuoteTitle = Lang::get('users.newUserTutorialAddingQuoteTitle');
+        $addingQuoteTitle   = Lang::get('users.newUserTutorialAddingQuoteTitle');
         $addingQuoteContent = Lang::get('users.newUserTutorialAddingQuoteContent', ['url' => URL::route('addquote')]);
 
-        $addingFavoritesTitle = Lang::get('users.newUserTutorialFavoritesTitle');
+        $addingFavoritesTitle   = Lang::get('users.newUserTutorialFavoritesTitle');
         $addingFavoritesContent = Lang::get('users.newUserTutorialFavoritesContent');
 
-        $editSettingsTitle = Lang::get('users.newUserTutorialSettingsTitle');
+        $editSettingsTitle   = Lang::get('users.newUserTutorialSettingsTitle');
         $editSettingsContent = Lang::get('users.newUserTutorialSettingsContent', ['url' => URL::route('users.edit', $login).'#edit-settings']);
 
         // Content

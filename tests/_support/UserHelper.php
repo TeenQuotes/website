@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Codeception\Module;
 
 use Carbon\Carbon;
@@ -83,7 +92,7 @@ class UserHelper extends Module
      */
     public function assertProfileHasBeenChangedWithParams(array $params)
     {
-        $I = $this->getModule('Laravel4');
+        $I    = $this->getModule('Laravel4');
         $user = Auth::user();
 
         $I->seeCurrentRouteIs('users.edit', $user->login);
@@ -102,7 +111,7 @@ class UserHelper extends Module
      */
     public function assertProfileContainsInformation(array $params)
     {
-        $I = $this->getModule('Laravel4');
+        $I    = $this->getModule('Laravel4');
         $user = Auth::user();
 
         if (array_key_exists('country_name', $params)) {

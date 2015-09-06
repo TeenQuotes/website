@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\AdminPanel\Controllers;
 
 use App;
@@ -128,7 +137,7 @@ class QuotesAdminController extends BaseController
             }
 
             $approved = $moderation->isApproved() ? Quote::PENDING : Quote::REFUSED;
-            $quote = $this->quoteRepo->updateApproved($id, $approved);
+            $quote    = $this->quoteRepo->updateApproved($id, $approved);
 
             // Contact the author of the quote
             $this->sendMailForQuoteAndModeration($quote, $moderation);

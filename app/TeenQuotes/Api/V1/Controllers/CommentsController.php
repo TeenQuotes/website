@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Api\V1\Controllers;
 
 use App;
@@ -23,7 +32,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
     public function index($quote_id)
     {
-        $page = $this->getPage();
+        $page     = $this->getPage();
         $pagesize = $this->getPagesize();
 
         // Get comments
@@ -39,7 +48,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
         }
 
         // Get the total number of comments for the related quote
-        $relatedQuote = $this->quoteRepo->getById($quote_id);
+        $relatedQuote  = $this->quoteRepo->getById($quote_id);
         $totalComments = $relatedQuote->total_comments;
 
         $data = $this->paginateContent($page, $pagesize, $totalComments, $content, 'comments');
@@ -49,7 +58,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
     public function getCommentsForUser($user_id)
     {
-        $page = $this->getPage();
+        $page     = $this->getPage();
         $pagesize = $this->getPagesize();
 
         $user = $this->userRepo->getById($user_id);
@@ -93,7 +102,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
     public function store($quote_id, $doValidation = true)
     {
-        $user = $this->retrieveUser();
+        $user    = $this->retrieveUser();
         $content = Input::get('content');
 
         if ($doValidation) {
@@ -106,7 +115,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
         if (!$quote->isPublished()) {
             return Response::json([
                 'status' => 'wrong_quote_id',
-                'error' => 'The quote should be published.',
+                'error'  => 'The quote should be published.',
             ], 400);
         }
 
@@ -118,7 +127,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
     public function update($id)
     {
-        $user = $this->retrieveUser();
+        $user    = $this->retrieveUser();
         $content = Input::get('content');
         $comment = $this->commentRepo->findById($id);
 
@@ -146,7 +155,7 @@ class CommentsController extends APIGlobalController implements PaginatedContent
 
     public function destroy($id)
     {
-        $user = $this->retrieveUser();
+        $user    = $this->retrieveUser();
         $comment = $this->commentRepo->findById($id);
 
         // Handle not found

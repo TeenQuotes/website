@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 class IndexQuotesCest
 {
     /**
@@ -21,7 +30,7 @@ class IndexQuotesCest
         $I->createSomePublishedQuotes(['nb_quotes' => $I->getTotalNumberOfQuotesToCreate()]);
 
         // Create a new user, a fresh published quote and some comments to it
-        $this->user = $I->logANewUser();
+        $this->user       = $I->logANewUser();
         $this->firstQuote = $I->insertInDatabase(1, 'Quote', ['created_at' => Carbon::now()->addMonth(), 'user_id' => $this->user->id]);
         $I->insertInDatabase($I->getNbComments(), 'Comment', ['quote_id' => $this->firstQuote->id]);
     }

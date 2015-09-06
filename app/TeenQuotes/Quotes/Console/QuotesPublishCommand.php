@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Quotes\Console;
 
 use Config;
@@ -153,7 +162,7 @@ class QuotesPublishCommand extends ScheduledCommand
     private function getNbRemainingDaysPublication()
     {
         $nbQuotesPending = $this->quoteRepo->nbPending();
-        $quotesPerDay = Config::get('app.quotes.nbQuotesToPublishPerDay');
+        $quotesPerDay    = Config::get('app.quotes.nbQuotesToPublishPerDay');
 
         return ceil($nbQuotesPending / $quotesPerDay);
     }
