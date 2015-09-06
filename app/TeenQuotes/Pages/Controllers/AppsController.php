@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Pages\Controllers;
 
 use Agent;
@@ -21,7 +30,7 @@ class AppsController extends BaseController
     public function index()
     {
         $hasAndroidApp = Config::get('mobile.androidApp');
-        $hasIOSApp = Config::get('mobile.iOSApp');
+        $hasIOSApp     = Config::get('mobile.iOSApp');
 
         // Tablet
         if (Agent::isTablet()) {

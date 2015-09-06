@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use TeenQuotes\Quotes\Models\Quote;
 
 class QuoteRepoCest
@@ -16,7 +25,7 @@ class QuoteRepoCest
 
     public function _before()
     {
-        $this->repo = App::make('TeenQuotes\Quotes\Repositories\QuoteRepository');
+        $this->repo    = App::make('TeenQuotes\Quotes\Repositories\QuoteRepository');
         $this->tagRepo = App::make('TeenQuotes\Tags\Repositories\TagRepository');
     }
 
@@ -99,7 +108,7 @@ class QuoteRepoCest
     public function testUpdateContentAndApproved(IntegrationTester $I)
     {
         $newContent = 'Hello World';
-        $q = $I->insertInDatabase(1, 'Quote', ['approved' => Quote::WAITING]);
+        $q          = $I->insertInDatabase(1, 'Quote', ['approved' => Quote::WAITING]);
 
         $this->repo->updateContentAndApproved($q->id, $newContent, Quote::PUBLISHED);
 
@@ -138,7 +147,7 @@ class QuoteRepoCest
     public function testCreateQuoteForUser(IntegrationTester $I)
     {
         $content = 'Hello World';
-        $user = $I->insertInDatabase(1, 'User');
+        $user    = $I->insertInDatabase(1, 'User');
 
         $q = $this->repo->createQuoteForUser($user, $content);
         $q = $this->repo->getById($q->id);
@@ -154,7 +163,7 @@ class QuoteRepoCest
         $I->insertInDatabase(3, 'Quote', ['approved' => Quote::WAITING]);
 
         $quotes = $this->repo->index(1, 5);
-        $ids = $quotes->lists('id');
+        $ids    = $quotes->lists('id');
         sort($ids);
         $I->assertIsCollection($quotes);
         $I->assertEquals(range(1, 5), $ids);
@@ -272,7 +281,7 @@ class QuoteRepoCest
     public function testGetQuotesForTag(IntegrationTester $I)
     {
         $quotes = $I->insertInDatabase(2, 'Quote');
-        $tags = $I->insertInDatabase(2, 'Tag');
+        $tags   = $I->insertInDatabase(2, 'Tag');
 
         $I->assertEmpty($this->repo->getQuotesForTag($tags[0], 1, 10));
 

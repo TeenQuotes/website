@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Comments\Observers;
 
 use App;
@@ -19,7 +28,7 @@ class CommentObserver
 
     public function __construct()
     {
-        $this->quoteRepo = App::make('TeenQuotes\Quotes\Repositories\QuoteRepository');
+        $this->quoteRepo  = App::make('TeenQuotes\Quotes\Repositories\QuoteRepository');
         $this->userMailer = App::make('TeenQuotes\Mail\UserMailer');
     }
 

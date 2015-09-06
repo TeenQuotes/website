@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Quotes\Repositories;
 
 use DB;
@@ -81,8 +90,8 @@ class DbFavoriteQuoteRepository implements FavoriteQuoteRepository
      */
     public function create(User $u, $quote_id)
     {
-        $favorite = new FavoriteQuote();
-        $favorite->user_id = $u->id;
+        $favorite           = new FavoriteQuote();
+        $favorite->user_id  = $u->id;
         $favorite->quote_id = $quote_id;
         $favorite->save();
 

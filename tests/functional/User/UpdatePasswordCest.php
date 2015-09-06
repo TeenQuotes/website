@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 class UpdatePasswordCest
 {
     /**
@@ -43,7 +52,7 @@ class UpdatePasswordCest
         $I->am('a logged in Teen Quotes member');
         $I->wantTo('update my password with a different confirmation password');
 
-        $newPassword = 'azerty42';
+        $newPassword     = 'azerty42';
         $confirmPassword = 'azerty22';
 
         // Try to update the user's password

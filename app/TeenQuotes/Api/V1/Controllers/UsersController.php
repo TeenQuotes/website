@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Api\V1\Controllers;
 
 use App;
@@ -87,7 +96,7 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
         // Try to detect the city and the country from the request
         $request = Input::instance();
         $country = $this->localisationDetector->detectCountry($request);
-        $city = $this->localisationDetector->detectCity($request);
+        $city    = $this->localisationDetector->detectCity($request);
 
         $user = $this->userRepo->create($data['login'], $data['email'], $data['password'],
             $_SERVER['REMOTE_ADDR'], Carbon::now()->toDateTimeString(),
@@ -115,13 +124,13 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
         if ($this->isNotFound($user)) {
             return Response::json([
                 'status' => 404,
-                'error' => 'User not found.',
+                'error'  => 'User not found.',
             ], 404);
         }
 
         $data = $user->toArray();
         foreach (User::$appendsFull as $key) {
-            $method = Str::camel('get_'.$key);
+            $method     = Str::camel('get_'.$key);
             $data[$key] = $user->$method();
         }
 
@@ -135,9 +144,9 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
      *
      * @param string $query
      *
-     * @return \TeenQuotes\Http\Facades\Response
-     *
      * @throws \TeenQuotes\Exceptions\ApiNotFoundException If no users were found
+     *
+     * @return \TeenQuotes\Http\Facades\Response
      */
     public function getSearch($query)
     {
@@ -278,9 +287,9 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
      *
      * @param int $country_id The ID of the country
      *
-     * @return \TeenQuotes\Http\Facades\Response
-     *
      * @throws \TeenQuotes\Exceptions\ApiNotFoundException If no users were found
+     *
+     * @return \TeenQuotes\Http\Facades\Response
      */
     public function fromCountry($country_id)
     {
@@ -330,7 +339,7 @@ class UsersController extends APIGlobalController implements PaginatedContentInt
         Input::file('avatar')->move(Config::get('app.users.avatarPath'), $filename);
 
         // Crop the image and save it
-        $center = new CropEntropy($filepath);
+        $center       = new CropEntropy($filepath);
         $croppedImage = $center->resizeAndCrop(Config::get('app.users.avatarWidth'), Config::get('app.users.avatarHeight'));
         $croppedImage->writeimage($filepath);
     }

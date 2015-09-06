@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 class CommentRepoCest
 {
     /**
@@ -90,7 +99,7 @@ class CommentRepoCest
 
     public function testUpdate(IntegrationTester $I)
     {
-        $c = $I->insertInDatabase(1, 'Comment');
+        $c          = $I->insertInDatabase(1, 'Comment');
         $newContent = 'Foobar';
 
         $this->repo->update($c, $newContent);
@@ -121,7 +130,7 @@ class CommentRepoCest
 
     public function testGetNbCommentsForQuote(IntegrationTester $I)
     {
-        $first = $I->insertInDatabase(1, 'Quote');
+        $first  = $I->insertInDatabase(1, 'Quote');
         $second = $I->insertInDatabase(1, 'Quote');
         $I->insertInDatabase(2, 'Comment', ['quote_id' => 2]);
 

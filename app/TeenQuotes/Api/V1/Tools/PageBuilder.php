@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Api\V1\Tools;
 
 use TeenQuotes\Api\V1\Interfaces\PageBuilderInterface;
@@ -58,7 +67,7 @@ class PageBuilder implements PageBuilderInterface
     private function buildNextPage($page, $pagesize, $totalPages, $url, $getParams)
     {
         $hasNextPage = ($page < $totalPages);
-        $nextPage = null;
+        $nextPage    = null;
 
         if ($hasNextPage) {
             $nextPage = $url.'?page='.($page + 1).'&pagesize='.$pagesize.$getParams;
@@ -81,7 +90,7 @@ class PageBuilder implements PageBuilderInterface
     private function buildPreviousPage($page, $pagesize, $url, $getParams)
     {
         $hasPreviousPage = ($page >= 2);
-        $previousPage = null;
+        $previousPage    = null;
 
         if ($hasPreviousPage) {
             $previousPage = $url.'?page='.($page - 1).'&pagesize='.$pagesize.$getParams;

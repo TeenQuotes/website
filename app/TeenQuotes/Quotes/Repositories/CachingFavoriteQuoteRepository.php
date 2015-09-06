@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Quotes\Repositories;
 
 use Cache;
@@ -31,7 +40,7 @@ class CachingFavoriteQuoteRepository implements FavoriteQuoteRepository
      */
     public function deleteForUserAndQuote($u, $quote_id)
     {
-        $cacheKeyUser = $this->getCacheKeyForUser($u);
+        $cacheKeyUser  = $this->getCacheKeyForUser($u);
         $cacheKeyQuote = $this->getCacheKeyForQuote($quote_id);
 
         $quotes = Cache::get($cacheKeyUser, null);
@@ -61,7 +70,7 @@ class CachingFavoriteQuoteRepository implements FavoriteQuoteRepository
     public function quotesFavoritesForUser($u)
     {
         $cacheKey = $this->getCacheKeyForUser($u);
-        $quotes = Cache::get($cacheKey, null);
+        $quotes   = Cache::get($cacheKey, null);
 
         if (!is_null($quotes)) {
             return $quotes;
@@ -77,7 +86,7 @@ class CachingFavoriteQuoteRepository implements FavoriteQuoteRepository
      */
     public function create(User $u, $quote_id)
     {
-        $cacheKeyUser = $this->getCacheKeyForUser($u);
+        $cacheKeyUser  = $this->getCacheKeyForUser($u);
         $cacheKeyQuote = $this->getCacheKeyForQuote($quote_id);
 
         $quotes = Cache::get($cacheKeyUser, null);

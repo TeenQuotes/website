@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Countries\Localisation;
 
 use App;
@@ -83,7 +92,7 @@ class GeoIPCountryDetector implements CountryDetector
      */
     public function setDefault($id)
     {
-        if (!is_integer($id)) {
+        if (!is_int($id)) {
             throw new InvalidArgumentException($id.' is not an integer.');
         }
 

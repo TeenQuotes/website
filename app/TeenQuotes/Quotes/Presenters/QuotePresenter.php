@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Quotes\Presenters;
 
 use Lang;
@@ -15,13 +24,13 @@ class QuotePresenter extends Presenter
      */
     public function textTweet()
     {
-        $content = $this->content;
-        $maxLength = 115;
-        $twitterUsername = Lang::get('layout.twitterUsername');
+        $content                     = $this->content;
+        $maxLength                   = 115;
+        $twitterUsername             = Lang::get('layout.twitterUsername');
         $maxLengthAddTwitterUsername = $maxLength - strlen($twitterUsername);
 
         if (strlen($content) > $maxLength) {
-            $content = substr($content, 0, $maxLength);
+            $content   = substr($content, 0, $maxLength);
             $lastSpace = strrpos($content, ' ');
 
             // After the space, add …
@@ -40,11 +49,11 @@ class QuotePresenter extends Presenter
      */
     public function textTwitterCard()
     {
-        $content = $this->content;
+        $content   = $this->content;
         $maxLength = 197;
 
         if (strlen($content) > $maxLength) {
-            $content = substr($content, 0, $maxLength);
+            $content   = substr($content, 0, $maxLength);
             $lastSpace = strrpos($content, ' ');
 
             // After the space, add …
@@ -62,7 +71,7 @@ class QuotePresenter extends Presenter
     public function favoritesData()
     {
         $nbFavorites = count($this->favorites);
-        $data = compact('nbFavorites');
+        $data        = compact('nbFavorites');
 
         // We have got too much people who favorited this quote
         if ($nbFavorites > 3) {
@@ -70,11 +79,11 @@ class QuotePresenter extends Presenter
         }
 
         // Collect a maximum of 3 users
-        $i = 0;
+        $i         = 0;
         $favorites = $this->favorites;
 
         while ($i < 3 and !$favorites->isEmpty()) {
-            $fav = $favorites->shift();
+            $fav             = $favorites->shift();
             $data['name'.$i] = $this->linkForUser($fav->user);
             $i++;
         }

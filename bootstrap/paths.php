@@ -1,57 +1,66 @@
 <?php
 
-return array(
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-	/*
-	|--------------------------------------------------------------------------
-	| Application Path
-	|--------------------------------------------------------------------------
-	|
-	| Here we just defined the path to the application directory. Most likely
-	| you will never need to change this value as the default setup should
-	| work perfectly fine for the vast majority of all our applications.
-	|
-	*/
+return [
 
-	'app' => __DIR__.'/../app',
+    /*
+    |--------------------------------------------------------------------------
+    | Application Path
+    |--------------------------------------------------------------------------
+    |
+    | Here we just defined the path to the application directory. Most likely
+    | you will never need to change this value as the default setup should
+    | work perfectly fine for the vast majority of all our applications.
+    |
+    */
 
-	/*
-	|--------------------------------------------------------------------------
-	| Public Path
-	|--------------------------------------------------------------------------
-	|
-	| The public path contains the assets for your web application, such as
-	| your JavaScript and CSS files, and also contains the primary entry
-	| point for web requests into these applications from the outside.
-	|
-	*/
+    'app' => __DIR__.'/../app',
 
-	'public' => __DIR__.'/../public',
+    /*
+    |--------------------------------------------------------------------------
+    | Public Path
+    |--------------------------------------------------------------------------
+    |
+    | The public path contains the assets for your web application, such as
+    | your JavaScript and CSS files, and also contains the primary entry
+    | point for web requests into these applications from the outside.
+    |
+    */
 
-	/*
-	|--------------------------------------------------------------------------
-	| Base Path
-	|--------------------------------------------------------------------------
-	|
-	| The base path is the root of the Laravel installation. Most likely you
-	| will not need to change this value. But, if for some wild reason it
-	| is necessary you will do so here, just proceed with some caution.
-	|
-	*/
+    'public' => __DIR__.'/../public',
 
-	'base' => __DIR__.'/..',
+    /*
+    |--------------------------------------------------------------------------
+    | Base Path
+    |--------------------------------------------------------------------------
+    |
+    | The base path is the root of the Laravel installation. Most likely you
+    | will not need to change this value. But, if for some wild reason it
+    | is necessary you will do so here, just proceed with some caution.
+    |
+    */
 
-	/*
-	|--------------------------------------------------------------------------
-	| Storage Path
-	|--------------------------------------------------------------------------
-	|
-	| The storage path is used by Laravel to store cached Blade views, logs
-	| and other pieces of information. You may modify the path here when
-	| you want to change the location of this directory for your apps.
-	|
-	*/
+    'base' => __DIR__.'/..',
 
-	'storage' => __DIR__.'/../app/storage',
+    /*
+    |--------------------------------------------------------------------------
+    | Storage Path
+    |--------------------------------------------------------------------------
+    |
+    | The storage path is used by Laravel to store cached Blade views, logs
+    | and other pieces of information. You may modify the path here when
+    | you want to change the location of this directory for your apps.
+    |
+    */
 
-);
+    'storage' => __DIR__.'/../app/storage',
+
+];

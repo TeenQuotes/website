@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Users\Controllers;
 
 use App;
@@ -272,7 +281,7 @@ class UsersController extends BaseController
 
         // Build the data array. Keys: quotes, paginator
         $methodName = 'dataShow'.ucfirst($type);
-        $data = $this->$methodName($user);
+        $data       = $this->$methodName($user);
 
         $data['user']               = $user;
         // Used for deep linking in ProfileComposer

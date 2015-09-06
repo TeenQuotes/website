@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Quotes\Repositories;
 
 use Carbon;
@@ -149,8 +158,8 @@ class DbQuoteRepository implements QuoteRepository
     {
         $this->guardApproved($approved);
 
-        $q = $this->getById($id);
-        $q->content = $content;
+        $q           = $this->getById($id);
+        $q->content  = $content;
         $q->approved = $approved;
         $q->save();
 
@@ -169,7 +178,7 @@ class DbQuoteRepository implements QuoteRepository
     {
         $this->guardApproved($approved);
 
-        $q = $this->getById($id);
+        $q           = $this->getById($id);
         $q->approved = $approved;
         $q->save();
 
@@ -229,7 +238,7 @@ class DbQuoteRepository implements QuoteRepository
      */
     public function createQuoteForUser(User $u, $content)
     {
-        $quote = new Quote();
+        $quote          = new Quote();
         $quote->content = $content;
         $u->quotes()->save($quote);
 
@@ -414,9 +423,9 @@ class DbQuoteRepository implements QuoteRepository
      *
      * @param \TeenQuotes\Quotes\Models\Quote|int $q
      *
-     * @return int
-     *
      * @throws \InvalidArgumentException If the quote is not waiting to be published
+     *
+     * @return int
      */
     public function nbDaysUntilPublication($q)
     {
