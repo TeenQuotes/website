@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Quotes\Controllers;
 
 use App;
@@ -43,8 +52,8 @@ class QuotesController extends BaseController
     public function __construct(QuoteRepository $quoteRepo)
     {
         $this->beforeFilter('auth', ['on' => 'store']);
-        $this->api = App::make('TeenQuotes\Api\V1\Controllers\QuotesController');
-        $this->quoteRepo = $quoteRepo;
+        $this->api            = App::make('TeenQuotes\Api\V1\Controllers\QuotesController');
+        $this->quoteRepo      = $quoteRepo;
         $this->quoteValidator = App::make('TeenQuotes\Quotes\Validation\QuoteValidator');
     }
 
@@ -202,7 +211,7 @@ class QuotesController extends BaseController
     public function getDataFavoritesInfo()
     {
         $quote = $this->quoteRepo->getById(Input::get('id'));
-        $data = $quote->present()->favoritesData;
+        $data  = $quote->present()->favoritesData;
 
         $translate = Lang::choice('quotes.favoritesText', $data['nbFavorites'], $data);
 

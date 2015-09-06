@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 class DeleteFavoriteCest
 {
     /**
@@ -21,7 +30,7 @@ class DeleteFavoriteCest
         $I->createSomePublishedQuotes();
 
         // Create a new user and a fresh published quote
-        $this->user = $I->logANewUser();
+        $this->user       = $I->logANewUser();
         $this->firstQuote = $I->insertInDatabase(1, 'Quote', ['created_at' => Carbon::now()->addMonth(), 'user_id' => $this->user->id]);
 
         // Add to the user's favorites the first quote

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Quotes\Repositories;
 
 use Carbon;
@@ -235,9 +244,9 @@ interface QuoteRepository
      *
      * @param \TeenQuotes\Quotes\Models\Quote|int $q
      *
-     * @return int
-     *
      * @throws \InvalidArgumentException If the quote is not waiting to be published
+     *
+     * @return int
      */
     public function nbDaysUntilPublication($q);
 

@@ -1,8 +1,17 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 return [
-    'termsOfUseTitle' => 'Terms of use',
-    'pageDescription' => 'Our terms of use and our privacy are available here. Ready to have a lot of fun?',
+    'termsOfUseTitle'   => 'Terms of use',
+    'pageDescription'   => 'Our terms of use and our privacy are available here. Ready to have a lot of fun?',
     'termsOfUseContent' => '
 	<p>
 		The use of submissions found in the server '.Config::get('app.domain').' is authorized under condition of non-alteration of its contents and the restriction of its use to personal use only and for the purpose of information. Its use for commercial activities is strictly prohibited. Any other use than the above herein mentioned is strictly prohibited by law.<br/><br/>
@@ -16,7 +25,7 @@ return [
 		Regarding the comments and other submissions by any member, the author of the before mentioned submissions acknowledges full agreement to '.Lang::get('layout.nameWebsite').' to (1) use, copy, distribute, transmit, publicly display, publicly perform, reproduce, edit, modify, translate and reformat his or her contribution within the framework of the website '.Config::get('app.domain').' and any of its partners, (2) to redistribute its rights in the full extent permitted by the applicable regulations.<br/><br/>
 		The contributions posted on '.Config::get('app.domain').' are not financially compensated. '.Config::get('app.domain').' reserves the right to remove comments and submissions at any time without prior notice. By submitting or posting to any part of the site, you automatically grant, and you represent and warrant that you have the right to grant to '.Lang::get('layout.nameWebsite').' the authorizations stipulated in the present article. '.Lang::get('layout.nameWebsite').' reserves the right to change, modify, add, or delete portions of the terms of use and caution sentences of its websites at any time without further notice. It is your responsibility to regularly check the site to determine if there have been changes to these terms of use and to review such changes. Your continued use of the service or the site '.Config::get('app.domain').' after any such changes constitutes your acceptance of the new terms of use.
 	</p>',
-    'privacyPolicyTitle' => 'Privacy Policy',
+    'privacyPolicyTitle'   => 'Privacy Policy',
     'privacyPolicyContent' => '
 	<p>
 		This Privacy Policy discloses the privacy practices of the '.Config::get('app.domain')." website (the Site). Specifically, it outlines the types of information that we gather about you while you are using the Site, and the ways in which we use and share this information.<br/><br/>

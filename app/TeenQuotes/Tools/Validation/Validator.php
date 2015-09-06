@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Tools\Validation;
 
 use BadMethodCallException;
@@ -17,9 +26,9 @@ abstract class Validator extends LaravelValidator
      * @param string $rule     The name of the property for the rules
      * @param array  $messages
      *
-     * @return bool
-     *
      * @throws \Laracasts\Validation\FormValidationException
+     *
+     * @return bool
      */
     protected function validateForRule($data, $rule, $messages = [])
     {
@@ -52,9 +61,9 @@ abstract class Validator extends LaravelValidator
      * @param string $name
      * @param array  $arguments
      *
-     * @return mixed
-     *
      * @throws BadMethodCallException
+     *
+     * @return mixed
      */
     public function __call($name, $arguments)
     {
@@ -97,9 +106,9 @@ abstract class Validator extends LaravelValidator
     /**
      * Perform validation when the validator has been bound.
      *
-     * @return bool
-     *
      * @throws FormValidationException When the validation has failed
+     *
+     * @return bool
      */
     private function handleValidation()
     {

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Quotes\Controllers;
 
 use App;
@@ -25,7 +34,7 @@ class FavoriteQuoteController extends BaseController
 
     public function __construct()
     {
-        $this->api = App::make('TeenQuotes\Api\V1\Controllers\QuotesFavoriteController');
+        $this->api               = App::make('TeenQuotes\Api\V1\Controllers\QuotesFavoriteController');
         $this->favQuoteValidator = App::make('TeenQuotes\Quotes\Validation\FavoriteQuoteValidator');
     }
 

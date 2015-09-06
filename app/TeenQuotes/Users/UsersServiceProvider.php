@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Users;
 
 use Illuminate\Support\ServiceProvider;
@@ -79,8 +88,8 @@ class UsersServiceProvider extends ServiceProvider
 
     private function registerSearchRoutes()
     {
-        $controller = 'SearchController';
-        $routeGroup = $this->getRouteGroupParams();
+        $controller              = 'SearchController';
+        $routeGroup              = $this->getRouteGroupParams();
         $routeGroup['namespace'] = 'TeenQuotes\Quotes\Controllers';
 
         $this->app['router']->group($routeGroup, function () use ($controller) {

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use TeenQuotes\Quotes\Models\Quote;
 
 class DeleteCommentCest
@@ -28,7 +37,7 @@ class DeleteCommentCest
 
     public function _before(FunctionalTester $I)
     {
-        $this->user = $I->logANewUser();
+        $this->user   = $I->logANewUser();
         $this->quotes = $I->createSomePublishedQuotes();
 
         // Insert some comments, the last one should have been written by the logged in user

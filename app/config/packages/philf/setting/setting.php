@@ -1,8 +1,17 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 return [
-    'path'     => app_path().'/storage/meta',
-    'filename' => 'settings.json',
-    'fallback' => true,
+    'path'      => app_path().'/storage/meta',
+    'filename'  => 'settings.json',
+    'fallback'  => true,
     'autoAlias' => false,
 ];

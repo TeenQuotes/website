@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Mail\Composers;
 
 use TextTools;
@@ -15,10 +24,10 @@ class WelcomeViewComposer
     public function compose($view)
     {
         $viewData = $view->getData();
-        $login = $viewData['login'];
+        $login    = $viewData['login'];
 
         // Construct a URL to track with Google Analytics
-        $urlProfile = URL::route('users.show', $login);
+        $urlProfile         = URL::route('users.show', $login);
         $urlCampaignProfile = TextTools::linkCampaign($urlProfile, 'callToProfile', 'email', 'welcome', 'linkBodyEmail');
 
         $data = compact('login', 'urlCampaignProfile', 'urlProfile');

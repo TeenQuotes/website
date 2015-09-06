@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 class UserRepoCest
 {
@@ -81,7 +89,7 @@ class UserRepoCest
 
     public function testUpdatePassword(IntegrationTester $I)
     {
-        $u = $I->insertInDatabase(1, 'User');
+        $u           = $I->insertInDatabase(1, 'User');
         $newPassword = 'foobar22';
         $credentials = ['login' => $u->login, 'password' => $newPassword];
 
@@ -92,7 +100,7 @@ class UserRepoCest
 
     public function testUpdateEmail(IntegrationTester $I)
     {
-        $u = $I->insertInDatabase(1, 'User');
+        $u        = $I->insertInDatabase(1, 'User');
         $newEmail = 'foobar@bar.com';
 
         $this->repo->updateEmail($u, $newEmail);
@@ -104,12 +112,12 @@ class UserRepoCest
 
     public function testUpdateProfile(IntegrationTester $I)
     {
-        $gender = 'F';
-        $country = 10; // Argentina
-        $city = 'Foobar';
-        $about_me = 'Enjoying integration tests';
+        $gender    = 'F';
+        $country   = 10; // Argentina
+        $city      = 'Foobar';
+        $about_me  = 'Enjoying integration tests';
         $birthdate = '1900-12-01';
-        $avatar = null;
+        $avatar    = null;
 
         $u = $I->insertInDatabase(1, 'User');
 
@@ -128,7 +136,7 @@ class UserRepoCest
     public function testUpdateSettings(IntegrationTester $I)
     {
         $notification_comment_quote = false;
-        $hide_profile = false;
+        $hide_profile               = false;
 
         $u = $I->insertInDatabase(1, 'User', ['notification_comment_quote' => true, 'hide_profile' => true]);
 
@@ -152,7 +160,7 @@ class UserRepoCest
 
     public function testBirthdayToday(IntegrationTester $I)
     {
-        $birthDate = Carbon::now()->subYears(20)->format('Y-m-d');
+        $birthDate    = Carbon::now()->subYears(20)->format('Y-m-d');
         $notBirthDate = Carbon::now()->subYears(2)->subDays(5)->format('Y-m-d');
         $I->insertInDatabase(2, 'User', ['birthdate' => $notBirthDate]);
         $u = $I->insertInDatabase(1, 'User', ['birthdate' => $birthDate]);
@@ -201,13 +209,13 @@ class UserRepoCest
 
     public function testCreate(IntegrationTester $I)
     {
-        $login = 'foobar';
-        $email = 'foo@bar.com';
-        $password = 'foobar22';
-        $ip = '22.22.22.22';
+        $login     = 'foobar';
+        $email     = 'foo@bar.com';
+        $password  = 'foobar22';
+        $ip        = '22.22.22.22';
         $lastVisit = Carbon::now();
-        $country = 10; // Argentina
-        $city = 'Foo City';
+        $country   = 10; // Argentina
+        $city      = 'Foo City';
 
         $this->repo->create($login, $email, $password, $ip, $lastVisit, $country, $city);
 
@@ -245,7 +253,7 @@ class UserRepoCest
     public function testGetNonActiveHavingNewsletter(IntegrationTester $I)
     {
         $lastYear = Carbon::now()->subDays(370);
-        $u = $I->insertInDatabase(1, 'User', ['last_visit' => $lastYear]);
+        $u        = $I->insertInDatabase(1, 'User', ['last_visit' => $lastYear]);
 
         // A user, who haven't logged in the last year, but without newsletters
         $fake = $I->insertInDatabase(1, 'User', ['last_visit' => $lastYear]);
@@ -260,7 +268,7 @@ class UserRepoCest
 
     public function testFromCountry(IntegrationTester $I)
     {
-        $firstCountry = $this->countryRepo->findById(1);
+        $firstCountry  = $this->countryRepo->findById(1);
         $secondCountry = $this->countryRepo->findById(2);
 
         // Create some users from the first country
@@ -276,7 +284,7 @@ class UserRepoCest
 
     public function testCountFromCountry(IntegrationTester $I)
     {
-        $firstCountry = $this->countryRepo->findById(1);
+        $firstCountry  = $this->countryRepo->findById(1);
         $secondCountry = $this->countryRepo->findById(2);
 
         // Create some users from the first country

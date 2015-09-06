@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 return [
 
     /*
@@ -54,10 +63,10 @@ return [
 
         'mysql' => [
             'driver'    => 'mysql',
-            'host'     => getenv('MYSQL_HOST'),
-            'database' => getenv('MYSQL_DATABASE'),
-            'username' => getenv('MYSQL_USERNAME'),
-            'password' => getenv('MYSQL_PASSWORD'),
+            'host'      => getenv('MYSQL_HOST'),
+            'database'  => getenv('MYSQL_DATABASE'),
+            'username'  => getenv('MYSQL_USERNAME'),
+            'password'  => getenv('MYSQL_PASSWORD'),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',

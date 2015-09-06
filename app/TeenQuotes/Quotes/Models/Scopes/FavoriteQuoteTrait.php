@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Quotes\Models\Scopes;
 
 use Auth;
@@ -10,9 +19,10 @@ trait FavoriteQuoteTrait
     /**
      * Get the FavoriteQuote for the current user.
      *
-     * @throws \NotAllowedException when calling this when the visitor is not logged in
      *
      * @param \Illuminate\Database\Query\Builder $query
+     *
+     * @throws \NotAllowedException when calling this when the visitor is not logged in
      *
      * @return \Illuminate\Database\Query\Builder
      */

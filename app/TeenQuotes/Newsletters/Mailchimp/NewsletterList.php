@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Newsletters\Mailchimp;
 
 use App;
@@ -48,9 +57,9 @@ class NewsletterList implements NewsletterListInterface
     public function __construct(View $view, Config $config, UserRepository $userRepo)
     {
         $this->mailchimp = App::make('MailchimpClient');
-        $this->view = $view;
-        $this->config = $config;
-        $this->userRepo = $userRepo;
+        $this->view      = $view;
+        $this->config    = $config;
+        $this->userRepo  = $userRepo;
     }
 
     /**
@@ -159,7 +168,7 @@ class NewsletterList implements NewsletterListInterface
             'inline_css'    => true, // Automatically inline CSS
         ];
 
-        $html = $this->view->make($viewName, $viewData)->render();
+        $html    = $this->view->make($viewName, $viewData)->render();
         $content = compact('html');
 
         $campaign = $this->mailchimp->campaigns->create('regular', $options, $content);
@@ -227,7 +236,7 @@ class NewsletterList implements NewsletterListInterface
         $batch = [];
 
         foreach ($c as $user) {
-            $out['email'] = ['email' => $user->email];
+            $out['email']      = ['email' => $user->email];
             $out['email_type'] = 'html';
             $out['merge_vars'] = $this->getMergeVarsForUser($user);
 

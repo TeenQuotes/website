@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 return [
     'formPageDescription'           => 'Do a search and find quotes, users and more on '.Lang::get('layout.nameWebsite').'.',
     'formPageTitle'                 => 'Search form | '.Lang::get('layout.nameWebsite'),

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -50,14 +59,14 @@ class QuoteRefuseTooSadCommand extends Command
         $step = is_null($this->argument('step')) ? 0.02 : $this->argument('step');
 
         // Build initial arrays with thresholds, initialized at 0
-        $thresholds = range($lowerBound, $upperBound, $step);
+        $thresholds           = range($lowerBound, $upperBound, $step);
         $wrongClassifications = array_fill_keys($thresholds, 0);
-        $foundSadQuotes = $wrongClassifications;
+        $foundSadQuotes       = $wrongClassifications;
 
         $confidenceScoresNotPublished = array_fill_keys($thresholds, []);
-        $confidenceScoresPublished = array_fill_keys($thresholds, []);
+        $confidenceScoresPublished    = array_fill_keys($thresholds, []);
 
-        $quotes = Quote::all();
+        $quotes         = Quote::all();
         $numberOfQuotes = count($quotes);
 
         $this->info('Analyzing '.$numberOfQuotes.' quotes...');
@@ -74,7 +83,7 @@ class QuoteRefuseTooSadCommand extends Command
             if (SentimentAnalysis::isNegative($quote->content)) {
                 $scores = SentimentAnalysis::scores($quote->content);
                 rsort($scores);
-                $score = $scores[0];
+                $score         = $scores[0];
                 $confidenceGap = $this->computeConfidenceGap($scores);
 
                 // Update number of sad quotes found for the appropriate thresholds
@@ -103,10 +112,10 @@ class QuoteRefuseTooSadCommand extends Command
         // Display the results
         foreach ($wrongClassifications as $threshold => $value) {
             // Both arrays have got the same keys
-            $nbQuotes = $foundSadQuotes[$threshold];
+            $nbQuotes               = $foundSadQuotes[$threshold];
             $wrongNbClassifications = $value;
-            $gapNotPublished = $this->arrayAverage($confidenceScoresNotPublished[$threshold]);
-            $gapPublished = $this->arrayAverage($confidenceScoresPublished[$threshold]);
+            $gapNotPublished        = $this->arrayAverage($confidenceScoresNotPublished[$threshold]);
+            $gapPublished           = $this->arrayAverage($confidenceScoresPublished[$threshold]);
 
             // Compute percentage and display some info
             $percentage = $this->getPercentage($wrongNbClassifications, $nbQuotes);

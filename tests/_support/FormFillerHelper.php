@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Codeception\Module;
 
 use Codeception\Module;
@@ -13,7 +22,7 @@ class FormFillerHelper extends Module
     {
         $I = $this->getModule('Laravel4');
 
-        $I->fillField('Login', $login);
+        $I->fillField('Username', $login);
         $I->fillField('Password', $password);
         $I->click('Log me in!', 'form');
     }

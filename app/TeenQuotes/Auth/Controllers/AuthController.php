@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Auth\Controllers;
 
 use Auth;
@@ -32,7 +41,7 @@ class AuthController extends BaseController
         $this->beforeFilter('guest', ['only' => 'getSignin']);
         $this->beforeFilter('auth', ['only' => 'getLogout']);
 
-        $this->userRepo = $userRepo;
+        $this->userRepo      = $userRepo;
         $this->userValidator = $userValidator;
     }
 
@@ -71,7 +80,7 @@ class AuthController extends BaseController
 
         // Try to log the user in.
         if (Auth::attempt($data, true)) {
-            $user = Auth::user();
+            $user             = Auth::user();
             $user->last_visit = Carbon::now()->toDateTimeString();
             $user->save();
 

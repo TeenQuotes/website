@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 class TagRepoCest
 {
     /**
@@ -39,7 +48,7 @@ class TagRepoCest
     {
         $I->insertInDatabase(1, 'Quote');
         $quote = $I->insertInDatabase(1, 'Quote');
-        $tag = $I->insertInDatabase(1, 'Tag', compact('name'));
+        $tag   = $I->insertInDatabase(1, 'Tag', compact('name'));
 
         $this->repo->tagQuote($quote, $tag);
 
@@ -50,7 +59,7 @@ class TagRepoCest
     {
         $I->insertInDatabase(1, 'Quote');
         $quote = $I->insertInDatabase(1, 'Quote');
-        $tag = $I->insertInDatabase(1, 'Tag', compact('name'));
+        $tag   = $I->insertInDatabase(1, 'Tag', compact('name'));
 
         $this->repo->tagQuote($quote, $tag);
 
@@ -94,7 +103,7 @@ class TagRepoCest
     public function testTotalQuotesForTag(IntegrationTester $I)
     {
         $quotes = $I->insertInDatabase(2, 'Quote');
-        $tag = $I->insertInDatabase(1, 'Tag');
+        $tag    = $I->insertInDatabase(1, 'Tag');
 
         $I->assertEquals(0, $this->repo->totalQuotesForTag($tag));
 

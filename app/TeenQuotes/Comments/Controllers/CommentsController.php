@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Comments\Controllers;
 
 use App;
@@ -30,7 +39,7 @@ class CommentsController extends BaseController
     public function __construct()
     {
         $this->beforeFilter('auth');
-        $this->api = App::make('TeenQuotes\Api\V1\Controllers\CommentsController');
+        $this->api              = App::make('TeenQuotes\Api\V1\Controllers\CommentsController');
         $this->commentValidator = App::make('TeenQuotes\Comments\Validation\CommentValidator');
     }
 
@@ -68,7 +77,7 @@ class CommentsController extends BaseController
             return Redirect::home()->with('warning', Lang::get('comments.cantEditThisComment'));
         }
 
-        $data = compact('comment');
+        $data              = compact('comment');
         $data['pageTitle'] = Lang::get('comments.updateCommentPageTitle');
 
         return View::make('comments.edit', $data);

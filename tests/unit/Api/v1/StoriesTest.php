@@ -1,10 +1,19 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Illuminate\Http\Response;
 
 class StoriesTest extends ApiTest
 {
-    protected $embedsRelation = ['user_small'];
+    protected $embedsRelation     = ['user_small'];
     protected $requiredAttributes = ['id', 'represent_txt', 'frequence_txt', 'user_id', 'created_at', 'updated_at'];
 
     protected function _before()
