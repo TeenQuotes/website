@@ -1,8 +1,17 @@
 <?php
-/**
- * Laravel - A PHP Framework For Web Artisans
+
+/*
+ * This file is part of the Teen Quotes website.
  *
- * @package  Laravel
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
+ * Laravel - A PHP Framework For Web Artisans.
+ *
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  */
 

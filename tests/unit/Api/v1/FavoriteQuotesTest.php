@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use TeenQuotes\Quotes\Models\Quote;
@@ -18,10 +27,10 @@ class FavoriteQuotesTest extends ApiTest
         $this->unitTester->setController(App::make('TeenQuotes\Api\V1\Controllers\QuotesFavoriteController'));
 
         // Create a user and log him in
-        $user = $this->unitTester->insertInDatabase(1, 'User');
+        $user       = $this->unitTester->insertInDatabase(1, 'User');
         $this->user = $this->unitTester->logUserWithId($user['id']);
 
-        $this->idRefusedQuote = $this->getIdRefusedQuote();
+        $this->idRefusedQuote   = $this->getIdRefusedQuote();
         $this->idPublishedQuote = $this->getIdPublishedQuote();
     }
 
@@ -46,7 +55,7 @@ class FavoriteQuotesTest extends ApiTest
     public function testPostQuoteSuccess()
     {
         $idPublishedQuote = $this->idPublishedQuote;
-        $quote = Quote::find($idPublishedQuote);
+        $quote            = Quote::find($idPublishedQuote);
 
         $this->post($idPublishedQuote);
 

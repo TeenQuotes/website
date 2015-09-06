@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Mail;
 
 use Illuminate\Support\Collection;
@@ -33,7 +42,7 @@ class Mandrill
      */
     public function getHardBouncedEmails()
     {
-        $result = $this->api->rejects->getList('', false);
+        $result     = $this->api->rejects->getList('', false);
         $collection = new Collection($result);
 
         $hardBounced = $collection->filter(function ($a) {

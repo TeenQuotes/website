@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Users\Observers;
 
 use App;
@@ -20,7 +29,7 @@ class UserObserver
     public function __construct()
     {
         $this->newsletterManager = App::make('TeenQuotes\Newsletters\NewslettersManager');
-        $this->userMailer = App::make('TeenQuotes\Mail\UserMailer');
+        $this->userMailer        = App::make('TeenQuotes\Mail\UserMailer');
     }
 
     /**

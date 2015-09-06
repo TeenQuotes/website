@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Stories\Repositories;
 
 use TeenQuotes\Stories\Models\Story;
@@ -59,10 +68,10 @@ class DbStoryRepository implements StoryRepository
      */
     public function create(User $u, $represent_txt, $frequence_txt)
     {
-        $story = new Story();
+        $story                = new Story();
         $story->represent_txt = $represent_txt;
         $story->frequence_txt = $frequence_txt;
-        $story->user_id = $u->id;
+        $story->user_id       = $u->id;
         $story->save();
 
         return $story;

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Faker\Factory as Faker;
 use TeenQuotes\Quotes\Models\Quote;
 
@@ -13,12 +22,11 @@ class QuotesTableSeeder extends Seeder
         $faker = Faker::create();
 
         $this->command->info('Seeding Quotes table using Faker...');
-        $i = 1;
+        $i    = 1;
         $date = Carbon::createFromDate(2011, 12, 1);
         foreach (range(1, 750) as $index) {
             // Generate 50 quotes for each approved value
             // between -1 and 2
-
 
             Quote::create([
                 'content'    => $faker->paragraph(3),

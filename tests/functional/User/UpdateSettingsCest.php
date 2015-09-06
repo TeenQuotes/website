@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 class UpdateSettingsCest
 {
     /**
@@ -25,7 +34,7 @@ class UpdateSettingsCest
         $I->assertMySettingsHaveDefaultValues();
 
         $newColor = 'red';
-        $params = [
+        $params   = [
             'color'                      => ucfirst($newColor),
             'notification_comment_quote' => 0,
             'hide_profile'               => 1,

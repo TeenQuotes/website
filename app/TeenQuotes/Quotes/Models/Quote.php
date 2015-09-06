@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Quotes\Models;
 
 use App;
@@ -215,7 +224,7 @@ class Quote extends Toloquent
         if (!in_array(App::environment(), ['testing', 'codeception'])) {
             // Try to retrieve the ID of the user
             if (Auth::guest()) {
-                $idUserApi = ResourceServer::getOwnerId();
+                $idUserApi          = ResourceServer::getOwnerId();
                 $userRecommendation = !empty($idUserApi) ? $idUserApi : null;
             } else {
                 $userRecommendation = Auth::id();

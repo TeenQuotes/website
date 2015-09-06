@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Illuminate\Http\Response;
 use TeenQuotes\Countries\Models\Country;
 use TeenQuotes\Users\Models\User;
@@ -7,8 +16,8 @@ use TeenQuotes\Users\Models\User;
 class UsersTest extends ApiTest
 {
     protected $requiredAttributes = ['id', 'login', 'email', 'last_visit', 'created_at', 'profile_hidden', 'url_avatar', 'wants_notification_comment_quote', 'is_admin'];
-    protected $requiredFull = ['id', 'login', 'email', 'birthdate', 'gender', 'country', 'city', 'about_me', 'last_visit', 'created_at', 'profile_hidden', 'url_avatar', 'wants_notification_comment_quote', 'is_admin', 'total_comments', 'favorite_count', 'added_fav_count', 'published_quotes_count', 'is_subscribed_to_daily', 'is_subscribed_to_weekly'];
-    protected $embedsRelation = ['newsletters', 'country'];
+    protected $requiredFull       = ['id', 'login', 'email', 'birthdate', 'gender', 'country', 'city', 'about_me', 'last_visit', 'created_at', 'profile_hidden', 'url_avatar', 'wants_notification_comment_quote', 'is_admin', 'total_comments', 'favorite_count', 'added_fav_count', 'published_quotes_count', 'is_subscribed_to_daily', 'is_subscribed_to_weekly'];
+    protected $embedsRelation     = ['newsletters', 'country'];
 
     protected function _before()
     {
@@ -229,7 +238,7 @@ class UsersTest extends ApiTest
     public function testPutPasswordSuccess()
     {
         $newPassword = 'azerty';
-        $idUser = 1;
+        $idUser      = 1;
 
         $this->unitTester->addInputReplace([
             'password'              => $newPassword,
@@ -309,10 +318,10 @@ class UsersTest extends ApiTest
 
     public function testPutProfileSuccess()
     {
-        $gender = 'M';
+        $gender    = 'M';
         $birthdate = '1975-01-25';
-        $country = Country::first()->id;
-        $about_me = $this->unitTester->generateString(200);
+        $country   = Country::first()->id;
+        $about_me  = $this->unitTester->generateString(200);
 
         $data = compact('gender', 'birthdate', 'country', 'about_me');
         $this->unitTester->addInputReplace($data);

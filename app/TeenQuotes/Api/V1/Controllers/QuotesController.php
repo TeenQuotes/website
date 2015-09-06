@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Api\V1\Controllers;
 
 use App;
@@ -102,7 +111,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 
     public function getTopFavoritedQuotes()
     {
-        $ids = $this->favQuoteRepo->getTopQuotes($this->getPage(), $this->getPagesize());
+        $ids    = $this->favQuoteRepo->getTopQuotes($this->getPage(), $this->getPagesize());
         $quotes = $this->quoteRepo->getForIds($ids, 1, count($ids));
 
         $total = $this->quoteRepo->nbQuotesWithFavorites();
@@ -112,7 +121,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 
     public function getTopCommentedQuotes()
     {
-        $ids = $this->commentRepo->getTopQuotes($this->getPage(), $this->getPagesize());
+        $ids    = $this->commentRepo->getTopQuotes($this->getPage(), $this->getPagesize());
         $quotes = $this->quoteRepo->getForIds($ids, 1, count($ids));
 
         $total = $this->quoteRepo->nbQuotesWithComments();
@@ -147,8 +156,8 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
 
     public function store($doValidation = true)
     {
-        $user = $this->retrieveUser();
-        $content = Input::get('content');
+        $user                 = $this->retrieveUser();
+        $content              = Input::get('content');
         $quotesSubmittedToday = $this->quoteRepo->submittedTodayForUser($user);
 
         if ($doValidation) {

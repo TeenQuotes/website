@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Illuminate\Http\Response;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Tags\Models\Tag;
@@ -7,8 +16,8 @@ use TeenQuotes\Tags\Models\Tag;
 class QuotesTest extends ApiTest
 {
     protected $requiredAttributes = ['id', 'content', 'user_id', 'approved', 'created_at', 'has_comments', 'total_comments', 'is_favorite', 'total_favorites', 'tags_list'];
-    protected $embedsRelation = ['user_small'];
-    protected $approvedTypes = ['waiting', 'refused', 'pending', 'published'];
+    protected $embedsRelation     = ['user_small'];
+    protected $approvedTypes      = ['waiting', 'refused', 'pending', 'published'];
 
     /**
      * @var \TeenQuotes\Tags\Repositories\TagRepository
@@ -188,7 +197,7 @@ class QuotesTest extends ApiTest
         foreach ($this->approvedTypes as $approved) {
 
             // Create a new user each time, with no quotes
-            $u = $this->unitTester->insertInDatabase(1, 'User');
+            $u      = $this->unitTester->insertInDatabase(1, 'User');
             $idUser = $u['id'];
             $this->unitTester->logUserWithId($idUser);
 
@@ -201,7 +210,7 @@ class QuotesTest extends ApiTest
 
     public function testQuotesByApprovedExistingQuotes()
     {
-        $u = $this->unitTester->insertInDatabase(1, 'User');
+        $u      = $this->unitTester->insertInDatabase(1, 'User');
         $idUser = $u['id'];
         $this->unitTester->logUserWithId($idUser);
 
@@ -252,7 +261,7 @@ class QuotesTest extends ApiTest
     {
         // Create a tag
         $name = 'love';
-        $tag = $this->unitTester->insertInDatabase(1, 'Tag', compact('name'));
+        $tag  = $this->unitTester->insertInDatabase(1, 'Tag', compact('name'));
 
         // Associate quotes to this tag
         $this->createQuotesWithTag($tag);
@@ -266,7 +275,7 @@ class QuotesTest extends ApiTest
     private function createQuotesWithTag(Tag $t)
     {
         $totalQuotes = $this->unitTester->getNbRessources();
-        $quotes = $this->unitTester->insertInDatabase($totalQuotes, 'Quote');
+        $quotes      = $this->unitTester->insertInDatabase($totalQuotes, 'Quote');
 
         foreach ($quotes as $quote) {
             $this->tagRepo->tagQuote($quote, $t);

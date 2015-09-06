@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 use Illuminate\Http\Response;
 use TeenQuotes\Comments\Models\Comment;
 use TeenQuotes\Quotes\Models\Quote;
@@ -7,7 +16,7 @@ use TeenQuotes\Quotes\Models\Quote;
 class CommentsTest extends ApiTest
 {
     protected $requiredAttributes = ['id', 'content', 'quote_id', 'user_id', 'created_at'];
-    protected $embedsRelation = ['user_small', 'quote'];
+    protected $embedsRelation     = ['user_small', 'quote'];
     protected $quoteId;
 
     protected function _before()
@@ -19,7 +28,7 @@ class CommentsTest extends ApiTest
         $this->unitTester->setContentType('comments');
 
         // Create a quote and add some comments to it
-        $q = $this->unitTester->insertInDatabase(1, 'Quote');
+        $q             = $this->unitTester->insertInDatabase(1, 'Quote');
         $this->quoteId = $q['id'];
         $this->unitTester->insertInDatabase($this->unitTester->getNbRessources(), 'Comment', ['quote_id' => $this->quoteId]);
     }

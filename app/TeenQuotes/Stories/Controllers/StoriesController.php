@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Stories\Controllers;
 
 use App;
@@ -29,7 +38,7 @@ class StoriesController extends BaseController
 
     public function __construct()
     {
-        $this->api = App::make('TeenQuotes\Api\V1\Controllers\StoriesController');
+        $this->api            = App::make('TeenQuotes\Api\V1\Controllers\StoriesController');
         $this->storyValidator = App::make('TeenQuotes\Stories\Validation\StoryValidator');
     }
 
@@ -43,7 +52,7 @@ class StoriesController extends BaseController
 
         // Extract the stories collection
         $response = $apiResponse->getOriginalData();
-        $stories = $response['stories'];
+        $stories  = $response['stories'];
 
         $totalQuotes = $stories->first()->present()->totalQuotes;
 

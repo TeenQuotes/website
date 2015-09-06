@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Comments\Repositories;
 
 use DB;
@@ -121,7 +130,7 @@ class DbCommentRepository implements CommentRepository
      */
     public function create(Quote $q, User $u, $content)
     {
-        $comment = new Comment();
+        $comment           = new Comment();
         $comment->content  = $content;
         $comment->quote_id = $q->id;
         $comment->user_id  = $u->id;
@@ -198,9 +207,9 @@ class DbCommentRepository implements CommentRepository
      *
      * @param \TeenQuotes\Comments\Models\Comment|int $c
      *
-     * @return \TeenQuotes\Comments\Models\Comment
-     *
      * @throws \InvalidArgumentException If we can't retrieve a comment with the given data
+     *
+     * @return \TeenQuotes\Comments\Models\Comment
      */
     private function retrieveComment($c)
     {

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Api\V1\Controllers;
 
 use Config;
@@ -13,12 +22,12 @@ class SearchController extends APIGlobalController implements PaginatedContentIn
 {
     public function getSearch($query)
     {
-        $page = $this->getPage();
+        $page     = $this->getPage();
         $pagesize = $this->getPagesize();
 
         // Get content
         list($quotes, $totalQuotes) = $this->getTotalQuotesAndQuotesForQuery($page, $pagesize, $query);
-        list($users, $totalUsers) = $this->getTotalUsersAndUsersForQuery($page, $pagesize, $query);
+        list($users, $totalUsers)   = $this->getTotalUsersAndUsersForQuery($page, $pagesize, $query);
 
         // Handle no results
         if ($totalQuotes == 0 and $totalUsers == 0) {

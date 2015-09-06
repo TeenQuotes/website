@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Users\Console;
 
 use Carbon;
@@ -50,7 +59,7 @@ class EmailSpecialEventCommand extends ScheduledCommand
     {
         parent::__construct();
 
-        $this->userRepo = $userRepo;
+        $this->userRepo   = $userRepo;
         $this->userMailer = $userMailer;
     }
 
@@ -102,7 +111,7 @@ class EmailSpecialEventCommand extends ScheduledCommand
             $allUsers = $this->userRepo->getLoggedInSince(Carbon::now()->subYear(1), 1, 2000);
 
             $delay = Carbon::now()->addMinutes(5);
-            $i = 1;
+            $i     = 1;
             // We will send 60 emails every hour
             foreach ($allUsers->chunk(60) as $users) {
                 $driver = $this->determineMailDriver($i);

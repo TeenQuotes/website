@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Codeception\Module;
 
 use Auth;
@@ -151,7 +160,7 @@ class ApiHelper extends Module
         foreach ($array as $value) {
             $this->assertObjectHasAttribute($value, $object);
             if (Str::contains($value, '_id')) {
-                $this->assertTrue(is_integer($object->$value));
+                $this->assertTrue(is_int($object->$value));
             }
         }
     }
@@ -258,7 +267,7 @@ class ApiHelper extends Module
 
     public function tryFirstPage($method = 'index', $requestParams = null)
     {
-        $this->page = 1;
+        $this->page     = 1;
         $this->pagesize = $this->nbRessources;
 
         $this->replacePagesInput();
@@ -268,7 +277,7 @@ class ApiHelper extends Module
         $this->assertIsPaginatedResponse();
 
         $objectName = $this->contentType;
-        $objects = $this->json->$objectName;
+        $objects    = $this->json->$objectName;
         for ($i = 0; $i < $this->nbRessources; $i++) {
             $this->assertObjectMatchesExpectedSchema($objects[$i]);
         }
@@ -301,7 +310,7 @@ class ApiHelper extends Module
 
     public function tryMiddlePage($method = 'index', $requestParams = null)
     {
-        $this->page = max(2, ($this->nbRessources / 2));
+        $this->page     = max(2, ($this->nbRessources / 2));
         $this->pagesize = 1;
 
         $this->replacePagesInput();
@@ -312,7 +321,7 @@ class ApiHelper extends Module
         $this->assertHasNextAndPreviousPage();
 
         $objectName = $this->contentType;
-        $objects = $this->json->$objectName;
+        $objects    = $this->json->$objectName;
 
         $this->assertObjectMatchesExpectedSchema(reset($objects));
 
@@ -413,7 +422,7 @@ class ApiHelper extends Module
     {
         $this->checkPagesAreSet();
 
-        $nextPage = $this->page + 1;
+        $nextPage     = $this->page + 1;
         $previousPage = $this->page - 1;
 
         if ($nextPage < $this->computeTotalPages()) {
@@ -435,7 +444,7 @@ class ApiHelper extends Module
         $this->assertObjectHasAttribute('wants_notification_comment_quote', $object);
 
         // Assert types
-        $this->assertTrue(is_integer($object->id));
+        $this->assertTrue(is_int($object->id));
         $this->assertTrue(is_bool($object->is_admin));
         $this->assertTrue(is_bool($object->profile_hidden));
         $this->assertTrue(is_bool($object->wants_notification_comment_quote));
@@ -457,15 +466,15 @@ class ApiHelper extends Module
         $this->assertObjectHasAttribute('tags_list', $object);
 
         // Assert types
-        $this->assertTrue(is_integer($object->id));
+        $this->assertTrue(is_int($object->id));
         $this->assertTrue(is_string($object->content));
-        $this->assertTrue(is_integer($object->user_id));
-        $this->assertTrue(is_integer($object->approved));
+        $this->assertTrue(is_int($object->user_id));
+        $this->assertTrue(is_int($object->approved));
         $this->assertTrue(is_string($object->created_at));
         $this->assertTrue(is_bool($object->has_comments));
-        $this->assertTrue(is_integer($object->total_comments));
+        $this->assertTrue(is_int($object->total_comments));
         $this->assertTrue(is_bool($object->is_favorite));
-        $this->assertTrue(is_integer($object->total_favorites));
+        $this->assertTrue(is_int($object->total_favorites));
         $this->assertTrue(is_array($object->tags_list));
     }
 
@@ -477,7 +486,7 @@ class ApiHelper extends Module
         $this->assertObjectHasAttribute('country_code', $object);
 
         // Assert types
-        $this->assertTrue(is_integer($object->id));
+        $this->assertTrue(is_int($object->id));
         $this->assertTrue(is_string($object->name));
         $this->assertTrue(is_string($object->country_code));
     }
@@ -490,7 +499,7 @@ class ApiHelper extends Module
         $this->assertObjectHasAttribute('created_at', $object);
 
         // Assert types
-        $this->assertTrue(is_integer($object->user_id));
+        $this->assertTrue(is_int($object->user_id));
         $this->assertTrue(is_string($object->type));
         $this->assertTrue(in_array($object->type, ['weekly', 'daily']));
         $this->assertTrue(is_string($object->created_at));
@@ -519,10 +528,10 @@ class ApiHelper extends Module
         }
 
         // Assert types
-        $this->assertTrue(is_integer($this->json->$attributeName));
-        $this->assertTrue(is_integer($this->json->total_pages));
-        $this->assertTrue(is_integer($this->json->page));
-        $this->assertTrue(is_integer($this->json->pagesize));
+        $this->assertTrue(is_int($this->json->$attributeName));
+        $this->assertTrue(is_int($this->json->total_pages));
+        $this->assertTrue(is_int($this->json->page));
+        $this->assertTrue(is_int($this->json->pagesize));
         $this->assertTrue(is_bool($this->json->has_next_page));
         $this->assertTrue(is_bool($this->json->has_previous_page));
 

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Auth\Composers;
 
 use TeenQuotes\Tools\Composers\AbstractDeepLinksComposer;
@@ -13,7 +22,7 @@ class ResetComposer extends AbstractDeepLinksComposer
      */
     public function compose($view)
     {
-        $data = $view->getData();
+        $data  = $view->getData();
         $token = $data['token'];
 
         // For deep links

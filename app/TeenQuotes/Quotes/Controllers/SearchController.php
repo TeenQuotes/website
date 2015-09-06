@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Quotes\Controllers;
 
 use BaseController;
@@ -76,14 +85,14 @@ class SearchController extends BaseController
 
         // Search quotes
         $nbQuotes = $this->quoteRepo->searchCountPublishedWithQuery($query);
-        $quotes = $this->quoteRepo->searchPublishedWithQuery($query, 1, $nbResultsPerCategory);
+        $quotes   = $this->quoteRepo->searchPublishedWithQuery($query, 1, $nbResultsPerCategory);
 
         // Search users
         $nbUsers = 0;
-        $users = null;
+        $users   = null;
         if ($this->shouldSearchForUsers($query)) {
             $nbUsers = $this->userRepo->countByPartialLogin($query);
-            $users = $this->userRepo->searchByPartialLogin($query, 1, $nbResultsPerCategory);
+            $users   = $this->userRepo->searchByPartialLogin($query, 1, $nbResultsPerCategory);
         }
 
         // Handle no results
@@ -91,7 +100,7 @@ class SearchController extends BaseController
             return Redirect::route('search.form')->with('warning', Lang::get('search.noResultsAtAll'));
         }
 
-        $data = compact('quotes', 'users', 'nbQuotes', 'nbUsers', 'query');
+        $data                           = compact('quotes', 'users', 'nbQuotes', 'nbUsers', 'query');
         $data['maxNbResultPerCategory'] = Config::get('app.search.maxResultsPerCategory');
         $data['pageTitle']              = Lang::get('search.resultsPageTitle', compact('query'));
         $data['pageDescription']        = Lang::get('search.resultsPageDescription', compact('query'));
@@ -118,7 +127,7 @@ class SearchController extends BaseController
             throw new CountryNotFoundException();
         }
 
-        $page = Input::get('page', 1);
+        $page     = Input::get('page', 1);
         $pagesize = $this->nbOfResultsPerCategory();
 
         $users = $this->userRepo->fromCountry($country, $page, $pagesize);
@@ -131,7 +140,7 @@ class SearchController extends BaseController
         $totalResults = $this->userRepo->countFromCountry($country);
 
         $paginator = Paginator::make($users->toArray(), $totalResults, $pagesize);
-        $data = compact('users', 'paginator', 'country');
+        $data      = compact('users', 'paginator', 'country');
 
         return View::make('search.users', $data);
     }

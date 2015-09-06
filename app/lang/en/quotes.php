@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 return [
     'adblockDisclaimer'                 => '<h2>Hi Adblock user!</h2>It appears that you are blocking our only ad. We don\'t use '.Lang::get('layout.nameWebsite').' to be rich, we just use ads to pay our servers. Please consider disabling your ad blocker here: we promise, we will continue to work hard for you.<br/><br/> Thanks a lot <i class="fa fa-smile-o"></i><div class="author">Antoine - <i>Lead developer at '.Lang::get('layout.nameWebsite').'</i></div>',
     'addquotePageDescription'           => 'Speak your mind and share your thoughts with the world. Add a quote right now!',

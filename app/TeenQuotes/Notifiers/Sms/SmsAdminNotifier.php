@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Notifiers\Sms;
 
 use TeenQuotes\Notifiers\AdminNotifier;
@@ -48,7 +57,7 @@ class SmsAdminNotifier implements AdminNotifier
 
     private function sendRequest($url, $data)
     {
-        $ch = curl_init();
+        $ch   = curl_init();
         $full = $url.'?'.http_build_query($data, '', '&', PHP_QUERY_RFC3986);
 
         curl_setopt($ch, CURLOPT_URL, $full);

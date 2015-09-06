@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Teen Quotes website.
+ *
+ * (c) Antoine Augusti <antoine.augusti@teen-quotes.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace TeenQuotes\Users\Composers;
 
 use Auth;
@@ -33,7 +42,7 @@ class ShowComposer implements QuotesColorsExtractor
      */
     public function compose($view)
     {
-        $data = $view->getData();
+        $data       = $view->getData();
         $this->type = $data['type'];
         $this->user = $data['user'];
 
@@ -53,7 +62,7 @@ class ShowComposer implements QuotesColorsExtractor
     private function registerVisit()
     {
         if (Auth::check()) {
-            $user_id = $this->user->id;
+            $user_id    = $this->user->id;
             $visitor_id = Auth::id();
 
             if ($user_id != $visitor_id) {
