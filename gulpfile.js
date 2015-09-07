@@ -1,7 +1,7 @@
 var elixir = require('laravel-elixir');
 var clean = require('gulp-clean');
 var gulp = require('gulp');
-require('laravel-elixir-compass');
+require('laravel-elixir-sass-compass');
 
 var inputJSDir = 'ressources/js',
 	inputSASSDir = 'ressources/sass/',
