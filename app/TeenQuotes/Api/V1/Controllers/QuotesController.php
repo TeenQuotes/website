@@ -316,7 +316,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
     /**
      * Remove new lines and whitespaces from a string.
      *
-     * @param  string $string The original string
+     * @param string $string The original string
      *
      * @return string
      */
