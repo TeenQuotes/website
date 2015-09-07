@@ -157,7 +157,7 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
     public function store($doValidation = true)
     {
         $user                 = $this->retrieveUser();
-        $content              = Input::get('content');
+        $content              = $this->removeNewLines(Input::get('content'));
         $quotesSubmittedToday = $this->quoteRepo->submittedTodayForUser($user);
 
         if ($doValidation) {
@@ -311,5 +311,17 @@ class QuotesController extends APIGlobalController implements PaginatedContentIn
         ];
 
         return Response::json($data, 400);
+    }
+
+    /**
+     * Remove new lines and whitespaces from a string.
+     *
+     * @param  string $string The original string
+     *
+     * @return string
+     */
+    private function removeNewLines($string)
+    {
+        return preg_replace('/\s+/', ' ', trim($string));
     }
 }
