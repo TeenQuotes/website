@@ -164,3 +164,10 @@
 	font-style: italic;
 	font-size: .9em;
 }
+
+@mixin card-shadow {
+	background-color: #fefefe;
+	border: 1px solid #f1f1f1;
+	border-radius: 2px;
+	box-shadow: 0 2px 3px rgba(0,0,0,.05);
+}
