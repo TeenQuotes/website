@@ -1,4 +1,4 @@
-{{ Form::model($user, ['route' => ['users.settings', $user->login], 'class' => 'form-horizontal animated fadeInUp', 'id' => 'edit-settings', 'method' => 'PUT']) }}
+{{ Form::model($user, ['route' => ['users.settings', $user->login], 'class' => 'form-horizontal', 'id' => 'edit-settings', 'method' => 'PUT']) }}
 	<h2><i class="fa fa-wrench"></i> {{ Lang::get('users.editSettingsTitle') }}</h2>
 
 	<div class="info-pre-form">

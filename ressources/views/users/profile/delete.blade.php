@@ -1,4 +1,4 @@
-{{ Form::open(['route' => 'users.delete', 'class' => 'form-horizontal animated fadeInUp', 'id' => 'delete-account', 'method' => 'DELETE']) }}
+{{ Form::open(['route' => 'users.delete', 'class' => 'form-horizontal', 'id' => 'delete-account', 'method' => 'DELETE']) }}
 	<h2><i class="fa fa-times"></i> {{ Lang::get('users.deleteAccountTitle') }}</h2>
 
 	<div class="info-pre-form">

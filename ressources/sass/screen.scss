@@ -396,11 +396,17 @@ h3 {
 
 #addquote-page {
 
+	.addquote__form {
+		padding: 5px 15px 10px 15px;
+		@include card-shadow;
+	}
+
 	.addquote-text {
-		margin-bottom: 10px;
+		margin: 20px 0 10px 0;
 	}
 
 	ul {
+		margin: 40px 0 50px 0;
 		list-style: none;
 		padding: 0;
 
@@ -421,15 +427,10 @@ h3 {
 	}
 
 	.notice-email {
-		margin-top: 15px;
-
-		@media screen and (max-width: $breakpointSmartphone) {
-			margin-bottom: 2em;
-		}
-
+		margin-top: 50px;
 
 		i.fa {
-			color: $lightBlue;
+			color: $topbarColor;
 			margin-right: 10px;
 		}
 	}
@@ -868,7 +869,7 @@ h3 {
 	}
 
 	a, button {
-		 @include element-transition;
+		@include element-transition;
 	}
 
 	// Different colors for quotes

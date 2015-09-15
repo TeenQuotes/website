@@ -1,4 +1,4 @@
-{{ Form::open(['route' => ['users.password', $user->login], 'class' => 'form-horizontal animated fadeInRight', 'id' => 'edit-password', 'method' => 'PUT']) }}
+{{ Form::open(['route' => ['users.password', $user->login], 'class' => 'form-horizontal', 'id' => 'edit-password', 'method' => 'PUT']) }}
 	<h2><i class="fa fa-lock"></i> {{ Lang::get('users.changePasswordTitle') }}</h2>
 
 	<div class="info-pre-form">

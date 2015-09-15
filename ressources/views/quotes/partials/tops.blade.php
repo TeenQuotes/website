@@ -3,7 +3,7 @@
 @section('content')
 
 	<!-- Link to other tops -->
-	<div class="quotes__top-container">
+	<div class="quotes__top-container animated fadeInDown">
 		<div class="row">
 			@foreach ($possibleTopTypes as $el)
 				<div class="col-md-6 centered-column text-center">

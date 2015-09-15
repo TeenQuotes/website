@@ -1,7 +1,7 @@
 var elixir = require('laravel-elixir');
 var clean = require('gulp-clean');
 var gulp = require('gulp');
-require('laravel-elixir-compass');
+require('laravel-elixir-sass-compass');
 
 var inputJSDir = 'ressources/js',
 	inputSASSDir = 'ressources/sass/',
@@ -23,7 +23,6 @@ elixir(function(mix) {
 		.scripts([
 			'jquery-2.1.0.min.js',
 			'bootstrap.min.js',
-			'wow.min.js',
 			'mailgun-validator.js',
 			'app.js'
 		], outputJS + 'scripts.min.js', inputJSDir)
