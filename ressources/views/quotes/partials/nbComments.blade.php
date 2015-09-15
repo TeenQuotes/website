@@ -1,4 +1,4 @@
-<div class="col-md-3 col-sm-3 col-xs-2">
+<div class="col-md-3 col-sm-3 col-xs-2 animated fadeIn">
 	<a class="hidden-sm hidden-xs badge" href="{{ URL::route('quotes.show', ['id' => $quote->id]) }}">#{{{ $quote->id }}}</a>
 
 	<!-- Has comments -->
