@@ -1,4 +1,4 @@
-<div class="col-md-3 col-sm-2 col-xs-2 favorite-links">
+<div class="col-md-3 col-sm-2 col-xs-2 favorite-links animated fadeIn">
 	<!-- LOGGED IN USER -->
 	@if (Auth::check())
 		@if ($quote->isFavoriteForCurrentUser())

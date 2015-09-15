@@ -1,8 +1,6 @@
 window.laravel = window.laravel || {};
 var timeoutLoginSignup, timeoutPassword;
 
-new WOW().init();
-
 $(document).ready(function() {
 
 	// Signup view
@@ -38,13 +36,6 @@ $(document).ready(function() {
 	});
 
 	// Signin view
-	$("#listener-wants-account").mouseenter(function() {
-			$("#wants-account").addClass("animated shake");
-		})
-		.mouseleave(function() {
-			$("#wants-account").removeClass("animated shake");
-		});
-
 	$('#countLetters').css("display", "none");
 	$('#submit-quote, #submit-comment').attr('disabled', 'disabled');
 
@@ -510,8 +501,6 @@ function doneTypingLoginPassword() {
 		return;
 	}
 	timeoutPassword = null;
-
-	$("#submit-form").removeClass("animated fadeInUp").addClass("animated shake");
 }
 
 var updateWelcomeButton = function() {

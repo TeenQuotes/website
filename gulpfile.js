@@ -23,7 +23,6 @@ elixir(function(mix) {
 		.scripts([
 			'jquery-2.1.0.min.js',
 			'bootstrap.min.js',
-			'wow.min.js',
 			'mailgun-validator.js',
 			'app.js'
 		], outputJS + 'scripts.min.js', inputJSDir)
