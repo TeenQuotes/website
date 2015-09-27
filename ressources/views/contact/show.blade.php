@@ -4,15 +4,15 @@
 	<div id="contact-page">
 		<!-- CONTACT -->
 		<h1 class="animated fadeInDown">{{ $contactTitle }}</h1>
-		
-		<div id="first-col" class="col-sm-6 animated fadeInDown">		
+
+		<div id="first-col" class="col-sm-6 animated fadeInDown">
 			<div id="stay-in-touch">
 				<h2>{{ $stayInTouchTitle }}</h2>
 				{{ $stayInTouchContent }}
 			</div>
 		</div>
-		
-		<div id="second-col" class="col-sm-6 animated fadeInDown">		
+
+		<div id="second-col" class="col-sm-6 animated fadeInDown">
 			<div id="contact-info">
 				<h2>{{ $chooseYourWeapon }}</h2>
 				<ul>
@@ -30,7 +30,7 @@
 
 		<!-- TEAM LIST -->
 		<h1 id="team-title" class="animated fadeInUp">{{ $teamTitle }}</h1>
-		
+
 		<div id="team-container" class="row animated fadeInUp">
 			@foreach ($teamMembers as $teamMember)
 				<?php
@@ -51,4 +51,8 @@
 		</div>
 
 	</div>
+@stop
+
+@section('add-js')
+	@include('js.helpscout', compact('user'))
 @stop
