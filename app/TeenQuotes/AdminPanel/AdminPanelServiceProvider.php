@@ -38,7 +38,7 @@ class AdminPanelServiceProvider extends ServiceProvider
 
         $controller = $this->getController();
 
-        $this->app['router']->group($this->getRouteGroupParams(), function () use($controller) {
+        $this->app['router']->group($this->getRouteGroupParams(), function () use ($controller) {
             $this->app['router']->get('/', ['uses' => $controller.'@index', 'as' => 'admin.quotes.index']);
             $this->app['router']->get('edit/{quote_id}', ['uses' => $controller.'@edit', 'as' => 'admin.quotes.edit']);
             $this->app['router']->put('update/{quote_id}', ['uses' => $controller.'@update', 'as' => 'admin.quotes.update']);
