@@ -262,7 +262,7 @@ return [
 
     'comments.nbCommentsPerPage'     => 10,
 
-    'quotes.nbQuotesToPublishPerDay' => 5,
+    'quotes.nbQuotesToPublishPerDay' => 3,
 
     'quotes.nbQuotesPerPage'         => 10,
 
@@ -275,7 +275,7 @@ return [
 
     'newsletters.nbQuotesToSendDaily'  => 2,
 
-    'users.avatar.default'             => 'http://teen-quotes.com/assets/images/chat.png',
+    'users.avatar.default'             => 'https://account.teen-quotes.com/assets/images/chat.png',
     'users.avatarPath'                 => 'uploads/avatar',
     'users.avatarWidth'                => 200,
     'users.avatarHeight'               => 200,

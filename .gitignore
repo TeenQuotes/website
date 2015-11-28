@@ -16,4 +16,5 @@ tests/integration/IntegrationTester.php
 tests/search/SearchTester.php
 tests/unit/UnitTester.php
 Thumbs.db
+updateEnv.sh
 vendor

@@ -51,4 +51,8 @@ return [
         'apiKey'     => getenv('PUSHBULLET_APIKEY'),
         'deviceIden' => getenv('PUSHBULLET_DEVICE_IDEN'),
     ],
+
+    'helpscout' => [
+        'form_id' => getenv('HELPSCOUT_CONTACT_FORM'),
+    ],
 ];

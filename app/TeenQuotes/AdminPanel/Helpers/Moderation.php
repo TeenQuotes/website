@@ -69,7 +69,7 @@ class Moderation
      *
      * @return string
      */
-    private function presentAvailableTypes()
+    public static function presentAvailableTypes()
     {
         return implode('|', self::getAvailableTypes());
     }
