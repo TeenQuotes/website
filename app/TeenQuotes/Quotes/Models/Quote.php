@@ -135,7 +135,7 @@ class Quote extends Toloquent
      */
     public function getHasFavoritesAttribute()
     {
-        return ($this->total_favorites > 0);
+        return $this->total_favorites > 0;
     }
 
     /**
@@ -160,7 +160,7 @@ class Quote extends Toloquent
      */
     public function getHasCommentsAttribute()
     {
-        return ($this->total_comments > 0);
+        return $this->total_comments > 0;
     }
 
     /**
@@ -198,22 +198,22 @@ class Quote extends Toloquent
 
     public function isPublished()
     {
-        return ($this->approved == self::PUBLISHED);
+        return $this->approved == self::PUBLISHED;
     }
 
     public function isPending()
     {
-        return ($this->approved == self::PENDING);
+        return $this->approved == self::PENDING;
     }
 
     public function isWaiting()
     {
-        return ($this->approved == self::WAITING);
+        return $this->approved == self::WAITING;
     }
 
     public function isRefused()
     {
-        return ($this->approved == self::REFUSED);
+        return $this->approved == self::REFUSED;
     }
 
     /**

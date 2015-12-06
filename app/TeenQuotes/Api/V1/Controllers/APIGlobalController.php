@@ -217,6 +217,6 @@ class APIGlobalController extends BaseController implements PageBuilderInterface
      */
     protected function isNotFound($content)
     {
-        return (is_null($content) or empty($content) or $content->count() == 0);
+        return is_null($content) or empty($content) or $content->count() == 0;
     }
 }

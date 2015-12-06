@@ -222,6 +222,6 @@ class SearchController extends BaseController
      */
     private function stringIsSingleWord($string)
     {
-        return (str_word_count($string) == 1);
+        return str_word_count($string) == 1;
     }
 }
