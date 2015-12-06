@@ -243,7 +243,7 @@ class UsersController extends BaseController
 
     private function userViewingSelfProfile($user)
     {
-        return (Auth::check() and Auth::user()->login == $user->login);
+        return Auth::check() and Auth::user()->login == $user->login;
     }
 
     /**
@@ -300,10 +300,9 @@ class UsersController extends BaseController
 
     private function shouldDisplayWelcomeTutorial($quotes, $user)
     {
-        return (
+        return
             (empty($quotes) or (($quotes instanceof Collection) and $quotes->isEmpty()))
-            and $this->userViewingSelfProfile($user)
-        );
+            and $this->userViewingSelfProfile($user);
     }
 
     private function dataShowFavorites(User $user)
@@ -423,7 +422,7 @@ class UsersController extends BaseController
 
     private function userIsAllowedToEdit($user)
     {
-        return ($user->login == Auth::user()->login);
+        return $user->login == Auth::user()->login;
     }
 
     /**

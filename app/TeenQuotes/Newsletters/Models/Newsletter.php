@@ -34,7 +34,7 @@ class Newsletter extends Eloquent
      */
     public function isDaily()
     {
-        return ($this->type == self::DAILY);
+        return $this->type == self::DAILY;
     }
 
     /**
@@ -44,7 +44,7 @@ class Newsletter extends Eloquent
      */
     public function isWeekly()
     {
-        return ($this->type == self::WEEKLY);
+        return $this->type == self::WEEKLY;
     }
 
     /**
