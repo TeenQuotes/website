@@ -9,14 +9,13 @@ php:
   - hhvm
 
 before_install:
-  # Manually install mysql 5.6 since the default is v5.5.
+  # Manually install MySQL 5.6 since the default is v5.5.
   - sudo apt-get update -qq
   - sudo apt-get install -qq mysql-server-5.6 mysql-client-5.6 mysql-client-core-5.6
   # Install and run Mailcatcher
   - gem install mailcatcher
   - mailcatcher -f -v > out.txt&
   # Install Imagick
-  - sudo apt-get update -q
   - sudo apt-get install -y imagemagick
   - printf "\n" | pecl install imagick
   # Create the database for tests
