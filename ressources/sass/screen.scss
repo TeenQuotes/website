@@ -141,12 +141,12 @@ h3 {
 
 .navbar-fixed-top {
 	.logo {
-		@include background-image-retina($imagesFolder + 'logo-xmas', 'png', 200px, 30px);
+		@include background-image-retina($imagesFolder + 'logo', 'png', 200px, 30px);
 		background-repeat: no-repeat;
 		width: 200px;
 		height: 30px;
 		display: block;
-		margin: 9px 10px 0 0;
+		margin: 12px 10px 0 0;
 		float: left;
 
 		@media screen and (min-width: 320px) and (max-width: 992px) {
