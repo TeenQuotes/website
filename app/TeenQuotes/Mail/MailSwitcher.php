@@ -48,9 +48,9 @@ class MailSwitcher
                     Config::set('mail.from', Config::get('mail.from.smtp'));
                     break;
 
-                case 'mandrill':
-                    // Switch to Mandrill
-                    Config::set('mail.driver', 'mandrill');
+                case 'mailgun':
+                    // Switch to Mailgun
+                    Config::set('mail.driver', 'mailgun');
                     Config::set('mail.from', Config::get('mail.from'));
                     break;
             }
@@ -68,7 +68,7 @@ class MailSwitcher
      */
     public static function getAvailableDrivers()
     {
-        return ['smtp', 'mandrill'];
+        return ['smtp', 'mailgun'];
     }
 
     /**
