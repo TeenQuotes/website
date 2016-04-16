@@ -11,13 +11,12 @@ Teen Quotes lets teenagers share their daily thoughts and feelings. It describes
 # Basic dependencies
 - PHP >= 5.5 with the PDO and MCrypt extensions
 - MySQL >= 5.6 (because we need to perform FULLTEXT search on InnoDB tables)
-- Memcached >= 1.4 or another cache storage (Redis for example)
+- Redis server for cache and queues
 
 # External services I'm relying on
 - [Mailgun](http://www.mailgun.com) for transactional emails
 - [Mailchimp](http://mailchimp.com) for newsletters
 - [Easyrec](http://easyrec.org) for the recommendation system (not actively used for the moment)
-- [iron.io](http://www.iron.io) for message queues
 - [Pushbullet](https://www.pushbullet.com) for notifications for administrators
 - [Bugsnag](https://bugsnag.com) to track exceptions
 

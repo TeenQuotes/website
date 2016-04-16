@@ -74,7 +74,7 @@ class EasyrecWorker
     /**
      * Add a quote to the favorites.
      *
-     * @param \Illuminate\Queue\Jobs\Job $job  [ription]
+     * @param \Illuminate\Queue\Jobs\Job $job
      * @param array                      $data Required keys: quote_id, user_id
      */
     public function favoriteAQuote($job, $data)
@@ -98,7 +98,7 @@ class EasyrecWorker
     /**
      * Remove a quote from the favorites.
      *
-     * @param \Illuminate\Queue\Jobs\Job $job  [ription]
+     * @param \Illuminate\Queue\Jobs\Job $job
      * @param array                      $data Required keys: quote_id, user_id
      */
     public function unfavoriteAQuote($job, $data)
