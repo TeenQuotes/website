@@ -158,7 +158,6 @@ return [
         'TeenQuotes\Newsletters\NewslettersServiceProvider',
         'TeenQuotes\Notifiers\AdminNotifierServiceProvider',
         'TeenQuotes\Pages\PagesServiceProvider',
-        'TeenQuotes\Queues\QueuesServiceProvider',
         'TeenQuotes\Quotes\QuotesServiceProvider',
         'TeenQuotes\Robots\RobotsServiceProvider',
         'TeenQuotes\Settings\SettingsServiceProvider',
