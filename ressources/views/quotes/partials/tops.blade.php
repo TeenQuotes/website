@@ -1,7 +1,6 @@
 @extends('quotes.partials.multiple')
 
-@section('content')
-
+@section('navigation')
 	<!-- Link to other tops -->
 	<div class="quotes__top-container animated fadeInDown">
 		<div class="row">
@@ -15,6 +14,4 @@
 			@endforeach
 		</div>
 	</div>
-
-	@parent
 @stop
