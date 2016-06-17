@@ -18,3 +18,4 @@ tests/unit/UnitTester.php
 Thumbs.db
 updateEnv.sh
 vendor
+*.map
