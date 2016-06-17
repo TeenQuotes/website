@@ -10,5 +10,5 @@
  */
 
 return [
-    'driver' => 'file'
+    'driver' => 'file',
 ];
