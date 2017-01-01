@@ -36,7 +36,7 @@ class MailSwitcher
         // Postfix is not always installed on developers' computer
         // We will fallback to SMTP
         if (App::environment() == 'local') {
-            $driver = 'smtp';
+            $driver = 'log';
         }
 
         if ($this->driverNeedsChange($driver)) {
