@@ -24,6 +24,7 @@ elixir(function(mix) {
 			'jquery-2.1.0.min.js',
 			'bootstrap.min.js',
 			'mailgun-validator.js',
+			'hotkeys.js',
 			'app.js'
 		], outputJS + 'scripts.min.js', inputJSDir)
 		.version([
