@@ -37,7 +37,7 @@ return [
     |
     */
 
-    'host' => 'mail.teen-quotes.com',
+    'host' => 'localhost',
 
     /*
     |--------------------------------------------------------------------------
@@ -50,7 +50,7 @@ return [
     |
     */
 
-    'port' => 465,
+    'port' => 1025,
 
     /*
     |--------------------------------------------------------------------------
@@ -63,9 +63,7 @@ return [
     |
     */
 
-    'from'          => ['address' => 'support@teen-quotes.com', 'name' => 'Teen Quotes'],
-    'from.smtp'     => ['address' => 'support@teen-quotes.com', 'name' => 'Teen Quotes'],
-    'from.sendmail' => ['address' => 'support@teen-quotes.com', 'name' => 'Teen Quotes'],
+    'from' => ['address' => 'support@teen-quotes.com', 'name' => 'Teen Quotes'],
 
     /*
     |--------------------------------------------------------------------------
@@ -91,7 +89,7 @@ return [
     |
     */
 
-    'username' => getenv('SMTP_USERNAME'),
+    'username' => '',
 
     /*
     |--------------------------------------------------------------------------
@@ -104,7 +102,7 @@ return [
     |
     */
 
-    'password' => getenv('SMTP_PASSWORD'),
+    'password' => '',
 
     /*
     |--------------------------------------------------------------------------

@@ -36,7 +36,7 @@ class MailSwitcher
         // Postfix is not always installed on developers' computer
         // We will fallback to SMTP
         if (App::environment() == 'local') {
-            $driver = 'log';
+            $driver = 'smtp';
         }
 
         if ($this->driverNeedsChange($driver)) {
@@ -45,13 +45,12 @@ class MailSwitcher
                 case 'smtp':
                     // Switch to SMTP
                     Config::set('mail.driver', 'smtp');
-                    Config::set('mail.from', Config::get('mail.from.smtp'));
+                    Config::set('mail.encryption', '');
                     break;
 
                 case 'mailgun':
                     // Switch to Mailgun
                     Config::set('mail.driver', 'mailgun');
-                    Config::set('mail.from', Config::get('mail.from'));
                     break;
             }
 
