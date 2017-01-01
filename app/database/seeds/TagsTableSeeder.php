@@ -23,9 +23,9 @@ class TagsTableSeeder extends Seeder
         $faker = Faker::create();
 
         $this->command->info('Seeding Tags table using Faker...');
-        foreach (range(1, 15) as $index) {
+        foreach ($faker->words(15) as $tagName) {
             Tag::create([
-                'name' => $faker->word,
+                'name' => $tagName,
             ]);
         }
 
