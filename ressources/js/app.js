@@ -375,6 +375,21 @@ $(document).ready(function() {
 
 		return false;
 	});
+
+	if ($(".js__admin-index").length) {
+		$(document).bind('keydown', 'a', function() {
+			$('.js_moderation-approve:visible').first().click();
+		});
+		$(document).bind('keydown', 'z', function() {
+			$('.js_moderation-unapprove:visible').first().click();
+		});
+		$(document).bind('keydown', 'e', function() {
+			$('.js_moderation-edit:visible')[0].click();
+		});
+		$(document).bind('keydown', 'r', function() {
+			$('.js_moderation-alert:visible').first().click();
+		});
+	}
 });
 
 // Auto remove for alerts after 5s
