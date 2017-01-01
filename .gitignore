@@ -4,6 +4,7 @@
 bootstrap/compiled.php
 composer.lock
 composer.phar
+dump.rdb
 node_modules
 public/assets/css/screen.css
 public/assets/css/styles.min.css
@@ -18,3 +19,4 @@ tests/unit/UnitTester.php
 Thumbs.db
 updateEnv.sh
 vendor
+*.map
