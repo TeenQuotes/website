@@ -25,7 +25,7 @@
 		"buonzz/laravel-4-freegeoip": "dev-master",
 		"thomaswelton/laravel-gravatar": "0.1.x",
 		"antoineaugusti/laravel-sentiment-analysis": "~1.0",
-		"philf/setting": "dev-master",
+		"philf/setting": "1.0.1",
 		"antoineaugusti/laravel-easyrec": "~0.1",
 		"laracasts/presenter": "0.1.*",
 		"philo/laravel-translate": "~1.0",
@@ -34,16 +34,16 @@
 		"laracasts/validation": "~1.0",
 		"mailchimp/mailchimp": "~2.0",
 		"vlucas/phpdotenv": "~1.0",
-		"healey/robots": "dev-master",
+		"healey/robots": "~1.0",
 		"ivkos/pushbullet": "~2.0",
 		"bugsnag/bugsnag-laravel": "1.*"
 	},
 	"require-dev": {
 		"way/generators": "2.*",
-		"fzaninotto/faker": "dev-master",
+		"fzaninotto/faker": "~1.0",
 		"codeception/codeception": "2.0.13",
-		"mockery/mockery": "dev-master",
-		"captbaritone/mailcatcher-codeception-module": "dev-master"
+		"mockery/mockery": "0.9.*",
+		"captbaritone/mailcatcher-codeception-module": "1.2"
 	},
 	"autoload": {
 		"classmap": [

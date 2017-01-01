@@ -2,8 +2,6 @@
 .env
 .sass-cache
 bootstrap/compiled.php
-composer.lock
-composer.phar
 dump.rdb
 node_modules
 public/assets/css/screen.css
