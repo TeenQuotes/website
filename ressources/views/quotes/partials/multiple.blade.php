@@ -3,6 +3,11 @@
 <?php $i = 0; ?>
 
 @section('content')
+	<h1 class="content__title">{{ $contentTitle }}</h1>
+
+	<!-- Optional additional navigation -->
+	@yield('navigation')
+
 	@foreach ($quotes as $quote)
 		@include('quotes.partials.singleQuote', compact("quote"))
 		<?php $i++ ?>
