@@ -4,6 +4,7 @@ modules:
         - Asserts
         - Db
         - DbSeederHelper
+        - QuotesHelper
         - IntegrationHelper
         - Laravel4
     config:

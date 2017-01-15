@@ -85,4 +85,43 @@ class DbTagRepository implements TagRepository
     {
         return $t->quotes()->count();
     }
+
+    /**
+     * Get the quotes that are not tagged yet but should be tagged.
+     *
+     * @param \TeenQuotes\Tags\Models\Tag $t
+     *
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function quotesToTag(Tag $t)
+    {
+        $words = $this->wordsForTag($t);
+
+        return Quote::published()
+        ->where(function($query) use($words) {
+            $method = 'where';
+            foreach ($words as $word) {
+                $query = $query->$method('content', 'like', '%'.$word.'%');
+                $method = 'orWhere';
+            }
+        })
+        ->whereNotIn('id', $t->quotes()->lists('id'))
+        ->get();
+    }
+
+    protected function wordsForTag(Tag $t)
+    {
+        $words = [
+            'school' => ['school', 'college'],
+            'family' => ['family', 'mother', 'father', 'brother', 'sister'],
+            'love' => ['relationship', 'love', 'heart'],
+            'friends' => ['friend', 'bestfriend'],
+            'holiday' => ['holiday', 'vacation'],
+            'music' => ['music', 'song', 'sing'],
+            'awkward' => ['awkward', 'strange', 'embarrass'],
+            'book' => ['book', 'reading'],
+        ];
+
+        return $words[$t->name];
+    }
 }
