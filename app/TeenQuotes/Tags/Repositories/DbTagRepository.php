@@ -98,7 +98,7 @@ class DbTagRepository implements TagRepository
         $words = $this->wordsForTag($t);
 
         return Quote::published()
-        ->where(function($query) use($words) {
+        ->where(function ($query) use ($words) {
             $method = 'where';
             foreach ($words as $word) {
                 $query = $query->$method('content', 'like', '%'.$word.'%');
@@ -112,14 +112,14 @@ class DbTagRepository implements TagRepository
     protected function wordsForTag(Tag $t)
     {
         $words = [
-            'school' => ['school', 'college'],
-            'family' => ['family', 'mother', 'father', 'brother', 'sister'],
-            'love' => ['relationship', 'love', 'heart'],
+            'school'  => ['school', 'college'],
+            'family'  => ['family', 'mother', 'father', 'brother', 'sister'],
+            'love'    => ['relationship', 'love', 'heart'],
             'friends' => ['friend', 'bestfriend'],
             'holiday' => ['holiday', 'vacation'],
-            'music' => ['music', 'song', 'sing'],
+            'music'   => ['music', 'song', 'sing'],
             'awkward' => ['awkward', 'strange', 'embarrass'],
-            'book' => ['book', 'reading'],
+            'book'    => ['book', 'reading'],
         ];
 
         return $words[$t->name];
