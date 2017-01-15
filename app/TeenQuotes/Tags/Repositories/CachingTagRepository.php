@@ -130,6 +130,18 @@ class CachingTagRepository implements TagRepository
     }
 
     /**
+     * Get the quotes that are not tagged yet but should be tagged.
+     *
+     * @param \TeenQuotes\Tags\Models\Tag $t
+     *
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function quotesToTag(Tag $t)
+    {
+        return $this->tags->quotesToTag($t);
+    }
+
+    /**
      * Get the key name when we list tags for a quote.
      *
      * @param \TeenQuotes\Quotes\Models\Quote $q

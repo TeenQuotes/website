@@ -119,4 +119,18 @@ class TagRepoCest
         $this->repo->untagQuote($quotes[0], $tag);
         $I->assertEquals(1, $this->repo->totalQuotesForTag($tag));
     }
+
+    public function testQuotesToTag(IntegrationTester $I)
+    {
+        $I->createSomeWaitingQuotes(['nb_quotes' => 1, 'content' => 'I love it']);
+        $quotes = $I->createSomePublishedQuotes(['nb_quotes' => 3, 'content' => 'I love it']);
+        $tag    = $I->insertInDatabase(1, 'Tag', ['name' => 'love']);
+
+        // Tag only first quote
+        $this->repo->tagQuote($quotes[0], $tag);
+        $I->assertEquals(1, $this->repo->totalQuotesForTag($tag));
+
+        // The 2 other published quotes should be tagged
+        $I->assertEquals([$quotes[1]->id, $quotes[2]->id], $this->repo->quotesToTag($tag)->lists('id'));
+    }
 }
