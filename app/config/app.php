@@ -42,7 +42,6 @@ return [
     'domainAPI'     => 'api.teen-quotes.com',
     'domainStories' => 'stories.teen-quotes.com',
     'domainAdmin'   => 'admin.teen-quotes.com',
-    'domainAccount' => 'account.teen-quotes.com',
 
     /*
     |--------------------------------------------------------------------------
@@ -272,7 +271,7 @@ return [
 
     'newsletters.nbQuotesToSendDaily'  => 2,
 
-    'users.avatar.default'             => 'https://account.teen-quotes.com/assets/images/chat.png',
+    'users.avatar.default'             => 'https://teen-quotes.com/assets/images/chat.png',
     'users.avatarPath'                 => 'uploads/avatar',
     'users.avatarWidth'                => 200,
     'users.avatarHeight'               => 200,

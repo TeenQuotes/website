@@ -102,7 +102,7 @@ class AuthServiceProvider extends ServiceProvider
     private function getRouteGroupParams()
     {
         return [
-            'domain'    => $this->app['config']->get('app.domainAccount'),
+            'domain'    => $this->app['config']->get('app.domain'),
             'namespace' => 'TeenQuotes\Auth\Controllers',
         ];
     }

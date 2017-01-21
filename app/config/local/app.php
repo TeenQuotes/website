@@ -32,7 +32,6 @@ return [
     'domainAPI'        => 'api.dev.tq',
     'domainStories'    => 'stories.dev.tq',
     'domainAdmin'      => 'admin.dev.tq',
-    'domainAccount'    => 'account.dev.tq',
 
     'connections' => [
         'mysql' => [
