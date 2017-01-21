@@ -79,7 +79,6 @@ return [
             'class'            => 'League\OAuth2\Server\Grant\Password',
             'access_token_ttl' => 604800,
             'callback'         => function ($login, $password) {
-
                 $credentials = [
                     'login'    => $login,
                     'password' => $password,

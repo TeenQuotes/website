@@ -289,7 +289,6 @@ class QuotesController extends BaseController
             switch ($e->getMessage()) {
                 case 'quotes':
                     throw new QuoteNotFoundException();
-
                 case 'tags':
                     throw new TagNotFoundException();
             }
