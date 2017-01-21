@@ -144,7 +144,7 @@ class UsersServiceProvider extends ServiceProvider
     {
         $data = $this->getRouteGroupParams();
         // Switch to the secure domain
-        $data['domain'] = $this->app['config']->get('app.domainAccount');
+        $data['domain'] = $this->app['config']->get('app.domain');
 
         return $data;
     }
