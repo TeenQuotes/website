@@ -136,13 +136,13 @@ class TagRepoCest
 
     public function testAllTags(IntegrationTester $I)
     {
-        $tags = $I->insertInDatabase(3, 'Tag');
-        $names = array_map(function($t) {
+        $tags  = $I->insertInDatabase(3, 'Tag');
+        $names = array_map(function ($t) {
             return $t->name;
         }, $tags);
 
-        $allTags = $this->repo->allTags();
-        $allNames = $allTags->map(function($t) {
+        $allTags  = $this->repo->allTags();
+        $allNames = $allTags->map(function ($t) {
             return $t->name;
         })->toArray();
 

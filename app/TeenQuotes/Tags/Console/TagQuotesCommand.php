@@ -14,7 +14,6 @@ namespace TeenQuotes\Tags\Console;
 use Indatus\Dispatcher\Scheduling\Schedulable;
 use Indatus\Dispatcher\Scheduling\ScheduledCommand;
 use Log;
-use Symfony\Component\Console\Input\InputArgument;
 use TeenQuotes\Tags\Repositories\TagRepository;
 
 class TagQuotesCommand extends ScheduledCommand
