@@ -149,4 +149,26 @@ class TagRepoCest
         $I->assertEquals(count($allTags), count($tags));
         $I->assertEquals($names, $allNames);
     }
+
+    public function testRelatedQuotes(IntegrationTester $I)
+    {
+        $tags = $I->insertInDatabase(2, 'Tag');
+        $quotes = $I->createSomePublishedQuotes(['nb_quotes' => 5]);
+        foreach ($quotes as $quote) {
+            if ($quote->id != $quotes[4]->id) {
+                $this->repo->tagQuote($quote, $tags[0]);
+                $this->repo->tagQuote($quote, $tags[1]);
+            }
+        }
+
+        $relatedIDs = $this->repo->relatedQuotes($quotes[3], 2)->lists('id');
+        $I->assertEquals([$quotes[2]->id, $quotes[1]->id], $relatedIDs);
+
+        $relatedIDs = $this->repo->relatedQuotes($quotes[3], 1)->lists('id');
+        $I->assertEquals([$quotes[2]->id], $relatedIDs);
+
+        // No related quotes
+        $I->assertEquals([$quotes[0]->id], $this->repo->relatedQuotes($quotes[1])->lists('id'));
+        $I->assertTrue($this->repo->relatedQuotes($quotes[4])->isEmpty());
+    }
 }

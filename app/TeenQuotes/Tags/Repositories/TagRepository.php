@@ -83,4 +83,14 @@ interface TagRepository
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function allTags();
+
+    /**
+     * Find related quotes.
+     *
+     * @param \TeenQuotes\Quotes\Models\Quote $q
+     * @param int $nb
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function relatedQuotes(Quote $q, $nb=3);
 }

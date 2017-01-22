@@ -11,6 +11,7 @@
 
 namespace TeenQuotes\Tags\Repositories;
 
+use Illuminate\Database\Eloquent\Collection;
 use TeenQuotes\Quotes\Models\Quote;
 use TeenQuotes\Tags\Models\Tag;
 
@@ -107,6 +108,27 @@ class DbTagRepository implements TagRepository
         })
         ->whereNotIn('id', $t->quotes()->lists('id'))
         ->get();
+    }
+
+    /**
+     * Find related quotes.
+     *
+     * @param \TeenQuotes\Quotes\Models\Quote $q
+     * @param int $nb
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function relatedQuotes(Quote $q, $nb=3)
+    {
+        $tag = $q->tags()->first();
+        if (is_null($tag)) {
+            return new Collection([]);
+        }
+
+        return $tag->quotes()->orderBy('id', 'DESC')
+            ->where('id', '<', $q->id)
+            ->take($nb)
+            ->get();
     }
 
     /**

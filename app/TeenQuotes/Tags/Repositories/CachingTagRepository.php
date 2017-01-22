@@ -152,6 +152,25 @@ class CachingTagRepository implements TagRepository
     }
 
     /**
+     * Find related quotes.
+     *
+     * @param \TeenQuotes\Quotes\Models\Quote $q
+     * @param int $nb
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function relatedQuotes(Quote $q, $nb=3)
+    {
+        $key = $this->cacheNameForRelatedQuotes($q, $nb);
+
+        $callback = function () use ($q, $nb) {
+            return $this->tags->relatedQuotes($q, $nb);
+        };
+
+        return Cache::remember($key, 90, $callback);
+    }
+
+    /**
      * Get the key name when we list tags for a quote.
      *
      * @param \TeenQuotes\Quotes\Models\Quote $q
@@ -161,6 +180,19 @@ class CachingTagRepository implements TagRepository
     private function cacheNameForListTags(Quote $q)
     {
         return 'tags.quote-'.$q->id.'.list-name';
+    }
+
+    /**
+     * Get the key name for related quotes.
+     *
+     * @param \TeenQuotes\Quotes\Models\Quote $q
+     * @param int $nb
+     *
+     * @return string
+     */
+    private function cacheNameForRelatedQuotes(Quote $q, $nb)
+    {
+        return 'tags.quote-'.$q->id.'.related.'.$nb;
     }
 
     /**
