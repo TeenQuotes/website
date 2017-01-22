@@ -88,7 +88,7 @@ interface TagRepository
      * Find related quotes.
      *
      * @param \TeenQuotes\Quotes\Models\Quote $q
-     * @param int $nb
+     * @param int                             $nb
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */

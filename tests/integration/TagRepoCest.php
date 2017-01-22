@@ -152,7 +152,7 @@ class TagRepoCest
 
     public function testRelatedQuotes(IntegrationTester $I)
     {
-        $tags = $I->insertInDatabase(2, 'Tag');
+        $tags   = $I->insertInDatabase(2, 'Tag');
         $quotes = $I->createSomePublishedQuotes(['nb_quotes' => 5]);
         foreach ($quotes as $quote) {
             if ($quote->id != $quotes[4]->id) {
