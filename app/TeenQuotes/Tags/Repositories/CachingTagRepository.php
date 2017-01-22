@@ -134,11 +134,21 @@ class CachingTagRepository implements TagRepository
      *
      * @param \TeenQuotes\Tags\Models\Tag $t
      *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function quotesToTag(Tag $t)
     {
         return $this->tags->quotesToTag($t);
+    }
+
+    /**
+     * Get all tags.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function allTags()
+    {
+        return $this->tags->allTags();
     }
 
     /**

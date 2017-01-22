@@ -91,7 +91,7 @@ class DbTagRepository implements TagRepository
      *
      * @param \TeenQuotes\Tags\Models\Tag $t
      *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function quotesToTag(Tag $t)
     {
@@ -107,6 +107,16 @@ class DbTagRepository implements TagRepository
         })
         ->whereNotIn('id', $t->quotes()->lists('id'))
         ->get();
+    }
+
+    /**
+     * Get all tags.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function allTags()
+    {
+        return Tag::all();
     }
 
     protected function wordsForTag(Tag $t)

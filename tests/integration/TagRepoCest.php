@@ -133,4 +133,20 @@ class TagRepoCest
         // The 2 other published quotes should be tagged
         $I->assertEquals([$quotes[1]->id, $quotes[2]->id], $this->repo->quotesToTag($tag)->lists('id'));
     }
+
+    public function testAllTags(IntegrationTester $I)
+    {
+        $tags = $I->insertInDatabase(3, 'Tag');
+        $names = array_map(function($t) {
+            return $t->name;
+        }, $tags);
+
+        $allTags = $this->repo->allTags();
+        $allNames = $allTags->map(function($t) {
+            return $t->name;
+        })->toArray();
+
+        $I->assertEquals(count($allTags), count($tags));
+        $I->assertEquals($names, $allNames);
+    }
 }

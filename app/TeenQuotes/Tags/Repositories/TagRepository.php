@@ -73,7 +73,14 @@ interface TagRepository
      *
      * @param \TeenQuotes\Tags\Models\Tag $t
      *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function quotesToTag(Tag $t);
+
+    /**
+     * Get all tags.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function allTags();
 }
