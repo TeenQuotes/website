@@ -35,6 +35,6 @@ return [
     |
     */
 
-    'pagination' => 'pagination::slider-3',
+    'pagination' => 'layouts.partials.seoPagination',
 
 ];

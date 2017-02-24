@@ -224,8 +224,9 @@ class QuotesController extends BaseController
 
         $data = [
             'quotes'          => $quotes,
-            'pageTitle'       => Lang::get('quotes.'.$this->cleanLangKey(Route::currentRouteName().'PageTitle')),
+            'contentTitle'    => Lang::get('quotes.'.$this->cleanLangKey(Route::currentRouteName().'ContentTitle')),
             'pageDescription' => Lang::get('quotes.'.$this->cleanLangKey(Route::currentRouteName().'PageDescription')),
+            'pageTitle'       => Lang::get('quotes.'.$this->cleanLangKey(Route::currentRouteName().'PageTitle')),
             'paginator'       => Paginator::make($quotes->toArray(), $response['total_quotes'], $response['pagesize']),
         ];
 

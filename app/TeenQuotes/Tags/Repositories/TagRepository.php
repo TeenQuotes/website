@@ -67,4 +67,30 @@ interface TagRepository
      * @return int
      */
     public function totalQuotesForTag(Tag $t);
+
+    /**
+     * Get the quotes that are not tagged yet but should be tagged.
+     *
+     * @param \TeenQuotes\Tags\Models\Tag $t
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function quotesToTag(Tag $t);
+
+    /**
+     * Get all tags.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function allTags();
+
+    /**
+     * Find related quotes.
+     *
+     * @param \TeenQuotes\Quotes\Models\Quote $q
+     * @param int                             $nb
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function relatedQuotes(Quote $q, $nb=3);
 }

@@ -15,9 +15,12 @@ use Illuminate\Support\ServiceProvider;
 use TeenQuotes\Tags\Repositories\CachingTagRepository;
 use TeenQuotes\Tags\Repositories\DbTagRepository;
 use TeenQuotes\Tags\Repositories\TagRepository;
+use TeenQuotes\Tools\Namespaces\NamespaceTrait;
 
 class TagsServiceProvider extends ServiceProvider
 {
+    use NamespaceTrait;
+
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -39,6 +42,24 @@ class TagsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerBindings();
+        $this->registerCommands();
+    }
+
+    private function registerCommands()
+    {
+        $commands = [
+            'tagQuotes' => 'TagQuotesCommand',
+        ];
+
+        foreach ($commands as $key => $class) {
+            $commandName = $this->getBaseNamespace().'Console\\'.$class;
+
+            $this->app->bindShared('tags.console.'.$key, function ($app) use ($commandName) {
+                return $app->make($commandName);
+            });
+
+            $this->commands('tags.console.'.$key);
+        }
     }
 
     private function registerBindings()
